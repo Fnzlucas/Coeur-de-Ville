@@ -555,7 +555,3 @@ function openHistLightbox(placeId) {
 function closeHistLightbox() {
   document.getElementById('hist-lightbox').classList.remove('on');
 }
-
-</script>
-</body>
-</html>
