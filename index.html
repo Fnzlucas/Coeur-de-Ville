@@ -1,0 +1,969 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no"/>
+<title>Cœur de Ville — Carte Historique Immersive</title>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=Cinzel+Decorative:wght@400;700&family=EB+Garamond:ital,wght@0,400;0,500;1,400;1,500&family=Manrope:wght@400;600;700;800;900&family=Inter:wght@400;500;600&display=swap" rel="stylesheet"/>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { height: 100%; overflow: hidden; font-family: 'Inter', sans-serif; }
+
+#app { display: flex; flex-direction: column; height: 100dvh; }
+#content { flex: 1; position: relative; overflow: hidden; }
+
+/* ─── NAV ─── */
+#bottomnav {
+  flex-shrink: 0; background: #fff;
+  border-top: 1px solid rgba(0,0,0,0.07);
+  display: flex; justify-content: space-around; align-items: center;
+  padding: 10px 0 env(safe-area-inset-bottom, 10px);
+  z-index: 1000;
+}
+.n-btn {
+  display: flex; flex-direction: column; align-items: center; gap: 4px;
+  background: none; border: none; cursor: pointer; padding: 4px 20px;
+}
+.n-btn svg { width: 24px; height: 24px; color: #9aa0a6; }
+.n-btn span { font-size: 10px; font-weight: 700; color: #9aa0a6; font-family: 'Manrope'; }
+.n-btn.active svg { color: #1a73e8; }
+.n-btn.active span { color: #1a73e8; }
+
+/* ─── MAP ─── */
+#map-view { position: absolute; inset: 0; }
+#map { width: 100%; height: 100%; }
+#map.map-blur { filter: blur(5px) brightness(0.85); transition: filter .4s ease; }
+
+#filter-bar {
+  position: absolute; top: 14px; left: 0; right: 0; z-index: 500;
+  display: flex; gap: 8px; padding: 0 14px;
+  overflow-x: auto; scrollbar-width: none;
+}
+#filter-bar::-webkit-scrollbar { display: none; }
+.fp {
+  flex-shrink: 0; display: flex; align-items: center; gap: 7px;
+  padding: 8px 15px; border-radius: 22px; border: none;
+  background: rgba(255,255,255,0.96);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+  font-family: 'Manrope'; font-weight: 700; font-size: 12px;
+  color: #3c4043; cursor: pointer; white-space: nowrap;
+  transition: all .18s; backdrop-filter: blur(4px);
+}
+.fp:hover { box-shadow: 0 4px 14px rgba(0,0,0,0.24); }
+.fp.active { background: var(--cc); color: #fff; }
+.fp .fdot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+
+#locate-btn {
+  position: absolute; bottom: 90px; right: 14px; z-index: 500;
+  width: 44px; height: 44px; border-radius: 50%;
+  background: rgba(255,255,255,0.97); border: none;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+  cursor: pointer; display: flex; align-items: center; justify-content: center;
+}
+#locate-btn svg { width: 22px; height: 22px; color: #1a73e8; }
+
+/* ─── LEAFLET ─── */
+.leaflet-control-zoom { border: none !important; border-radius: 10px !important; overflow: hidden; box-shadow: 0 2px 10px rgba(0,0,0,0.18) !important; }
+.leaflet-control-zoom a { border: none !important; color: #3c4043 !important; font-weight: 700; width: 38px !important; height: 38px !important; line-height: 38px !important; font-size: 18px !important; background: rgba(255,255,255,0.95) !important; }
+
+/* ─── TOAST ─── */
+#toast {
+  position: fixed; bottom: 80px; left: 50%; transform: translateX(-50%) translateY(20px);
+  background: rgba(15,25,35,0.9); color: #fff;
+  padding: 10px 20px; border-radius: 24px;
+  font-family: 'Manrope'; font-size: 13px; font-weight: 600;
+  opacity: 0; transition: all .3s; z-index: 9999; white-space: nowrap;
+  backdrop-filter: blur(10px);
+}
+#toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+/* ─── USER MARKER ─── */
+.yah-ring {
+  position: absolute; width: 44px; height: 44px; border-radius: 50%;
+  background: rgba(26,115,232,0.15); border: 2px solid rgba(26,115,232,0.4);
+  animation: yahpulse 2s ease-in-out infinite;
+}
+.yah-dot {
+  width: 16px; height: 16px; border-radius: 50%; background: #1a73e8;
+  border: 2.5px solid #fff; box-shadow: 0 2px 8px rgba(26,115,232,.5);
+}
+.yah-label {
+  font-family: 'Manrope'; font-weight: 800; font-size: 10px; color: #1a73e8;
+  text-align: center; margin-top: 4px; white-space: nowrap;
+  text-shadow: 0 1px 4px rgba(255,255,255,0.9);
+}
+@keyframes yahpulse { 0%,100%{transform:scale(1);opacity:.6} 50%{transform:scale(1.3);opacity:.2} }
+
+/* ─── MINI POPUP (quick card) ─── */
+#popup-container {
+  position: absolute; inset: 0; z-index: 600;
+  pointer-events: none;
+  display: flex; align-items: center; justify-content: center;
+}
+#popup-container.active { pointer-events: auto; }
+#popup-card {
+  background: #fff; border-radius: 18px;
+  box-shadow: 0 8px 40px rgba(0,0,0,0.22);
+  width: 290px; overflow: hidden;
+  position: relative; z-index: 1;
+  transform: translateY(20px) scale(0.96);
+  opacity: 0; transition: all .25s ease;
+  pointer-events: auto;
+}
+#popup-card.visible { transform: translateY(0) scale(1); opacity: 1; }
+.pw { padding: 0; border-radius: 18px; overflow: hidden; }
+.pw-img-wrap { position: relative; }
+.pw-img { width: 100%; height: 130px; object-fit: cover; display: block; background: #e8eaed; }
+.pw-badge {
+  position: absolute; top: 10px; left: 12px;
+  background: rgba(0,0,0,0.7); color: #fff;
+  font-family: 'Manrope'; font-weight: 800; font-size: 9px;
+  text-transform: uppercase; letter-spacing: .12em;
+  padding: 3px 8px; border-radius: 6px;
+  backdrop-filter: blur(4px);
+}
+.pw-body { padding: 14px 16px 16px; background: #fff; }
+.pw-name { font-family: 'Manrope'; font-weight: 800; font-size: 16px; color: #0f1923; margin-bottom: 5px; line-height: 1.2; }
+.pw-desc { font-size: 12px; color: #5f6368; line-height: 1.5; margin-bottom: 14px; }
+.pw-footer { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+.pw-era {
+  font-family: 'Manrope'; font-weight: 700; font-size: 11px; color: #444;
+  display: flex; align-items: center; gap: 5px;
+}
+.pw-era::before { content: '⏳'; font-size: 13px; }
+.pw-cta {
+  background: #0f1923;
+  color: #fff; border: none; border-radius: 10px;
+  padding: 9px 16px; font-family: 'Manrope'; font-weight: 800;
+  font-size: 11px; cursor: pointer; flex-shrink: 0;
+  display: flex; align-items: center; gap: 6px;
+  transition: all .2s; letter-spacing: .04em;
+  box-shadow: 0 2px 10px rgba(107,63,0,0.3);
+}
+.pw-cta:hover { transform: translateY(-1px); box-shadow: 0 4px 16px rgba(107,63,0,0.4); }
+.pw-nav {
+  background: #0f1923; color: #fff; border: none; border-radius: 10px;
+  padding: 9px 14px; font-family: 'Manrope'; font-weight: 800;
+  font-size: 12px; cursor: pointer; flex-shrink: 0;
+  display: flex; align-items: center; gap: 5px;
+  transition: background .15s;
+}
+.pw-nav:hover { background: #0f1923; }
+.pw-x {
+  position: absolute; top: 10px; right: 10px; z-index: 10;
+  width: 28px; height: 28px; border-radius: 50%;
+  background: rgba(0,0,0,0.45); color: #fff; border: none;
+  font-size: 13px; font-weight: 700; cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+}
+
+/* ─────────────────────────────────────────────────────────────────
+   IMMERSIVE HISTORICAL EXPERIENCE
+───────────────────────────────────────────────────────────────── */
+#imm-overlay {
+  position: fixed; inset: 0; z-index: 9000;
+  display: none; flex-direction: column;
+  background: #000;
+  overflow: hidden;
+}
+#imm-overlay.open { display: flex; }
+
+/* Fond cinématographique */
+#imm-bg {
+  position: absolute; inset: 0;
+  background-size: cover; background-position: center;
+  transition: opacity 1.2s ease;
+  opacity: 0;
+}
+#imm-bg.ready { opacity: 1; }
+
+/* Effet grain de film */
+#imm-grain {
+  position: absolute; inset: 0; z-index: 1;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.08'/%3E%3C/svg%3E");
+  pointer-events: none; opacity: .55;
+  animation: grain 0.15s steps(1) infinite;
+}
+@keyframes grain {
+  0%{transform:translate(0,0)} 10%{transform:translate(-2%,-1%)} 20%{transform:translate(1%,2%)}
+  30%{transform:translate(-1%,1%)} 40%{transform:translate(2%,-2%)} 50%{transform:translate(-2%,2%)}
+  60%{transform:translate(1%,-1%)} 70%{transform:translate(-1%,2%)} 80%{transform:translate(2%,1%)}
+  90%{transform:translate(-2%,-2%)} 100%{transform:translate(0,0)}
+}
+
+/* Vignette */
+#imm-vignette {
+  position: absolute; inset: 0; z-index: 2; pointer-events: none;
+  background: radial-gradient(ellipse at center, transparent 30%, rgba(0,0,0,0.75) 100%);
+}
+
+/* Overlay sépia/couleur d'époque */
+#imm-tint {
+  position: absolute; inset: 0; z-index: 2; pointer-events: none;
+  opacity: 0; transition: opacity 1.5s ease;
+}
+#imm-tint.ready { opacity: 1; }
+
+/* Particules */
+#imm-particles { position: absolute; inset: 0; z-index: 3; pointer-events: none; overflow: hidden; }
+.imm-particle {
+  position: absolute; border-radius: 50%;
+  background: rgba(255,220,120,0.6);
+  animation: float-up linear infinite;
+  pointer-events: none;
+}
+@keyframes float-up {
+  0% { transform: translateY(0) translateX(0) rotate(0deg); opacity: 0; }
+  10% { opacity: 1; }
+  90% { opacity: .5; }
+  100% { transform: translateY(-100vh) translateX(20px) rotate(360deg); opacity: 0; }
+}
+
+/* Bannières lettres noires film (cinematic bars) */
+#imm-bars-top, #imm-bars-bottom {
+  position: absolute; left: 0; right: 0; height: 60px; z-index: 4;
+  background: #000;
+  transition: height .8s cubic-bezier(.25,.1,.25,1);
+}
+#imm-bars-top { top: 0; }
+#imm-bars-bottom { bottom: 0; }
+#imm-overlay.bars-open #imm-bars-top { height: 60px; }
+#imm-overlay.bars-open #imm-bars-bottom { height: 60px; }
+#imm-overlay:not(.bars-open) #imm-bars-top { height: 0; }
+#imm-overlay:not(.bars-open) #imm-bars-bottom { height: 0; }
+
+/* Contenu — colonne flex qui remplit tout, sans chevauchement */
+#imm-content {
+  position: absolute; inset: 0; z-index: 10;
+  display: flex; flex-direction: column;
+  overflow: hidden;
+}
+
+/* Header — fixe en haut */
+#imm-header {
+  flex-shrink: 0;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 52px 22px 12px;
+  opacity: 0; transform: translateY(-15px);
+  transition: all .7s ease .4s;
+}
+#imm-overlay.ready #imm-header { opacity: 1; transform: translateY(0); }
+
+#imm-era-badge {
+  font-family: 'Manrope'; font-weight: 700; font-size: 10px;
+  letter-spacing: .18em; text-transform: uppercase;
+  padding: 5px 14px; border-radius: 20px;
+  border: 1px solid rgba(255,255,255,0.3);
+  color: #fff; background: rgba(255,255,255,0.12);
+  backdrop-filter: blur(8px);
+}
+#imm-close {
+  width: 36px; height: 36px; border-radius: 50%;
+  background: rgba(0,0,0,0.5); color: #fff; border: none;
+  font-size: 18px; cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  backdrop-filter: blur(8px); transition: background .2s;
+}
+#imm-close:hover { background: rgba(255,255,255,0.2); }
+
+/* Zone centrale — prend l'espace disponible, centrée */
+#imm-center {
+  flex: 1; min-height: 0;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  padding: 0 28px;
+  overflow: hidden;
+}
+
+#imm-title {
+  font-family: 'Cinzel Decorative'; font-weight: 700;
+  font-size: clamp(16px, 4.5vw, 24px); color: #fff;
+  text-align: center; line-height: 1.2;
+  text-shadow: 0 2px 20px rgba(0,0,0,0.8);
+  margin-bottom: 5px;
+  opacity: 0; transform: translateY(10px);
+  transition: all .7s ease .5s;
+}
+#imm-overlay.ready #imm-title { opacity: 1; transform: translateY(0); }
+
+#imm-subtitle {
+  font-family: 'Manrope'; font-weight: 600; font-size: 10px;
+  color: #fff; letter-spacing: .2em; text-transform: uppercase;
+  text-align: center; margin-bottom: 12px;
+  opacity: 0; transition: opacity .7s ease .7s;
+}
+#imm-overlay.ready #imm-subtitle { opacity: 1; }
+
+#imm-divider {
+  width: 50px; height: 1px; flex-shrink: 0;
+  background: linear-gradient(to right, transparent, var(--acc-mid), transparent);
+  margin-bottom: 14px;
+  opacity: 0; transition: opacity .7s ease .8s;
+}
+#imm-overlay.ready #imm-divider { opacity: 1; }
+
+/* Narration — machine à écrire */
+#imm-narration {
+  font-family: 'Manrope'; font-size: 15px; line-height: 1.75; font-weight: 400;
+  color: rgba(255,255,255,0.92); text-align: center;
+  font-style: italic;
+  text-shadow: 0 1px 10px rgba(0,0,0,0.9);
+  margin-bottom: 16px;
+}
+
+/* Curseur machine à écrire */
+#imm-cursor {
+  display: inline-block; width: 2px; height: 1em;
+  background: var(--acc);
+  margin-left: 1px; vertical-align: text-bottom;
+  animation: blink-cursor .75s step-end infinite;
+}
+@keyframes blink-cursor { 0%,100%{opacity:1} 50%{opacity:0} }
+#imm-cursor.done { animation: none; opacity: 0; }
+
+/* Stats */
+#imm-stats {
+  display: flex; gap: 18px; flex-shrink: 0;
+  opacity: 0; transform: translateY(8px);
+  transition: all .6s ease 1.2s;
+}
+#imm-overlay.ready #imm-stats { opacity: 1; transform: translateY(0); }
+.imm-stat { display: flex; flex-direction: column; align-items: center; gap: 2px; }
+.imm-stat-val { font-family: 'Manrope'; font-weight: 800; font-size: 16px; color: #fff; }
+.imm-stat-lbl { font-family: 'Manrope'; font-size: 11px; color: rgba(255,255,255,0.5); letter-spacing: .04em; }
+.imm-stat-sep { width: 1px; background: rgba(255,255,255,0.15); align-self: stretch; }
+
+/* Scroll hint — fixe sous le centre */
+#imm-scroll {
+  flex-shrink: 0;
+  display: flex; flex-direction: column; align-items: center; gap: 4px;
+  padding: 10px 0 6px;
+  opacity: 0; transition: opacity .6s ease 2s;
+}
+#imm-overlay.ready #imm-scroll { opacity: .45; }
+#imm-scroll span { font-family: 'Manrope'; font-size: 8px; letter-spacing: .15em; color: rgba(255,255,255,0.5); text-transform: uppercase; }
+.scroll-arrow { width: 1px; height: 20px; background: linear-gradient(to bottom, rgba(255,255,255,0.5), transparent); margin: 0 auto; animation: scroll-pulse 1.5s ease-in-out infinite; }
+@keyframes scroll-pulse { 0%,100%{opacity:.3;transform:translateY(0)} 50%{opacity:1;transform:translateY(4px)} }
+
+/* Footer — fixe en bas */
+#imm-footer {
+  flex-shrink: 0;
+  display: flex; gap: 10px; padding: 8px 20px 28px;
+  opacity: 0; transform: translateY(12px);
+  transition: all .6s ease 1.4s;
+}
+#imm-overlay.ready #imm-footer { opacity: 1; transform: translateY(0); }
+
+.imm-btn-primary {
+  flex: 1; padding: 13px 0;
+  background: #0f1923;
+  color: #fff; border: none; border-radius: 14px;
+  font-family: 'Manrope'; font-weight: 800; font-size: 12px;
+  letter-spacing: .06em; cursor: pointer;
+  display: flex; align-items: center; justify-content: center; gap: 8px;
+  box-shadow: 0 4px 20px rgba(196,138,0,0.35); transition: all .2s;
+}
+.imm-btn-primary:active { transform: scale(0.97); }
+.imm-btn-secondary {
+  padding: 13px 16px;
+  background: rgba(255,255,255,0.1); color: #fff;
+  border: 1px solid rgba(255,255,255,0.2); border-radius: 14px;
+  font-family: 'Manrope'; font-weight: 700; font-size: 12px;
+  cursor: pointer; display: flex; align-items: center; gap: 6px;
+  backdrop-filter: blur(8px); transition: all .2s;
+}
+
+/* Panneau détail — slide-up depuis le bas, dans le flux */
+#imm-detail {
+  flex-shrink: 0;
+  background: linear-gradient(to bottom, rgba(0,0,0,0.0) 0%, rgba(0,0,0,0.93) 8%, rgba(0,0,0,0.97) 100%);
+  max-height: 0; overflow: hidden;
+  transition: max-height .5s cubic-bezier(.25,.1,.25,1);
+}
+#imm-detail.open { max-height: 55vh; overflow-y: auto; }
+#imm-detail-inner { padding: 24px 22px 40px; }
+.imm-detail-section { margin-bottom: 22px; }
+.imm-detail-section h4 {
+  font-family: 'Manrope'; font-weight: 700; font-size: 10px;
+  letter-spacing: .18em; text-transform: uppercase;
+  color: #fff; margin-bottom: 8px;
+  display: flex; align-items: center; gap: 8px;
+}
+.imm-detail-section h4::after { content: ''; flex: 1; height: 1px; background: var(--acc-mid); }
+.imm-detail-section p { font-family: 'Manrope'; font-size: 14px; color: rgba(255,255,255,0.85); line-height: 1.7; font-weight: 400; }
+.imm-timeline { display: flex; flex-direction: column; gap: 12px; }
+.imm-tl-item { display: flex; gap: 12px; align-items: flex-start; }
+.imm-tl-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--acc); flex-shrink: 0; margin-top: 6px; box-shadow: 0 0 6px var(--acc-mid); }
+.imm-tl-year { font-family: 'Manrope'; font-weight: 800; font-size: 12px; color: #fff; flex-shrink: 0; min-width: 48px; }
+.imm-tl-text { font-family: 'Manrope'; font-size: 13px; color: rgba(255,255,255,0.8); line-height: 1.55; font-weight: 400; }
+
+/* Sonambiance indicator */
+
+/* AR VIEW */
+#ar-view { position: absolute; inset: 0; display: none; background: #000; }
+#ar-view.on { display: block; }
+#ar-video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+#ar-ov { position: absolute; inset: 0; overflow: hidden; pointer-events: none; }
+
+.arc {
+  position: absolute; transform: translateX(-50%);
+  display: flex; flex-direction: column; align-items: center;
+  pointer-events: auto; cursor: pointer; transition: opacity .2s;
+  will-change: transform;
+}
+.arc-pin { display: flex; flex-direction: column; align-items: center; filter: drop-shadow(0 4px 12px rgba(0,0,0,0.5)); }
+.arc-bubble {
+  background: #fff; border-radius: 14px; padding: 10px 14px 10px 12px;
+  display: flex; align-items: center; gap: 10px;
+  min-width: 140px; max-width: 190px;
+  box-shadow: 0 2px 16px rgba(0,0,0,0.25);
+  border-left: 4px solid var(--cc); position: relative;
+}
+.arc-bubble::after {
+  content: ''; position: absolute; bottom: -7px; left: 50%; transform: translateX(-50%);
+  border: 7px solid transparent; border-top-color: #fff; border-bottom: none;
+}
+.arc-icon { width: 32px; height: 32px; border-radius: 50%; background: #0f1923; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.arc-icon svg { width: 16px; height: 16px; }
+.arc-info { flex: 1; min-width: 0; }
+.arc-name { font-family: 'Manrope'; font-weight: 800; font-size: 12px; color: #0f1923; line-height: 1.2; margin-bottom: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.arc-dist { font-size: 11px; font-weight: 700; color: var(--cc); }
+.arc-stem { width: 2px; height: 20px; background: linear-gradient(to bottom, rgba(255,255,255,.9), transparent); }
+.arc-dot { width: 14px; height: 14px; border-radius: 50%; background: #0f1923; border: 3px solid #fff; box-shadow: 0 0 0 2px var(--cc), 0 0 12px var(--cc); }
+
+#ar-hud {
+  position: absolute; top: 0; left: 0; right: 0; z-index: 50; pointer-events: none;
+  background: linear-gradient(to bottom, rgba(0,0,0,0.5) 0%, transparent 100%);
+  padding: 16px 18px 40px;
+}
+#ar-hud-inner { display: flex; align-items: center; justify-content: space-between; }
+.ar-compass { width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; background: rgba(255,255,255,0.12); border-radius: 50%; border: 1px solid rgba(255,255,255,0.25); backdrop-filter: blur(6px); }
+.ar-compass svg { width: 20px; height: 20px; }
+#ar-heading-text { font-family: 'Manrope'; font-size: 12px; font-weight: 700; color: rgba(255,255,255,0.7); }
+#ar-close-btn {
+  pointer-events: auto; background: rgba(0,0,0,0.45); color: #fff; border: none;
+  border-radius: 50%; width: 36px; height: 36px; font-size: 18px; cursor: pointer;
+  display: flex; align-items: center; justify-content: center; backdrop-filter: blur(6px);
+}
+
+/* ─── ROUTE BANNER ─── */
+#route-banner {
+  position: absolute; bottom: 0; left: 0; right: 0; z-index: 600;
+  background: #fff; border-top: 1px solid #e8eaed;
+  padding: 12px 18px; display: flex; align-items: center; justify-content: space-between;
+  box-shadow: 0 -4px 20px rgba(0,0,0,.12);
+}
+
+/* ─── RADAR POKÉMON GO ─── */
+#radar-view {
+  position: absolute; inset: 0; display: none;
+  background: radial-gradient(ellipse at center, #111 0%, #000 100%);
+  overflow: hidden;
+}
+#radar-view.on { display: flex; flex-direction: column; }
+#radar-header {
+  padding: 52px 20px 12px; display: flex; align-items: center; justify-content: space-between;
+  background: linear-gradient(to bottom, rgba(0,0,0,0.7) 0%, transparent 100%);
+  flex-shrink: 0;
+}
+#radar-title { font-family: 'Manrope'; font-weight: 800; font-size: 16px; color: #fff; letter-spacing: .05em; }
+#radar-close { background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); color: #fff; border-radius: 50%; width: 36px; height: 36px; font-size: 18px; cursor: pointer; display: flex; align-items: center; justify-content: center; }
+#radar-canvas-wrap {
+  flex: 1; display: flex; align-items: center; justify-content: center; position: relative;
+}
+#radar-canvas { display: block; }
+#radar-sweep {
+  position: absolute; top: 50%; left: 50%;
+  width: 0; height: 0;
+  transform-origin: 0 0;
+  pointer-events: none;
+}
+.radar-pin {
+  position: absolute; transform: translate(-50%, -50%);
+  cursor: pointer; z-index: 10;
+  display: flex; flex-direction: column; align-items: center;
+  transition: transform .3s;
+}
+.radar-pin:active { transform: translate(-50%, -50%) scale(1.2); }
+.radar-pin-dot {
+  width: 14px; height: 14px; border-radius: 50%;
+  border: 2px solid rgba(255,255,255,0.9);
+  box-shadow: 0 0 10px currentColor, 0 0 20px currentColor;
+  animation: radarpulse 2s ease-in-out infinite;
+}
+@keyframes radarpulse {
+  0%,100% { box-shadow: 0 0 6px currentColor, 0 0 12px currentColor; }
+  50% { box-shadow: 0 0 12px currentColor, 0 0 24px currentColor, 0 0 36px currentColor; }
+}
+.radar-pin-label {
+  background: rgba(0,0,0,0.75); backdrop-filter: blur(4px);
+  border: 1px solid rgba(255,255,255,0.15); border-radius: 8px;
+  padding: 3px 8px; margin-top: 5px;
+  font-family: 'Manrope'; font-size: 10px; font-weight: 700; color: #fff;
+  white-space: nowrap;
+}
+.radar-pin-dist { font-size: 9px; color: rgba(255,255,255,0.6); font-weight: 600; }
+#radar-footer {
+  padding: 12px 20px calc(12px + env(safe-area-inset-bottom,0px));
+  background: linear-gradient(to top, rgba(0,0,0,0.8) 0%, transparent 100%);
+  flex-shrink: 0;
+}
+#radar-info {
+  background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 14px; padding: 12px 16px;
+  display: flex; align-items: center; gap: 14px;
+}
+#radar-info-icon { width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+#radar-info-text { flex: 1; }
+#radar-info-name { font-family: 'Manrope'; font-weight: 800; font-size: 14px; color: #fff; }
+#radar-info-dist { font-family: 'Manrope'; font-size: 12px; color: rgba(255,255,255,0.6); margin-top: 2px; }
+#radar-info-btn { background: #0f1923; color: #fff; border: none; border-radius: 10px; padding: 10px 16px; font-family: 'Manrope'; font-weight: 800; font-size: 12px; cursor: pointer; white-space: nowrap; }
+#radar-info.hidden { display: none; }
+
+/* ─── GPS NAVIGATION OVERLAY ─── */
+#nav-overlay {
+  position: absolute; inset: 0; z-index: 700; pointer-events: none; display: none;
+}
+#nav-overlay.on { display: block; }
+#nav-top-bar {
+  position: absolute; top: 0; left: 0; right: 0; pointer-events: auto;
+  background: #0f1923; padding: 48px 18px 14px;
+  display: flex; align-items: center; gap: 14px;
+  box-shadow: 0 4px 20px rgba(26,115,232,0.4);
+}
+#nav-direction-icon {
+  width: 48px; height: 48px; background: rgba(255,255,255,0.2); border-radius: 50%;
+  display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+}
+#nav-direction-icon svg { width: 28px; height: 28px; }
+#nav-top-info { flex: 1; }
+#nav-top-time { font-family: 'Manrope'; font-weight: 900; font-size: 22px; color: #fff; line-height: 1; }
+#nav-top-dist { font-family: 'Manrope'; font-size: 13px; color: rgba(255,255,255,0.8); margin-top: 3px; }
+#nav-stop-btn { background: rgba(255,255,255,0.2); border: 1px solid rgba(255,255,255,0.3); color: #fff; border-radius: 10px; padding: 10px 14px; font-family: 'Manrope'; font-weight: 800; font-size: 12px; pointer-events: auto; cursor: pointer; }
+#nav-bottom-bar {
+  position: absolute; bottom: 80px; left: 16px; right: 16px; pointer-events: auto;
+  background: #fff; border-radius: 16px; padding: 14px 18px;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.15);
+  display: flex; align-items: center; gap: 14px;
+}
+#nav-dest-img { width: 50px; height: 50px; border-radius: 10px; object-fit: cover; flex-shrink: 0; background: #e8eaed; }
+#nav-dest-name { font-family: 'Manrope'; font-weight: 800; font-size: 15px; color: #0f1923; }
+#nav-dest-cat { font-family: 'Manrope'; font-size: 12px; color: #9aa0a6; margin-top: 2px; }
+
+/* Pulsing user dot sur la carte pendant navigation */
+.nav-user-pulse {
+  width: 20px; height: 20px; border-radius: 50%;
+  background: #0f1923; border: 3px solid #fff;
+  box-shadow: 0 0 0 0 rgba(26,115,232,0.4);
+  animation: navpulse 1.5s ease-out infinite;
+}
+@keyframes navpulse {
+  0% { box-shadow: 0 0 0 0 rgba(26,115,232,0.5); }
+  70% { box-shadow: 0 0 0 14px rgba(26,115,232,0); }
+  100% { box-shadow: 0 0 0 0 rgba(26,115,232,0); }
+}
+
+/* ─── MODE FANTÔME ─── */
+#ar-video { transition: filter .8s ease; }
+#ar-video.ghost-mode {
+  filter: sepia(0.85) contrast(1.15) brightness(0.82) saturate(0.3) hue-rotate(10deg);
+}
+#ar-grain {
+  position: absolute; inset: 0; pointer-events: none; z-index: 5; opacity: 0;
+  transition: opacity .8s ease;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.4'/%3E%3C/svg%3E");
+  background-size: 180px 180px; mix-blend-mode: overlay;
+  animation: grain-shift 0.12s steps(1) infinite;
+}
+#ar-grain.on { opacity: 1; }
+@keyframes grain-shift {
+  0%   { background-position: 0 0; }
+  25%  { background-position: -40px 20px; }
+  50%  { background-position: 20px -30px; }
+  75%  { background-position: -20px -10px; }
+  100% { background-position: 10px 40px; }
+}
+#ar-vignette {
+  position: absolute; inset: 0; pointer-events: none; z-index: 6; opacity: 0;
+  transition: opacity .8s ease;
+  background: radial-gradient(ellipse at center, transparent 40%, rgba(20,10,0,0.75) 100%);
+}
+#ar-vignette.on { opacity: 1; }
+#ar-scratches {
+  position: absolute; inset: 0; pointer-events: none; z-index: 7; opacity: 0;
+  transition: opacity .8s ease;
+  animation: scratch-flicker 3s steps(1) infinite;
+}
+#ar-scratches.on { opacity: 1; }
+@keyframes scratch-flicker {
+  0%,90%,100% { opacity: 0; }
+  91% { opacity: 0.4; }
+  93% { opacity: 0; }
+  96% { opacity: 0.3; }
+}
+#ar-ghost-ov {
+  position: absolute; inset: 0; pointer-events: none; z-index: 8;
+  opacity: 0; transition: opacity 1s ease;
+}
+#ar-ghost-ov.on { opacity: 1; }
+#ar-epoch-banner {
+  position: absolute; top: 80px; left: 50%; transform: translateX(-50%);
+  background: rgba(20,8,0,0.75); border: 1px solid rgba(255,255,255,0.3);
+  backdrop-filter: blur(8px); border-radius: 20px;
+  padding: 6px 18px; pointer-events: none; z-index: 20;
+  font-family: 'Manrope'; font-weight: 800; font-size: 11px;
+  color: rgba(255,255,255,0.9); letter-spacing: .12em; text-transform: uppercase;
+  opacity: 0; transition: opacity .5s ease;
+}
+#ar-epoch-banner.on { opacity: 1; }
+#ar-flash {
+  position: absolute; inset: 0; z-index: 100; pointer-events: none;
+  background: #fff8e0; opacity: 0;
+}
+@keyframes flash-anim {
+  0% { opacity: 0.95; }
+  100% { opacity: 0; }
+}
+#ar-flash.flash { animation: flash-anim 0.5s ease-out forwards; }
+
+#ar-ghost-btn {
+  flex: 1.2;
+  background: rgba(255,255,255,0.1);
+  border: 1px solid rgba(255,255,255,0.3);
+  color: #fff;
+  border-radius: 14px; padding: 11px 8px; font-family: 'Manrope'; font-weight: 800; font-size: 11px;
+  cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 6px;
+  transition: all .3s;
+}
+#ar-ghost-btn.active {
+  background: rgba(255,255,255,0.22);
+  border-color: rgba(255,255,255,0.8);
+  box-shadow: 0 0 14px rgba(255,255,255,0.2);
+}
+
+/* silhouettes fantômes */
+.ghost-silhouette {
+  position: absolute; bottom: 0; pointer-events: none;
+  filter: drop-shadow(0 0 10px rgba(255,255,255,0.5));
+  animation: ghost-pulse 3s ease-in-out infinite;
+}
+@keyframes ghost-pulse {
+  0%,100% { opacity: 0.55; }
+  50% { opacity: 0.8; }
+}
+.ghost-label {
+  position: absolute; pointer-events: none;
+  font-family: 'Manrope'; font-weight: 700; font-size: 10px;
+  color: rgba(255,255,255,0.85); letter-spacing: .08em;
+  text-shadow: 0 1px 6px rgba(0,0,0,0.8);
+  white-space: nowrap; transform: translateX(-50%);
+  animation: ghost-pulse 3s ease-in-out infinite;
+}
+
+/* AR amélioré */
+#ar-bottom-bar {
+  position: absolute; bottom: 0; left: 0; right: 0; z-index: 50;
+  background: linear-gradient(to top, rgba(0,0,0,0.8) 0%, transparent 100%);
+  padding: 20px 18px calc(20px + env(safe-area-inset-bottom,0px));
+  display: flex; gap: 10px;
+}
+#ar-radar-btn {
+  flex: 1; background: rgba(255,255,255,0.12); backdrop-filter: blur(8px);
+  border: 1px solid rgba(255,255,255,0.2); color: #fff;
+  border-radius: 14px; padding: 11px 8px; font-family: 'Manrope'; font-weight: 800; font-size: 11px;
+  cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 6px;
+}
+#ar-nearest-btn {
+  flex: 1; background: #0f1923;
+  border: none; color: #fff;
+  border-radius: 14px; padding: 11px 8px; font-family: 'Manrope'; font-weight: 800; font-size: 11px;
+  cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 6px;
+}
+#ar-distance-ring {
+  position: absolute; bottom: 120px; left: 50%; transform: translateX(-50%);
+  background: rgba(0,0,0,0.5); backdrop-filter: blur(6px);
+  border: 1px solid rgba(255,255,255,0.15); border-radius: 20px;
+  padding: 6px 16px; font-family: 'Manrope'; font-weight: 700; font-size: 12px; color: rgba(255,255,255,0.8);
+  pointer-events: none;
+}
+
+/* ─── PHOTOS HISTORIQUES ─── */
+@keyframes hist-appear {
+  from { opacity: 0; transform: translate(calc(-50% + var(--ox, 0px)), -48%) scale(0.94); }
+  to   { opacity: var(--op, 0.7); transform: translate(calc(-50% + var(--ox, 0px)), -52%) scale(1); }
+}
+.hist-photo-wrap { pointer-events: none; }
+.hist-photo-inner {
+  border: 2px solid rgba(255,255,255,0.5);
+  border-radius: 4px;
+  overflow: hidden;
+  box-shadow: 0 8px 40px rgba(0,0,0,0.7), 0 0 0 1px rgba(255,255,255,0.1);
+  max-width: min(75vw, 320px);
+  position: relative;
+}
+.hist-photo-img {
+  width: 100%; display: block;
+  filter: sepia(0.3) contrast(1.1) brightness(0.95);
+}
+.hist-photo-caption {
+  position: absolute; bottom: 0; left: 0; right: 0;
+  background: rgba(0,0,0,0.72);
+  color: rgba(255,255,255,0.9);
+  font-family: 'Manrope'; font-size: 10px; font-weight: 600;
+  padding: 5px 10px; text-align: center;
+  letter-spacing: .04em;
+  border-top: 1px solid rgba(255,255,255,0.15);
+}
+
+/* ─── BOUTON AVANT + LIGHTBOX ─── */
+.pw-hist-btn {
+  display: flex; align-items: center; gap: 6px;
+  background: #fff; color: #0f1923;
+  border: 1px solid #0f1923; border-radius: 10px;
+  padding: 9px 13px; font-family: 'Manrope'; font-weight: 800; font-size: 11px;
+  cursor: pointer; flex-shrink: 0; transition: all .2s;
+}
+.pw-hist-btn:hover { background: #0f1923; color: #fff; }
+.pw-hist-btn svg { flex-shrink: 0; }
+
+#hist-lightbox {
+  position: absolute; inset: 0; z-index: 9999;
+  background: rgba(0,0,0,0.92);
+  display: none; flex-direction: column;
+  align-items: center; justify-content: center;
+  padding: 24px 20px;
+}
+#hist-lightbox.on { display: flex; }
+#hist-lightbox-img {
+  max-width: 100%; max-height: 70vh;
+  border: 2px solid rgba(255,255,255,0.3);
+  border-radius: 4px;
+  filter: sepia(0.2) contrast(1.05);
+  box-shadow: 0 12px 60px rgba(0,0,0,0.8);
+}
+#hist-lightbox-caption {
+  font-family: 'Manrope'; font-size: 12px; font-weight: 600;
+  color: rgba(255,255,255,0.75); text-align: center;
+  margin-top: 14px; letter-spacing: .04em; line-height: 1.5;
+}
+#hist-lightbox-label {
+  font-family: 'Manrope'; font-size: 10px; font-weight: 700;
+  color: rgba(255,255,255,0.4); text-transform: uppercase;
+  letter-spacing: .12em; margin-bottom: 12px;
+}
+#hist-lightbox-close {
+  position: absolute; top: 18px; right: 18px;
+  background: rgba(255,255,255,0.12); border: 1px solid rgba(255,255,255,0.2);
+  color: #fff; border-radius: 50%; width: 36px; height: 36px;
+  font-size: 18px; cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+}
+</style>
+</head>
+<body>
+<div id="app">
+  <div id="content">
+
+    <!-- MAP VIEW -->
+    <div id="map-view">
+      <div id="map"></div>
+      <div id="filter-bar"></div>
+      <button id="locate-btn" onclick="locateUser()">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 8c-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4-1.79-4-4-4zm8.94 3A8.994 8.994 0 0 0 13 3.06V1h-2v2.06A8.994 8.994 0 0 0 3.06 11H1v2h2.06A8.994 8.994 0 0 0 11 20.94V23h2v-2.06A8.994 8.994 0 0 0 20.94 13H23v-2h-2.06zM12 19c-3.87 0-7-3.13-7-7s3.13-7 7-7 7 3.13 7 7-3.13 7-7 7z"/></svg>
+      </button>
+      <!-- Mini popup -->
+      <div id="popup-container">
+        <div id="popup-card"></div>
+      </div>
+    </div>
+
+
+    <!-- LIGHTBOX HISTORIQUE -->
+    <div id="hist-lightbox">
+      <button id="hist-lightbox-close" onclick="closeHistLightbox()">✕</button>
+      <div id="hist-lightbox-label">📷 Vue d'antan</div>
+      <img id="hist-lightbox-img" src="" alt=""/>
+      <div id="hist-lightbox-caption"></div>
+    </div>
+
+    <!-- AR VIEW -->
+    <div id="ar-view">
+      <video id="ar-video" autoplay playsinline muted></video>
+      <div id="ar-grain"></div>
+      <div id="ar-vignette"></div>
+      <div id="ar-scratches"></div>
+      <div id="ar-ghost-ov"></div>
+      <div id="ar-epoch-banner">⚔️ &nbsp;Cœurville · XIIIe siècle</div>
+      <div id="ar-flash"></div>
+      <div id="ar-ov"></div>
+      <div id="ar-hud">
+        <div id="ar-hud-inner">
+          <div class="ar-compass">
+            <svg id="ar-compass-svg" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><circle cx="12" cy="12" r="10"/><polygon points="12,4 14,12 12,11 10,12" fill="red" stroke="none"/><polygon points="12,20 14,12 12,13 10,12" fill="white" stroke="none"/></svg>
+          </div>
+          <span id="ar-heading-text">AR · Réalité Augmentée</span>
+          <button id="ar-close-btn" onclick="stopAR()">✕</button>
+        </div>
+      </div>
+      <div id="ar-distance-ring" id="ar-dist-ring">Recherche GPS…</div>
+      <div id="ar-bottom-bar">
+        <button id="ar-radar-btn" onclick="openRadar()">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/><line x1="12" y1="2" x2="12" y2="4"/></svg>
+          Radar
+        </button>
+        <button id="ar-ghost-btn" onclick="toggleGhostMode()">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12,6 12,12 15,15"/><path d="M2 12h2M20 12h2M12 2v2M12 20v2" stroke-width="1.5" opacity="0.5"/></svg>
+          Mode Histoire
+        </button>
+        <button id="ar-nearest-btn" onclick="navigateToNearest()">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M21 3L3 10.53v.98l6.84 2.65L12.48 21h.98L21 3z"/></svg>
+          Plus proche
+        </button>
+      </div>
+    </div>
+    <!-- ─── RADAR VIEW ─── -->
+    <div id="radar-view">
+      <div id="radar-header">
+        <div id="radar-title">📡 Radar — Lieux autour de vous</div>
+        <button id="radar-close" onclick="closeRadar()">✕</button>
+      </div>
+      <div id="radar-canvas-wrap">
+        <canvas id="radar-canvas"></canvas>
+        <div id="radar-pins-layer"></div>
+      </div>
+      <div id="radar-footer">
+        <div id="radar-info" class="hidden">
+          <div id="radar-info-icon"></div>
+          <div id="radar-info-text">
+            <div id="radar-info-name"></div>
+            <div id="radar-info-dist"></div>
+          </div>
+          <button id="radar-info-btn" onclick="navigateToSelected()">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M21 3L3 10.53v.98l6.84 2.65L12.48 21h.98L21 3z"/></svg>
+            Y aller
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ─── NAVIGATION OVERLAY ─── -->
+    <div id="nav-overlay">
+      <div id="nav-top-bar">
+        <div id="nav-direction-icon">
+          <svg viewBox="0 0 24 24" fill="white"><path d="M12 2L4.5 20.29l.71.71L12 18l6.79 3 .71-.71z"/></svg>
+        </div>
+        <div id="nav-top-info">
+          <div id="nav-top-time">—</div>
+          <div id="nav-top-dist">Calcul en cours…</div>
+        </div>
+        <button id="nav-stop-btn" onclick="stopNavigation()">✕ Arrêter</button>
+      </div>
+      <div id="nav-bottom-bar">
+        <img id="nav-dest-img" src="" alt="">
+        <div>
+          <div id="nav-dest-name"></div>
+          <div id="nav-dest-cat"></div>
+        </div>
+      </div>
+    </div>
+
+
+    <!-- ═══════════════════════════════════════════
+         EXPÉRIENCE IMMERSIVE HISTORIQUE
+    ════════════════════════════════════════════ -->
+    <div id="imm-overlay" class="bars-open">
+      <!-- Fond -->
+      <div id="imm-bg"></div>
+      <!-- Grain cinéma -->
+      <div id="imm-grain"></div>
+      <!-- Vignette -->
+      <div id="imm-vignette"></div>
+      <!-- Tinte d'époque -->
+      <div id="imm-tint"></div>
+      <!-- Particules -->
+      <div id="imm-particles"></div>
+      <!-- Barres cinématographiques -->
+      <div id="imm-bars-top"></div>
+      <div id="imm-bars-bottom"></div>
+
+      <!-- Indicateur sonore / bouton mute -->
+
+      <!-- Contenu principal -->
+      <div id="imm-content">
+        <div id="imm-header">
+          <div id="imm-era-badge">Époque inconnue</div>
+          <button id="imm-close" onclick="closeImmersive()">✕</button>
+        </div>
+
+        <div id="imm-center">
+          <h1 id="imm-title">Lieu historique</h1>
+          <p id="imm-subtitle">Villeneuve-lès-Avignon</p>
+          <div id="imm-divider"></div>
+          <p id="imm-narration"><span id="imm-narration-text"></span><span id="imm-cursor">|</span></p>
+          <div id="imm-stats">
+            <div class="imm-stat">
+              <span class="imm-stat-val" id="imm-stat-age">—</span>
+              <span class="imm-stat-lbl">Siècle</span>
+            </div>
+            <div class="imm-stat-sep"></div>
+            <div class="imm-stat">
+              <span class="imm-stat-val" id="imm-stat-cat">—</span>
+              <span class="imm-stat-lbl">Type</span>
+            </div>
+            <div class="imm-stat-sep"></div>
+            <div class="imm-stat">
+              <span class="imm-stat-val" id="imm-stat-dist">—</span>
+              <span class="imm-stat-lbl">Distance</span>
+            </div>
+          </div>
+        </div>
+
+        <div id="imm-scroll">
+          <span>En savoir plus</span>
+          <div class="scroll-arrow"></div>
+        </div>
+
+        <div id="imm-footer">
+          <button class="imm-btn-primary" id="imm-navigate-btn">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M21 3L3 10.53v.98l6.84 2.65L12.48 21h.98L21 3z"/></svg>
+            M'y rendre
+          </button>
+          <button class="imm-btn-secondary" onclick="closeImmersive()">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 6L6 18M6 6l12 12"/></svg>
+            Fermer
+          </button>
+        </div>
+
+        <!-- Panneau détail (swipe up) -->
+        <div id="imm-detail">
+          <div id="imm-detail-inner"></div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /content -->
+
+  <nav id="bottomnav">
+    <button class="n-btn active" id="nav-tourisme" onclick="switchSection('tourisme')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18M3 10h18M5 6l7-3 7 3M4 10v11M20 10v11M8 10v11M16 10v11M12 10v11"/></svg>
+      <span>Patrimoine</span>
+    </button>
+    <button class="n-btn" id="nav-commerce" onclick="switchSection('commerce')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l1-3h16l1 3"/><path d="M3 9v1a4 4 0 008 0 4 4 0 008 0V9"/><path d="M5 21V14a1 1 0 011-1h4a1 1 0 011 1v7"/><path d="M15 21v-5a3 3 0 016 0v5"/></svg>
+      <span>Commerces</span>
+    </button>
+    <button class="n-btn" id="nav-evenements" onclick="switchSection('evenements')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/><path d="M8 14h.01M12 14h.01M16 14h.01"/></svg>
+      <span>Événements</span>
+    </button>
+    <button class="n-btn" id="nav-ar" onclick="startAR()">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M2 8.5C2 5.46 4.46 3 7.5 3h9C19.54 3 22 5.46 22 8.5v7c0 3.04-2.46 5.5-5.5 5.5h-9C4.46 21 2 18.54 2 15.5v-7z"/><circle cx="12" cy="12" r="3"/><path d="M6.5 6.5h.01M17.5 6.5h.01"/></svg>
+      <span>AR Live</span>
+    </button>
+  </nav>
+</div>
+
+<div id="toast"></div>
+
+<script>
