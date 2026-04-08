@@ -901,15 +901,112 @@ function stopNavigation() { if(typeof _stopNavigation==='function') _stopNavigat
 function closeHistLightbox() { if(typeof _closeHistLightbox==='function') _closeHistLightbox(); }
 </script>
 
+
+
+
+
+
+<!-- ═══════════════════════════════════════════
+     STREET VIEW MODAL
+═══════════════════════════════════════════ -->
+<div id="sv-modal" style="display:none;position:fixed;inset:0;z-index:99999;background:#000;flex-direction:column;">
+  <!-- Header -->
+  <div style="display:flex;align-items:center;justify-content:space-between;padding:12px 16px;background:rgba(0,0,0,0.85);backdrop-filter:blur(12px);position:relative;z-index:2;">
+    <div style="display:flex;align-items:center;gap:10px;">
+      <span class="material-symbols-outlined" style="color:#fff;font-size:22px">streetview</span>
+      <span id="sv-title" style="color:#fff;font-family:'Manrope',sans-serif;font-size:14px;font-weight:600;">Street View</span>
+    </div>
+    <button onclick="closeStreetView()" style="background:rgba(255,255,255,0.15);border:none;border-radius:50%;width:36px;height:36px;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:background 0.2s;" onmouseover="this.style.background='rgba(255,255,255,0.25)'" onmouseout="this.style.background='rgba(255,255,255,0.15)'">
+      <span class="material-symbols-outlined" style="color:#fff;font-size:20px">close</span>
+    </button>
+  </div>
+  <!-- Iframe Google Street View -->
+  <div style="flex:1;position:relative;">
+    <iframe id="sv-iframe"
+      style="width:100%;height:100%;border:none;"
+      allowfullscreen
+      loading="lazy"
+      referrerpolicy="no-referrer-when-downgrade"
+      src="">
+    </iframe>
+    <!-- Overlay si pas de Street View dispo -->
+    <div id="sv-unavail" style="display:none;position:absolute;inset:0;background:#1a1a2e;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;">
+      <span class="material-symbols-outlined" style="color:rgba(255,255,255,0.3);font-size:64px">no_photography</span>
+      <p style="color:rgba(255,255,255,0.5);font-family:'Manrope',sans-serif;font-size:15px;text-align:center;max-width:240px;">Street View non disponible pour ce lieu</p>
+      <button onclick="closeStreetView()" style="background:#3B5BDB;color:#fff;border:none;border-radius:12px;padding:10px 24px;font-family:'Manrope',sans-serif;font-size:14px;font-weight:600;cursor:pointer;">Fermer</button>
+    </div>
+  </div>
+  <!-- Bottom bar -->
+  <div style="padding:12px 16px;background:rgba(0,0,0,0.85);display:flex;align-items:center;justify-content:center;gap:8px;">
+    <span class="material-symbols-outlined" style="color:rgba(255,255,255,0.4);font-size:16px">info</span>
+    <span style="color:rgba(255,255,255,0.4);font-family:'Manrope',sans-serif;font-size:12px;">Faites glisser pour explorer • Pincez pour zoomer</span>
+  </div>
+</div>
+
+<script>
+// Coordonnées du dernier POI sélectionné
+window._svLat = null;
+window._svLng = null;
+window._svName = '';
+
+function openStreetView(lat, lng, name) {
+  // Si appelé depuis la nav sans POI, utilise position utilisateur ou centre de la carte
+  if (lat == null) {
+    if (window._svLat) {
+      lat = window._svLat; lng = window._svLng; name = window._svName;
+    } else if (window._userLat) {
+      lat = window._userLat; lng = window._userLng; name = 'Votre position';
+    } else {
+      // Centre de la carte Leaflet
+      const c = window.leafletMap ? window.leafletMap.getCenter() : {lat:43.9671,lng:4.7896};
+      lat = c.lat; lng = c.lng; name = 'Vue actuelle';
+    }
+  }
+
+  const modal = document.getElementById('sv-modal');
+  const iframe = document.getElementById('sv-iframe');
+  const title = document.getElementById('sv-title');
+
+  title.textContent = name || 'Street View';
+
+  // Google Street View Embed URL
+  const key = 'AIzaSyB4uHYJqy2QmU8MHSBhyp8zrQhQQzXHN5I';
+  const svUrl = `https://www.google.com/maps/embed/v1/streetview?key=${key}&location=${lat},${lng}&heading=0&pitch=0&fov=90`;
+
+  iframe.src = svUrl;
+  modal.style.display = 'flex';
+  document.body.style.overflow = 'hidden';
+}
+
+function closeStreetView() {
+  const modal = document.getElementById('sv-modal');
+  const iframe = document.getElementById('sv-iframe');
+  modal.style.display = 'none';
+  iframe.src = '';
+  document.body.style.overflow = '';
+}
+
+// Exposer pour que ui.js puisse appeler openStreetView depuis les popups POI
+window.openStreetView = openStreetView;
+window.closeStreetView = closeStreetView;
+
+// Fermer avec Escape
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeStreetView(); });
+</script>
+
 <script>
 // ── CONFIG ──
 const CONFIG = {
   titre: 'Cœur de Ville — Villeneuve-lès-Avignon',
+  ville: 'Villeneuve-lès-Avignon',
   lat: 43.9671,
   lng: 4.7896,
   zoom: 15,
   couleurPrimaire: '#3B5BDB',
   epochBanner: 'Cœurville · XIIIe siècle',
+  arFOV: 100,
+  arRayonMax: 2000,
+  radarRayonMax: 1000,
 };
 </script>
 <script>
@@ -1300,7 +1397,7 @@ function buildPopupHTML(place) {
       '<div class="pw-footer"><div class="pw-era">' + (place.era || '') + ' · ' + dTxt + '</div>' +
       '<button class="pw-cta" onclick="closeCustomPopup();openImmersive(' + place.id + ')"><svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C8 2 4 5 4 9c0 5 8 13 8 13s8-8 8-13c0-4-4-7-8-7z"/></svg>Découvrir</button>' +
       '<button class="pw-nav" onclick="startRoute(' + place.lat + ',' + place.lng + ');closeCustomPopup()"><svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M21 3L3 10.53v.98l6.84 2.65L12.48 21h.98L21 3z"/></svg>Y aller</button>' +
-      '<button class="pw-sv-btn" onclick="openStreetView(' + place.lat + ',' + place.lng + \',\'' + place.name + '\')" style="background:#1a73e8;color:#fff;border:none;border-radius:10px;padding:6px 12px;font-size:11px;font-family:Manrope;font-weight:600;cursor:pointer;margin-left:4px">Street View</button>' +
+      '<button class="pw-sv-btn" onclick="openStreetView(' + place.lat + ',' + place.lng + ')" style="background:#1a73e8;color:#fff;border:none;border-radius:10px;padding:6px 12px;font-size:11px;font-family:Manrope;font-weight:600;cursor:pointer;margin-left:4px">Street View</button>' +
       '</div></div></div>';
   }
   return '<div class="pw"><div class="pw-img-wrap" style="height:80px;background:linear-gradient(135deg,' + col + '22,' + col + '44)">' +
@@ -1309,7 +1406,7 @@ function buildPopupHTML(place) {
     (place.horaires ? '<div style="font-family:Manrope;font-size:11px;color:#888;margin-bottom:10px">' + place.horaires + '</div>' : '') +
     '<div class="pw-footer"><div class="pw-era" style="color:' + col + '">' + label + ' · ' + dTxt + '</div>' +
     '<button class="pw-nav" onclick="startRoute(' + place.lat + ',' + place.lng + ');closeCustomPopup()"><svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M21 3L3 10.53v.98l6.84 2.65L12.48 21h.98L21 3z"/></svg>Y aller</button>' +
-    '<button class="pw-sv-btn" onclick="openStreetView(' + place.lat + ',' + place.lng + \',\'' + place.name + '\')" style="background:#1a73e8;color:#fff;border:none;border-radius:10px;padding:6px 12px;font-size:11px;font-family:Manrope;font-weight:600;cursor:pointer;margin-left:4px">Street View</button>' +
+    '<button class="pw-sv-btn" onclick="openStreetView(' + place.lat + ',' + place.lng + ')" style="background:#1a73e8;color:#fff;border:none;border-radius:10px;padding:6px 12px;font-size:11px;font-family:Manrope;font-weight:600;cursor:pointer;margin-left:4px">Street View</button>' +
     '</div></div></div>';
 }
 
@@ -1898,94 +1995,5 @@ function closeHistLightbox() {
 }
 
 </script>
-
-<!-- ═══════════════════════════════════════════
-     STREET VIEW MODAL
-═══════════════════════════════════════════ -->
-<div id="sv-modal" style="display:none;position:fixed;inset:0;z-index:99999;background:#000;flex-direction:column;">
-  <!-- Header -->
-  <div style="display:flex;align-items:center;justify-content:space-between;padding:12px 16px;background:rgba(0,0,0,0.85);backdrop-filter:blur(12px);position:relative;z-index:2;">
-    <div style="display:flex;align-items:center;gap:10px;">
-      <span class="material-symbols-outlined" style="color:#fff;font-size:22px">streetview</span>
-      <span id="sv-title" style="color:#fff;font-family:'Manrope',sans-serif;font-size:14px;font-weight:600;">Street View</span>
-    </div>
-    <button onclick="closeStreetView()" style="background:rgba(255,255,255,0.15);border:none;border-radius:50%;width:36px;height:36px;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:background 0.2s;" onmouseover="this.style.background='rgba(255,255,255,0.25)'" onmouseout="this.style.background='rgba(255,255,255,0.15)'">
-      <span class="material-symbols-outlined" style="color:#fff;font-size:20px">close</span>
-    </button>
-  </div>
-  <!-- Iframe Google Street View -->
-  <div style="flex:1;position:relative;">
-    <iframe id="sv-iframe"
-      style="width:100%;height:100%;border:none;"
-      allowfullscreen
-      loading="lazy"
-      referrerpolicy="no-referrer-when-downgrade"
-      src="">
-    </iframe>
-    <!-- Overlay si pas de Street View dispo -->
-    <div id="sv-unavail" style="display:none;position:absolute;inset:0;background:#1a1a2e;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;">
-      <span class="material-symbols-outlined" style="color:rgba(255,255,255,0.3);font-size:64px">no_photography</span>
-      <p style="color:rgba(255,255,255,0.5);font-family:'Manrope',sans-serif;font-size:15px;text-align:center;max-width:240px;">Street View non disponible pour ce lieu</p>
-      <button onclick="closeStreetView()" style="background:#3B5BDB;color:#fff;border:none;border-radius:12px;padding:10px 24px;font-family:'Manrope',sans-serif;font-size:14px;font-weight:600;cursor:pointer;">Fermer</button>
-    </div>
-  </div>
-  <!-- Bottom bar -->
-  <div style="padding:12px 16px;background:rgba(0,0,0,0.85);display:flex;align-items:center;justify-content:center;gap:8px;">
-    <span class="material-symbols-outlined" style="color:rgba(255,255,255,0.4);font-size:16px">info</span>
-    <span style="color:rgba(255,255,255,0.4);font-family:'Manrope',sans-serif;font-size:12px;">Faites glisser pour explorer • Pincez pour zoomer</span>
-  </div>
-</div>
-
-<script>
-// Coordonnées du dernier POI sélectionné
-window._svLat = null;
-window._svLng = null;
-window._svName = '';
-
-function openStreetView(lat, lng, name) {
-  // Si appelé depuis la nav sans POI, utilise position utilisateur ou centre de la carte
-  if (lat == null) {
-    if (window._svLat) {
-      lat = window._svLat; lng = window._svLng; name = window._svName;
-    } else if (window._userLat) {
-      lat = window._userLat; lng = window._userLng; name = 'Votre position';
-    } else {
-      // Centre de la carte Leaflet
-      const c = window.leafletMap ? window.leafletMap.getCenter() : {lat:43.9671,lng:4.7896};
-      lat = c.lat; lng = c.lng; name = 'Vue actuelle';
-    }
-  }
-
-  const modal = document.getElementById('sv-modal');
-  const iframe = document.getElementById('sv-iframe');
-  const title = document.getElementById('sv-title');
-
-  title.textContent = name || 'Street View';
-
-  // Google Street View Embed URL
-  const key = 'AIzaSyB4uHYJqy2QmU8MHSBhyp8zrQhQQzXHN5I';
-  const svUrl = `https://www.google.com/maps/embed/v1/streetview?key=${key}&location=${lat},${lng}&heading=0&pitch=0&fov=90`;
-
-  iframe.src = svUrl;
-  modal.style.display = 'flex';
-  document.body.style.overflow = 'hidden';
-}
-
-function closeStreetView() {
-  const modal = document.getElementById('sv-modal');
-  const iframe = document.getElementById('sv-iframe');
-  modal.style.display = 'none';
-  iframe.src = '';
-  document.body.style.overflow = '';
-}
-
-// Exposer pour que ui.js puisse appeler openStreetView depuis les popups POI
-window.openStreetView = openStreetView;
-window.closeStreetView = closeStreetView;
-
-// Fermer avec Escape
-document.addEventListener('keydown', e => { if (e.key === 'Escape') closeStreetView(); });
-</script>
-
 </body>
 </html>
