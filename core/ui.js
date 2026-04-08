@@ -26,8 +26,9 @@ function initMap() {
     attributionControl: false,
   });
 
-  L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
+  L.tileLayer('https://tiles.stadiamaps.com/tiles/alidade_smooth/{z}/{x}/{y}{r}.png', {
     maxZoom: 20,
+    attribution: '© Stadia Maps © OpenStreetMap'
   }).addTo(map);
 
 
@@ -129,6 +130,7 @@ function buildPopupHTML(place) {
       '<div class="pw-footer"><div class="pw-era">' + (place.era || '') + ' · ' + dTxt + '</div>' +
       '<button class="pw-cta" onclick="closeCustomPopup();openImmersive(' + place.id + ')"><svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C8 2 4 5 4 9c0 5 8 13 8 13s8-8 8-13c0-4-4-7-8-7z"/></svg>Découvrir</button>' +
       '<button class="pw-nav" onclick="startRoute(' + place.lat + ',' + place.lng + ');closeCustomPopup()"><svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M21 3L3 10.53v.98l6.84 2.65L12.48 21h.98L21 3z"/></svg>Y aller</button>' +
+      '<button class="pw-sv-btn" onclick="openStreetView(' + place.lat + ',' + place.lng + \',\'' + place.name + '\')" style="background:#1a73e8;color:#fff;border:none;border-radius:10px;padding:6px 12px;font-size:11px;font-family:Manrope;font-weight:600;cursor:pointer;margin-left:4px">Street View</button>' +
       '</div></div></div>';
   }
   return '<div class="pw"><div class="pw-img-wrap" style="height:80px;background:linear-gradient(135deg,' + col + '22,' + col + '44)">' +
@@ -137,6 +139,7 @@ function buildPopupHTML(place) {
     (place.horaires ? '<div style="font-family:Manrope;font-size:11px;color:#888;margin-bottom:10px">' + place.horaires + '</div>' : '') +
     '<div class="pw-footer"><div class="pw-era" style="color:' + col + '">' + label + ' · ' + dTxt + '</div>' +
     '<button class="pw-nav" onclick="startRoute(' + place.lat + ',' + place.lng + ');closeCustomPopup()"><svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M21 3L3 10.53v.98l6.84 2.65L12.48 21h.98L21 3z"/></svg>Y aller</button>' +
+    '<button class="pw-sv-btn" onclick="openStreetView(' + place.lat + ',' + place.lng + \',\'' + place.name + '\')" style="background:#1a73e8;color:#fff;border:none;border-radius:10px;padding:6px 12px;font-size:11px;font-family:Manrope;font-weight:600;cursor:pointer;margin-left:4px">Street View</button>' +
     '</div></div></div>';
 }
 
