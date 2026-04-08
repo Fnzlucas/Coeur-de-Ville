@@ -1,999 +1,452 @@
 <!DOCTYPE html>
 <html lang="fr" style="height:100%;">
 <head>
-<meta charset="utf-8"/>
-<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no"/>
-<title>Cœur de Ville — Carte Historique Immersive</title>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"/>
+<title>Cœur de Ville</title>
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@700;800;900&family=Cinzel:wght@400;600;700;900&family=Cinzel+Decorative:wght@400;700&family=EB+Garamond:ital,wght@0,400;0,500;1,400;1,500&family=Manrope:wght@200;300;400;500;600;700;800;900&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet"/>
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600&display=swap"/>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"/>
 <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-<script id="tailwind-config">
-  tailwind.config = {
-    darkMode: "class",
-    theme: {
-      extend: {
-        colors: {
-          "on-secondary-container": "#004b69",
-          "primary": "#000e28",
-          "surface-container-lowest": "#ffffff",
-          "on-tertiary-fixed": "#261a00",
-          "on-secondary-fixed": "#001e2d",
-          "on-secondary": "#ffffff",
-          "surface-variant": "#e1e3e4",
-          "outline": "#747780",
-          "surface-container-highest": "#e1e3e4",
-          "surface-container-high": "#e7e8e9",
-          "surface-bright": "#f8f9fa",
-          "on-primary": "#ffffff",
-          "surface-container": "#edeeef",
-          "tertiary-container": "#312200",
-          "secondary-fixed-dim": "#81cfff",
-          "on-tertiary": "#ffffff",
-          "on-surface-variant": "#44474f",
-          "surface-container-low": "#f3f4f5",
-          "on-tertiary-container": "#b28400",
-          "surface": "#f8f9fa",
-          "primary-fixed-dim": "#adc7fd",
-          "background": "#f8f9fa",
-          "on-primary-fixed-variant": "#2c4675",
-          "surface-dim": "#d9dadb",
-          "secondary-fixed": "#c6e7ff",
-          "error-container": "#ffdad6",
-          "surface-tint": "#445e8e",
-          "tertiary-fixed": "#ffdfa0",
-          "primary-container": "#002350",
-          "on-background": "#191c1d",
-          "secondary": "#00658d",
-          "on-tertiary-fixed-variant": "#5c4300",
-          "primary-fixed": "#d7e2ff",
-          "inverse-on-surface": "#f0f1f2",
-          "on-primary-container": "#728cbe",
-          "inverse-primary": "#adc7fd",
-          "tertiary": "#160e00",
-          "on-error-container": "#93000a",
-          "error": "#ba1a1a",
-          "outline-variant": "#c4c6d0",
-          "inverse-surface": "#2e3132",
-          "on-surface": "#191c1d",
-          "on-secondary-fixed-variant": "#004c6b",
-          "on-error": "#ffffff",
-          "tertiary-fixed-dim": "#f6be39",
-          "secondary-container": "#41befd",
-          "on-primary-fixed": "#001a40"
-        },
-        borderRadius: {
-          DEFAULT: "0.25rem", lg: "0.5rem", xl: "0.75rem", full: "9999px"
-        },
-        fontFamily: {
-          headline: ["Manrope"], body: ["Inter"], label: ["Inter"]
-        }
-      }
-    }
-  }
-</script>
 <style>
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-html, body { height: 100%; overflow: hidden; }
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html,body{height:100%;overflow:hidden;font-family:'Manrope',sans-serif;background:#f8f8f6;}
 
-.material-symbols-outlined {
-  font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;
+/* ── HEADER ── */
+#app-header{
+  position:fixed;top:0;left:0;right:0;height:48px;z-index:1000;
+  background:rgba(255,255,255,0.92);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
+  border-bottom:1px solid rgba(0,0,0,0.06);
+  display:flex;align-items:center;padding:0 8px;gap:0;
 }
-.no-scrollbar::-webkit-scrollbar { display: none; }
-.no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+#app-header .h-logo{flex:1;display:flex;justify-content:center;}
+#app-header button{background:none;border:none;cursor:pointer;border-radius:50%;padding:6px;display:flex;align-items:center;justify-content:center;}
+#app-header button:hover{background:rgba(0,0,0,0.05);}
 
-/* ─── FILTER PILLS ─── */
-.fp {
-  flex-shrink: 0; display: flex; align-items: center; gap: 6px;
-  padding: 6px 14px; border-radius: 22px; border: none;
-  background: rgba(255,255,255,0.96);
-  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
-  font-family: 'Manrope', sans-serif; font-weight: 700; font-size: 11px;
-  color: #3c4043; cursor: pointer; white-space: nowrap;
-  transition: all .18s; backdrop-filter: blur(4px);
-}
-.fp:hover { box-shadow: 0 4px 14px rgba(0,0,0,0.2); }
-.fp.active { background: var(--cc, #0f1923); color: #fff; }
-.fp .fdot { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; }
+/* ── MAP ── */
+#map-wrap{position:fixed;top:48px;left:0;right:0;bottom:64px;}
+#map{width:100%;height:100%;}
 
-/* ─── MAP ─── */
-#map { width: 100%; height: 100%; }
-#map.map-blur { filter: blur(5px) brightness(0.85); transition: filter .4s ease; }
+/* ── BOTTOM NAV ── */
+#bottomnav{
+  position:fixed;bottom:0;left:0;right:0;height:64px;z-index:1000;
+  background:rgba(255,255,255,0.92);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
+  border-top:1px solid rgba(0,0,0,0.06);
+  display:flex;align-items:center;justify-content:space-around;padding:0 8px;
+  border-radius:20px 20px 0 0;
+}
+.n-btn{
+  background:none;border:none;cursor:pointer;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;
+  padding:6px 12px;border-radius:12px;transition:all 0.2s;
+  color:#94a3b8;
+}
+.n-btn span.material-symbols-outlined{font-size:22px;}
+.n-btn span.lbl{font-size:9px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;}
+.n-btn.active{color:#0f1923;}
+.n-btn.active span.material-symbols-outlined{font-variation-settings:'FILL' 1,'wght' 500;}
 
-/* ─── LEAFLET overrides ─── */
-.leaflet-control-zoom {
-  border: none !important; border-radius: 10px !important; overflow: hidden;
-  box-shadow: 0 2px 10px rgba(0,0,0,0.18) !important;
+/* ── FAB BUTTONS ── */
+#map-fabs{
+  position:fixed;right:16px;bottom:80px;
+  display:flex;flex-direction:column;gap:10px;z-index:500;
 }
-.leaflet-control-zoom a {
-  border: none !important; color: #3c4043 !important; font-weight: 700;
-  width: 38px !important; height: 38px !important; line-height: 38px !important;
-  font-size: 18px !important; background: rgba(255,255,255,0.95) !important;
+.fab{
+  width:44px;height:44px;border-radius:50%;border:none;cursor:pointer;
+  background:#fff;box-shadow:0 2px 12px rgba(0,0,0,0.15);
+  display:flex;align-items:center;justify-content:center;
+  color:#0f1923;transition:all 0.2s;
 }
+.fab:hover{box-shadow:0 4px 16px rgba(0,0,0,0.2);transform:scale(1.05);}
+.fab .material-symbols-outlined{font-size:20px;}
 
-/* ─── TOAST ─── */
-#toast {
-  position: fixed; bottom: 100px; left: 50%; transform: translateX(-50%) translateY(20px);
-  background: rgba(15,25,35,0.9); color: #fff;
-  padding: 10px 20px; border-radius: 24px;
-  font-family: 'Manrope'; font-size: 13px; font-weight: 600;
-  opacity: 0; transition: all .3s; z-index: 9999; white-space: nowrap;
-  backdrop-filter: blur(10px);
+/* ── SEARCHBAR ── */
+#search-bar-wrap{
+  display:none;position:fixed;top:48px;left:0;right:0;z-index:999;
+  background:rgba(255,255,255,0.97);backdrop-filter:blur(16px);
+  padding:10px 16px;border-bottom:1px solid rgba(0,0,0,0.06);
 }
-#toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
-
-/* ─── USER MARKER ─── */
-.yah-ring {
-  position: absolute; width: 44px; height: 44px; border-radius: 50%;
-  background: rgba(26,115,232,0.15); border: 2px solid rgba(26,115,232,0.4);
-  animation: yahpulse 2s ease-in-out infinite;
-}
-.yah-dot {
-  width: 16px; height: 16px; border-radius: 50%; background: #1a73e8;
-  border: 2.5px solid #fff; box-shadow: 0 2px 8px rgba(26,115,232,.5);
-}
-.yah-label {
-  font-family: 'Manrope'; font-weight: 800; font-size: 10px; color: #1a73e8;
-  text-align: center; margin-top: 4px; white-space: nowrap;
-  text-shadow: 0 1px 4px rgba(255,255,255,0.9);
-}
-@keyframes yahpulse { 0%,100%{transform:scale(1);opacity:.6} 50%{transform:scale(1.3);opacity:.2} }
-
-/* ─── POPUP CARD (mini) ─── */
-#popup-container {
-  position: absolute; inset: 0; z-index: 600;
-  pointer-events: none;
-  display: flex; align-items: center; justify-content: center;
-}
-#popup-container.active { pointer-events: auto; }
-#popup-card {
-  background: #fff; border-radius: 18px;
-  box-shadow: 0 8px 40px rgba(0,0,0,0.22);
-  width: 290px; overflow: hidden;
-  position: relative; z-index: 1;
-  transform: translateY(20px) scale(0.96);
-  opacity: 0; transition: all .25s ease;
-  pointer-events: auto;
-}
-#popup-card.visible { transform: translateY(0) scale(1); opacity: 1; }
-.pw { padding: 0; border-radius: 18px; overflow: hidden; }
-.pw-img-wrap { position: relative; }
-.pw-img { width: 100%; height: 130px; object-fit: cover; display: block; background: #e8eaed; }
-.pw-badge {
-  position: absolute; top: 10px; left: 12px;
-  background: rgba(0,0,0,0.7); color: #fff;
-  font-family: 'Manrope'; font-weight: 800; font-size: 9px;
-  text-transform: uppercase; letter-spacing: .12em;
-  padding: 3px 8px; border-radius: 6px; backdrop-filter: blur(4px);
-}
-.pw-body { padding: 14px 16px 16px; background: #fff; }
-.pw-name { font-family: 'Manrope'; font-weight: 800; font-size: 16px; color: #0f1923; margin-bottom: 5px; line-height: 1.2; }
-.pw-desc { font-size: 12px; color: #5f6368; line-height: 1.5; margin-bottom: 14px; }
-.pw-footer { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
-.pw-era { font-family: 'Manrope'; font-weight: 700; font-size: 11px; color: #444; display: flex; align-items: center; gap: 5px; }
-.pw-era::before { content: '⏳'; font-size: 13px; }
-.pw-cta {
-  background: #0f1923; color: #fff; border: none; border-radius: 10px;
-  padding: 9px 16px; font-family: 'Manrope'; font-weight: 800;
-  font-size: 11px; cursor: pointer; flex-shrink: 0;
-  display: flex; align-items: center; gap: 6px; transition: all .2s; letter-spacing: .04em;
-}
-.pw-x {
-  position: absolute; top: 10px; right: 10px; z-index: 10;
-  width: 28px; height: 28px; border-radius: 50%;
-  background: rgba(0,0,0,0.45); color: #fff; border: none;
-  font-size: 13px; font-weight: 700; cursor: pointer;
-  display: flex; align-items: center; justify-content: center;
+#search-input{
+  width:100%;background:#f1f3f4;border:none;border-radius:12px;
+  padding:9px 14px 9px 38px;font-size:14px;font-family:Manrope;outline:none;
 }
 
-/* ─── BOTTOM SHEET PREVIEW ─── */
-#bottom-sheet {
-  position: fixed; bottom: 80px; left: 50%; transform: translateX(-50%);
-  width: calc(100% - 48px); max-width: 480px; z-index: 40;
-  transition: all .4s cubic-bezier(.25,.1,.25,1);
+/* ── POPUP CARD ── */
+#popup-container{display:none;position:fixed;inset:0;z-index:800;align-items:flex-end;padding-bottom:72px;}
+#popup-container.active{display:flex;}
+#popup-card{
+  background:#fff;border-radius:20px 20px 0 0;width:100%;
+  box-shadow:0 -4px 32px rgba(0,0,0,0.15);
+  transform:translateY(100%);transition:transform 0.3s cubic-bezier(0.34,1.56,0.64,1);
+  overflow:hidden;
 }
-#bottom-sheet.hidden-sheet { transform: translateX(-50%) translateY(120%); opacity: 0; pointer-events: none; }
+#popup-card.visible{transform:translateY(0);}
+.pw-img-wrap{position:relative;height:140px;overflow:hidden;}
+.pw-img{width:100%;height:100%;object-fit:cover;}
+.pw-badge{
+  position:absolute;bottom:10px;left:12px;
+  color:#fff;font-size:10px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;
+  padding:3px 8px;border-radius:6px;
+}
+.pw-x{
+  position:absolute;top:10px;right:10px;background:rgba(0,0,0,0.4);
+  border:none;border-radius:50%;width:28px;height:28px;color:#fff;
+  font-size:14px;cursor:pointer;display:flex;align-items:center;justify-content:center;
+}
+.pw-body{padding:14px 16px 20px;}
+.pw-name{font-size:18px;font-weight:800;color:#0f1923;margin-bottom:4px;}
+.pw-desc{font-size:12px;color:#6b7280;line-height:1.5;margin-bottom:12px;}
+.pw-footer{display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
+.pw-era{font-size:11px;color:#94a3b8;font-weight:500;flex:1;}
+.pw-cta,.pw-nav,.pw-sv-btn{
+  border:none;border-radius:10px;padding:7px 13px;
+  font-family:Manrope;font-size:11px;font-weight:700;cursor:pointer;
+  display:inline-flex;align-items:center;gap:5px;
+}
+.pw-cta{background:#0f1923;color:#fff;}
+.pw-nav{background:#f1f3f4;color:#0f1923;}
+.pw-sv-btn{background:#1a73e8;color:#fff;}
 
-/* ─── ROUTE BANNER ─── */
-#route-banner {
-  position: fixed;
-  bottom: calc(95px + env(safe-area-inset-bottom, 0px));
-  left: 12px; right: 12px;
-  z-index: 650;
-  background: #fff;
-  border-radius: 18px;
-  padding: 14px 16px;
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  box-shadow: 0 4px 24px rgba(0,0,0,0.18);
-  animation: slideUpBanner .3s ease;
+/* ── TOAST ── */
+#toast{
+  position:fixed;bottom:80px;left:50%;transform:translateX(-50%) translateY(20px);
+  background:rgba(15,25,35,0.9);color:#fff;padding:8px 20px;border-radius:20px;
+  font-size:13px;font-family:Manrope;font-weight:600;
+  opacity:0;transition:all 0.3s;z-index:9000;white-space:nowrap;
 }
-@keyframes slideUpBanner {
-  from { transform: translateY(20px); opacity: 0; }
-  to   { transform: translateY(0);    opacity: 1; }
+#toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+
+/* ── ROUTE BANNER ── */
+#route-banner{
+  position:fixed;bottom:72px;left:16px;right:16px;z-index:700;
+  background:#fff;border-radius:16px;padding:14px 16px;
+  box-shadow:0 4px 20px rgba(0,0,0,0.15);
+  display:flex;align-items:center;gap:12px;
 }
 
-/* ─────────────────────────────────────────────────────────────────
-   IMMERSIVE HISTORICAL EXPERIENCE
-───────────────────────────────────────────────────────────────── */
-#imm-overlay {
-  position: fixed; inset: 0; z-index: 99999;
-  display: none; flex-direction: column;
-  background: #000; overflow: hidden;
-}
-#imm-overlay.open { display: flex; }
-#imm-bg {
-  position: absolute; inset: 0; background-size: cover; background-position: center;
-  transition: opacity 1.2s ease; opacity: 0;
-}
-#imm-bg.ready { opacity: 1; }
-#imm-grain {
-  position: absolute; inset: 0; z-index: 1;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.08'/%3E%3C/svg%3E");
-  pointer-events: none; opacity: .55; animation: grain 0.15s steps(1) infinite;
-}
-@keyframes grain {
-  0%{transform:translate(0,0)} 10%{transform:translate(-2%,-1%)} 20%{transform:translate(1%,2%)}
-  30%{transform:translate(-1%,1%)} 40%{transform:translate(2%,-2%)} 50%{transform:translate(-2%,2%)}
-  60%{transform:translate(1%,-1%)} 70%{transform:translate(-1%,2%)} 80%{transform:translate(2%,1%)}
-  90%{transform:translate(-2%,-2%)} 100%{transform:translate(0,0)}
-}
-#imm-vignette {
-  position: absolute; inset: 0; z-index: 2; pointer-events: none;
-  background: radial-gradient(ellipse at center, transparent 30%, rgba(0,0,0,0.75) 100%);
-}
-#imm-tint { position: absolute; inset: 0; z-index: 2; pointer-events: none; opacity: 0; transition: opacity 1.5s ease; }
-#imm-tint.ready { opacity: 1; }
-#imm-particles { position: absolute; inset: 0; z-index: 3; pointer-events: none; overflow: hidden; }
-.imm-particle {
-  position: absolute; border-radius: 50%; background: rgba(255,220,120,0.6);
-  animation: float-up linear infinite; pointer-events: none;
-}
-@keyframes float-up {
-  0% { transform: translateY(0) translateX(0) rotate(0deg); opacity: 0; }
-  10% { opacity: 1; } 90% { opacity: .5; }
-  100% { transform: translateY(-100vh) translateX(20px) rotate(360deg); opacity: 0; }
-}
-#imm-content {
-  position: absolute; inset: 0; z-index: 10;
-  display: flex; flex-direction: column; overflow: hidden;
-}
-#imm-header {
-  flex-shrink: 0; display: flex; align-items: center; justify-content: space-between;
-  padding: 52px 22px 12px; opacity: 0; transform: translateY(-15px);
-  transition: all .7s ease .4s;
-}
-#imm-overlay.ready #imm-header { opacity: 1; transform: translateY(0); }
-#imm-era-badge {
-  font-family: 'Inter', sans-serif; font-weight: 500; font-size: 10px;
-  letter-spacing: .2em; text-transform: uppercase;
-  padding: 5px 14px; border-radius: 20px;
-  border: 1px solid rgba(255,255,255,0.25);
-  color: rgba(255,255,255,0.8); background: rgba(255,255,255,0.08); backdrop-filter: blur(8px);
-}
-#imm-close {
-  width: 36px; height: 36px; border-radius: 50%;
-  background: rgba(0,0,0,0.4); color: #fff; border: none;
-  font-size: 16px; cursor: pointer; display: flex; align-items: center; justify-content: center;
-  backdrop-filter: blur(8px);
-}
-#imm-center {
-  flex: 1; min-height: 0; display: flex; flex-direction: column;
-  align-items: center; justify-content: center; padding: 0 32px; overflow: hidden;
-}
-#imm-title {
-  font-family: 'Manrope', sans-serif; font-weight: 800;
-  font-size: clamp(22px, 6vw, 36px); color: #fff;
-  text-align: center; line-height: 1.1; letter-spacing: -.01em;
-  text-shadow: 0 2px 40px rgba(0,0,0,0.5);
-  margin-bottom: 8px; opacity: 0; transform: translateY(10px); transition: all .7s ease .5s;
-}
-#imm-overlay.ready #imm-title { opacity: 1; transform: translateY(0); }
-#imm-subtitle {
-  font-family: 'Inter', sans-serif; font-weight: 400; font-size: 11px;
-  color: rgba(255,255,255,0.5); letter-spacing: .18em; text-transform: uppercase; text-align: center;
-  margin-bottom: 16px; opacity: 0; transition: opacity .7s ease .7s;
-}
-#imm-overlay.ready #imm-subtitle { opacity: 1; }
-#imm-divider {
-  width: 32px; height: 1px; flex-shrink: 0;
-  background: rgba(255,255,255,0.2);
-  margin-bottom: 16px; opacity: 0; transition: opacity .7s ease .8s;
-}
-#imm-overlay.ready #imm-divider { opacity: 1; }
-#imm-narration {
-  font-family: 'Inter', sans-serif; font-size: 14px; line-height: 1.8; font-weight: 400;
-  color: rgba(255,255,255,0.75); text-align: center; font-style: normal;
-  margin-bottom: 20px; max-width: 340px;
-}
-#imm-narration-text {
-  display: inline;
-  opacity: 0;
-  transform: translateY(14px);
-  transition: opacity 0.8s ease, transform 0.8s ease;
-}
-#imm-narration-text.visible {
-  opacity: 1;
-  transform: translateY(0);
-}
-#imm-cursor {
-  display: inline-block; width: 1.5px; height: 1em;
-  background: rgba(255,255,255,0.6); margin-left: 1px; vertical-align: text-bottom;
-  animation: blink-cursor .75s step-end infinite;
-}
-@keyframes blink-cursor { 0%,100%{opacity:1} 50%{opacity:0} }
-#imm-cursor.done { animation: none; opacity: 0; }
-#imm-stats {
-  display: flex; gap: 24px; flex-shrink: 0;
-  opacity: 0; transform: translateY(8px); transition: all .6s ease 1.2s;
-}
-#imm-overlay.ready #imm-stats { opacity: 1; transform: translateY(0); }
-.imm-stat { display: flex; flex-direction: column; align-items: center; gap: 2px; }
-.imm-stat-val { font-family: 'Manrope'; font-weight: 800; font-size: 16px; color: #fff; }
-.imm-stat-lbl { font-family: 'Manrope'; font-size: 11px; color: rgba(255,255,255,0.5); letter-spacing: .04em; }
-.imm-stat-sep { width: 1px; background: rgba(255,255,255,0.15); align-self: stretch; }
-#imm-scroll {
-  flex-shrink: 0; display: flex; flex-direction: column; align-items: center; gap: 4px;
-  padding: 10px 0 6px; opacity: 0; transition: opacity .6s ease 2s;
-}
-#imm-overlay.ready #imm-scroll { opacity: .45; }
-#imm-scroll span { font-family: 'Manrope'; font-size: 8px; letter-spacing: .15em; color: rgba(255,255,255,0.5); text-transform: uppercase; }
-.scroll-arrow { width: 1px; height: 20px; background: linear-gradient(to bottom, rgba(255,255,255,0.5), transparent); margin: 0 auto; animation: scroll-pulse 1.5s ease-in-out infinite; }
-@keyframes scroll-pulse { 0%,100%{opacity:.3;transform:translateY(0)} 50%{opacity:1;transform:translateY(4px)} }
-#imm-footer {
-  flex-shrink: 0; display: flex; gap: 10px; padding: 8px 20px 28px;
-  opacity: 0; transform: translateY(12px); transition: all .6s ease 1.4s;
-}
-#imm-overlay.ready #imm-footer { opacity: 1; transform: translateY(0); }
-.imm-btn-primary {
-  flex: 1; padding: 13px 0; background: #0f1923; color: #fff; border: none; border-radius: 14px;
-  font-family: 'Manrope'; font-weight: 800; font-size: 12px; letter-spacing: .06em; cursor: pointer;
-  display: flex; align-items: center; justify-content: center; gap: 8px; transition: all .2s;
-}
-.imm-btn-secondary {
-  padding: 13px 16px; background: rgba(255,255,255,0.1); color: #fff;
-  border: 1px solid rgba(255,255,255,0.2); border-radius: 14px;
-  font-family: 'Manrope'; font-weight: 700; font-size: 12px; cursor: pointer;
-  display: flex; align-items: center; gap: 6px; backdrop-filter: blur(8px);
-}
-#imm-detail {
-  flex-shrink: 0;
-  background: linear-gradient(to bottom, rgba(0,0,0,0.0) 0%, rgba(0,0,0,0.93) 8%, rgba(0,0,0,0.97) 100%);
-  max-height: 0; overflow: hidden; transition: max-height .5s cubic-bezier(.25,.1,.25,1);
-}
-#imm-detail.open { max-height: 55vh; overflow-y: auto; }
-#imm-detail-inner { padding: 24px 22px 40px; }
-.imm-detail-section { margin-bottom: 22px; }
-.imm-detail-section h4 {
-  font-family: 'Manrope'; font-weight: 700; font-size: 10px;
-  letter-spacing: .18em; text-transform: uppercase; color: #fff; margin-bottom: 8px;
-  display: flex; align-items: center; gap: 8px;
-}
-.imm-detail-section h4::after { content: ''; flex: 1; height: 1px; background: var(--acc-mid); }
-.imm-detail-section p { font-family: 'Manrope'; font-size: 14px; color: rgba(255,255,255,0.85); line-height: 1.7; }
-.imm-timeline { display: flex; flex-direction: column; gap: 12px; }
-.imm-tl-item { display: flex; gap: 12px; align-items: flex-start; }
-.imm-tl-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--acc); flex-shrink: 0; margin-top: 6px; }
-.imm-tl-year { font-family: 'Manrope'; font-weight: 800; font-size: 12px; color: #fff; flex-shrink: 0; min-width: 48px; }
-.imm-tl-text { font-family: 'Manrope'; font-size: 13px; color: rgba(255,255,255,0.8); line-height: 1.55; }
+/* ── FILTER BAR (caché mais nécessaire pour ui.js) ── */
+#filter-bar{display:none;}
 
-/* ─── AR VIEW ─── */
-#ar-view { position: fixed; inset: 0; display: none; background: #000; z-index: 99998; }
-#ar-view.on { display: block; }
-#ar-video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; transition: filter .8s ease; }
-#ar-video.ghost-mode { filter: sepia(0.85) contrast(1.15) brightness(0.82) saturate(0.3) hue-rotate(10deg); }
-#ar-ov { position: absolute; inset: 0; overflow: hidden; pointer-events: none; }
-.arc { position: absolute; transform: translateX(-50%); display: flex; flex-direction: column; align-items: center; pointer-events: auto; cursor: pointer; will-change: transform; }
-.arc-bubble {
-  background: #fff; border-radius: 14px; padding: 10px 14px 10px 12px;
-  display: flex; align-items: center; gap: 10px;
-  min-width: 140px; max-width: 190px;
-  box-shadow: 0 2px 16px rgba(0,0,0,0.25);
-  border-left: 4px solid var(--cc); position: relative;
-}
-.arc-bubble::after {
-  content: ''; position: absolute; bottom: -7px; left: 50%; transform: translateX(-50%);
-  border: 7px solid transparent; border-top-color: #fff; border-bottom: none;
-}
-.arc-icon { width: 32px; height: 32px; border-radius: 50%; background: #0f1923; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
-.arc-icon svg { width: 16px; height: 16px; }
-.arc-name { font-family: 'Manrope'; font-weight: 800; font-size: 12px; color: #0f1923; line-height: 1.2; margin-bottom: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.arc-dist { font-size: 11px; font-weight: 700; color: var(--cc); }
-.arc-stem { width: 2px; height: 20px; background: linear-gradient(to bottom, rgba(255,255,255,.9), transparent); }
-.arc-dot { width: 14px; height: 14px; border-radius: 50%; background: #0f1923; border: 3px solid #fff; box-shadow: 0 0 0 2px var(--cc), 0 0 12px var(--cc); }
-#ar-hud {
-  position: absolute; top: 0; left: 0; right: 0; z-index: 50;
-  background: linear-gradient(to bottom, rgba(0,0,0,0.5) 0%, transparent 100%);
-  padding: 16px 18px 40px;
-}
-#ar-hud-inner { display: flex; align-items: center; justify-content: space-between; }
-.ar-compass { width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; background: rgba(255,255,255,0.12); border-radius: 50%; border: 1px solid rgba(255,255,255,0.25); backdrop-filter: blur(6px); }
-#ar-heading-text { font-family: 'Manrope'; font-size: 12px; font-weight: 700; color: rgba(255,255,255,0.7); }
-#ar-close-btn {
-  background: rgba(0,0,0,0.45); color: #fff; border: none; border-radius: 50%;
-  width: 36px; height: 36px; font-size: 18px; cursor: pointer;
-  display: flex; align-items: center; justify-content: center; backdrop-filter: blur(6px);
-}
-#ar-grain {
-  position: absolute; inset: 0; pointer-events: none; z-index: 5; opacity: 0;
-  transition: opacity .8s ease;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.4'/%3E%3C/svg%3E");
-  background-size: 180px 180px; mix-blend-mode: overlay; animation: grain-shift 0.12s steps(1) infinite;
-}
-#ar-grain.on { opacity: 1; }
-@keyframes grain-shift {
-  0%{background-position:0 0} 25%{background-position:-40px 20px}
-  50%{background-position:20px -30px} 75%{background-position:-20px -10px} 100%{background-position:10px 40px}
-}
-#ar-vignette { position: absolute; inset: 0; pointer-events: none; z-index: 6; opacity: 0; transition: opacity .8s ease; background: radial-gradient(ellipse at center, transparent 40%, rgba(20,10,0,0.75) 100%); }
-#ar-vignette.on { opacity: 1; }
-#ar-ghost-ov { position: absolute; inset: 0; pointer-events: none; z-index: 8; opacity: 0; transition: opacity 1s ease; }
-#ar-ghost-ov.on { opacity: 1; }
-#ar-epoch-banner {
-  position: absolute; top: 80px; left: 50%; transform: translateX(-50%);
-  background: rgba(20,8,0,0.75); border: 1px solid rgba(255,255,255,0.3);
-  backdrop-filter: blur(8px); border-radius: 20px; padding: 6px 18px;
-  pointer-events: none; z-index: 20; font-family: 'Manrope'; font-weight: 800;
-  font-size: 11px; color: rgba(255,255,255,0.9); letter-spacing: .12em; text-transform: uppercase;
-  opacity: 0; transition: opacity .5s ease;
-}
-#ar-epoch-banner.on { opacity: 1; }
-#ar-flash { position: absolute; inset: 0; z-index: 100; pointer-events: none; background: #fff8e0; opacity: 0; }
-@keyframes flash-anim { 0%{opacity:0.95} 100%{opacity:0} }
-#ar-flash.flash { animation: flash-anim 0.5s ease-out forwards; }
-#ar-distance-ring {
-  position: absolute; bottom: 120px; left: 50%; transform: translateX(-50%);
-  background: rgba(0,0,0,0.5); backdrop-filter: blur(6px);
-  border: 1px solid rgba(255,255,255,0.15); border-radius: 20px;
-  padding: 6px 16px; font-family: 'Manrope'; font-weight: 700;
-  font-size: 12px; color: rgba(255,255,255,0.8); pointer-events: none;
-}
-#ar-bottom-bar {
-  position: absolute; bottom: 0; left: 0; right: 0; z-index: 50;
-  background: linear-gradient(to top, rgba(0,0,0,0.8) 0%, transparent 100%);
-  padding: 20px 18px calc(20px + env(safe-area-inset-bottom,0px));
-  display: flex; gap: 10px;
-}
-#ar-radar-btn, #ar-ghost-btn, #ar-nearest-btn {
-  flex: 1; border-radius: 14px; padding: 11px 8px;
-  font-family: 'Manrope'; font-weight: 800; font-size: 11px;
-  cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 6px; border: none; color: #fff;
-}
-#ar-radar-btn { background: rgba(255,255,255,0.12); backdrop-filter: blur(8px); border: 1px solid rgba(255,255,255,0.2); }
-#ar-ghost-btn { flex: 1.2; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.3); transition: all .3s; }
-#ar-ghost-btn.active { background: rgba(255,255,255,0.22); border-color: rgba(255,255,255,0.8); }
-#ar-nearest-btn { background: #0f1923; }
+/* ── LEAFLET OVERRIDES ── */
+.leaflet-control-zoom{border:none!important;box-shadow:none!important;display:none;}
+.yah-ring{position:absolute;width:44px;height:44px;border-radius:50%;border:2px solid #3B5BDB;animation:yah-pulse 2s infinite;}
+.yah-dot{position:absolute;width:16px;height:16px;border-radius:50%;background:#3B5BDB;border:2px solid #fff;box-shadow:0 2px 8px rgba(59,91,219,0.5);}
+.yah-label{font-family:Manrope;font-size:10px;font-weight:700;color:#3B5BDB;margin-top:2px;}
+@keyframes yah-pulse{0%,100%{transform:scale(1);opacity:0.6;}50%{transform:scale(1.4);opacity:0;}}
 
-/* ─── RADAR VIEW ─── */
-#radar-view {
-  position: fixed; inset: 0; display: none; z-index: 99997;
-  background: radial-gradient(ellipse at center, #111 0%, #000 100%); overflow: hidden;
+/* ── IMMERSIVE (placeholder) ── */
+#imm-overlay{display:none;position:fixed;inset:0;z-index:2000;background:#0f1923;flex-direction:column;}
+#imm-overlay.open{display:flex;}
+#imm-bg{position:absolute;inset:0;background-size:cover;background-position:center;transition:opacity 0.8s;opacity:0;}
+#imm-bg.ready{opacity:1;}
+#imm-tint{position:absolute;inset:0;opacity:0;transition:opacity 0.8s;}
+#imm-tint.ready{opacity:1;}
+#imm-particles{position:absolute;inset:0;pointer-events:none;overflow:hidden;}
+.imm-particle{position:absolute;border-radius:50%;animation:float-up linear infinite;}
+@keyframes float-up{0%{transform:translateY(0);opacity:1;}100%{transform:translateY(-80vh);opacity:0;}}
+#imm-overlay.ready #imm-content{opacity:1;transform:translateY(0);}
+#imm-content{
+  position:relative;z-index:10;display:flex;flex-direction:column;
+  height:100%;padding:60px 24px 40px;
+  opacity:0;transform:translateY(30px);transition:all 0.6s 0.3s;
 }
-#radar-view.on { display: flex; flex-direction: column; }
-#radar-header { padding: 52px 20px 12px; display: flex; align-items: center; justify-content: space-between; background: linear-gradient(to bottom, rgba(0,0,0,0.7) 0%, transparent 100%); flex-shrink: 0; }
-#radar-title { font-family: 'Manrope'; font-weight: 800; font-size: 16px; color: #fff; }
-#radar-close { background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); color: #fff; border-radius: 50%; width: 36px; height: 36px; font-size: 18px; cursor: pointer; display: flex; align-items: center; justify-content: center; }
-#radar-canvas-wrap { flex: 1; display: flex; align-items: center; justify-content: center; position: relative; }
-#radar-canvas { display: block; }
-.radar-pin { position: absolute; transform: translate(-50%, -50%); cursor: pointer; z-index: 10; display: flex; flex-direction: column; align-items: center; }
-.radar-pin-dot { width: 14px; height: 14px; border-radius: 50%; border: 2px solid rgba(255,255,255,0.9); animation: radarpulse 2s ease-in-out infinite; }
-@keyframes radarpulse { 0%,100%{box-shadow:0 0 6px currentColor,0 0 12px currentColor} 50%{box-shadow:0 0 12px currentColor,0 0 24px currentColor} }
-.radar-pin-label { background: rgba(0,0,0,0.75); backdrop-filter: blur(4px); border: 1px solid rgba(255,255,255,0.15); border-radius: 8px; padding: 3px 8px; margin-top: 5px; font-family: 'Manrope'; font-size: 10px; font-weight: 700; color: #fff; white-space: nowrap; }
-#radar-footer { padding: 12px 20px calc(12px + env(safe-area-inset-bottom,0px)); background: linear-gradient(to top, rgba(0,0,0,0.8) 0%, transparent 100%); flex-shrink: 0; }
-#radar-info { background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.12); border-radius: 14px; padding: 12px 16px; display: flex; align-items: center; gap: 14px; }
-#radar-info.hidden { display: none; }
-#radar-info-name { font-family: 'Manrope'; font-weight: 800; font-size: 14px; color: #fff; }
-#radar-info-dist { font-family: 'Manrope'; font-size: 12px; color: rgba(255,255,255,0.6); margin-top: 2px; }
-#radar-info-btn { background: #0f1923; color: #fff; border: none; border-radius: 10px; padding: 10px 16px; font-family: 'Manrope'; font-weight: 800; font-size: 12px; cursor: pointer; white-space: nowrap; }
+#imm-era-badge{
+  font-size:10px;font-weight:700;letter-spacing:0.15em;text-transform:uppercase;
+  color:var(--acc);background:rgba(255,255,255,0.1);
+  padding:4px 10px;border-radius:6px;width:fit-content;margin-bottom:12px;
+}
+#imm-title{font-size:28px;font-weight:900;color:#fff;line-height:1.1;margin-bottom:4px;}
+#imm-subtitle{font-size:11px;font-weight:600;letter-spacing:0.15em;color:rgba(255,255,255,0.5);margin-bottom:20px;}
+#imm-stats{display:flex;gap:20px;margin-bottom:24px;}
+.imm-stat{display:flex;flex-direction:column;gap:2px;}
+.imm-stat-val{font-size:20px;font-weight:800;color:var(--acc);}
+.imm-stat-lbl{font-size:10px;color:rgba(255,255,255,0.5);font-weight:500;}
+#imm-narration-text{
+  font-size:15px;line-height:1.7;color:rgba(255,255,255,0.85);font-weight:300;font-style:italic;
+  max-width:400px;flex:1;
+  opacity:0;transform:translateY(14px);transition:opacity 0.8s,transform 0.8s;
+}
+#imm-narration-text.visible{opacity:1;transform:translateY(0);}
+#imm-cursor{display:inline-block;width:2px;height:1em;background:var(--acc);margin-left:2px;animation:blink 1s infinite;}
+#imm-cursor.done{animation:none;opacity:0;}
+@keyframes blink{0%,100%{opacity:1;}50%{opacity:0;}}
+#imm-actions{display:flex;gap:10px;margin-top:20px;}
+#imm-navigate-btn{
+  background:var(--acc);color:#fff;border:none;border-radius:14px;
+  padding:12px 24px;font-family:Manrope;font-size:14px;font-weight:700;cursor:pointer;
+  display:flex;align-items:center;gap:8px;
+}
+#imm-close-btn{
+  background:rgba(255,255,255,0.12);color:#fff;border:none;border-radius:14px;
+  padding:12px 16px;font-family:Manrope;font-size:14px;cursor:pointer;
+  display:flex;align-items:center;gap:6px;
+}
+#imm-scroll{
+  background:none;border:none;color:rgba(255,255,255,0.5);cursor:pointer;
+  display:flex;align-items:center;gap:6px;font-family:Manrope;font-size:12px;margin-top:12px;
+}
+#imm-detail{
+  position:absolute;bottom:0;left:0;right:0;
+  background:rgba(15,25,35,0.97);backdrop-filter:blur(20px);
+  border-radius:24px 24px 0 0;padding:20px 20px 40px;
+  transform:translateY(100%);transition:transform 0.4s cubic-bezier(0.34,1.2,0.64,1);
+  z-index:20;max-height:70vh;overflow-y:auto;
+}
+#imm-detail.open{transform:translateY(0);}
+.imm-detail-section{margin-bottom:20px;}
+.imm-detail-section h4{font-size:11px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:rgba(255,255,255,0.4);margin-bottom:8px;}
+.imm-detail-section p{font-size:14px;line-height:1.7;color:rgba(255,255,255,0.8);}
+.imm-timeline{display:flex;flex-direction:column;gap:12px;}
+.imm-tl-item{display:flex;align-items:flex-start;gap:12px;}
+.imm-tl-dot{width:8px;height:8px;border-radius:50%;background:var(--acc);flex-shrink:0;margin-top:4px;}
+.imm-tl-year{font-size:12px;font-weight:700;color:var(--acc);width:40px;flex-shrink:0;}
+.imm-tl-text{font-size:13px;color:rgba(255,255,255,0.7);}
 
-/* ─── NAV OVERLAY (navigation GPS) ─── */
-#nav-overlay { position: fixed; inset: 0; z-index: 700; pointer-events: none; display: none; }
-#nav-overlay.on { display: block; }
-#nav-top-bar { position: absolute; top: 0; left: 0; right: 0; pointer-events: auto; background: #0f1923; padding: 48px 18px 14px; display: flex; align-items: center; gap: 14px; box-shadow: 0 4px 20px rgba(26,115,232,0.4); }
-#nav-direction-icon { width: 48px; height: 48px; background: rgba(255,255,255,0.2); border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
-#nav-top-time { font-family: 'Manrope'; font-weight: 900; font-size: 22px; color: #fff; line-height: 1; }
-#nav-top-dist { font-family: 'Manrope'; font-size: 13px; color: rgba(255,255,255,0.8); margin-top: 3px; }
-#nav-stop-btn { background: rgba(255,255,255,0.2); border: 1px solid rgba(255,255,255,0.3); color: #fff; border-radius: 10px; padding: 10px 14px; font-family: 'Manrope'; font-weight: 800; font-size: 12px; pointer-events: auto; cursor: pointer; }
-#nav-bottom-bar { position: absolute; bottom: 80px; left: 16px; right: 16px; pointer-events: auto; background: #fff; border-radius: 16px; padding: 14px 18px; box-shadow: 0 4px 24px rgba(0,0,0,0.15); display: flex; align-items: center; gap: 14px; }
-#nav-dest-img { width: 50px; height: 50px; border-radius: 10px; object-fit: cover; flex-shrink: 0; }
-#nav-dest-name { font-family: 'Manrope'; font-weight: 800; font-size: 15px; color: #0f1923; }
-#nav-dest-cat { font-family: 'Manrope'; font-size: 12px; color: #9aa0a6; margin-top: 2px; }
-.nav-user-pulse { width: 20px; height: 20px; border-radius: 50%; background: #0f1923; border: 3px solid #fff; animation: navpulse 1.5s ease-out infinite; }
-@keyframes navpulse { 0%{box-shadow:0 0 0 0 rgba(26,115,232,0.5)} 70%{box-shadow:0 0 0 14px rgba(26,115,232,0)} 100%{box-shadow:0 0 0 0 rgba(26,115,232,0)} }
+/* ── AR VIEW ── */
+#ar-view{display:none;position:fixed;inset:0;z-index:3000;background:#000;}
+#ar-video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;}
+#ar-epoch-banner{
+  position:absolute;top:80px;left:50%;transform:translateX(-50%);
+  background:rgba(0,0,0,0.6);backdrop-filter:blur(10px);
+  color:#fff;font-family:Manrope;font-size:12px;font-weight:600;
+  padding:6px 16px;border-radius:20px;white-space:nowrap;z-index:10;
+}
+#ar-hud{position:absolute;top:0;left:0;right:0;z-index:10;padding:16px;}
+#ar-hud-inner{display:flex;align-items:center;gap:12px;}
+.ar-compass{width:32px;height:32px;}
+#ar-heading-text{color:#fff;font-family:Manrope;font-size:13px;font-weight:600;flex:1;}
+#ar-close-btn{background:rgba(255,255,255,0.15);border:none;border-radius:50%;width:32px;height:32px;color:#fff;cursor:pointer;font-size:16px;}
+#ar-distance-ring{
+  position:absolute;bottom:160px;left:50%;transform:translateX(-50%);
+  background:rgba(0,0,0,0.6);color:#fff;font-family:Manrope;font-size:12px;
+  padding:6px 14px;border-radius:20px;z-index:10;
+}
+#ar-bottom-bar{
+  position:absolute;bottom:72px;left:16px;right:16px;z-index:10;
+  display:flex;gap:10px;
+}
+#ar-radar-btn,#ar-ghost-btn,#ar-nearest-btn{
+  flex:1;background:rgba(255,255,255,0.12);backdrop-filter:blur(10px);
+  border:1px solid rgba(255,255,255,0.2);border-radius:14px;
+  color:#fff;font-family:Manrope;font-size:11px;font-weight:600;
+  padding:10px 6px;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:4px;
+}
+#ar-grain,#ar-vignette,#ar-ghost-ov,#ar-flash,#ar-ov{position:absolute;inset:0;pointer-events:none;}
+#ar-grain{background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");opacity:0.4;}
+#ar-vignette{background:radial-gradient(ellipse at center,transparent 60%,rgba(0,0,0,0.5) 100%);}
 
-/* ─── PHOTOS HISTORIQUES ─── */
-.hist-photo-wrap { pointer-events: none; }
-.hist-photo-inner { border: 2px solid rgba(255,255,255,0.5); border-radius: 4px; overflow: hidden; box-shadow: 0 8px 40px rgba(0,0,0,0.7); max-width: min(75vw,320px); position: relative; }
-.hist-photo-img { width: 100%; display: block; filter: sepia(0.3) contrast(1.1) brightness(0.95); }
-.hist-photo-caption { position: absolute; bottom: 0; left: 0; right: 0; background: rgba(0,0,0,0.72); color: rgba(255,255,255,0.9); font-family: 'Manrope'; font-size: 10px; font-weight: 600; padding: 5px 10px; text-align: center; border-top: 1px solid rgba(255,255,255,0.15); }
-#hist-lightbox { position: fixed; inset: 0; z-index: 9999; background: rgba(0,0,0,0.92); display: none; flex-direction: column; align-items: center; justify-content: center; padding: 24px 20px; }
-#hist-lightbox.on { display: flex; }
-#hist-lightbox-img { max-width: 100%; max-height: 70vh; border: 2px solid rgba(255,255,255,0.3); border-radius: 4px; filter: sepia(0.2) contrast(1.05); }
-#hist-lightbox-caption { font-family: 'Manrope'; font-size: 12px; font-weight: 600; color: rgba(255,255,255,0.75); text-align: center; margin-top: 14px; line-height: 1.5; }
-#hist-lightbox-label { font-family: 'Manrope'; font-size: 10px; font-weight: 700; color: rgba(255,255,255,0.4); text-transform: uppercase; letter-spacing: .12em; margin-bottom: 12px; }
-#hist-lightbox-close { position: absolute; top: 18px; right: 18px; background: rgba(255,255,255,0.12); border: 1px solid rgba(255,255,255,0.2); color: #fff; border-radius: 50%; width: 36px; height: 36px; font-size: 18px; cursor: pointer; display: flex; align-items: center; justify-content: center; }
+/* ── NAV OVERLAY ── */
+#nav-overlay{display:none;position:fixed;top:48px;left:16px;right:16px;z-index:600;background:#fff;border-radius:16px;padding:14px 16px;box-shadow:0 4px 20px rgba(0,0,0,0.15);}
+#nav-overlay.on{display:flex;align-items:center;gap:12px;}
 
-/* ─── CATS / THEMES ─── */
-/* (kept for JS usage) */
+/* ── HIST LIGHTBOX ── */
+#hist-lightbox{display:none;position:fixed;inset:0;z-index:4000;background:rgba(0,0,0,0.95);flex-direction:column;align-items:center;justify-content:center;gap:16px;}
+#hist-lightbox.open{display:flex;}
+#hist-lightbox-close{position:absolute;top:16px;right:16px;background:rgba(255,255,255,0.15);border:none;border-radius:50%;width:36px;height:36px;color:#fff;font-size:18px;cursor:pointer;}
+#hist-lightbox-label{color:rgba(255,255,255,0.5);font-family:Manrope;font-size:12px;}
+#hist-lightbox-img{max-width:90vw;max-height:60vh;border-radius:12px;object-fit:contain;}
+#hist-lightbox-caption{color:rgba(255,255,255,0.7);font-family:Manrope;font-size:13px;text-align:center;max-width:320px;line-height:1.5;}
+
+/* ── RADAR ── */
+#radar-overlay{display:none;position:fixed;inset:0;z-index:3500;background:rgba(5,10,20,0.97);flex-direction:column;align-items:center;justify-content:center;}
+#radar-overlay.open{display:flex;}
+
+/* ── FP chips (hidden but functional) ── */
+.fp,.fdot{display:none;}
+
+.map-blur{filter:blur(4px);transition:filter 0.3s;}
 </style>
 </head>
-<body class="bg-surface font-body text-on-surface antialiased overflow-hidden" style="height:100%;margin:0;">
+<body style="height:100%;margin:0;overflow:hidden;">
 
-<!-- ═══════════════════════════════════════════
-     TOP APP BAR — Material style (from code.html)
-═══════════════════════════════════════════ -->
-<header class="fixed top-0 w-full z-50 bg-white/90 backdrop-blur-xl border-b border-slate-100 flex items-center px-2 h-12">
-  <button class="p-1.5 hover:bg-slate-100 rounded-full transition-colors flex-shrink-0">
-    <span class="material-symbols-outlined text-blue-950" style="font-size:20px">menu</span>
+<!-- HEADER -->
+<header id="app-header">
+  <button>
+    <span class="material-symbols-outlined" style="font-size:22px;color:#0f1923;">menu</span>
   </button>
-  <div class="flex-1 flex justify-center"><img src="data:image/png;base64,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" alt="Coeur de Ville" style="height:38px;object-fit:contain;"/></div>
-  <button onclick="toggleSearch()" id="search-btn" class="p-1.5 hover:bg-slate-100 rounded-full transition-colors flex-shrink-0">
-    <span class="material-symbols-outlined text-blue-950" style="font-size:20px">search</span>
-  </button>
-  <!-- Searchbar cachée -->
-  <div id="search-bar-wrap" class="hidden fixed top-12 left-0 right-0 z-40 bg-white/95 backdrop-blur-xl border-b border-slate-100 px-3 py-2">
-    <div class="relative">
-      <div class="absolute inset-y-0 left-3 flex items-center pointer-events-none text-slate-400">
-        <span class="material-symbols-outlined text-[16px]">search</span>
-      </div>
-      <input class="w-full bg-slate-100 border-0 rounded-xl pl-9 pr-4 py-1.5 text-sm font-light placeholder:text-slate-400 outline-none"
-        placeholder="Rechercher un lieu…" type="text" id="search-input"/>
-    </div>
+  <div class="h-logo">
+    <img src="data:image/png;base64,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" alt="Cœur de Ville" style="height:38px;object-fit:contain;"/>
   </div>
+  <button id="search-btn" onclick="toggleSearch()">
+    <span id="search-icon" class="material-symbols-outlined" style="font-size:22px;color:#0f1923;">search</span>
+  </button>
 </header>
-<script>
-function toggleSearch() {
-  const wrap = document.getElementById('search-bar-wrap');
-  const icon = document.querySelector('#search-btn span');
-  if (wrap.classList.contains('hidden')) {
-    wrap.classList.remove('hidden');
-    icon.textContent = 'close';
-    document.getElementById('search-input').focus();
-  } else {
-    wrap.classList.add('hidden');
-    icon.textContent = 'search';
-  }
-}
-</script>
 
-<!-- ═══════════════════════════════════════════
-     MAIN CONTENT AREA
-═══════════════════════════════════════════ -->
-<main style="position:fixed;top:0;left:0;right:0;bottom:0;">
-
-  <!-- MAP VIEW -->
-  <div id="map-view" style="position:absolute;top:48px;left:0;right:0;bottom:0;">
-    <div id="map" style="width:100%;height:100%;min-height:400px;"></div>
-    <!-- Locate FAB -->
-    <div class="fixed right-6 bottom-48 flex flex-col gap-3 z-30">
-      <button onclick="locateUser()"
-        class="w-12 h-12 rounded-full bg-surface-container-lowest shadow-lg flex items-center justify-center text-primary hover:bg-surface-container-low transition-all">
-        <span class="material-symbols-outlined">my_location</span>
-      </button>
-      <button class="w-12 h-12 rounded-full bg-surface-container-lowest shadow-lg flex items-center justify-center text-primary hover:bg-surface-container-low transition-all" onclick="window.leafletMap && window.leafletMap.zoomIn()">
-        <span class="material-symbols-outlined">add</span>
-      </button>
-      <button class="w-12 h-12 rounded-full bg-surface-container-lowest shadow-lg flex items-center justify-center text-primary hover:bg-surface-container-low transition-all" onclick="window.leafletMap && window.leafletMap.zoomOut()">
-        <span class="material-symbols-outlined">remove</span>
-      </button>
-    </div>
-    <!-- Popup mini card (kept from original) -->
-    <div id="popup-container">
-      <div id="popup-card"></div>
-    </div>
-  </div>
-
-  <!-- LIGHTBOX HISTORIQUE -->
-  <div id="hist-lightbox">
-    <button id="hist-lightbox-close" onclick="closeHistLightbox()">✕</button>
-    <div id="hist-lightbox-label">Vue d'antan</div>
-    <img id="hist-lightbox-img" src="" alt=""/>
-    <div id="hist-lightbox-caption"></div>
-  </div>
-
-  <!-- AR VIEW -->
-  <div id="ar-view">
-    <video id="ar-video" autoplay playsinline muted></video>
-    <div id="ar-grain"></div>
-    <div id="ar-vignette"></div>
-    <div id="ar-ghost-ov"></div>
-    <div id="ar-epoch-banner">Cœurville · XIIIe siècle</div>
-    <div id="ar-flash"></div>
-    <div id="ar-ov"></div>
-    <div id="ar-hud">
-      <div id="ar-hud-inner">
-        <div class="ar-compass">
-          <svg id="ar-compass-svg" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
-            <circle cx="12" cy="12" r="10"/>
-            <polygon points="12,4 14,12 12,11 10,12" fill="red" stroke="none"/>
-            <polygon points="12,20 14,12 12,13 10,12" fill="white" stroke="none"/>
-          </svg>
-        </div>
-        <span id="ar-heading-text">AR · Réalité Augmentée</span>
-        <button id="ar-close-btn" onclick="stopAR()">✕</button>
-      </div>
-    </div>
-    <div id="ar-distance-ring">Recherche GPS…</div>
-    <div id="ar-bottom-bar">
-      <button id="ar-radar-btn" onclick="openRadar()">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/><line x1="12" y1="2" x2="12" y2="4"/></svg>
-        Radar
-      </button>
-      <button id="ar-ghost-btn" onclick="toggleGhostMode()">
-        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12,6 12,12 15,15"/></svg>
-        Mode Histoire
-      </button>
-      <button id="ar-nearest-btn" onclick="navigateToNearest()">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M21 3L3 10.53v.98l6.84 2.65L12.48 21h.98L21 3z"/></svg>
-        Plus proche
-      </button>
-    </div>
-  </div>
-
-  <!-- RADAR VIEW -->
-  <div id="radar-view">
-    <div id="radar-header">
-      <div id="radar-title">📡 Radar — Lieux autour de vous</div>
-      <button id="radar-close" onclick="closeRadar()">✕</button>
-    </div>
-    <div id="radar-canvas-wrap">
-      <canvas id="radar-canvas"></canvas>
-      <div id="radar-pins-layer"></div>
-    </div>
-    <div id="radar-footer">
-      <div id="radar-info" class="hidden">
-        <div id="radar-info-icon"></div>
-        <div id="radar-info-text">
-          <div id="radar-info-name"></div>
-          <div id="radar-info-dist"></div>
-        </div>
-        <button id="radar-info-btn" onclick="navigateToSelected()">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M21 3L3 10.53v.98l6.84 2.65L12.48 21h.98L21 3z"/></svg>
-          Y aller
-        </button>
-      </div>
-    </div>
-  </div>
-
-  <!-- NAVIGATION OVERLAY -->
-  <div id="nav-overlay">
-    <div id="nav-top-bar">
-      <div id="nav-direction-icon">
-        <svg viewBox="0 0 24 24" fill="white"><path d="M12 2L4.5 20.29l.71.71L12 18l6.79 3 .71-.71z"/></svg>
-      </div>
-      <div id="nav-top-info">
-        <div id="nav-top-time">—</div>
-        <div id="nav-top-dist">Calcul en cours…</div>
-      </div>
-      <button id="nav-stop-btn" onclick="stopNavigation()">✕ Arrêter</button>
-    </div>
-    <div id="nav-bottom-bar">
-      <img id="nav-dest-img" src="" alt="">
-      <div>
-        <div id="nav-dest-name"></div>
-        <div id="nav-dest-cat"></div>
-      </div>
-    </div>
-  </div>
-
-  <!-- EXPÉRIENCE IMMERSIVE HISTORIQUE -->
-  <div id="imm-overlay" class="bars-open">
-    <div id="imm-bg"></div>
-    <div id="imm-grain"></div>
-    <div id="imm-vignette"></div>
-    <div id="imm-tint"></div>
-    <div id="imm-particles"></div>
-    <div id="imm-content">
-      <div id="imm-header">
-        <div id="imm-era-badge">Époque inconnue</div>
-        <button id="imm-close" onclick="closeImmersive()">✕</button>
-      </div>
-      <div id="imm-center">
-        <h1 id="imm-title">Lieu historique</h1>
-        <p id="imm-subtitle">Villeneuve-lès-Avignon</p>
-        <div id="imm-divider"></div>
-        <p id="imm-narration"><span id="imm-narration-text"></span><span id="imm-cursor">|</span></p>
-        <div id="imm-stats">
-          <div class="imm-stat"><span class="imm-stat-val" id="imm-stat-age">—</span><span class="imm-stat-lbl">Siècle</span></div>
-          <div class="imm-stat-sep"></div>
-          <div class="imm-stat"><span class="imm-stat-val" id="imm-stat-cat">—</span><span class="imm-stat-lbl">Type</span></div>
-          <div class="imm-stat-sep"></div>
-          <div class="imm-stat"><span class="imm-stat-val" id="imm-stat-dist">—</span><span class="imm-stat-lbl">Distance</span></div>
-        </div>
-      </div>
-      <div id="imm-scroll">
-        <span>En savoir plus</span>
-        <div class="scroll-arrow"></div>
-      </div>
-      <div id="imm-footer">
-        <button class="imm-btn-primary" id="imm-navigate-btn">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M21 3L3 10.53v.98l6.84 2.65L12.48 21h.98L21 3z"/></svg>
-          M'y rendre
-        </button>
-        <button class="imm-btn-secondary" onclick="closeImmersive()">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 6L6 18M6 6l12 12"/></svg>
-          Fermer
-        </button>
-      </div>
-      <div id="imm-detail">
-        <div id="imm-detail-inner"></div>
-      </div>
-    </div>
-  </div>
-
-  <!-- BOTTOM SHEET PREVIEW CARD (nouveau, style code.html) -->
-  <div id="bottom-sheet" class="hidden-sheet">
-    <div class="bg-surface-container-lowest rounded-3xl overflow-hidden shadow-2xl border border-outline-variant/5">
-      <div class="flex h-36">
-        <div class="w-1/3 relative h-full">
-          <img id="bs-img" alt="" class="w-full h-full object-cover" src=""/>
-          <div class="absolute top-2 left-2">
-            <span id="bs-badge" class="bg-tertiary-container text-[10px] font-bold text-on-tertiary-fixed px-2 py-0.5 rounded-full uppercase tracking-widest">Patrimoine</span>
-          </div>
-        </div>
-        <div class="w-2/3 p-4 flex flex-col justify-between">
-          <div>
-            <div class="flex justify-between items-start">
-              <h3 id="bs-name" class="font-headline font-extrabold text-primary text-lg leading-tight tracking-tight">—</h3>
-              <div class="flex items-center gap-1 bg-secondary-fixed-dim/20 px-2 py-0.5 rounded-lg" id="bs-era-wrap">
-                <span class="text-xs font-bold text-secondary" id="bs-era">—</span>
-              </div>
-            </div>
-            <p id="bs-desc" class="text-xs text-on-surface-variant font-medium mt-1 leading-relaxed line-clamp-2">—</p>
-          </div>
-          <div class="flex gap-2 items-center">
-            <button id="bs-nav-btn"
-              class="flex-1 h-10 rounded-xl bg-gradient-to-br from-primary to-primary-container text-on-primary text-xs font-bold uppercase tracking-wider shadow-md hover:opacity-90 transition-all flex items-center justify-center gap-2">
-              <span class="material-symbols-outlined text-[18px]">directions</span>
-              Itinéraire
-            </button>
-            <button id="bs-imm-btn"
-              class="flex-1 h-10 rounded-xl bg-surface-container-highest text-primary text-xs font-bold uppercase tracking-wider flex items-center justify-center gap-2 hover:bg-surface-container-high transition-colors">
-              <span class="material-symbols-outlined text-[18px]">history_edu</span>
-              Histoire
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-</main>
-
-<!-- ═══════════════════════════════════════════
-     BOTTOM NAV — Material style (from code.html)
-═══════════════════════════════════════════ -->
-<nav class="fixed bottom-0 left-0 w-full z-[9999] bg-slate-50/90 backdrop-blur-xl rounded-t-3xl shadow-[0_-4px_20px_rgba(0,0,0,0.05)] pt-3 pb-8 px-4 flex justify-around items-center" id="bottomnav">
-  <button class="n-btn active flex flex-col items-center justify-center transition-all duration-200 active:scale-95" id="nav-tourisme" onclick="switchSection('tourisme')">
-    <span class="material-symbols-outlined text-blue-950" style="font-variation-settings:'FILL' 1,'wght' 500,'GRAD' 0,'opsz' 24">explore</span>
-    <span class="font-['Manrope'] text-[10px] font-semibold tracking-wide uppercase mt-1 text-blue-950">Patrimoine</span>
-  </button>
-  <button class="n-btn flex flex-col items-center justify-center text-slate-400 opacity-70 hover:opacity-100 transition-all duration-200 active:scale-95" id="nav-commerce" onclick="switchSection('commerce')">
-    <span class="material-symbols-outlined">storefront</span>
-    <span class="font-['Manrope'] text-[10px] font-semibold tracking-wide uppercase mt-1">Commerces</span>
-  </button>
-  <button class="n-btn flex flex-col items-center justify-center text-slate-400 opacity-70 hover:opacity-100 transition-all duration-200 active:scale-95" id="nav-evenements" onclick="switchSection('evenements')">
-    <span class="material-symbols-outlined">event</span>
-    <span class="font-['Manrope'] text-[10px] font-semibold tracking-wide uppercase mt-1">Événements</span>
-  </button>
-  <button class="n-btn flex flex-col items-center justify-center text-slate-400 opacity-70 hover:opacity-100 transition-all duration-200 active:scale-95" id="nav-ar" onclick="startAR()">
-    <span class="material-symbols-outlined">view_in_ar</span>
-    <span class="font-['Manrope'] text-[10px] font-semibold tracking-wide uppercase mt-1">AR Live</span>
-  </button>
-  <button class="n-btn flex flex-col items-center justify-center text-slate-400 opacity-70 hover:opacity-100 transition-all duration-200 active:scale-95" id="nav-streetview" onclick="openStreetView()">
-    <span class="material-symbols-outlined">streetview</span>
-    <span class="font-['Manrope'] text-[10px] font-semibold tracking-wide uppercase mt-1">Street</span>
-  </button>
-</nav>
-
-<div id="toast"></div>
-
-<!-- ═══════════════════════════════════════════
-     SCRIPTS (identiques à l'original)
-═══════════════════════════════════════════ -->
-<script>
-// ── Expose map zoom to FAB buttons ──
-window.leafletMap = null;
-
-// ── Section switching + nav highlight ──
-function switchSection(section) {
-  ['tourisme','commerce','evenements'].forEach(s => {
-    const btn = document.getElementById('nav-btn-' + s);
-    if (!btn) return;
-    if (s === section) {
-      btn.classList.remove('text-slate-400','opacity-70');
-      btn.classList.add('text-blue-950');
-      btn.querySelector('.material-symbols-outlined').style.fontVariationSettings = "'FILL' 1,'wght' 500,'GRAD' 0,'opsz' 24";
-    } else {
-      btn.classList.add('text-slate-400','opacity-70');
-      btn.classList.remove('text-blue-950');
-      btn.querySelector('.material-symbols-outlined').style.fontVariationSettings = "'FILL' 0,'wght' 300,'GRAD' 0,'opsz' 24";
-    }
-  });
-  // Update search placeholder
-  const placeholders = { tourisme: 'Rechercher un lieu historique…', commerce: 'Rechercher un commerce…', evenements: 'Rechercher un événement…' };
-  const inp = document.getElementById('search-input');
-  if (inp && placeholders[section]) inp.placeholder = placeholders[section];
-}
-
-// ── Bottom Sheet helpers (called by ui.js) ──
-function showBottomSheet(poi) {
-  const bs = document.getElementById('bottom-sheet');
-  if (!bs) return;
-  document.getElementById('bs-name').textContent = poi.name || '—';
-  document.getElementById('bs-desc').textContent = poi.desc || '—';
-  document.getElementById('bs-era').textContent = poi.era || '—';
-  document.getElementById('bs-badge').textContent = poi.cat ? (window.CATS && CATS[poi.cat] ? CATS[poi.cat].label : poi.cat) : 'Patrimoine';
-  if (poi.img) document.getElementById('bs-img').src = poi.img;
-  document.getElementById('bs-nav-btn').onclick = () => startNavigation(poi);
-  document.getElementById('bs-imm-btn').onclick = () => openImmersive(poi);
-  bs.classList.remove('hidden-sheet');
-}
-function hideBottomSheet() {
-  const bs = document.getElementById('bottom-sheet');
-  if (bs) bs.classList.add('hidden-sheet');
-}
-
-// ── Patch compatibilité pour ui.js ──
-document.addEventListener('DOMContentLoaded', () => {
-  // Reset forcé des filtres au chargement (évite le blur bloqué)
-  document.querySelectorAll('nav, header, #filter-bar, #locate-btn').forEach(el => {
-    el.style.filter = '';
-  });
-
-  // Alias bottomnav → la nav Tailwind
-  const nav = document.querySelector('nav.fixed.bottom-0');
-  if (nav && !document.getElementById('bottomnav')) {
-    nav.id = 'bottomnav';
-  }
-  // Alias locate-btn → le bouton my_location
-  const locateBtn = document.querySelector('[onclick="locateUser()"]');
-  if (locateBtn && !document.getElementById('locate-btn')) {
-    locateBtn.id = 'locate-btn';
-  }
-  // ui.js cherche nav-tourisme, nav-commerce, nav-evenements
-  // on crée des aliases vers nos IDs nav-btn-*
-  ['tourisme','commerce','evenements'].forEach(s => {
-    const btn = document.getElementById('nav-btn-' + s);
-    if (btn && !document.getElementById('nav-' + s)) {
-      btn.id = 'nav-' + s; // ui.js trouvera nav-tourisme etc.
-      btn.classList.add('n-btn'); // ui.js toggle .active sur .n-btn
-    }
-  });
-
-  // Override switchSection pour highlight Material en plus
-  const origSwitch = window.switchSection;
-  window.switchSection = function(section) {
-    if (origSwitch) origSwitch(section);
-    ['tourisme','commerce','evenements'].forEach(s => {
-      const btn = document.getElementById('nav-' + s);
-      if (!btn) return;
-      if (s === section) {
-        btn.classList.remove('text-slate-400','opacity-70');
-        btn.classList.add('text-blue-950');
-        const icon = btn.querySelector('.material-symbols-outlined');
-        if (icon) icon.style.fontVariationSettings = "'FILL' 1,'wght' 500,'GRAD' 0,'opsz' 24";
-      } else {
-        btn.classList.add('text-slate-400','opacity-70');
-        btn.classList.remove('text-blue-950');
-        const icon = btn.querySelector('.material-symbols-outlined');
-        if (icon) icon.style.fontVariationSettings = "'FILL' 0,'wght' 300,'GRAD' 0,'opsz' 24";
-      }
-    });
-  };
-});
-
-// ── Stubs (implemented in core/ui.js & core/ar.js) ──
-function locateUser() { if(typeof _locateUser==='function') _locateUser(); }
-function startAR() { if(typeof _startAR==='function') _startAR(); }
-function stopAR() { if(typeof _stopAR==='function') _stopAR(); }
-function openRadar() { if(typeof _openRadar==='function') _openRadar(); }
-function closeRadar() { if(typeof _closeRadar==='function') _closeRadar(); }
-function toggleGhostMode() { if(typeof _toggleGhostMode==='function') _toggleGhostMode(); }
-function navigateToNearest() { if(typeof _navigateToNearest==='function') _navigateToNearest(); }
-function navigateToSelected() { if(typeof _navigateToSelected==='function') _navigateToSelected(); }
-function closeImmersive() { if(typeof _closeImmersive==='function') _closeImmersive(); }
-function openImmersive(poi) { if(typeof _openImmersive==='function') _openImmersive(poi); }
-function startNavigation(poi) { if(typeof _startNavigation==='function') _startNavigation(poi); }
-function stopNavigation() { if(typeof _stopNavigation==='function') _stopNavigation(); }
-function closeHistLightbox() { if(typeof _closeHistLightbox==='function') _closeHistLightbox(); }
-</script>
-
-
-
-
-
-
-<!-- ═══════════════════════════════════════════
-     STREET VIEW MODAL
-═══════════════════════════════════════════ -->
-<div id="sv-modal" style="display:none;position:fixed;inset:0;z-index:99999;background:#000;flex-direction:column;">
-  <!-- Header -->
-  <div style="display:flex;align-items:center;justify-content:space-between;padding:12px 16px;background:rgba(0,0,0,0.85);backdrop-filter:blur(12px);position:relative;z-index:2;">
-    <div style="display:flex;align-items:center;gap:10px;">
-      <span class="material-symbols-outlined" style="color:#fff;font-size:22px">streetview</span>
-      <span id="sv-title" style="color:#fff;font-family:'Manrope',sans-serif;font-size:14px;font-weight:600;">Street View</span>
-    </div>
-    <button onclick="closeStreetView()" style="background:rgba(255,255,255,0.15);border:none;border-radius:50%;width:36px;height:36px;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:background 0.2s;" onmouseover="this.style.background='rgba(255,255,255,0.25)'" onmouseout="this.style.background='rgba(255,255,255,0.15)'">
-      <span class="material-symbols-outlined" style="color:#fff;font-size:20px">close</span>
-    </button>
-  </div>
-  <!-- Iframe Google Street View -->
-  <div style="flex:1;position:relative;">
-    <iframe id="sv-iframe"
-      style="width:100%;height:100%;border:none;"
-      allowfullscreen
-      loading="lazy"
-      referrerpolicy="no-referrer-when-downgrade"
-      src="">
-    </iframe>
-    <!-- Overlay si pas de Street View dispo -->
-    <div id="sv-unavail" style="display:none;position:absolute;inset:0;background:#1a1a2e;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;">
-      <span class="material-symbols-outlined" style="color:rgba(255,255,255,0.3);font-size:64px">no_photography</span>
-      <p style="color:rgba(255,255,255,0.5);font-family:'Manrope',sans-serif;font-size:15px;text-align:center;max-width:240px;">Street View non disponible pour ce lieu</p>
-      <button onclick="closeStreetView()" style="background:#3B5BDB;color:#fff;border:none;border-radius:12px;padding:10px 24px;font-family:'Manrope',sans-serif;font-size:14px;font-weight:600;cursor:pointer;">Fermer</button>
-    </div>
-  </div>
-  <!-- Bottom bar -->
-  <div style="padding:12px 16px;background:rgba(0,0,0,0.85);display:flex;align-items:center;justify-content:center;gap:8px;">
-    <span class="material-symbols-outlined" style="color:rgba(255,255,255,0.4);font-size:16px">info</span>
-    <span style="color:rgba(255,255,255,0.4);font-family:'Manrope',sans-serif;font-size:12px;">Faites glisser pour explorer • Pincez pour zoomer</span>
+<!-- SEARCHBAR -->
+<div id="search-bar-wrap">
+  <div style="position:relative;">
+    <span class="material-symbols-outlined" style="position:absolute;left:10px;top:50%;transform:translateY(-50%);font-size:16px;color:#94a3b8;">search</span>
+    <input id="search-input" type="text" placeholder="Rechercher un lieu…"/>
   </div>
 </div>
 
-<script>
-// Coordonnées du dernier POI sélectionné
-window._svLat = null;
-window._svLng = null;
-window._svName = '';
+<!-- MAP -->
+<div id="map-wrap">
+  <div id="map"></div>
+</div>
 
-function openStreetView(lat, lng, name) {
-  // Si appelé depuis la nav sans POI, utilise position utilisateur ou centre de la carte
-  if (lat == null) {
-    if (window._svLat) {
-      lat = window._svLat; lng = window._svLng; name = window._svName;
-    } else if (window._userLat) {
-      lat = window._userLat; lng = window._userLng; name = 'Votre position';
-    } else {
-      // Centre de la carte Leaflet
-      const c = window.leafletMap ? window.leafletMap.getCenter() : {lat:43.9671,lng:4.7896};
-      lat = c.lat; lng = c.lng; name = 'Vue actuelle';
-    }
-  }
+<!-- FAB BUTTONS -->
+<div id="map-fabs">
+  <button class="fab" onclick="locateUser()" id="locate-btn">
+    <span class="material-symbols-outlined">my_location</span>
+  </button>
+  <button class="fab" onclick="window.leafletMap && window.leafletMap.zoomIn()">
+    <span class="material-symbols-outlined">add</span>
+  </button>
+  <button class="fab" onclick="window.leafletMap && window.leafletMap.zoomOut()">
+    <span class="material-symbols-outlined">remove</span>
+  </button>
+</div>
 
-  const modal = document.getElementById('sv-modal');
-  const iframe = document.getElementById('sv-iframe');
-  const title = document.getElementById('sv-title');
+<!-- POPUP -->
+<div id="popup-container">
+  <div id="popup-card"></div>
+</div>
 
-  title.textContent = name || 'Street View';
+<!-- FILTER BAR (hidden, required by ui.js) -->
+<div id="filter-bar"></div>
 
-  // Google Street View Embed URL
-  const key = 'AIzaSyB4uHYJqy2QmU8MHSBhyp8zrQhQQzXHN5I';
-  const svUrl = `https://www.google.com/maps/embed/v1/streetview?key=${key}&location=${lat},${lng}&heading=0&pitch=0&fov=90`;
+<!-- TOAST -->
+<div id="toast"></div>
 
-  iframe.src = svUrl;
-  modal.style.display = 'flex';
-  document.body.style.overflow = 'hidden';
-}
+<!-- BOTTOM NAV -->
+<nav id="bottomnav">
+  <button class="n-btn active" id="nav-tourisme" onclick="switchSection('tourisme')">
+    <span class="material-symbols-outlined">explore</span>
+    <span class="lbl">Patrimoine</span>
+  </button>
+  <button class="n-btn" id="nav-commerce" onclick="switchSection('commerce')">
+    <span class="material-symbols-outlined">storefront</span>
+    <span class="lbl">Commerces</span>
+  </button>
+  <button class="n-btn" id="nav-evenements" onclick="switchSection('evenements')">
+    <span class="material-symbols-outlined">event</span>
+    <span class="lbl">Événements</span>
+  </button>
+  <button class="n-btn" id="nav-ar" onclick="startAR()">
+    <span class="material-symbols-outlined">view_in_ar</span>
+    <span class="lbl">AR Live</span>
+  </button>
+  <button class="n-btn" id="nav-streetview" onclick="openStreetView()">
+    <span class="material-symbols-outlined">streetview</span>
+    <span class="lbl">Street</span>
+  </button>
+</nav>
 
-function closeStreetView() {
-  const modal = document.getElementById('sv-modal');
-  const iframe = document.getElementById('sv-iframe');
-  modal.style.display = 'none';
-  iframe.src = '';
-  document.body.style.overflow = '';
-}
+<!-- IMMERSIVE OVERLAY -->
+<div id="imm-overlay">
+  <div id="imm-bg"></div>
+  <div id="imm-tint"></div>
+  <div id="imm-particles"></div>
+  <div id="imm-content">
+    <div id="imm-era-badge"></div>
+    <div id="imm-title"></div>
+    <div id="imm-subtitle"></div>
+    <div id="imm-stats">
+      <div class="imm-stat"><div class="imm-stat-val" id="imm-stat-age"></div><div class="imm-stat-lbl">Siècle</div></div>
+      <div class="imm-stat"><div class="imm-stat-val" id="imm-stat-cat"></div><div class="imm-stat-lbl">Type</div></div>
+      <div class="imm-stat"><div class="imm-stat-val" id="imm-stat-dist"></div><div class="imm-stat-lbl">Distance</div></div>
+    </div>
+    <div id="imm-narration-text"></div><span id="imm-cursor"></span>
+    <div id="imm-actions">
+      <button id="imm-navigate-btn">
+        <span class="material-symbols-outlined" style="font-size:16px;">near_me</span>Y aller
+      </button>
+      <button id="imm-close-btn" onclick="closeImmersive()">
+        <span class="material-symbols-outlined" style="font-size:16px;">close</span>Fermer
+      </button>
+    </div>
+    <button id="imm-scroll">
+      <span class="material-symbols-outlined" style="font-size:14px;">expand_more</span>En savoir plus
+    </button>
+  </div>
+  <div id="imm-detail">
+    <div id="imm-detail-inner"></div>
+  </div>
+</div>
 
-// Exposer pour que ui.js puisse appeler openStreetView depuis les popups POI
-window.openStreetView = openStreetView;
-window.closeStreetView = closeStreetView;
+<!-- AR VIEW -->
+<div id="ar-view">
+  <video id="ar-video" autoplay playsinline muted></video>
+  <div id="ar-grain"></div>
+  <div id="ar-vignette"></div>
+  <div id="ar-ghost-ov"></div>
+  <div id="ar-epoch-banner">Cœurville · XIIIe siècle</div>
+  <div id="ar-flash"></div>
+  <div id="ar-ov"></div>
+  <div id="ar-hud">
+    <div id="ar-hud-inner">
+      <div class="ar-compass">
+        <svg id="ar-compass-svg" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
+          <circle cx="12" cy="12" r="10"/>
+          <polygon points="12,4 14,12 12,11 10,12" fill="red" stroke="none"/>
+          <polygon points="12,20 14,12 12,13 10,12" fill="white" stroke="none"/>
+        </svg>
+      </div>
+      <span id="ar-heading-text">AR · Réalité Augmentée</span>
+      <button id="ar-close-btn" onclick="stopAR()">✕</button>
+    </div>
+  </div>
+  <div id="ar-distance-ring">Recherche GPS…</div>
+  <div id="ar-bottom-bar">
+    <button id="ar-radar-btn" onclick="openRadar()">
+      <span class="material-symbols-outlined" style="font-size:18px;">radar</span>Radar
+    </button>
+    <button id="ar-ghost-btn" onclick="toggleGhostMode()">
+      <span class="material-symbols-outlined" style="font-size:18px;">ghost</span>Ghost
+    </button>
+    <button id="ar-nearest-btn" onclick="navigateToNearest()">
+      <span class="material-symbols-outlined" style="font-size:18px;">near_me</span>Plus proche
+    </button>
+  </div>
+</div>
 
-// Fermer avec Escape
-document.addEventListener('keydown', e => { if (e.key === 'Escape') closeStreetView(); });
-</script>
+<!-- NAV OVERLAY -->
+<div id="nav-overlay">
+  <div>
+    <div id="nav-dest-name" style="font-weight:700;font-size:14px;color:#0f1923;"></div>
+    <div id="nav-dest-cat" style="font-size:11px;color:#94a3b8;"></div>
+  </div>
+  <div id="nav-top-dist" style="font-size:13px;font-weight:600;color:#3B5BDB;margin-left:auto;"></div>
+  <button onclick="stopNavigation()" style="background:none;border:none;cursor:pointer;">
+    <span class="material-symbols-outlined" style="font-size:20px;color:#94a3b8;">close</span>
+  </button>
+</div>
 
+<!-- HIST LIGHTBOX -->
+<div id="hist-lightbox">
+  <button id="hist-lightbox-close" onclick="closeHistLightbox()">✕</button>
+  <div id="hist-lightbox-label">Vue d'antan</div>
+  <img id="hist-lightbox-img" src="" alt=""/>
+  <div id="hist-lightbox-caption"></div>
+</div>
+
+<!-- RADAR -->
+<div id="radar-overlay">
+  <button onclick="closeRadar()" style="position:absolute;top:16px;right:16px;background:rgba(255,255,255,0.1);border:none;border-radius:50%;width:36px;height:36px;color:#fff;cursor:pointer;font-size:18px;">✕</button>
+</div>
+
+<!-- STREET VIEW -->
+<div id="sv-modal" style="display:none;position:fixed;inset:0;z-index:99999;flex-direction:column;background:#1a1a2e;">
+  <div style="display:flex;align-items:center;justify-content:space-between;padding:10px 16px;background:rgba(15,25,35,0.95);backdrop-filter:blur(16px);flex-shrink:0;">
+    <div style="display:flex;align-items:center;gap:10px;">
+      <span class="material-symbols-outlined" style="color:#fff;font-size:20px">streetview</span>
+      <span id="sv-title" style="color:#fff;font-family:Manrope;font-size:14px;font-weight:700;">Street View</span>
+    </div>
+    <button onclick="closeSV()" style="background:rgba(255,255,255,0.12);border:none;border-radius:50%;width:34px;height:34px;display:flex;align-items:center;justify-content:center;cursor:pointer;">
+      <span class="material-symbols-outlined" style="color:#fff;font-size:18px">close</span>
+    </button>
+  </div>
+  <div id="sv-pano" style="flex:1;width:100%;"></div>
+  <div id="sv-unavail" style="display:none;position:absolute;inset:60px 0 0;background:#1a1a2e;flex-direction:column;align-items:center;justify-content:center;gap:16px;">
+    <span class="material-symbols-outlined" style="color:rgba(255,255,255,0.25);font-size:64px">no_photography</span>
+    <p style="color:rgba(255,255,255,0.5);font-family:Manrope;font-size:15px;text-align:center;max-width:240px;margin:0;">Street View non disponible à cet endroit</p>
+    <button onclick="closeSV()" style="background:#3B5BDB;color:#fff;border:none;border-radius:12px;padding:10px 24px;font-family:Manrope;font-size:14px;font-weight:600;cursor:pointer;">Fermer</button>
+  </div>
+</div>
+
+<!-- SCRIPTS -->
 <script>
 // ── CONFIG ──
 const CONFIG = {
@@ -1293,9 +746,9 @@ function initMap() {
     attributionControl: false,
   });
 
-  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+  L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
     maxZoom: 20,
-    attribution: '© OpenStreetMap'
+    attribution: '© OpenStreetMap © CARTO'
   }).addTo(map);
 
 
@@ -1397,7 +850,7 @@ function buildPopupHTML(place) {
       '<div class="pw-footer"><div class="pw-era">' + (place.era || '') + ' · ' + dTxt + '</div>' +
       '<button class="pw-cta" onclick="closeCustomPopup();openImmersive(' + place.id + ')"><svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C8 2 4 5 4 9c0 5 8 13 8 13s8-8 8-13c0-4-4-7-8-7z"/></svg>Découvrir</button>' +
       '<button class="pw-nav" onclick="startRoute(' + place.lat + ',' + place.lng + ');closeCustomPopup()"><svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M21 3L3 10.53v.98l6.84 2.65L12.48 21h.98L21 3z"/></svg>Y aller</button>' +
-      '<button class="pw-sv-btn" onclick="openStreetView(' + place.lat + ',' + place.lng + ')" style="background:#1a73e8;color:#fff;border:none;border-radius:10px;padding:6px 12px;font-size:11px;font-family:Manrope;font-weight:600;cursor:pointer;margin-left:4px">Street View</button>' +
+      '<button class="pw-sv-btn" onclick="openStreetView('+place.lat+','+place.lng+')">Street View</button>' +
       '</div></div></div>';
   }
   return '<div class="pw"><div class="pw-img-wrap" style="height:80px;background:linear-gradient(135deg,' + col + '22,' + col + '44)">' +
@@ -1406,7 +859,7 @@ function buildPopupHTML(place) {
     (place.horaires ? '<div style="font-family:Manrope;font-size:11px;color:#888;margin-bottom:10px">' + place.horaires + '</div>' : '') +
     '<div class="pw-footer"><div class="pw-era" style="color:' + col + '">' + label + ' · ' + dTxt + '</div>' +
     '<button class="pw-nav" onclick="startRoute(' + place.lat + ',' + place.lng + ');closeCustomPopup()"><svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M21 3L3 10.53v.98l6.84 2.65L12.48 21h.98L21 3z"/></svg>Y aller</button>' +
-    '<button class="pw-sv-btn" onclick="openStreetView(' + place.lat + ',' + place.lng + ')" style="background:#1a73e8;color:#fff;border:none;border-radius:10px;padding:6px 12px;font-size:11px;font-family:Manrope;font-weight:600;cursor:pointer;margin-left:4px">Street View</button>' +
+    '<button class="pw-sv-btn" onclick="openStreetView('+place.lat+','+place.lng+')">Street View</button>' +
     '</div></div></div>';
 }
 
@@ -1665,7 +1118,8 @@ function getBearing(la1, lo1, la2, lo2) {
   return (Math.atan2(y,x)*180/Math.PI+360)%360;
 }
 
-document.addEventListener('DOMContentLoaded', initMap);
+
+
 
 </script>
 <script>
@@ -1994,6 +1448,104 @@ function closeHistLightbox() {
   document.getElementById('hist-lightbox').classList.remove('on');
 }
 
+</script>
+
+<script>
+// ── UTILS GLOBAUX ──
+window.leafletMap = null;
+
+function toggleSearch() {
+  const wrap = document.getElementById('search-bar-wrap');
+  const icon = document.getElementById('search-icon');
+  if (wrap.style.display === 'none' || !wrap.style.display) {
+    wrap.style.display = 'block'; icon.textContent = 'close';
+    document.getElementById('search-input').focus();
+  } else {
+    wrap.style.display = 'none'; icon.textContent = 'search';
+  }
+}
+
+// Stubs AR
+function locateUser() { if(typeof _locateUser==='function') _locateUser(); }
+function startAR() { if(typeof _startAR==='function') _startAR(); }
+function stopAR() { if(typeof _stopAR==='function') _stopAR(); }
+function openRadar() { if(typeof _openRadar==='function') _openRadar(); }
+function closeRadar() { if(typeof _closeRadar==='function') _closeRadar(); }
+function toggleGhostMode() { if(typeof _toggleGhostMode==='function') _toggleGhostMode(); }
+function navigateToNearest() { if(typeof _navigateToNearest==='function') _navigateToNearest(); }
+function closeImmersive() { if(typeof _closeImmersive==='function') _closeImmersive(); }
+function openImmersive(p) { if(typeof _openImmersive==='function') _openImmersive(p); }
+function startNavigation(p) { if(typeof _startNavigation==='function') _startNavigation(p); }
+function stopNavigation() { if(typeof _stopNavigation==='function') _stopNavigation(); }
+function closeHistLightbox() { if(typeof _closeHistLightbox==='function') _closeHistLightbox(); }
+
+// ── STREET VIEW (Google Maps JS natif) ──
+const GMAPS_KEY = 'AIzaSyB4uHYJqy2QmU8MHSBhyp8zrQhQQzXHN5I';
+let svPanorama = null;
+let gmapsLoaded = false;
+
+function loadGMaps(cb) {
+  if (gmapsLoaded) { cb(); return; }
+  const s = document.createElement('script');
+  s.src = 'https://maps.googleapis.com/maps/api/js?key=' + GMAPS_KEY + '&v=weekly';
+  s.onload = () => { gmapsLoaded = true; cb(); };
+  s.onerror = () => { showSVUnavail(); };
+  document.head.appendChild(s);
+}
+
+function openStreetView(lat, lng, name) {
+  if (lat == null) {
+    const ctr = window.leafletMap ? window.leafletMap.getCenter() : {lat:43.9671,lng:4.7896};
+    lat = ctr.lat; lng = ctr.lng; name = 'Vue actuelle';
+  }
+  const modal = document.getElementById('sv-modal');
+  document.getElementById('sv-title').textContent = name || 'Street View';
+  document.getElementById('sv-unavail').style.display = 'none';
+  modal.style.display = 'flex';
+  document.body.style.overflow = 'hidden';
+
+  loadGMaps(() => {
+    const sv = new google.maps.StreetViewService();
+    sv.getPanorama(
+      { location: {lat: parseFloat(lat), lng: parseFloat(lng)}, radius: 100, preference: google.maps.StreetViewPreference.NEAREST },
+      (data, status) => {
+        if (status === google.maps.StreetViewStatus.OK) {
+          if (!svPanorama) {
+            svPanorama = new google.maps.StreetViewPanorama(document.getElementById('sv-pano'), {
+              enableCloseButton: false,
+              addressControl: false,
+              fullscreenControl: false,
+              motionTracking: false,
+              motionTrackingControl: false,
+              linksControl: true,
+              panControl: true,
+              zoomControl: false,
+              showRoadLabels: true,
+            });
+          }
+          svPanorama.setPosition({lat: parseFloat(lat), lng: parseFloat(lng)});
+          svPanorama.setVisible(true);
+        } else {
+          showSVUnavail();
+        }
+      }
+    );
+  });
+}
+
+function showSVUnavail() {
+  document.getElementById('sv-unavail').style.display = 'flex';
+}
+
+function closeSV() {
+  document.getElementById('sv-modal').style.display = 'none';
+  document.body.style.overflow = '';
+  if (svPanorama) svPanorama.setVisible(false);
+}
+
+window.openStreetView = openStreetView;
+window.closeStreetView = closeSV;
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeSV(); });
 </script>
 </body>
 </html>
