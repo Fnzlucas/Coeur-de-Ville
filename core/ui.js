@@ -422,25 +422,38 @@ function _computeRoute(dLat, dLng) {
       routeActive = true;
 
       const footDist = foot.distance < 1000 ? Math.round(foot.distance) + 'm' : (foot.distance/1000).toFixed(1) + 'km';
-      const footTime = Math.round(foot.duration / 60) + ' min';
+      // Vitesse pied réaliste : 5km/h — si OSRM donne une durée aberrante on recalcule
+      const osrmFootMin = Math.round(foot.duration / 60);
+      const realistFootMin = Math.round((foot.distance / 1000) / 5 * 60);
+      const footTimeMin = (osrmFootMin > 0 && osrmFootMin < realistFootMin * 3) ? osrmFootMin : realistFootMin;
+      const footTime = Math.max(1, footTimeMin) + ' min';
 
-      // Estimation voiture : distance vol d'oiseau × 1.3 (facteur route), vitesse moy 30km/h en ville
+      // Estimation voiture : distance × 1.3, vitesse 40km/h ville, minimum 2 min
       const crowDist = calcDist(userLat, userLng, dLat, dLng);
       const carDistM = crowDist * 1.3;
-      const carTimeMin = Math.round((carDistM / 1000) / 30 * 60);
+      const carTimeMin = Math.max(2, Math.round((carDistM / 1000) / 40 * 60));
       const carDist = carDistM < 1000 ? Math.round(carDistM) + 'm' : (carDistM/1000).toFixed(1) + 'km';
-      const carTime = carTimeMin < 1 ? '1 min' : carTimeMin + ' min';
+      const carTime = carTimeMin + ' min';
 
-      // Essaie quand même la vraie API voiture
+      // Affiche d'abord avec estimation, puis met à jour si l'API répond
+      _showRouteBanner(footTime, footDist, carTime, carDist);
+
+      // Essaie la vraie API voiture en background
       fetch(carUrl)
         .then(r => r.json())
         .then(carData => {
           const car = carData.routes?.[0];
-          const realCarDist = car ? (car.distance < 1000 ? Math.round(car.distance) + 'm' : (car.distance/1000).toFixed(1) + 'km') : carDist;
-          const realCarTime = car ? Math.round(car.duration / 60) + ' min' : carTime;
-          _showRouteBanner(footTime, footDist, realCarTime, realCarDist);
+          if (car && car.duration) {
+            const realCarTimeMin = Math.max(2, Math.round(car.duration / 60));
+            const realCarTime = realCarTimeMin + ' min';
+            const realCarDist = car.distance < 1000 ? Math.round(car.distance) + 'm' : (car.distance/1000).toFixed(1) + 'km';
+            // Met à jour si vraiment différent
+            if (realCarTimeMin !== carTimeMin) {
+              _showRouteBanner(footTime, footDist, realCarTime, realCarDist);
+            }
+          }
         })
-        .catch(() => _showRouteBanner(footTime, footDist, carTime, carDist));
+        .catch(() => {}); // silencieux, on garde l'estimation
 
     })
     .catch(() => showToast('Erreur réseau'));
