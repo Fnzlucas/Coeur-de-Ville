@@ -73,16 +73,23 @@ html,body{height:100%;overflow:hidden;font-family:'Manrope',sans-serif;backgroun
 }
 
 /* ── POPUP CARD — carte flottante style Google Maps ── */
-#popup-container{display:none;position:fixed;left:12px;right:12px;bottom:80px;z-index:800;}
+/* Card POI — centrée sur l'écran, style Google Maps */
+#popup-container{
+  display:none;position:fixed;
+  top:50%;left:50%;
+  transform:translate(-50%,-50%);
+  width:calc(100% - 32px);max-width:420px;
+  z-index:800;
+}
 #popup-container.active{display:block;}
 #popup-card{
   background:#fff;border-radius:20px;width:100%;
-  box-shadow:0 8px 40px rgba(0,0,0,0.18);
-  transform:translateY(16px);opacity:0;
-  transition:transform 0.28s cubic-bezier(0.34,1.4,0.64,1), opacity 0.22s ease;
+  box-shadow:0 12px 48px rgba(0,0,0,0.22);
+  opacity:0;transform:scale(0.94);
+  transition:opacity 0.22s ease, transform 0.25s cubic-bezier(0.34,1.4,0.64,1);
   overflow:hidden;
 }
-#popup-card.visible{transform:translateY(0);opacity:1;}
+#popup-card.visible{opacity:1;transform:scale(1);}
 /* ── POPUP CARD ── */
 .pw{border-radius:20px 20px 0 0;overflow:hidden;background:#fff;}
 .pw-img-wrap{position:relative;height:180px;overflow:hidden;}
@@ -889,12 +896,9 @@ function openCustomPopup(html) {
   const card = document.getElementById('popup-card');
   const container = document.getElementById('popup-container');
   card.innerHTML = html;
+  card.classList.remove('visible');
   container.style.display = 'block';
-  container.style.position = 'fixed';
-  container.style.left = '12px';
-  container.style.right = '12px';
-  container.style.bottom = '80px';
-  container.style.zIndex = '800';
+  container.style.cssText = '';  // reset tous les styles inline
   setTimeout(() => card.classList.add('visible'), 10);
 }
 
@@ -1495,9 +1499,6 @@ function stopNavigation() { if(typeof _stopNavigation==='function') _stopNavigat
 function closeHistLightbox() { if(typeof _closeHistLightbox==='function') _closeHistLightbox(); }
 
 // ── STREET VIEW via Mapillary (open source, sans clé Google) ──
-const MLY_TOKEN = 'MLY|9426507510724280|cb87f51f21cb07d66cf03f9c9b7bde4e';
-let mlyLoaded = false;
-
 function openStreetView(lat, lng, name) {
   if (lat == null) {
     const ctr = window.leafletMap ? window.leafletMap.getCenter() : {lat:43.9671,lng:4.7896};
@@ -1513,43 +1514,28 @@ function openStreetView(lat, lng, name) {
   const pano = document.getElementById('sv-pano');
   pano.innerHTML = '<div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;"><div style="width:36px;height:36px;border:3px solid rgba(255,255,255,0.2);border-top-color:#fff;border-radius:50%;animation:spin 0.8s linear infinite;"></div></div>';
 
-  const doLoad = () => {
-    // Chercher l'image Mapillary la plus proche
-    const bbox = (lng-0.003)+','+(lat-0.003)+','+(lng+0.003)+','+(lat+0.003);
-    fetch('https://graph.mapillary.com/images?access_token='+MLY_TOKEN+'&fields=id&limit=1&bbox='+bbox)
-      .then(r => r.json())
-      .then(data => {
-        if (!data.data || !data.data.length) { showSVUnavail(); return; }
-        const imgId = data.data[0].id;
-        pano.innerHTML = '';
-        const container = document.createElement('div');
-        container.style.cssText = 'width:100%;height:100%;';
-        pano.appendChild(container);
-        const viewer = new mapillary.Viewer({
-          accessToken: MLY_TOKEN,
-          container: container,
-          imageId: imgId,
-          component: { cover: false, sequence: true },
-        });
-        window._mlyViewer = viewer;
-      })
-      .catch(() => showSVUnavail());
+  // Panoramax — plateforme open source européenne de photos de rue
+  const iframe = document.createElement('iframe');
+  iframe.style.cssText = 'width:100%;height:100%;border:none;display:none;';
+  iframe.allowFullscreen = true;
+  iframe.allow = 'xr-spatial-tracking';
+  iframe.src = 'https://api.panoramax.xyz/#focus=pic&map=15/' + lat + '/' + lng;
+  iframe.onload = () => {
+    pano.innerHTML = '';
+    pano.appendChild(iframe);
+    iframe.style.display = 'block';
   };
-
-  if (mlyLoaded) { doLoad(); return; }
-
-  // Charger Mapillary CSS + JS
-  if (!document.getElementById('mly-css')) {
-    const lnk = document.createElement('link');
-    lnk.id = 'mly-css'; lnk.rel = 'stylesheet';
-    lnk.href = 'https://unpkg.com/mapillary-js@4.1.2/dist/mapillary.css';
-    document.head.appendChild(lnk);
-  }
-  const scr = document.createElement('script');
-  scr.src = 'https://unpkg.com/mapillary-js@4.1.2/dist/mapillary.js';
-  scr.onload = () => { mlyLoaded = true; doLoad(); };
-  scr.onerror = () => showSVUnavail();
-  document.head.appendChild(scr);
+  iframe.onerror = () => showSVUnavail();
+  // Ajouter l'iframe en arrière-plan pour le chargement
+  pano.appendChild(iframe);
+  // Timeout fallback
+  setTimeout(() => {
+    if (pano.querySelector('iframe') && pano.querySelector('.spin-loader')) {
+      pano.innerHTML = '';
+      pano.appendChild(iframe);
+      iframe.style.display = 'block';
+    }
+  }, 3000);
 }
 
 function showSVUnavail() {
