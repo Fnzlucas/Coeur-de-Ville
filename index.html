@@ -905,6 +905,10 @@ function closeHistLightbox() { if(typeof _closeHistLightbox==='function') _close
 <script src="data/pois.js"></script>
 <script src="core/ui.js"></script>
 <script src="core/ar.js"></script>
+<script>
+  // Appel direct — scripts chargés en fin de body, DOM déjà prêt
+  if (typeof initMap === 'function') initMap();
+</script>
 
 <!-- ═══════════════════════════════════════════
      STREET VIEW MODAL
