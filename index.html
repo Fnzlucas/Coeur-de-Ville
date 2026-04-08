@@ -780,6 +780,40 @@ function hideBottomSheet() {
   if (bs) bs.classList.add('hidden-sheet');
 }
 
+// ── Patch compatibilité pour ui.js ──
+// ui.js cherche 'bottomnav' et 'locate-btn' — on crée des aliases
+document.addEventListener('DOMContentLoaded', () => {
+  // Alias bottomnav → la nav Tailwind
+  const nav = document.querySelector('nav.fixed.bottom-0');
+  if (nav && !document.getElementById('bottomnav')) {
+    nav.id = 'bottomnav';
+  }
+  // Alias locate-btn → le bouton my_location
+  const locateBtn = document.querySelector('[onclick="locateUser()"]');
+  if (locateBtn && !document.getElementById('locate-btn')) {
+    locateBtn.id = 'locate-btn';
+  }
+  // Override switchSection pour ne pas conflicuer avec ui.js
+  // ui.js gère aussi switchSection — on laisse la sienne prendre le dessus
+  // mais on patche le highlight nav
+  const origSwitch = window.switchSection;
+  window.switchSection = function(section) {
+    if (origSwitch) origSwitch(section);
+    // highlight nav buttons Material
+    ['tourisme','commerce','evenements'].forEach(s => {
+      const btn = document.getElementById('nav-btn-' + s);
+      if (!btn) return;
+      if (s === section) {
+        btn.classList.remove('text-slate-400','opacity-70');
+        btn.classList.add('text-blue-950');
+      } else {
+        btn.classList.add('text-slate-400','opacity-70');
+        btn.classList.remove('text-blue-950');
+      }
+    });
+  };
+});
+
 // ── Stubs (implemented in core/ui.js & core/ar.js) ──
 function locateUser() { if(typeof _locateUser==='function') _locateUser(); }
 function startAR() { if(typeof _startAR==='function') _startAR(); }
