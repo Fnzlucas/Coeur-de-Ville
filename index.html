@@ -199,7 +199,7 @@ html, body { height: 100%; overflow: hidden; }
    IMMERSIVE HISTORICAL EXPERIENCE
 ───────────────────────────────────────────────────────────────── */
 #imm-overlay {
-  position: fixed; inset: 0; z-index: 9000;
+  position: fixed; inset: 0; z-index: 99999;
   display: none; flex-direction: column;
   background: #000; overflow: hidden;
 }
@@ -349,7 +349,7 @@ html, body { height: 100%; overflow: hidden; }
 .imm-tl-text { font-family: 'Manrope'; font-size: 13px; color: rgba(255,255,255,0.8); line-height: 1.55; }
 
 /* ─── AR VIEW ─── */
-#ar-view { position: fixed; inset: 0; display: none; background: #000; z-index: 8000; }
+#ar-view { position: fixed; inset: 0; display: none; background: #000; z-index: 99998; }
 #ar-view.on { display: block; }
 #ar-video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; transition: filter .8s ease; }
 #ar-video.ghost-mode { filter: sepia(0.85) contrast(1.15) brightness(0.82) saturate(0.3) hue-rotate(10deg); }
@@ -437,7 +437,7 @@ html, body { height: 100%; overflow: hidden; }
 
 /* ─── RADAR VIEW ─── */
 #radar-view {
-  position: fixed; inset: 0; display: none; z-index: 8500;
+  position: fixed; inset: 0; display: none; z-index: 99997;
   background: radial-gradient(ellipse at center, #111 0%, #000 100%); overflow: hidden;
 }
 #radar-view.on { display: flex; flex-direction: column; }
