@@ -588,7 +588,7 @@ function toggleSearch() {
   <!-- LIGHTBOX HISTORIQUE -->
   <div id="hist-lightbox">
     <button id="hist-lightbox-close" onclick="closeHistLightbox()">✕</button>
-    <div id="hist-lightbox-label">📷 Vue d'antan</div>
+    <div id="hist-lightbox-label">Vue d'antan</div>
     <img id="hist-lightbox-img" src="" alt=""/>
     <div id="hist-lightbox-caption"></div>
   </div>
@@ -599,7 +599,7 @@ function toggleSearch() {
     <div id="ar-grain"></div>
     <div id="ar-vignette"></div>
     <div id="ar-ghost-ov"></div>
-    <div id="ar-epoch-banner">⚔️ &nbsp;Cœurville · XIIIe siècle</div>
+    <div id="ar-epoch-banner">Cœurville · XIIIe siècle</div>
     <div id="ar-flash"></div>
     <div id="ar-ov"></div>
     <div id="ar-hud">
@@ -782,6 +782,10 @@ function toggleSearch() {
     <span class="material-symbols-outlined">view_in_ar</span>
     <span class="font-['Manrope'] text-[10px] font-semibold tracking-wide uppercase mt-1">AR Live</span>
   </button>
+  <button class="n-btn flex flex-col items-center justify-center text-slate-400 opacity-70 hover:opacity-100 transition-all duration-200 active:scale-95" id="nav-streetview" onclick="openStreetView()">
+    <span class="material-symbols-outlined">streetview</span>
+    <span class="font-['Manrope'] text-[10px] font-semibold tracking-wide uppercase mt-1">Street</span>
+  </button>
 </nav>
 
 <div id="toast"></div>
@@ -901,5 +905,94 @@ function closeHistLightbox() { if(typeof _closeHistLightbox==='function') _close
 <script src="data/pois.js"></script>
 <script src="core/ui.js"></script>
 <script src="core/ar.js"></script>
+
+<!-- ═══════════════════════════════════════════
+     STREET VIEW MODAL
+═══════════════════════════════════════════ -->
+<div id="sv-modal" style="display:none;position:fixed;inset:0;z-index:99999;background:#000;flex-direction:column;">
+  <!-- Header -->
+  <div style="display:flex;align-items:center;justify-content:space-between;padding:12px 16px;background:rgba(0,0,0,0.85);backdrop-filter:blur(12px);position:relative;z-index:2;">
+    <div style="display:flex;align-items:center;gap:10px;">
+      <span class="material-symbols-outlined" style="color:#fff;font-size:22px">streetview</span>
+      <span id="sv-title" style="color:#fff;font-family:'Manrope',sans-serif;font-size:14px;font-weight:600;">Street View</span>
+    </div>
+    <button onclick="closeStreetView()" style="background:rgba(255,255,255,0.15);border:none;border-radius:50%;width:36px;height:36px;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:background 0.2s;" onmouseover="this.style.background='rgba(255,255,255,0.25)'" onmouseout="this.style.background='rgba(255,255,255,0.15)'">
+      <span class="material-symbols-outlined" style="color:#fff;font-size:20px">close</span>
+    </button>
+  </div>
+  <!-- Iframe Google Street View -->
+  <div style="flex:1;position:relative;">
+    <iframe id="sv-iframe"
+      style="width:100%;height:100%;border:none;"
+      allowfullscreen
+      loading="lazy"
+      referrerpolicy="no-referrer-when-downgrade"
+      src="">
+    </iframe>
+    <!-- Overlay si pas de Street View dispo -->
+    <div id="sv-unavail" style="display:none;position:absolute;inset:0;background:#1a1a2e;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;">
+      <span class="material-symbols-outlined" style="color:rgba(255,255,255,0.3);font-size:64px">no_photography</span>
+      <p style="color:rgba(255,255,255,0.5);font-family:'Manrope',sans-serif;font-size:15px;text-align:center;max-width:240px;">Street View non disponible pour ce lieu</p>
+      <button onclick="closeStreetView()" style="background:#3B5BDB;color:#fff;border:none;border-radius:12px;padding:10px 24px;font-family:'Manrope',sans-serif;font-size:14px;font-weight:600;cursor:pointer;">Fermer</button>
+    </div>
+  </div>
+  <!-- Bottom bar -->
+  <div style="padding:12px 16px;background:rgba(0,0,0,0.85);display:flex;align-items:center;justify-content:center;gap:8px;">
+    <span class="material-symbols-outlined" style="color:rgba(255,255,255,0.4);font-size:16px">info</span>
+    <span style="color:rgba(255,255,255,0.4);font-family:'Manrope',sans-serif;font-size:12px;">Faites glisser pour explorer • Pincez pour zoomer</span>
+  </div>
+</div>
+
+<script>
+// Coordonnées du dernier POI sélectionné
+window._svLat = null;
+window._svLng = null;
+window._svName = '';
+
+function openStreetView(lat, lng, name) {
+  // Si appelé depuis la nav sans POI, utilise position utilisateur ou centre de la carte
+  if (lat == null) {
+    if (window._svLat) {
+      lat = window._svLat; lng = window._svLng; name = window._svName;
+    } else if (window._userLat) {
+      lat = window._userLat; lng = window._userLng; name = 'Votre position';
+    } else {
+      // Centre de la carte Leaflet
+      const c = window.leafletMap ? window.leafletMap.getCenter() : {lat:43.9671,lng:4.7896};
+      lat = c.lat; lng = c.lng; name = 'Vue actuelle';
+    }
+  }
+
+  const modal = document.getElementById('sv-modal');
+  const iframe = document.getElementById('sv-iframe');
+  const title = document.getElementById('sv-title');
+
+  title.textContent = name || 'Street View';
+
+  // Google Street View Embed URL
+  const key = 'AIzaSyB4uHYJqy2QmU8MHSBhyp8zrQhQQzXHN5I';
+  const svUrl = `https://www.google.com/maps/embed/v1/streetview?key=${key}&location=${lat},${lng}&heading=0&pitch=0&fov=90`;
+
+  iframe.src = svUrl;
+  modal.style.display = 'flex';
+  document.body.style.overflow = 'hidden';
+}
+
+function closeStreetView() {
+  const modal = document.getElementById('sv-modal');
+  const iframe = document.getElementById('sv-iframe');
+  modal.style.display = 'none';
+  iframe.src = '';
+  document.body.style.overflow = '';
+}
+
+// Exposer pour que ui.js puisse appeler openStreetView depuis les popups POI
+window.openStreetView = openStreetView;
+window.closeStreetView = closeStreetView;
+
+// Fermer avec Escape
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeStreetView(); });
+</script>
+
 </body>
 </html>
