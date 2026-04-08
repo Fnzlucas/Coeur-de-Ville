@@ -357,9 +357,8 @@ function closeImmersive() {
 
 // ─── MACHINE À ÉCRIRE ─────────────────────────────────────────
 function typewrite(el, text, cursor, i = 0) {
-  if (i >= text.length) { cursor.classList.add('done'); return; }
-  el.textContent += text[i];
-  immTypewriterTimer = setTimeout(() => typewrite(el, text, cursor, i + 1), 22);
+  el.textContent = text;
+  cursor.classList.add('done');
 }
 
 // ─── PARTICULES ───────────────────────────────────────────────
