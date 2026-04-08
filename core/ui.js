@@ -393,79 +393,92 @@ function startRoute(lat, lng) {
 }
 
 function _computeRoute(dLat, dLng) {
-  // Fetch les deux modes en parallèle
   const footUrl = `https://router.project-osrm.org/route/v1/foot/${userLng},${userLat};${dLng},${dLat}?overview=full&geometries=geojson`;
-  const carUrl  = `https://router.project-osrm.org/route/v1/driving/${userLng},${userLat};${dLng},${dLat}?overview=full&geometries=geojson`;
+  const carUrl  = `https://router.project-osrm.org/route/v1/car/${userLng},${userLat};${dLng},${dLat}?overview=full&geometries=geojson`;
 
-  Promise.all([fetch(footUrl).then(r => r.json()), fetch(carUrl).then(r => r.json())])
-    .then(([footData, carData]) => {
+  // Fetch pied obligatoire, voiture en best-effort
+  fetch(footUrl)
+    .then(r => r.json())
+    .then(footData => {
       const foot = footData.routes?.[0];
-      const car  = carData.routes?.[0];
       if (!foot) { showToast('Itinéraire introuvable'); return; }
 
-      // Affiche le tracé piéton par défaut
+      // Tracé piéton
       const coords = foot.geometry.coordinates.map(c => [c[1], c[0]]);
       routeLayer = L.polyline(coords, {
         color: CONFIG.couleurPrimaire, weight: 5, opacity: 0.85,
         lineCap: 'round', lineJoin: 'round',
       }).addTo(map);
 
-      // Marqueurs départ / arrivée
       [
         L.divIcon({ html: '<div style="width:14px;height:14px;border-radius:50%;background:#fff;border:3px solid #0f1923;box-shadow:0 2px 8px rgba(26,115,232,.5)"></div>', className: '', iconSize: [14,14], iconAnchor: [7,7] }),
         L.divIcon({ html: '<div style="width:16px;height:16px;border-radius:50%;background:#0f1923;border:3px solid #fff;box-shadow:0 2px 8px rgba(26,115,232,.6)"></div>', className: '', iconSize: [16,16], iconAnchor: [8,8] }),
       ].forEach((icon, i) => {
-        const pos = i === 0 ? [userLat, userLng] : [dLat, dLng];
-        const mk = L.marker(pos, { icon }).addTo(map);
+        const mk = L.marker(i === 0 ? [userLat, userLng] : [dLat, dLng], { icon }).addTo(map);
         mk._isRouteMarker = true;
       });
 
       map.fitBounds(routeLayer.getBounds(), { padding: [60, 60] });
       routeActive = true;
 
-      // Données formatées
       const footDist = foot.distance < 1000 ? Math.round(foot.distance) + 'm' : (foot.distance/1000).toFixed(1) + 'km';
       const footTime = Math.round(foot.duration / 60) + ' min';
-      const carDist  = car ? (car.distance < 1000 ? Math.round(car.distance) + 'm' : (car.distance/1000).toFixed(1) + 'km') : '—';
-      const carTime  = car ? Math.round(car.duration / 60) + ' min' : '—';
 
-      // Banner avec les deux modes + bouton annuler
-      const banner = document.createElement('div');
-      banner.id = 'route-banner';
-      banner.innerHTML = `
-        <div style="display:flex;flex-direction:column;gap:10px;flex:1;">
-          <div style="display:flex;align-items:center;gap:10px;">
-            <div style="width:32px;height:32px;border-radius:50%;background:#f0f4ff;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="#0f1923"><path d="M13.5 5.5c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zM9.8 8.9L7 23h2.1l1.8-8 2.1 2v6h2v-7.5l-2.1-2 .6-3C14.8 12 16.8 13 19 13v-2c-1.9 0-3.5-1-4.3-2.4l-1-1.6c-.4-.6-1-1-1.7-1-.3 0-.5.1-.8.1L6 8.3V13h2V9.6l1.8-.7"/></svg>
-            </div>
-            <div style="flex:1;">
-              <div style="font-family:'Manrope';font-weight:800;font-size:13px;color:#0f1923;">À pied · ${footTime}</div>
-              <div style="font-family:'Manrope';font-size:11px;color:#9aa0a6;">${footDist}</div>
-            </div>
-          </div>
-          <div style="display:flex;align-items:center;gap:10px;">
-            <div style="width:32px;height:32px;border-radius:50%;background:#f0f4ff;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="#0f1923"><path d="M18.92 6.01C18.72 5.42 18.16 5 17.5 5h-11c-.66 0-1.21.42-1.42 1.01L3 12v8c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-1h12v1c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-8l-2.08-5.99zM6.5 16c-.83 0-1.5-.67-1.5-1.5S5.67 13 6.5 13s1.5.67 1.5 1.5S7.33 16 6.5 16zm11 0c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zM5 11l1.5-4.5h11L19 11H5z"/></svg>
-            </div>
-            <div style="flex:1;">
-              <div style="font-family:'Manrope';font-weight:800;font-size:13px;color:#0f1923;">En voiture · ${carTime}</div>
-              <div style="font-family:'Manrope';font-size:11px;color:#9aa0a6;">${carDist}</div>
-            </div>
-          </div>
-        </div>
-        <button onclick="cancelRoute()" style="
-          background:#0f1923;border:none;border-radius:12px;
-          color:#fff;font-family:'Manrope';font-weight:800;font-size:12px;
-          cursor:pointer;padding:10px 16px;flex-shrink:0;
-          display:flex;align-items:center;gap:6px;">
-          <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
-          Annuler
-        </button>`;
-      const container = document.querySelector('main') || document.body;
-      container.appendChild(banner);
-      showToast('Itinéraires calculés ✓');
+      // Estimation voiture : distance vol d'oiseau × 1.3 (facteur route), vitesse moy 30km/h en ville
+      const crowDist = calcDist(userLat, userLng, dLat, dLng);
+      const carDistM = crowDist * 1.3;
+      const carTimeMin = Math.round((carDistM / 1000) / 30 * 60);
+      const carDist = carDistM < 1000 ? Math.round(carDistM) + 'm' : (carDistM/1000).toFixed(1) + 'km';
+      const carTime = carTimeMin < 1 ? '1 min' : carTimeMin + ' min';
+
+      // Essaie quand même la vraie API voiture
+      fetch(carUrl)
+        .then(r => r.json())
+        .then(carData => {
+          const car = carData.routes?.[0];
+          const realCarDist = car ? (car.distance < 1000 ? Math.round(car.distance) + 'm' : (car.distance/1000).toFixed(1) + 'km') : carDist;
+          const realCarTime = car ? Math.round(car.duration / 60) + ' min' : carTime;
+          _showRouteBanner(footTime, footDist, realCarTime, realCarDist);
+        })
+        .catch(() => _showRouteBanner(footTime, footDist, carTime, carDist));
+
     })
     .catch(() => showToast('Erreur réseau'));
+}
+
+
+function _showRouteBanner(footTime, footDist, carTime, carDist) {
+  document.getElementById('route-banner')?.remove();
+  const banner = document.createElement('div');
+  banner.id = 'route-banner';
+  banner.innerHTML = `
+    <div style="display:flex;flex-direction:column;gap:10px;flex:1;">
+      <div style="display:flex;align-items:center;gap:10px;">
+        <div style="width:32px;height:32px;border-radius:50%;background:#f0f4ff;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="#0f1923"><path d="M13.5 5.5c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zM9.8 8.9L7 23h2.1l1.8-8 2.1 2v6h2v-7.5l-2.1-2 .6-3C14.8 12 16.8 13 19 13v-2c-1.9 0-3.5-1-4.3-2.4l-1-1.6c-.4-.6-1-1-1.7-1-.3 0-.5.1-.8.1L6 8.3V13h2V9.6l1.8-.7"/></svg>
+        </div>
+        <div style="flex:1;">
+          <div style="font-family:'Manrope';font-weight:800;font-size:13px;color:#0f1923;">À pied · ${footTime}</div>
+          <div style="font-family:'Manrope';font-size:11px;color:#9aa0a6;">${footDist}</div>
+        </div>
+      </div>
+      <div style="display:flex;align-items:center;gap:10px;">
+        <div style="width:32px;height:32px;border-radius:50%;background:#f0f4ff;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="#0f1923"><path d="M18.92 6.01C18.72 5.42 18.16 5 17.5 5h-11c-.66 0-1.21.42-1.42 1.01L3 12v8c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-1h12v1c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-8l-2.08-5.99zM6.5 16c-.83 0-1.5-.67-1.5-1.5S5.67 13 6.5 13s1.5.67 1.5 1.5S7.33 16 6.5 16zm11 0c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zM5 11l1.5-4.5h11L19 11H5z"/></svg>
+        </div>
+        <div style="flex:1;">
+          <div style="font-family:'Manrope';font-weight:800;font-size:13px;color:#0f1923;">En voiture · ${carTime}</div>
+          <div style="font-family:'Manrope';font-size:11px;color:#9aa0a6;">${carDist}</div>
+        </div>
+      </div>
+    </div>
+    <button onclick="cancelRoute()" style="background:#0f1923;border:none;border-radius:12px;color:#fff;font-family:'Manrope';font-weight:800;font-size:12px;cursor:pointer;padding:10px 16px;flex-shrink:0;display:flex;align-items:center;gap:6px;">
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+      Annuler
+    </button>`;
+  const container = document.querySelector('main') || document.body;
+  container.appendChild(banner);
+  showToast('Itinéraires calculés');
 }
 
 function cancelRoute() {
