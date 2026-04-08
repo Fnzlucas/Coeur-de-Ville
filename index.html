@@ -186,6 +186,7 @@ html,body{height:100%;overflow:hidden;font-family:'Manrope',sans-serif;backgroun
 #imm-cursor{display:inline-block;width:2px;height:1em;background:var(--acc);margin-left:2px;animation:blink 1s infinite;}
 #imm-cursor.done{animation:none;opacity:0;}
 @keyframes blink{0%,100%{opacity:1;}50%{opacity:0;}}
+@keyframes spin{to{transform:rotate(360deg);}}
 #imm-actions{display:flex;gap:10px;margin-top:20px;}
 #imm-navigate-btn{
   background:var(--acc);color:#fff;border:none;border-radius:14px;
@@ -270,7 +271,7 @@ html,body{height:100%;overflow:hidden;font-family:'Manrope',sans-serif;backgroun
 /* ── FP chips (hidden but functional) ── */
 .fp,.fdot{display:none;}
 
-.map-blur{filter:blur(4px);transition:filter 0.3s;}
+
 </style>
 </head>
 <body style="height:100%;margin:0;overflow:hidden;">
@@ -888,13 +889,12 @@ function openCustomPopup(html) {
   const card = document.getElementById('popup-card');
   const container = document.getElementById('popup-container');
   card.innerHTML = html;
-  container.classList.add('active');
-  document.getElementById('map').classList.add('map-blur');
-  const fb1 = document.getElementById('filter-bar'); if(fb1) fb1.style.filter = 'blur(3px)';
-  const locateBtn = document.getElementById('locate-btn');
-  if (locateBtn) locateBtn.style.filter = 'blur(3px)';
-  const bottomnav = document.getElementById('bottomnav');
-  if (bottomnav) bottomnav.style.filter = 'blur(3px)';
+  container.style.display = 'block';
+  container.style.position = 'fixed';
+  container.style.left = '12px';
+  container.style.right = '12px';
+  container.style.bottom = '80px';
+  container.style.zIndex = '800';
   setTimeout(() => card.classList.add('visible'), 10);
 }
 
@@ -902,13 +902,7 @@ function closeCustomPopup() {
   const card = document.getElementById('popup-card');
   const container = document.getElementById('popup-container');
   card.classList.remove('visible');
-  document.getElementById('map').classList.remove('map-blur');
-  const fb2 = document.getElementById('filter-bar'); if(fb2) fb2.style.filter = '';
-  const locateBtn = document.getElementById('locate-btn');
-  if (locateBtn) locateBtn.style.filter = '';
-  const bottomnav = document.getElementById('bottomnav');
-  if (bottomnav) bottomnav.style.filter = '';
-  setTimeout(() => { container.classList.remove('active'); card.innerHTML = ''; }, 280);
+  setTimeout(() => { container.style.display = 'none'; card.innerHTML = ''; }, 280);
 }
 
 // ─── SECTIONS ─────────────────────────────────────────────────
@@ -1500,39 +1494,62 @@ function startNavigation(p) { if(typeof _startNavigation==='function') _startNav
 function stopNavigation() { if(typeof _stopNavigation==='function') _stopNavigation(); }
 function closeHistLightbox() { if(typeof _closeHistLightbox==='function') _closeHistLightbox(); }
 
-// ── STREET VIEW (Google Maps JS natif) ──
-const GMAPS_KEY = 'AIzaSyB4uHYJqy2QmU8MHSBhyp8zrQhQQzXHN5I';
-let svPanorama = null;
-let gmapsLoaded = false;
-
-function loadGMaps(cb) {
-  if (gmapsLoaded) { cb(); return; }
-  const s = document.createElement('script');
-  s.src = 'https://maps.googleapis.com/maps/api/js?key=' + GMAPS_KEY + '&v=weekly';
-  s.onload = () => { gmapsLoaded = true; cb(); };
-  s.onerror = () => { showSVUnavail(); };
-  document.head.appendChild(s);
-}
+// ── STREET VIEW via Mapillary (open source, sans clé Google) ──
+const MLY_TOKEN = 'MLY|9426507510724280|cb87f51f21cb07d66cf03f9c9b7bde4e';
+let mlyLoaded = false;
 
 function openStreetView(lat, lng, name) {
   if (lat == null) {
     const ctr = window.leafletMap ? window.leafletMap.getCenter() : {lat:43.9671,lng:4.7896};
     lat = ctr.lat; lng = ctr.lng; name = 'Vue actuelle';
   }
+  lat = parseFloat(lat); lng = parseFloat(lng);
   const modal = document.getElementById('sv-modal');
   document.getElementById('sv-title').textContent = name || 'Street View';
   document.getElementById('sv-unavail').style.display = 'none';
   modal.style.display = 'flex';
   document.body.style.overflow = 'hidden';
 
-  // Utilise l'embed Google Maps Street View - ne nécessite pas Maps JS API
   const pano = document.getElementById('sv-pano');
-  pano.innerHTML = '';
-  const iframe = document.createElement('iframe');
-  iframe.style.cssText = 'width:100%;height:100%;border:none;display:block;';
-  iframe.allowFullscreen = true;
-  iframe.src = 'https://www.google.com/maps/embed/v1/streetview?key=AIzaSyB4uHYJqy2QmU8MHSBhyp8zrQhQQzXHN5I&location=' + parseFloat(lat) + ',' + parseFloat(lng) + '&heading=0&pitch=0&fov=90';
-  pano.appendChild(iframe);
+  pano.innerHTML = '<div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;"><div style="width:36px;height:36px;border:3px solid rgba(255,255,255,0.2);border-top-color:#fff;border-radius:50%;animation:spin 0.8s linear infinite;"></div></div>';
+
+  const doLoad = () => {
+    // Chercher l'image Mapillary la plus proche
+    const bbox = (lng-0.003)+','+(lat-0.003)+','+(lng+0.003)+','+(lat+0.003);
+    fetch('https://graph.mapillary.com/images?access_token='+MLY_TOKEN+'&fields=id&limit=1&bbox='+bbox)
+      .then(r => r.json())
+      .then(data => {
+        if (!data.data || !data.data.length) { showSVUnavail(); return; }
+        const imgId = data.data[0].id;
+        pano.innerHTML = '';
+        const container = document.createElement('div');
+        container.style.cssText = 'width:100%;height:100%;';
+        pano.appendChild(container);
+        const viewer = new mapillary.Viewer({
+          accessToken: MLY_TOKEN,
+          container: container,
+          imageId: imgId,
+          component: { cover: false, sequence: true },
+        });
+        window._mlyViewer = viewer;
+      })
+      .catch(() => showSVUnavail());
+  };
+
+  if (mlyLoaded) { doLoad(); return; }
+
+  // Charger Mapillary CSS + JS
+  if (!document.getElementById('mly-css')) {
+    const lnk = document.createElement('link');
+    lnk.id = 'mly-css'; lnk.rel = 'stylesheet';
+    lnk.href = 'https://unpkg.com/mapillary-js@4.1.2/dist/mapillary.css';
+    document.head.appendChild(lnk);
+  }
+  const scr = document.createElement('script');
+  scr.src = 'https://unpkg.com/mapillary-js@4.1.2/dist/mapillary.js';
+  scr.onload = () => { mlyLoaded = true; doLoad(); };
+  scr.onerror = () => showSVUnavail();
+  document.head.appendChild(scr);
 }
 
 function showSVUnavail() {
@@ -1542,7 +1559,8 @@ function showSVUnavail() {
 function closeSV() {
   document.getElementById('sv-modal').style.display = 'none';
   document.body.style.overflow = '';
-  if (svPanorama) svPanorama.setVisible(false);
+  document.getElementById('sv-pano').innerHTML = '';
+  if (window._mlyViewer) { try { window._mlyViewer.remove(); } catch(e){} window._mlyViewer = null; }
 }
 
 window.openStreetView = openStreetView;
