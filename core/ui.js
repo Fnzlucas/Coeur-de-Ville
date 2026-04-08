@@ -29,6 +29,11 @@ function initMap() {
     attribution: '© Google',
   }).addTo(map);
 
+  L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager_only_labels/{z}/{x}/{y}{r}.png', {
+    maxZoom: 20,
+    opacity: 0.9,
+  }).addTo(map);
+
   map.zoomControl.setPosition('bottomright');
   buildFilterBar();
   renderPlaces('tourisme');
