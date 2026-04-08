@@ -359,13 +359,10 @@ function closeImmersive() {
 function typewrite(el, text, cursor, i = 0) {
   el.textContent = text;
   cursor.classList.add('done');
-  el.style.opacity = '0';
-  el.style.transform = 'translateY(8px)';
-  el.style.transition = 'opacity 0.8s ease, transform 0.8s ease';
+  el.classList.remove('visible');
   requestAnimationFrame(() => {
     requestAnimationFrame(() => {
-      el.style.opacity = '1';
-      el.style.transform = 'translateY(0)';
+      el.classList.add('visible');
     });
   });
 }
