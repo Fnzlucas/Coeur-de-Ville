@@ -1,9 +1,7 @@
 // ═══════════════════════════════════════════════════════════
 // CORE/AR.JS — Logique AR, Radar, Ghost Mode, Gyroscope
-// Ne pas modifier pour ajouter des villes
 // ═══════════════════════════════════════════════════════════
 
-// ─── VARIABLES AR ────────────────────────────────────────────
 let arStream = null;
 let arActive = false;
 let arHeading = 0;
@@ -18,17 +16,13 @@ function startAR() {
   document.getElementById('nav-ar').classList.add('active');
   document.querySelectorAll('.n-btn:not(#nav-ar)').forEach(b => b.classList.remove('active'));
 
-  // iOS — requestPermission SYNCHRONE dans le même tick que le clic
   if (typeof DeviceOrientationEvent !== 'undefined' && typeof DeviceOrientationEvent.requestPermission === 'function') {
     DeviceOrientationEvent.requestPermission().then(perm => {
-      if (perm === 'granted') {
-        window.addEventListener('deviceorientation', handleOrientation, true);
-      }
+      if (perm === 'granted') window.addEventListener('deviceorientation', handleOrientation, true);
     }).catch(() => {
       window.addEventListener('deviceorientation', handleOrientation, true);
     });
   } else {
-    // Android
     window.addEventListener('deviceorientationabsolute', handleOrientation, true);
     window.addEventListener('deviceorientation', handleOrientation, true);
   }
@@ -38,14 +32,10 @@ function startAR() {
 
 async function _startARAsync() {
   try {
-    arStream = await navigator.mediaDevices.getUserMedia({
-      video: { facingMode: { exact: 'environment' } }, audio: false,
-    });
+    arStream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: { exact: 'environment' } }, audio: false });
   } catch {
     try {
-      arStream = await navigator.mediaDevices.getUserMedia({
-        video: { facingMode: 'environment' }, audio: false,
-      });
+      arStream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' }, audio: false });
     } catch {
       showToast('Caméra non disponible');
       return;
@@ -64,11 +54,9 @@ async function _startARAsync() {
     userLng = pos.coords.longitude;
     if (!gpsReady) {
       gpsReady = true;
-      pill.textContent = `GPS ✓ ${pos.coords.accuracy.toFixed(0)}m`;
+      pill.textContent = `GPS · ${pos.coords.accuracy.toFixed(0)}m`;
     }
-  }, () => {
-    pill.textContent = 'GPS erreur';
-  }, { enableHighAccuracy: true, maximumAge: 0, timeout: 15000 });
+  }, () => { pill.textContent = 'GPS erreur'; }, { enableHighAccuracy: true, maximumAge: 0, timeout: 15000 });
 
   arActive = true;
   heading = rawH;
@@ -83,7 +71,6 @@ function stopAR() {
   if (ghostMode) { ghostMode = false; _applyGhostMode(false); }
   window.removeEventListener('deviceorientationabsolute', handleOrientation, true);
   window.removeEventListener('deviceorientation', handleOrientation, true);
-
   document.getElementById('ar-view').classList.remove('on');
   document.getElementById('ar-video').srcObject = null;
   document.getElementById('ar-ov').innerHTML = '';
@@ -94,7 +81,6 @@ function stopAR() {
 function arLoop() {
   if (!arActive) return;
 
-  // Lissage cap
   heading = lerpAngle(heading, rawH, 0.08);
 
   const ov = document.getElementById('ar-ov');
@@ -105,10 +91,8 @@ function arLoop() {
   document.getElementById('ar-heading-text').textContent = Math.round(heading) + '° · AR Live';
   ov.innerHTML = '';
 
-  // Trier par distance décroissante — lointains dessinés en premier
   const poisWithDist = PLACES.map(p => ({
-    ...p,
-    dist: calcDist(userLat, userLng, p.lat, p.lng),
+    ...p, dist: calcDist(userLat, userLng, p.lat, p.lng),
   })).sort((a, b) => b.dist - a.dist);
 
   poisWithDist.forEach(poi => {
@@ -120,59 +104,33 @@ function arLoop() {
     while (diff < -180) diff += 360;
     if (Math.abs(diff) > FOV / 2) return;
 
-    // Position X
     const x = W / 2 + (diff / (FOV / 2)) * (W / 2);
-
-    // Ratio distance (courbe douce)
     const ratio = Math.pow(Math.min(poi.dist / 800, 1), 0.5);
-
-    // Position Y — proche = bas, loin = haut
     const y = H * 0.72 - ratio * (H * 0.54);
-
-    // Scale — effet profondeur
     const scale = 1.5 - ratio * 1.1;
     const opacity = 1.0 - ratio * 0.45;
-
     const col = CATS[poi.cat]?.color || '#333';
+    const distTxt = poi.dist < 1000 ? Math.round(poi.dist) + 'm' : (poi.dist / 1000).toFixed(1) + 'km';
 
     const el = document.createElement('div');
     el.className = 'arc';
-    el.style.cssText = `
-      position:absolute;
-      left:${x.toFixed(1)}px;
-      top:${y.toFixed(1)}px;
-      transform:translateX(-50%) scale(${scale.toFixed(3)});
-      transform-origin:bottom center;
-      opacity:${opacity.toFixed(2)};
-      --cc:${col};
-    `;
+    el.style.cssText = `position:absolute;left:${x.toFixed(1)}px;top:${y.toFixed(1)}px;transform:translateX(-50%) scale(${scale.toFixed(3)});transform-origin:bottom center;opacity:${opacity.toFixed(2)};--cc:${col};`;
     el.innerHTML = `
       <div class="arc-bubble" style="--cc:${col}">
-        <div class="arc-icon" style="background:${col};border-radius:50%;width:32px;height:32px;display:flex;align-items:center;justify-content:center;font-size:16px">${poi.emoji || '📍'}</div>
+        <div class="arc-icon" style="background:${col};border-radius:50%;width:32px;height:32px;display:flex;align-items:center;justify-content:center;">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="white"><path d="M12 2C8 2 4 5 4 9c0 5 8 13 8 13s8-8 8-13c0-4-4-7-8-7z"/></svg>
+        </div>
         <div class="arc-info">
           <div class="arc-name">${poi.name}</div>
-          <div class="arc-dist">${poi.dist < 1000 ? Math.round(poi.dist) + 'm' : (poi.dist / 1000).toFixed(1) + 'km'}</div>
+          <div class="arc-dist">${distTxt}</div>
         </div>
       </div>
       <div class="arc-stem"></div>
       <div class="arc-dot" style="--cc:${col}"></div>`;
 
-    el.onclick = () => {
-      stopAR();
-      setTimeout(() => openImmersive(poi.id), 300);
-    };
-
+    el.onclick = () => { stopAR(); setTimeout(() => openImmersive(poi.id), 300); };
     ov.appendChild(el);
   });
-
-  // Debug HUD
-  const dbg = document.getElementById('ar-debug');
-  if (dbg) dbg.innerHTML =
-    'rawCompass: ' + ((window._rawCompass || 0).toFixed(1)) + '°<br>' +
-    'calibOffset: ' + calibOffset.toFixed(1) + '°<br>' +
-    'heading: ' + heading.toFixed(1) + '°<br>' +
-    'GPS: ' + userLat.toFixed(5) + ', ' + userLng.toFixed(5) + '<br>' +
-    'POIs: ' + ov.children.length;
 
   arRAF = requestAnimationFrame(arLoop);
 }
@@ -217,19 +175,17 @@ function toggleGhostMode() {
 }
 
 function _applyGhostMode(on) {
-  const video = document.getElementById('ar-video');
-  const grain = document.getElementById('ar-grain');
+  const video    = document.getElementById('ar-video');
+  const grain    = document.getElementById('ar-grain');
   const vignette = document.getElementById('ar-vignette');
-  const scratches = document.getElementById('ar-scratches');
-  const ghostOv = document.getElementById('ar-ghost-ov');
-
+  const scratches= document.getElementById('ar-scratches');
+  const ghostOv  = document.getElementById('ar-ghost-ov');
   if (on) {
     video.classList.add('ghost-mode');
     grain.classList.add('on');
     vignette.classList.add('on');
-    scratches.classList.add('on');
+    if (scratches) scratches.classList.add('on');
     ghostOv.classList.add('on');
-    // Flash effect
     const flash = document.getElementById('ar-flash');
     flash.classList.remove('flash');
     void flash.offsetWidth;
@@ -238,7 +194,7 @@ function _applyGhostMode(on) {
     video.classList.remove('ghost-mode');
     grain.classList.remove('on');
     vignette.classList.remove('on');
-    scratches.classList.remove('on');
+    if (scratches) scratches.classList.remove('on');
     ghostOv.classList.remove('on');
   }
 }
@@ -261,20 +217,18 @@ function drawRadar() {
   if (!document.getElementById('radar-view').classList.contains('on')) return;
 
   const canvas = document.getElementById('radar-canvas');
-  const wrap = document.getElementById('radar-canvas-wrap');
-  const size = Math.min(wrap.clientWidth, wrap.clientHeight - 20);
+  const wrap   = document.getElementById('radar-canvas-wrap');
+  const size   = Math.min(wrap.clientWidth, wrap.clientHeight - 20);
   canvas.width = size; canvas.height = size;
   const ctx = canvas.getContext('2d');
   const cx = size / 2, cy = size / 2, r = size / 2 - 10;
 
-  // Fond radial
   const grad = ctx.createRadialGradient(cx, cy, 0, cx, cy, r);
   grad.addColorStop(0, 'rgba(26,115,232,0.08)');
   grad.addColorStop(1, 'rgba(0,0,0,0)');
   ctx.fillStyle = grad;
   ctx.beginPath(); ctx.arc(cx, cy, r, 0, Math.PI * 2); ctx.fill();
 
-  // Cercles
   [0.33, 0.66, 1].forEach((f, i) => {
     ctx.beginPath(); ctx.arc(cx, cy, r * f, 0, Math.PI * 2);
     ctx.strokeStyle = `rgba(26,115,232,${0.15 - i * 0.03})`; ctx.lineWidth = 1; ctx.stroke();
@@ -283,7 +237,6 @@ function drawRadar() {
     ctx.fillText(labels[i], cx, cy - r * f + 14);
   });
 
-  // Axes
   [['N', 0], ['E', 90], ['S', 180], ['O', 270]].forEach(([l, a]) => {
     const rad = a * Math.PI / 180;
     ctx.fillStyle = a === 0 ? '#e74c3c' : 'rgba(255,255,255,0.5)';
@@ -291,7 +244,6 @@ function drawRadar() {
     ctx.fillText(l, cx + Math.sin(rad) * (r + 2), cy - Math.cos(rad) * (r + 2));
   });
 
-  // Sweep animé
   const sweep = (Date.now() / 3000) % 1 * Math.PI * 2;
   ctx.save();
   ctx.translate(cx, cy); ctx.rotate(sweep);
@@ -299,13 +251,11 @@ function drawRadar() {
   ctx.fillStyle = 'rgba(26,115,232,0.15)'; ctx.fill();
   ctx.restore();
 
-  // Point utilisateur
   ctx.beginPath(); ctx.arc(cx, cy, 8, 0, Math.PI * 2);
   ctx.fillStyle = '#0f1923'; ctx.fill();
   ctx.beginPath(); ctx.arc(cx, cy, 4, 0, Math.PI * 2);
   ctx.fillStyle = '#fff'; ctx.fill();
 
-  // Pins des lieux
   const pinsLayer = document.getElementById('radar-pins-layer');
   pinsLayer.innerHTML = '';
   pinsLayer.style.cssText = 'position:absolute;inset:0;pointer-events:auto';
@@ -339,7 +289,10 @@ function selectRadarPlace(place, col, dTxt) {
   selectedRadarPlace = place;
   const info = document.getElementById('radar-info');
   info.classList.remove('hidden');
-  document.getElementById('radar-info-icon').innerHTML = `<div style="width:40px;height:40px;border-radius:50%;background:${col};display:flex;align-items:center;justify-content:center;font-size:20px">${place.emoji || '🏛️'}</div>`;
+  document.getElementById('radar-info-icon').innerHTML = `
+    <div style="width:40px;height:40px;border-radius:50%;background:${col};display:flex;align-items:center;justify-content:center;">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="white"><path d="M12 2C8 2 4 5 4 9c0 5 8 13 8 13s8-8 8-13c0-4-4-7-8-7z"/></svg>
+    </div>`;
   document.getElementById('radar-info-name').textContent = place.name;
   document.getElementById('radar-info-dist').textContent = `${dTxt} · ${CATS[place.cat]?.label || ''}`;
 }
