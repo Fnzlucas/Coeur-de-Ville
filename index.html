@@ -781,8 +781,12 @@ function hideBottomSheet() {
 }
 
 // ── Patch compatibilité pour ui.js ──
-// ui.js cherche 'bottomnav' et 'locate-btn' — on crée des aliases
 document.addEventListener('DOMContentLoaded', () => {
+  // Reset forcé des filtres au chargement (évite le blur bloqué)
+  document.querySelectorAll('nav, header, #filter-bar, #locate-btn').forEach(el => {
+    el.style.filter = '';
+  });
+
   // Alias bottomnav → la nav Tailwind
   const nav = document.querySelector('nav.fixed.bottom-0');
   if (nav && !document.getElementById('bottomnav')) {
@@ -793,22 +797,33 @@ document.addEventListener('DOMContentLoaded', () => {
   if (locateBtn && !document.getElementById('locate-btn')) {
     locateBtn.id = 'locate-btn';
   }
-  // Override switchSection pour ne pas conflicuer avec ui.js
-  // ui.js gère aussi switchSection — on laisse la sienne prendre le dessus
-  // mais on patche le highlight nav
+  // ui.js cherche nav-tourisme, nav-commerce, nav-evenements
+  // on crée des aliases vers nos IDs nav-btn-*
+  ['tourisme','commerce','evenements'].forEach(s => {
+    const btn = document.getElementById('nav-btn-' + s);
+    if (btn && !document.getElementById('nav-' + s)) {
+      btn.id = 'nav-' + s; // ui.js trouvera nav-tourisme etc.
+      btn.classList.add('n-btn'); // ui.js toggle .active sur .n-btn
+    }
+  });
+
+  // Override switchSection pour highlight Material en plus
   const origSwitch = window.switchSection;
   window.switchSection = function(section) {
     if (origSwitch) origSwitch(section);
-    // highlight nav buttons Material
     ['tourisme','commerce','evenements'].forEach(s => {
-      const btn = document.getElementById('nav-btn-' + s);
+      const btn = document.getElementById('nav-' + s);
       if (!btn) return;
       if (s === section) {
         btn.classList.remove('text-slate-400','opacity-70');
         btn.classList.add('text-blue-950');
+        const icon = btn.querySelector('.material-symbols-outlined');
+        if (icon) icon.style.fontVariationSettings = "'FILL' 1,'wght' 500,'GRAD' 0,'opsz' 24";
       } else {
         btn.classList.add('text-slate-400','opacity-70');
         btn.classList.remove('text-blue-950');
+        const icon = btn.querySelector('.material-symbols-outlined');
+        if (icon) icon.style.fontVariationSettings = "'FILL' 0,'wght' 300,'GRAD' 0,'opsz' 24";
       }
     });
   };
