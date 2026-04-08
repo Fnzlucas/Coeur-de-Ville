@@ -23,12 +23,16 @@ function initMap() {
     attributionControl: false,
   });
 
-  L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
-    maxZoom: 19,
+  L.tileLayer('https://mt{s}.google.com/vt/lyrs=s&x={x}&y={y}&z={z}&key=AIzaSyB4uHYJqy2QmU8MHSBhyp8zrQhQQzXHN5I', {
+    maxZoom: 20,
+    subdomains: ['0','1','2','3'],
+    attribution: '© Google',
   }).addTo(map);
 
-  L.tileLayer('https://{s}.basemaps.cartocdn.com/light_only_labels/{z}/{x}/{y}{r}.png', {
-    maxZoom: 19, opacity: 0.85,
+  L.tileLayer('https://mt{s}.google.com/vt/lyrs=h&x={x}&y={y}&z={z}&key=AIzaSyB4uHYJqy2QmU8MHSBhyp8zrQhQQzXHN5I', {
+    maxZoom: 20,
+    subdomains: ['0','1','2','3'],
+    opacity: 0.9,
   }).addTo(map);
 
   map.zoomControl.setPosition('bottomright');
