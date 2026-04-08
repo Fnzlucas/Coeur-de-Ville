@@ -149,7 +149,7 @@ function openCustomPopup(html) {
   card.innerHTML = html;
   container.classList.add('active');
   document.getElementById('map').classList.add('map-blur');
-  document.getElementById('filter-bar').style.filter = 'blur(3px)';
+  const fb1 = document.getElementById('filter-bar'); if(fb1) fb1.style.filter = 'blur(3px)';
   const locateBtn = document.getElementById('locate-btn');
   if (locateBtn) locateBtn.style.filter = 'blur(3px)';
   const bottomnav = document.getElementById('bottomnav');
@@ -162,7 +162,7 @@ function closeCustomPopup() {
   const container = document.getElementById('popup-container');
   card.classList.remove('visible');
   document.getElementById('map').classList.remove('map-blur');
-  document.getElementById('filter-bar').style.filter = '';
+  const fb2 = document.getElementById('filter-bar'); if(fb2) fb2.style.filter = '';
   const locateBtn = document.getElementById('locate-btn');
   if (locateBtn) locateBtn.style.filter = '';
   const bottomnav = document.getElementById('bottomnav');
@@ -180,12 +180,12 @@ function switchSection(section) {
   } else if (section === 'commerce') {
     document.getElementById('nav-commerce')?.classList.add('active');
     renderPlaces('commerce');
-    document.getElementById('filter-bar').innerHTML = '';
+    const _fb1 = document.getElementById('filter-bar'); if(_fb1) _fb1.innerHTML = '';
   } else if (section === 'evenements') {
     document.getElementById('nav-evenements')?.classList.add('active');
     allMarkers.forEach(m => m.setMap(null)); allMarkers = [];
     renderEvenements();
-    document.getElementById('filter-bar').innerHTML = '';
+    const _fb2 = document.getElementById('filter-bar'); if(_fb2) _fb2.innerHTML = '';
   }
   closeCustomPopup();
 }
