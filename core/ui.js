@@ -2,7 +2,7 @@
 // CORE/UI.JS — Google Maps SDK natif
 // ═══════════════════════════════════════════════════════════
 
-const GMAPS_KEY = 'AIzaSyB4uHYJqy2QmU8MHSBhyp8zrQhQQzXHN5I';
+
 
 let map, userMarker, routePolyline, routeActive = false;
 let userLat = CONFIG.lat, userLng = CONFIG.lng;
@@ -14,59 +14,47 @@ let gpsWatchId = null;
 let allMarkers = [];
 let routeMarkers = [];
 
-// ─── CHARGEMENT SDK GOOGLE MAPS ───────────────────────────────
-function loadGoogleMaps() {
-  return new Promise((resolve) => {
-    if (window.google && window.google.maps) { resolve(); return; }
-    window._gmapsReady = resolve;
-    const s = document.createElement('script');
-    s.src = 'https://maps.googleapis.com/maps/api/js?key=' + GMAPS_KEY + '&callback=_gmapsReady&libraries=geometry';
-    s.async = true; s.defer = true;
-    document.head.appendChild(s);
-  });
-}
-
 // ─── INIT CARTE ───────────────────────────────────────────────
-async function initMap() {
+function initMap() {
   document.title = CONFIG.titre;
   document.getElementById('ar-epoch-banner').textContent = CONFIG.epochBanner;
 
-  await loadGoogleMaps();
-
-  map = new google.maps.Map(document.getElementById('map'), {
-    center: { lat: CONFIG.lat, lng: CONFIG.lng },
+  map = L.map('map', {
+    center: [CONFIG.lat, CONFIG.lng],
     zoom: CONFIG.zoom,
-    mapTypeId: 'satellite',
-    tilt: 0,
-    disableDefaultUI: true,
-    gestureHandling: 'greedy',
+    zoomControl: true,
+    attributionControl: false,
   });
 
-  map.addListener('click', () => closeCustomPopup());
+  L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+    maxZoom: 20,
+  }).addTo(map);
 
-  window.leafletMap = {
-    zoomIn: () => map.setZoom(map.getZoom() + 1),
-    zoomOut: () => map.setZoom(map.getZoom() - 1),
-  };
+  L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager_only_labels/{z}/{x}/{y}{r}.png', {
+    maxZoom: 20, opacity: 1,
+  }).addTo(map);
 
+  map.zoomControl.setPosition('bottomright');
   buildFilterBar();
   renderPlaces('tourisme');
+  initEvenementsMarkers();
+  map.on('click', () => closeCustomPopup());
 
   if (navigator.geolocation) {
     navigator.geolocation.getCurrentPosition(p => {
       userLat = p.coords.latitude;
       userLng = p.coords.longitude;
-      _placeUserMarker(userLat, userLng);
+      userMarker = L.marker([userLat, userLng], { icon: makeUserMarkerIcon() }).addTo(map);
     }, () => {});
   }
+
+  window.leafletMap = map;
 }
 
-function _placeUserMarker(lat, lng) {
-  if (userMarker) userMarker.setMap(null);
-  userMarker = new google.maps.Marker({
-    position: { lat, lng }, map,
-    icon: { path: google.maps.SymbolPath.CIRCLE, scale: 10, fillColor: '#1a73e8', fillOpacity: 1, strokeColor: '#fff', strokeWeight: 3 },
-    zIndex: 999,
+function makeUserMarkerIcon() {
+  return L.divIcon({
+    html: '<div style="display:flex;flex-direction:column;align-items:center;"><div style="position:relative;display:flex;align-items:center;justify-content:center;width:44px;height:44px;"><div class=\"yah-ring\"></div><div class=\"yah-dot\"></div></div><div class=\"yah-label\">Vous</div></div>',
+    className: '', iconSize: [80, 60], iconAnchor: [40, 22],
   });
 }
 
@@ -98,39 +86,33 @@ function setFilterActive(el) {
 }
 
 // ─── MARKERS ─────────────────────────────────────────────────
-function _makePinUrl(color) {
-  const svg = '<svg width="28" height="40" viewBox="0 0 28 40" xmlns="http://www.w3.org/2000/svg"><path d="M14 0C6.27 0 0 6.27 0 14c0 9.33 14 26 14 26S28 23.33 28 14C28 6.27 21.73 0 14 0z" fill="' + color + '"/><circle cx="14" cy="14" r="6" fill="white" opacity="0.9"/></svg>';
-  return 'data:image/svg+xml;charset=UTF-8,' + encodeURIComponent(svg);
+
+function makePinSVG(color) {
+  return '<svg width="28" height="40" viewBox="0 0 28 40" xmlns="http://www.w3.org/2000/svg"><path d="M14 0C6.27 0 0 6.27 0 14c0 9.33 14 26 14 26S28 23.33 28 14C28 6.27 21.73 0 14 0z" fill="' + color + '"/><circle cx="14" cy="14" r="6" fill="white" opacity="0.9"/></svg>';
 }
 
 function renderPlaces(section) {
-  allMarkers.forEach(m => m.setMap(null)); allMarkers = [];
+  allMarkers.forEach(m => map.removeLayer(m)); allMarkers = [];
   const list = section === 'commerce' ? COMMERCES : PLACES;
   list.forEach(place => {
     const col = CATS[place.cat]?.color || CONFIG.couleurPrimaire;
-    const marker = new google.maps.Marker({
-      position: { lat: place.lat, lng: place.lng }, map,
-      icon: { url: _makePinUrl(col), scaledSize: new google.maps.Size(28, 40), anchor: new google.maps.Point(14, 40) },
-      title: place.name,
-    });
-    marker.addListener('click', () => openCustomPopup(buildPopupHTML(place)));
-    allMarkers.push(marker);
+    const icon = L.divIcon({ html: makePinSVG(col), className: '', iconSize: [28, 40], iconAnchor: [14, 40] });
+    const m = L.marker([place.lat, place.lng], { icon });
+    m.on('click', () => openCustomPopup(buildPopupHTML(place)));
+    m.addTo(map); allMarkers.push(m);
   });
 }
 
 function filterPlaces(cat) {
-  allMarkers.forEach(m => m.setMap(null)); allMarkers = [];
+  allMarkers.forEach(m => map.removeLayer(m)); allMarkers = [];
   const list = currentSection === 'commerce' ? COMMERCES : PLACES;
   const filtered = cat ? list.filter(p => p.cat === cat) : list;
   filtered.forEach(place => {
     const col = CATS[place.cat]?.color || CONFIG.couleurPrimaire;
-    const marker = new google.maps.Marker({
-      position: { lat: place.lat, lng: place.lng }, map,
-      icon: { url: _makePinUrl(col), scaledSize: new google.maps.Size(28, 40), anchor: new google.maps.Point(14, 40) },
-      title: place.name,
-    });
-    marker.addListener('click', () => openCustomPopup(buildPopupHTML(place)));
-    allMarkers.push(marker);
+    const icon = L.divIcon({ html: makePinSVG(col), className: '', iconSize: [28, 40], iconAnchor: [14, 40] });
+    const m = L.marker([place.lat, place.lng], { icon });
+    m.on('click', () => openCustomPopup(buildPopupHTML(place)));
+    m.addTo(map); allMarkers.push(m);
   });
 }
 
@@ -212,12 +194,10 @@ function switchSection(section) {
 function renderEvenements() {
   EVENEMENTS.forEach(ev => {
     const col = CATS[ev.cat]?.color || '#333';
-    const marker = new google.maps.Marker({
-      position: { lat: ev.lat, lng: ev.lng }, map,
-      icon: { url: _makePinUrl(col), scaledSize: new google.maps.Size(28, 40), anchor: new google.maps.Point(14, 40) },
-      title: ev.name,
-    });
-    marker.addListener('click', () => {
+    const icon = L.divIcon({ html: makePinSVG(col), className: '', iconSize: [28, 40], iconAnchor: [14, 40] });
+    const marker = L.marker([ev.lat, ev.lng], { icon });
+    marker.addTo(map);
+    marker.on('click', () => {
       openCustomPopup('<div class="pw"><div class="pw-img-wrap" style="height:90px;background:linear-gradient(135deg,' + col + '22,' + col + '44);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px"><span style="font-family:Manrope;font-size:11px;color:' + col + ';font-weight:700">' + (ev.date || '') + '</span><button class="pw-x" onclick="closeCustomPopup()">✕</button></div><div class="pw-body"><div class="pw-name">' + ev.name + '</div><div class="pw-desc">' + ev.desc + '</div></div></div>');
     });
     allMarkers.push(marker);
@@ -309,8 +289,8 @@ function spawnParticles(color) {
 
 // ─── ROUTE ────────────────────────────────────────────────────
 function startRoute(lat, lng) {
-  if (routePolyline) { routePolyline.setMap(null); routePolyline = null; }
-  routeMarkers.forEach(m => m.setMap(null)); routeMarkers = [];
+  if (routePolyline) { map.removeLayer(routePolyline); routePolyline = null; }
+  routeMarkers.forEach(m => map.removeLayer(m)); routeMarkers = [];
   document.getElementById('route-banner')?.remove();
   showToast('Calcul des itinéraires…');
   navigator.geolocation?.getCurrentPosition(
@@ -324,14 +304,14 @@ function _computeRoute(dLat, dLng) {
   fetch('https://router.project-osrm.org/route/v1/foot/' + userLng + ',' + userLat + ';' + dLng + ',' + dLat + '?overview=full&geometries=geojson')
     .then(r => r.json()).then(data => {
       const foot = data.routes?.[0]; if (!foot) { showToast('Introuvable'); return; }
-      const path = foot.geometry.coordinates.map(c => ({ lat: c[1], lng: c[0] }));
-      routePolyline = new google.maps.Polyline({ path, geodesic: true, strokeColor: CONFIG.couleurPrimaire, strokeOpacity: 0.85, strokeWeight: 5, map });
-      const sM = new google.maps.Marker({ position: { lat: userLat, lng: userLng }, map, icon: { path: google.maps.SymbolPath.CIRCLE, scale: 7, fillColor: '#fff', fillOpacity: 1, strokeColor: '#0f1923', strokeWeight: 3 }, zIndex: 100 });
-      const eM = new google.maps.Marker({ position: { lat: dLat, lng: dLng }, map, icon: { path: google.maps.SymbolPath.CIRCLE, scale: 8, fillColor: '#0f1923', fillOpacity: 1, strokeColor: '#fff', strokeWeight: 3 }, zIndex: 100 });
+      const coords = foot.geometry.coordinates.map(c => [c[1], c[0]]);
+      routePolyline = L.polyline(coords, { color: CONFIG.couleurPrimaire, weight: 5, opacity: 0.85, lineCap: 'round', lineJoin: 'round' }).addTo(map);
+      const sIcon = L.divIcon({ html: '<div style="width:14px;height:14px;border-radius:50%;background:#fff;border:3px solid #0f1923"></div>', className: '', iconSize: [14,14], iconAnchor: [7,7] });
+      const eIcon = L.divIcon({ html: '<div style="width:16px;height:16px;border-radius:50%;background:#0f1923;border:3px solid #fff"></div>', className: '', iconSize: [16,16], iconAnchor: [8,8] });
+      const sM = L.marker([userLat, userLng], { icon: sIcon }).addTo(map);
+      const eM = L.marker([dLat, dLng], { icon: eIcon }).addTo(map);
       routeMarkers = [sM, eM];
-      const bounds = new google.maps.LatLngBounds();
-      path.forEach(p => bounds.extend(p));
-      map.fitBounds(bounds, { top: 80, right: 40, bottom: 120, left: 40 });
+      map.fitBounds(routePolyline.getBounds(), { padding: [60, 60] });
       routeActive = true;
       const distKm = foot.distance / 1000;
       const footDist = foot.distance < 1000 ? Math.round(foot.distance) + 'm' : distKm.toFixed(1) + 'km';
@@ -352,8 +332,8 @@ function _showRouteBanner(footTime, footDist, carTime, carDist) {
 }
 
 function cancelRoute() {
-  if (routePolyline) { routePolyline.setMap(null); routePolyline = null; }
-  routeMarkers.forEach(m => m.setMap(null)); routeMarkers = [];
+  if (routePolyline) { map.removeLayer(routePolyline); routePolyline = null; }
+  routeMarkers.forEach(m => map.removeLayer(m)); routeMarkers = [];
   document.getElementById('route-banner')?.remove();
   routeActive = false; showToast('Itinéraire annulé');
 }
@@ -362,8 +342,10 @@ function cancelRoute() {
 function locateUser() {
   navigator.geolocation?.getCurrentPosition(pos => {
     userLat = pos.coords.latitude; userLng = pos.coords.longitude;
-    map.setCenter({ lat: userLat, lng: userLng }); map.setZoom(17);
-    _placeUserMarker(userLat, userLng); showToast('Position trouvée');
+    map.setView([userLat, userLng], 17);
+    if (userMarker) map.removeLayer(userMarker);
+    userMarker = L.marker([userLat, userLng], { icon: makeUserMarkerIcon() }).addTo(map);
+    showToast('Position trouvée');
   }, () => showToast('GPS refusé'));
 }
 
