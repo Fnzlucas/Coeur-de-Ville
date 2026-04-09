@@ -66,21 +66,21 @@ body{padding-bottom:80px;}
 .home-see-all .material-symbols-outlined{font-size:16px;}
 
 /* ── CAROUSEL ── */
-.home-carousel{display:flex;gap:14px;overflow-x:auto;padding:0 20px 20px;scrollbar-width:none;}
+.home-carousel{display:flex;gap:12px;overflow-x:auto;padding:0 20px 16px;scrollbar-width:none;-webkit-overflow-scrolling:touch;}
 .home-carousel::-webkit-scrollbar{display:none;}
 
 /* ── POI CARD ── */
-.home-poi-card{min-width:200px;background:#fff;border-radius:20px;overflow:hidden;box-shadow:0 4px 20px rgba(0,0,0,0.1);flex-shrink:0;cursor:pointer;transition:all 0.2s;}
+.home-poi-card{min-width:160px;max-width:160px;background:#fff;border-radius:16px;overflow:hidden;box-shadow:0 4px 16px rgba(0,0,0,0.1);flex-shrink:0;cursor:pointer;transition:all 0.2s;}
 .home-poi-card:active{transform:scale(0.97);}
-.home-poi-card-img{width:100%;height:140px;object-fit:cover;display:block;}
-.home-poi-card-ph{width:100%;height:140px;display:flex;align-items:center;justify-content:center;}
-.home-poi-card-body{padding:12px 14px 14px;}
+.home-poi-card-img{width:100%;height:120px;object-fit:cover;display:block;}
+.home-poi-card-ph{width:100%;height:120px;display:flex;align-items:center;justify-content:center;}
+.home-poi-card-body{padding:10px 12px 12px;}
 .home-poi-card-cat{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;margin-bottom:4px;}
-.home-poi-card-name{font-size:14px;font-weight:800;color:#0f1923;line-height:1.2;margin-bottom:4px;font-family:Manrope;}
+.home-poi-card-name{font-size:13px;font-weight:800;color:#0f1923;line-height:1.2;margin-bottom:3px;font-family:Manrope;}
 .home-poi-card-dist{font-size:11px;color:#94a3b8;font-weight:500;}
 
 /* ── ANECDOTE CARD ── */
-.home-anecdote-card{min-width:260px;border-radius:20px;overflow:hidden;position:relative;height:180px;flex-shrink:0;cursor:pointer;transition:all 0.2s;}
+.home-anecdote-card{min-width:220px;max-width:220px;border-radius:16px;overflow:hidden;position:relative;height:160px;flex-shrink:0;cursor:pointer;transition:all 0.2s;}
 .home-anecdote-card:active{transform:scale(0.97);}
 .home-anecdote-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,0.88) 0%,rgba(0,0,0,0.2) 55%,transparent 100%);}
 .home-anecdote-content{position:absolute;bottom:0;left:0;padding:16px;}
@@ -89,11 +89,11 @@ body{padding-bottom:80px;}
 .home-anecdote-text{font-size:14px;font-weight:800;color:#fff;line-height:1.3;font-family:Manrope;}
 
 /* ── COMMERCE CARD ── */
-.home-commerce-card{min-width:200px;background:#fff;border-radius:20px;overflow:hidden;box-shadow:0 4px 20px rgba(0,0,0,0.08);flex-shrink:0;cursor:pointer;transition:all 0.2s;}
+.home-commerce-card{min-width:160px;max-width:160px;background:#fff;border-radius:16px;overflow:hidden;box-shadow:0 4px 16px rgba(0,0,0,0.08);flex-shrink:0;cursor:pointer;transition:all 0.2s;}
 .home-commerce-card:active{transform:scale(0.97);}
-.home-commerce-card-icon{width:100%;height:110px;display:flex;align-items:center;justify-content:center;}
-.home-commerce-card-icon .material-symbols-outlined{font-size:44px;}
-.home-commerce-card-body{padding:12px 14px 14px;}
+.home-commerce-card-icon{width:100%;height:90px;display:flex;align-items:center;justify-content:center;}
+.home-commerce-card-icon .material-symbols-outlined{font-size:36px;}
+.home-commerce-card-body{padding:10px 12px 12px;}
 .home-commerce-card-tag{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;margin-bottom:3px;}
 .home-commerce-card-name{font-size:14px;font-weight:800;color:#0f1923;line-height:1.2;margin-bottom:4px;font-family:Manrope;}
 .home-commerce-card-hours{font-size:11px;color:#94a3b8;display:flex;align-items:center;gap:4px;}
