@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="fr" style="height:100%;">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"/>
+<title>Carte — Cœur de Ville</title>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600&display=swap"/>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html,body{height:100%;overflow:hidden;font-family:'Manrope',sans-serif;background:#f8f8f6;}
+
+/* Header */
+#app-header{
+  position:fixed;top:0;left:0;right:0;height:48px;z-index:1000;
+  background:rgba(255,255,255,0.92);backdrop-filter:blur(20px);
+  border-bottom:1px solid rgba(0,0,0,0.06);
+  display:flex;align-items:center;padding:0 8px;
+}
+#app-header .h-logo{flex:1;display:flex;justify-content:center;}
+#app-header button{background:none;border:none;cursor:pointer;border-radius:50%;padding:6px;display:flex;align-items:center;justify-content:center;}
+#app-header button:hover{background:rgba(0,0,0,0.05);}
+
+/* Map */
+#map-wrap{position:fixed;top:48px;left:0;right:0;bottom:64px;}
+#map{width:100%;height:100%;}
+
+/* Bottom Nav */
+#bottomnav{
+  position:fixed;bottom:0;left:0;right:0;height:64px;z-index:1000;
+  background:rgba(255,255,255,0.92);backdrop-filter:blur(20px);
+  border-top:1px solid rgba(0,0,0,0.06);
+  display:flex;align-items:center;justify-content:space-around;padding:0 8px;
+  border-radius:20px 20px 0 0;
+}
+.n-btn{background:none;border:none;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:2px;padding:6px 12px;border-radius:12px;transition:all 0.2s;color:#94a3b8;}
+.n-btn span.material-symbols-outlined{font-size:22px;}
+.n-btn span.lbl{font-size:9px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;}
+.n-btn.active{color:#0f1923;}
+.n-btn.active span.material-symbols-outlined{font-variation-settings:'FILL' 1,'wght' 500;}
+
+/* FAB */
+#map-fabs{position:fixed;right:16px;bottom:80px;display:flex;flex-direction:column;gap:10px;z-index:500;}
+.fab{width:44px;height:44px;border-radius:50%;border:none;cursor:pointer;background:#fff;box-shadow:0 2px 12px rgba(0,0,0,0.15);display:flex;align-items:center;justify-content:center;color:#0f1923;transition:all 0.2s;}
+.fab:hover{box-shadow:0 4px 16px rgba(0,0,0,0.2);transform:scale(1.05);}
+.fab .material-symbols-outlined{font-size:20px;}
+
+/* Searchbar */
+#search-bar-wrap{display:none;position:fixed;top:48px;left:0;right:0;z-index:999;background:rgba(255,255,255,0.97);backdrop-filter:blur(16px);padding:10px 16px;border-bottom:1px solid rgba(0,0,0,0.06);}
+#search-input{width:100%;background:#f1f3f4;border:none;border-radius:12px;padding:9px 14px 9px 38px;font-size:14px;font-family:Manrope;outline:none;}
+
+/* Popup Card */
+#popup-container{display:none;position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);width:calc(100% - 32px);max-width:360px;z-index:800;}
+#popup-card{background:#fff;border-radius:24px;width:100%;box-shadow:0 20px 60px rgba(0,0,0,0.25);opacity:0;transform:scale(0.92) translateY(8px);transition:opacity 0.2s ease,transform 0.28s cubic-bezier(0.34,1.5,0.64,1);overflow:hidden;}
+#popup-card.visible{opacity:1;transform:scale(1) translateY(0);}
+.pw-img-wrap{position:relative;width:100%;height:220px;overflow:hidden;border-radius:24px 24px 0 0;}
+.pw-img{width:100%;height:100%;object-fit:cover;display:block;}
+.pw-img-placeholder{width:100%;height:100%;display:flex;align-items:center;justify-content:center;}
+.pw-badge{position:absolute;top:14px;left:14px;color:#fff;font-size:10px;font-weight:700;letter-spacing:0.06em;text-transform:uppercase;padding:5px 12px;border-radius:20px;background:rgba(0,0,0,0.45);backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,0.2);}
+.pw-x{position:absolute;top:12px;right:12px;background:rgba(255,255,255,0.95);backdrop-filter:blur(8px);border:none;border-radius:50%;width:32px;height:32px;color:#0f1923;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 12px rgba(0,0,0,0.2);}
+.pw-body{padding:16px 18px 4px;}
+.pw-name{font-size:18px;font-weight:800;color:#0f1923;margin-bottom:5px;line-height:1.2;}
+.pw-desc{font-size:13px;color:#6b7280;line-height:1.5;margin-bottom:0;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;}
+.pw-meta{display:flex;align-items:center;gap:8px;padding:8px 18px 10px;}
+.pw-cat-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0;}
+.pw-cat-label{font-size:12px;font-weight:600;}
+.pw-dist{font-size:12px;color:#94a3b8;margin-left:auto;font-weight:500;}
+.pw-footer-row{display:flex;align-items:center;justify-content:space-between;padding:14px 20px 20px;border-top:1px solid #f1f5f9;}
+.pw-rating{display:flex;align-items:center;gap:5px;font-size:14px;font-weight:700;color:#0f1923;}
+.pw-rating-star{font-size:16px;color:#f59e0b;}
+.pw-cta-btn{background:#0f1923;color:#fff;border:none;border-radius:12px;padding:10px 20px;font-family:Manrope;font-size:13px;font-weight:700;cursor:pointer;display:flex;align-items:center;gap:6px;transition:all 0.15s;}
+.pw-cta-btn:active{transform:scale(0.97);}
+.pw-cta-btn .material-symbols-outlined{font-size:16px;}
+.pw-cta-secondary{background:#f1f5f9;color:#0f1923;}
+.pw-era,.pw-cta,.pw-nav,.pw-sv-btn,.pw-btn,.pw-actions,.pw-cat-row{display:none;}
+
+/* Toast */
+#toast{position:fixed;bottom:80px;left:50%;transform:translateX(-50%) translateY(20px);background:rgba(15,25,35,0.9);color:#fff;padding:8px 20px;border-radius:20px;font-size:13px;font-family:Manrope;font-weight:600;opacity:0;transition:all 0.3s;z-index:9000;white-space:nowrap;}
+#toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+
+/* Route banner */
+#route-banner{position:fixed;bottom:72px;left:16px;right:16px;z-index:700;background:#fff;border-radius:16px;padding:14px 16px;box-shadow:0 4px 20px rgba(0,0,0,0.15);display:flex;align-items:center;gap:12px;}
+
+/* Filter bar */
+#filter-bar{display:none;}
+
+/* Leaflet overrides */
+.leaflet-control-zoom{border:none!important;box-shadow:none!important;display:none;}
+.yah-ring{position:absolute;width:44px;height:44px;border-radius:50%;border:2px solid #3B5BDB;animation:yah-pulse 2s infinite;}
+.yah-dot{position:absolute;width:16px;height:16px;border-radius:50%;background:#3B5BDB;border:2px solid #fff;box-shadow:0 2px 8px rgba(59,91,219,0.5);}
+.yah-label{font-family:Manrope;font-size:10px;font-weight:700;color:#3B5BDB;margin-top:2px;}
+@keyframes yah-pulse{0%,100%{transform:scale(1);opacity:0.6;}50%{transform:scale(1.4);opacity:0;}}
+@keyframes spin{to{transform:rotate(360deg);}}
+@keyframes blink{0%,100%{opacity:1;}50%{opacity:0;}}
+
+/* Immersive */
+#imm-overlay{display:none;position:fixed;inset:0;z-index:2000;background:#0f1923;flex-direction:column;}
+#imm-overlay.open{display:flex;}
+#imm-bg{position:absolute;inset:0;background-size:cover;background-position:center;transition:opacity 0.8s;opacity:0;}
+#imm-bg.ready{opacity:1;}
+#imm-tint{position:absolute;inset:0;opacity:0;transition:opacity 0.8s;}
+#imm-tint.ready{opacity:1;}
+#imm-particles{display:none;}
+#imm-overlay.ready #imm-content{opacity:1;transform:translateY(0);}
+#imm-content{position:relative;z-index:10;display:flex;flex-direction:column;height:100%;padding:60px 28px 36px;opacity:0;transform:translateY(30px);transition:all 0.6s 0.3s;background:linear-gradient(90deg,rgba(0,0,0,0.72) 0%,rgba(0,0,0,0.45) 55%,transparent 100%);}
+#imm-era-badge{font-size:10px;font-weight:700;letter-spacing:0.15em;text-transform:uppercase;color:rgba(255,255,255,0.9);background:rgba(255,255,255,0.15);backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,0.25);padding:5px 12px;border-radius:20px;width:fit-content;margin-bottom:16px;}
+#imm-title{font-size:28px;font-weight:800;color:#fff;line-height:1.1;margin-bottom:8px;text-shadow:0 2px 16px rgba(0,0,0,0.5);}
+#imm-subtitle{font-size:11px;font-weight:600;letter-spacing:0.12em;color:rgba(255,255,255,0.75);margin-bottom:24px;}
+#imm-stats{display:flex;gap:0;margin-bottom:28px;background:rgba(255,255,255,0.1);backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,0.18);border-radius:16px;padding:14px 20px;width:fit-content;}
+.imm-stat{display:flex;flex-direction:column;gap:2px;}
+.imm-stat+.imm-stat{border-left:1px solid rgba(255,255,255,0.15);margin-left:20px;padding-left:20px;}
+.imm-stat-val{font-size:18px;font-weight:800;color:#fff;line-height:1.2;}
+.imm-stat-lbl{font-size:10px;color:rgba(255,255,255,0.6);font-weight:500;margin-top:2px;}
+#imm-narration-text{font-size:15px;line-height:1.8;color:rgba(255,255,255,0.95);font-weight:500;max-width:420px;flex:1;opacity:0;transform:translateY(14px);transition:opacity 0.8s,transform 0.8s;text-shadow:0 1px 8px rgba(0,0,0,0.4);}
+#imm-narration-text.visible{opacity:1;transform:translateY(0);}
+#imm-cursor{display:inline-block;width:2px;height:1em;background:rgba(255,255,255,0.7);margin-left:2px;animation:blink 1s infinite;}
+#imm-cursor.done{animation:none;opacity:0;}
+#imm-actions{display:flex;gap:10px;margin-top:20px;}
+#imm-navigate-btn{background:#fff;color:#0f1923;border:none;border-radius:14px;padding:13px 26px;font-family:Manrope;font-size:14px;font-weight:700;cursor:pointer;display:flex;align-items:center;gap:8px;box-shadow:0 4px 20px rgba(0,0,0,0.25);transition:all 0.15s;}
+#imm-navigate-btn:active{transform:scale(0.97);}
+#imm-close-btn{background:rgba(255,255,255,0.12);color:#fff;border:1px solid rgba(255,255,255,0.25);border-radius:14px;padding:13px 20px;font-family:Manrope;font-size:14px;font-weight:600;cursor:pointer;display:flex;align-items:center;gap:6px;backdrop-filter:blur(8px);transition:all 0.15s;}
+#imm-close-btn:active{transform:scale(0.97);}
+#imm-scroll{background:none;border:none;color:rgba(255,255,255,0.65);cursor:pointer;display:flex;align-items:center;gap:5px;font-family:Manrope;font-size:12px;font-weight:500;margin-top:14px;letter-spacing:0.04em;}
+#imm-detail{position:absolute;bottom:0;left:0;right:0;background:rgba(15,25,35,0.97);backdrop-filter:blur(20px);border-radius:24px 24px 0 0;padding:20px 20px 40px;transform:translateY(100%);transition:transform 0.4s cubic-bezier(0.34,1.2,0.64,1);z-index:20;max-height:70vh;overflow-y:auto;}
+#imm-detail.open{transform:translateY(0);}
+.imm-detail-section{margin-bottom:20px;}
+.imm-detail-section h4{font-size:11px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:rgba(255,255,255,0.75);margin-bottom:8px;}
+.imm-detail-section p{font-size:14px;line-height:1.8;color:rgba(255,255,255,0.95);font-weight:500;}
+.imm-timeline{display:flex;flex-direction:column;gap:12px;}
+.imm-tl-item{display:flex;align-items:flex-start;gap:12px;}
+.imm-tl-dot{width:8px;height:8px;border-radius:50%;background:#fff;flex-shrink:0;margin-top:5px;opacity:0.7;}
+.imm-tl-year{font-size:12px;font-weight:700;color:#fff;width:40px;flex-shrink:0;}
+.imm-tl-text{font-size:13px;color:rgba(255,255,255,0.95);font-weight:500;}
+
+/* AR View */
+#ar-view{display:none;position:fixed;inset:0;z-index:3000;background:#000;}
+#ar-video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;}
+#ar-epoch-banner{position:absolute;top:80px;left:50%;transform:translateX(-50%);background:rgba(0,0,0,0.6);backdrop-filter:blur(10px);color:#fff;font-family:Manrope;font-size:12px;font-weight:600;padding:6px 16px;border-radius:20px;white-space:nowrap;z-index:10;}
+#ar-hud{position:absolute;top:0;left:0;right:0;z-index:10;padding:16px;}
+#ar-hud-inner{display:flex;align-items:center;gap:12px;}
+.ar-compass{width:32px;height:32px;}
+#ar-heading-text{color:#fff;font-family:Manrope;font-size:13px;font-weight:600;flex:1;}
+#ar-close-btn{background:rgba(255,255,255,0.15);border:none;border-radius:50%;width:32px;height:32px;color:#fff;cursor:pointer;font-size:16px;}
+#ar-distance-ring{position:absolute;bottom:160px;left:50%;transform:translateX(-50%);background:rgba(0,0,0,0.6);color:#fff;font-family:Manrope;font-size:12px;padding:6px 14px;border-radius:20px;z-index:10;}
+#ar-bottom-bar{position:absolute;bottom:72px;left:16px;right:16px;z-index:10;display:flex;gap:10px;}
+#ar-radar-btn,#ar-ghost-btn,#ar-nearest-btn{flex:1;background:rgba(255,255,255,0.12);backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,0.2);border-radius:14px;color:#fff;font-family:Manrope;font-size:11px;font-weight:600;padding:10px 6px;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:4px;}
+#ar-grain,#ar-vignette,#ar-ghost-ov,#ar-flash,#ar-ov{position:absolute;inset:0;pointer-events:none;}
+#ar-grain{background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");opacity:0.4;}
+#ar-vignette{background:radial-gradient(ellipse at center,transparent 60%,rgba(0,0,0,0.5) 100%);}
+#nav-overlay{display:none;position:fixed;top:48px;left:16px;right:16px;z-index:600;background:#fff;border-radius:16px;padding:14px 16px;box-shadow:0 4px 20px rgba(0,0,0,0.15);}
+#nav-overlay.on{display:flex;align-items:center;gap:12px;}
+#hist-lightbox{display:none;position:fixed;inset:0;z-index:4000;background:rgba(0,0,0,0.95);flex-direction:column;align-items:center;justify-content:center;gap:16px;}
+#hist-lightbox.open{display:flex;}
+#hist-lightbox-close{position:absolute;top:16px;right:16px;background:rgba(255,255,255,0.15);border:none;border-radius:50%;width:36px;height:36px;color:#fff;font-size:18px;cursor:pointer;}
+#hist-lightbox-label{color:rgba(255,255,255,0.5);font-family:Manrope;font-size:12px;}
+#hist-lightbox-img{max-width:90vw;max-height:60vh;border-radius:12px;object-fit:contain;}
+#hist-lightbox-caption{color:rgba(255,255,255,0.7);font-family:Manrope;font-size:13px;text-align:center;max-width:320px;line-height:1.5;}
+#radar-overlay{display:none;position:fixed;inset:0;z-index:3500;background:rgba(5,10,20,0.97);flex-direction:column;align-items:center;justify-content:center;}
+#radar-overlay.open{display:flex;}
+.fp,.fdot{display:none;}
+
+/* Street View */
+#sv-modal{display:none;position:fixed;inset:0;z-index:99999;flex-direction:column;background:#0f1923;}
+</style>
+</head>
+<body style="height:100%;margin:0;overflow:hidden;">
+
+<!-- HEADER -->
+<header id="app-header">
+  <button onclick="window.location.href='index.html'">
+    <span class="material-symbols-outlined" style="font-size:22px;color:#0f1923;">arrow_back</span>
+  </button>
+  <div class="h-logo">
+    <img src="assets/logo.png" alt="Cœur de Ville" style="height:38px;object-fit:contain;" onerror="this.style.display='none';this.nextElementSibling.style.display='block'"/>
+    <span style="display:none;font-family:Manrope;font-weight:900;font-size:16px;color:#0f1923;letter-spacing:-0.02em;">♥ CŒUR DE VILLE</span>
+  </div>
+  <button id="search-btn" onclick="toggleSearch()">
+    <span id="search-icon" class="material-symbols-outlined" style="font-size:22px;color:#0f1923;">search</span>
+  </button>
+</header>
+
+<!-- SEARCHBAR -->
+<div id="search-bar-wrap">
+  <div style="position:relative;">
+    <span class="material-symbols-outlined" style="position:absolute;left:10px;top:50%;transform:translateY(-50%);font-size:16px;color:#94a3b8;">search</span>
+    <input id="search-input" type="text" placeholder="Rechercher un lieu…"/>
+  </div>
+</div>
+
+<!-- MAP -->
+<div id="map-wrap">
+  <div id="map" style="width:100%;height:100%;"></div>
+</div>
+
+<!-- FAB -->
+<div id="map-fabs">
+  <button class="fab" onclick="locateUser()" id="locate-btn">
+    <span class="material-symbols-outlined">my_location</span>
+  </button>
+  <button class="fab" onclick="window.leafletMap && window.leafletMap.zoomIn()">
+    <span class="material-symbols-outlined">add</span>
+  </button>
+  <button class="fab" onclick="window.leafletMap && window.leafletMap.zoomOut()">
+    <span class="material-symbols-outlined">remove</span>
+  </button>
+</div>
+
+<!-- POPUP -->
+<div id="popup-container"><div id="popup-card"></div></div>
+<div id="filter-bar"></div>
+<div id="toast"></div>
+
+<!-- BOTTOM NAV -->
+<nav id="bottomnav">
+  <button class="n-btn" onclick="window.location.href='index.html'">
+    <span class="material-symbols-outlined">home</span>
+    <span class="lbl">Accueil</span>
+  </button>
+  <button class="n-btn active" id="nav-tourisme" onclick="switchSection('tourisme')">
+    <span class="material-symbols-outlined">explore</span>
+    <span class="lbl">Patrimoine</span>
+  </button>
+  <button class="n-btn" id="nav-commerce" onclick="switchSection('commerce')">
+    <span class="material-symbols-outlined">storefront</span>
+    <span class="lbl">Commerces</span>
+  </button>
+  <button class="n-btn" id="nav-evenements" onclick="switchSection('evenements')">
+    <span class="material-symbols-outlined">event</span>
+    <span class="lbl">Agenda</span>
+  </button>
+  <button class="n-btn" id="nav-ar" onclick="startAR()">
+    <span class="material-symbols-outlined">view_in_ar</span>
+    <span class="lbl">AR</span>
+  </button>
+</nav>
+
+<!-- IMMERSIVE -->
+<div id="imm-overlay">
+  <div id="imm-bg"></div><div id="imm-tint"></div><div id="imm-particles"></div>
+  <div id="imm-content">
+    <div id="imm-era-badge"></div>
+    <div id="imm-title"></div>
+    <div id="imm-subtitle"></div>
+    <div id="imm-stats">
+      <div class="imm-stat"><div class="imm-stat-val" id="imm-stat-age"></div><div class="imm-stat-lbl">Siècle</div></div>
+      <div class="imm-stat"><div class="imm-stat-val" id="imm-stat-cat"></div><div class="imm-stat-lbl">Type</div></div>
+      <div class="imm-stat"><div class="imm-stat-val" id="imm-stat-dist"></div><div class="imm-stat-lbl">Distance</div></div>
+    </div>
+    <div id="imm-narration-text"></div><span id="imm-cursor"></span>
+    <div id="imm-actions">
+      <button id="imm-navigate-btn"><span class="material-symbols-outlined" style="font-size:16px;">near_me</span>Y aller</button>
+      <button id="imm-close-btn" onclick="closeImmersive()"><span class="material-symbols-outlined" style="font-size:16px;">close</span>Fermer</button>
+    </div>
+    <button id="imm-scroll"><span class="material-symbols-outlined" style="font-size:14px;">expand_more</span>En savoir plus</button>
+  </div>
+  <div id="imm-detail"><div id="imm-detail-inner"></div></div>
+</div>
+
+<!-- AR VIEW -->
+<div id="ar-view">
+  <video id="ar-video" autoplay playsinline muted></video>
+  <div id="ar-grain"></div><div id="ar-vignette"></div><div id="ar-ghost-ov"></div>
+  <div id="ar-epoch-banner"></div>
+  <div id="ar-flash"></div><div id="ar-ov"></div>
+  <div id="ar-hud">
+    <div id="ar-hud-inner">
+      <div class="ar-compass"><svg id="ar-compass-svg" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><circle cx="12" cy="12" r="10"/><polygon points="12,4 14,12 12,11 10,12" fill="red" stroke="none"/><polygon points="12,20 14,12 12,13 10,12" fill="white" stroke="none"/></svg></div>
+      <span id="ar-heading-text">AR · Réalité Augmentée</span>
+      <button id="ar-close-btn" onclick="stopAR()">✕</button>
+    </div>
+  </div>
+  <div id="ar-distance-ring">Recherche GPS…</div>
+  <div id="ar-bottom-bar">
+    <button id="ar-radar-btn" onclick="openRadar()"><span class="material-symbols-outlined" style="font-size:18px;">radar</span>Radar</button>
+    <button id="ar-ghost-btn" onclick="toggleGhostMode()"><span class="material-symbols-outlined" style="font-size:18px;">ghost</span>Ghost</button>
+    <button id="ar-nearest-btn" onclick="navigateToNearest()"><span class="material-symbols-outlined" style="font-size:18px;">near_me</span>Plus proche</button>
+  </div>
+</div>
+
+<!-- Autres overlays -->
+<div id="nav-overlay">
+  <div><div id="nav-dest-name" style="font-weight:700;font-size:14px;color:#0f1923;"></div><div id="nav-dest-cat" style="font-size:11px;color:#94a3b8;"></div></div>
+  <div id="nav-top-dist" style="font-size:13px;font-weight:600;color:#3B5BDB;margin-left:auto;"></div>
+  <button onclick="stopNavigation()" style="background:none;border:none;cursor:pointer;"><span class="material-symbols-outlined" style="font-size:20px;color:#94a3b8;">close</span></button>
+</div>
+<div id="hist-lightbox">
+  <button id="hist-lightbox-close" onclick="closeHistLightbox()">✕</button>
+  <div id="hist-lightbox-label">Vue d'antan</div>
+  <img id="hist-lightbox-img" src="" alt=""/>
+  <div id="hist-lightbox-caption"></div>
+</div>
+<div id="radar-overlay">
+  <button onclick="closeRadar()" style="position:absolute;top:16px;right:16px;background:rgba(255,255,255,0.1);border:none;border-radius:50%;width:36px;height:36px;color:#fff;cursor:pointer;font-size:18px;">✕</button>
+</div>
+
+<!-- Street View -->
+<div id="sv-modal" style="display:none;position:fixed;inset:0;z-index:99999;flex-direction:column;background:#0f1923;">
+  <div style="display:flex;align-items:center;justify-content:space-between;padding:12px 16px;background:rgba(0,0,0,0.6);backdrop-filter:blur(16px);flex-shrink:0;border-bottom:1px solid rgba(255,255,255,0.08);">
+    <div style="display:flex;align-items:center;gap:10px;">
+      <span class="material-symbols-outlined" style="color:#fff;font-size:20px;">streetview</span>
+      <span id="sv-title" style="color:#fff;font-family:Manrope;font-size:15px;font-weight:700;"></span>
+    </div>
+    <button onclick="closeSV()" style="background:rgba(255,255,255,0.1);border:none;border-radius:50%;width:34px;height:34px;display:flex;align-items:center;justify-content:center;cursor:pointer;">
+      <span class="material-symbols-outlined" style="color:#fff;font-size:18px;">close</span>
+    </button>
+  </div>
+  <div id="sv-pano" style="flex:1;width:100%;min-height:0;"></div>
+</div>
+
+<!-- SCRIPTS -->
+<script src="config.js"></script>
+<script src="data/pois.js"></script>
+<script src="core/ui.js"></script>
+<script src="core/ar.js"></script>
+<script>
+window.leafletMap = null;
+
+function toggleSearch() {
+  const wrap = document.getElementById('search-bar-wrap');
+  const icon = document.getElementById('search-icon');
+  if (!wrap.style.display || wrap.style.display === 'none') {
+    wrap.style.display = 'block'; icon.textContent = 'close';
+    document.getElementById('search-input').focus();
+  } else {
+    wrap.style.display = 'none'; icon.textContent = 'search';
+  }
+}
+
+function locateUser() { if(typeof _locateUser==='function') _locateUser(); }
+function startAR() { if(typeof _startAR==='function') _startAR(); }
+function stopAR() { if(typeof _stopAR==='function') _stopAR(); }
+function openRadar() { if(typeof _openRadar==='function') _openRadar(); }
+function closeRadar() { if(typeof _closeRadar==='function') _closeRadar(); }
+function toggleGhostMode() { if(typeof _toggleGhostMode==='function') _toggleGhostMode(); }
+function navigateToNearest() { if(typeof _navigateToNearest==='function') _navigateToNearest(); }
+function closeHistLightbox() { if(typeof _closeHistLightbox==='function') _closeHistLightbox(); }
+
+// Street View
+function openStreetView(lat, lng, name) {
+  if (lat == null) {
+    const ctr = window.leafletMap ? window.leafletMap.getCenter() : {lat:CONFIG.lat, lng:CONFIG.lng};
+    lat = ctr.lat; lng = ctr.lng; name = 'Vue actuelle';
+  }
+  lat = parseFloat(lat); lng = parseFloat(lng);
+  const modal = document.getElementById('sv-modal');
+  document.getElementById('sv-title').textContent = name || 'Street View';
+  modal.style.display = 'flex';
+  document.body.style.overflow = 'hidden';
+  const pano = document.getElementById('sv-pano');
+  pano.innerHTML = '<div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:12px;"><div style="width:36px;height:36px;border:3px solid rgba(255,255,255,0.15);border-top-color:#fff;border-radius:50%;animation:spin 0.8s linear infinite;"></div><span style="color:rgba(255,255,255,0.4);font-family:Manrope;font-size:13px;">Chargement…</span></div>';
+  const MLY = 'MLY|9426507510724280|cb87f51f21cb07d66cf03f9c9b7bde4e';
+  const delta = 0.005;
+  const bbox = (lng-delta)+','+(lat-delta)+','+(lng+delta)+','+(lat+delta);
+  fetch('https://graph.mapillary.com/images?access_token='+MLY+'&fields=id&limit=1&bbox='+bbox)
+    .then(r => r.json())
+    .then(data => {
+      if (!data.data || !data.data.length) { showSVMsg('Aucune photo disponible ici'); return; }
+      pano.innerHTML = '';
+      const iframe = document.createElement('iframe');
+      iframe.style.cssText = 'width:100%;height:100%;border:none;';
+      iframe.src = 'https://www.mapillary.com/embed?image_key='+data.data[0].id+'&style=photo';
+      iframe.allowFullscreen = true;
+      pano.appendChild(iframe);
+    })
+    .catch(() => showSVMsg('Connexion impossible'));
+}
+
+function showSVMsg(msg) {
+  document.getElementById('sv-pano').innerHTML = '<div style="width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;"><span class="material-symbols-outlined" style="font-size:56px;color:rgba(255,255,255,0.2);">no_photography</span><p style="color:rgba(255,255,255,0.5);font-family:Manrope;font-size:14px;text-align:center;max-width:240px;margin:0;">'+msg+'</p><button onclick="closeSV()" style="background:#3B5BDB;color:#fff;border:none;border-radius:12px;padding:10px 24px;font-family:Manrope;font-size:14px;font-weight:600;cursor:pointer;">Fermer</button></div>';
+}
+
+function closeSV() {
+  document.getElementById('sv-modal').style.display = 'none';
+  document.body.style.overflow = '';
+  document.getElementById('sv-pano').innerHTML = '';
+}
+
+window.openStreetView = openStreetView;
+window.closeStreetView = closeSV;
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeSV(); });
+
+if (typeof initMap === 'function') initMap();
+</script>
+</body>
+</html>
