@@ -1411,6 +1411,20 @@ window.closeStreetView = closeSV;
 document.addEventListener('keydown', e => { if (e.key === 'Escape') closeSV(); });
 
 if (typeof initMap === 'function') initMap();
+
+// Ouvrir un POI si passé en paramètre URL
+const urlParams = new URLSearchParams(window.location.search);
+const poiId = urlParams.get('poi');
+if (poiId) {
+  setTimeout(() => {
+    const id = parseInt(poiId);
+    const place = [...(typeof PLACES !== 'undefined' ? PLACES : []), ...(typeof COMMERCES !== 'undefined' ? COMMERCES : [])].find(p => p.id === id);
+    if (place && window.leafletMap) {
+      window.leafletMap.setView([place.lat, place.lng], 17);
+      openCustomPopup(buildPopupHTML(place));
+    }
+  }, 800);
+}
 </script>
 </body>
 </html>
