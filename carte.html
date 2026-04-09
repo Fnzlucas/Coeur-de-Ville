@@ -831,9 +831,8 @@ function renderEvenements() {
     const marker = L.marker([ev.lat, ev.lng], { icon });
     marker.addTo(map); allMarkers.push(marker);
     marker.on('click', () => {
-      openCustomPopup('<div class="pw"><div class="pw-img-wrap" style="height:90px;background:linear-gradient(135deg,' + col + '22,' + col + '44);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px"><span style="font-family:Manrope;font-size:11px;color:' + col + ';font-weight:700">' + (ev.date || '') + '</span><button class="pw-x" onclick="closeCustomPopup()">✕</button></div><div class="pw-body"><div class="pw-name">' + ev.name + '</div><div class="pw-desc">' + ev.desc + '</div></div></div>');
+      openCustomPopup(buildPopupHTML(ev));
     });
-    allMarkers.push(marker);
   });
 }
 
