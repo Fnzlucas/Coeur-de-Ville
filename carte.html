@@ -352,6 +352,7 @@ const CATS = {
   artisan:   { label:'Artisan',   color:'#16a085', dot:'#1abc9c' },
   commerce:  { label:'Commerce',  color:'#8e44ad', dot:'#9b59b6' },
   fete:      { label:'Événement', color:'#2980b9', dot:'#3498db' },
+  evenement: { label:'Événement', color:'#dc5028', dot:'#dc5028' },
 };
 
 // ─── THÈMES VISUELS PAR CATÉGORIE ───────────────────────────
@@ -723,7 +724,7 @@ function makePinSVG(color) {
 
 function renderPlaces(section) {
   allMarkers.forEach(m => map.removeLayer(m)); allMarkers = [];
-  const list = section === 'commerce' ? COMMERCES : PLACES;
+  const list = section === 'commerce' ? COMMERCES : section === 'evenements' ? EVENEMENTS : PLACES;
   list.forEach(place => {
     const col = CATS[place.cat]?.color || CONFIG.couleurPrimaire;
     const icon = L.divIcon({ html: makePinSVG(col), className: '', iconSize: [28, 40], iconAnchor: [14, 40] });
@@ -815,7 +816,7 @@ function switchSection(section) {
     const _fb1 = document.getElementById('filter-bar'); if(_fb1) _fb1.innerHTML = '';
   } else if (section === 'evenements') {
     document.getElementById('nav-evenements')?.classList.add('active');
-    allMarkers.forEach(m => m.setMap(null)); allMarkers = [];
+    allMarkers.forEach(m => map.removeLayer(m)); allMarkers = [];
     renderEvenements();
     const _fb2 = document.getElementById('filter-bar'); if(_fb2) _fb2.innerHTML = '';
   }
@@ -828,7 +829,7 @@ function renderEvenements() {
     const col = CATS[ev.cat]?.color || '#333';
     const icon = L.divIcon({ html: makePinSVG(col), className: '', iconSize: [28, 40], iconAnchor: [14, 40] });
     const marker = L.marker([ev.lat, ev.lng], { icon });
-    marker.addTo(map);
+    marker.addTo(map); allMarkers.push(marker);
     marker.on('click', () => {
       openCustomPopup('<div class="pw"><div class="pw-img-wrap" style="height:90px;background:linear-gradient(135deg,' + col + '22,' + col + '44);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px"><span style="font-family:Manrope;font-size:11px;color:' + col + ';font-weight:700">' + (ev.date || '') + '</span><button class="pw-x" onclick="closeCustomPopup()">✕</button></div><div class="pw-body"><div class="pw-name">' + ev.name + '</div><div class="pw-desc">' + ev.desc + '</div></div></div>');
     });
@@ -1447,7 +1448,7 @@ const poiId = urlParams.get('poi');
 if (poiId) {
   setTimeout(() => {
     const id = parseInt(poiId);
-    const place = [...(typeof PLACES !== 'undefined' ? PLACES : []), ...(typeof COMMERCES !== 'undefined' ? COMMERCES : [])].find(p => p.id === id);
+    const place = [...(typeof PLACES !== 'undefined' ? PLACES : []), ...(typeof COMMERCES !== 'undefined' ? COMMERCES : []), ...(typeof EVENEMENTS !== 'undefined' ? EVENEMENTS : [])].find(p => p.id === id);
     if (place && window.leafletMap) {
       window.leafletMap.setView([place.lat, place.lng], 17);
       openCustomPopup(buildPopupHTML(place));
