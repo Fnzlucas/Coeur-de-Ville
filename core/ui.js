@@ -67,6 +67,7 @@ function makeUserMarkerIcon() {
 // ─── BARRE DE FILTRES ─────────────────────────────────────────
 function buildFilterBar() {
   const bar = document.getElementById('filter-bar');
+  if (!bar) return;
   bar.innerHTML = '';
   const cats = [...new Set(PLACES.map(p => p.cat))];
   const allBtn = document.createElement('button');
@@ -164,6 +165,7 @@ function buildPopupHTML(place) {
 function openCustomPopup(html) {
   const card = document.getElementById('popup-card');
   const container = document.getElementById('popup-container');
+  if (!card || !container) return;
   card.innerHTML = html;
   card.classList.remove('visible');
   container.style.display = 'block';
