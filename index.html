@@ -433,6 +433,7 @@ const PLACES = [
     id: 3,
     cat: 'monument',
     name: "Tour Philippe le Bel",
+    page: "tour-philippe-le-bel.html",
     desc: "Sentinelle médiévale à l'entrée du pont d'Avignon, la tour offre une vue imprenable sur le Rhône et le Palais des Papes.",
     addr: "Montée de la Tour, 30400 Villeneuve-lès-Avignon",
     lat: 43.9586, lng: 4.7976,
@@ -608,22 +609,23 @@ function buildPOIs() {
     151: 'maison-bronzini.html',
   };
 
-  PLACES.forEach(place => {
+  PLACES.forEach(function(place) {
     const col = CATS[place.cat]?.color || '#333';
     const label = CATS[place.cat]?.label || '';
-    const card = document.createElement('div');
-    card.className = 'home-poi-card';
     const dest = place.page || articlePages[place.id] || ('carte.html?poi=' + place.id);
-    card.onclick = () => window.location.href = dest;
-    card.innerHTML = (place.bg
+    const imgHTML = place.bg
       ? '<img class="home-poi-card-img" src="' + place.bg + '" alt="' + place.name + '"/>'
-      : '<div class="home-poi-card-ph" style="background:linear-gradient(135deg,' + col + '18,' + col + '35);height:140px;"><span class="material-symbols-outlined" style="font-size:38px;color:' + col + ';opacity:0.5;">location_city</span></div>'
-    ) + '<div class="home-poi-card-body">' +
-      '<div class="home-poi-card-cat" style="color:' + col + '">' + label + '</div>' +
-      '<div class="home-poi-card-name">' + place.name + '</div>' +
-      '<div class="home-poi-card-dist">' + (place.era || '') + '</div>' +
-    '</div>';
-    el.appendChild(card);
+      : '<div class="home-poi-card-ph" style="background:linear-gradient(135deg,' + col + '18,' + col + '35);height:140px;"><span class="material-symbols-outlined" style="font-size:38px;color:' + col + ';opacity:0.5;">location_city</span></div>';
+    const a = document.createElement('a');
+    a.href = dest;
+    a.style.cssText = 'text-decoration:none;color:inherit;display:block;min-width:160px;max-width:160px;background:#fff;border-radius:16px;overflow:hidden;box-shadow:0 4px 20px rgba(0,0,0,0.1);flex-shrink:0;cursor:pointer;';
+    a.innerHTML = imgHTML +
+      '<div class="home-poi-card-body">' +
+        '<div class="home-poi-card-cat" style="color:' + col + '">' + label + '</div>' +
+        '<div class="home-poi-card-name">' + place.name + '</div>' +
+        '<div class="home-poi-card-dist">' + (place.era || '') + '</div>' +
+      '</div>';
+    el.appendChild(a);
   });
 }
 
@@ -631,23 +633,23 @@ function buildAnecdotes() {
   const el = document.getElementById('home-anecdote-carousel');
   if (!PLACES) return;
   const colors = ['#2c3e50','#8b5e3c','#6b3fa0','#27ae60','#c0392b'];
-  PLACES.filter(p => p.anecdote).forEach((place, i) => {
+  PLACES.filter(p => p.anecdote).forEach(function(place, i) {
     const col = colors[i % colors.length];
-    const card = document.createElement('div');
-    card.className = 'home-anecdote-card';
-    const destC = place.page || ('carte.html?poi=' + place.id);
-    card.onclick = () => window.location.href = destC;
+    const dest = place.page || ('carte.html?poi=' + place.id);
     const bgStyle = place.bg
       ? 'background:url(' + place.bg + ') center/cover no-repeat;'
       : 'background:linear-gradient(135deg,' + col + ',' + col + 'bb);';
-    card.innerHTML =
+    const a = document.createElement('a');
+    a.href = dest;
+    a.style.cssText = 'text-decoration:none;display:block;min-width:220px;max-width:220px;border-radius:16px;overflow:hidden;position:relative;height:160px;flex-shrink:0;';
+    a.innerHTML =
       '<div style="position:absolute;inset:0;' + bgStyle + '"></div>' +
       '<div class="home-anecdote-overlay"></div>' +
       '<div class="home-anecdote-content">' +
         '<div class="home-anecdote-icon"><span class="material-symbols-outlined">auto_stories</span>Le saviez-vous ?</div>' +
         '<div class="home-anecdote-text">' + place.name + '</div>' +
       '</div>';
-    el.appendChild(card);
+    el.appendChild(a);
   });
 }
 
