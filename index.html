@@ -589,6 +589,7 @@ function buildPOIs() {
   const articlePages = {
     1: 'fort-saint-andre.html',
     2: 'tresor-chartreuse.html',
+    101: 'maison-bronzini.html',
   };
 
   PLACES.forEach(place => {
@@ -618,7 +619,8 @@ function buildAnecdotes() {
     const col = colors[i % colors.length];
     const card = document.createElement('div');
     card.className = 'home-anecdote-card';
-    card.onclick = () => window.location.href = 'carte.html';
+    const destC = place.page || ('carte.html?poi=' + place.id);
+    card.onclick = () => window.location.href = destC;
     const bgStyle = place.bg
       ? 'background:url(' + place.bg + ') center/cover no-repeat;'
       : 'background:linear-gradient(135deg,' + col + ',' + col + 'bb);';
@@ -642,7 +644,8 @@ function buildCommerces() {
     const icon = place.cat === 'restaurant' ? 'restaurant' : place.cat === 'artisan' ? 'handyman' : 'storefront';
     const card = document.createElement('div');
     card.className = 'home-commerce-card';
-    card.onclick = () => window.location.href = 'carte.html';
+    const destC = place.page || ('carte.html?poi=' + place.id);
+    card.onclick = () => window.location.href = destC;
     card.innerHTML =
       '<div class="home-commerce-card-icon" style="background:linear-gradient(135deg,' + col + '14,' + col + '28);">' +
         '<span class="material-symbols-outlined" style="color:' + col + ';opacity:0.85;">' + icon + '</span>' +
@@ -667,7 +670,8 @@ function buildEvents() {
     const monthStr = Object.entries(months).find(([k]) => dateStr.toLowerCase().includes(k))?.[1] || 'Été';
     const card = document.createElement('div');
     card.className = 'home-event-card';
-    card.onclick = () => window.location.href = 'carte.html';
+    const destC = place.page || ('carte.html?poi=' + place.id);
+    card.onclick = () => window.location.href = destC;
     card.innerHTML =
       '<div class="home-event-date" style="background:' + col + '18;">' +
         '<div class="home-event-date-day" style="color:' + col + '">' + dayNum + '</div>' +
