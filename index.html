@@ -616,110 +616,141 @@ function toggleMenu() {
 
 function buildPOIs() {
   const el = document.getElementById('home-poi-carousel');
-  if (!PLACES) return;
-  // Pages articles par POI
+  if (!el || !PLACES) return;
   const articlePages = {
-    1: 'fort-saint-andre.html',
-    2: 'chartreuse.html',
-    101: 'maison-bronzini.html',
-    151: 'maison-bronzini.html',
-    201: 'food-trucks.html',
+    1: 'fort-saint-andre.html', 2: 'chartreuse.html',
+    101: 'maison-bronzini.html', 151: 'maison-bronzini.html', 201: 'food-trucks.html',
   };
-
   PLACES.forEach(function(place) {
     const col = CATS[place.cat]?.color || '#333';
     const label = CATS[place.cat]?.label || '';
     const dest = place.page || articlePages[place.id] || ('carte.html?poi=' + place.id);
-    const imgHTML = place.bg
-      ? '<img class="home-poi-card-img" src="' + place.bg + '" alt="' + place.name + '"/>'
-      : '<div class="home-poi-card-ph" style="background:linear-gradient(135deg,' + col + '18,' + col + '35);height:140px;"><span class="material-symbols-outlined" style="font-size:38px;color:' + col + ';opacity:0.5;">location_city</span></div>';
+
     const a = document.createElement('a');
     a.href = dest;
-    a.style.cssText = 'text-decoration:none;color:inherit;display:block;min-width:160px;max-width:160px;background:#fff;border-radius:16px;overflow:hidden;box-shadow:0 4px 20px rgba(0,0,0,0.1);flex-shrink:0;cursor:pointer;';
-    a.innerHTML = imgHTML +
-      '<div class="home-poi-card-body">' +
-        '<div class="home-poi-card-cat" style="color:' + col + '">' + label + '</div>' +
-        '<div class="home-poi-card-name">' + place.name + '</div>' +
-        '<div class="home-poi-card-dist">' + (place.era || '') + '</div>' +
-      '</div>';
+    a.style.cssText = 'text-decoration:none;color:inherit;flex-shrink:0;display:block;min-width:160px;max-width:160px;background:#fff;border-radius:16px;overflow:hidden;box-shadow:0 4px 20px rgba(0,0,0,0.1);';
+
+    if (place.bg) {
+      const img = document.createElement('img');
+      img.src = place.bg;
+      img.alt = place.name;
+      img.style.cssText = 'width:100%;height:120px;object-fit:cover;display:block;';
+      a.appendChild(img);
+    } else {
+      const ph = document.createElement('div');
+      ph.style.cssText = 'width:100%;height:120px;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,' + col + '18,' + col + '35);';
+      ph.innerHTML = '<span class="material-symbols-outlined" style="font-size:38px;color:' + col + ';opacity:0.5;">location_city</span>';
+      a.appendChild(ph);
+    }
+
+    const body = document.createElement('div');
+    body.style.cssText = 'padding:10px 12px 12px;';
+    body.innerHTML = '<div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;margin-bottom:4px;color:' + col + '">' + label + '</div>' +
+      '<div style="font-size:13px;font-weight:800;color:#0f1923;line-height:1.2;margin-bottom:3px;font-family:Manrope;">' + place.name + '</div>' +
+      '<div style="font-size:11px;color:#94a3b8;font-weight:500;">' + (place.era || '') + '</div>';
+    a.appendChild(body);
     el.appendChild(a);
   });
 }
 
 function buildAnecdotes() {
   const el = document.getElementById('home-anecdote-carousel');
-  if (!PLACES) return;
+  if (!el || !PLACES) return;
   const colors = ['#2c3e50','#8b5e3c','#6b3fa0','#27ae60','#c0392b'];
-  PLACES.filter(p => p.anecdote).forEach(function(place, i) {
+  PLACES.filter(function(p) { return p.anecdote; }).forEach(function(place, i) {
     const col = colors[i % colors.length];
     const dest = place.page || ('carte.html?poi=' + place.id);
-    const bgStyle = place.bg
-      ? 'background:url(' + place.bg + ') center/cover no-repeat;'
-      : 'background:linear-gradient(135deg,' + col + ',' + col + 'bb);';
+
     const a = document.createElement('a');
     a.href = dest;
-    a.style.cssText = 'text-decoration:none;display:block;min-width:220px;max-width:220px;border-radius:16px;overflow:hidden;position:relative;height:160px;flex-shrink:0;';
-    a.innerHTML =
-      '<div style="position:absolute;inset:0;' + bgStyle + '"></div>' +
-      '<div class="home-anecdote-overlay"></div>' +
-      '<div class="home-anecdote-content">' +
-        '<div class="home-anecdote-icon"><span class="material-symbols-outlined">auto_stories</span>Le saviez-vous ?</div>' +
-        '<div class="home-anecdote-text">' + place.name + '</div>' +
-      '</div>';
+    a.style.cssText = 'text-decoration:none;flex-shrink:0;display:block;min-width:220px;max-width:220px;border-radius:16px;overflow:hidden;position:relative;height:160px;';
+
+    const bg = document.createElement('div');
+    bg.style.cssText = 'position:absolute;inset:0;' + (place.bg ? 'background:url(' + place.bg + ') center/cover no-repeat;' : 'background:linear-gradient(135deg,' + col + ',' + col + 'bb);');
+    a.appendChild(bg);
+
+    const overlay = document.createElement('div');
+    overlay.className = 'home-anecdote-overlay';
+    a.appendChild(overlay);
+
+    const content = document.createElement('div');
+    content.className = 'home-anecdote-content';
+    content.innerHTML = '<div class="home-anecdote-icon"><span class="material-symbols-outlined">auto_stories</span>Le saviez-vous ?</div>' +
+      '<div class="home-anecdote-text">' + place.name + '</div>';
+    a.appendChild(content);
     el.appendChild(a);
   });
 }
 
 function buildCommerces() {
   const el = document.getElementById('home-commerce-carousel');
-  if (!COMMERCES) return;
+  if (!el || !COMMERCES) return;
   COMMERCES.forEach(function(place) {
     const col = CATS[place.cat]?.color || '#333';
     const label = CATS[place.cat]?.label || '';
     const icon = place.cat === 'restaurant' ? 'restaurant' : place.cat === 'artisan' ? 'handyman' : 'storefront';
     const dest = place.page || ('carte.html?poi=' + place.id);
-    const imgTop = place.bg
-      ? '<img src="' + place.bg + '" style="width:100%;height:110px;object-fit:cover;display:block;" alt="' + place.name + '"/>'
-      : '<div style="width:100%;height:110px;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,' + col + '14,' + col + '28);"><span class="material-symbols-outlined" style="font-size:36px;color:' + col + ';opacity:0.85;">' + icon + '</span></div>';
+
     const a = document.createElement('a');
     a.href = dest;
-    a.style.cssText = 'text-decoration:none;color:inherit;display:block;min-width:160px;max-width:160px;background:#fff;border-radius:16px;overflow:hidden;box-shadow:0 4px 16px rgba(0,0,0,0.08);flex-shrink:0;';
-    a.innerHTML = imgTop +
-      '<div class="home-commerce-card-body">' +
-        '<div class="home-commerce-card-tag" style="color:' + col + '">' + label + '</div>' +
-        '<div class="home-commerce-card-name">' + place.name + '</div>' +
-        '<div class="home-commerce-card-hours"><span class="material-symbols-outlined">schedule</span>' + (place.horaires || 'Ouvert') + '</div>' +
-      '</div>';
+    a.style.cssText = 'text-decoration:none;color:inherit;flex-shrink:0;display:block;min-width:160px;max-width:160px;background:#fff;border-radius:16px;overflow:hidden;box-shadow:0 4px 16px rgba(0,0,0,0.08);';
+
+    if (place.bg) {
+      const img = document.createElement('img');
+      img.src = place.bg;
+      img.alt = place.name;
+      img.style.cssText = 'width:100%;height:110px;object-fit:cover;display:block;';
+      a.appendChild(img);
+    } else {
+      const ph = document.createElement('div');
+      ph.style.cssText = 'width:100%;height:110px;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,' + col + '14,' + col + '28);';
+      ph.innerHTML = '<span class="material-symbols-outlined" style="font-size:36px;color:' + col + ';opacity:0.85;">' + icon + '</span>';
+      a.appendChild(ph);
+    }
+
+    const body = document.createElement('div');
+    body.style.cssText = 'padding:10px 12px 12px;';
+    body.innerHTML = '<div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;margin-bottom:3px;color:' + col + '">' + label + '</div>' +
+      '<div style="font-size:13px;font-weight:800;color:#0f1923;line-height:1.2;margin-bottom:4px;font-family:Manrope;">' + place.name + '</div>' +
+      '<div style="font-size:11px;color:#94a3b8;display:flex;align-items:center;gap:4px;"><span class="material-symbols-outlined" style="font-size:12px;">schedule</span>' + (place.horaires || 'Ouvert') + '</div>';
+    a.appendChild(body);
     el.appendChild(a);
   });
 }
 
 function buildEvents() {
   const el = document.getElementById('home-events-list');
-  if (!EVENEMENTS) return;
-  EVENEMENTS.forEach((ev, i) => {
+  if (!el || !EVENEMENTS) return;
+  const months = {juin:'Juin',juillet:'Juil',août:'Août',décembre:'Déc',été:'Été',lundi:'Lun'};
+  EVENEMENTS.forEach(function(ev, i) {
     const col = CATS[ev.cat]?.color || '#3B5BDB';
     const dateStr = ev.date || '';
-    const dayNum = dateStr.match(/\d+/)?.[0] || (i + 1);
-    const months = {juin:'Juin', juillet:'Juil', août:'Août', décembre:'Déc', été:'Été'};
-    const monthStr = Object.entries(months).find(([k]) => dateStr.toLowerCase().includes(k))?.[1] || 'Été';
-    const card = document.createElement('div');
-    card.className = 'home-event-card';
-    const destC = place.page || ('carte.html?poi=' + place.id);
-    card.onclick = () => window.location.href = destC;
-    card.innerHTML =
-      '<div class="home-event-date" style="background:' + col + '18;">' +
-        '<div class="home-event-date-day" style="color:' + col + '">' + dayNum + '</div>' +
-        '<div class="home-event-date-month" style="color:' + col + '">' + monthStr + '</div>' +
-      '</div>' +
-      '<div style="flex:1;min-width:0;">' +
-        '<div class="home-event-name">' + ev.name + '</div>' +
-        '<div class="home-event-desc">' + ev.desc + '</div>' +
-      '</div>' +
-      '<span class="material-symbols-outlined arrow">chevron_right</span>';
-    el.appendChild(card);
+    const dayNum = dateStr.match(/\d+/)?.[0] || '';
+    const monthStr = Object.entries(months).find(function(e) { return dateStr.toLowerCase().includes(e[0]); })?.[1] || '';
+    const dest = ev.page || ('carte.html?poi=' + ev.id);
+
+    const a = document.createElement('a');
+    a.href = dest;
+    a.style.cssText = 'text-decoration:none;color:inherit;display:flex;align-items:center;gap:14px;background:#fff;border-radius:16px;padding:16px;box-shadow:0 2px 12px rgba(0,0,0,0.07);';
+
+    const dateBadge = document.createElement('div');
+    dateBadge.style.cssText = 'min-width:52px;height:52px;background:' + col + '18;border-radius:14px;display:flex;flex-direction:column;align-items:center;justify-content:center;flex-shrink:0;';
+    dateBadge.innerHTML = '<div style="font-size:' + (dayNum ? '20px' : '13px') + ';font-weight:900;color:' + col + ';line-height:1;font-family:Manrope;">' + (dayNum || 'Lun') + '</div>' +
+      '<div style="font-size:9px;font-weight:700;color:' + col + ';text-transform:uppercase;letter-spacing:0.08em;margin-top:2px;">' + (monthStr || 'Hebdo') + '</div>';
+    a.appendChild(dateBadge);
+
+    const info = document.createElement('div');
+    info.style.cssText = 'flex:1;min-width:0;';
+    info.innerHTML = '<div style="font-size:14px;font-weight:800;color:#0f1923;line-height:1.25;font-family:Manrope;margin-bottom:3px;">' + ev.name + '</div>' +
+      '<div style="font-size:12px;color:#6b7280;line-height:1.4;">' + ev.desc + '</div>';
+    a.appendChild(info);
+
+    const arrow = document.createElement('span');
+    arrow.className = 'material-symbols-outlined';
+    arrow.style.cssText = 'font-size:20px;color:#cbd5e1;flex-shrink:0;';
+    arrow.textContent = 'chevron_right';
+    a.appendChild(arrow);
+
+    el.appendChild(a);
   });
 }
-</script>
-</body>
-</html>
