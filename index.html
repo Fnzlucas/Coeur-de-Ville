@@ -732,25 +732,52 @@ function buildEvents() {
 
     const a = document.createElement('a');
     a.href = dest;
-    a.style.cssText = 'text-decoration:none;color:inherit;display:flex;align-items:center;gap:14px;background:#fff;border-radius:16px;padding:16px;box-shadow:0 2px 12px rgba(0,0,0,0.07);';
 
-    const dateBadge = document.createElement('div');
-    dateBadge.style.cssText = 'min-width:52px;height:52px;background:' + col + '18;border-radius:14px;display:flex;flex-direction:column;align-items:center;justify-content:center;flex-shrink:0;';
-    dateBadge.innerHTML = '<div style="font-size:' + (dayNum ? '20px' : '13px') + ';font-weight:900;color:' + col + ';line-height:1;font-family:Manrope;">' + (dayNum || 'Lun') + '</div>' +
-      '<div style="font-size:9px;font-weight:700;color:' + col + ';text-transform:uppercase;letter-spacing:0.08em;margin-top:2px;">' + (monthStr || 'Hebdo') + '</div>';
-    a.appendChild(dateBadge);
-
-    const info = document.createElement('div');
-    info.style.cssText = 'flex:1;min-width:0;';
-    info.innerHTML = '<div style="font-size:14px;font-weight:800;color:#0f1923;line-height:1.25;font-family:Manrope;margin-bottom:3px;">' + ev.name + '</div>' +
-      '<div style="font-size:12px;color:#6b7280;line-height:1.4;">' + ev.desc + '</div>';
-    a.appendChild(info);
-
-    const arrow = document.createElement('span');
-    arrow.className = 'material-symbols-outlined';
-    arrow.style.cssText = 'font-size:20px;color:#cbd5e1;flex-shrink:0;';
-    arrow.textContent = 'chevron_right';
-    a.appendChild(arrow);
+    if (ev.bg) {
+      // Card avec image hero
+      a.style.cssText = 'text-decoration:none;color:inherit;display:block;background:#fff;border-radius:16px;overflow:hidden;box-shadow:0 4px 20px rgba(0,0,0,0.1);';
+      const img = document.createElement('img');
+      img.src = ev.bg;
+      img.alt = ev.name;
+      img.style.cssText = 'width:100%;height:160px;object-fit:cover;display:block;';
+      a.appendChild(img);
+      const body = document.createElement('div');
+      body.style.cssText = 'padding:14px 16px 16px;display:flex;align-items:center;gap:12px;';
+      const badge = document.createElement('div');
+      badge.style.cssText = 'min-width:48px;height:48px;background:' + col + '18;border-radius:12px;display:flex;flex-direction:column;align-items:center;justify-content:center;flex-shrink:0;';
+      badge.innerHTML = '<div style="font-size:13px;font-weight:900;color:' + col + ';line-height:1;font-family:Manrope;">' + (dayNum || 'Lun') + '</div>' +
+        '<div style="font-size:9px;font-weight:700;color:' + col + ';text-transform:uppercase;">' + (monthStr || 'Hebdo') + '</div>';
+      body.appendChild(badge);
+      const info2 = document.createElement('div');
+      info2.style.cssText = 'flex:1;';
+      info2.innerHTML = '<div style="font-size:14px;font-weight:800;color:#0f1923;font-family:Manrope;margin-bottom:3px;">' + ev.name + '</div>' +
+        '<div style="font-size:12px;color:#6b7280;">' + ev.desc.slice(0,60) + '…</div>';
+      body.appendChild(info2);
+      const arr2 = document.createElement('span');
+      arr2.className = 'material-symbols-outlined';
+      arr2.style.cssText = 'font-size:20px;color:#cbd5e1;';
+      arr2.textContent = 'chevron_right';
+      body.appendChild(arr2);
+      a.appendChild(body);
+    } else {
+      // Card classique sans image
+      a.style.cssText = 'text-decoration:none;color:inherit;display:flex;align-items:center;gap:14px;background:#fff;border-radius:16px;padding:16px;box-shadow:0 2px 12px rgba(0,0,0,0.07);';
+      const dateBadge = document.createElement('div');
+      dateBadge.style.cssText = 'min-width:52px;height:52px;background:' + col + '18;border-radius:14px;display:flex;flex-direction:column;align-items:center;justify-content:center;flex-shrink:0;';
+      dateBadge.innerHTML = '<div style="font-size:' + (dayNum ? '20px' : '13px') + ';font-weight:900;color:' + col + ';line-height:1;font-family:Manrope;">' + (dayNum || 'Lun') + '</div>' +
+        '<div style="font-size:9px;font-weight:700;color:' + col + ';text-transform:uppercase;letter-spacing:0.08em;margin-top:2px;">' + (monthStr || 'Hebdo') + '</div>';
+      a.appendChild(dateBadge);
+      const info = document.createElement('div');
+      info.style.cssText = 'flex:1;min-width:0;';
+      info.innerHTML = '<div style="font-size:14px;font-weight:800;color:#0f1923;line-height:1.25;font-family:Manrope;margin-bottom:3px;">' + ev.name + '</div>' +
+        '<div style="font-size:12px;color:#6b7280;line-height:1.4;">' + ev.desc + '</div>';
+      a.appendChild(info);
+      const arrow = document.createElement('span');
+      arrow.className = 'material-symbols-outlined';
+      arrow.style.cssText = 'font-size:20px;color:#cbd5e1;flex-shrink:0;';
+      arrow.textContent = 'chevron_right';
+      a.appendChild(arrow);
+    }
 
     el.appendChild(a);
   });
