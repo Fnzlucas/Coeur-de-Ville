@@ -94,7 +94,7 @@ html,body{height:100%;overflow:hidden;font-family:'Manrope',sans-serif;backgroun
   position:relative;width:100%;height:200px;overflow:hidden;
   border-radius:0;
 }
-.pw-img{width:100%;height:100%;object-fit:cover;display:block;}
+.pw-img{width:100%;height:100%;object-fit:contain;display:block;background:#f8f7f4;}
 .pw-img-placeholder{
   width:100%;height:100%;display:flex;align-items:center;justify-content:center;
 }
@@ -181,7 +181,7 @@ html,body{height:100%;overflow:hidden;font-family:'Manrope',sans-serif;backgroun
 /* ── IMMERSIVE (placeholder) ── */
 #imm-overlay{display:none;position:fixed;inset:0;z-index:2000;background:#0f1923;flex-direction:column;}
 #imm-overlay.open{display:flex;}
-#imm-bg{position:absolute;inset:0;background-size:cover;background-position:center;transition:opacity 0.8s;opacity:0;}
+#imm-bg{position:absolute;inset:0;background-size:contain;background-position:center;background-repeat:no-repeat;background-color:#0f1923;transition:opacity 0.8s;opacity:0;}
 #imm-bg.ready{opacity:1;}
 #imm-tint{position:absolute;inset:0;opacity:0;transition:opacity 0.8s;}
 #imm-tint.ready{opacity:1;}
