@@ -145,6 +145,7 @@ html,body{height:100%;overflow:hidden;font-family:'Manrope',sans-serif;backgroun
   display:flex;align-items:center;gap:6px;transition:all 0.15s;
 }
 .pw-cta-btn:active{transform:scale(0.97);}
+.pw-cta-secondary{background:#f1f5f9;color:#0f1923;}
 .pw-cta-btn .material-symbols-outlined{font-size:16px;}
 
 /* Masquer les anciens éléments */
@@ -906,10 +907,13 @@ function buildPopupHTML(place) {
     '</div>' +
     '<div class="pw-footer-row">' +
     '<div class="pw-rating"><span class="pw-rating-star">★</span> ' + (place.note || '4.8') + '</div>' +
+    '<div style="display:flex;gap:8px;">' +
+    '<button class="pw-cta-btn pw-cta-secondary" onclick="startRoute(' + place.lat + ',' + place.lng + ');closeCustomPopup()"><span class="material-symbols-outlined">near_me</span>Y aller</button>' +
     (isPlace
       ? '<button class="pw-cta-btn" onclick="closeCustomPopup();openImmersive(' + place.id + ')">Découvrir <span class="material-symbols-outlined">arrow_forward</span></button>'
-      : '<button class="pw-cta-btn" onclick="startRoute(' + place.lat + ',' + place.lng + ');closeCustomPopup()">Y aller <span class="material-symbols-outlined">near_me</span></button>'
+      : ''
     ) +
+    '</div>' +
     '</div>';
 }
 
