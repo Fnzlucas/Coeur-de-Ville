@@ -1,3 +1,8 @@
+// ═══════════════════════════════════════════════════
+// CORE/UI.JS — Logique carte, popups, navigation
+// Ne pas modifier
+// ═══════════════════════════════════════════════════
+
 // ═══════════════════════════════════════════════════════════
 // CORE/UI.JS — Google Maps SDK natif
 // ═══════════════════════════════════════════════════════════
@@ -26,9 +31,9 @@ function initMap() {
     attributionControl: false,
   });
 
-  L.tileLayer('https://tiles.stadiamaps.com/tiles/alidade_smooth/{z}/{x}/{y}{r}.png', {
+  L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
     maxZoom: 20,
-    attribution: '© Stadia Maps © OpenStreetMap'
+    attribution: '© OpenStreetMap © CARTO'
   }).addTo(map);
 
 
@@ -47,6 +52,9 @@ function initMap() {
   }
 
   window.leafletMap = map;
+
+  // Précharger toutes les images des POIs au démarrage
+  PLACES.forEach(p => { if (p.bg) { const img = new Image(); img.src = p.bg; } });
 }
 
 function makeUserMarkerIcon() {
@@ -120,40 +128,45 @@ function buildPopupHTML(place) {
   const label = CATS[place.cat]?.label || '';
   const dist = calcDist(userLat, userLng, place.lat, place.lng);
   const dTxt = dist < 1000 ? Math.round(dist) + 'm' : (dist / 1000).toFixed(1) + 'km';
-  if (PLACES.find(p => p.id === place.id)) {
-    return '<div class="pw"><div class="pw-img-wrap">' +
-      (place.bg ? '<img class="pw-img" src="' + place.bg + '" alt="' + place.name + '"/>' :
-        '<div class="pw-img" style="background:linear-gradient(135deg,' + col + '22,' + col + '55)"></div>') +
-      '<span class="pw-badge" style="background:' + col + '">' + label + '</span>' +
-      '<button class="pw-x" onclick="closeCustomPopup()">✕</button></div>' +
-      '<div class="pw-body"><div class="pw-name">' + place.name + '</div><div class="pw-desc">' + place.desc + '</div>' +
-      '<div class="pw-footer"><div class="pw-era">' + (place.era || '') + ' · ' + dTxt + '</div>' +
-      '<button class="pw-cta" onclick="closeCustomPopup();openImmersive(' + place.id + ')"><svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C8 2 4 5 4 9c0 5 8 13 8 13s8-8 8-13c0-4-4-7-8-7z"/></svg>Découvrir</button>' +
-      '<button class="pw-nav" onclick="startRoute(' + place.lat + ',' + place.lng + ');closeCustomPopup()"><svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M21 3L3 10.53v.98l6.84 2.65L12.48 21h.98L21 3z"/></svg>Y aller</button>' +
-      '<button class="pw-sv-btn" onclick="openStreetView(' + place.lat + ',' + place.lng + \',\'' + place.name + '\')" style="background:#1a73e8;color:#fff;border:none;border-radius:10px;padding:6px 12px;font-size:11px;font-family:Manrope;font-weight:600;cursor:pointer;margin-left:4px">Street View</button>' +
-      '</div></div></div>';
-  }
-  return '<div class="pw"><div class="pw-img-wrap" style="height:80px;background:linear-gradient(135deg,' + col + '22,' + col + '44)">' +
-    '<button class="pw-x" onclick="closeCustomPopup()">✕</button></div>' +
-    '<div class="pw-body"><div class="pw-name">' + place.name + '</div><div class="pw-desc">' + place.desc + '</div>' +
-    (place.horaires ? '<div style="font-family:Manrope;font-size:11px;color:#888;margin-bottom:10px">' + place.horaires + '</div>' : '') +
-    '<div class="pw-footer"><div class="pw-era" style="color:' + col + '">' + label + ' · ' + dTxt + '</div>' +
-    '<button class="pw-nav" onclick="startRoute(' + place.lat + ',' + place.lng + ');closeCustomPopup()"><svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M21 3L3 10.53v.98l6.84 2.65L12.48 21h.98L21 3z"/></svg>Y aller</button>' +
-    '<button class="pw-sv-btn" onclick="openStreetView(' + place.lat + ',' + place.lng + \',\'' + place.name + '\')" style="background:#1a73e8;color:#fff;border:none;border-radius:10px;padding:6px 12px;font-size:11px;font-family:Manrope;font-weight:600;cursor:pointer;margin-left:4px">Street View</button>' +
-    '</div></div></div>';
+  const isPlace = !!PLACES.find(p => p.id === place.id);
+
+  if (place.bg) { const _pi = new Image(); _pi.src = place.bg; }
+
+  const imgHTML = place.bg
+    ? '<img class="pw-img" src="' + place.bg + '" alt="' + place.name + '" loading="eager" decoding="sync"/>'
+    : '<div class="pw-img-placeholder" style="background:linear-gradient(160deg,' + col + '18,' + col + '40);height:200px;"><span class="material-symbols-outlined" style="font-size:48px;color:' + col + ';opacity:0.35;">location_city</span></div>';
+
+  return '<div class="pw-img-wrap">' + imgHTML +
+    '<span class="pw-badge">' + label + '</span>' +
+    '<button class="pw-x" onclick="closeCustomPopup()"><span class="material-symbols-outlined" style="font-size:16px;">close</span></button>' +
+    '</div>' +
+    '<div class="pw-body">' +
+    '<div class="pw-name">' + place.name + '</div>' +
+    '<div class="pw-desc">' + (place.desc.length > 80 ? place.desc.slice(0,80) + '…' : place.desc) + '</div>' +
+    '</div>' +
+    '<div class="pw-meta">' +
+    '<div class="pw-cat-dot" style="background:' + col + '"></div>' +
+    '<span class="pw-cat-label" style="color:' + col + '">' + label + (place.era ? ' · ' + place.era : '') + '</span>' +
+    '<span class="pw-dist">' + dTxt + '</span>' +
+    '</div>' +
+    '<div class="pw-footer-row">' +
+    '<div class="pw-rating"><span class="pw-rating-star">★</span> ' + (place.note || '4.8') + '</div>' +
+    '<div style="display:flex;gap:8px;">' +
+    '<button class="pw-cta-btn pw-cta-secondary" onclick="startRoute(' + place.lat + ',' + place.lng + ');closeCustomPopup()"><span class="material-symbols-outlined">near_me</span>Y aller</button>' +
+    (isPlace
+      ? '<button class="pw-cta-btn" onclick="closeCustomPopup();openImmersive(' + place.id + ')">Découvrir <span class="material-symbols-outlined">arrow_forward</span></button>'
+      : ''
+    ) +
+    '</div>' +
+    '</div>';
 }
 
 function openCustomPopup(html) {
   const card = document.getElementById('popup-card');
   const container = document.getElementById('popup-container');
   card.innerHTML = html;
-  container.classList.add('active');
-  document.getElementById('map').classList.add('map-blur');
-  const fb1 = document.getElementById('filter-bar'); if(fb1) fb1.style.filter = 'blur(3px)';
-  const locateBtn = document.getElementById('locate-btn');
-  if (locateBtn) locateBtn.style.filter = 'blur(3px)';
-  const bottomnav = document.getElementById('bottomnav');
-  if (bottomnav) bottomnav.style.filter = 'blur(3px)';
+  card.classList.remove('visible');
+  container.style.display = 'block';
   setTimeout(() => card.classList.add('visible'), 10);
 }
 
@@ -161,13 +174,7 @@ function closeCustomPopup() {
   const card = document.getElementById('popup-card');
   const container = document.getElementById('popup-container');
   card.classList.remove('visible');
-  document.getElementById('map').classList.remove('map-blur');
-  const fb2 = document.getElementById('filter-bar'); if(fb2) fb2.style.filter = '';
-  const locateBtn = document.getElementById('locate-btn');
-  if (locateBtn) locateBtn.style.filter = '';
-  const bottomnav = document.getElementById('bottomnav');
-  if (bottomnav) bottomnav.style.filter = '';
-  setTimeout(() => { container.classList.remove('active'); card.innerHTML = ''; }, 280);
+  setTimeout(() => { container.style.display = 'none'; card.innerHTML = ''; }, 280);
 }
 
 // ─── SECTIONS ─────────────────────────────────────────────────
@@ -218,7 +225,12 @@ function openImmersive(placeId) {
   ov.style.setProperty('--acc-mid', theme.accentLight);
   ov.classList.add('open'); ov.classList.remove('ready', 'bars-open');
   const bg = document.getElementById('imm-bg');
-  if (place.bg) { bg.style.backgroundImage = 'url(' + place.bg + ')'; }
+  if (place.bg) {
+    // Précharger l'image avant de l'afficher pour éviter le délai
+    const preloadImg = new Image();
+    preloadImg.src = place.bg;
+    bg.style.backgroundImage = 'url(' + place.bg + ')';
+  }
   else { bg.style.background = 'linear-gradient(135deg, #0a0a0a 0%, ' + theme.accent + '33 100%)'; }
   document.getElementById('imm-tint').style.background = theme.tint;
   document.getElementById('imm-era-badge').textContent = (place.era || '').toUpperCase();
@@ -233,10 +245,10 @@ function openImmersive(placeId) {
   narEl.textContent = ''; cursor.classList.remove('done');
   requestAnimationFrame(() => {
     bg.classList.add('ready');
-    document.getElementById('imm-tint').classList.add('ready');
+    const tintEl = document.getElementById('imm-tint'); tintEl.style.opacity='0'; tintEl.classList.add('ready'); tintEl.style.opacity='0.45';
     setTimeout(() => {
       ov.classList.add('ready'); ov.classList.remove('bars-open');
-      spawnParticles(theme.particles);
+      /* particules désactivées */
       typewrite(narEl, place.anecdote || place.desc || '', cursor);
     }, 400);
   });
@@ -397,5 +409,3 @@ function getBearing(la1, lo1, la2, lo2) {
   const x = Math.cos(la1*Math.PI/180)*Math.sin(la2*Math.PI/180)-Math.sin(la1*Math.PI/180)*Math.cos(la2*Math.PI/180)*Math.cos(dlo);
   return (Math.atan2(y,x)*180/Math.PI+360)%360;
 }
-
-document.addEventListener('DOMContentLoaded', initMap);
