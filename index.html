@@ -585,12 +585,19 @@ function toggleMenu() {
 function buildPOIs() {
   const el = document.getElementById('home-poi-carousel');
   if (!PLACES) return;
+  // Pages articles par POI
+  const articlePages = {
+    1: 'fort-saint-andre.html',
+    2: 'tresor-chartreuse.html',
+  };
+
   PLACES.forEach(place => {
     const col = CATS[place.cat]?.color || '#333';
     const label = CATS[place.cat]?.label || '';
     const card = document.createElement('div');
     card.className = 'home-poi-card';
-    card.onclick = () => window.location.href = 'carte.html';
+    const dest = articlePages[place.id] || ('carte.html?poi=' + place.id);
+    card.onclick = () => window.location.href = dest;
     card.innerHTML = (place.bg
       ? '<img class="home-poi-card-img" src="' + place.bg + '" alt="' + place.name + '"/>'
       : '<div class="home-poi-card-ph" style="background:linear-gradient(135deg,' + col + '18,' + col + '35);height:140px;"><span class="material-symbols-outlined" style="font-size:38px;color:' + col + ';opacity:0.5;">location_city</span></div>'
