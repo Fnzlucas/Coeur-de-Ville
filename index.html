@@ -7,13 +7,13 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800;900&display=swap"/>
 <style>
 *{margin:0;padding:0;box-sizing:border-box;}
-html,body{font-family:'Manrope',sans-serif;background:#0a0f14;color:#fff;min-height:100vh;}
+html,body{font-family:'Manrope',sans-serif;background:#f5f0eb;color:#1a1a1a;min-height:100vh;}
 
 /* Splash */
 #splash{position:fixed;inset:0;background:#000;display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:9999;transition:opacity 0.4s ease;}
 #splash.hide{opacity:0;pointer-events:none;}
 .splash-logo{width:180px;filter:invert(1);animation:logo-in 0.6s ease 0.1s both;}
-.splash-tag{font-size:11px;color:rgba(255,255,255,0.35);letter-spacing:0.22em;text-transform:uppercase;margin-top:20px;animation:fade-in 0.5s ease 0.4s both;font-family:Manrope,sans-serif;}
+.splash-tag{font-size:11px;color:rgba(255,255,255,0.35);letter-spacing:0.22em;text-transform:uppercase;margin-top:20px;animation:fade-in 0.5s ease 0.4s both;}
 .splash-bar{position:absolute;bottom:56px;width:36px;height:2px;background:rgba(255,255,255,0.08);border-radius:2px;overflow:hidden;}
 .splash-fill{height:100%;background:rgba(255,255,255,0.6);border-radius:2px;animation:load 1.3s cubic-bezier(0.4,0,0.2,1) 0.3s both;}
 @keyframes logo-in{from{opacity:0;transform:scale(0.92);}to{opacity:1;transform:scale(1);}}
@@ -21,25 +21,37 @@ html,body{font-family:'Manrope',sans-serif;background:#0a0f14;color:#fff;min-hei
 @keyframes load{0%{width:0%;}60%{width:65%;}100%{width:100%;}}
 
 /* Selector */
-#selector{display:none;min-height:100vh;flex-direction:column;padding-bottom:40px;}
+#selector{display:none;min-height:100vh;flex-direction:column;padding-bottom:48px;}
 
-.sel-header{padding:52px 24px 36px;display:flex;flex-direction:column;align-items:center;gap:12px;}
-.sel-logo{height:28px;filter:invert(1);}
-.sel-divider{width:32px;height:2px;background:rgba(255,255,255,0.15);border-radius:2px;margin:4px 0;}
-.sel-title{font-size:24px;font-weight:900;color:#fff;text-align:center;letter-spacing:-0.03em;}
-.sel-sub{font-size:13px;color:rgba(255,255,255,0.45);text-align:center;font-weight:500;}
+.sel-header{
+  padding:52px 24px 36px;
+  display:flex;flex-direction:column;align-items:center;gap:14px;
+  background:linear-gradient(160deg,#fff 0%,#f5f0eb 100%);
+  border-bottom:1px solid #e8e0d8;
+}
+.sel-logo{height:32px;object-fit:contain;}
+.sel-title{font-size:26px;font-weight:900;color:#1a1a1a;text-align:center;letter-spacing:-0.03em;}
+.sel-sub{font-size:13px;color:#9ca3af;text-align:center;font-weight:500;}
 
-/* Grid */
+.section-label{
+  padding:28px 20px 12px;
+  font-size:11px;font-weight:800;
+  color:#9ca3af;
+  letter-spacing:0.12em;text-transform:uppercase;
+  display:flex;align-items:center;gap:10px;
+}
+.section-label::after{content:'';flex:1;height:1px;background:#e5e7eb;}
+
 .villes-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;padding:0 16px;}
 
 .ville-card{
-  border-radius:22px;overflow:hidden;
-  position:relative;height:200px;
+  border-radius:20px;overflow:hidden;
+  position:relative;height:190px;
   cursor:pointer;
   transition:transform 0.18s cubic-bezier(0.22,1,0.36,1);
-  background:#1a2030;
+  box-shadow:0 4px 24px rgba(0,0,0,0.12);
 }
-.ville-card.locked{cursor:default;opacity:0.7;}
+.ville-card.locked{cursor:default;}
 .ville-card:not(.locked):active{transform:scale(0.96);}
 
 .ville-card-bg{
@@ -47,14 +59,13 @@ html,body{font-family:'Manrope',sans-serif;background:#0a0f14;color:#fff;min-hei
   background-size:cover;background-position:center;
   transition:transform 0.3s ease;
 }
-.ville-card:not(.locked):hover .ville-card-bg{transform:scale(1.04);}
-
+.ville-card:not(.locked):hover .ville-card-bg{transform:scale(1.05);}
 .ville-card-overlay{
   position:absolute;inset:0;
-  background:linear-gradient(to top, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.2) 60%, transparent 100%);
+  background:linear-gradient(to top,rgba(0,0,0,0.75) 0%,rgba(0,0,0,0.1) 60%,transparent 100%);
 }
 .ville-card.locked .ville-card-overlay{
-  background:linear-gradient(to top, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.5) 100%);
+  background:linear-gradient(to top,rgba(0,0,0,0.85) 0%,rgba(0,0,0,0.4) 100%);
 }
 
 .ville-card-badge{
@@ -62,31 +73,33 @@ html,body{font-family:'Manrope',sans-serif;background:#0a0f14;color:#fff;min-hei
   font-size:9px;font-weight:800;
   padding:5px 10px;border-radius:20px;
   letter-spacing:0.08em;text-transform:uppercase;
+  backdrop-filter:blur(8px);
 }
-.badge-actif{background:rgba(39,174,96,0.95);color:#fff;backdrop-filter:blur(8px);}
-.badge-bientot{background:rgba(255,255,255,0.12);color:rgba(255,255,255,0.6);backdrop-filter:blur(8px);}
+.badge-actif{background:rgba(39,174,96,0.95);color:#fff;}
+.badge-bientot{background:rgba(0,0,0,0.25);color:rgba(255,255,255,0.7);}
 
-.ville-card-body{position:absolute;bottom:0;left:0;right:0;padding:16px;}
-.ville-card-name{font-size:15px;font-weight:900;color:#fff;line-height:1.2;letter-spacing:-0.01em;}
-.ville-card-dept{font-size:10px;color:rgba(255,255,255,0.55);margin-top:3px;font-weight:600;}
+.ville-card-body{position:absolute;bottom:0;left:0;right:0;padding:14px;}
+.ville-card-name{font-size:14px;font-weight:900;color:#fff;line-height:1.2;letter-spacing:-0.01em;}
+.ville-card-dept{font-size:10px;color:rgba(255,255,255,0.6);margin-top:3px;font-weight:600;}
 
 .ville-card-lock{
   position:absolute;top:50%;left:50%;
-  transform:translate(-50%,-60%);
-  width:32px;height:32px;
-  background:rgba(255,255,255,0.1);
-  border-radius:50%;
-  display:flex;align-items:center;justify-content:center;
+  transform:translate(-50%,-70%);
+  width:36px;height:36px;
+  background:rgba(255,255,255,0.15);backdrop-filter:blur(8px);
+  border-radius:50%;display:flex;align-items:center;justify-content:center;
 }
-.ville-card-lock svg{width:14px;height:14px;stroke:rgba(255,255,255,0.5);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;}
+.ville-card-lock svg{width:16px;height:16px;stroke:rgba(255,255,255,0.6);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;}
 
-/* Section label */
-.section-label{
-  padding:24px 16px 12px;
-  font-size:10px;font-weight:800;
-  color:rgba(255,255,255,0.3);
-  letter-spacing:0.14em;text-transform:uppercase;
+/* Footer */
+.sel-footer{
+  margin:32px 16px 0;
+  background:#fff;border-radius:20px;
+  padding:20px;text-align:center;
+  border:1px solid #e8e0d8;
 }
+.sel-footer p{font-size:12px;color:#9ca3af;line-height:1.6;}
+.sel-footer strong{color:#1a1a1a;font-weight:700;}
 </style>
 </head>
 <body>
@@ -100,14 +113,19 @@ html,body{font-family:'Manrope',sans-serif;background:#0a0f14;color:#fff;min-hei
 <div id="selector">
   <div class="sel-header">
     <img class="sel-logo" src="assets/shared/logo.png" alt="Coeur de Ville"/>
-    <div class="sel-divider"></div>
     <div class="sel-title">Choisissez votre ville</div>
     <div class="sel-sub">Découvrez le patrimoine de votre territoire</div>
   </div>
+
   <div id="villes-actives-label" class="section-label">Villes disponibles</div>
   <div class="villes-grid" id="villes-actives"></div>
+
   <div id="villes-bientot-label" class="section-label" style="display:none;">Bientôt disponibles</div>
   <div class="villes-grid" id="villes-bientot"></div>
+
+  <div class="sel-footer">
+    <p>Votre ville n'est pas encore disponible ?<br/><strong>Contactez-nous</strong> pour rejoindre Cœur de Ville.</p>
+  </div>
 </div>
 
 <script>
@@ -123,7 +141,7 @@ function getVilleFromURL() {
   return null;
 }
 
-function goToVille(id, v) {
+function goToVille(id) {
   window.location.href = id + '/index.html';
 }
 
@@ -132,8 +150,8 @@ function makeCard(id, v) {
   card.className = 'ville-card' + (v.actif ? '' : ' locked');
 
   var bgStyle = v.photo
-    ? 'background-image:url(' + v.photo + ');background-color:' + (v.couleur||'#1a2030') + ';'
-    : 'background-color:' + (v.couleur||'#1a2030') + ';';
+    ? 'background-image:url(' + v.photo + ');background-color:' + (v.couleur||'#888') + ';'
+    : 'background-color:' + (v.couleur||'#888') + ';';
 
   var badge = v.actif
     ? '<div class="ville-card-badge badge-actif">Disponible</div>'
@@ -152,7 +170,7 @@ function makeCard(id, v) {
     '</div>';
 
   if (v.actif) {
-    card.onclick = (function(vid,vv){ return function(){ goToVille(vid,vv); }; })(id,v);
+    card.onclick = (function(vid){ return function(){ goToVille(vid); }; })(id);
   }
   return card;
 }
@@ -165,11 +183,10 @@ window.addEventListener('load', function() {
       setTimeout(function() {
         document.getElementById('splash').classList.add('hide');
         if (villeId && villes[villeId] && villes[villeId].actif) {
-          goToVille(villeId, villes[villeId]);
+          goToVille(villeId);
           return;
         }
-        var sel = document.getElementById('selector');
-        sel.style.display = 'flex';
+        document.getElementById('selector').style.display = 'flex';
         var gridActif = document.getElementById('villes-actives');
         var gridBientot = document.getElementById('villes-bientot');
         var hasBientot = false;
@@ -186,7 +203,7 @@ window.addEventListener('load', function() {
         });
 
         if (hasBientot) {
-          document.getElementById('villes-bientot-label').style.display = 'block';
+          document.getElementById('villes-bientot-label').style.display = 'flex';
         }
       }, 1800);
     })
