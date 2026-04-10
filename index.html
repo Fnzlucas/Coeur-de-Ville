@@ -23,7 +23,7 @@ html,body{font-family:'Manrope',sans-serif;background:#faf9f7;min-height:100vh;}
 /* Sélecteur de langue */
 #lang-selector{
   position:fixed;inset:0;background:#000;
-  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  display:none;flex-direction:column;align-items:center;justify-content:center;
   z-index:8888;gap:40px;
   transition:opacity 0.4s ease;
 }
@@ -285,15 +285,14 @@ function loadVilles() {
 window.addEventListener('load', function() {
   setTimeout(function() {
     document.getElementById('splash').classList.add('hide');
-    var savedLang = localStorage.getItem('cdv_lang');
+    var savedLang = null;
+    try { savedLang = localStorage.getItem('cdv_lang'); } catch(e) {}
     if (savedLang) {
-      // Langue déjà choisie — aller direct
       currentLang = savedLang;
       applyTranslations(savedLang);
-      document.getElementById('lang-selector').classList.add('hide');
+      document.getElementById('lang-selector').style.display = 'none';
       loadVilles();
     } else {
-      // Première visite — montrer le sélecteur de langue
       document.getElementById('lang-selector').style.display = 'flex';
     }
   }, 1800);
