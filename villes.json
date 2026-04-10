@@ -3,8 +3,6 @@
     "actif": true,
     "nom": "Villeneuve-lès-Avignon",
     "departement": "Gard (30)",
-    "lat": 43.9664,
-    "lng": 4.7969,
     "couleur": "#0f1923",
     "photo": "assets/villeneuve/hero.jpg",
     "expire": "2027-01-01"
@@ -13,20 +11,16 @@
     "actif": false,
     "nom": "Alès",
     "departement": "Gard (30)",
-    "lat": 44.1244,
-    "lng": 4.0819,
     "couleur": "#1a3a5c",
-    "photo": "assets/ales/hero.jpg",
+    "photo": null,
     "expire": null
   },
   "beaucaire": {
     "actif": false,
     "nom": "Beaucaire",
     "departement": "Gard (30)",
-    "lat": 43.8079,
-    "lng": 4.6434,
-    "couleur": "#5c1a1a",
-    "photo": "assets/beaucaire/hero.jpg",
+    "couleur": "#5c3a1a",
+    "photo": null,
     "expire": null
   }
 }
