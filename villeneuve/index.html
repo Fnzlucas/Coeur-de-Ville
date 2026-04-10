@@ -126,7 +126,7 @@ body{padding-bottom:80px;}
 <body>
 <div id="splash" style="position:fixed;inset:0;background:#000;display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:9999;transition:opacity 0.4s ease;">
   <div style="display:flex;flex-direction:column;align-items:center;gap:20px;animation:splash-up 0.7s cubic-bezier(0.22,1,0.36,1) both;">
-    <img src="assets/logo_header.png" style="width:180px;filter:invert(1);animation:splash-logo 0.6s ease 0.1s both;" alt="Cœur de Ville"/>
+    <img src="../assets/shared/logo.png" style="width:180px;filter:invert(1);animation:splash-logo 0.6s ease 0.1s both;" alt="Cœur de Ville"/>
     <div style="font-size:11px;color:rgba(255,255,255,0.35);letter-spacing:0.22em;text-transform:uppercase;font-family:-apple-system,sans-serif;animation:splash-fade 0.5s ease 0.4s both;">Patrimoine &amp; Découverte</div>
   </div>
   <div style="position:absolute;bottom:56px;width:36px;height:2px;background:rgba(255,255,255,0.08);border-radius:2px;overflow:hidden;">
@@ -155,7 +155,7 @@ setTimeout(function(){
     <span class="material-symbols-outlined" style="font-size:24px;color:#0f1923;">menu</span>
   </button>
   <!-- Logo centré -->
-  <img src="assets/logo_header.png" style="height:22px;object-fit:contain;" alt="Cœur de Ville"/>
+  <img src="../assets/shared/logo.png" style="height:22px;object-fit:contain;" alt="Cœur de Ville"/>
   <!-- Loupe droite -->
   <button onclick="window.location.href='carte.html'" style="background:none;border:none;cursor:pointer;padding:6px;display:flex;align-items:center;">
     <span class="material-symbols-outlined" style="font-size:22px;color:#0f1923;">search</span>
@@ -430,7 +430,7 @@ const PLACES = [
       { year: "1789", text: "Abandon de la garnison à la Révolution" },
       { year: "1982", text: "Classement Monument Historique" },
     ],
-    bg: "assets/poi_001.jpg",
+    bg: "../assets/villeneuve/poi_001.jpg",
   },
   {
     id: 2,
@@ -451,7 +451,7 @@ const PLACES = [
       { year: "1902", text: "Classement Monument Historique" },
       { year: "1976", text: "Ouverture comme centre culturel" },
     ],
-    bg: "assets/poi_002.jpg",
+    bg: "../assets/villeneuve/poi_002.jpg",
   },
   {
     id: 3,
@@ -471,7 +471,7 @@ const PLACES = [
       { year: "1668", text: "Effondrement partiel du pont Saint-Bénézet" },
       { year: "1880", text: "Classement Monument Historique" },
     ],
-    bg: "assets/poi_003.webp",
+    bg: "../assets/villeneuve/poi_003.jpg",
   },
   {
     id: 4,
@@ -510,7 +510,7 @@ const PLACES = [
       { year: "XIXe s.", text: "Site prisé des peintres provençaux" },
       { year: "2000s", text: "Classé espace naturel protégé" },
     ],
-    bg: "assets/poi_004.jpg",
+    bg: "../assets/villeneuve/poi_004.jpg",
   },
   {
     id: 302,
@@ -518,7 +518,7 @@ const PLACES = [
     anecdote: "Unique au monde",
     desc: "En rénovant un palais cardinalice, la mairie découvre gravée dans le marbre une partition du XIVe siècle — deux rondeaux profanes, uniques au monde.",
     lat: 43.9675, lng: 4.7902,
-    bg: "assets/poi_005.jpg",
+    bg: "../assets/villeneuve/poi_005.jpg",
     page: "partition.html",
   },
 ];
@@ -533,7 +533,7 @@ const INSOLITES = [
     anecdote: "Symbole secret de la ville",
     desc: "Ils ouvrirent la malle d'or… et des milliers de lézards s'échappèrent. La légende qui a donné son surnom aux Villeneuvois depuis six siècles.",
     lat: 43.9671, lng: 4.7896,
-    bg: "assets/poi_006.jpg",
+    bg: "../assets/villeneuve/poi_006.jpg",
     page: "lezard.html",
   },
   {
@@ -542,7 +542,7 @@ const INSOLITES = [
     anecdote: "Unique au monde",
     desc: "En rénovant un palais cardinalice, la mairie découvre gravée dans le marbre une partition du XIVe siècle — deux rondeaux profanes, uniques au monde.",
     lat: 43.9675, lng: 4.7902,
-    bg: "assets/poi_007.jpg",
+    bg: "../assets/villeneuve/poi_007.jpg",
     page: "partition.html",
   },
 ];
@@ -558,7 +558,7 @@ const COMMERCES = [
     lat: 43.96708277862177, lng: 4.796074895540339,
     horaires: "8h–00h30",
     note: "4.6",
-    bg: "assets/poi_008.jpg",
+    bg: "../assets/villeneuve/poi_008.jpg",
     page: "maison-bronzini.html",
   },
   {
@@ -616,7 +616,7 @@ const EVENEMENTS = [
     date: "Tous les lundis",
     horaires: "Dès 18h",
     note: "4.7",
-    bg: "assets/poi_009.jpg",
+    bg: "../assets/villeneuve/poi_009.jpg",
     page: "food-trucks.html",
   },
 
