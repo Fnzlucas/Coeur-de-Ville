@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1"/>
+<title>Cœur de Ville</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+html,body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#0f1923;color:#fff;min-height:100vh;}
+#splash{position:fixed;inset:0;background:#000;display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:9999;transition:opacity 0.4s ease;}
+#splash.hide{opacity:0;pointer-events:none;}
+.splash-logo{width:180px;filter:invert(1);animation:logo-in 0.6s ease 0.1s both;}
+.splash-tag{font-size:11px;color:rgba(255,255,255,0.35);letter-spacing:0.22em;text-transform:uppercase;margin-top:20px;animation:fade-in 0.5s ease 0.4s both;}
+.splash-bar{position:absolute;bottom:56px;width:36px;height:2px;background:rgba(255,255,255,0.08);border-radius:2px;overflow:hidden;}
+.splash-fill{height:100%;background:rgba(255,255,255,0.6);border-radius:2px;animation:load 1.3s cubic-bezier(0.4,0,0.2,1) 0.3s both;}
+@keyframes logo-in{from{opacity:0;transform:scale(0.92);}to{opacity:1;transform:scale(1);}}
+@keyframes fade-in{from{opacity:0;}to{opacity:1;}}
+@keyframes load{0%{width:0%;}60%{width:65%;}100%{width:100%;}}
+#selector{display:none;min-height:100vh;flex-direction:column;}
+.sel-header{padding:48px 24px 32px;display:flex;flex-direction:column;align-items:center;gap:16px;}
+.sel-logo{width:140px;filter:invert(1);}
+.sel-title{font-size:22px;font-weight:800;color:#fff;text-align:center;letter-spacing:-0.02em;}
+.sel-sub{font-size:13px;color:rgba(255,255,255,0.5);text-align:center;}
+.villes-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;padding:0 16px 40px;}
+.ville-card{border-radius:20px;overflow:hidden;position:relative;height:160px;cursor:pointer;transition:transform 0.15s;}
+.ville-card:active{transform:scale(0.97);}
+.ville-card-img{width:100%;height:100%;object-fit:cover;display:block;filter:brightness(0.6);}
+.ville-card-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,0.8) 0%,transparent 60%);}
+.ville-card-body{position:absolute;bottom:0;left:0;right:0;padding:12px;}
+.ville-card-name{font-size:14px;font-weight:800;color:#fff;line-height:1.2;}
+.ville-card-dept{font-size:10px;color:rgba(255,255,255,0.6);margin-top:2px;}
+.ville-card-badge{position:absolute;top:10px;right:10px;font-size:9px;font-weight:700;padding:4px 8px;border-radius:20px;letter-spacing:0.06em;text-transform:uppercase;}
+.badge-actif{background:rgba(39,174,96,0.9);color:#fff;}
+.badge-bientot{background:rgba(255,255,255,0.15);color:rgba(255,255,255,0.7);}
+.ville-bg{width:100%;height:100%;display:block;}
+</style>
+</head>
+<body>
+
+<div id="splash">
+  <img class="splash-logo" src="assets/shared/logo.png" alt="Coeur de Ville"/>
+  <div class="splash-tag">Patrimoine &amp; Decouverte</div>
+  <div class="splash-bar"><div class="splash-fill"></div></div>
+</div>
+
+<div id="selector">
+  <div class="sel-header">
+    <img class="sel-logo" src="assets/shared/logo.png" alt="Coeur de Ville"/>
+    <div class="sel-title">Choisissez votre ville</div>
+    <div class="sel-sub">Decouvrez le patrimoine de votre territoire</div>
+  </div>
+  <div class="villes-grid" id="villes-grid"></div>
+</div>
+
+<script>
+function getVilleFromURL() {
+  var path = window.location.pathname;
+  var parts = path.split('/').filter(function(p){ return p.length > 0; });
+  var known = ['villeneuve','ales','beaucaire','nimes','uzes'];
+  for (var i = 0; i < parts.length; i++) {
+    if (known.indexOf(parts[i]) >= 0) return parts[i];
+  }
+  var params = new URLSearchParams(window.location.search);
+  if (params.get('ville')) return params.get('ville');
+  return null;
+}
+
+function goToVille(id, v) {
+  if (!v || !v.actif) {
+    alert((v ? v.nom : id) + ' rejoindra bientot Coeur de Ville !');
+    return;
+  }
+  window.location.href = id + '/index.html';
+}
+
+function showSelector(villes) {
+  var sel = document.getElementById('selector');
+  sel.style.display = 'flex';
+  var grid = document.getElementById('villes-grid');
+  grid.innerHTML = '';
+
+  Object.keys(villes).forEach(function(id) {
+    var v = villes[id];
+    var card = document.createElement('div');
+    card.className = 'ville-card';
+
+    var badge = v.actif
+      ? '<div class="ville-card-badge badge-actif">Disponible</div>'
+      : '<div class="ville-card-badge badge-bientot">Bientot</div>';
+
+    var bg = v.couleur || '#333';
+    var imgTag = v.photo
+      ? '<img class="ville-card-img" src="' + v.photo + '" alt="' + v.nom + '"/>'
+      : '<div class="ville-bg" style="background:' + bg + ';"></div>';
+
+    card.innerHTML =
+      imgTag +
+      '<div class="ville-card-overlay"></div>' +
+      badge +
+      '<div class="ville-card-body">' +
+        '<div class="ville-card-name">' + v.nom + '</div>' +
+        '<div class="ville-card-dept">' + (v.departement || '') + '</div>' +
+      '</div>';
+
+    if (v.actif) {
+      card.onclick = (function(vid, vv){ return function(){ goToVille(vid, vv); }; })(id, v);
+    }
+
+    grid.appendChild(card);
+  });
+}
+
+window.addEventListener('load', function() {
+  fetch('villes.json')
+    .then(function(r){ return r.json(); })
+    .then(function(villes) {
+      var villeId = getVilleFromURL();
+      setTimeout(function() {
+        document.getElementById('splash').classList.add('hide');
+        if (villeId && villes[villeId] && villes[villeId].actif) {
+          window.location.href = villeId + '/index.html';
+        } else {
+          showSelector(villes);
+        }
+      }, 1800);
+    })
+    .catch(function() {
+      setTimeout(function() {
+        document.getElementById('splash').classList.add('hide');
+        window.location.href = 'villeneuve/index.html';
+      }, 1800);
+    });
+});
+</script>
+</body>
+</html>
