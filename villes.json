@@ -46,5 +46,13 @@
     "couleur": "#3b1f5c",
     "photo": "assets/carpentras/hero.jpg",
     "expire": null
+  },
+  "Uzès": {
+    "actif": false,
+    "nom": "Uzès",
+    "departement": "Gard (30)",
+    "couleur": "#1a3a5c",
+    "photo": "assets/uzes/hero.jpg",
+    "expire": null
   }
 }
