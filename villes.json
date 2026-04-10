@@ -20,7 +20,31 @@
     "nom": "Beaucaire",
     "departement": "Gard (30)",
     "couleur": "#5c3a1a",
-    "photo": null,
+    "photo": "assets/beaucaire/hero.jpg",
+    "expire": null
+  },
+  "avignon": {
+    "actif": false,
+    "nom": "Avignon",
+    "departement": "Vaucluse (84)",
+    "couleur": "#7c2d12",
+    "photo": "assets/avignon/hero.jpg",
+    "expire": null
+  },
+  "bagnols-sur-ceze": {
+    "actif": false,
+    "nom": "Bagnols-sur-Cèze",
+    "departement": "Gard (30)",
+    "couleur": "#1e3a2f",
+    "photo": "assets/bagnols-sur-ceze/hero.jpg",
+    "expire": null
+  },
+  "carpentras": {
+    "actif": false,
+    "nom": "Carpentras",
+    "departement": "Vaucluse (84)",
+    "couleur": "#3b1f5c",
+    "photo": "assets/carpentras/hero.jpg",
     "expire": null
   }
 }
