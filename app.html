@@ -179,10 +179,10 @@ setTimeout(function(){
   <div class="home-hero-overlay"></div>
   <div class="home-hero-content">
     <span class="home-hero-label" id="hero-label">Bienvenue à Cœur de Ville</span>
-    <h2 class="home-hero-title"><span id="t-hero-title"></span><br/>réinventée.</h2>
+    <h2 class="home-hero-title"><span id="t-hero-title"></span><br/><span id="t-hero-sub"></span></h2>
     <button class="home-hero-btn" onclick="window.location.href='carte.html'">
       <span class="material-symbols-outlined">explore</span>
-      Explorer maintenant
+      <span id="t-explorer"></span>
     </button>
   </div>
 </div>
@@ -191,16 +191,16 @@ setTimeout(function(){
 <div class="home-pills-wrap">
   <div class="home-pills">
     <button class="home-pill" onclick="window.location.href='carte.html'">
-      <span class="material-symbols-outlined">account_balance</span>Patrimoine
+      <span class="material-symbols-outlined">account_balance</span><span id="t-pill-patrimoine"></span>
     </button>
     <button class="home-pill" onclick="window.location.href='carte.html'">
-      <span class="material-symbols-outlined">restaurant</span>Gastronomie
+      <span class="material-symbols-outlined">restaurant</span><span id="t-pill-gastro"></span>
     </button>
     <button class="home-pill" onclick="window.location.href='carte.html'">
-      <span class="material-symbols-outlined">handyman</span>Artisanat
+      <span class="material-symbols-outlined">handyman</span><span id="t-pill-artisanat"></span>
     </button>
     <button class="home-pill" onclick="window.location.href='carte.html'">
-      <span class="material-symbols-outlined">event</span>Agenda
+      <span class="material-symbols-outlined">event</span><span id="t-pill-agenda"></span>
     </button>
   </div>
 </div>
@@ -288,11 +288,11 @@ setTimeout(function(){
 <div class="home-concierge">
   <div class="home-concierge-glow"></div>
   <div class="home-concierge-glow2"></div>
-  <div class="home-concierge-title">Besoin d'un guide ?</div>
-  <div class="home-concierge-sub">Notre concierge numérique vous propose un itinéraire personnalisé selon votre temps et vos envies.</div>
+  <div class="home-concierge-title"><span id="t-concierge-title"></span></div>
+  <div class="home-concierge-sub"><span id="t-concierge-sub"></span></div>
   <button class="home-concierge-btn" onclick="window.location.href='carte.html'">
     <span class="material-symbols-outlined">auto_awesome</span>
-    Démarrer le parcours
+    <span id="t-concierge-btn"></span>
   </button>
 </div>
 
@@ -789,7 +789,13 @@ function buildCommerces() {
 function buildEvents() {
   const el = document.getElementById('home-events-list');
   if (!el || !EVENEMENTS) return;
-  const months = {juin:'Juin',juillet:'Juil',août:'Août',décembre:'Déc',été:'Été',lundi:'Lun'};
+  const lang = getLang();
+  const monthsMap = {
+    fr: {juin:'Juin',juillet:'Juil',août:'Août',décembre:'Déc',été:'Été',lundi:'Lun',janvier:'Jan',février:'Fév',mars:'Mar',avril:'Avr',mai:'Mai',septembre:'Sep',octobre:'Oct',novembre:'Nov'},
+    en: {juin:'Jun',juillet:'Jul',août:'Aug',décembre:'Dec',été:'Sum',lundi:'Mon',janvier:'Jan',février:'Feb',mars:'Mar',avril:'Apr',mai:'May',septembre:'Sep',octobre:'Oct',novembre:'Nov'},
+    es: {juin:'Jun',juillet:'Jul',août:'Ago',décembre:'Dic',été:'Ver',lundi:'Lun',janvier:'Ene',février:'Feb',mars:'Mar',avril:'Abr',mai:'May',septembre:'Sep',octobre:'Oct',novembre:'Nov'},
+  };
+  const months = monthsMap[lang] || monthsMap.fr;
   EVENEMENTS.forEach(function(ev, i) {
     const col = CATS[ev.cat]?.color || '#3B5BDB';
     const dateStr = ev.date || '';
@@ -856,6 +862,7 @@ function applyTranslations() {
   var ids = {
     't-hero-title': 'hero_title',
     't-hero-sub': 'hero_sub',
+    't-explorer': 'explorer',
     't-sec-patrimoine': 'section_patrimoine',
     't-sec-patrimoine-sub': 'section_patrimoine_sub',
     't-sec-insolites': 'section_insolites',
@@ -869,6 +876,13 @@ function applyTranslations() {
     't-nav-map': 'nav_map',
     't-nav-shops': 'nav_shops',
     't-nav-agenda': 'nav_agenda',
+    't-pill-patrimoine': 'pill_patrimoine',
+    't-pill-gastro': 'pill_gastro',
+    't-pill-artisanat': 'pill_artisanat',
+    't-pill-agenda': 'pill_agenda',
+    't-concierge-title': 'concierge_title',
+    't-concierge-sub': 'concierge_sub',
+    't-concierge-btn': 'concierge_btn',
   };
   Object.keys(ids).forEach(function(id) {
     var el = document.getElementById(id);
