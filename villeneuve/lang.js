@@ -58,6 +58,20 @@ const TRANSLATIONS = {
     era_xiiie: "XIIIe siècle",
     era_romaine: "Époque romaine",
     era_ier: "Ier siècle",
+    // Nouvelles sections
+    sec_visites: "Idées de visites",
+    sec_visites_sub: "Selon vos envies",
+    visite_famille: "En famille",
+    visite_couple: "En couple",
+    visite_amis: "Entre amis",
+    visite_solo: "En solo",
+    sec_cdc: "Coup de cœur",
+    sec_cdc_sub: "La sélection de la semaine",
+    cdc_badge: "Coup de cœur",
+    cdc_label: "À ne pas manquer cette semaine",
+    cdc_desc: "Le plus grand monastère de France vous ouvre ses cloîtres. Un lieu hors du temps.",
+    sec_aujourdhui: "Aujourd'hui à Villeneuve",
+    sec_aujourdhui_sub: "Ce qui se passe maintenant",
   },
 
   en: {
@@ -114,6 +128,20 @@ const TRANSLATIONS = {
     era_xiiie: "13th century",
     era_romaine: "Roman era",
     era_ier: "1st century",
+    // New sections
+    sec_visites: "Visit ideas",
+    sec_visites_sub: "Choose your experience",
+    visite_famille: "With family",
+    visite_couple: "As a couple",
+    visite_amis: "With friends",
+    visite_solo: "Solo",
+    sec_cdc: "Editor's pick",
+    sec_cdc_sub: "This week's selection",
+    cdc_badge: "Editor's pick",
+    cdc_label: "Not to be missed this week",
+    cdc_desc: "France's largest charterhouse opens its cloisters to you. A timeless place.",
+    sec_aujourdhui: "Today in Villeneuve",
+    sec_aujourdhui_sub: "What's happening now",
   },
 
   es: {
@@ -170,6 +198,20 @@ const TRANSLATIONS = {
     era_xiiie: "Siglo XIII",
     era_romaine: "Época romana",
     era_ier: "Siglo I",
+    // Nuevas secciones
+    sec_visites: "Ideas de visitas",
+    sec_visites_sub: "Elige tu experiencia",
+    visite_famille: "En familia",
+    visite_couple: "En pareja",
+    visite_amis: "Con amigos",
+    visite_solo: "Solo",
+    sec_cdc: "Seleccion editorial",
+    sec_cdc_sub: "La seleccion de la semana",
+    cdc_badge: "Seleccion editorial",
+    cdc_label: "No te lo pierdas esta semana",
+    cdc_desc: "La cartuja mas grande de Francia te abre sus claustros. Un lugar fuera del tiempo.",
+    sec_aujourdhui: "Hoy en Villeneuve",
+    sec_aujourdhui_sub: "Lo que pasa ahora",
   }
 };
 
