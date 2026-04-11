@@ -284,6 +284,77 @@ setTimeout(function(){
 </div>
 <div style="display:flex;flex-direction:column;gap:10px;padding:0 20px 20px;" id="home-events-list"></div>
 
+
+<!-- IDÉES DE VISITES -->
+<div class="home-section-header" style="padding:28px 20px 14px;">
+  <div>
+    <div class="home-section-title" id="t-sec-visites">Idées de visites</div>
+    <div class="home-section-sub" id="t-sec-visites-sub">Selon vos envies</div>
+  </div>
+</div>
+<div class="home-visites">
+  <div class="visites-grid">
+    <div class="visite-card famille" onclick="filterByVisit('famille')">
+      <div class="visite-card-bg"><span class="material-symbols-outlined" style="font-size:40px;color:rgba(0,0,0,0.25);">family_restroom</span></div>
+      <div class="visite-card-body">
+        <div class="visite-card-title" id="t-visite-famille">En famille</div>
+        <div class="visite-card-sub" id="t-visite-famille-sub">5 lieux</div>
+      </div>
+    </div>
+    <div class="visite-card couple" onclick="filterByVisit('couple')">
+      <div class="visite-card-bg"><span class="material-symbols-outlined" style="font-size:40px;color:rgba(0,0,0,0.25);">favorite</span></div>
+      <div class="visite-card-body">
+        <div class="visite-card-title" id="t-visite-couple">En couple</div>
+        <div class="visite-card-sub" id="t-visite-couple-sub">4 lieux</div>
+      </div>
+    </div>
+    <div class="visite-card amis" onclick="filterByVisit('amis')">
+      <div class="visite-card-bg"><span class="material-symbols-outlined" style="font-size:40px;color:rgba(0,0,0,0.25);">groups</span></div>
+      <div class="visite-card-body">
+        <div class="visite-card-title" id="t-visite-amis">Entre amis</div>
+        <div class="visite-card-sub" id="t-visite-amis-sub">6 lieux</div>
+      </div>
+    </div>
+    <div class="visite-card solo" onclick="filterByVisit('solo')">
+      <div class="visite-card-bg"><span class="material-symbols-outlined" style="font-size:40px;color:rgba(0,0,0,0.25);">luggage</span></div>
+      <div class="visite-card-body">
+        <div class="visite-card-title" id="t-visite-solo">En solo</div>
+        <div class="visite-card-sub" id="t-visite-solo-sub">7 lieux</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- COUP DE CŒUR ÉDITORIAL -->
+<div class="home-section-header" style="padding:28px 20px 14px;">
+  <div>
+    <div class="home-section-title" id="t-sec-cdc">Coup de cœur</div>
+    <div class="home-section-sub" id="t-sec-cdc-sub">La sélection de la semaine</div>
+  </div>
+</div>
+<div class="home-coupdecoeur">
+  <div class="cdc-card" onclick="window.location.href=VILLE_ID+'/chartreuse.html'">
+    <img class="cdc-bg" src="assets/villeneuve/poi_002.jpg" alt="Chartreuse"/>
+    <div class="cdc-overlay"></div>
+    <div class="cdc-badge" id="t-cdc-badge">Coup de cœur</div>
+    <div class="cdc-body">
+      <div class="cdc-label" id="t-cdc-label">À ne pas manquer cette semaine</div>
+      <div class="cdc-title">Chartreuse du Val de Bénédiction</div>
+      <div class="cdc-desc" id="t-cdc-desc">Le plus grand monastère de France vous ouvre ses cloîtres. Un lieu hors du temps.</div>
+    </div>
+    <div class="cdc-arrow">›</div>
+  </div>
+</div>
+
+<!-- AUJOURD'HUI -->
+<div class="home-section-header" style="padding:28px 20px 14px;">
+  <div>
+    <div class="home-section-title" id="t-sec-aujourdhui">Aujourd'hui à Villeneuve</div>
+    <div class="home-section-sub" id="t-sec-aujourdhui-sub">Ce qui se passe maintenant</div>
+  </div>
+</div>
+<div class="home-aujourdhui" id="aujourdhui-container"></div>
+
 <!-- CONCIERGE -->
 <div class="home-concierge">
   <div class="home-concierge-glow"></div>
@@ -894,6 +965,19 @@ function applyTranslations() {
     't-concierge-title': 'concierge_title',
     't-concierge-sub': 'concierge_sub',
     't-concierge-btn': 'concierge_btn',
+    't-sec-visites': 'sec_visites',
+    't-sec-visites-sub': 'sec_visites_sub',
+    't-visite-famille': 'visite_famille',
+    't-visite-couple': 'visite_couple',
+    't-visite-amis': 'visite_amis',
+    't-visite-solo': 'visite_solo',
+    't-sec-cdc': 'sec_cdc',
+    't-sec-cdc-sub': 'sec_cdc_sub',
+    't-cdc-badge': 'cdc_badge',
+    't-cdc-label': 'cdc_label',
+    't-cdc-desc': 'cdc_desc',
+    't-sec-aujourdhui': 'sec_aujourdhui',
+    't-sec-aujourdhui-sub': 'sec_aujourdhui_sub',
   };
   Object.keys(ids).forEach(function(id) {
     var el = document.getElementById(id);
@@ -902,7 +986,80 @@ function applyTranslations() {
 }
 document.addEventListener('DOMContentLoaded', function() {
   applyTranslations();
+  buildAujourdhui();
 });
+function filterByVisit(type) {
+  window.location.href = VILLE_ID + '/carte.html?type=' + type;
+}
+
+function buildAujourdhui() {
+  var container = document.getElementById('aujourdhui-container');
+  if (!container) return;
+  var now = new Date();
+  var day = now.getDay(); // 0=dim, 1=lun...
+  var month = now.getMonth(); // 0=jan...
+
+  var events = [];
+
+  // Food trucks le lundi
+  if (day === 1) {
+    events.push({
+      icon: 'local_pizza',
+      label: getLang() === 'en' ? 'Every Monday' : getLang() === 'es' ? 'Cada lunes' : 'Chaque lundi',
+      title: getLang() === 'en' ? 'Food Trucks Villeneuve' : 'Food Trucks Villeneuve',
+      time: getLang() === 'en' ? 'From 6pm' : getLang() === 'es' ? 'Desde las 18h' : 'Dès 18h',
+      page: VILLE_ID + '/food-trucks.html'
+    });
+  }
+  // Estivales en été (juin-août)
+  if (month >= 5 && month <= 7) {
+    events.push({
+      icon: 'theater_comedy',
+      label: getLang() === 'en' ? 'Summer' : getLang() === 'es' ? 'Verano' : 'Été',
+      title: getLang() === 'en' ? 'Chartreuse Summer Festival' : getLang() === 'es' ? 'Festival de Verano' : 'Estivales de la Chartreuse',
+      time: getLang() === 'en' ? 'July - August' : getLang() === 'es' ? 'Julio - Agosto' : 'Juillet - Août',
+      page: VILLE_ID + '/chartreuse.html'
+    });
+  }
+  // Marché de Noël en décembre
+  if (month === 11) {
+    events.push({
+      icon: 'park',
+      label: getLang() === 'en' ? 'December' : getLang() === 'es' ? 'Diciembre' : 'Décembre',
+      title: getLang() === 'en' ? 'Medieval Christmas Market' : getLang() === 'es' ? 'Mercado Medieval de Navidad' : 'Marché de Noël Médiéval',
+      time: getLang() === 'en' ? 'All December' : getLang() === 'es' ? 'Todo diciembre' : 'Tout décembre',
+      page: VILLE_ID + '/carte.html'
+    });
+  }
+
+  // Si rien de spécial aujourd'hui
+  if (events.length === 0) {
+    events.push({
+      icon: 'castle',
+      label: getLang() === 'en' ? 'Open today' : getLang() === 'es' ? 'Abierto hoy' : 'Ouvert aujourd'hui',
+      title: getLang() === 'en' ? 'Fort Saint-André' : 'Fort Saint-André',
+      time: getLang() === 'en' ? '10am – 5pm' : getLang() === 'es' ? '10h – 17h' : '10h – 17h',
+      page: VILLE_ID + '/fort-saint-andre.html'
+    });
+  }
+
+  events.forEach(function(ev) {
+    var card = document.createElement('div');
+    card.className = 'aujourdhui-card';
+    card.style.marginBottom = '10px';
+    card.onclick = function() { window.location.href = ev.page; };
+    card.innerHTML =
+      '<div class="aujourdhui-dot"><span class="material-symbols-outlined" style="font-size:22px;color:#f59e0b;">' + ev.icon + '</span></div>' +
+      '<div class="aujourdhui-content">' +
+        '<div class="aujourdhui-label">' + ev.label + '</div>' +
+        '<div class="aujourdhui-title">' + ev.title + '</div>' +
+        '<div class="aujourdhui-time">' + ev.time + '</div>' +
+      '</div>' +
+      '<div class="aujourdhui-chevron">›</div>';
+    container.appendChild(card);
+  });
+}
+
 </script>
 </body>
 </html>
