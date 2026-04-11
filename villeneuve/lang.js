@@ -5,6 +5,7 @@
 const TRANSLATIONS = {
 
   fr: {
+    hero_label: "Bienvenue à Cœur de Ville",
     hero_title: "L'âme de la ville,",
     hero_sub: "révélée.",
     explorer: "Explorer maintenant",
@@ -75,6 +76,7 @@ const TRANSLATIONS = {
   },
 
   en: {
+    hero_label: "Welcome to Cœur de Ville",
     hero_title: "The soul of the city,",
     hero_sub: "revealed.",
     explorer: "Explore now",
@@ -145,6 +147,7 @@ const TRANSLATIONS = {
   },
 
   es: {
+    hero_label: "Bienvenido a Cœur de Ville",
     hero_title: "El alma de la ciudad,",
     hero_sub: "revelada.",
     explorer: "Explorar ahora",
