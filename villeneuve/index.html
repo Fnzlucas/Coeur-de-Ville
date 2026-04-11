@@ -149,6 +149,41 @@ body{padding-bottom:80px;}
 @keyframes splash-logo{from{opacity:0;transform:scale(0.92);}to{opacity:1;transform:scale(1);}}
 @keyframes splash-fade{from{opacity:0;}to{opacity:1;}}
 @keyframes splash-bar{0%{width:0%;}60%{width:65%;}100%{width:100%;}}
+
+/* ── IDÉES DE VISITES ── */
+.home-visites{padding:0 20px 8px;}
+.visites-grid{display:flex;gap:12px;overflow-x:auto;padding-bottom:4px;scrollbar-width:none;}
+.visites-grid::-webkit-scrollbar{display:none;}
+.visite-card{flex-shrink:0;width:140px;height:160px;border-radius:20px;position:relative;overflow:hidden;cursor:pointer;transition:transform 0.15s;}
+.visite-card:active{transform:scale(0.96);}
+.visite-card-bg{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;}
+.visite-card.famille{background:linear-gradient(135deg,#fef3c7,#fde68a);}
+.visite-card.couple{background:linear-gradient(135deg,#fce7f3,#fbcfe8);}
+.visite-card.solo{background:linear-gradient(135deg,#dbeafe,#bfdbfe);}
+.visite-card.amis{background:linear-gradient(135deg,#d1fae5,#a7f3d0);}
+.visite-card-body{position:absolute;bottom:0;left:0;right:0;padding:12px;background:linear-gradient(to top,rgba(0,0,0,0.6),transparent);}
+.visite-card-title{font-size:13px;font-weight:800;color:#fff;line-height:1.2;}
+.visite-card-sub{font-size:10px;color:rgba(255,255,255,0.7);margin-top:2px;}
+/* ── COUP DE CŒUR ── */
+.home-coupdecoeur{padding:0 20px 8px;}
+.cdc-card{border-radius:22px;overflow:hidden;position:relative;height:220px;cursor:pointer;box-shadow:0 4px 24px rgba(0,0,0,0.12);}
+.cdc-bg{width:100%;height:100%;object-fit:cover;display:block;}
+.cdc-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,0.85) 0%,rgba(0,0,0,0.2) 50%,transparent 100%);}
+.cdc-badge{position:absolute;top:14px;left:14px;background:rgba(255,255,255,0.15);backdrop-filter:blur(8px);border:0.5px solid rgba(255,255,255,0.3);color:#fff;font-size:9px;font-weight:800;letter-spacing:0.12em;text-transform:uppercase;padding:5px 12px;border-radius:20px;}
+.cdc-body{position:absolute;bottom:0;left:0;right:0;padding:18px 16px;}
+.cdc-label{font-size:9px;font-weight:700;color:rgba(255,255,255,0.55);letter-spacing:0.14em;text-transform:uppercase;margin-bottom:6px;}
+.cdc-title{font-size:20px;font-weight:900;color:#fff;line-height:1.15;letter-spacing:-0.02em;margin-bottom:4px;}
+.cdc-desc{font-size:12px;color:rgba(255,255,255,0.7);line-height:1.5;}
+.cdc-arrow{position:absolute;bottom:18px;right:16px;width:36px;height:36px;border-radius:50%;background:rgba(255,255,255,0.15);backdrop-filter:blur(8px);display:flex;align-items:center;justify-content:center;color:#fff;font-size:18px;}
+/* ── AUJOURD'HUI ── */
+.home-aujourdhui{padding:0 20px 8px;}
+.aujourdhui-card{background:#fff;border-radius:20px;padding:18px;box-shadow:0 2px 12px rgba(0,0,0,0.06);border:1px solid #f0ece8;display:flex;gap:14px;align-items:center;margin-bottom:10px;cursor:pointer;}
+.aujourdhui-dot{width:44px;height:44px;border-radius:14px;background:#fef3c7;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.aujourdhui-content{flex:1;}
+.aujourdhui-label{font-size:9px;font-weight:800;color:#f59e0b;letter-spacing:0.14em;text-transform:uppercase;margin-bottom:4px;}
+.aujourdhui-title{font-size:15px;font-weight:800;color:#0f1923;line-height:1.2;margin-bottom:2px;}
+.aujourdhui-time{font-size:11px;color:#9ca3af;font-weight:500;}
+.aujourdhui-chevron{color:#d1d5db;font-size:18px;}
 </style>
 <script>
 setTimeout(function(){
@@ -334,7 +369,7 @@ setTimeout(function(){
 </div>
 <div class="home-coupdecoeur">
   <div class="cdc-card" onclick="window.location.href=VILLE_ID+'/chartreuse.html'">
-    <img class="cdc-bg" src="assets/villeneuve/poi_002.jpg" alt="Chartreuse"/>
+    <img class="cdc-bg" src="../assets/villeneuve/poi_002.jpg" alt="Chartreuse"/>
     <div class="cdc-overlay"></div>
     <div class="cdc-badge" id="t-cdc-badge">Coup de cœur</div>
     <div class="cdc-body">
