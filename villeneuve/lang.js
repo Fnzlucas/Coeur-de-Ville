@@ -53,6 +53,11 @@ const TRANSLATIONS = {
     desc_saintjean: "Feux de joie et torches sur les remparts du Fort Saint-André au solstice d'été.",
     desc_estivales: "Résidences d'artistes et concerts dans l'écrin de la Chartreuse.",
     desc_noel: "Artisans en costume, vin chaud et animations historiques en décembre.",
+    // Périodes historiques
+    era_xive: "XIVe siècle",
+    era_xiiie: "XIIIe siècle",
+    era_romaine: "Époque romaine",
+    era_ier: "Ier siècle",
   },
 
   en: {
@@ -104,6 +109,11 @@ const TRANSLATIONS = {
     desc_saintjean: "Bonfires and torches on the ramparts of Fort Saint-Andre at midsummer.",
     desc_estivales: "Artist residencies and concerts in the stunning setting of the Chartreuse.",
     desc_noel: "Costumed artisans, mulled wine and historical events in December.",
+    // Historical periods
+    era_xive: "14th century",
+    era_xiiie: "13th century",
+    era_romaine: "Roman era",
+    era_ier: "1st century",
   },
 
   es: {
@@ -155,6 +165,11 @@ const TRANSLATIONS = {
     desc_saintjean: "Hogueras y antorchas en las murallas del Fuerte Saint-Andre en el solsticio de verano.",
     desc_estivales: "Residencias de artistas y conciertos en el marco de la Cartuja.",
     desc_noel: "Artesanos en traje, vino caliente y animaciones historicas en diciembre.",
+    // Períodos históricos
+    era_xive: "Siglo XIV",
+    era_xiiie: "Siglo XIII",
+    era_romaine: "Época romana",
+    era_ier: "Siglo I",
   }
 };
 
