@@ -1,6 +1,17 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
+<script src="lang.js"></script>
+<script>
+function translatePOIs() {
+  // Retraduit les noms affichés selon la langue
+  document.querySelectorAll('[data-poi-key]').forEach(function(el) {
+    var key = el.getAttribute('data-poi-key');
+    if (key) el.textContent = T(key);
+  });
+}
+</script>
+
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1"/>
 <title>Cœur de Ville</title>
@@ -168,7 +179,7 @@ setTimeout(function(){
   <div class="home-hero-overlay"></div>
   <div class="home-hero-content">
     <span class="home-hero-label" id="hero-label">Bienvenue à Cœur de Ville</span>
-    <h2 class="home-hero-title">L'âme de la ville,<br/>réinventée.</h2>
+    <h2 class="home-hero-title"><span id="t-hero-title"></span><br/>réinventée.</h2>
     <button class="home-hero-btn" onclick="window.location.href='carte.html'">
       <span class="material-symbols-outlined">explore</span>
       Explorer maintenant
@@ -198,11 +209,11 @@ setTimeout(function(){
 <div class="home-section">
   <div class="home-section-header">
     <div>
-      <div class="home-section-title">Sites patrimoniaux</div>
-      <div class="home-section-sub">Les incontournables de la ville</div>
+      <div class="home-section-title"><span id="t-sec-patrimoine"></span></div>
+      <div class="home-section-sub"><span id="t-sec-patrimoine-sub"></span></div>
     </div>
     <button class="home-see-all" onclick="window.location.href='carte.html'">
-      Voir tout <span class="material-symbols-outlined">arrow_forward</span>
+      <span id="t-voir-tout"></span> <span class="material-symbols-outlined">arrow_forward</span>
     </button>
   </div>
 </div>
@@ -214,8 +225,8 @@ setTimeout(function(){
 <div class="home-section">
   <div class="home-section-header">
     <div>
-      <div class="home-section-title">Lieux & anecdotes</div>
-      <div class="home-section-sub">Les histoires secrètes de la ville</div>
+      <div class="home-section-title"><span id="t-sec-insolites"></span></div>
+      <div class="home-section-sub"><span id="t-sec-insolites-sub"></span></div>
     </div>
   </div>
 </div>
@@ -247,8 +258,8 @@ setTimeout(function(){
 <div class="home-section">
   <div class="home-section-header">
     <div>
-      <div class="home-section-title">Commerces locaux</div>
-      <div class="home-section-sub">Artisans et saveurs du terroir</div>
+      <div class="home-section-title"><span id="t-sec-commerces"></span></div>
+      <div class="home-section-sub"><span id="t-sec-commerces-sub"></span></div>
     </div>
     <button class="home-see-all" onclick="window.location.href='carte.html'">
       Voir tout <span class="material-symbols-outlined">arrow_forward</span>
@@ -263,8 +274,8 @@ setTimeout(function(){
 <div class="home-section">
   <div class="home-section-header">
     <div>
-      <div class="home-section-title">Agenda & Animations</div>
-      <div class="home-section-sub">Ce qui se passe en ce moment</div>
+      <div class="home-section-title"><span id="t-sec-agenda"></span></div>
+      <div class="home-section-sub"><span id="t-sec-agenda-sub"></span><div hidden>Ce qui se passe en ce moment</div>
     </div>
     <button class="home-see-all" onclick="window.location.href='carte.html'">
       Voir tout <span class="material-symbols-outlined">arrow_forward</span>
@@ -289,19 +300,19 @@ setTimeout(function(){
 <nav id="bottomnav">
   <button class="n-btn active" onclick="">
     <span class="material-symbols-outlined">home</span>
-    <span class="lbl">Accueil</span>
+    <span class="lbl"><span id="t-nav-home"></span></span>
   </button>
   <button class="n-btn" onclick="window.location.href='carte.html'">
     <span class="material-symbols-outlined">explore</span>
-    <span class="lbl">Carte</span>
+    <span class="lbl"><span id="t-nav-map"></span></span>
   </button>
   <button class="n-btn" onclick="window.location.href='carte.html'">
     <span class="material-symbols-outlined">storefront</span>
-    <span class="lbl">Commerces</span>
+    <span class="lbl"><span id="t-nav-shops"></span></span>
   </button>
   <button class="n-btn" onclick="window.location.href='carte.html'">
     <span class="material-symbols-outlined">event</span>
-    <span class="lbl">Agenda</span>
+    <span class="lbl"><span id="t-nav-agenda"></span></span>
   </button>
 </nav>
 
@@ -838,6 +849,35 @@ function buildEvents() {
     el.appendChild(a);
   });
 }
+</script>
+
+<script>
+function applyTranslations() {
+  var ids = {
+    't-hero-title': 'hero_title',
+    't-hero-sub': 'hero_sub',
+    't-sec-patrimoine': 'section_patrimoine',
+    't-sec-patrimoine-sub': 'section_patrimoine_sub',
+    't-sec-insolites': 'section_insolites',
+    't-sec-insolites-sub': 'section_insolites_sub',
+    't-sec-commerces': 'section_commerces',
+    't-sec-commerces-sub': 'section_commerces_sub',
+    't-sec-agenda': 'section_agenda',
+    't-sec-agenda-sub': 'section_agenda_sub',
+    't-voir-tout': 'voir_tout',
+    't-nav-home': 'nav_home',
+    't-nav-map': 'nav_map',
+    't-nav-shops': 'nav_shops',
+    't-nav-agenda': 'nav_agenda',
+  };
+  Object.keys(ids).forEach(function(id) {
+    var el = document.getElementById(id);
+    if (el) el.textContent = T(ids[id]);
+  });
+}
+document.addEventListener('DOMContentLoaded', function() {
+  applyTranslations();
+});
 </script>
 </body>
 </html>
