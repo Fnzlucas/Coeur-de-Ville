@@ -681,6 +681,17 @@ function toggleMenu() {
   alert('Menu à venir');
 }
 
+
+function translateEra(era) {
+  if (!era) return '';
+  var eraMap = {
+    'XIVe siècle': T('era_xive'),
+    'XIIIe siècle': T('era_xiiie'),
+    'Époque romaine': T('era_romaine'),
+    'Ier siècle': T('era_ier'),
+  };
+  return eraMap[era] || era;
+}
 function buildPOIs() {
   const el = document.getElementById('home-poi-carousel');
   if (!el || !PLACES) return;
@@ -714,7 +725,7 @@ function buildPOIs() {
     body.style.cssText = 'padding:10px 12px 12px;';
     body.innerHTML = '<div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;margin-bottom:4px;color:' + col + '">' + label + '</div>' +
       '<div style="font-size:13px;font-weight:800;color:#0f1923;line-height:1.2;margin-bottom:3px;font-family:Manrope;">' + place.name + '</div>' +
-      '<div style="font-size:11px;color:#94a3b8;font-weight:500;">' + (place.era || '') + '</div>';
+      '<div style="font-size:11px;color:#94a3b8;font-weight:500;">' + translateEra(place.era) + '</div>';
     a.appendChild(body);
     el.appendChild(a);
   });
