@@ -3,6 +3,15 @@
 <head>
 <script src="lang.js"></script>
 <script>
+function getVilleParam() {
+  var params = new URLSearchParams(window.location.search);
+  return params.get('ville') || localStorage.getItem('cdv_ville') || 'villeneuve';
+}
+var VILLE_ID = getVilleParam();
+var ASSETS_PREFIX = VILLE_ID + '/assets/';
+</script>
+
+<script>
 function translatePOIs() {
   // Retraduit les noms affichés selon la langue
   document.querySelectorAll('[data-poi-key]').forEach(function(el) {
@@ -137,7 +146,7 @@ body{padding-bottom:80px;}
 <body>
 <div id="splash" style="position:fixed;inset:0;background:#000;display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:9999;transition:opacity 0.4s ease;">
   <div style="display:flex;flex-direction:column;align-items:center;gap:20px;animation:splash-up 0.7s cubic-bezier(0.22,1,0.36,1) both;">
-    <img src="../assets/shared/logo.png" style="width:180px;filter:invert(1);animation:splash-logo 0.6s ease 0.1s both;" alt="Cœur de Ville"/>
+    <img src="assets/shared/logo.png" style="width:180px;filter:invert(1);animation:splash-logo 0.6s ease 0.1s both;" alt="Cœur de Ville"/>
     <div style="font-size:11px;color:rgba(255,255,255,0.35);letter-spacing:0.22em;text-transform:uppercase;font-family:-apple-system,sans-serif;animation:splash-fade 0.5s ease 0.4s both;">Patrimoine &amp; Découverte</div>
   </div>
   <div style="position:absolute;bottom:56px;width:36px;height:2px;background:rgba(255,255,255,0.08);border-radius:2px;overflow:hidden;">
@@ -149,41 +158,6 @@ body{padding-bottom:80px;}
 @keyframes splash-logo{from{opacity:0;transform:scale(0.92);}to{opacity:1;transform:scale(1);}}
 @keyframes splash-fade{from{opacity:0;}to{opacity:1;}}
 @keyframes splash-bar{0%{width:0%;}60%{width:65%;}100%{width:100%;}}
-
-/* ── IDÉES DE VISITES ── */
-.home-visites{padding:0 20px 8px;}
-.visites-grid{display:flex;gap:12px;overflow-x:auto;padding-bottom:4px;scrollbar-width:none;}
-.visites-grid::-webkit-scrollbar{display:none;}
-.visite-card{flex-shrink:0;width:140px;height:160px;border-radius:20px;position:relative;overflow:hidden;cursor:pointer;transition:transform 0.15s;}
-.visite-card:active{transform:scale(0.96);}
-.visite-card-bg{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;}
-.visite-card.famille{background:linear-gradient(135deg,#fef3c7,#fde68a);}
-.visite-card.couple{background:linear-gradient(135deg,#fce7f3,#fbcfe8);}
-.visite-card.solo{background:linear-gradient(135deg,#dbeafe,#bfdbfe);}
-.visite-card.amis{background:linear-gradient(135deg,#d1fae5,#a7f3d0);}
-.visite-card-body{position:absolute;bottom:0;left:0;right:0;padding:12px;background:linear-gradient(to top,rgba(0,0,0,0.6),transparent);}
-.visite-card-title{font-size:13px;font-weight:800;color:#fff;line-height:1.2;}
-.visite-card-sub{font-size:10px;color:rgba(255,255,255,0.7);margin-top:2px;}
-/* ── COUP DE CŒUR ── */
-.home-coupdecoeur{padding:0 20px 8px;}
-.cdc-card{border-radius:22px;overflow:hidden;position:relative;height:220px;cursor:pointer;box-shadow:0 4px 24px rgba(0,0,0,0.12);}
-.cdc-bg{width:100%;height:100%;object-fit:cover;display:block;}
-.cdc-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,0.85) 0%,rgba(0,0,0,0.2) 50%,transparent 100%);}
-.cdc-badge{position:absolute;top:14px;left:14px;background:rgba(255,255,255,0.15);backdrop-filter:blur(8px);border:0.5px solid rgba(255,255,255,0.3);color:#fff;font-size:9px;font-weight:800;letter-spacing:0.12em;text-transform:uppercase;padding:5px 12px;border-radius:20px;}
-.cdc-body{position:absolute;bottom:0;left:0;right:0;padding:18px 16px;}
-.cdc-label{font-size:9px;font-weight:700;color:rgba(255,255,255,0.55);letter-spacing:0.14em;text-transform:uppercase;margin-bottom:6px;}
-.cdc-title{font-size:20px;font-weight:900;color:#fff;line-height:1.15;letter-spacing:-0.02em;margin-bottom:4px;}
-.cdc-desc{font-size:12px;color:rgba(255,255,255,0.7);line-height:1.5;}
-.cdc-arrow{position:absolute;bottom:18px;right:16px;width:36px;height:36px;border-radius:50%;background:rgba(255,255,255,0.15);backdrop-filter:blur(8px);display:flex;align-items:center;justify-content:center;color:#fff;font-size:18px;}
-/* ── AUJOURD'HUI ── */
-.home-aujourdhui{padding:0 20px 8px;}
-.aujourdhui-card{background:#fff;border-radius:20px;padding:18px;box-shadow:0 2px 12px rgba(0,0,0,0.06);border:1px solid #f0ece8;display:flex;gap:14px;align-items:center;margin-bottom:10px;cursor:pointer;}
-.aujourdhui-dot{width:44px;height:44px;border-radius:14px;background:#fef3c7;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
-.aujourdhui-content{flex:1;}
-.aujourdhui-label{font-size:9px;font-weight:800;color:#f59e0b;letter-spacing:0.14em;text-transform:uppercase;margin-bottom:4px;}
-.aujourdhui-title{font-size:15px;font-weight:800;color:#0f1923;line-height:1.2;margin-bottom:2px;}
-.aujourdhui-time{font-size:11px;color:#9ca3af;font-weight:500;}
-.aujourdhui-chevron{color:#d1d5db;font-size:18px;}
 </style>
 <script>
 setTimeout(function(){
@@ -201,7 +175,7 @@ setTimeout(function(){
     <span class="material-symbols-outlined" style="font-size:24px;color:#0f1923;">menu</span>
   </button>
   <!-- Logo centré -->
-  <img src="../assets/shared/logo.png" style="height:22px;object-fit:contain;" alt="Cœur de Ville"/>
+  <img src="assets/shared/logo.png" style="height:22px;object-fit:contain;" alt="Cœur de Ville"/>
   <!-- Loupe droite -->
   <button onclick="window.location.href='carte.html'" style="background:none;border:none;cursor:pointer;padding:6px;display:flex;align-items:center;">
     <span class="material-symbols-outlined" style="font-size:22px;color:#0f1923;">search</span>
@@ -214,10 +188,10 @@ setTimeout(function(){
   <div class="home-hero-overlay"></div>
   <div class="home-hero-content">
     <span class="home-hero-label" id="hero-label">Bienvenue à Cœur de Ville</span>
-    <h2 class="home-hero-title"><span id="t-hero-title"></span><br/><span id="t-hero-sub"></span></h2>
+    <h2 class="home-hero-title"><span id="t-hero-title">L'âme de la ville,</span><br/><span id="t-hero-sub">révélée.</span></h2>
     <button class="home-hero-btn" onclick="window.location.href='carte.html'">
       <span class="material-symbols-outlined">explore</span>
-      <span id="t-explorer"></span>
+      <span id="t-explorer">Explorer maintenant</span>
     </button>
   </div>
 </div>
@@ -226,16 +200,16 @@ setTimeout(function(){
 <div class="home-pills-wrap">
   <div class="home-pills">
     <button class="home-pill" onclick="window.location.href='carte.html'">
-      <span class="material-symbols-outlined">account_balance</span><span id="t-pill-patrimoine"></span>
+      <span class="material-symbols-outlined">account_balance</span><span id="t-pill-patrimoine">Patrimoine</span>
     </button>
     <button class="home-pill" onclick="window.location.href='carte.html'">
-      <span class="material-symbols-outlined">restaurant</span><span id="t-pill-gastro"></span>
+      <span class="material-symbols-outlined">restaurant</span><span id="t-pill-gastro">Gastronomie</span>
     </button>
     <button class="home-pill" onclick="window.location.href='carte.html'">
-      <span class="material-symbols-outlined">handyman</span><span id="t-pill-artisanat"></span>
+      <span class="material-symbols-outlined">handyman</span><span id="t-pill-artisanat">Artisanat</span>
     </button>
     <button class="home-pill" onclick="window.location.href='carte.html'">
-      <span class="material-symbols-outlined">event</span><span id="t-pill-agenda"></span>
+      <span class="material-symbols-outlined">event</span><span id="t-pill-agenda">Agenda</span>
     </button>
   </div>
 </div>
@@ -244,11 +218,11 @@ setTimeout(function(){
 <div class="home-section">
   <div class="home-section-header">
     <div>
-      <div class="home-section-title"><span id="t-sec-patrimoine"></span></div>
-      <div class="home-section-sub"><span id="t-sec-patrimoine-sub"></span></div>
+      <div class="home-section-title"><span id="t-sec-patrimoine">Sites patrimoniaux</span></div>
+      <div class="home-section-sub"><span id="t-sec-patrimoine-sub">Les incontournables de la ville</span></div>
     </div>
     <button class="home-see-all" onclick="window.location.href='carte.html'">
-      <span id="t-voir-tout"></span> <span class="material-symbols-outlined">arrow_forward</span>
+      <span id="t-voir-tout">Voir tout</span> <span class="material-symbols-outlined">arrow_forward</span>
     </button>
   </div>
 </div>
@@ -260,8 +234,8 @@ setTimeout(function(){
 <div class="home-section">
   <div class="home-section-header">
     <div>
-      <div class="home-section-title"><span id="t-sec-insolites"></span></div>
-      <div class="home-section-sub"><span id="t-sec-insolites-sub"></span></div>
+      <div class="home-section-title"><span id="t-sec-insolites">Lieux & anecdotes</span></div>
+      <div class="home-section-sub"><span id="t-sec-insolites-sub">Secrets et légendes</span></div>
     </div>
   </div>
 </div>
@@ -293,8 +267,8 @@ setTimeout(function(){
 <div class="home-section">
   <div class="home-section-header">
     <div>
-      <div class="home-section-title"><span id="t-sec-commerces"></span></div>
-      <div class="home-section-sub"><span id="t-sec-commerces-sub"></span></div>
+      <div class="home-section-title"><span id="t-sec-commerces">Commerces locaux</span></div>
+      <div class="home-section-sub"><span id="t-sec-commerces-sub">Artisans & saveurs</span></div>
     </div>
     <button class="home-see-all" onclick="window.location.href='carte.html'">
       Voir tout <span class="material-symbols-outlined">arrow_forward</span>
@@ -309,8 +283,8 @@ setTimeout(function(){
 <div class="home-section">
   <div class="home-section-header">
     <div>
-      <div class="home-section-title"><span id="t-sec-agenda"></span></div>
-      <div class="home-section-sub"><span id="t-sec-agenda-sub"></span><div hidden>Ce qui se passe en ce moment</div>
+      <div class="home-section-title"><span id="t-sec-agenda">Agenda & Animations</span></div>
+      <div class="home-section-sub"><span id="t-sec-agenda-sub">A ne pas manquer</span><div hidden>Ce qui se passe en ce moment</div>
     </div>
     <button class="home-see-all" onclick="window.location.href='carte.html'">
       Voir tout <span class="material-symbols-outlined">arrow_forward</span>
@@ -319,86 +293,15 @@ setTimeout(function(){
 </div>
 <div style="display:flex;flex-direction:column;gap:10px;padding:0 20px 20px;" id="home-events-list"></div>
 
-
-<!-- IDÉES DE VISITES -->
-<div class="home-section-header" style="padding:28px 20px 14px;">
-  <div>
-    <div class="home-section-title" id="t-sec-visites">Idées de visites</div>
-    <div class="home-section-sub" id="t-sec-visites-sub">Selon vos envies</div>
-  </div>
-</div>
-<div class="home-visites">
-  <div class="visites-grid">
-    <div class="visite-card famille" onclick="filterByVisit('famille')">
-      <div class="visite-card-bg"><span class="material-symbols-outlined" style="font-size:40px;color:rgba(0,0,0,0.25);">family_restroom</span></div>
-      <div class="visite-card-body">
-        <div class="visite-card-title" id="t-visite-famille">En famille</div>
-        <div class="visite-card-sub" id="t-visite-famille-sub">5 lieux</div>
-      </div>
-    </div>
-    <div class="visite-card couple" onclick="filterByVisit('couple')">
-      <div class="visite-card-bg"><span class="material-symbols-outlined" style="font-size:40px;color:rgba(0,0,0,0.25);">favorite</span></div>
-      <div class="visite-card-body">
-        <div class="visite-card-title" id="t-visite-couple">En couple</div>
-        <div class="visite-card-sub" id="t-visite-couple-sub">4 lieux</div>
-      </div>
-    </div>
-    <div class="visite-card amis" onclick="filterByVisit('amis')">
-      <div class="visite-card-bg"><span class="material-symbols-outlined" style="font-size:40px;color:rgba(0,0,0,0.25);">groups</span></div>
-      <div class="visite-card-body">
-        <div class="visite-card-title" id="t-visite-amis">Entre amis</div>
-        <div class="visite-card-sub" id="t-visite-amis-sub">6 lieux</div>
-      </div>
-    </div>
-    <div class="visite-card solo" onclick="filterByVisit('solo')">
-      <div class="visite-card-bg"><span class="material-symbols-outlined" style="font-size:40px;color:rgba(0,0,0,0.25);">luggage</span></div>
-      <div class="visite-card-body">
-        <div class="visite-card-title" id="t-visite-solo">En solo</div>
-        <div class="visite-card-sub" id="t-visite-solo-sub">7 lieux</div>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- COUP DE CŒUR ÉDITORIAL -->
-<div class="home-section-header" style="padding:28px 20px 14px;">
-  <div>
-    <div class="home-section-title" id="t-sec-cdc">Coup de cœur</div>
-    <div class="home-section-sub" id="t-sec-cdc-sub">La sélection de la semaine</div>
-  </div>
-</div>
-<div class="home-coupdecoeur">
-  <div class="cdc-card" onclick="window.location.href=VILLE_ID+'/chartreuse.html'">
-    <img class="cdc-bg" src="../assets/villeneuve/poi_002.jpg" alt="Chartreuse"/>
-    <div class="cdc-overlay"></div>
-    <div class="cdc-badge" id="t-cdc-badge">Coup de cœur</div>
-    <div class="cdc-body">
-      <div class="cdc-label" id="t-cdc-label">À ne pas manquer cette semaine</div>
-      <div class="cdc-title">Chartreuse du Val de Bénédiction</div>
-      <div class="cdc-desc" id="t-cdc-desc">Le plus grand monastère de France vous ouvre ses cloîtres. Un lieu hors du temps.</div>
-    </div>
-    <div class="cdc-arrow">›</div>
-  </div>
-</div>
-
-<!-- AUJOURD'HUI -->
-<div class="home-section-header" style="padding:28px 20px 14px;">
-  <div>
-    <div class="home-section-title" id="t-sec-aujourdhui">Aujourd'hui à Villeneuve</div>
-    <div class="home-section-sub" id="t-sec-aujourdhui-sub">Ce qui se passe maintenant</div>
-  </div>
-</div>
-<div class="home-aujourdhui" id="aujourdhui-container"></div>
-
 <!-- CONCIERGE -->
 <div class="home-concierge">
   <div class="home-concierge-glow"></div>
   <div class="home-concierge-glow2"></div>
-  <div class="home-concierge-title"><span id="t-concierge-title"></span></div>
-  <div class="home-concierge-sub"><span id="t-concierge-sub"></span></div>
+  <div class="home-concierge-title"><span id="t-concierge-title">Besoin d'un guide ?</span></div>
+  <div class="home-concierge-sub"><span id="t-concierge-sub">Notre concierge numérique vous propose un itinéraire personnalisé.</span></div>
   <button class="home-concierge-btn" onclick="window.location.href='carte.html'">
     <span class="material-symbols-outlined">auto_awesome</span>
-    <span id="t-concierge-btn"></span>
+    <span id="t-concierge-btn">Démarrer le parcours</span>
   </button>
 </div>
 
@@ -406,19 +309,19 @@ setTimeout(function(){
 <nav id="bottomnav">
   <button class="n-btn active" onclick="">
     <span class="material-symbols-outlined">home</span>
-    <span class="lbl"><span id="t-nav-home"></span></span>
+    <span class="lbl"><span id="t-nav-home">Accueil</span></span>
   </button>
   <button class="n-btn" onclick="window.location.href='carte.html'">
     <span class="material-symbols-outlined">explore</span>
-    <span class="lbl"><span id="t-nav-map"></span></span>
+    <span class="lbl"><span id="t-nav-map">Carte</span></span>
   </button>
   <button class="n-btn" onclick="window.location.href='carte.html'">
     <span class="material-symbols-outlined">storefront</span>
-    <span class="lbl"><span id="t-nav-shops"></span></span>
+    <span class="lbl"><span id="t-nav-shops">Commerces</span></span>
   </button>
   <button class="n-btn" onclick="window.location.href='carte.html'">
     <span class="material-symbols-outlined">event</span>
-    <span class="lbl"><span id="t-nav-agenda"></span></span>
+    <span class="lbl"><span id="t-nav-agenda">Agenda</span></span>
   </button>
 </nav>
 
@@ -532,7 +435,7 @@ const PLACES = [
     id: 1,
     cat: 'militaire',
     name: "Fort Saint-André",
-    page: "fort-saint-andre.html",
+    page: VILLE_ID + "/fort-saint-andre.html",
     desc: "Forteresse royale du XIVe siècle érigée par Jean le Bon. Ses deux tours jumelles dominent le Rhône et offrent une vue panoramique exceptionnelle.",
     addr: "Montée du Fort, 30400 Villeneuve-lès-Avignon",
     lat: 43.9654, lng: 4.8014,
@@ -547,13 +450,13 @@ const PLACES = [
       { year: "1789", text: "Abandon de la garnison à la Révolution" },
       { year: "1982", text: "Classement Monument Historique" },
     ],
-    bg: "../assets/villeneuve/poi_001.jpg",
+    bg: ASSETS_PREFIX + "poi_001.jpg",
   },
   {
     id: 2,
     cat: 'religieux',
     name: "Chartreuse du Val de Bénédiction",
-    page: "chartreuse.html",
+    page: VILLE_ID + "/chartreuse.html",
     desc: "La plus grande chartreuse de France, fondée en 1356 par le pape Innocent VI. Lieu de résidences artistiques reconnu mondialement.",
     addr: "58 Rue de la République, 30400 Villeneuve-lès-Avignon",
     lat: 43.9664, lng: 4.7969,
@@ -568,13 +471,13 @@ const PLACES = [
       { year: "1902", text: "Classement Monument Historique" },
       { year: "1976", text: "Ouverture comme centre culturel" },
     ],
-    bg: "../assets/villeneuve/poi_002.jpg",
+    bg: ASSETS_PREFIX + "poi_002.jpg",
   },
   {
     id: 3,
     cat: 'monument',
     name: "Tour Philippe le Bel",
-    page: "tour-philippe-le-bel.html",
+    page: VILLE_ID + "/tour-philippe-le-bel.html",
     desc: "Sentinelle médiévale à l'entrée du pont d'Avignon, la tour offre une vue imprenable sur le Rhône et le Palais des Papes.",
     addr: "Montée de la Tour, 30400 Villeneuve-lès-Avignon",
     lat: 43.9586, lng: 4.7976,
@@ -588,7 +491,7 @@ const PLACES = [
       { year: "1668", text: "Effondrement partiel du pont Saint-Bénézet" },
       { year: "1880", text: "Classement Monument Historique" },
     ],
-    bg: "../assets/villeneuve/poi_003.jpg",
+    bg: ASSETS_PREFIX + "poi_003.jpg",
   },
   {
     id: 4,
@@ -613,7 +516,7 @@ const PLACES = [
     id: 5,
     cat: 'naturel',
     name: "Colline des Mourgues",
-    page: "colline-des-mourgues.html",
+    page: VILLE_ID + "/colline-des-mourgues.html",
     desc: "Promontoire secret offrant la plus belle vue sur le Palais des Papes, le Mont-Ventoux et les Alpilles — ignoré des touristes.",
     addr: "Colline des Mourgues, Villeneuve-lès-Avignon",
     lat: 43.9611, lng: 4.7960,
@@ -627,7 +530,7 @@ const PLACES = [
       { year: "XIXe s.", text: "Site prisé des peintres provençaux" },
       { year: "2000s", text: "Classé espace naturel protégé" },
     ],
-    bg: "../assets/villeneuve/poi_004.jpg",
+    bg: ASSETS_PREFIX + "poi_004.jpg",
   },
   {
     id: 302,
@@ -635,8 +538,8 @@ const PLACES = [
     anecdote: "Unique au monde",
     desc: "En rénovant un palais cardinalice, la mairie découvre gravée dans le marbre une partition du XIVe siècle — deux rondeaux profanes, uniques au monde.",
     lat: 43.9675, lng: 4.7902,
-    bg: "../assets/villeneuve/poi_005.jpg",
-    page: "partition.html",
+    bg: ASSETS_PREFIX + "poi_005.jpg",
+    page: VILLE_ID + "/partition.html",
   },
 ];
 
@@ -650,8 +553,8 @@ const INSOLITES = [
     anecdote: "Symbole secret de la ville",
     desc: "Ils ouvrirent la malle d'or… et des milliers de lézards s'échappèrent. La légende qui a donné son surnom aux Villeneuvois depuis six siècles.",
     lat: 43.9671, lng: 4.7896,
-    bg: "../assets/villeneuve/poi_006.jpg",
-    page: "lezard.html",
+    bg: ASSETS_PREFIX + "poi_006.jpg",
+    page: VILLE_ID + "/lezard.html",
   },
   {
     id: 302,
@@ -659,8 +562,8 @@ const INSOLITES = [
     anecdote: "Unique au monde",
     desc: "En rénovant un palais cardinalice, la mairie découvre gravée dans le marbre une partition du XIVe siècle — deux rondeaux profanes, uniques au monde.",
     lat: 43.9675, lng: 4.7902,
-    bg: "../assets/villeneuve/poi_007.jpg",
-    page: "partition.html",
+    bg: ASSETS_PREFIX + "poi_007.jpg",
+    page: VILLE_ID + "/partition.html",
   },
 ];
 
@@ -675,8 +578,8 @@ const COMMERCES = [
     lat: 43.96708277862177, lng: 4.796074895540339,
     horaires: "8h–00h30",
     note: "4.6",
-    bg: "../assets/villeneuve/poi_008.jpg",
-    page: "maison-bronzini.html",
+    bg: ASSETS_PREFIX + "poi_008.jpg",
+    page: VILLE_ID + "/maison-bronzini.html",
   },
   {
     id: 101,
@@ -733,8 +636,8 @@ const EVENEMENTS = [
     date: "Tous les lundis",
     horaires: "Dès 18h",
     note: "4.7",
-    bg: "../assets/villeneuve/poi_009.jpg",
-    page: "food-trucks.html",
+    bg: ASSETS_PREFIX + "poi_009.jpg",
+    page: VILLE_ID + "/food-trucks.html",
   },
 
   {
@@ -787,17 +690,6 @@ function toggleMenu() {
   alert('Menu à venir');
 }
 
-
-function translateEra(era) {
-  if (!era) return '';
-  var eraMap = {
-    'XIVe siècle': T('era_xive'),
-    'XIIIe siècle': T('era_xiiie'),
-    'Époque romaine': T('era_romaine'),
-    'Ier siècle': T('era_ier'),
-  };
-  return eraMap[era] || era;
-}
 function buildPOIs() {
   const el = document.getElementById('home-poi-carousel');
   if (!el || !PLACES) return;
@@ -831,7 +723,7 @@ function buildPOIs() {
     body.style.cssText = 'padding:10px 12px 12px;';
     body.innerHTML = '<div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;margin-bottom:4px;color:' + col + '">' + label + '</div>' +
       '<div style="font-size:13px;font-weight:800;color:#0f1923;line-height:1.2;margin-bottom:3px;font-family:Manrope;">' + place.name + '</div>' +
-      '<div style="font-size:11px;color:#94a3b8;font-weight:500;">' + translateEra(place.era) + '</div>';
+      '<div style="font-size:11px;color:#94a3b8;font-weight:500;">' + (place.era || '') + '</div>';
     a.appendChild(body);
     el.appendChild(a);
   });
@@ -977,7 +869,6 @@ function buildEvents() {
 <script>
 function applyTranslations() {
   var ids = {
-    't-hero-label': 'hero_label',
     't-hero-title': 'hero_title',
     't-hero-sub': 'hero_sub',
     't-explorer': 'explorer',
@@ -1001,19 +892,6 @@ function applyTranslations() {
     't-concierge-title': 'concierge_title',
     't-concierge-sub': 'concierge_sub',
     't-concierge-btn': 'concierge_btn',
-    't-sec-visites': 'sec_visites',
-    't-sec-visites-sub': 'sec_visites_sub',
-    't-visite-famille': 'visite_famille',
-    't-visite-couple': 'visite_couple',
-    't-visite-amis': 'visite_amis',
-    't-visite-solo': 'visite_solo',
-    't-sec-cdc': 'sec_cdc',
-    't-sec-cdc-sub': 'sec_cdc_sub',
-    't-cdc-badge': 'cdc_badge',
-    't-cdc-label': 'cdc_label',
-    't-cdc-desc': 'cdc_desc',
-    't-sec-aujourdhui': 'sec_aujourdhui',
-    't-sec-aujourdhui-sub': 'sec_aujourdhui_sub',
   };
   Object.keys(ids).forEach(function(id) {
     var el = document.getElementById(id);
@@ -1022,80 +900,7 @@ function applyTranslations() {
 }
 document.addEventListener('DOMContentLoaded', function() {
   applyTranslations();
-  buildAujourdhui();
 });
-function filterByVisit(type) {
-  window.location.href = VILLE_ID + '/carte.html?type=' + type;
-}
-
-function buildAujourdhui() {
-  var container = document.getElementById('aujourdhui-container');
-  if (!container) return;
-  var now = new Date();
-  var day = now.getDay(); // 0=dim, 1=lun...
-  var month = now.getMonth(); // 0=jan...
-
-  var events = [];
-
-  // Food trucks le lundi
-  if (day === 1) {
-    events.push({
-      icon: 'local_pizza',
-      label: getLang() === 'en' ? 'Every Monday' : getLang() === 'es' ? 'Cada lunes' : 'Chaque lundi',
-      title: getLang() === 'en' ? 'Food Trucks Villeneuve' : 'Food Trucks Villeneuve',
-      time: getLang() === 'en' ? 'From 6pm' : getLang() === 'es' ? 'Desde las 18h' : 'Dès 18h',
-      page: VILLE_ID + '/food-trucks.html'
-    });
-  }
-  // Estivales en été (juin-août)
-  if (month >= 5 && month <= 7) {
-    events.push({
-      icon: 'theater_comedy',
-      label: getLang() === 'en' ? 'Summer' : getLang() === 'es' ? 'Verano' : 'Été',
-      title: getLang() === 'en' ? 'Chartreuse Summer Festival' : getLang() === 'es' ? 'Festival de Verano' : 'Estivales de la Chartreuse',
-      time: getLang() === 'en' ? 'July - August' : getLang() === 'es' ? 'Julio - Agosto' : 'Juillet - Août',
-      page: VILLE_ID + '/chartreuse.html'
-    });
-  }
-  // Marché de Noël en décembre
-  if (month === 11) {
-    events.push({
-      icon: 'park',
-      label: getLang() === 'en' ? 'December' : getLang() === 'es' ? 'Diciembre' : 'Décembre',
-      title: getLang() === 'en' ? 'Medieval Christmas Market' : getLang() === 'es' ? 'Mercado Medieval de Navidad' : 'Marché de Noël Médiéval',
-      time: getLang() === 'en' ? 'All December' : getLang() === 'es' ? 'Todo diciembre' : 'Tout décembre',
-      page: VILLE_ID + '/carte.html'
-    });
-  }
-
-  // Si rien de spécial aujourd'hui
-  if (events.length === 0) {
-    events.push({
-      icon: 'castle',
-      label: getLang() === 'en' ? 'Open today' : getLang() === 'es' ? 'Abierto hoy' : 'Ouvert aujourd'hui',
-      title: getLang() === 'en' ? 'Fort Saint-André' : 'Fort Saint-André',
-      time: getLang() === 'en' ? '10am – 5pm' : getLang() === 'es' ? '10h – 17h' : '10h – 17h',
-      page: VILLE_ID + '/fort-saint-andre.html'
-    });
-  }
-
-  events.forEach(function(ev) {
-    var card = document.createElement('div');
-    card.className = 'aujourdhui-card';
-    card.style.marginBottom = '10px';
-    card.onclick = function() { window.location.href = ev.page; };
-    card.innerHTML =
-      '<div class="aujourdhui-dot"><span class="material-symbols-outlined" style="font-size:22px;color:#f59e0b;">' + ev.icon + '</span></div>' +
-      '<div class="aujourdhui-content">' +
-        '<div class="aujourdhui-label">' + ev.label + '</div>' +
-        '<div class="aujourdhui-title">' + ev.title + '</div>' +
-        '<div class="aujourdhui-time">' + ev.time + '</div>' +
-      '</div>' +
-      '<div class="aujourdhui-chevron">›</div>';
-    container.appendChild(card);
-  });
-}
-
 </script>
 </body>
 </html>
