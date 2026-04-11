@@ -8,7 +8,7 @@ function getVilleParam() {
   return params.get('ville') || localStorage.getItem('cdv_ville') || 'villeneuve';
 }
 var VILLE_ID = getVilleParam();
-var ASSETS_PREFIX = VILLE_ID + '/assets/';
+var ASSETS_PREFIX = '../assets/' + VILLE_ID + '/';
 </script>
 
 <script>
