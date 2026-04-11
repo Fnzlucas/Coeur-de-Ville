@@ -3,6 +3,15 @@
 <head>
 <script src="lang.js"></script>
 <script>
+function getVilleParam() {
+  var params = new URLSearchParams(window.location.search);
+  return params.get('ville') || localStorage.getItem('cdv_ville') || 'villeneuve';
+}
+var VILLE_ID = getVilleParam();
+var ASSETS_PREFIX = VILLE_ID + '/assets/';
+</script>
+
+<script>
 function translatePOIs() {
   // Retraduit les noms affichés selon la langue
   document.querySelectorAll('[data-poi-key]').forEach(function(el) {
@@ -137,7 +146,7 @@ body{padding-bottom:80px;}
 <body>
 <div id="splash" style="position:fixed;inset:0;background:#000;display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:9999;transition:opacity 0.4s ease;">
   <div style="display:flex;flex-direction:column;align-items:center;gap:20px;animation:splash-up 0.7s cubic-bezier(0.22,1,0.36,1) both;">
-    <img src="../assets/shared/logo.png" style="width:180px;filter:invert(1);animation:splash-logo 0.6s ease 0.1s both;" alt="Cœur de Ville"/>
+    <img src="assets/shared/logo.png" style="width:180px;filter:invert(1);animation:splash-logo 0.6s ease 0.1s both;" alt="Cœur de Ville"/>
     <div style="font-size:11px;color:rgba(255,255,255,0.35);letter-spacing:0.22em;text-transform:uppercase;font-family:-apple-system,sans-serif;animation:splash-fade 0.5s ease 0.4s both;">Patrimoine &amp; Découverte</div>
   </div>
   <div style="position:absolute;bottom:56px;width:36px;height:2px;background:rgba(255,255,255,0.08);border-radius:2px;overflow:hidden;">
@@ -166,7 +175,7 @@ setTimeout(function(){
     <span class="material-symbols-outlined" style="font-size:24px;color:#0f1923;">menu</span>
   </button>
   <!-- Logo centré -->
-  <img src="../assets/shared/logo.png" style="height:22px;object-fit:contain;" alt="Cœur de Ville"/>
+  <img src="assets/shared/logo.png" style="height:22px;object-fit:contain;" alt="Cœur de Ville"/>
   <!-- Loupe droite -->
   <button onclick="window.location.href='carte.html'" style="background:none;border:none;cursor:pointer;padding:6px;display:flex;align-items:center;">
     <span class="material-symbols-outlined" style="font-size:22px;color:#0f1923;">search</span>
@@ -426,7 +435,7 @@ const PLACES = [
     id: 1,
     cat: 'militaire',
     name: "Fort Saint-André",
-    page: "fort-saint-andre.html",
+    page: VILLE_ID + "/fort-saint-andre.html",
     desc: "Forteresse royale du XIVe siècle érigée par Jean le Bon. Ses deux tours jumelles dominent le Rhône et offrent une vue panoramique exceptionnelle.",
     addr: "Montée du Fort, 30400 Villeneuve-lès-Avignon",
     lat: 43.9654, lng: 4.8014,
@@ -441,13 +450,13 @@ const PLACES = [
       { year: "1789", text: "Abandon de la garnison à la Révolution" },
       { year: "1982", text: "Classement Monument Historique" },
     ],
-    bg: "../assets/villeneuve/poi_001.jpg",
+    bg: ASSETS_PREFIX + "poi_001.jpg",
   },
   {
     id: 2,
     cat: 'religieux',
     name: "Chartreuse du Val de Bénédiction",
-    page: "chartreuse.html",
+    page: VILLE_ID + "/chartreuse.html",
     desc: "La plus grande chartreuse de France, fondée en 1356 par le pape Innocent VI. Lieu de résidences artistiques reconnu mondialement.",
     addr: "58 Rue de la République, 30400 Villeneuve-lès-Avignon",
     lat: 43.9664, lng: 4.7969,
@@ -462,13 +471,13 @@ const PLACES = [
       { year: "1902", text: "Classement Monument Historique" },
       { year: "1976", text: "Ouverture comme centre culturel" },
     ],
-    bg: "../assets/villeneuve/poi_002.jpg",
+    bg: ASSETS_PREFIX + "poi_002.jpg",
   },
   {
     id: 3,
     cat: 'monument',
     name: "Tour Philippe le Bel",
-    page: "tour-philippe-le-bel.html",
+    page: VILLE_ID + "/tour-philippe-le-bel.html",
     desc: "Sentinelle médiévale à l'entrée du pont d'Avignon, la tour offre une vue imprenable sur le Rhône et le Palais des Papes.",
     addr: "Montée de la Tour, 30400 Villeneuve-lès-Avignon",
     lat: 43.9586, lng: 4.7976,
@@ -482,7 +491,7 @@ const PLACES = [
       { year: "1668", text: "Effondrement partiel du pont Saint-Bénézet" },
       { year: "1880", text: "Classement Monument Historique" },
     ],
-    bg: "../assets/villeneuve/poi_003.jpg",
+    bg: ASSETS_PREFIX + "poi_003.jpg",
   },
   {
     id: 4,
@@ -507,7 +516,7 @@ const PLACES = [
     id: 5,
     cat: 'naturel',
     name: "Colline des Mourgues",
-    page: "colline-des-mourgues.html",
+    page: VILLE_ID + "/colline-des-mourgues.html",
     desc: "Promontoire secret offrant la plus belle vue sur le Palais des Papes, le Mont-Ventoux et les Alpilles — ignoré des touristes.",
     addr: "Colline des Mourgues, Villeneuve-lès-Avignon",
     lat: 43.9611, lng: 4.7960,
@@ -521,7 +530,7 @@ const PLACES = [
       { year: "XIXe s.", text: "Site prisé des peintres provençaux" },
       { year: "2000s", text: "Classé espace naturel protégé" },
     ],
-    bg: "../assets/villeneuve/poi_004.jpg",
+    bg: ASSETS_PREFIX + "poi_004.jpg",
   },
   {
     id: 302,
@@ -529,8 +538,8 @@ const PLACES = [
     anecdote: "Unique au monde",
     desc: "En rénovant un palais cardinalice, la mairie découvre gravée dans le marbre une partition du XIVe siècle — deux rondeaux profanes, uniques au monde.",
     lat: 43.9675, lng: 4.7902,
-    bg: "../assets/villeneuve/poi_005.jpg",
-    page: "partition.html",
+    bg: ASSETS_PREFIX + "poi_005.jpg",
+    page: VILLE_ID + "/partition.html",
   },
 ];
 
@@ -544,8 +553,8 @@ const INSOLITES = [
     anecdote: "Symbole secret de la ville",
     desc: "Ils ouvrirent la malle d'or… et des milliers de lézards s'échappèrent. La légende qui a donné son surnom aux Villeneuvois depuis six siècles.",
     lat: 43.9671, lng: 4.7896,
-    bg: "../assets/villeneuve/poi_006.jpg",
-    page: "lezard.html",
+    bg: ASSETS_PREFIX + "poi_006.jpg",
+    page: VILLE_ID + "/lezard.html",
   },
   {
     id: 302,
@@ -553,8 +562,8 @@ const INSOLITES = [
     anecdote: "Unique au monde",
     desc: "En rénovant un palais cardinalice, la mairie découvre gravée dans le marbre une partition du XIVe siècle — deux rondeaux profanes, uniques au monde.",
     lat: 43.9675, lng: 4.7902,
-    bg: "../assets/villeneuve/poi_007.jpg",
-    page: "partition.html",
+    bg: ASSETS_PREFIX + "poi_007.jpg",
+    page: VILLE_ID + "/partition.html",
   },
 ];
 
@@ -569,8 +578,8 @@ const COMMERCES = [
     lat: 43.96708277862177, lng: 4.796074895540339,
     horaires: "8h–00h30",
     note: "4.6",
-    bg: "../assets/villeneuve/poi_008.jpg",
-    page: "maison-bronzini.html",
+    bg: ASSETS_PREFIX + "poi_008.jpg",
+    page: VILLE_ID + "/maison-bronzini.html",
   },
   {
     id: 101,
@@ -627,8 +636,8 @@ const EVENEMENTS = [
     date: "Tous les lundis",
     horaires: "Dès 18h",
     note: "4.7",
-    bg: "../assets/villeneuve/poi_009.jpg",
-    page: "food-trucks.html",
+    bg: ASSETS_PREFIX + "poi_009.jpg",
+    page: VILLE_ID + "/food-trucks.html",
   },
 
   {
