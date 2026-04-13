@@ -52,10 +52,10 @@ body{padding-bottom:80px;}
   border-top:1px solid rgba(0,0,0,0.06);border-radius:20px 20px 0 0;
   display:flex;align-items:center;justify-content:space-around;padding:0 8px;
 }
-.n-btn{background:none;border:none;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:3px;padding:6px 14px;border-radius:14px;transition:all 0.2s;color:#94a3b8;}
+.n-btn{background:none!important;border:none;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:3px;padding:6px 14px;border-radius:0;transition:color 0.2s;color:#94a3b8;-webkit-tap-highlight-color:transparent;}
 .n-btn .material-symbols-outlined{font-size:22px;}
 .n-btn .lbl{font-size:9px;font-weight:700;letter-spacing:0.06em;text-transform:uppercase;}
-.n-btn.active{color:#0f1923;}
+.n-btn.active{color:#0f1923;background:none;}
 .n-btn.active .material-symbols-outlined{font-variation-settings:'FILL' 1,'wght' 600;}
 
 /* ── HERO ── */
@@ -824,16 +824,16 @@ document.addEventListener('DOMContentLoaded', () => {
   buildAujourdhui();
 });
 
-function toggleMenu() { var o=document.getElementById("cdv-overlay"); if(!o)return; o.classList.toggle("cdv-open"); document.body.style.overflow=o.classList.contains("cdv-open")?"hidden":""; }
-function closeMenu() { var o=document.getElementById("cdv-overlay"); if(!o)return; o.classList.remove("cdv-open"); document.body.style.overflow=""; }
+function toggleMenu() { var o=document.getElementById("cdv-overlay"); var nav=document.getElementById("bottomnav"); if(!o)return; o.classList.toggle("cdv-open"); var open=o.classList.contains("cdv-open"); document.body.style.overflow=open?"hidden":""; if(nav)nav.style.display=open?"none":""; }
+function closeMenu() { var o=document.getElementById("cdv-overlay"); var nav=document.getElementById("bottomnav"); if(!o)return; o.classList.remove("cdv-open"); document.body.style.overflow=""; if(nav)nav.style.display=""; }
 function cdvSetLang(btn,code){ document.querySelectorAll(".cdv-lang-btn").forEach(function(b){b.classList.remove("cdv-lang-active");}); btn.classList.add("cdv-lang-active"); cdvToast("Langue : "+code); }
-function cdvOpenModal(name){ closeMenu(); var el=document.getElementById("cdv-modal-"+name); if(!el)return; el.style.display="flex"; requestAnimationFrame(function(){el.classList.add("cdv-open");}); document.body.style.overflow="hidden"; }
-function cdvCloseModal(name){ var el=document.getElementById("cdv-modal-"+name); if(!el)return; el.classList.remove("cdv-open"); document.body.style.overflow=""; setTimeout(function(){el.style.display="none";},320); }
+function cdvOpenModal(name){ closeMenu(); var el=document.getElementById("cdv-modal-"+name); if(!el)return; el.style.display="flex"; requestAnimationFrame(function(){el.classList.add("cdv-open");}); document.body.style.overflow="hidden"; var nav=document.getElementById("bottomnav"); if(nav)nav.style.display="none"; }
+function cdvCloseModal(name){ var el=document.getElementById("cdv-modal-"+name); if(!el)return; el.classList.remove("cdv-open"); document.body.style.overflow=""; setTimeout(function(){el.style.display="none"; var nav=document.getElementById("bottomnav"); if(nav)nav.style.display="";},320); }
 function cdvSelectParcours(c){ document.querySelectorAll(".cdv-pcard").forEach(function(x){x.classList.remove("cdv-sel");}); c.classList.add("cdv-sel"); document.getElementById("cdv-pstart").disabled=false; }
 function cdvRateStar(n){ document.querySelectorAll(".cdv-star").forEach(function(s,i){s.classList.toggle("cdv-on",i<n);}); cdvToast("Avis "+"★".repeat(n)+" enregistré !"); }
 var cdvSpinning=false;
 var cdvLieux=[{e:"🏰",n:"Fort Saint-André",s:"250 m · Ouvert jusqu'à 18h"},{e:"⛪",n:"Chartreuse du Val",s:"400 m · Visite libre"},{e:"🗿",n:"Tour Philippe IV",s:"600 m · Vue panoramique"},{e:"🌿",n:"Jardins médiévaux",s:"800 m · Entrée libre"},{e:"🖼️",n:"Atelier d'artiste",s:"1,1 km · Sur réservation"}];
-function cdvSpin(){ if(cdvSpinning)return; cdvSpinning=true; var w=document.getElementById("cdv-wheel"),r=document.getElementById("cdv-result"),g=document.getElementById("cdv-go"); r.style.display="none"; g.style.display="none"; var em=["🎲","🏰","⛪","🌿","🎨","🗿"],c=0,iv=setInterval(function(){w.textContent=em[c++%em.length];},110); setTimeout(function(){ clearInterval(iv); var p=cdvLieux[Math.floor(Math.random()*cdvLieux.length)]; w.textContent=p.e; document.getElementById("cdv-re").textContent=p.e; document.getElementById("cdv-rn").textContent=p.n; document.getElementById("cdv-rs").textContent=p.s; r.style.display="block"; g.style.display="block"; document.getElementById("cdv-spinbtn").textContent="🎲 Retirer un lieu"; cdvSpinning=false; },1800); }
+function cdvSpin(){ if(cdvSpinning)return; cdvSpinning=true; var w=document.getElementById("cdv-wheel"),r=document.getElementById("cdv-result"),g=document.getElementById("cdv-go"); r.style.display="none"; g.style.display="none"; var em=["🎲","🏰","⛪","🌿","🎨","🗿"],c=0,iv=setInterval(function(){w.textContent=em[c++%em.length];},110); setTimeout(function(){ clearInterval(iv); var p=cdvLieux[Math.floor(Math.random()*cdvLieux.length)]; w.textContent=p.e; document.getElementById("cdv-re").textContent=p.e; document.getElementById("cdv-rn").textContent=p.n; document.getElementById("cdv-rs").textContent=p.s; r.style.display="block"; g.style.display="block"; document.getElementById("cdv-spinbtn").textContent="Retirer un lieu"; cdvSpinning=false; },1800); }
 var cdvToastT; function cdvToast(m){ var t=document.getElementById("cdv-toast"); if(!t)return; t.textContent=m; t.classList.add("cdv-show"); clearTimeout(cdvToastT); cdvToastT=setTimeout(function(){t.classList.remove("cdv-show");},2600); }
 
 function buildPOIs() {
@@ -1074,27 +1074,27 @@ document.addEventListener('DOMContentLoaded', function() {
 #cdv-overlay.cdv-open{pointer-events:all;}
 #cdv-backdrop{position:absolute;inset:0;background:rgba(10,15,25,0.5);backdrop-filter:blur(4px);opacity:0;transition:opacity 0.28s;}
 #cdv-overlay.cdv-open #cdv-backdrop{opacity:1;}
-#cdv-panel{position:relative;z-index:1;width:290px;height:100%;background:#fff;box-shadow:4px 0 40px rgba(0,0,0,0.18);transform:translateX(-100%);transition:transform 0.3s cubic-bezier(0.4,0,0.2,1);display:flex;flex-direction:column;overflow-y:auto;}
-#cdv-overlay.cdv-open #cdv-panel{transform:translateX(0);}
-.cdv-mhead{padding:52px 20px 20px;background:#0f1923;color:#fff;position:relative;flex-shrink:0;}
+#cdv-panel{position:relative;z-index:1;width:290px;height:100%;background:#fff;box-shadow:4px 0 40px rgba(0,0,0,0.18);transform:translateX(-110%);transition:transform 0.3s cubic-bezier(0.4,0,0.2,1);display:flex;flex-direction:column;overflow-y:auto;visibility:hidden;}
+#cdv-overlay.cdv-open #cdv-panel{transform:translateX(0);visibility:visible;}
+.cdv-mhead{padding:56px 24px 24px;background:#0f1923;color:#fff;position:relative;flex-shrink:0;border-bottom:1px solid rgba(255,255,255,0.06);}
 .cdv-mhead img{height:34px;object-fit:contain;border-radius:6px;background:#fff;padding:3px 7px;}
 .cdv-mhead-sub{font-size:11px;opacity:0.5;margin-top:4px;}
-.cdv-mclose{position:absolute;top:14px;right:14px;width:32px;height:32px;border-radius:50%;background:rgba(255,255,255,0.12);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;color:#fff;}
-.cdv-msec{font-size:10px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:#94a3b8;padding:14px 20px 6px;}
-.cdv-mitem{display:flex;align-items:center;gap:12px;padding:13px 20px;cursor:pointer;border:none;background:none;width:100%;text-align:left;font-family:Manrope,sans-serif;transition:background 0.12s;}
-.cdv-mitem:hover{background:#f8f9fa;}
-.cdv-micon{width:36px;height:36px;border-radius:9px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
-.cdv-mitem-name{font-size:14px;font-weight:700;color:#0f1923;line-height:1.2;}
-.cdv-mitem-desc{font-size:11px;color:#94a3b8;margin-top:1px;}
+.cdv-mclose{position:absolute;top:16px;right:16px;width:28px;height:28px;border-radius:50%;background:none;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,0.55);transition:color 0.15s;}
+.cdv-msec{font-size:9px;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:#b0b8c4;padding:18px 24px 6px;}
+.cdv-mitem{display:flex;align-items:center;gap:14px;padding:14px 24px;cursor:pointer;border:none;background:none;width:100%;text-align:left;font-family:Manrope,sans-serif;transition:background 0.12s;border-radius:0;}
+.cdv-mitem:hover{background:#f4f6f8;}
+.cdv-micon{width:38px;height:38px;border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.cdv-mitem-name{font-size:14px;font-weight:700;color:#0f1923;line-height:1.2;letter-spacing:-0.01em;}
+.cdv-mitem-desc{font-size:11px;color:#aab0ba;margin-top:2px;}
 .cdv-marrow{margin-left:auto;color:#cbd5e1;flex-shrink:0;}
-.cdv-mdivider{height:1px;background:#f1f5f9;margin:6px 20px;}
-.cdv-mfooter{padding:14px 20px 32px;border-top:1px solid #f1f5f9;margin-top:auto;}
+.cdv-mdivider{height:1px;background:#eef0f3;margin:8px 24px;}
+.cdv-mfooter{padding:16px 24px 36px;border-top:1px solid #eef0f3;margin-top:auto;}
 .cdv-lang-row{display:flex;gap:6px;margin-top:8px;}
 .cdv-lang-btn{padding:5px 13px;border-radius:100px;font-size:12px;font-weight:700;cursor:pointer;border:1.5px solid #e2e8f0;background:none;font-family:Manrope,sans-serif;transition:all 0.13s;}
-.cdv-lang-active{background:#0f1923;border-color:#0f1923;color:#fff;}
+.cdv-lang-active{background:#0f1923;border-color:#0f1923;color:#fff;} .cdv-mhead-sub{font-size:11px;opacity:0.45;margin-top:5px;letter-spacing:0.02em;}
 .cdv-modal{position:fixed;inset:0;z-index:2100;background:rgba(10,15,25,0.55);backdrop-filter:blur(6px);display:none;align-items:flex-end;justify-content:center;}
 .cdv-modal.cdv-open{display:flex;}
-.cdv-mbox{background:#fff;border-radius:24px 24px 0 0;width:100%;max-width:500px;max-height:92vh;overflow-y:auto;transform:translateY(100%);transition:transform 0.32s cubic-bezier(0.4,0,0.2,1);}
+.cdv-mbox{background:#fff;border-radius:24px 24px 0 0;width:100%;max-width:500px;max-height:92vh;overflow-y:auto;transform:translateY(100%);transition:transform 0.32s cubic-bezier(0.4,0,0.2,1);padding-bottom:env(safe-area-inset-bottom,0px);}
 .cdv-modal.cdv-open .cdv-mbox{transform:translateY(0);}
 .cdv-mhandle{width:36px;height:4px;border-radius:2px;background:#e2e8f0;margin:13px auto 0;}
 .cdv-mtop{padding:18px 20px 0;display:flex;align-items:flex-start;justify-content:space-between;}
@@ -1114,7 +1114,7 @@ document.addEventListener('DOMContentLoaded', function() {
 .cdv-btn:disabled{opacity:0.35;}
 .cdv-btn-b{background:#3B5BDB;}
 .cdv-scard{background:linear-gradient(145deg,#0f1923,#1e3a5f);border-radius:16px;padding:20px;color:#fff;margin-bottom:18px;position:relative;overflow:hidden;}
-.cdv-scard::after{content:"\1F3F0";position:absolute;right:14px;bottom:-8px;font-size:56px;opacity:0.2;}
+
 .cdv-slabel{font-size:9px;letter-spacing:0.14em;text-transform:uppercase;opacity:0.55;margin-bottom:5px;}
 .cdv-stitle{font-size:18px;font-weight:900;font-family:Manrope,sans-serif;margin-bottom:3px;}
 .cdv-chips{margin-top:10px;display:flex;gap:5px;flex-wrap:wrap;}
@@ -1125,8 +1125,8 @@ document.addEventListener('DOMContentLoaded', function() {
 .cdv-sbname{font-size:13px;font-weight:700;text-align:left;}
 .cdv-sbhint{font-size:11px;color:#94a3b8;text-align:left;}
 .cdv-stars{display:flex;gap:6px;margin-top:8px;}
-.cdv-star{font-size:26px;cursor:pointer;opacity:0.25;filter:grayscale(1);transition:all 0.13s;}
-.cdv-star.cdv-on{opacity:1;filter:none;}
+.cdv-star{font-size:28px;cursor:pointer;color:#e2e8f0;transition:all 0.13s;line-height:1;}
+.cdv-star.cdv-on{color:#f59e0b;}
 .cdv-fchip{padding:7px 13px;border-radius:100px;font-size:11px;font-weight:700;border:1.5px solid #e2e8f0;background:#f8f9fa;cursor:pointer;transition:all 0.13s;font-family:Manrope,sans-serif;margin:0 4px 6px 0;}
 .cdv-fchip.cdv-fc{background:#0f1923;border-color:#0f1923;color:#fff;}
 .cdv-wheel{width:110px;height:110px;background:#f0f4ff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:46px;margin:0 auto 14px;border:3px solid #3B5BDB;}
@@ -1146,15 +1146,16 @@ document.addEventListener('DOMContentLoaded', function() {
 .cdv-srow:last-child{border-bottom:none;}
 .cdv-slbl{font-size:13px;font-weight:600;color:#0f1923;}
 .cdv-ssub{font-size:11px;color:#94a3b8;margin-top:1px;}
-#cdv-toast{position:fixed;bottom:90px;left:50%;transform:translateX(-50%) translateY(60px);background:#0f1923;color:#fff;padding:11px 20px;border-radius:100px;font-size:13px;font-weight:700;font-family:Manrope,sans-serif;z-index:3000;transition:transform 0.28s cubic-bezier(0.4,0,0.2,1);white-space:nowrap;pointer-events:none;}
-#cdv-toast.cdv-show{transform:translateX(-50%) translateY(0);}
+#cdv-toast{position:fixed;bottom:90px;left:50%;transform:translateX(-50%) translateY(60px);background:#0f1923;color:#fff;padding:11px 20px;border-radius:100px;font-size:13px;font-weight:700;font-family:Manrope,sans-serif;z-index:3000;transition:transform 0.28s cubic-bezier(0.4,0,0.2,1),visibility 0s 0.28s;white-space:nowrap;pointer-events:none;visibility:hidden;}
+#cdv-toast.cdv-show{transform:translateX(-50%) translateY(0);visibility:visible;transition:transform 0.28s cubic-bezier(0.4,0,0.2,1),visibility 0s 0s;}
+#cdv-overlay.cdv-open~* #bottomnav,#bottomnav.cdv-hidden{display:none!important;}
 </style>
 
 <div id="cdv-overlay">
   <div id="cdv-backdrop" onclick="closeMenu()"></div>
   <div id="cdv-panel">
     <div class="cdv-mhead">
-      <div style="font-family:Manrope,sans-serif;font-weight:900;font-size:19px;letter-spacing:-0.03em;color:#fff;">Cœur de Ville</div>
+      <div style="font-family:Manrope,sans-serif;font-weight:700;font-size:16px;letter-spacing:0.02em;color:#fff;">Menu</div>
       <div class="cdv-mhead-sub">Villeneuve-lès-Avignon</div>
       <button class="cdv-mclose" onclick="closeMenu()"><span class="material-symbols-outlined" style="font-size:18px;">close</span></button>
     </div>
@@ -1202,19 +1203,632 @@ document.addEventListener('DOMContentLoaded', function() {
   </div>
 </div>
 
-<div class="cdv-modal" id="cdv-modal-parcours" style="display:none;" onclick="if(event.target===this)cdvCloseModal('parcours')"><div class="cdv-mbox"><div class="cdv-mhandle"></div><div class="cdv-mtop"><div><div class="cdv-mtitle">Parcours guidé</div><div class="cdv-msub">Choisissez votre itinéraire</div></div><button class="cdv-mxbtn" onclick="cdvCloseModal('parcours')"><span class="material-symbols-outlined" style="font-size:17px;">close</span></button></div><div class="cdv-mbody"><div class="cdv-pcard" onclick="cdvSelectParcours(this)"><div class="cdv-ptop"><div class="cdv-pemoji">🏰</div><div><div class="cdv-pname">Histoire &amp; Patrimoine</div><div class="cdv-pmeta">1h30 · 2,4 km · 7 lieux</div></div></div><span class="cdv-tag cdv-tag-a">Populaire</span><span class="cdv-tag">Famille</span><span class="cdv-tag">PMR</span></div><div class="cdv-pcard" onclick="cdvSelectParcours(this)"><div class="cdv-ptop"><div class="cdv-pemoji">🌿</div><div><div class="cdv-pname">Promenade nature</div><div class="cdv-pmeta">45 min · 1,2 km · 4 lieux</div></div></div><span class="cdv-tag">Détente</span><span class="cdv-tag">Panoramique</span></div><div class="cdv-pcard" onclick="cdvSelectParcours(this)"><div class="cdv-ptop"><div class="cdv-pemoji">🎨</div><div><div class="cdv-pname">Art &amp; Insolite</div><div class="cdv-pmeta">2h · 3,1 km · 9 lieux</div></div></div><span class="cdv-tag">Insolite</span><span class="cdv-tag">Photo</span></div><div class="cdv-pcard" onclick="cdvSelectParcours(this)"><div class="cdv-ptop"><div class="cdv-pemoji">🍷</div><div><div class="cdv-pname">Gastronomie locale</div><div class="cdv-pmeta">3h · 1,8 km · 5 arrêts</div></div></div><span class="cdv-tag">Dégustation</span><span class="cdv-tag">Adultes</span></div><button class="cdv-btn" id="cdv-pstart" disabled onclick="cdvToast('Parcours démarré !');cdvCloseModal('parcours')">Démarrer ce parcours</button></div></div></div>
+<div class="cdv-modal" id="cdv-modal-parcours" style="display:none;" onclick="if(event.target===this)cdvCloseModal('parcours')"><div class="cdv-mbox"><div class="cdv-mhandle"></div><div class="cdv-mtop"><div><div class="cdv-mtitle">Parcours guidé</div><div class="cdv-msub">Choisissez votre itinéraire</div></div><button class="cdv-mxbtn" onclick="cdvCloseModal('parcours')"><span class="material-symbols-outlined" style="font-size:17px;">close</span></button></div><div class="cdv-mbody"><div class="cdv-pcard" onclick="cdvSelectParcours(this)"><div class="cdv-ptop"><div><div class="cdv-pname">Histoire &amp; Patrimoine</div><div class="cdv-pmeta">1h30 · 2,4 km · 7 lieux</div></div></div><span class="cdv-tag cdv-tag-a">Populaire</span><span class="cdv-tag">Famille</span><span class="cdv-tag">PMR</span></div><div class="cdv-pcard" onclick="cdvSelectParcours(this)"><div class="cdv-ptop"><div><div class="cdv-pname">Promenade nature</div><div class="cdv-pmeta">45 min · 1,2 km · 4 lieux</div></div></div><span class="cdv-tag">Détente</span><span class="cdv-tag">Panoramique</span></div><div class="cdv-pcard" onclick="cdvSelectParcours(this)"><div class="cdv-ptop"><div><div class="cdv-pname">Art &amp; Insolite</div><div class="cdv-pmeta">2h · 3,1 km · 9 lieux</div></div></div><span class="cdv-tag">Insolite</span><span class="cdv-tag">Photo</span></div><div class="cdv-pcard" onclick="cdvSelectParcours(this)"><div class="cdv-ptop"><div><div class="cdv-pname">Gastronomie locale</div><div class="cdv-pmeta">3h · 1,8 km · 5 arrêts</div></div></div><span class="cdv-tag">Dégustation</span><span class="cdv-tag">Adultes</span></div><button class="cdv-btn" id="cdv-pstart" disabled onclick="cdvToast('Parcours démarré !');cdvCloseModal('parcours')">Démarrer ce parcours</button></div></div></div>
 
-<div class="cdv-modal" id="cdv-modal-partager" style="display:none;" onclick="if(event.target===this)cdvCloseModal('partager')"><div class="cdv-mbox"><div class="cdv-mhandle"></div><div class="cdv-mtop"><div><div class="cdv-mtitle">Partager ma visite</div><div class="cdv-msub">Partagez votre expérience</div></div><button class="cdv-mxbtn" onclick="cdvCloseModal('partager')"><span class="material-symbols-outlined" style="font-size:17px;">close</span></button></div><div class="cdv-mbody"><div class="cdv-scard"><div class="cdv-slabel">Votre carnet de visite</div><div class="cdv-stitle">Villeneuve-lès-Avignon</div><div style="font-size:11px;opacity:0.6;">Aujourd'hui · 3 lieux visités</div><div class="cdv-chips"><span class="cdv-chip">🏰 Fort Saint-André</span><span class="cdv-chip">⛪ Chartreuse</span><span class="cdv-chip">🗿 Tour Philippe IV</span></div></div><div style="font-size:13px;font-weight:700;margin-bottom:8px;">Votre avis</div><div class="cdv-stars"><span class="cdv-star" onclick="cdvRateStar(1)">⭐</span><span class="cdv-star" onclick="cdvRateStar(2)">⭐</span><span class="cdv-star" onclick="cdvRateStar(3)">⭐</span><span class="cdv-star" onclick="cdvRateStar(4)">⭐</span><span class="cdv-star" onclick="cdvRateStar(5)">⭐</span></div><div style="margin-top:18px;"><button class="cdv-sbtn" onclick="cdvToast('Lien copié !')"><div class="cdv-sbicon" style="background:#e8f0ff">🔗</div><div><div class="cdv-sbname">Copier le lien</div><div class="cdv-sbhint">Partagez votre carnet</div></div></button><button class="cdv-sbtn" onclick="cdvToast('Image téléchargée !')"><div class="cdv-sbicon" style="background:#fef3e2">🖼️</div><div><div class="cdv-sbname">Télécharger en image</div><div class="cdv-sbhint">Format Stories ou post</div></div></button><button class="cdv-sbtn" onclick="cdvToast('Avis publié !')"><div class="cdv-sbicon" style="background:#fce8e8">💬</div><div><div class="cdv-sbname">Laisser un avis</div><div class="cdv-sbhint">Visible sur la page commune</div></div></button><button class="cdv-sbtn" onclick="cdvToast('Ouverture...')"><div class="cdv-sbicon" style="background:#f0f4ff">📱</div><div><div class="cdv-sbname">Partager via l'appli</div><div class="cdv-sbhint">WhatsApp, Instagram…</div></div></button></div></div></div></div>
+<div class="cdv-modal" id="cdv-modal-partager" style="display:none;" onclick="if(event.target===this)cdvCloseModal('partager')"><div class="cdv-mbox"><div class="cdv-mhandle"></div><div class="cdv-mtop"><div><div class="cdv-mtitle">Partager ma visite</div><div class="cdv-msub">Partagez votre expérience</div></div><button class="cdv-mxbtn" onclick="cdvCloseModal('partager')"><span class="material-symbols-outlined" style="font-size:17px;">close</span></button></div><div class="cdv-mbody"><div class="cdv-scard"><div class="cdv-slabel">Votre carnet de visite</div><div class="cdv-stitle">Villeneuve-lès-Avignon</div><div style="font-size:11px;opacity:0.6;">Aujourd'hui · 3 lieux visités</div><div class="cdv-chips"><span class="cdv-chip">Fort Saint-André</span><span class="cdv-chip">Chartreuse</span><span class="cdv-chip">Tour Philippe IV</span></div></div><div style="font-size:13px;font-weight:700;margin-bottom:8px;">Votre avis</div><div class="cdv-stars"><span class="cdv-star" onclick="cdvRateStar(1)">★</span><span class="cdv-star" onclick="cdvRateStar(2)">★</span><span class="cdv-star" onclick="cdvRateStar(3)">★</span><span class="cdv-star" onclick="cdvRateStar(4)">★</span><span class="cdv-star" onclick="cdvRateStar(5)">★</span></div><div style="margin-top:18px;"><button class="cdv-sbtn" onclick="cdvToast('Lien copié !')"><div class="cdv-sbicon" style="background:#e8f0ff"><span class="material-symbols-outlined" style="font-size:18px;color:#3B5BDB;">link</span></div><div><div class="cdv-sbname">Copier le lien</div><div class="cdv-sbhint">Partagez votre carnet</div></div></button><button class="cdv-sbtn" onclick="cdvToast('Image téléchargée !')"><div class="cdv-sbicon" style="background:#fef3e2"><span class="material-symbols-outlined" style="font-size:18px;color:#c97b2e;">image</span></div><div><div class="cdv-sbname">Télécharger en image</div><div class="cdv-sbhint">Format Stories ou post</div></div></button><button class="cdv-sbtn" onclick="cdvToast('Avis publié !')"><div class="cdv-sbicon" style="background:#fce8e8"><span class="material-symbols-outlined" style="font-size:18px;color:#e05252;">rate_review</span></div><div><div class="cdv-sbname">Laisser un avis</div><div class="cdv-sbhint">Visible sur la page commune</div></div></button><button class="cdv-sbtn" onclick="cdvToast('Ouverture...')"><div class="cdv-sbicon" style="background:#f0f4ff"><span class="material-symbols-outlined" style="font-size:18px;color:#5472d3;">share</span></div><div><div class="cdv-sbname">Partager via l'appli</div><div class="cdv-sbhint">WhatsApp, Instagram…</div></div></button></div></div></div></div>
 
-<div class="cdv-modal" id="cdv-modal-surprise" style="display:none;" onclick="if(event.target===this)cdvCloseModal('surprise')"><div class="cdv-mbox"><div class="cdv-mhandle"></div><div class="cdv-mtop"><div><div class="cdv-mtitle">Mode Surprise</div><div class="cdv-msub">On choisit un lieu insolite pour vous</div></div><button class="cdv-mxbtn" onclick="cdvCloseModal('surprise')"><span class="material-symbols-outlined" style="font-size:17px;">close</span></button></div><div class="cdv-mbody"><div style="margin-bottom:14px;"><span class="cdv-fchip cdv-fc" onclick="this.classList.toggle('cdv-fc')">Tout</span><span class="cdv-fchip" onclick="this.classList.toggle('cdv-fc')">Outdoor</span><span class="cdv-fchip" onclick="this.classList.toggle('cdv-fc')">Histoire</span><span class="cdv-fchip" onclick="this.classList.toggle('cdv-fc')">Art</span><span class="cdv-fchip" onclick="this.classList.toggle('cdv-fc')">Gastronomie</span></div><div style="text-align:center;padding:16px 0;"><div class="cdv-wheel" id="cdv-wheel">🎲</div><p style="font-size:12px;color:#94a3b8;">Appuyez pour découvrir votre destination secrète</p></div><div class="cdv-rbox" id="cdv-result"><div style="font-size:38px;" id="cdv-re">🏰</div><div class="cdv-rtitle" id="cdv-rn">Fort Saint-André</div><div class="cdv-rsub" id="cdv-rs">À 250 m · Ouvert jusqu'à 18h</div></div><button class="cdv-btn" id="cdv-spinbtn" onclick="cdvSpin()">🎲 Tirez-moi un lieu !</button><button class="cdv-btn cdv-btn-b" id="cdv-go" style="display:none;margin-top:8px;" onclick="cdvToast('Navigation lancée !')">→ Y aller maintenant</button></div></div></div>
+<div class="cdv-modal" id="cdv-modal-surprise" style="display:none;" onclick="if(event.target===this)cdvCloseModal('surprise')"><div class="cdv-mbox"><div class="cdv-mhandle"></div><div class="cdv-mtop"><div><div class="cdv-mtitle">Mode Surprise</div><div class="cdv-msub">On choisit un lieu insolite pour vous</div></div><button class="cdv-mxbtn" onclick="cdvCloseModal('surprise')"><span class="material-symbols-outlined" style="font-size:17px;">close</span></button></div><div class="cdv-mbody"><div style="margin-bottom:14px;"><span class="cdv-fchip cdv-fc" onclick="this.classList.toggle('cdv-fc')">Tout</span><span class="cdv-fchip" onclick="this.classList.toggle('cdv-fc')">Outdoor</span><span class="cdv-fchip" onclick="this.classList.toggle('cdv-fc')">Histoire</span><span class="cdv-fchip" onclick="this.classList.toggle('cdv-fc')">Art</span><span class="cdv-fchip" onclick="this.classList.toggle('cdv-fc')">Gastronomie</span></div><div style="text-align:center;padding:16px 0;"><div class="cdv-wheel" id="cdv-wheel">🎲</div><p style="font-size:12px;color:#94a3b8;">Appuyez pour découvrir votre destination secrète</p></div><div class="cdv-rbox" id="cdv-result"><div style="font-size:38px;" id="cdv-re">🏰</div><div class="cdv-rtitle" id="cdv-rn">Fort Saint-André</div><div class="cdv-rsub" id="cdv-rs">À 250 m · Ouvert jusqu'à 18h</div></div><button class="cdv-btn" id="cdv-spinbtn" onclick="cdvSpin()">Tirez-moi un lieu !</button><button class="cdv-btn cdv-btn-b" id="cdv-go" style="display:none;margin-top:8px;" onclick="cdvToast('Navigation lancée !')">→ Y aller maintenant</button></div></div></div>
 
-<div class="cdv-modal" id="cdv-modal-reserver" style="display:none;" onclick="if(event.target===this)cdvCloseModal('reserver')"><div class="cdv-mbox"><div class="cdv-mhandle"></div><div class="cdv-mtop"><div><div class="cdv-mtitle">Réserver une prestation</div><div class="cdv-msub">Guide, visite privée, atelier local</div></div><button class="cdv-mxbtn" onclick="cdvCloseModal('reserver')"><span class="material-symbols-outlined" style="font-size:17px;">close</span></button></div><div class="cdv-mbody"><div style="display:flex;flex-direction:column;gap:10px;margin-bottom:20px;"><div class="cdv-pcard cdv-sel" onclick="document.querySelectorAll('.cdv-rcard').forEach(c=>c.classList.remove('cdv-sel'));this.classList.add('cdv-sel')"><div class="cdv-ptop"><div style="width:36px;height:36px;border-radius:9px;background:#f0f4ff;display:flex;align-items:center;justify-content:center;flex-shrink:0;"><span class="material-symbols-outlined" style="font-size:19px;color:#3B5BDB;">person_pin_circle</span></div><div><div class="cdv-pname">Visite guidée privée</div><div class="cdv-pmeta">2h · jusqu'à 8 pers · dès 90 €</div></div></div><span class="cdv-tag cdv-tag-a">Disponible</span><span class="cdv-tag">Guide officiel</span></div><div class="cdv-pcard cdv-rcard" onclick="document.querySelectorAll('.cdv-rcard').forEach(c=>c.classList.remove('cdv-sel'));this.classList.add('cdv-sel')"><div class="cdv-ptop"><div style="width:36px;height:36px;border-radius:9px;background:#f0faf4;display:flex;align-items:center;justify-content:center;flex-shrink:0;"><span class="material-symbols-outlined" style="font-size:19px;color:#16a34a;">pottery</span></div><div><div class="cdv-pname">Atelier artisanat</div><div class="cdv-pmeta">1h30 · 2-6 pers · dès 35 €/pers</div></div></div><span class="cdv-tag">Céramique</span><span class="cdv-tag">Textile</span></div></div><div style="background:#f8f9fa;border-radius:14px;padding:16px;margin-bottom:16px;"><div style="font-size:11px;font-weight:700;color:#94a3b8;letter-spacing:0.05em;text-transform:uppercase;margin-bottom:12px;">Vos coordonnées</div><div style="display:flex;flex-direction:column;gap:10px;"><input placeholder="Prénom Nom" style="padding:11px 14px;border-radius:10px;border:1.5px solid #e2e8f0;font-family:Manrope,sans-serif;font-size:13px;outline:none;background:#fff;"/><input placeholder="Email" type="email" style="padding:11px 14px;border-radius:10px;border:1.5px solid #e2e8f0;font-family:Manrope,sans-serif;font-size:13px;outline:none;background:#fff;"/><input placeholder="Date souhaitée" type="date" style="padding:11px 14px;border-radius:10px;border:1.5px solid #e2e8f0;font-family:Manrope,sans-serif;font-size:13px;outline:none;background:#fff;"/></div></div><button class="cdv-btn" onclick="cdvToast('Demande envoyée !');cdvCloseModal('reserver')">Envoyer ma demande</button></div></div></div>
+<div class="cdv-modal" id="cdv-modal-reserver" style="display:none;" onclick="if(event.target===this)cdvCloseModal('reserver')"><div class="cdv-mbox"><div class="cdv-mhandle"></div><div class="cdv-mtop"><div><div class="cdv-mtitle">Réserver une prestation</div><div class="cdv-msub">Guide, visite privée, atelier local</div></div><button class="cdv-mxbtn" onclick="cdvCloseModal('reserver')"><span class="material-symbols-outlined" style="font-size:17px;">close</span></button></div><div class="cdv-mbody" id="reserver-body" style="padding-bottom:32px;"></div></div></div>
 
-<div class="cdv-modal" id="cdv-modal-compte" style="display:none;" onclick="if(event.target===this)cdvCloseModal('compte')"><div class="cdv-mbox"><div class="cdv-mhandle"></div><div class="cdv-mtop"><div><div class="cdv-mtitle">Mon compte</div><div class="cdv-msub">Badges et historique de visite</div></div><button class="cdv-mxbtn" onclick="cdvCloseModal('compte')"><span class="material-symbols-outlined" style="font-size:17px;">close</span></button></div><div class="cdv-mbody"><div style="width:64px;height:64px;border-radius:50%;background:#f0f4ff;display:flex;align-items:center;justify-content:center;font-size:30px;margin-bottom:10px;">🧑‍🌾</div><div style="font-size:19px;font-weight:900;font-family:Manrope,sans-serif;">Visiteur anonyme</div><div style="font-size:12px;color:#94a3b8;margin-top:2px;">3 lieux visités · Depuis aujourd'hui</div><div style="display:flex;gap:8px;flex-wrap:wrap;margin:16px 0;"><div class="cdv-badge"><div class="cdv-badge-e">🔍</div><div class="cdv-badge-l">Explorateur</div><div class="cdv-badge-w"><div class="cdv-badge-b" style="width:60%"></div></div></div><div class="cdv-badge"><div class="cdv-badge-e">🏰</div><div class="cdv-badge-l">Historien</div><div class="cdv-badge-w"><div class="cdv-badge-b" style="width:30%"></div></div></div><div class="cdv-badge"><div class="cdv-badge-e">📸</div><div class="cdv-badge-l">Photographe</div><div class="cdv-badge-w"><div class="cdv-badge-b" style="width:10%"></div></div></div></div><button class="cdv-btn" onclick="cdvToast('Fonctionnalité à venir !')">Créer un compte</button></div></div></div>
+<div class="cdv-modal" id="cdv-modal-compte" style="display:none;" onclick="if(event.target===this)cdvCloseModal('compte')"><div class="cdv-mbox"><div class="cdv-mhandle"></div><div class="cdv-mtop"><div><div class="cdv-mtitle" id="compte-titre">Mon compte</div><div class="cdv-msub" id="compte-sous">Gérez votre profil</div></div><button class="cdv-mxbtn" onclick="cdvCloseModal('compte')"><span class="material-symbols-outlined" style="font-size:17px;">close</span></button></div><div class="cdv-mbody" id="compte-body" style="padding-bottom:32px;"></div></div></div>
 
-<div class="cdv-modal" id="cdv-modal-reglages" style="display:none;" onclick="if(event.target===this)cdvCloseModal('reglages')"><div class="cdv-mbox"><div class="cdv-mhandle"></div><div class="cdv-mtop"><div><div class="cdv-mtitle">Réglages</div><div class="cdv-msub">Personnalisez votre expérience</div></div><button class="cdv-mxbtn" onclick="cdvCloseModal('reglages')"><span class="material-symbols-outlined" style="font-size:17px;">close</span></button></div><div class="cdv-mbody"><div class="cdv-srow"><div><div class="cdv-slbl">Notifications</div><div class="cdv-ssub">Alertes lieux à proximité</div></div><div class="cdv-toggle cdv-on" onclick="this.classList.toggle('cdv-on')"></div></div><div class="cdv-srow"><div><div class="cdv-slbl">Mode AR</div><div class="cdv-ssub">Réalité augmentée GPS</div></div><div class="cdv-toggle cdv-on" onclick="this.classList.toggle('cdv-on')"></div></div><div class="cdv-srow"><div><div class="cdv-slbl">Sons &amp; vibrations</div><div class="cdv-ssub">Feedback haptique</div></div><div class="cdv-toggle" onclick="this.classList.toggle('cdv-on')"></div></div><div class="cdv-srow" style="cursor:pointer;border-bottom:none;"><div><div class="cdv-slbl" style="color:#ef4444;">Réinitialiser</div><div class="cdv-ssub">Effacer l'historique local</div></div></div></div></div></div>
+<div class="cdv-modal" id="cdv-modal-reglages" style="display:none;" onclick="if(event.target===this)cdvCloseModal('reglages')"><div class="cdv-mbox"><div class="cdv-mhandle"></div><div class="cdv-mtop"><div><div class="cdv-mtitle">Réglages</div><div class="cdv-msub">Personnalisez votre expérience</div></div><button class="cdv-mxbtn" onclick="cdvCloseModal('reglages')"><span class="material-symbols-outlined" style="font-size:17px;">close</span></button></div><div class="cdv-mbody" id="reglages-body" style="padding-bottom:32px;"></div></div></div>
+
 
 <div id="cdv-toast"></div>
 
 </body>
 </html>
+
+<style>
+/* ── STYLES SUPPLÉMENTAIRES POUR LES MODAUX VIVANTS ── */
+.cdv-input{width:100%;padding:13px 14px;border-radius:12px;border:1.5px solid #e2e8f0;font-family:Manrope,sans-serif;font-size:14px;outline:none;background:#fff;transition:border-color 0.2s;box-sizing:border-box;margin-bottom:10px;}
+.cdv-input:focus{border-color:#3B5BDB;}
+.cdv-input.error{border-color:#ef4444;}
+.cdv-label{font-size:11px;font-weight:700;color:#94a3b8;letter-spacing:0.06em;text-transform:uppercase;margin-bottom:6px;display:block;}
+.cdv-form-group{margin-bottom:4px;}
+.cdv-err{font-size:11px;color:#ef4444;margin-top:-6px;margin-bottom:8px;display:none;}
+.cdv-divider{display:flex;align-items:center;gap:10px;margin:16px 0;color:#94a3b8;font-size:12px;}
+.cdv-divider::before,.cdv-divider::after{content:'';flex:1;height:1px;background:#e2e8f0;}
+.cdv-tab-row{display:flex;background:#f1f5f9;border-radius:12px;padding:3px;margin-bottom:20px;}
+.cdv-tab{flex:1;padding:9px;border:none;background:none;border-radius:10px;font-family:Manrope,sans-serif;font-size:13px;font-weight:700;color:#94a3b8;cursor:pointer;transition:all 0.18s;}
+.cdv-tab.active{background:#fff;color:#0f1923;box-shadow:0 1px 4px rgba(0,0,0,0.1);}
+.cdv-avatar{width:72px;height:72px;border-radius:50%;background:linear-gradient(135deg,#3B5BDB,#6b3fa0);display:flex;align-items:center;justify-content:center;font-size:28px;color:#fff;font-weight:900;font-family:Manrope,sans-serif;margin:0 auto 12px;}
+.cdv-stat-row{display:flex;gap:8px;margin:14px 0;}
+.cdv-stat{flex:1;background:#f8f9fa;border-radius:12px;padding:12px;text-align:center;}
+.cdv-stat-val{font-size:22px;font-weight:900;color:#0f1923;}
+.cdv-stat-lbl{font-size:10px;color:#94a3b8;font-weight:600;margin-top:2px;}
+.cdv-badge-row{display:flex;gap:8px;flex-wrap:wrap;margin:14px 0;}
+.cdv-badge2{background:#fff;border:1.5px solid #e2e8f0;border-radius:12px;padding:10px;text-align:center;min-width:72px;flex:1;}
+.cdv-badge2.earned{border-color:#3B5BDB;background:#f0f4ff;}
+.cdv-badge2-icon{font-size:24px;line-height:1;}
+.cdv-badge2-name{font-size:9px;font-weight:700;color:#64748b;margin-top:4px;}
+.cdv-badge2.earned .cdv-badge2-name{color:#3B5BDB;}
+.cdv-progress-bar{height:4px;background:#e2e8f0;border-radius:2px;margin-top:6px;}
+.cdv-progress-fill{height:100%;background:#3B5BDB;border-radius:2px;transition:width 0.6s;}
+.cdv-srow2{display:flex;align-items:center;justify-content:space-between;padding:14px 0;border-bottom:1px solid #f1f5f9;}
+.cdv-srow2:last-child{border-bottom:none;}
+.cdv-prestation{background:#f8f9fa;border-radius:14px;padding:14px;cursor:pointer;border:2px solid transparent;margin-bottom:10px;transition:all 0.14s;}
+.cdv-prestation.sel{border-color:#0f1923;background:#f0f4ff;}
+.cdv-prestation-top{display:flex;align-items:center;gap:12px;margin-bottom:8px;}
+.cdv-confirm-box{background:linear-gradient(135deg,#0f1923,#1e3a5f);border-radius:16px;padding:20px;color:#fff;text-align:center;}
+.cdv-parcours-active{background:linear-gradient(135deg,#0f1923,#1e3a5f);border-radius:16px;padding:18px;color:#fff;margin-bottom:14px;}
+.cdv-step{display:flex;align-items:flex-start;gap:12px;padding:12px 0;border-bottom:1px solid #f1f5f9;}
+.cdv-step:last-child{border-bottom:none;}
+.cdv-step-num{width:28px;height:28px;border-radius:50%;background:#f1f5f9;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;color:#94a3b8;flex-shrink:0;}
+.cdv-step.done .cdv-step-num{background:#0f1923;color:#fff;}
+.cdv-step.current .cdv-step-num{background:#3B5BDB;color:#fff;}
+.cdv-step-title{font-size:13px;font-weight:700;color:#0f1923;}
+.cdv-step.done .cdv-step-title{color:#94a3b8;text-decoration:line-through;}
+.cdv-step-dist{font-size:11px;color:#94a3b8;margin-top:2px;}
+.partage-btn{display:flex;align-items:center;gap:12px;padding:13px 14px;border-radius:12px;background:#f8f9fa;border:1.5px solid #e2e8f0;cursor:pointer;width:100%;margin-bottom:8px;font-family:Manrope,sans-serif;transition:all 0.13s;}
+.partage-btn:active{transform:scale(0.98);}
+.partage-icon{width:36px;height:36px;border-radius:9px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+</style>
+
+<script>
+// ═══════════════════════════════════════════════════════════════
+// MODAUX VIVANTS — Logique complète
+// ═══════════════════════════════════════════════════════════════
+
+// ── HELPERS ──────────────────────────────────────────────────────
+function cdvGetUser() {
+  try { return JSON.parse(localStorage.getItem('cdv_user') || 'null'); } catch(e){ return null; }
+}
+function cdvSaveUser(u) {
+  localStorage.setItem('cdv_user', JSON.stringify(u));
+}
+function cdvGetSettings() {
+  try { return JSON.parse(localStorage.getItem('cdv_settings') || '{"notifs":true,"ar":true,"sons":false,"darkmode":false}'); } catch(e){ return {notifs:true,ar:true,sons:false,darkmode:false}; }
+}
+function cdvSaveSettings(s) {
+  localStorage.setItem('cdv_settings', JSON.stringify(s));
+}
+function cdvGetVisites() {
+  try { return JSON.parse(localStorage.getItem('cdv_visites') || '[]'); } catch(e){ return []; }
+}
+
+// ── COMPTE MODAL ─────────────────────────────────────────────────
+function cdvRenderCompte() {
+  var user = cdvGetUser();
+  var body = document.getElementById('compte-body');
+  var titre = document.getElementById('compte-titre');
+  var sous = document.getElementById('compte-sous');
+  if (!body) return;
+
+  if (user) {
+    // Profil connecté
+    titre.textContent = 'Mon compte';
+    sous.textContent = 'Bienvenue, ' + user.prenom + ' !';
+    var visites = cdvGetVisites();
+    var badges = [
+      {icon:'🧭', name:'Explorateur', earned: visites.length >= 1, prog: Math.min(visites.length, 5), max: 5},
+      {icon:'🏛️', name:'Historien', earned: visites.length >= 3, prog: Math.min(visites.length, 10), max: 10},
+      {icon:'📸', name:'Photographe', earned: false, prog: 1, max: 5},
+      {icon:'⭐', name:'Ambassadeur', earned: false, prog: 0, max: 20},
+    ];
+    body.innerHTML =
+      '<div class="cdv-avatar">' + user.prenom.charAt(0).toUpperCase() + '</div>' +
+      '<div style="text-align:center;font-size:18px;font-weight:900;font-family:Manrope,sans-serif;">' + user.prenom + ' ' + user.nom + '</div>' +
+      '<div style="text-align:center;font-size:12px;color:#94a3b8;margin-top:3px;">' + user.email + '</div>' +
+      '<div class="cdv-stat-row">' +
+        '<div class="cdv-stat"><div class="cdv-stat-val">' + (visites.length || 0) + '</div><div class="cdv-stat-lbl">Lieux visités</div></div>' +
+        '<div class="cdv-stat"><div class="cdv-stat-val">' + (user.parcours || 0) + '</div><div class="cdv-stat-lbl">Parcours</div></div>' +
+        '<div class="cdv-stat"><div class="cdv-stat-val">' + badges.filter(function(b){return b.earned;}).length + '</div><div class="cdv-stat-lbl">Badges</div></div>' +
+      '</div>' +
+      '<div style="font-size:12px;font-weight:700;color:#94a3b8;letter-spacing:0.06em;text-transform:uppercase;margin-bottom:10px;">Mes badges</div>' +
+      '<div class="cdv-badge-row">' +
+        badges.map(function(b){
+          return '<div class="cdv-badge2'+(b.earned?' earned':'')+'">' +
+            '<div class="cdv-badge2-icon">' + (b.earned ? b.icon : '🔒') + '</div>' +
+            '<div class="cdv-badge2-name">' + b.name + '</div>' +
+            '<div class="cdv-progress-bar"><div class="cdv-progress-fill" style="width:'+Math.round(b.prog/b.max*100)+'%"></div></div>' +
+          '</div>';
+        }).join('') +
+      '</div>' +
+      '<button class="cdv-btn" style="background:#f1f5f9;color:#0f1923;margin-top:8px;" onclick="cdvEditProfil()">Modifier le profil</button>' +
+      '<button class="cdv-btn" style="background:#fef2f2;color:#ef4444;margin-top:8px;" onclick="cdvDeconnexion()">Se déconnecter</button>';
+  } else {
+    // Formulaire auth
+    titre.textContent = 'Mon compte';
+    sous.textContent = 'Connexion ou création';
+    body.innerHTML =
+      '<div class="cdv-tab-row">' +
+        '<button class="cdv-tab active" id="tab-connexion" onclick="cdvSwitchTab(\'connexion\')">Se connecter</button>' +
+        '<button class="cdv-tab" id="tab-inscription" onclick="cdvSwitchTab(\'inscription\')">Créer un compte</button>' +
+      '</div>' +
+      '<div id="cdv-auth-form"></div>';
+    cdvRenderFormConnexion();
+  }
+}
+
+function cdvSwitchTab(tab) {
+  document.querySelectorAll('.cdv-tab').forEach(function(t){t.classList.remove('active');});
+  document.getElementById('tab-'+tab).classList.add('active');
+  if (tab === 'connexion') cdvRenderFormConnexion();
+  else cdvRenderFormInscription();
+}
+
+function cdvRenderFormConnexion() {
+  document.getElementById('cdv-auth-form').innerHTML =
+    '<div class="cdv-form-group"><label class="cdv-label">Email</label><input class="cdv-input" id="login-email" type="email" placeholder="votre@email.com" autocomplete="email"></div>' +
+    '<div class="cdv-form-group"><label class="cdv-label">Mot de passe</label><input class="cdv-input" id="login-mdp" type="password" placeholder="••••••••" autocomplete="current-password"></div>' +
+    '<div class="cdv-err" id="login-err">Email ou mot de passe incorrect.</div>' +
+    '<button class="cdv-btn" onclick="cdvConnexion()">Se connecter</button>' +
+    '<div class="cdv-divider">ou continuer sans compte</div>' +
+    '<button class="cdv-btn" style="background:#f8f9fa;color:#0f1923;" onclick="cdvVisiteurAnonyme()">Continuer en visiteur</button>';
+}
+
+function cdvRenderFormInscription() {
+  document.getElementById('cdv-auth-form').innerHTML =
+    '<div style="display:flex;gap:10px;">' +
+      '<div class="cdv-form-group" style="flex:1"><label class="cdv-label">Prénom</label><input class="cdv-input" id="reg-prenom" type="text" placeholder="Marie" autocomplete="given-name"></div>' +
+      '<div class="cdv-form-group" style="flex:1"><label class="cdv-label">Nom</label><input class="cdv-input" id="reg-nom" type="text" placeholder="Dupont" autocomplete="family-name"></div>' +
+    '</div>' +
+    '<div class="cdv-form-group"><label class="cdv-label">Email</label><input class="cdv-input" id="reg-email" type="email" placeholder="votre@email.com" autocomplete="email"></div>' +
+    '<div class="cdv-form-group"><label class="cdv-label">Mot de passe</label><input class="cdv-input" id="reg-mdp" type="password" placeholder="Min. 6 caractères" autocomplete="new-password"></div>' +
+    '<div class="cdv-form-group"><label class="cdv-label">Confirmer</label><input class="cdv-input" id="reg-mdp2" type="password" placeholder="••••••••" autocomplete="new-password"></div>' +
+    '<div class="cdv-err" id="reg-err">Veuillez corriger les erreurs.</div>' +
+    '<button class="cdv-btn" onclick="cdvInscription()">Créer mon compte</button>';
+}
+
+function cdvConnexion() {
+  var email = document.getElementById('login-email').value.trim();
+  var mdp = document.getElementById('login-mdp').value;
+  var err = document.getElementById('login-err');
+  var users = JSON.parse(localStorage.getItem('cdv_users') || '[]');
+  var found = users.find(function(u){ return u.email === email && u.mdp === mdp; });
+  if (!found) {
+    err.style.display = 'block';
+    document.getElementById('login-email').classList.add('error');
+    document.getElementById('login-mdp').classList.add('error');
+    return;
+  }
+  cdvSaveUser(found);
+  cdvToast('Bienvenue, ' + found.prenom + ' ! 👋');
+  cdvRenderCompte();
+}
+
+function cdvInscription() {
+  var prenom = document.getElementById('reg-prenom').value.trim();
+  var nom = document.getElementById('reg-nom').value.trim();
+  var email = document.getElementById('reg-email').value.trim();
+  var mdp = document.getElementById('reg-mdp').value;
+  var mdp2 = document.getElementById('reg-mdp2').value;
+  var err = document.getElementById('reg-err');
+
+  if (!prenom || !nom || !email || !mdp) { err.textContent = 'Tous les champs sont requis.'; err.style.display='block'; return; }
+  if (!email.includes('@')) { err.textContent = 'Adresse email invalide.'; err.style.display='block'; return; }
+  if (mdp.length < 6) { err.textContent = 'Mot de passe trop court (6 caractères min).'; err.style.display='block'; return; }
+  if (mdp !== mdp2) { err.textContent = 'Les mots de passe ne correspondent pas.'; err.style.display='block'; return; }
+
+  var users = JSON.parse(localStorage.getItem('cdv_users') || '[]');
+  if (users.find(function(u){ return u.email === email; })) {
+    err.textContent = 'Cet email est déjà utilisé.'; err.style.display='block'; return;
+  }
+
+  var user = {prenom:prenom, nom:nom, email:email, mdp:mdp, createdAt: new Date().toLocaleDateString('fr-FR'), parcours:0};
+  users.push(user);
+  localStorage.setItem('cdv_users', JSON.stringify(users));
+  cdvSaveUser(user);
+  cdvToast('Compte créé ! Bienvenue, ' + prenom + ' 🎉');
+  cdvRenderCompte();
+}
+
+function cdvVisiteurAnonyme() {
+  cdvSaveUser({prenom:'Visiteur', nom:'', email:'anonyme', mdp:'', createdAt: new Date().toLocaleDateString('fr-FR'), parcours:0, anonyme:true});
+  cdvToast('Mode visiteur activé 👤');
+  cdvRenderCompte();
+}
+
+function cdvDeconnexion() {
+  localStorage.removeItem('cdv_user');
+  cdvToast('Déconnecté. À bientôt !');
+  cdvRenderCompte();
+}
+
+function cdvEditProfil() {
+  var user = cdvGetUser();
+  if (!user) return;
+  var body = document.getElementById('compte-body');
+  body.innerHTML =
+    '<div style="font-size:13px;font-weight:700;margin-bottom:16px;">Modifier mes informations</div>' +
+    '<div class="cdv-form-group"><label class="cdv-label">Prénom</label><input class="cdv-input" id="edit-prenom" value="'+user.prenom+'"></div>' +
+    '<div class="cdv-form-group"><label class="cdv-label">Nom</label><input class="cdv-input" id="edit-nom" value="'+user.nom+'"></div>' +
+    '<div class="cdv-form-group"><label class="cdv-label">Email</label><input class="cdv-input" id="edit-email" type="email" value="'+user.email+'"></div>' +
+    '<button class="cdv-btn" onclick="cdvSaveProfil()">Enregistrer</button>' +
+    '<button class="cdv-btn" style="background:#f8f9fa;color:#0f1923;margin-top:8px;" onclick="cdvRenderCompte()">Annuler</button>';
+}
+
+function cdvSaveProfil() {
+  var user = cdvGetUser();
+  user.prenom = document.getElementById('edit-prenom').value.trim() || user.prenom;
+  user.nom = document.getElementById('edit-nom').value.trim() || user.nom;
+  user.email = document.getElementById('edit-email').value.trim() || user.email;
+  cdvSaveUser(user);
+  // Mettre à jour dans la liste
+  var users = JSON.parse(localStorage.getItem('cdv_users') || '[]');
+  var idx = users.findIndex(function(u){ return u.email === user.email; });
+  if (idx >= 0) users[idx] = user;
+  localStorage.setItem('cdv_users', JSON.stringify(users));
+  cdvToast('Profil mis à jour ✓');
+  cdvRenderCompte();
+}
+
+// ── RÉGLAGES MODAL ────────────────────────────────────────────────
+function cdvRenderReglages() {
+  var s = cdvGetSettings();
+  var body = document.getElementById('reglages-body');
+  if (!body) return;
+
+  function toggleRow(key, label, sub, val) {
+    return '<div class="cdv-srow2">' +
+      '<div><div style="font-size:13px;font-weight:600;color:#0f1923;">' + label + '</div>' +
+      '<div style="font-size:11px;color:#94a3b8;margin-top:1px;">' + sub + '</div></div>' +
+      '<div class="cdv-toggle'+(val?' cdv-on':'')+'" id="toggle-'+key+'" onclick="cdvToggleSetting(\''+key+'\')"></div>' +
+    '</div>';
+  }
+
+  body.innerHTML =
+    '<div style="font-size:11px;font-weight:700;color:#94a3b8;letter-spacing:0.06em;text-transform:uppercase;margin-bottom:8px;">Notifications</div>' +
+    toggleRow('notifs', 'Notifications push', 'Alertes lieux à proximité', s.notifs) +
+    toggleRow('sons', 'Sons & vibrations', 'Feedback haptique', s.sons) +
+    '<div style="font-size:11px;font-weight:700;color:#94a3b8;letter-spacing:0.06em;text-transform:uppercase;margin:16px 0 8px;">Affichage</div>' +
+    toggleRow('ar', 'Mode AR', 'Réalité augmentée GPS', s.ar) +
+    toggleRow('darkmode', 'Mode sombre', 'Thème nuit (bêta)', s.darkmode) +
+    '<div style="font-size:11px;font-weight:700;color:#94a3b8;letter-spacing:0.06em;text-transform:uppercase;margin:16px 0 8px;">Données</div>' +
+    '<div class="cdv-srow2" style="cursor:pointer;" onclick="cdvExportData()">' +
+      '<div><div style="font-size:13px;font-weight:600;color:#3B5BDB;">Exporter mes données</div>' +
+      '<div style="font-size:11px;color:#94a3b8;margin-top:1px;">Télécharger historique & badges</div></div>' +
+      '<span class="material-symbols-outlined" style="color:#3B5BDB;font-size:18px;">download</span>' +
+    '</div>' +
+    '<div class="cdv-srow2" style="cursor:pointer;border-bottom:none;" onclick="cdvResetData()">' +
+      '<div><div style="font-size:13px;font-weight:600;color:#ef4444;">Réinitialiser</div>' +
+      '<div style="font-size:11px;color:#94a3b8;margin-top:1px;">Effacer l\'historique local</div></div>' +
+      '<span class="material-symbols-outlined" style="color:#ef4444;font-size:18px;">delete</span>' +
+    '</div>';
+}
+
+function cdvToggleSetting(key) {
+  var s = cdvGetSettings();
+  s[key] = !s[key];
+  cdvSaveSettings(s);
+  var el = document.getElementById('toggle-'+key);
+  if (el) el.classList.toggle('cdv-on', s[key]);
+  if (key === 'darkmode') {
+    document.body.style.filter = s.darkmode ? 'invert(0.9) hue-rotate(180deg)' : '';
+  }
+  cdvToast(s[key] ? '✓ Activé' : 'Désactivé');
+}
+
+function cdvExportData() {
+  var data = { user: cdvGetUser(), settings: cdvGetSettings(), visites: cdvGetVisites() };
+  var blob = new Blob([JSON.stringify(data, null, 2)], {type:'application/json'});
+  var a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'coeur-de-ville-data.json';
+  a.click();
+  cdvToast('Données exportées ✓');
+}
+
+function cdvResetData() {
+  if (!confirm('Effacer tout l\'historique local ? Cette action est irréversible.')) return;
+  localStorage.removeItem('cdv_visites');
+  localStorage.removeItem('cdv_settings');
+  cdvToast('Historique effacé');
+  cdvRenderReglages();
+}
+
+// ── RÉSERVATION MODAL ─────────────────────────────────────────────
+function cdvRenderReserver() {
+  var body = document.getElementById('reserver-body');
+  if (!body) return;
+  var user = cdvGetUser();
+  var prenomVal = (user && !user.anonyme) ? user.prenom + ' ' + user.nom : '';
+  var emailVal = (user && !user.anonyme) ? user.email : '';
+
+  var prestations = [
+    {id:'guidee', icon:'person_pin_circle', bg:'#f0f4ff', col:'#3B5BDB', name:'Visite guidée privée', meta:'2h · jusqu\'à 8 pers · dès 90 €', tags:['Disponible','Guide officiel']},
+    {id:'atelier', icon:'brush', bg:'#f0faf4', col:'#16a34a', name:'Atelier artisanat', meta:'1h30 · 2-6 pers · dès 35 €/pers', tags:['Céramique','Textile']},
+    {id:'photo', icon:'photo_camera', bg:'#fef3e2', col:'#c97b2e', name:'Balade photo guidée', meta:'2h · 2-4 pers · dès 55 €/pers', tags:['Extérieur','Tous niveaux']},
+  ];
+
+  body.innerHTML =
+    '<div id="resa-step1">' +
+      '<div style="font-size:12px;font-weight:700;color:#94a3b8;letter-spacing:0.05em;text-transform:uppercase;margin-bottom:12px;">Choisissez votre prestation</div>' +
+      prestations.map(function(p){
+        return '<div class="cdv-prestation" id="prest-'+p.id+'" onclick="cdvSelectPrest(\''+p.id+'\')">' +
+          '<div class="cdv-prestation-top">' +
+            '<div style="width:38px;height:38px;border-radius:10px;background:'+p.bg+';display:flex;align-items:center;justify-content:center;flex-shrink:0;"><span class="material-symbols-outlined" style="font-size:20px;color:'+p.col+';">'+p.icon+'</span></div>' +
+            '<div><div style="font-size:14px;font-weight:800;">'+p.name+'</div><div style="font-size:11px;color:#94a3b8;margin-top:2px;">'+p.meta+'</div></div>' +
+          '</div>' +
+          p.tags.map(function(t,i){ return '<span class="cdv-tag'+(i===0?' cdv-tag-a':'')+'" style="font-size:10px;">'+t+'</span>'; }).join('') +
+        '</div>';
+      }).join('') +
+      '<div style="background:#f8f9fa;border-radius:14px;padding:16px;margin-top:16px;">' +
+        '<div style="font-size:11px;font-weight:700;color:#94a3b8;letter-spacing:0.05em;text-transform:uppercase;margin-bottom:12px;">Vos coordonnées</div>' +
+        '<input class="cdv-input" id="resa-nom" placeholder="Prénom Nom" value="'+prenomVal+'">' +
+        '<input class="cdv-input" id="resa-email" type="email" placeholder="Email" value="'+emailVal+'">' +
+        '<input class="cdv-input" id="resa-tel" type="tel" placeholder="Téléphone (optionnel)">' +
+        '<input class="cdv-input" id="resa-date" type="date" placeholder="Date souhaitée" min="'+new Date().toISOString().split('T')[0]+'">' +
+        '<textarea class="cdv-input" id="resa-msg" placeholder="Message ou demande spéciale..." style="resize:none;height:72px;"></textarea>' +
+      '</div>' +
+      '<div class="cdv-err" id="resa-err">Veuillez remplir tous les champs requis.</div>' +
+      '<button class="cdv-btn" id="resa-submit" onclick="cdvEnvoyerResa()">Envoyer ma demande</button>' +
+    '</div>' +
+    '<div id="resa-confirm" style="display:none;"></div>';
+}
+
+var cdvSelectedPrest = null;
+function cdvSelectPrest(id) {
+  cdvSelectedPrest = id;
+  document.querySelectorAll('.cdv-prestation').forEach(function(el){ el.classList.remove('sel'); });
+  var el = document.getElementById('prest-'+id);
+  if (el) el.classList.add('sel');
+}
+
+function cdvEnvoyerResa() {
+  var nom = document.getElementById('resa-nom').value.trim();
+  var email = document.getElementById('resa-email').value.trim();
+  var date = document.getElementById('resa-date').value;
+  var err = document.getElementById('resa-err');
+
+  if (!cdvSelectedPrest) { err.textContent = 'Veuillez choisir une prestation.'; err.style.display='block'; return; }
+  if (!nom || !email || !date) { err.textContent = 'Nom, email et date sont requis.'; err.style.display='block'; return; }
+  if (!email.includes('@')) { err.textContent = 'Email invalide.'; err.style.display='block'; return; }
+
+  var prestNames = {guidee:'Visite guidée privée', atelier:'Atelier artisanat', photo:'Balade photo guidée'};
+  var resa = {prest: prestNames[cdvSelectedPrest], nom:nom, email:email, date:date, ref:'CDV-'+Date.now().toString(36).toUpperCase()};
+
+  // Sauvegarde locale
+  var resas = JSON.parse(localStorage.getItem('cdv_reservations') || '[]');
+  resas.push(resa);
+  localStorage.setItem('cdv_reservations', JSON.stringify(resas));
+
+  document.getElementById('resa-step1').style.display = 'none';
+  var confirm = document.getElementById('resa-confirm');
+  confirm.style.display = 'block';
+  confirm.innerHTML =
+    '<div class="cdv-confirm-box">' +
+      '<div style="font-size:36px;margin-bottom:12px;">✅</div>' +
+      '<div style="font-size:18px;font-weight:900;margin-bottom:6px;">Demande envoyée !</div>' +
+      '<div style="font-size:12px;opacity:0.7;">Réf. ' + resa.ref + '</div>' +
+    '</div>' +
+    '<div style="margin-top:16px;background:#f8f9fa;border-radius:14px;padding:16px;">' +
+      '<div style="font-size:11px;font-weight:700;color:#94a3b8;text-transform:uppercase;letter-spacing:0.05em;margin-bottom:10px;">Récapitulatif</div>' +
+      '<div style="font-size:13px;margin-bottom:6px;"><strong>' + resa.prest + '</strong></div>' +
+      '<div style="font-size:12px;color:#64748b;">📅 ' + new Date(date).toLocaleDateString('fr-FR',{weekday:'long',day:'numeric',month:'long'}) + '</div>' +
+      '<div style="font-size:12px;color:#64748b;margin-top:4px;">📧 Confirmation envoyée à ' + resa.email + '</div>' +
+    '</div>' +
+    '<button class="cdv-btn" style="margin-top:16px;" onclick="cdvCloseModal(\'reserver\')">Fermer</button>';
+
+  cdvToast('Réservation confirmée ! Réf. ' + resa.ref);
+}
+
+// ── PARTAGER MODAL ────────────────────────────────────────────────
+function cdvRenderPartager() {
+  var visites = cdvGetVisites();
+  var user = cdvGetUser();
+  var nomVille = 'Villeneuve-lès-Avignon';
+  var lienPartage = window.location.href.split('?')[0] + '?ville=villeneuve&ref=' + (user ? user.prenom : 'visiteur');
+  var textPartage = 'Je visite ' + nomVille + ' avec Cœur de Ville ! ' + lienPartage;
+
+  var modal = document.querySelector('#cdv-modal-partager .cdv-mbody');
+  if (!modal) return;
+
+  modal.innerHTML =
+    '<div class="cdv-scard">' +
+      '<div class="cdv-slabel">Votre carnet de visite</div>' +
+      '<div class="cdv-stitle">' + nomVille + '</div>' +
+      '<div style="font-size:11px;opacity:0.6;">Aujourd\'hui · ' + (visites.length || 3) + ' lieux visités</div>' +
+      '<div class="cdv-chips">' +
+        (visites.length > 0 ? visites.slice(-3).map(function(v){ return '<span class="cdv-chip">'+v+'</span>'; }).join('') :
+          '<span class="cdv-chip">Fort Saint-André</span><span class="cdv-chip">Chartreuse</span><span class="cdv-chip">Tour Philippe IV</span>') +
+      '</div>' +
+    '</div>' +
+    '<div style="font-size:13px;font-weight:700;margin-bottom:12px;">Votre avis</div>' +
+    '<div class="cdv-stars" id="partage-stars">' +
+      [1,2,3,4,5].map(function(n){ return '<span class="cdv-star" onclick="cdvRateStar('+n+')">★</span>'; }).join('') +
+    '</div>' +
+    '<div style="margin-top:18px;">' +
+      '<button class="partage-btn" onclick="cdvCopierLien(\''+lienPartage+'\')">' +
+        '<div class="partage-icon" style="background:#e8f0ff"><span class="material-symbols-outlined" style="font-size:18px;color:#3B5BDB;">link</span></div>' +
+        '<div style="text-align:left;"><div style="font-size:13px;font-weight:700;">Copier le lien</div><div style="font-size:11px;color:#94a3b8;">Partagez votre carnet</div></div>' +
+      '</button>' +
+      '<button class="partage-btn" onclick="cdvPartagerNatif(\''+encodeURIComponent(textPartage)+'\')">' +
+        '<div class="partage-icon" style="background:#f0faf4"><span class="material-symbols-outlined" style="font-size:18px;color:#16a34a;">ios_share</span></div>' +
+        '<div style="text-align:left;"><div style="font-size:13px;font-weight:700;">Partager</div><div style="font-size:11px;color:#94a3b8;">WhatsApp, Messages, Mail…</div></div>' +
+      '</button>' +
+      '<button class="partage-btn" onclick="cdvPartagerWhatsApp(\''+encodeURIComponent(textPartage)+'\')">' +
+        '<div class="partage-icon" style="background:#e7f9f0"><span class="material-symbols-outlined" style="font-size:18px;color:#25d366;">chat</span></div>' +
+        '<div style="text-align:left;"><div style="font-size:13px;font-weight:700;">WhatsApp</div><div style="font-size:11px;color:#94a3b8;">Envoyer à un ami</div></div>' +
+      '</button>' +
+      '<button class="partage-btn" onclick="cdvPartagerEmail()">' +
+        '<div class="partage-icon" style="background:#fce8e8"><span class="material-symbols-outlined" style="font-size:18px;color:#e05252;">mail</span></div>' +
+        '<div style="text-align:left;"><div style="font-size:13px;font-weight:700;">Par email</div><div style="font-size:11px;color:#94a3b8;">Ouvrir votre client mail</div></div>' +
+      '</button>' +
+    '</div>';
+}
+
+function cdvCopierLien(url) {
+  if (navigator.clipboard) {
+    navigator.clipboard.writeText(url).then(function(){ cdvToast('Lien copié ! 🔗'); });
+  } else {
+    var ta = document.createElement('textarea');
+    ta.value = url; document.body.appendChild(ta); ta.select();
+    document.execCommand('copy'); document.body.removeChild(ta);
+    cdvToast('Lien copié ! 🔗');
+  }
+}
+
+function cdvPartagerNatif(texte) {
+  var decoded = decodeURIComponent(texte);
+  if (navigator.share) {
+    navigator.share({title:'Cœur de Ville', text: decoded}).catch(function(){});
+  } else {
+    cdvCopierLien(decoded);
+  }
+}
+
+function cdvPartagerWhatsApp(texte) {
+  window.open('https://wa.me/?text=' + texte, '_blank');
+}
+
+function cdvPartagerEmail() {
+  var sujet = encodeURIComponent('Ma visite à Villeneuve-lès-Avignon avec Cœur de Ville');
+  var corps = encodeURIComponent('Bonjour,\n\nJe visite Villeneuve-lès-Avignon et je vous partage mon carnet de visite :\n' + window.location.href + '\n\nBonne découverte !');
+  window.open('mailto:?subject=' + sujet + '&body=' + corps);
+}
+
+// ── PARCOURS MODAL ────────────────────────────────────────────────
+var cdvParcoursActif = null;
+
+function cdvRenderParcours() {
+  // Si un parcours est en cours, afficher son suivi
+  if (cdvParcoursActif) { cdvAfficherSuiviParcours(); return; }
+  // Sinon afficher le choix
+}
+
+function cdvAfficherSuiviParcours() {
+  var p = cdvParcoursActif;
+  var body = document.querySelector('#cdv-modal-parcours .cdv-mbody');
+  if (!body) return;
+
+  body.innerHTML =
+    '<div class="cdv-parcours-active">' +
+      '<div style="font-size:10px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;opacity:0.6;margin-bottom:6px;">En cours</div>' +
+      '<div style="font-size:17px;font-weight:900;">' + p.nom + '</div>' +
+      '<div style="font-size:12px;opacity:0.7;margin-top:4px;">' + p.meta + '</div>' +
+      '<div style="display:flex;gap:12px;margin-top:12px;">' +
+        '<div><div style="font-size:18px;font-weight:900;" id="parcours-etape">' + (p.etapeActuelle+1) + '/' + p.etapes.length + '</div><div style="font-size:10px;opacity:0.6;">Étapes</div></div>' +
+        '<div><div style="font-size:18px;font-weight:900;">' + p.duree + '</div><div style="font-size:10px;opacity:0.6;">Durée</div></div>' +
+        '<div><div style="font-size:18px;font-weight:900;">' + p.distance + '</div><div style="font-size:10px;opacity:0.6;">Distance</div></div>' +
+      '</div>' +
+    '</div>' +
+    '<div style="font-size:11px;font-weight:700;color:#94a3b8;letter-spacing:0.06em;text-transform:uppercase;margin-bottom:10px;">Étapes du parcours</div>' +
+    '<div id="parcours-etapes-list">' +
+      p.etapes.map(function(e, i){
+        var cls = i < p.etapeActuelle ? 'done' : (i === p.etapeActuelle ? 'current' : '');
+        return '<div class="cdv-step ' + cls + '">' +
+          '<div class="cdv-step-num">' + (i < p.etapeActuelle ? '✓' : (i+1)) + '</div>' +
+          '<div><div class="cdv-step-title">' + e.nom + '</div><div class="cdv-step-dist">' + e.dist + '</div></div>' +
+        '</div>';
+      }).join('') +
+    '</div>' +
+    (p.etapeActuelle < p.etapes.length - 1 ?
+      '<button class="cdv-btn" style="margin-top:16px;" onclick="cdvEtapeSuivante()">→ Étape suivante</button>' :
+      '<button class="cdv-btn" style="margin-top:16px;background:#16a34a;" onclick="cdvTerminerParcours()">🎉 Terminer le parcours</button>'
+    ) +
+    '<button class="cdv-btn" style="background:#fef2f2;color:#ef4444;margin-top:8px;" onclick="cdvAbandonnerParcours()">Abandonner</button>';
+}
+
+function cdvDemarrerParcours() {
+  var sel = document.querySelector('.cdv-pcard.cdv-sel');
+  if (!sel) { cdvToast('Choisissez d\'abord un parcours'); return; }
+  var nom = sel.querySelector('.cdv-pname').textContent;
+  var meta = sel.querySelector('.cdv-pmeta').textContent;
+
+  var parcoursData = {
+    'Histoire & Patrimoine': {
+      etapes: [
+        {nom:'Tour Philippe IV', dist:'Départ · 0 m'},
+        {nom:'Pont Saint-Bénézet (vue)', dist:'350 m'},
+        {nom:'Fort Saint-André', dist:'700 m'},
+        {nom:'Chartreuse du Val de Bénédiction', dist:'1,1 km'},
+        {nom:'Musée Pierre de Luxembourg', dist:'1,6 km'},
+        {nom:'Collégiale Notre-Dame', dist:'1,9 km'},
+        {nom:'Place Jean Jaurès', dist:'2,4 km · Arrivée'}
+      ]
+    },
+    'Promenade nature': {
+      etapes: [
+        {nom:'Jardins médiévaux', dist:'Départ · 0 m'},
+        {nom:'Rocher du Guetteur', dist:'400 m'},
+        {nom:'Belvédère panoramique', dist:'900 m'},
+        {nom:'Promenade des remparts', dist:'1,2 km · Arrivée'}
+      ]
+    },
+    'Art & Insolite': {
+      etapes: [
+        {nom:'Ateliers d\'artistes', dist:'Départ · 0 m'},
+        {nom:'Fresque cachée rue de la Foire', dist:'300 m'},
+        {nom:'Tour des Masques', dist:'700 m'},
+        {nom:'Caveau médiéval secret', dist:'1,1 km'},
+        {nom:'Galerie contemporaine', dist:'1,5 km'},
+        {nom:'Le Passage des Arts', dist:'2,0 km'},
+        {nom:'Jardin suspendu insolite', dist:'2,4 km'},
+        {nom:'Mosaïque de la Placette', dist:'2,8 km'},
+        {nom:'Point de vue inédit', dist:'3,1 km · Arrivée'}
+      ]
+    },
+    'Gastronomie locale': {
+      etapes: [
+        {nom:'Marché des producteurs', dist:'Départ · 0 m'},
+        {nom:'Cave AOC Côtes du Rhône', dist:'400 m'},
+        {nom:'Fromagerie artisanale', dist:'900 m'},
+        {nom:'Atelier confiture provençale', dist:'1,4 km'},
+        {nom:'Restaurant sous les remparts', dist:'1,8 km · Arrivée'}
+      ]
+    }
+  };
+
+  var data = parcoursData[nom] || parcoursData['Histoire & Patrimoine'];
+  cdvParcoursActif = { nom: nom, meta: meta, duree: meta.split('·')[0].trim(), distance: meta.split('·')[1]?.trim() || '', etapes: data.etapes, etapeActuelle: 0 };
+
+  // Incrémenter compteur parcours user
+  var user = cdvGetUser();
+  if (user) { user.parcours = (user.parcours || 0) + 1; cdvSaveUser(user); }
+
+  cdvAfficherSuiviParcours();
+  cdvToast('Parcours démarré ! Bonne balade 🗺️');
+}
+
+function cdvEtapeSuivante() {
+  if (!cdvParcoursActif) return;
+  cdvParcoursActif.etapeActuelle++;
+  var etape = cdvParcoursActif.etapes[cdvParcoursActif.etapeActuelle];
+  cdvToast('→ ' + etape.nom);
+
+  // Sauvegarder visite
+  var visites = cdvGetVisites();
+  visites.push(etape.nom);
+  localStorage.setItem('cdv_visites', JSON.stringify(visites));
+
+  cdvAfficherSuiviParcours();
+}
+
+function cdvTerminerParcours() {
+  cdvToast('🎉 Parcours terminé ! Bravo !');
+  cdvParcoursActif = null;
+  cdvCloseModal('parcours');
+}
+
+function cdvAbandonnerParcours() {
+  cdvParcoursActif = null;
+  cdvToast('Parcours abandonné');
+  cdvCloseModal('parcours');
+}
+
+// ── HOOK OPENMODAL ────────────────────────────────────────────────
+var _cdvOpenModalOrig = cdvOpenModal;
+cdvOpenModal = function(name) {
+  _cdvOpenModalOrig(name);
+  setTimeout(function(){
+    if (name === 'compte') cdvRenderCompte();
+    else if (name === 'reglages') cdvRenderReglages();
+    else if (name === 'reserver') cdvRenderReserver();
+    else if (name === 'partager') cdvRenderPartager();
+    else if (name === 'parcours') cdvRenderParcours();
+  }, 50);
+};
+
+// Override bouton démarrer parcours
+document.addEventListener('DOMContentLoaded', function(){
+  var btn = document.getElementById('cdv-pstart');
+  if (btn) btn.onclick = cdvDemarrerParcours;
+  // Appliquer réglages sauvegardés
+  var s = cdvGetSettings();
+  if (s.darkmode) document.body.style.filter = 'invert(0.9) hue-rotate(180deg)';
+});
+</script>
