@@ -846,24 +846,54 @@ setTimeout(function(){
 
 </div>
 
-<!-- SITES + ANECDOTES CÔTE À CÔTE -->
-<div class="dual-section">
-  <div>
-    <div class="dual-col-title">
-      <span id="t-sec-patrimoine" style="font-size:13px;font-weight:800;color:#0f1923;letter-spacing:-0.01em;"></span>
-      <button class="dual-col-title-link" onclick="window.location.href='carte.html'">Voir tout →</button>
-    </div>
-    <div class="dual-col-scroll" id="home-poi-v-list"></div>
-  </div>
-  <div>
-    <div class="dual-col-title">
-      <span id="t-sec-insolites" style="font-size:13px;font-weight:800;color:#0f1923;letter-spacing:-0.01em;"></span>
-    </div>
-    <div class="dual-col-scroll" id="home-anec-v-list"></div>
+<!-- SITES PATRIMONIAUX — pleine largeur -->
+<div style="padding:20px 16px 0;">
+  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
+    <div style="font-size:22px;font-weight:900;color:#0f1923;letter-spacing:-0.02em;">Sites patrimoniaux</div>
+    <button style="font-size:13px;font-weight:700;color:#3B5BDB;background:none;border:none;cursor:pointer;font-family:Manrope;display:flex;align-items:center;gap:3px;" onclick="window.location.href='carte.html'">Voir tout <span class="material-symbols-outlined" style="font-size:16px;">arrow_forward</span></button>
   </div>
 </div>
+<div style="display:flex;gap:10px;overflow-x:auto;padding:0 16px 12px;scrollbar-width:none;-webkit-overflow-scrolling:touch;">
 
-<div id="home-anecdote-carousel" style="display:none;"></div>
+  <div class="home-poi-card" onclick="window.location.href='villeneuve/fort-saint-andre.html'" style="min-width:145px;max-width:145px;">
+    <img class="home-poi-card-img" src="../assets/villeneuve/poi_001.jpg" alt="Fort Saint-André" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+    <div class="home-poi-card-ph" style="background:#2c3e5015;display:none;"><span class="material-symbols-outlined" style="font-size:28px;color:#2c3e50;">castle</span></div>
+    <div class="home-poi-card-body">
+      <div class="home-poi-card-cat" style="color:#2c3e50;">Militaire</div>
+      <div class="home-poi-card-name">Fort Saint-André</div>
+    </div>
+  </div>
+
+  <div class="home-poi-card" onclick="window.location.href='villeneuve/chartreuse.html'" style="min-width:145px;max-width:145px;">
+    <img class="home-poi-card-img" src="../assets/villeneuve/poi_002.jpg" alt="Chartreuse" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+    <div class="home-poi-card-ph" style="background:#8b5e3c15;display:none;"><span class="material-symbols-outlined" style="font-size:28px;color:#8b5e3c;">church</span></div>
+    <div class="home-poi-card-body">
+      <div class="home-poi-card-cat" style="color:#8b5e3c;">Religieux</div>
+      <div class="home-poi-card-name">Chartreuse du Val de Bénédiction</div>
+    </div>
+  </div>
+
+  <div class="home-poi-card" onclick="window.location.href='villeneuve/tour-philippe-le-bel.html'" style="min-width:145px;max-width:145px;">
+    <img class="home-poi-card-img" src="../assets/villeneuve/poi_003.jpg" alt="Tour Philippe le Bel" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+    <div class="home-poi-card-ph" style="background:#c0392b15;display:none;"><span class="material-symbols-outlined" style="font-size:28px;color:#c0392b;">account_balance</span></div>
+    <div class="home-poi-card-body">
+      <div class="home-poi-card-cat" style="color:#c0392b;">Monument</div>
+      <div class="home-poi-card-name">Tour Philippe le Bel</div>
+    </div>
+  </div>
+
+  <div class="home-poi-card" onclick="window.location.href='villeneuve/colline-des-mourgues.html'" style="min-width:145px;max-width:145px;">
+    <img class="home-poi-card-img" src="../assets/villeneuve/poi_004.jpg" alt="Colline des Mourgues" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+    <div class="home-poi-card-ph" style="background:#27ae6015;display:none;"><span class="material-symbols-outlined" style="font-size:28px;color:#27ae60;">park</span></div>
+    <div class="home-poi-card-body">
+      <div class="home-poi-card-cat" style="color:#27ae60;">Nature</div>
+      <div class="home-poi-card-name">Colline des Mourgues</div>
+    </div>
+  </div>
+
+</div>
+
+
 
 <!-- COMMERCE À LA UNE -->
 <div class="une-section">
@@ -912,6 +942,49 @@ setTimeout(function(){
   </a>
 </div>
 
+<!-- LIEUX & ANECDOTES — après taxi -->
+<div style="padding:52px 16px 0;">
+  <div style="font-size:22px;font-weight:900;color:#0f1923;letter-spacing:-0.02em;margin-bottom:12px;">Lieux &amp; anecdotes</div>
+</div>
+<div style="display:flex;gap:10px;overflow-x:auto;padding:0 16px 20px;scrollbar-width:none;-webkit-overflow-scrolling:touch;">
+
+  <div style="min-width:200px;max-width:200px;border-radius:14px;overflow:hidden;position:relative;height:140px;flex-shrink:0;cursor:pointer;" onclick="window.location.href='villeneuve/lezard.html'">
+    <img style="width:100%;height:100%;object-fit:cover;display:block;" src="../assets/villeneuve/poi_006.jpg" alt="" onerror="this.style.background='linear-gradient(135deg,#1e3a5f,#0f1923)';this.style.display='block'">
+    <div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,0.88) 0%,rgba(0,0,0,0.2) 55%,transparent 100%);"></div>
+    <div style="position:absolute;bottom:0;left:0;padding:14px;">
+      <div style="font-size:9px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:rgba(255,255,255,0.65);margin-bottom:5px;display:flex;align-items:center;gap:4px;"><span class="material-symbols-outlined" style="font-size:12px;">auto_stories</span>Insolite</div>
+      <div style="font-size:13px;font-weight:800;color:#fff;line-height:1.3;">La Légende des Lézards</div>
+    </div>
+  </div>
+
+  <div style="min-width:200px;max-width:200px;border-radius:14px;overflow:hidden;position:relative;height:140px;flex-shrink:0;cursor:pointer;" onclick="window.location.href='villeneuve/partition.html'">
+    <img style="width:100%;height:100%;object-fit:cover;display:block;" src="../assets/villeneuve/poi_007.jpg" alt="" onerror="this.style.background='linear-gradient(135deg,#4a3000,#9a6800)';this.style.display='block'">
+    <div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,0.88) 0%,rgba(0,0,0,0.2) 55%,transparent 100%);"></div>
+    <div style="position:absolute;bottom:0;left:0;padding:14px;">
+      <div style="font-size:9px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:rgba(255,255,255,0.65);margin-bottom:5px;display:flex;align-items:center;gap:4px;"><span class="material-symbols-outlined" style="font-size:12px;">auto_stories</span>Insolite</div>
+      <div style="font-size:13px;font-weight:800;color:#fff;line-height:1.3;">La Partition Gravée du Cardinal</div>
+    </div>
+  </div>
+
+  <div style="min-width:200px;max-width:200px;border-radius:14px;overflow:hidden;position:relative;height:140px;flex-shrink:0;cursor:pointer;background:linear-gradient(135deg,#2c3e50,#4a6274);" onclick="window.location.href='villeneuve/fort-saint-andre.html'">
+    <div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,0.7) 0%,transparent 60%);"></div>
+    <div style="position:absolute;bottom:0;left:0;padding:14px;">
+      <div style="font-size:9px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:rgba(255,255,255,0.65);margin-bottom:5px;display:flex;align-items:center;gap:4px;"><span class="material-symbols-outlined" style="font-size:12px;">auto_stories</span>Insolite</div>
+      <div style="font-size:13px;font-weight:800;color:#fff;line-height:1.3;">Un passage souterrain secret reliait le Fort au Rhône</div>
+    </div>
+  </div>
+
+  <div style="min-width:200px;max-width:200px;border-radius:14px;overflow:hidden;position:relative;height:140px;flex-shrink:0;cursor:pointer;background:linear-gradient(135deg,#30184a,#6b2fa0);" onclick="window.location.href='villeneuve/colline-des-mourgues.html'">
+    <div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,0.7) 0%,transparent 60%);"></div>
+    <div style="position:absolute;bottom:0;left:0;padding:14px;">
+      <div style="font-size:9px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:rgba(255,255,255,0.65);margin-bottom:5px;display:flex;align-items:center;gap:4px;"><span class="material-symbols-outlined" style="font-size:12px;">auto_stories</span>Insolite</div>
+      <div style="font-size:13px;font-weight:800;color:#fff;line-height:1.3;">Le balcon secret des peintres provençaux</div>
+    </div>
+  </div>
+
+</div>
+
+
 
 <!-- ÉVÉNEMENTS pleine largeur -->
 <div style="padding:52px 20px 0;">
@@ -933,7 +1006,19 @@ setTimeout(function(){
       <div class="home-section-title" id="t-sec-cdc">Coup de cœur</div>
     </div>
   </div>
-  <div class="home-coupdecoeur event-cdc-col" id="cdc-col-inner"></div>
+  <div class="home-coupdecoeur event-cdc-col" id="cdc-col-inner">
+    <div class="cdc-card" onclick="window.location.href='../villeneuve/chartreuse.html'">
+      <img class="cdc-bg" src="../assets/villeneuve/poi_002.jpg" alt="Chartreuse"/>
+      <div class="cdc-overlay"></div>
+      <div class="cdc-badge" id="t-cdc-badge">Coup de coeur</div>
+      <div class="cdc-body">
+        <div class="cdc-label" id="t-cdc-label">A ne pas manquer cette semaine</div>
+        <div class="cdc-title">Chartreuse du Val de Benediction</div>
+        <div class="cdc-desc" id="t-cdc-desc">Le plus grand monastere de France vous ouvre ses cloitres.</div>
+      </div>
+      <div class="cdc-arrow"><span class="material-symbols-outlined" style="font-size:22px;color:#fff;">chevron_right</span></div>
+    </div>
+  </div>
 </div>
 
 <!-- IDÉES DE VISITES -->
@@ -1138,75 +1223,56 @@ setTimeout(function(){
   </div>
 
   <!-- Numéros d'urgence -->
-  </div><!-- end infos-grid -->
-
-<div style="padding:0 16px 0;">
-<div class="urgences-wrap">
-    <div class="urgences-wrap-title">Numéros d'urgence</div>
-
-    <a href="tel:15" class="urgence-row-apple">
-      <div class="urgence-dot" style="background:#ff3b30;">
-        <span class="material-symbols-outlined">emergency</span>
+  <div class="info-block" style="grid-column:1/-1;">
+    <div class="info-block-head">
+      <div class="info-block-icon" style="background:#fff1f2;">
+        <span class="material-symbols-outlined" style="color:#e11d48;">emergency</span>
       </div>
-      <div class="urgence-info">
-        <div class="urgence-info-name">SAMU</div>
-        <div class="urgence-info-sub">Urgences médicales</div>
+      <div>
+        <div class="info-block-name">Numéros d'urgence</div>
+        <div class="info-block-status" style="color:#e11d48;">Disponibles 24h/24</div>
       </div>
-      <div class="urgence-num-apple">15</div>
-      <span class="material-symbols-outlined urgence-chevron">chevron_right</span>
+    </div>
+    <a href="tel:15" class="info-row" style="text-decoration:none;display:flex;align-items:center;justify-content:space-between;padding:9px 16px;border-bottom:1px solid #f8f9fa;">
+      <div class="info-row-label" style="display:flex;align-items:center;gap:8px;">
+        <span class="material-symbols-outlined" style="font-size:14px;color:#ff3b30;">emergency</span>
+        SAMU — Urgences médicales
+      </div>
+      <div class="info-row-val" style="color:#e11d48;">15</div>
     </a>
-
-    <a href="tel:17" class="urgence-row-apple">
-      <div class="urgence-dot" style="background:#007aff;">
-        <span class="material-symbols-outlined">local_police</span>
+    <a href="tel:17" class="info-row" style="text-decoration:none;display:flex;align-items:center;justify-content:space-between;padding:9px 16px;border-bottom:1px solid #f8f9fa;">
+      <div class="info-row-label" style="display:flex;align-items:center;gap:8px;">
+        <span class="material-symbols-outlined" style="font-size:14px;color:#007aff;">local_police</span>
+        Police — Gendarmerie
       </div>
-      <div class="urgence-info">
-        <div class="urgence-info-name">Police</div>
-        <div class="urgence-info-sub">Gendarmerie nationale</div>
-      </div>
-      <div class="urgence-num-apple">17</div>
-      <span class="material-symbols-outlined urgence-chevron">chevron_right</span>
+      <div class="info-row-val" style="color:#007aff;">17</div>
     </a>
-
-    <a href="tel:18" class="urgence-row-apple">
-      <div class="urgence-dot" style="background:#ff9500;">
-        <span class="material-symbols-outlined">local_fire_department</span>
+    <a href="tel:18" class="info-row" style="text-decoration:none;display:flex;align-items:center;justify-content:space-between;padding:9px 16px;border-bottom:1px solid #f8f9fa;">
+      <div class="info-row-label" style="display:flex;align-items:center;gap:8px;">
+        <span class="material-symbols-outlined" style="font-size:14px;color:#ff9500;">local_fire_department</span>
+        Pompiers — Incendie · Secours
       </div>
-      <div class="urgence-info">
-        <div class="urgence-info-name">Pompiers</div>
-        <div class="urgence-info-sub">Incendie · Secours</div>
-      </div>
-      <div class="urgence-num-apple">18</div>
-      <span class="material-symbols-outlined urgence-chevron">chevron_right</span>
+      <div class="info-row-val" style="color:#ff9500;">18</div>
     </a>
-
-    <a href="tel:112" class="urgence-row-apple">
-      <div class="urgence-dot" style="background:#34c759;">
-        <span class="material-symbols-outlined">public</span>
+    <a href="tel:112" class="info-row" style="text-decoration:none;display:flex;align-items:center;justify-content:space-between;padding:9px 16px;border-bottom:1px solid #f8f9fa;">
+      <div class="info-row-label" style="display:flex;align-items:center;gap:8px;">
+        <span class="material-symbols-outlined" style="font-size:14px;color:#34c759;">public</span>
+        Numéro européen — Toutes urgences
       </div>
-      <div class="urgence-info">
-        <div class="urgence-info-name">Numéro européen</div>
-        <div class="urgence-info-sub">Toutes urgences</div>
-      </div>
-      <div class="urgence-num-apple">112</div>
-      <span class="material-symbols-outlined urgence-chevron">chevron_right</span>
+      <div class="info-row-val" style="color:#34c759;">112</div>
     </a>
-
-    <a href="tel:3114" class="urgence-row-apple">
-      <div class="urgence-dot" style="background:#af52de;">
-        <span class="material-symbols-outlined">support</span>
+    <a href="tel:3114" class="info-row" style="text-decoration:none;display:flex;align-items:center;justify-content:space-between;padding:9px 16px;">
+      <div class="info-row-label" style="display:flex;align-items:center;gap:8px;">
+        <span class="material-symbols-outlined" style="font-size:14px;color:#af52de;">support</span>
+        Prévention suicide — Écoute 24h/24
       </div>
-      <div class="urgence-info">
-        <div class="urgence-info-name">Prévention suicide</div>
-        <div class="urgence-info-sub">Écoute · 24h/24</div>
-      </div>
-      <div class="urgence-num-apple">3114</div>
-      <span class="material-symbols-outlined urgence-chevron">chevron_right</span>
+      <div class="info-row-val" style="color:#af52de;">3114</div>
     </a>
-
   </div>
 
-</div><!-- end urgences padding wrapper -->
+  </div><!-- end infos-grid -->
+
+</div><!-- end infos-section -->
 
 <!-- CONCIERGE -->
 <div class="home-concierge">
@@ -1585,6 +1651,57 @@ const EVENEMENTS = [
 <script>
 </script>
 <script>
+// ── Alimentation colonnes verticales POI + Anecdotes ──
+function buildVerticalPOIs(allPois, catMap) {
+  var container = document.getElementById('home-poi-v-list');
+  if (!container) return;
+  var catIconMap = {
+    militaire: 'castle', religieux: 'church', monument: 'account_balance',
+    culturel: 'palette', naturel: 'park', restaurant: 'restaurant',
+    artisan: 'handyman', commerce: 'storefront', fete: 'celebration', evenement: 'event'
+  };
+  var shown = allPois.slice(0, 3);
+  shown.forEach(function(poi) {
+    var c = catMap[poi.cat] || {label:'Lieu', color:'#64748b'};
+    var icon = catIconMap[poi.cat] || 'place';
+    var imgSrc = poi.bg || poi.img || null;
+    var dest = poi.page || poi.url || null;
+    var card = document.createElement('div');
+    card.className = 'vpoi-card';
+    card.onclick = function(){ if(dest) window.location.href=dest; };
+    var imgHtml = imgSrc
+      ? '<img class="vpoi-card-img" src="'+imgSrc+'" alt="'+poi.name+'">'
+      : '<div class="vpoi-card-ph" style="background:'+c.color+'15;"><span class="material-symbols-outlined" style="font-size:22px;color:'+c.color+';">'+icon+'</span></div>';
+    card.innerHTML = imgHtml +
+      '<div class="vpoi-card-body">' +
+        '<div class="vpoi-card-cat" style="color:'+c.color+';">'+c.label+'</div>' +
+        '<div class="vpoi-card-name">'+poi.name+'</div>' +
+      '</div>';
+    container.appendChild(card);
+  });
+}
+
+function buildVerticalAnecdotes(anecdotes) {
+  var container = document.getElementById('home-anec-v-list');
+  if (!container) return;
+  var shown = anecdotes.slice(0, 3);
+  shown.forEach(function(a) {
+    var card = document.createElement('div');
+    card.className = 'vanec-card';
+    card.style.background = a.color || '#1e3a5f';
+    card.onclick = function(){ if(a.url) window.location.href=a.url; };
+    var imgStyle = a.img ? 'background:url('+a.img+') center/cover;' : 'background:'+a.color+';';
+    card.style.cssText += imgStyle;
+    card.innerHTML = 
+      '<div class="vanec-overlay"></div>' +
+      '<div class="vanec-content">' +
+        '<div class="vanec-icon"><span class="material-symbols-outlined">auto_stories</span>Insolite</div>' +
+        '<div class="vanec-text">'+a.title+'</div>' +
+      '</div>';
+    container.appendChild(card);
+  });
+}
+
 
 function filterByVisit(type) {
   window.location.href = '../villeneuve/carte.html?type=' + type;
@@ -1632,8 +1749,18 @@ document.addEventListener('DOMContentLoaded', () => {
   buildUneCard();
   buildCommerces();
   buildEvents();
-  buildCDC();
   buildAujourdhui();
+  // Patrimoine cards
+  if (typeof PLACES !== 'undefined' && typeof buildVerticalPOIs === 'function') {
+    buildVerticalPOIs(PLACES, CATS);
+  }
+  if (typeof PLACES !== 'undefined' && typeof buildVerticalAnecdotes === 'function') {
+    var anecdotes = PLACES.filter(function(p){ return p.anecdote; }).map(function(p){
+      return { title: p.anecdote, img: p.bg, color: (CATS[p.cat] && CATS[p.cat].color) || '#1e3a5f', url: p.page };
+    });
+    buildVerticalAnecdotes(anecdotes);
+  }
+
 });
 
 function toggleMenu() { var o=document.getElementById("cdv-overlay"); var nav=document.getElementById("bottomnav"); if(!o)return; o.classList.toggle("cdv-open"); var open=o.classList.contains("cdv-open"); document.body.style.overflow=open?"hidden":""; if(nav)nav.style.display=open?"none":""; }
@@ -2185,64 +2312,10 @@ document.addEventListener('DOMContentLoaded', function() {
 <div id="cdv-toast"></div>
 
 
-<script>
-// ── Alimentation colonnes verticales POI + Anecdotes ──
-function buildVerticalPOIs(allPois, catMap) {
-  var container = document.getElementById('home-poi-v-list');
-  if (!container) return;
-  var shown = allPois.slice(0, 3);
-  shown.forEach(function(poi) {
-    var c = catMap[poi.cat] || {label:'Lieu', icon:'place', color:'#64748b'};
-    var card = document.createElement('div');
-    card.className = 'vpoi-card';
-    card.onclick = function(){ if(poi.url) window.location.href=poi.url; };
-    var imgHtml = poi.img
-      ? '<img class="vpoi-card-img" src="'+poi.img+'" alt="'+poi.name+'">'
-      : '<div class="vpoi-card-ph" style="background:'+c.color+'15;"><span class="material-symbols-outlined" style="font-size:22px;color:'+c.color+';font-variation-settings:'FILL' 1;">'+c.icon+'</span></div>';
-    card.innerHTML = imgHtml +
-      '<div class="vpoi-card-body">' +
-        '<div class="vpoi-card-cat" style="color:'+c.color+';">'+c.label+'</div>' +
-        '<div class="vpoi-card-name">'+poi.name+'</div>' +
-      '</div>';
-    container.appendChild(card);
-  });
-}
-
-function buildVerticalAnecdotes(anecdotes) {
-  var container = document.getElementById('home-anec-v-list');
-  if (!container) return;
-  var shown = anecdotes.slice(0, 3);
-  shown.forEach(function(a) {
-    var card = document.createElement('div');
-    card.className = 'vanec-card';
-    card.style.background = a.color || '#1e3a5f';
-    card.onclick = function(){ if(a.url) window.location.href=a.url; };
-    var imgStyle = a.img ? 'background:url('+a.img+') center/cover;' : 'background:'+a.color+';';
-    card.style.cssText += imgStyle;
-    card.innerHTML = 
-      '<div class="vanec-overlay"></div>' +
-      '<div class="vanec-content">' +
-        '<div class="vanec-icon"><span class="material-symbols-outlined">auto_stories</span>Insolite</div>' +
-        '<div class="vanec-text">'+a.title+'</div>' +
-      '</div>';
-    container.appendChild(card);
-  });
-}
-</script>
 
 
-<script>
-// Copier le CDC dans la colonne et initialiser POI verticaux
-document.addEventListener('DOMContentLoaded', function() {
-  // Copier la cdc-card dans la colonne event-cdc
-  var cdcOrig = document.getElementById('cdc-original');
-  var cdcTarget = document.getElementById('cdc-col-inner');
-  if (cdcOrig && cdcTarget) {
-    var card = cdcOrig.querySelector('.cdc-card');
-    if (card) cdcTarget.appendChild(card.cloneNode(true));
-  }
-});
-</script>
+
+
 
 </body>
 </html>
