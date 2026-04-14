@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1"/>
+<title>Accessibilité PMR — Cœur de Ville</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800;900&display=swap"/>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html,body{font-family:'Manrope',sans-serif;background:#f8f9fa;color:#0f1923;-webkit-overflow-scrolling:touch;}
+body{padding-bottom:40px;}
+
+/* ── HEADER ── */
+.page-header{
+  position:sticky;top:0;z-index:100;
+  background:rgba(255,255,255,0.95);backdrop-filter:blur(20px);
+  border-bottom:1px solid rgba(0,0,0,0.06);
+  padding:0 16px;height:64px;
+  display:flex;align-items:center;gap:12px;
+}
+.back-btn{width:38px;height:38px;border-radius:50%;background:#f1f5f9;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;text-decoration:none;}
+.back-btn .material-symbols-outlined{font-size:20px;color:#0f1923;}
+.header-title{font-size:17px;font-weight:900;color:#0f1923;letter-spacing:-0.02em;}
+.header-sub{font-size:11px;color:#94a3b8;font-weight:500;margin-top:1px;}
+
+/* ── HERO BANNER ── */
+.hero-banner{
+  margin:16px 16px 0;
+  background:linear-gradient(120deg,#1a4a2e,#2d7a4f);
+  border-radius:22px;padding:24px 20px;
+  position:relative;overflow:hidden;
+}
+.hero-banner-glow{position:absolute;top:-40px;right:-40px;width:160px;height:160px;background:rgba(74,222,128,0.15);border-radius:50%;filter:blur(40px);}
+.hero-banner-glow2{position:absolute;bottom:-30px;left:-20px;width:100px;height:100px;background:rgba(74,222,128,0.1);border-radius:50%;filter:blur(25px);}
+.hero-banner-icon{font-size:13px;font-weight:800;letter-spacing:0.16em;text-transform:uppercase;color:rgba(255,255,255,0.5);margin-bottom:8px;display:flex;align-items:center;gap:8px;position:relative;}
+.hero-banner-icon .material-symbols-outlined{font-size:16px;color:#4ade80;}
+.hero-banner-title{font-size:24px;font-weight:900;color:#fff;letter-spacing:-0.02em;line-height:1.1;margin-bottom:8px;position:relative;}
+.hero-banner-sub{font-size:13px;color:rgba(255,255,255,0.6);line-height:1.6;position:relative;}
+.hero-stats{display:flex;gap:12px;margin-top:18px;position:relative;}
+.hero-stat{flex:1;background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.15);border-radius:14px;padding:12px;text-align:center;}
+.hero-stat-num{font-size:22px;font-weight:900;color:#fff;letter-spacing:-0.02em;}
+.hero-stat-label{font-size:10px;font-weight:600;color:rgba(255,255,255,0.5);margin-top:2px;line-height:1.3;}
+
+/* ── LÉGENDE ── */
+.legende{display:flex;flex-wrap:wrap;gap:8px;padding:16px 16px 0;}
+.leg-item{display:flex;align-items:center;gap:6px;background:#fff;border-radius:100px;padding:6px 12px;box-shadow:0 1px 6px rgba(0,0,0,0.07);}
+.leg-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;}
+.leg-label{font-size:11px;font-weight:700;color:#374151;}
+
+/* ── FILTRES ── */
+.filtres{display:flex;gap:8px;overflow-x:auto;padding:16px 16px 0;scrollbar-width:none;}
+.filtres::-webkit-scrollbar{display:none;}
+.filtre-btn{display:flex;align-items:center;gap:6px;padding:8px 14px;border-radius:100px;border:none;font-family:Manrope;font-size:12px;font-weight:700;cursor:pointer;white-space:nowrap;flex-shrink:0;transition:all 0.15s;}
+.filtre-btn.active{background:#0f1923;color:#fff;}
+.filtre-btn.inactive{background:#fff;color:#64748b;box-shadow:0 1px 6px rgba(0,0,0,0.07);}
+.filtre-btn .material-symbols-outlined{font-size:15px;}
+
+/* ── SECTION TITLE ── */
+.section{padding:24px 16px 0;}
+.section-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;}
+.section-title{font-size:17px;font-weight:900;color:#0f1923;letter-spacing:-0.02em;}
+.section-count{font-size:12px;font-weight:700;color:#94a3b8;}
+
+/* ── LIEU CARD ── */
+.lieu-card{
+  background:#fff;border-radius:18px;padding:16px;
+  box-shadow:0 2px 12px rgba(0,0,0,0.07);
+  margin-bottom:10px;cursor:pointer;
+  transition:transform 0.15s;
+  border:1.5px solid transparent;
+}
+.lieu-card:active{transform:scale(0.98);}
+.lieu-card.full{border-color:#22c55e;}
+.lieu-card.partial{border-color:#f59e0b;}
+.lieu-card-header{display:flex;align-items:flex-start;gap:12px;margin-bottom:12px;}
+.lieu-card-icon{width:46px;height:46px;border-radius:14px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.lieu-card-icon .material-symbols-outlined{font-size:22px;font-variation-settings:'FILL' 1;}
+.lieu-card-info{flex:1;min-width:0;}
+.lieu-card-name{font-size:15px;font-weight:900;color:#0f1923;line-height:1.2;margin-bottom:3px;}
+.lieu-card-cat{font-size:11px;font-weight:600;color:#94a3b8;}
+.lieu-card-badge{display:inline-flex;align-items:center;gap:4px;font-size:9px;font-weight:800;letter-spacing:0.08em;text-transform:uppercase;padding:4px 10px;border-radius:20px;flex-shrink:0;}
+.lieu-card-badge.full{background:#f0fdf4;color:#166534;}
+.lieu-card-badge.full::before{content:'';width:5px;height:5px;border-radius:50%;background:#22c55e;}
+.lieu-card-badge.partial{background:#fffbeb;color:#92400e;}
+.lieu-card-badge.partial::before{content:'';width:5px;height:5px;border-radius:50%;background:#f59e0b;}
+
+/* ── ÉQUIPEMENTS ── */
+.equipements{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px;}
+.equip{display:flex;align-items:center;gap:4px;background:#f8f9fa;border-radius:8px;padding:5px 9px;}
+.equip .material-symbols-outlined{font-size:13px;}
+.equip-label{font-size:11px;font-weight:600;color:#374151;}
+.equip.ok .material-symbols-outlined{color:#22c55e;}
+.equip.nok .material-symbols-outlined{color:#dc2626;}
+.equip.partial .material-symbols-outlined{color:#f59e0b;}
+
+/* ── ADRESSE ── */
+.lieu-card-addr{display:flex;align-items:center;gap:6px;font-size:12px;color:#94a3b8;font-weight:500;padding-top:10px;border-top:1px solid #f1f5f9;}
+.lieu-card-addr .material-symbols-outlined{font-size:14px;color:#94a3b8;}
+
+/* ── INFO BOX ── */
+.info-box{background:#eff6ff;border:1px solid #bfdbfe;border-radius:14px;padding:14px 16px;margin:16px 16px 0;display:flex;gap:10px;align-items:flex-start;}
+.info-box .material-symbols-outlined{font-size:18px;color:#3b82f6;flex-shrink:0;margin-top:1px;}
+.info-box-text{font-size:12px;color:#1e40af;line-height:1.6;font-weight:500;}
+
+/* ── SIGNALER ── */
+.signaler-btn{
+  display:flex;align-items:center;justify-content:center;gap:8px;
+  margin:16px 16px 0;padding:14px;border-radius:14px;
+  border:1.5px dashed #cbd5e1;background:#fff;
+  font-family:Manrope;font-size:13px;font-weight:700;color:#64748b;
+  cursor:pointer;width:calc(100% - 32px);
+  transition:all 0.15s;
+}
+.signaler-btn:active{background:#f8fafc;}
+.signaler-btn .material-symbols-outlined{font-size:18px;}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="page-header">
+  <a href="index.html" class="back-btn">
+    <span class="material-symbols-outlined">arrow_back</span>
+  </a>
+  <div>
+    <div class="header-title">Accessibilité PMR</div>
+    <div class="header-sub">Villeneuve-lès-Avignon</div>
+  </div>
+</div>
+
+<!-- HERO -->
+<div class="hero-banner">
+  <div class="hero-banner-glow"></div>
+  <div class="hero-banner-glow2"></div>
+  <div class="hero-banner-icon">
+    <span class="material-symbols-outlined">accessible</span>
+    Mobilité réduite
+  </div>
+  <div class="hero-banner-title">Ville accessible à tous</div>
+  <div class="hero-banner-sub">Retrouvez tous les lieux adaptés aux personnes en fauteuil roulant, à mobilité réduite ou avec poussette.</div>
+  <div class="hero-stats">
+    <div class="hero-stat">
+      <div class="hero-stat-num">5</div>
+      <div class="hero-stat-label">Totalement accessibles</div>
+    </div>
+    <div class="hero-stat">
+      <div class="hero-stat-num">2</div>
+      <div class="hero-stat-label">Partiellement accessibles</div>
+    </div>
+    <div class="hero-stat">
+      <div class="hero-stat-num">7</div>
+      <div class="hero-stat-label">Lieux référencés</div>
+    </div>
+  </div>
+</div>
+
+<!-- LÉGENDE -->
+<div class="legende">
+  <div class="leg-item"><div class="leg-dot" style="background:#22c55e;"></div><span class="leg-label">Totalement accessible</span></div>
+  <div class="leg-item"><div class="leg-dot" style="background:#f59e0b;"></div><span class="leg-label">Partiellement accessible</span></div>
+</div>
+
+<!-- FILTRES -->
+<div class="filtres">
+  <button class="filtre-btn active" onclick="filtrer(this,'tous')">
+    <span class="material-symbols-outlined">apps</span>Tous
+  </button>
+  <button class="filtre-btn inactive" onclick="filtrer(this,'monument')">
+    <span class="material-symbols-outlined">account_balance</span>Monuments
+  </button>
+  <button class="filtre-btn inactive" onclick="filtrer(this,'commerce')">
+    <span class="material-symbols-outlined">storefront</span>Commerces
+  </button>
+  <button class="filtre-btn inactive" onclick="filtrer(this,'service')">
+    <span class="material-symbols-outlined">home_work</span>Services
+  </button>
+  <button class="filtre-btn inactive" onclick="filtrer(this,'nature')">
+    <span class="material-symbols-outlined">park</span>Nature
+  </button>
+</div>
+
+<!-- INFO BOX -->
+<div class="info-box">
+  <span class="material-symbols-outlined">info</span>
+  <div class="info-box-text">Ces informations sont fournies à titre indicatif. Nous vous recommandons de contacter le lieu directement pour confirmer les équipements disponibles avant votre visite.</div>
+</div>
+
+<!-- LIEUX TOTALEMENT ACCESSIBLES -->
+<div class="section">
+  <div class="section-header">
+    <div class="section-title">Totalement accessibles</div>
+    <div class="section-count">5 lieux</div>
+  </div>
+
+  <!-- Mairie -->
+  <div class="lieu-card full" data-cat="service" onclick="window.location.href='carte.html'">
+    <div class="lieu-card-header">
+      <div class="lieu-card-icon" style="background:#eff6ff;">
+        <span class="material-symbols-outlined" style="color:#3b82f6;">account_balance</span>
+      </div>
+      <div class="lieu-card-info">
+        <div class="lieu-card-name">Mairie de Villeneuve</div>
+        <div class="lieu-card-cat">Service public · Place Charles David</div>
+      </div>
+      <div class="lieu-card-badge full">Accessible</div>
+    </div>
+    <div class="equipements">
+      <div class="equip ok"><span class="material-symbols-outlined">accessible</span><span class="equip-label">Rampe d'accès</span></div>
+      <div class="equip ok"><span class="material-symbols-outlined">elevator</span><span class="equip-label">Ascenseur</span></div>
+      <div class="equip ok"><span class="material-symbols-outlined">wc</span><span class="equip-label">Toilettes PMR</span></div>
+      <div class="equip ok"><span class="material-symbols-outlined">local_parking</span><span class="equip-label">Place réservée</span></div>
+    </div>
+    <div class="lieu-card-addr">
+      <span class="material-symbols-outlined">location_on</span>
+      Place Charles David, 30400 Villeneuve-lès-Avignon
+    </div>
+  </div>
+
+  <!-- Office de tourisme -->
+  <div class="lieu-card full" data-cat="service" onclick="window.location.href='carte.html'">
+    <div class="lieu-card-header">
+      <div class="lieu-card-icon" style="background:#fff7ed;">
+        <span class="material-symbols-outlined" style="color:#ea580c;">info</span>
+      </div>
+      <div class="lieu-card-info">
+        <div class="lieu-card-name">Office de Tourisme</div>
+        <div class="lieu-card-cat">Service · Place Charles David</div>
+      </div>
+      <div class="lieu-card-badge full">Accessible</div>
+    </div>
+    <div class="equipements">
+      <div class="equip ok"><span class="material-symbols-outlined">accessible</span><span class="equip-label">Entrée de plain-pied</span></div>
+      <div class="equip ok"><span class="material-symbols-outlined">wc</span><span class="equip-label">Toilettes PMR</span></div>
+      <div class="equip ok"><span class="material-symbols-outlined">local_parking</span><span class="equip-label">Place réservée à 50 m</span></div>
+      <div class="equip ok"><span class="material-symbols-outlined">hearing</span><span class="equip-label">Boucle magnétique</span></div>
+    </div>
+    <div class="lieu-card-addr">
+      <span class="material-symbols-outlined">location_on</span>
+      Place Charles David, 30400 Villeneuve-lès-Avignon
+    </div>
+  </div>
+
+  <!-- Aubergine -->
+  <div class="lieu-card full" data-cat="commerce" onclick="window.location.href='aubergine.html'">
+    <div class="lieu-card-header">
+      <div class="lieu-card-icon" style="background:#fdf2f8;">
+        <span class="material-symbols-outlined" style="color:#a21caf;">restaurant</span>
+      </div>
+      <div class="lieu-card-info">
+        <div class="lieu-card-name">Restaurant Aubergine</div>
+        <div class="lieu-card-cat">Restaurant · 15 rue de la République</div>
+      </div>
+      <div class="lieu-card-badge full">Accessible</div>
+    </div>
+    <div class="equipements">
+      <div class="equip ok"><span class="material-symbols-outlined">accessible</span><span class="equip-label">Entrée de plain-pied</span></div>
+      <div class="equip ok"><span class="material-symbols-outlined">deck</span><span class="equip-label">Terrasse accessible</span></div>
+      <div class="equip ok"><span class="material-symbols-outlined">wc</span><span class="equip-label">Toilettes PMR</span></div>
+      <div class="equip ok"><span class="material-symbols-outlined">stroller</span><span class="equip-label">Poussettes bienvenues</span></div>
+    </div>
+    <div class="lieu-card-addr">
+      <span class="material-symbols-outlined">location_on</span>
+      15 rue de la République, 30400 Villeneuve-lès-Avignon
+    </div>
+  </div>
+
+  <!-- Pâtisserie Marcellin -->
+  <div class="lieu-card full" data-cat="commerce" onclick="window.location.href='marcellin.html'">
+    <div class="lieu-card-header">
+      <div class="lieu-card-icon" style="background:#fef3c7;">
+        <span class="material-symbols-outlined" style="color:#b45a00;">bakery_dining</span>
+      </div>
+      <div class="lieu-card-info">
+        <div class="lieu-card-name">Pâtisserie Marcellin</div>
+        <div class="lieu-card-cat">Boulangerie · 18 rue de la République</div>
+      </div>
+      <div class="lieu-card-badge full">Accessible</div>
+    </div>
+    <div class="equipements">
+      <div class="equip ok"><span class="material-symbols-outlined">accessible</span><span class="equip-label">Entrée de plain-pied</span></div>
+      <div class="equip ok"><span class="material-symbols-outlined">deck</span><span class="equip-label">Terrasse accessible</span></div>
+      <div class="equip ok"><span class="material-symbols-outlined">stroller</span><span class="equip-label">Poussettes bienvenues</span></div>
+      <div class="equip ok"><span class="material-symbols-outlined">local_parking</span><span class="equip-label">Stationnement proche</span></div>
+    </div>
+    <div class="lieu-card-addr">
+      <span class="material-symbols-outlined">location_on</span>
+      18 rue de la République, 30400 Villeneuve-lès-Avignon
+    </div>
+  </div>
+
+  <!-- Maison Bronzini -->
+  <div class="lieu-card full" data-cat="commerce" onclick="window.location.href='maison-bronzini.html'">
+    <div class="lieu-card-header">
+      <div class="lieu-card-icon" style="background:#f0fdf4;">
+        <span class="material-symbols-outlined" style="color:#16a34a;">local_cafe</span>
+      </div>
+      <div class="lieu-card-info">
+        <div class="lieu-card-name">Maison Bronzini</div>
+        <div class="lieu-card-cat">Bistrot · 74 rue de la République</div>
+      </div>
+      <div class="lieu-card-badge full">Accessible</div>
+    </div>
+    <div class="equipements">
+      <div class="equip ok"><span class="material-symbols-outlined">accessible</span><span class="equip-label">Rampe d'accès</span></div>
+      <div class="equip ok"><span class="material-symbols-outlined">deck</span><span class="equip-label">Jardin accessible</span></div>
+      <div class="equip ok"><span class="material-symbols-outlined">wc</span><span class="equip-label">Toilettes PMR</span></div>
+      <div class="equip ok"><span class="material-symbols-outlined">stroller</span><span class="equip-label">Poussettes bienvenues</span></div>
+    </div>
+    <div class="lieu-card-addr">
+      <span class="material-symbols-outlined">location_on</span>
+      74 rue de la République, 30400 Villeneuve-lès-Avignon
+    </div>
+  </div>
+
+</div>
+
+<!-- LIEUX PARTIELLEMENT ACCESSIBLES -->
+<div class="section">
+  <div class="section-header">
+    <div class="section-title">Partiellement accessibles</div>
+    <div class="section-count">2 lieux</div>
+  </div>
+
+  <!-- Chartreuse -->
+  <div class="lieu-card partial" data-cat="monument" onclick="window.location.href='chartreuse.html'">
+    <div class="lieu-card-header">
+      <div class="lieu-card-icon" style="background:#fef3c7;">
+        <span class="material-symbols-outlined" style="color:#8b5e3c;">church</span>
+      </div>
+      <div class="lieu-card-info">
+        <div class="lieu-card-name">Chartreuse du Val de Bénédiction</div>
+        <div class="lieu-card-cat">Monument · 58 rue de la République</div>
+      </div>
+      <div class="lieu-card-badge partial">Partiel</div>
+    </div>
+    <div class="equipements">
+      <div class="equip ok"><span class="material-symbols-outlined">accessible</span><span class="equip-label">Rez-de-chaussée accessible</span></div>
+      <div class="equip ok"><span class="material-symbols-outlined">local_parking</span><span class="equip-label">Place réservée</span></div>
+      <div class="equip nok"><span class="material-symbols-outlined">stairs</span><span class="equip-label">Étages non accessibles</span></div>
+      <div class="equip partial"><span class="material-symbols-outlined">wc</span><span class="equip-label">Toilettes au RDC</span></div>
+    </div>
+    <div style="background:#fffbeb;border-radius:10px;padding:9px 12px;margin-bottom:10px;font-size:11px;color:#92400e;font-weight:600;line-height:1.5;">
+      Les cloîtres du rez-de-chaussée sont accessibles. Les parties hautes et certaines salles d'exposition restent difficiles d'accès.
+    </div>
+    <div class="lieu-card-addr">
+      <span class="material-symbols-outlined">location_on</span>
+      58 rue de la République, 30400 Villeneuve-lès-Avignon
+    </div>
+  </div>
+
+  <!-- Musée Pierre de Luxembourg -->
+  <div class="lieu-card partial" data-cat="monument" onclick="window.location.href='carte.html'">
+    <div class="lieu-card-header">
+      <div class="lieu-card-icon" style="background:#f5f3ff;">
+        <span class="material-symbols-outlined" style="color:#6b3fa0;">palette</span>
+      </div>
+      <div class="lieu-card-info">
+        <div class="lieu-card-name">Musée Pierre de Luxembourg</div>
+        <div class="lieu-card-cat">Musée · 3 rue de la République</div>
+      </div>
+      <div class="lieu-card-badge partial">Partiel</div>
+    </div>
+    <div class="equipements">
+      <div class="equip ok"><span class="material-symbols-outlined">accessible</span><span class="equip-label">Entrée accessible</span></div>
+      <div class="equip ok"><span class="material-symbols-outlined">elevator</span><span class="equip-label">Monte-charge disponible</span></div>
+      <div class="equip nok"><span class="material-symbols-outlined">stairs</span><span class="equip-label">Escaliers historiques</span></div>
+      <div class="equip ok"><span class="material-symbols-outlined">hearing</span><span class="equip-label">Audioguide disponible</span></div>
+    </div>
+    <div style="background:#fffbeb;border-radius:10px;padding:9px 12px;margin-bottom:10px;font-size:11px;color:#92400e;font-weight:600;line-height:1.5;">
+      Un monte-charge permet l'accès aux salles principales. Contacter le musée à l'avance pour organiser votre visite.
+    </div>
+    <div class="lieu-card-addr">
+      <span class="material-symbols-outlined">location_on</span>
+      3 rue de la République, 30400 Villeneuve-lès-Avignon
+    </div>
+  </div>
+
+</div>
+
+<!-- SIGNALER -->
+<button class="signaler-btn" onclick="signalerErreur()">
+  <span class="material-symbols-outlined">flag</span>
+  Signaler une information incorrecte
+</button>
+
+<div style="padding:16px 16px 0;">
+  <div style="background:#f1f5f9;border-radius:14px;padding:14px 16px;font-size:11px;color:#64748b;line-height:1.7;font-weight:500;">
+    Ces informations sont mises à jour régulièrement en partenariat avec la Mairie de Villeneuve-lès-Avignon. Dernière mise à jour : avril 2026.
+  </div>
+</div>
+
+<script>
+function filtrer(btn, cat) {
+  document.querySelectorAll('.filtre-btn').forEach(function(b){
+    b.className = 'filtre-btn inactive';
+  });
+  btn.className = 'filtre-btn active';
+
+  document.querySelectorAll('.lieu-card').forEach(function(card){
+    if (cat === 'tous') {
+      card.style.display = 'block';
+    } else {
+      card.style.display = card.dataset.cat === cat ? 'block' : 'none';
+    }
+  });
+
+  // Mettre à jour les compteurs
+  var visibles = document.querySelectorAll('.lieu-card:not([style*="none"])').length;
+}
+
+function signalerErreur() {
+  var msg = 'Merci de signaler les erreurs à : mairie@villeneuve-lesavignon.fr\nou via le formulaire de contact de la mairie.';
+  alert(msg);
+}
+</script>
+
+</body>
+</html>
