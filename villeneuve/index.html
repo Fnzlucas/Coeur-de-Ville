@@ -2266,34 +2266,54 @@ document.addEventListener('DOMContentLoaded', function() {
   var WMO_ICON = {
     0:  { icon: 'sunny',              color: '#f59e0b', label: 'Ensoleillé' },
     1:  { icon: 'sunny',              color: '#f59e0b', label: 'Peu nuageux' },
-    2:  { icon: 'partly_cloudy_day',  color: '#f59e0b', label: 'Partiellement nuageux' },
-    3:  { icon: 'cloudy',             color: '#94a3b8', label: 'Couvert' },
+    2:  { icon: 'partly_cloudy_day',  color: '#f0a030', label: 'Partiellement nuageux' },
+    3:  { icon: 'cloud',              color: '#94a3b8', label: 'Couvert' },
     45: { icon: 'foggy',              color: '#94a3b8', label: 'Brouillard' },
     48: { icon: 'foggy',              color: '#94a3b8', label: 'Brouillard givrant' },
-    51: { icon: 'grain',              color: '#64a0c8', label: 'Bruine légère' },
-    53: { icon: 'grain',              color: '#64a0c8', label: 'Bruine' },
-    55: { icon: 'grain',              color: '#64a0c8', label: 'Bruine dense' },
+    51: { icon: 'water_drop',         color: '#64a0c8', label: 'Bruine légère' },
+    53: { icon: 'water_drop',         color: '#64a0c8', label: 'Bruine' },
+    55: { icon: 'water_drop',         color: '#64a0c8', label: 'Bruine dense' },
+    56: { icon: 'water_drop',         color: '#bfdbfe', label: 'Bruine verglaçante' },
+    57: { icon: 'water_drop',         color: '#bfdbfe', label: 'Bruine verglaçante forte' },
     61: { icon: 'rainy',              color: '#3b82f6', label: 'Pluie légère' },
     63: { icon: 'rainy',              color: '#3b82f6', label: 'Pluie modérée' },
-    65: { icon: 'rainy',              color: '#3b82f6', label: 'Pluie forte' },
+    65: { icon: 'rainy',              color: '#1d4ed8', label: 'Pluie forte' },
+    66: { icon: 'rainy',              color: '#bfdbfe', label: 'Pluie verglaçante' },
+    67: { icon: 'rainy',              color: '#bfdbfe', label: 'Pluie verglaçante forte' },
     71: { icon: 'ac_unit',            color: '#bfdbfe', label: 'Neige légère' },
     73: { icon: 'ac_unit',            color: '#bfdbfe', label: 'Neige modérée' },
-    75: { icon: 'ac_unit',            color: '#bfdbfe', label: 'Neige forte' },
-    80: { icon: 'rainy',              color: '#3b82f6', label: 'Averses' },
+    75: { icon: 'ac_unit',            color: '#93c5fd', label: 'Neige forte' },
+    77: { icon: 'ac_unit',            color: '#bfdbfe', label: 'Grésil' },
+    80: { icon: 'rainy',              color: '#3b82f6', label: 'Averses légères' },
     81: { icon: 'rainy',              color: '#3b82f6', label: 'Averses modérées' },
-    82: { icon: 'thunderstorm',       color: '#6366f1', label: 'Averses violentes' },
+    82: { icon: 'rainy',              color: '#1d4ed8', label: 'Averses violentes' },
+    85: { icon: 'ac_unit',            color: '#bfdbfe', label: 'Averses de neige' },
+    86: { icon: 'ac_unit',            color: '#93c5fd', label: 'Averses de neige fortes' },
     95: { icon: 'thunderstorm',       color: '#6366f1', label: 'Orage' },
     96: { icon: 'thunderstorm',       color: '#6366f1', label: 'Orage avec grêle' },
-    99: { icon: 'thunderstorm',       color: '#6366f1', label: 'Orage violent' },
+    99: { icon: 'thunderstorm',       color: '#4f46e5', label: 'Orage violent' },
   };
 
+  // Open-Meteo ne fournit pas de code "vent" — on ajoute la vitesse de vent
+  // dans le label si disponible via current.windspeed_10m
+
   var DAYS_FR = ['Dim', 'Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam'];
+
+  // Données par défaut (remplacées par l'API au chargement)
+  var today = new Date();
+  var defaultDays = [1,2,3].map(function(i){
+    var d = new Date(today); d.setDate(d.getDate()+i);
+    return DAYS_FR[d.getDay()];
+  });
+  document.getElementById('weather-row').innerHTML = defaultDays.map(function(d){
+    return '<div class="weather-day"><div class="weather-day-name">'+d+'</div><div class="weather-day-icon"><span class="material-symbols-outlined" style="color:#94a3b8;">cloud</span></div><div class="weather-day-temp">--°</div></div>';
+  }).join('');
 
   function getW(code) {
     return WMO_ICON[code] || { icon: 'cloud', color: '#94a3b8', label: 'Variable' };
   }
 
-  fetch('https://api.open-meteo.com/v1/forecast?latitude=43.9667&longitude=4.7917&current=temperature_2m,weathercode&daily=temperature_2m_max,weathercode&timezone=Europe%2FParis&forecast_days=4')
+  fetch('https://api.open-meteo.com/v1/forecast?latitude=43.9667&longitude=4.7917&current=temperature_2m,weathercode,windspeed_10m,winddirection_10m&daily=temperature_2m_max,weathercode,windspeed_10m_max&timezone=Europe%2FParis&forecast_days=4&models=best_match')
     .then(function(r) { return r.json(); })
     .then(function(data) {
       var cur = data.current;
@@ -2302,9 +2322,12 @@ document.addEventListener('DOMContentLoaded', function() {
 
       // Température et description
       document.getElementById('weather-temp').textContent = Math.round(cur.temperature_2m) + '°';
-      document.getElementById('weather-desc').textContent = w.label;
+      var windDesc = '';
+      if (cur.windspeed_10m >= 30) windDesc = ' · Vent fort ' + Math.round(cur.windspeed_10m) + ' km/h';
+      else if (cur.windspeed_10m >= 15) windDesc = ' · Venteux ' + Math.round(cur.windspeed_10m) + ' km/h';
+      document.getElementById('weather-desc').textContent = w.label + windDesc;
       document.getElementById('weather-icon').innerHTML =
-        '<span class="material-symbols-outlined" style="color:' + w.color + ';font-variation-settings:'FILL' 1;">' + w.icon + '</span>';
+        '<span class="material-symbols-outlined" style="color:' + w.color + ';font-size:28px;">' + w.icon + '</span>';
 
       // Prévisions 3 prochains jours (index 1, 2, 3)
       var row = document.getElementById('weather-row');
@@ -2313,20 +2336,53 @@ document.addEventListener('DOMContentLoaded', function() {
         var dw = getW(daily.weathercode[i]);
         var date = new Date(daily.time[i]);
         var dayName = DAYS_FR[date.getDay()];
+        var windMax = daily.windspeed_10m_max ? daily.windspeed_10m_max[i] : 0;
+        var forecastIcon = (windMax >= 35 && (daily.weathercode[i] <= 3)) ? 'air' : dw.icon;
+        var forecastColor = (windMax >= 35 && (daily.weathercode[i] <= 3)) ? '#64748b' : dw.color;
         row.innerHTML +=
           '<div class="weather-day">' +
             '<div class="weather-day-name">' + dayName + '</div>' +
-            '<div class="weather-day-icon"><span class="material-symbols-outlined" style="color:' + dw.color + ';font-variation-settings:'FILL' 1;">' + dw.icon + '</span></div>' +
+            '<div class="weather-day-icon"><span class="material-symbols-outlined" style="color:' + forecastColor + ';">' + forecastIcon + '</span></div>' +
             '<div class="weather-day-temp">' + Math.round(daily.temperature_2m_max[i]) + '°</div>' +
           '</div>';
       }
     })
     .catch(function() {
-      document.getElementById('weather-desc').textContent = 'Indisponible';
+      // Fallback si API inaccessible (ex: ouverture en local)
+      document.getElementById('weather-temp').textContent = '--°';
+      document.getElementById('weather-desc').textContent = 'Disponible en ligne';
+      document.getElementById('weather-icon').innerHTML =
+        '<span class="material-symbols-outlined" style="color:#94a3b8;">wifi_off</span>';
     });
+
+  // Note : l'API météo nécessite une connexion réseau (ne fonctionne pas en file://)
+  if (window.location.protocol === 'file:') {
+    document.getElementById('weather-temp').textContent = '?°';
+    document.getElementById('weather-desc').textContent = 'Ouvrir via serveur';
+    document.getElementById('weather-icon').innerHTML =
+      '<span class="material-symbols-outlined" style="color:#94a3b8;">cloud_off</span>';
+  }
 })();
 </script>
 
+<script>
+// ── FADE-IN AU SCROLL ──
+(function() {
+  var sections = document.querySelectorAll('.home-section, .home-widgets, .une-section, .taxi-banner-wrap, .infos-section, .home-concierge');
+  sections.forEach(function(el) { el.classList.add('cdv-fade'); });
+
+  var io = new IntersectionObserver(function(entries) {
+    entries.forEach(function(e) {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+        io.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.08 });
+
+  sections.forEach(function(el) { io.observe(el); });
+})();
+</script>
 </body>
 </html>
 
@@ -3075,7 +3131,7 @@ function cdvRenderPlanning() {
       cal += '</div>';
       // Icône
       cal += '<div style="width:36px;height:36px;border-radius:10px;background:'+item.color+'18;display:flex;align-items:center;justify-content:center;flex-shrink:0;">';
-      cal += '<span class="material-symbols-outlined" style="font-size:18px;color:'+item.color+';font-variation-settings:\'FILL\' 1;">'+item.icon+'</span>';
+      cal += '<span class="material-symbols-outlined" style="font-size:18px;color:'+item.color+'>'+item.icon+'</span>';
       cal += '</div>';
       // Info
       cal += '<div style="flex:1;min-width:0;">';
@@ -3115,7 +3171,7 @@ function cdvRenderPlanning() {
     cal += 'style="display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:12px;cursor:pointer;margin-bottom:4px;transition:background 0.12s;" ';
     cal += 'onmouseover="this.style.background=\'#f8f9fa\'" onmouseout="this.style.background=\'transparent\'">';
     cal += '<div style="width:34px;height:34px;border-radius:10px;background:'+c.color+'18;display:flex;align-items:center;justify-content:center;flex-shrink:0;">';
-    cal += '<span class="material-symbols-outlined" style="font-size:17px;color:'+c.color+';font-variation-settings:\'FILL\' 1;">'+c.icon+'</span></div>';
+    cal += '<span class="material-symbols-outlined" style="font-size:17px;color:'+c.color+'>'+c.icon+'</span></div>';
     cal += '<div><div style="font-size:13px;font-weight:700;color:#0f1923;">'+poi.name+'</div>';
     cal += '<div style="font-size:11px;color:#94a3b8;">'+c.label+'</div></div></div>';
   });
