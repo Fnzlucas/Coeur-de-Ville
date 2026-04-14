@@ -804,31 +804,15 @@ setTimeout(function(){
 <!-- MÉTÉO + BANNIÈRE SPONSORISÉE -->
 <div class="home-widgets">
 
-  <!-- Météo statique Villeneuve-lès-Avignon -->
-  <div class="weather-card">
+  <!-- Météo dynamique Open-Meteo — Villeneuve-lès-Avignon -->
+  <div class="weather-card" id="weather-card">
     <div class="weather-top">
       <div class="weather-city">Villeneuve-lès-Av.</div>
-      <div class="weather-icon"><span class="material-symbols-outlined" style="color:#f59e0b;">partly_cloudy_day</span></div>
+      <div class="weather-icon" id="weather-icon"><span class="material-symbols-outlined" style="color:#94a3b8;">cloud_sync</span></div>
     </div>
-    <div class="weather-temp">23°</div>
-    <div class="weather-desc">Partiellement nuageux</div>
-    <div class="weather-row">
-      <div class="weather-day">
-        <div class="weather-day-name">Mer</div>
-        <div class="weather-day-icon"><span class="material-symbols-outlined" style="color:#f59e0b;">sunny</span></div>
-        <div class="weather-day-temp">26°</div>
-      </div>
-      <div class="weather-day">
-        <div class="weather-day-name">Jeu</div>
-        <div class="weather-day-icon"><span class="material-symbols-outlined" style="color:#94a3b8;">cloudy</span></div>
-        <div class="weather-day-temp">21°</div>
-      </div>
-      <div class="weather-day">
-        <div class="weather-day-name">Ven</div>
-        <div class="weather-day-icon"><span class="material-symbols-outlined" style="color:#3b82f6;">rainy</span></div>
-        <div class="weather-day-temp">18°</div>
-      </div>
-    </div>
+    <div class="weather-temp" id="weather-temp">--°</div>
+    <div class="weather-desc" id="weather-desc">Chargement...</div>
+    <div class="weather-row" id="weather-row"></div>
   </div>
 
   <!-- Bannière événement sponsorisé -->
@@ -2275,6 +2259,73 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
 
+
+<script>
+// ── MÉTÉO OPEN-METEO — Villeneuve-lès-Avignon ──
+(function() {
+  var WMO_ICON = {
+    0:  { icon: 'sunny',              color: '#f59e0b', label: 'Ensoleillé' },
+    1:  { icon: 'sunny',              color: '#f59e0b', label: 'Peu nuageux' },
+    2:  { icon: 'partly_cloudy_day',  color: '#f59e0b', label: 'Partiellement nuageux' },
+    3:  { icon: 'cloudy',             color: '#94a3b8', label: 'Couvert' },
+    45: { icon: 'foggy',              color: '#94a3b8', label: 'Brouillard' },
+    48: { icon: 'foggy',              color: '#94a3b8', label: 'Brouillard givrant' },
+    51: { icon: 'grain',              color: '#64a0c8', label: 'Bruine légère' },
+    53: { icon: 'grain',              color: '#64a0c8', label: 'Bruine' },
+    55: { icon: 'grain',              color: '#64a0c8', label: 'Bruine dense' },
+    61: { icon: 'rainy',              color: '#3b82f6', label: 'Pluie légère' },
+    63: { icon: 'rainy',              color: '#3b82f6', label: 'Pluie modérée' },
+    65: { icon: 'rainy',              color: '#3b82f6', label: 'Pluie forte' },
+    71: { icon: 'ac_unit',            color: '#bfdbfe', label: 'Neige légère' },
+    73: { icon: 'ac_unit',            color: '#bfdbfe', label: 'Neige modérée' },
+    75: { icon: 'ac_unit',            color: '#bfdbfe', label: 'Neige forte' },
+    80: { icon: 'rainy',              color: '#3b82f6', label: 'Averses' },
+    81: { icon: 'rainy',              color: '#3b82f6', label: 'Averses modérées' },
+    82: { icon: 'thunderstorm',       color: '#6366f1', label: 'Averses violentes' },
+    95: { icon: 'thunderstorm',       color: '#6366f1', label: 'Orage' },
+    96: { icon: 'thunderstorm',       color: '#6366f1', label: 'Orage avec grêle' },
+    99: { icon: 'thunderstorm',       color: '#6366f1', label: 'Orage violent' },
+  };
+
+  var DAYS_FR = ['Dim', 'Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam'];
+
+  function getW(code) {
+    return WMO_ICON[code] || { icon: 'cloud', color: '#94a3b8', label: 'Variable' };
+  }
+
+  fetch('https://api.open-meteo.com/v1/forecast?latitude=43.9667&longitude=4.7917&current=temperature_2m,weathercode&daily=temperature_2m_max,weathercode&timezone=Europe%2FParis&forecast_days=4')
+    .then(function(r) { return r.json(); })
+    .then(function(data) {
+      var cur = data.current;
+      var daily = data.daily;
+      var w = getW(cur.weathercode);
+
+      // Température et description
+      document.getElementById('weather-temp').textContent = Math.round(cur.temperature_2m) + '°';
+      document.getElementById('weather-desc').textContent = w.label;
+      document.getElementById('weather-icon').innerHTML =
+        '<span class="material-symbols-outlined" style="color:' + w.color + ';font-variation-settings:'FILL' 1;">' + w.icon + '</span>';
+
+      // Prévisions 3 prochains jours (index 1, 2, 3)
+      var row = document.getElementById('weather-row');
+      row.innerHTML = '';
+      for (var i = 1; i <= 3; i++) {
+        var dw = getW(daily.weathercode[i]);
+        var date = new Date(daily.time[i]);
+        var dayName = DAYS_FR[date.getDay()];
+        row.innerHTML +=
+          '<div class="weather-day">' +
+            '<div class="weather-day-name">' + dayName + '</div>' +
+            '<div class="weather-day-icon"><span class="material-symbols-outlined" style="color:' + dw.color + ';font-variation-settings:'FILL' 1;">' + dw.icon + '</span></div>' +
+            '<div class="weather-day-temp">' + Math.round(daily.temperature_2m_max[i]) + '°</div>' +
+          '</div>';
+      }
+    })
+    .catch(function() {
+      document.getElementById('weather-desc').textContent = 'Indisponible';
+    });
+})();
+</script>
 
 </body>
 </html>
