@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1"/>
+<title>Mon planning — Cœur de Ville</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800;900&display=swap"/>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html,body{font-family:'Manrope',sans-serif;background:#f8f9fa;color:#0f1923;-webkit-overflow-scrolling:touch;}
+body{padding-bottom:60px;}
+.header{position:sticky;top:0;z-index:100;background:rgba(255,255,255,0.97);backdrop-filter:blur(20px);border-bottom:1px solid rgba(0,0,0,0.06);padding:0 16px;height:60px;display:flex;align-items:center;gap:12px;}
+.back-btn{width:36px;height:36px;border-radius:50%;background:#f1f5f9;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;text-decoration:none;flex-shrink:0;}
+.back-btn .material-symbols-outlined{font-size:20px;color:#0f1923;}
+.header-title{font-size:16px;font-weight:900;color:#0f1923;letter-spacing:-0.02em;}
+.section-wrap{padding:20px 16px 0;}
+.section-label{font-size:10px;font-weight:800;letter-spacing:0.16em;text-transform:uppercase;color:#94a3b8;margin-bottom:12px;display:flex;align-items:center;gap:6px;}
+.section-label .material-symbols-outlined{font-size:14px;font-variation-settings:'FILL' 1;}
+.prog-card{border-radius:18px;overflow:hidden;box-shadow:0 4px 18px rgba(0,0,0,0.12);margin-bottom:10px;cursor:pointer;transition:transform 0.15s;}
+.prog-card:active{transform:scale(0.98);}
+.prog-bg{padding:18px 18px 14px;position:relative;}
+.prog-badge{display:inline-flex;align-items:center;gap:5px;background:rgba(255,255,255,0.2);backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,0.3);border-radius:20px;padding:4px 10px;font-size:9px;font-weight:800;color:#fff;letter-spacing:0.08em;text-transform:uppercase;margin-bottom:10px;}
+.prog-badge .material-symbols-outlined{font-size:11px;font-variation-settings:'FILL' 1;}
+.prog-name{font-size:19px;font-weight:900;color:#fff;letter-spacing:-0.02em;margin-bottom:4px;line-height:1.1;}
+.prog-desc{font-size:11px;color:rgba(255,255,255,0.7);line-height:1.5;margin-bottom:12px;}
+.prog-stops{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:14px;}
+.prog-stop{display:flex;align-items:center;gap:5px;background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.25);border-radius:100px;padding:5px 10px;}
+.prog-stop .material-symbols-outlined{font-size:13px;color:rgba(255,255,255,0.9);font-variation-settings:'FILL' 1;}
+.prog-stop-name{font-size:10px;font-weight:700;color:rgba(255,255,255,0.9);}
+.prog-footer{display:flex;align-items:center;justify-content:space-between;background:rgba(0,0,0,0.15);padding:10px 18px;}
+.prog-meta{display:flex;align-items:center;gap:12px;}
+.prog-meta-item{display:flex;align-items:center;gap:4px;font-size:10px;font-weight:700;color:rgba(255,255,255,0.7);}
+.prog-meta-item .material-symbols-outlined{font-size:13px;}
+.prog-cta{display:flex;align-items:center;gap:5px;background:#fff;border-radius:100px;padding:7px 14px;font-family:Manrope;font-size:11px;font-weight:800;color:#0f1923;border:none;cursor:pointer;transition:all 0.15s;}
+.prog-cta .material-symbols-outlined{font-size:14px;}
+.sep{height:1px;background:#eef0f3;margin:20px 16px 0;}
+.cal-wrap{background:#fff;border-radius:18px;padding:16px;box-shadow:0 2px 10px rgba(0,0,0,0.06);}
+.cal-nav{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;}
+.cal-month{font-size:16px;font-weight:900;color:#0f1923;letter-spacing:-0.02em;}
+.cal-nav-btn{width:30px;height:30px;border-radius:50%;background:#f1f5f9;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;}
+.cal-nav-btn .material-symbols-outlined{font-size:17px;color:#64748b;}
+.cal-headers{display:grid;grid-template-columns:repeat(7,1fr);gap:2px;margin-bottom:4px;}
+.cal-header{text-align:center;font-size:9px;font-weight:800;color:#cbd5e1;padding:3px 0;}
+.cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:3px;}
+.cal-cell{text-align:center;padding:6px 2px;border-radius:9px;cursor:pointer;transition:all 0.15s;display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:40px;}
+.cal-cell.empty,.cal-cell.past{cursor:default;}
+.cal-cell:not(.empty):not(.past):not(.selected):hover{background:#f1f5f9;}
+.cal-cell.today{background:#eef2ff;}
+.cal-cell.selected{background:#0f1923;}
+.cal-num{font-size:13px;font-weight:600;color:#0f1923;line-height:1;}
+.cal-cell.today .cal-num{font-weight:900;color:#3B5BDB;}
+.cal-cell.past .cal-num{color:#e2e8f0;}
+.cal-cell.selected .cal-num{font-weight:900;color:#fff;}
+.cal-dots{display:flex;justify-content:center;gap:2px;margin-top:3px;height:5px;}
+.cal-dot{width:4px;height:4px;border-radius:50%;background:#3B5BDB;}
+.cal-cell.selected .cal-dot{background:#4ade80;}
+.day-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;}
+.day-title{font-size:17px;font-weight:900;color:#0f1923;letter-spacing:-0.02em;}
+.day-badge{font-size:10px;font-weight:800;background:#f0fdf4;color:#16a34a;padding:4px 10px;border-radius:20px;border:1px solid #bbf7d0;}
+.day-badge.zero{background:#f8f9fa;color:#94a3b8;border-color:#e2e8f0;}
+.lieu-item{display:flex;align-items:center;gap:12px;background:#fff;border-radius:14px;padding:12px 14px;margin-bottom:8px;box-shadow:0 2px 8px rgba(0,0,0,0.06);border:1.5px solid #f1f5f9;cursor:pointer;transition:all 0.15s;}
+.lieu-item:active{transform:scale(0.98);}
+.lieu-item.done{border-color:#0f1923;background:#fafafa;}
+.lieu-check{width:26px;height:26px;border-radius:50%;border:2px solid #e2e8f0;background:transparent;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all 0.2s;}
+.lieu-item.done .lieu-check{background:#0f1923;border-color:#0f1923;}
+.lieu-check .material-symbols-outlined{font-size:13px;color:#fff;display:none;}
+.lieu-item.done .lieu-check .material-symbols-outlined{display:block;}
+.lieu-icon{width:40px;height:40px;border-radius:12px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.lieu-icon .material-symbols-outlined{font-size:20px;font-variation-settings:'FILL' 1;}
+.lieu-info{flex:1;min-width:0;}
+.lieu-name{font-size:14px;font-weight:800;color:#0f1923;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.lieu-item.done .lieu-name{text-decoration:line-through;color:#94a3b8;}
+.lieu-cat{font-size:11px;color:#94a3b8;font-weight:500;margin-top:1px;}
+.lieu-del{width:30px;height:30px;border-radius:50%;border:none;background:#f8f9fa;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.lieu-del:hover{background:#fee2e2;}
+.lieu-del:hover .material-symbols-outlined{color:#ef4444;}
+.lieu-del .material-symbols-outlined{font-size:15px;color:#cbd5e1;}
+.prog-bar-wrap{background:#f1f5f9;border-radius:12px;padding:11px 14px;margin-bottom:12px;}
+.prog-bar-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:7px;}
+.prog-bar-lbl{font-size:11px;font-weight:700;color:#64748b;}
+.prog-bar-pct{font-size:11px;font-weight:900;color:#0f1923;}
+.prog-bar-bg{height:5px;background:#e2e8f0;border-radius:3px;overflow:hidden;}
+.prog-bar-fill{height:100%;border-radius:3px;background:linear-gradient(90deg,#3B5BDB,#4ade80);transition:width 0.6s;}
+.empty-day{text-align:center;padding:24px 20px;background:#fff;border-radius:16px;margin-bottom:12px;}
+.empty-day .material-symbols-outlined{font-size:44px;color:#e2e8f0;display:block;margin-bottom:8px;font-variation-settings:'FILL' 1;}
+.empty-day-t{font-size:15px;font-weight:800;color:#0f1923;margin-bottom:4px;}
+.empty-day-s{font-size:12px;color:#94a3b8;line-height:1.6;}
+.sugg-item{display:flex;align-items:center;gap:12px;background:#fff;border-radius:14px;padding:12px 14px;margin-bottom:8px;box-shadow:0 2px 8px rgba(0,0,0,0.05);cursor:pointer;transition:all 0.15s;border:1.5px solid transparent;}
+.sugg-item:hover{border-color:#3B5BDB;background:#f8faff;}
+.sugg-icon{width:40px;height:40px;border-radius:12px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.sugg-icon .material-symbols-outlined{font-size:20px;font-variation-settings:'FILL' 1;}
+.sugg-info{flex:1;min-width:0;}
+.sugg-name{font-size:14px;font-weight:800;color:#0f1923;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.sugg-cat{font-size:10px;color:#94a3b8;font-weight:600;text-transform:uppercase;letter-spacing:0.06em;margin-top:1px;}
+.sugg-add{display:flex;align-items:center;gap:4px;background:#f0f4ff;border-radius:100px;padding:6px 12px;border:none;cursor:pointer;font-family:Manrope;font-size:10px;font-weight:800;color:#3B5BDB;transition:all 0.15s;flex-shrink:0;}
+.sugg-add:hover{background:#3B5BDB;color:#fff;}
+.sugg-add .material-symbols-outlined{font-size:13px;}
+.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(70px);background:#0f1923;color:#fff;border-radius:100px;padding:11px 20px;font-size:12px;font-weight:700;font-family:Manrope;z-index:9999;transition:transform 0.28s cubic-bezier(0.34,1.56,0.64,1);display:flex;align-items:center;gap:6px;box-shadow:0 6px 24px rgba(0,0,0,0.2);white-space:nowrap;}
+.toast.on{transform:translateX(-50%) translateY(0);}
+.toast .material-symbols-outlined{font-size:14px;font-variation-settings:'FILL' 1;}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <a href="index.html" class="back-btn"><span class="material-symbols-outlined">arrow_back</span></a>
+  <div class="header-title">Mon planning</div>
+</div>
+
+<div class="section-wrap">
+  <div class="section-label"><span class="material-symbols-outlined">auto_awesome</span>Programmes suggérés</div>
+  <div id="prog-list"></div>
+</div>
+
+<div class="sep"></div>
+
+<div class="section-wrap">
+  <div class="section-label"><span class="material-symbols-outlined">calendar_month</span>Choisir une date</div>
+  <div class="cal-wrap">
+    <div class="cal-nav">
+      <button class="cal-nav-btn" onclick="changeMonth(-1)"><span class="material-symbols-outlined">chevron_left</span></button>
+      <div class="cal-month" id="cal-month"></div>
+      <button class="cal-nav-btn" onclick="changeMonth(1)"><span class="material-symbols-outlined">chevron_right</span></button>
+    </div>
+    <div class="cal-headers">
+      <div class="cal-header">L</div><div class="cal-header">M</div><div class="cal-header">M</div>
+      <div class="cal-header">J</div><div class="cal-header">V</div><div class="cal-header">S</div><div class="cal-header">D</div>
+    </div>
+    <div class="cal-grid" id="cal-grid"></div>
+  </div>
+</div>
+
+<div class="section-wrap" id="day-section">
+  <div class="day-header">
+    <div class="day-title" id="day-title"></div>
+    <div class="day-badge zero" id="day-badge">0 lieu</div>
+  </div>
+  <div id="lieux-list"></div>
+  <div class="prog-bar-wrap" id="prog-bar-wrap" style="display:none;">
+    <div class="prog-bar-top">
+      <div class="prog-bar-lbl">Progression</div>
+      <div class="prog-bar-pct" id="prog-pct">0%</div>
+    </div>
+    <div class="prog-bar-bg"><div class="prog-bar-fill" id="prog-fill" style="width:0%"></div></div>
+  </div>
+</div>
+
+<div class="section-wrap">
+  <div class="section-label"><span class="material-symbols-outlined">add_location_alt</span>À ajouter à votre journée</div>
+  <div id="sugg-list"></div>
+</div>
+
+<div class="toast" id="toast">
+  <span class="material-symbols-outlined" id="toast-ic">check_circle</span>
+  <span id="toast-msg">Ajouté !</span>
+</div>
+
+<script>
+var LIEUX=[
+  {id:1,cat:'militaire',name:'Fort Saint-André',icon:'castle',color:'#c0392b',duree:'1h30'},
+  {id:2,cat:'religieux',name:'Chartreuse du Val de Bénédiction',icon:'church',color:'#8b5e3c',duree:'1h'},
+  {id:3,cat:'monument',name:'Tour Philippe le Bel',icon:'account_balance',color:'#2c3e50',duree:'45min'},
+  {id:4,cat:'culturel',name:'Musée Pierre de Luxembourg',icon:'museum',color:'#6b3fa0',duree:'1h'},
+  {id:5,cat:'naturel',name:'Colline des Mourgues',icon:'park',color:'#27ae60',duree:'30min'},
+  {id:6,cat:'insolite',name:'La Légende des Lézards',icon:'auto_stories',color:'#e67e22',duree:'20min'},
+  {id:7,cat:'insolite',name:'La Partition Gravée du Cardinal',icon:'music_note',color:'#8e44ad',duree:'20min'},
+  {id:101,cat:'restaurant',name:'Restaurant Aubergine',icon:'restaurant',color:'#6b21a8',duree:'1h30'},
+  {id:102,cat:'artisan',name:'Pâtisserie Marcellin',icon:'bakery_dining',color:'#b45a00',duree:'20min'},
+  {id:103,cat:'restaurant',name:'Maison Bronzini',icon:'local_cafe',color:'#16a085',duree:'1h'},
+  {id:104,cat:'commerce',name:'Santons Bérard',icon:'handyman',color:'#0891b2',duree:'30min'},
+  {id:105,cat:'evenement',name:'Marché médiéval',icon:'festival',color:'#dc5028',duree:'1h'},
+];
+var CAT={militaire:{label:'Militaire'},religieux:{label:'Religieux'},monument:{label:'Monument'},culturel:{label:'Culturel'},naturel:{label:'Nature'},insolite:{label:'Insolite'},restaurant:{label:'Restaurant'},artisan:{label:'Artisan'},commerce:{label:'Commerce'},evenement:{label:'Événement'}};
+var PROGRAMMES=[
+  {id:'heritage',name:'Patrimoine médiéval',desc:'Les joyaux historiques de Villeneuve — 700 ans d\'histoire en une matinée.',duree:'3h',ids:[1,2,3],gradient:'linear-gradient(135deg,#1a0a2e 0%,#2d1b69 50%,#3730a3 100%)',icon:'castle',type:'🏰 Patrimoine'},
+  {id:'gourmet',name:'Journée gourmande',desc:'Visite culturelle le matin, déjeuner provençal, douceurs l\'après-midi.',duree:'5h',ids:[1,101,102,103],gradient:'linear-gradient(135deg,#431407 0%,#9a3412 50%,#c2410c 100%)',icon:'restaurant',type:'🍽️ Gastronomie'},
+  {id:'detente',name:'Détente & découverte',desc:'Balade panoramique, lieux insolites et artisanat local. Le rythme provençal.',duree:'4h',ids:[5,6,102,104],gradient:'linear-gradient(135deg,#052e16 0%,#14532d 50%,#15803d 100%)',icon:'park',type:'🌿 Nature'},
+  {id:'complet',name:'Villeneuve en une journée',desc:'Le programme complet — monuments, gastronomie, insolite. Tout voir en un jour.',duree:'7h',ids:[1,2,3,101,102,5],gradient:'linear-gradient(135deg,#0f1923 0%,#1e3a5f 50%,#1e40af 100%)',icon:'auto_awesome',type:'⭐ Complet'},
+];
+
+var planning=JSON.parse(localStorage.getItem('cdv_planning')||'{}');
+var today=new Date();
+var selKey=dayKey(today);
+var viewY=today.getFullYear();
+var viewM=today.getMonth();
+var MONTHS=['Janvier','Février','Mars','Avril','Mai','Juin','Juillet','Août','Septembre','Octobre','Novembre','Décembre'];
+var DAYSL=['Dimanche','Lundi','Mardi','Mercredi','Jeudi','Vendredi','Samedi'];
+
+function dayKey(d){return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');}
+function save(){localStorage.setItem('cdv_planning',JSON.stringify(planning));}
+function getLieu(id){return LIEUX.find(function(l){return l.id===id;});}
+function esc(s){return(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+
+function renderProgrammes(){
+  document.getElementById('prog-list').innerHTML=PROGRAMMES.map(function(p){
+    var lieux=p.ids.map(getLieu).filter(Boolean);
+    var stops=lieux.map(function(l){
+      return '<div class="prog-stop"><span class="material-symbols-outlined">'+l.icon+'</span><span class="prog-stop-name">'+l.name.split(' ').slice(0,3).join(' ')+'</span></div>';
+    }).join('');
+    return '<div class="prog-card" onclick="addProg(\''+p.id+'\')">'+
+      '<div class="prog-bg" style="background:'+p.gradient+';">'+
+        '<div class="prog-badge"><span class="material-symbols-outlined">'+p.icon+'</span>'+p.type+'</div>'+
+        '<div class="prog-name">'+p.name+'</div>'+
+        '<div class="prog-desc">'+p.desc+'</div>'+
+        '<div class="prog-stops">'+stops+'</div>'+
+      '</div>'+
+      '<div class="prog-footer">'+
+        '<div class="prog-meta">'+
+          '<div class="prog-meta-item"><span class="material-symbols-outlined">schedule</span>'+p.duree+'</div>'+
+          '<div class="prog-meta-item"><span class="material-symbols-outlined">place</span>'+lieux.length+' étapes</div>'+
+        '</div>'+
+        '<button class="prog-cta" onclick="event.stopPropagation();addProg(\''+p.id+'\')">'+
+          '<span class="material-symbols-outlined" style="color:#3B5BDB;">add_circle</span>Ajouter au planning'+
+        '</button>'+
+      '</div>'+
+    '</div>';
+  }).join('');
+}
+
+function addProg(pid){
+  var p=PROGRAMMES.find(function(x){return x.id===pid;});
+  if(!p)return;
+  if(!planning[selKey])planning[selKey]=[];
+  var added=0;
+  p.ids.forEach(function(id){
+    var l=getLieu(id);if(!l)return;
+    if(!planning[selKey].some(function(i){return i.id===l.id;})){
+      planning[selKey].push({id:l.id,name:l.name,cat:l.cat,icon:l.icon,color:l.color,done:false});
+      added++;
+    }
+  });
+  save();toast(added>0?p.name+' — '+added+' lieux ajoutés !':'Déjà dans votre planning !','check_circle');
+  renderDay();renderCal();renderSugg();
+}
+
+function renderCal(){
+  document.getElementById('cal-month').textContent=MONTHS[viewM]+' '+viewY;
+  var first=new Date(viewY,viewM,1);
+  var last=new Date(viewY,viewM+1,0);
+  var startDow=(first.getDay()+6)%7;
+  var todayKey=dayKey(today);
+  var todayDate=new Date(today.getFullYear(),today.getMonth(),today.getDate());
+  var html='';
+  for(var i=0;i<startDow;i++)html+='<div class="cal-cell empty"></div>';
+  for(var d=1;d<=last.getDate();d++){
+    var cd=new Date(viewY,viewM,d);
+    var k=dayKey(cd);
+    var isPast=cd<todayDate;
+    var isToday=k===todayKey;
+    var isSel=k===selKey;
+    var items=planning[k]||[];
+    var cls='cal-cell'+(isPast?' past':isSel?' selected':isToday?' today':'');
+    var oc=!isPast?'onclick="selectDay(\''+k+'\')"':'';
+    html+='<div class="'+cls+'" '+oc+'>';
+    html+='<div class="cal-num">'+d+'</div>';
+    html+='<div class="cal-dots">';
+    if(items.length>0)for(var p=0;p<Math.min(items.length,3);p++)html+='<div class="cal-dot"></div>';
+    html+='</div></div>';
+  }
+  document.getElementById('cal-grid').innerHTML=html;
+}
+
+function changeMonth(dir){
+  viewM+=dir;
+  if(viewM>11){viewM=0;viewY++;}
+  if(viewM<0){viewM=11;viewY--;}
+  renderCal();
+}
+
+function selectDay(key){
+  selKey=key;
+  renderCal();renderDay();renderSugg();
+  document.getElementById('day-section').scrollIntoView({behavior:'smooth',block:'start'});
+}
+
+function renderDay(){
+  var sel=new Date(selKey+'T12:00:00');
+  var items=planning[selKey]||[];
+  var done=items.filter(function(i){return i.done;}).length;
+  var isToday=selKey===dayKey(today);
+  var lbl=isToday?'Aujourd\'hui · '+sel.getDate()+' '+MONTHS[sel.getMonth()]:DAYSL[sel.getDay()]+' '+sel.getDate()+' '+MONTHS[sel.getMonth()];
+  document.getElementById('day-title').textContent=lbl;
+  var badge=document.getElementById('day-badge');
+  if(items.length===0){badge.textContent='Aucun lieu';badge.className='day-badge zero';}
+  else{badge.textContent=done+'/'+items.length+' visité'+(done>1?'s':'');badge.className='day-badge';}
+  var listEl=document.getElementById('lieux-list');
+  if(items.length===0){
+    listEl.innerHTML='<div class="empty-day"><span class="material-symbols-outlined">calendar_month</span><div class="empty-day-t">Aucun lieu prévu</div><div class="empty-day-s">Choisissez un programme ci-dessus<br>ou ajoutez des lieux individuellement.</div></div>';
+  }else{
+    listEl.innerHTML=items.map(function(item,idx){
+      var c=CAT[item.cat]||{label:'Lieu'};
+      return '<div class="lieu-item'+(item.done?' done':'')+'" onclick="toggleDone('+idx+')">'+
+        '<div class="lieu-check"><span class="material-symbols-outlined">check</span></div>'+
+        '<div class="lieu-icon" style="background:'+item.color+'18;"><span class="material-symbols-outlined" style="color:'+item.color+';">'+item.icon+'</span></div>'+
+        '<div class="lieu-info"><div class="lieu-name">'+esc(item.name)+'</div><div class="lieu-cat">'+c.label+'</div></div>'+
+        '<button class="lieu-del" onclick="event.stopPropagation();removeLieu('+idx+')"><span class="material-symbols-outlined">delete</span></button>'+
+      '</div>';
+    }).join('');
+  }
+  var pw=document.getElementById('prog-bar-wrap');
+  if(items.length>0){
+    pw.style.display='block';
+    var pct=Math.round((done/items.length)*100);
+    document.getElementById('prog-pct').textContent=pct+'%';
+    document.getElementById('prog-fill').style.width=pct+'%';
+  }else{pw.style.display='none';}
+}
+
+function renderSugg(){
+  var already=(planning[selKey]||[]).map(function(i){return i.id;});
+  var avail=LIEUX.filter(function(l){return already.indexOf(l.id)===-1;});
+  var el=document.getElementById('sugg-list');
+  if(avail.length===0){el.innerHTML='<div style="text-align:center;padding:20px;font-size:12px;color:#94a3b8;font-weight:600;background:#fff;border-radius:14px;">Tous les lieux sont dans votre planning !</div>';return;}
+  el.innerHTML=avail.map(function(lieu){
+    var c=CAT[lieu.cat]||{label:'Lieu'};
+    return '<div class="sugg-item">'+
+      '<div class="sugg-icon" style="background:'+lieu.color+'18;"><span class="material-symbols-outlined" style="color:'+lieu.color+';">'+lieu.icon+'</span></div>'+
+      '<div class="sugg-info"><div class="sugg-name">'+esc(lieu.name)+'</div><div class="sugg-cat">'+c.label+(lieu.duree?' · '+lieu.duree:'')+'</div></div>'+
+      '<button class="sugg-add" onclick="addLieu('+lieu.id+')"><span class="material-symbols-outlined">add</span>Ajouter</button>'+
+    '</div>';
+  }).join('');
+}
+
+function toggleDone(idx){
+  if(!planning[selKey]||!planning[selKey][idx])return;
+  planning[selKey][idx].done=!planning[selKey][idx].done;
+  save();renderDay();renderCal();
+}
+
+function removeLieu(idx){
+  if(!planning[selKey])return;
+  planning[selKey].splice(idx,1);
+  if(planning[selKey].length===0)delete planning[selKey];
+  save();renderDay();renderCal();renderSugg();
+  toast('Lieu retiré','remove_circle');
+}
+
+function addLieu(id){
+  var l=getLieu(id);if(!l)return;
+  if(!planning[selKey])planning[selKey]=[];
+  if(!planning[selKey].some(function(i){return i.id===l.id;})){
+    planning[selKey].push({id:l.id,name:l.name,cat:l.cat,icon:l.icon,color:l.color,done:false});
+    save();renderDay();renderCal();renderSugg();
+    toast(l.name+' ajouté !','check_circle');
+  }
+}
+
+var toastTimer;
+function toast(msg,ic){
+  var t=document.getElementById('toast');
+  document.getElementById('toast-msg').textContent=msg;
+  document.getElementById('toast-ic').textContent=ic||'check_circle';
+  t.classList.add('on');
+  clearTimeout(toastTimer);
+  toastTimer=setTimeout(function(){t.classList.remove('on');},2500);
+}
+
+renderProgrammes();renderCal();renderDay();renderSugg();
+</script>
+</body>
+</html>
