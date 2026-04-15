@@ -1,0 +1,721 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1"/>
+<title>Bons plans du jour — Cœur de Ville</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800;900&display=swap"/>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html,body{font-family:'Manrope',sans-serif;background:#f8f9fa;color:#0f1923;-webkit-overflow-scrolling:touch;}
+body{padding-bottom:40px;}
+
+/* ── HEADER ── */
+.header{
+  position:sticky;top:0;z-index:100;
+  background:rgba(255,255,255,0.95);backdrop-filter:blur(20px);
+  border-bottom:1px solid rgba(0,0,0,0.06);
+  padding:0 16px;height:60px;
+  display:flex;align-items:center;gap:12px;
+}
+.back-btn{
+  width:36px;height:36px;border-radius:50%;
+  background:#f1f5f9;border:none;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+  text-decoration:none;flex-shrink:0;
+}
+.back-btn .material-symbols-outlined{font-size:20px;color:#0f1923;}
+.header-info{flex:1;}
+.header-title{font-size:16px;font-weight:900;color:#0f1923;letter-spacing:-0.02em;}
+.header-sub{font-size:10px;color:#94a3b8;font-weight:500;margin-top:1px;}
+
+/* ── HERO COUNTDOWN ── */
+.hero{
+  background:linear-gradient(160deg,#0f1923 0%,#1a2e3d 60%,#0f2535 100%);
+  padding:24px 20px 22px;
+  position:relative;overflow:hidden;
+}
+.hero::before{
+  content:'';position:absolute;
+  top:-50px;right:-50px;width:180px;height:180px;
+  background:rgba(59,91,219,0.15);border-radius:50%;filter:blur(60px);
+}
+.hero-label{
+  font-size:9px;font-weight:800;letter-spacing:0.2em;
+  text-transform:uppercase;color:rgba(255,255,255,0.65);
+  margin-bottom:10px;display:flex;align-items:center;gap:6px;
+}
+.hero-label::before{
+  content:'';width:16px;height:1.5px;
+  background:rgba(234,88,12,0.7);border-radius:2px;
+}
+.hero-title{
+  font-size:22px;font-weight:900;color:#fff;
+  letter-spacing:-0.02em;margin-bottom:6px;line-height:1.1;
+}
+.hero-sub{
+  font-size:12px;color:rgba(255,255,255,0.45);
+  font-weight:400;line-height:1.6;margin-bottom:18px;
+}
+
+/* Countdown */
+.countdown{
+  display:flex;align-items:center;gap:8px;
+}
+.countdown-label{
+  font-size:10px;font-weight:700;
+  color:rgba(255,255,255,0.4);
+  letter-spacing:0.06em;text-transform:uppercase;
+}
+.countdown-time{
+  display:flex;gap:6px;align-items:center;
+}
+.countdown-block{
+  background:rgba(255,255,255,0.08);
+  border:1px solid rgba(255,255,255,0.12);
+  border-radius:8px;padding:6px 10px;
+  text-align:center;min-width:42px;
+}
+.countdown-num{
+  font-size:18px;font-weight:900;color:#fff;
+  letter-spacing:-0.02em;line-height:1;
+}
+.countdown-unit{
+  font-size:7px;font-weight:700;
+  color:rgba(255,255,255,0.35);
+  text-transform:uppercase;letter-spacing:0.1em;
+  margin-top:2px;
+}
+.countdown-sep{
+  font-size:16px;font-weight:900;
+  color:rgba(255,255,255,0.3);
+  margin-bottom:8px;
+}
+
+/* ── STATS STRIP ── */
+.stats-strip{
+  display:flex;background:#fff;
+  border-bottom:1px solid #f1f5f9;
+}
+.stat{
+  flex:1;padding:12px 0;text-align:center;
+  border-right:1px solid #f1f5f9;
+}
+.stat:last-child{border-right:none;}
+.stat-num{
+  font-size:18px;font-weight:900;color:#0f1923;
+  letter-spacing:-0.02em;line-height:1;margin-bottom:3px;
+}
+.stat-label{
+  font-size:9px;font-weight:600;color:#94a3b8;
+  text-transform:uppercase;letter-spacing:0.1em;
+}
+
+/* ── FILTRES ── */
+.cats{
+  display:flex;gap:8px;overflow-x:auto;
+  padding:14px 16px 0;scrollbar-width:none;
+}
+.cats::-webkit-scrollbar{display:none;}
+.cat-btn{
+  display:flex;align-items:center;gap:5px;
+  padding:7px 13px;border-radius:100px;
+  border:none;cursor:pointer;font-family:Manrope;
+  font-size:11px;font-weight:700;
+  white-space:nowrap;flex-shrink:0;transition:all 0.15s;
+}
+.cat-btn.active{background:linear-gradient(160deg,#0f1923 0%,#1a2e3d 60%,#0f2535 100%);color:#fff;}
+.cat-btn.inactive{background:#fff;color:#64748b;box-shadow:0 1px 6px rgba(0,0,0,0.07);}
+.cat-btn .material-symbols-outlined{font-size:14px;}
+
+/* ── OFFRE CARD ── */
+.offres-list{
+  padding:12px 16px 0;
+  display:flex;flex-direction:column;gap:12px;
+}
+
+.offre-card{
+  background:#fff;border-radius:20px;
+  overflow:hidden;
+  box-shadow:0 3px 14px rgba(0,0,0,0.08);
+  position:relative;
+  cursor:pointer;transition:transform 0.15s;
+}
+.offre-card:active{transform:scale(0.98);}
+
+/* Badge urgence */
+.offre-urgence{
+  position:absolute;top:0;left:0;right:0;
+  background:linear-gradient(90deg,#ef4444,#dc2626);
+  padding:6px 14px;
+  display:flex;align-items:center;justify-content:space-between;
+  z-index:2;
+}
+.offre-urgence-txt{
+  font-size:10px;font-weight:800;color:#fff;
+  letter-spacing:0.04em;display:flex;align-items:center;gap:5px;
+}
+.offre-urgence-txt .material-symbols-outlined{
+  font-size:12px;font-variation-settings:'FILL' 1;
+}
+.offre-urgence-time{
+  font-size:10px;font-weight:900;color:#fff;
+  background:rgba(0,0,0,0.2);border-radius:100px;
+  padding:2px 8px;
+}
+
+.offre-card-body{padding:46px 16px 16px;}
+
+.offre-card-top{
+  display:flex;align-items:flex-start;gap:12px;margin-bottom:10px;
+}
+.offre-card-icon{
+  width:46px;height:46px;border-radius:13px;
+  display:flex;align-items:center;justify-content:center;flex-shrink:0;
+}
+.offre-card-icon .material-symbols-outlined{
+  font-size:22px;font-variation-settings:'FILL' 1;
+}
+.offre-card-info{flex:1;}
+.offre-card-commerce{
+  font-size:11px;font-weight:700;
+  margin-bottom:3px;
+}
+.offre-card-name{
+  font-size:16px;font-weight:900;color:#0f1923;
+  letter-spacing:-0.02em;line-height:1.2;margin-bottom:4px;
+}
+.offre-card-desc{
+  font-size:12px;color:#6b7280;line-height:1.55;
+}
+
+/* Prix */
+.offre-card-prix{
+  display:flex;align-items:center;gap:10px;
+  margin:12px 0;padding:10px 14px;
+  background:#f8f9fa;border-radius:12px;
+}
+.offre-prix-avant{
+  font-size:13px;color:#94a3b8;
+  text-decoration:line-through;font-weight:500;
+}
+.offre-prix-apres{
+  font-size:20px;font-weight:900;color:#0f1923;
+  letter-spacing:-0.02em;
+}
+.offre-prix-badge{
+  background:#dcfce7;color:#16a34a;
+  font-size:11px;font-weight:800;
+  padding:3px 10px;border-radius:100px;
+  margin-left:auto;
+}
+
+/* Footer card */
+.offre-card-footer{
+  display:flex;align-items:center;justify-content:space-between;
+  padding-top:10px;border-top:1px solid #f1f5f9;
+}
+.offre-card-dispo{
+  font-size:11px;font-weight:600;color:#94a3b8;
+  display:flex;align-items:center;gap:4px;
+}
+.offre-card-dispo .material-symbols-outlined{font-size:13px;}
+.offre-card-dispo.urgent{color:#ef4444;}
+
+.offre-cta{
+  display:flex;align-items:center;gap:5px;
+  background:linear-gradient(160deg,#0f1923 0%,#1a2e3d 60%,#0f2535 100%);color:#fff;border:none;
+  border-radius:10px;padding:8px 14px;
+  font-family:Manrope;font-size:11px;font-weight:800;
+  cursor:pointer;transition:all 0.15s;
+}
+.offre-cta:active{transform:scale(0.97);}
+.offre-cta .material-symbols-outlined{font-size:13px;}
+
+/* Points bonus */
+.offre-points{
+  display:flex;align-items:center;gap:5px;
+  margin-top:8px;background:#eff6ff;
+  border-radius:10px;padding:7px 12px;
+}
+.offre-points .material-symbols-outlined{
+  font-size:14px;color:#3B5BDB;
+  font-variation-settings:'FILL' 1;
+}
+.offre-points-txt{
+  font-size:11px;font-weight:700;color:#3B5BDB;
+}
+
+/* ── CARTE VIDE ── */
+.empty-section{
+  margin:20px 16px 0;
+  background:#fff;border-radius:18px;
+  padding:40px 24px;text-align:center;
+  box-shadow:0 2px 10px rgba(0,0,0,0.05);
+}
+.empty-section .material-symbols-outlined{
+  font-size:52px;color:#f1d9c0;
+  font-variation-settings:'FILL' 1;
+  display:block;margin-bottom:12px;
+}
+.empty-title{
+  font-size:17px;font-weight:900;color:#0f1923;
+  letter-spacing:-0.02em;margin-bottom:8px;
+}
+.empty-sub{
+  font-size:13px;color:#94a3b8;
+  font-weight:400;line-height:1.65;
+  margin-bottom:20px;
+}
+.empty-notif{
+  display:inline-flex;align-items:center;gap:7px;
+  background:linear-gradient(160deg,#0f1923 0%,#1a2e3d 60%,#0f2535 100%);color:#fff;
+  border:none;border-radius:12px;
+  padding:12px 20px;font-family:Manrope;
+  font-size:13px;font-weight:700;cursor:pointer;
+  transition:all 0.15s;
+}
+.empty-notif .material-symbols-outlined{font-size:16px;}
+
+/* ── INFO BAS ── */
+.info-box{
+  margin:16px 16px 0;
+  background:#fff7ed;border:1px solid #fed7aa;
+  border-radius:14px;padding:13px 16px;
+  display:flex;gap:10px;align-items:flex-start;
+}
+.info-box .material-symbols-outlined{
+  font-size:18px;color:#ea580c;flex-shrink:0;
+  font-variation-settings:'FILL' 1;margin-top:1px;
+}
+.info-box-txt{
+  font-size:12px;color:#9a3412;
+  font-weight:500;line-height:1.6;
+}
+.info-box-txt strong{font-weight:800;color:#7c2d12;}
+
+/* ── MODAL OFFRE ── */
+.modal-overlay{
+  position:fixed;inset:0;z-index:500;
+  background:rgba(15,25,35,0.7);
+  backdrop-filter:blur(6px);
+  display:none;align-items:flex-end;justify-content:center;
+}
+.modal-overlay.open{display:flex;}
+.modal-box{
+  background:#fff;border-radius:24px 24px 0 0;
+  width:100%;max-width:500px;
+  max-height:85vh;overflow-y:auto;
+  padding-bottom:env(safe-area-inset-bottom,20px);
+}
+.modal-handle{
+  width:36px;height:4px;border-radius:2px;
+  background:#e2e8f0;margin:13px auto 0;
+}
+.modal-header{padding:18px 20px 0;}
+.modal-title{
+  font-size:20px;font-weight:900;color:#0f1923;
+  letter-spacing:-0.02em;margin-bottom:4px;
+}
+.modal-commerce{
+  font-size:12px;font-weight:600;color:#94a3b8;
+  margin-bottom:16px;
+}
+.modal-body{padding:0 20px 24px;}
+.modal-prix-wrap{
+  background:#f8f9fa;border-radius:14px;
+  padding:16px;margin-bottom:14px;
+  display:flex;align-items:center;gap:12px;
+}
+.modal-prix-avant{
+  font-size:14px;color:#94a3b8;
+  text-decoration:line-through;font-weight:500;
+}
+.modal-prix-apres{
+  font-size:28px;font-weight:900;color:#0f1923;
+  letter-spacing:-0.03em;
+}
+.modal-prix-eco{
+  margin-left:auto;background:#dcfce7;
+  color:#16a34a;font-size:13px;font-weight:800;
+  padding:5px 12px;border-radius:100px;
+}
+.modal-desc{
+  font-size:13px;color:#374151;
+  line-height:1.7;margin-bottom:14px;
+}
+.modal-conditions{
+  font-size:11px;color:#94a3b8;
+  line-height:1.6;margin-bottom:20px;
+  padding:10px 14px;background:#f8f9fa;border-radius:10px;
+}
+.modal-cta{
+  width:100%;padding:15px;border-radius:14px;
+  background:linear-gradient(160deg,#0f1923 0%,#1a2e3d 60%,#0f2535 100%);color:#fff;border:none;
+  font-family:Manrope;font-size:15px;font-weight:800;
+  cursor:pointer;transition:all 0.15s;
+  display:flex;align-items:center;justify-content:center;gap:8px;
+}
+.modal-cta:active{transform:scale(0.98);}
+.modal-cta .material-symbols-outlined{font-size:18px;}
+.modal-close{
+  width:100%;padding:13px;border-radius:12px;
+  background:#f1f5f9;border:none;margin-top:8px;
+  font-family:Manrope;font-size:13px;font-weight:700;
+  color:#64748b;cursor:pointer;
+}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="header">
+  <a href="index.html" class="back-btn">
+    <span class="material-symbols-outlined">arrow_back</span>
+  </a>
+  <div class="header-info">
+    <div class="header-title">Bons plans du jour</div>
+    <div class="header-sub" id="header-date"></div>
+  </div>
+</div>
+
+<!-- HERO COUNTDOWN -->
+<div class="hero">
+  <div class="hero-label" style="display:flex;align-items:center;gap:8px;margin-bottom:12px;"><span style="background:#ef4444;color:#fff;font-size:9px;font-weight:900;letter-spacing:0.1em;padding:4px 10px;border-radius:6px;display:flex;align-items:center;gap:4px;"><span class="material-symbols-outlined" style="font-size:11px;font-variation-settings:'FILL' 1;">bolt</span>FLASH</span><span style="color:rgba(255,255,255,0.4);font-size:10px;font-weight:600;letter-spacing:0.1em;">Offres du jour · Expire à minuit</span></div>
+  <div class="hero-title" style="color:#fff;letter-spacing:-0.03em;">Les deals d'aujourd'hui</div>
+  <div class="hero-sub" style="color:rgba(255,255,255,0.7);">Ces offres expirent ce soir à minuit. Ne les ratez pas.</div>
+  <div class="countdown">
+    <div class="countdown-label" style="color:rgba(255,255,255,0.6);font-size:9px;letter-spacing:0.18em;">Expire dans</div>
+    <div class="countdown-time">
+      <div class="countdown-block">
+        <div class="countdown-num" style="color:#fff;font-size:22px;" id="cd-h">00</div>
+        <div class="countdown-unit" style="color:rgba(255,255,255,0.55);">heures</div>
+      </div>
+      <div class="countdown-sep" style="color:rgba(255,255,255,0.5);">:</div>
+      <div class="countdown-block">
+        <div class="countdown-num" style="color:#fff;font-size:22px;" id="cd-m">00</div>
+        <div class="countdown-unit" style="color:rgba(255,255,255,0.55);">min</div>
+      </div>
+      <div class="countdown-sep" style="color:rgba(255,255,255,0.5);">:</div>
+      <div class="countdown-block">
+        <div class="countdown-num" style="color:#fff;font-size:22px;" id="cd-s">00</div>
+        <div class="countdown-unit" style="color:rgba(255,255,255,0.55);">sec</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- STATS -->
+<div class="stats-strip">
+  <div class="stat">
+    <div class="stat-num" id="stat-total">0</div>
+    <div class="stat-label">Offres actives</div>
+  </div>
+  <div class="stat">
+    <div class="stat-num" id="stat-restant">0</div>
+    <div class="stat-label">Places restantes</div>
+  </div>
+  <div class="stat">
+    <div class="stat-num" id="stat-eco">0€</div>
+    <div class="stat-label">Économie max</div>
+  </div>
+</div>
+
+<!-- FILTRES -->
+<div class="cats">
+  <button class="cat-btn active" onclick="filterCat('tous',this)">
+    <span class="material-symbols-outlined">apps</span>Tous
+  </button>
+  <button class="cat-btn inactive" onclick="filterCat('restaurant',this)">
+    <span class="material-symbols-outlined">restaurant</span>Restaurants
+  </button>
+  <button class="cat-btn inactive" onclick="filterCat('artisan',this)">
+    <span class="material-symbols-outlined">bakery_dining</span>Artisans
+  </button>
+  <button class="cat-btn inactive" onclick="filterCat('culture',this)">
+    <span class="material-symbols-outlined">palette</span>Culture
+  </button>
+  <button class="cat-btn inactive" onclick="filterCat('bien-etre',this)">
+    <span class="material-symbols-outlined">spa</span>Bien-être
+  </button>
+</div>
+
+<!-- LISTE OFFRES -->
+<div class="offres-list" id="offres-list"></div>
+
+<!-- INFO -->
+<div class="info-box">
+  <span class="material-symbols-outlined">info</span>
+  <div class="info-box-txt">
+    <strong>Comment ça marche ?</strong> Chaque commerçant partenaire publie une offre flash valable uniquement aujourd'hui. Présentez l'offre directement en boutique. <strong>+10 points fidélité</strong> crédités à chaque visite.
+  </div>
+</div>
+
+<!-- MODAL OFFRE -->
+<div class="modal-overlay" id="modal" onclick="if(event.target===this)closeModal()">
+  <div class="modal-box">
+    <div class="modal-handle"></div>
+    <div class="modal-header">
+      <div class="modal-title" id="modal-title"></div>
+      <div class="modal-commerce" id="modal-commerce"></div>
+    </div>
+    <div class="modal-body">
+      <div class="modal-prix-wrap">
+        <div>
+          <div class="modal-prix-avant" id="modal-avant"></div>
+          <div class="modal-prix-apres" id="modal-apres"></div>
+        </div>
+        <div class="modal-prix-eco" id="modal-eco"></div>
+      </div>
+      <div class="modal-desc" id="modal-desc"></div>
+      <div class="modal-conditions" id="modal-conditions"></div>
+      <button class="modal-cta" id="modal-cta">
+        <span class="material-symbols-outlined">storefront</span>
+        Profiter de l'offre
+      </button>
+      <button class="modal-close" onclick="closeModal()">Fermer</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ══════════════════════════════════════════
+// DONNÉES OFFRES DU JOUR
+// (En prod ces données viennent de Supabase)
+// ══════════════════════════════════════════
+
+var OFFRES = [
+  {
+    id: 1,
+    cat: 'restaurant',
+    commerce: 'Restaurant Aubergine',
+    commerce_color: '#6b21a8',
+    commerce_icon: 'restaurant',
+    nom: 'Menu déjeuner complet',
+    desc: 'Entrée + plat + dessert du jour avec un verre de vin AOC Côtes du Rhône inclus. Cuisine provençale et produits frais.',
+    prix_avant: 28,
+    prix_apres: 19,
+    eco: 9,
+    reduction: '-32%',
+    dispo: 8,
+    urgence: true,
+    urgence_txt: 'Plus que 8 places',
+    conditions: 'Valable uniquement ce midi de 12h à 14h. Sur présentation de l\'app. Non cumulable avec d\'autres offres.',
+    points_bonus: 20,
+    tel: '04 90 90 05 64',
+  },
+  {
+    id: 2,
+    cat: 'artisan',
+    commerce: 'Pâtisserie Marcellin',
+    commerce_color: '#b45a00',
+    commerce_icon: 'bakery_dining',
+    nom: 'Assortiment macarons 6 pièces',
+    desc: 'Boîte de 6 macarons au choix parmi les 10 parfums de la maison : café, chocolat, vanille de Madagascar, framboise, citron, pistache…',
+    prix_avant: 12,
+    prix_apres: 8,
+    eco: 4,
+    reduction: '-33%',
+    dispo: 15,
+    urgence: false,
+    urgence_txt: null,
+    conditions: 'Valable aujourd\'hui jusqu\'à 19h30. Sur présentation de l\'app. Dans la limite des stocks disponibles.',
+    points_bonus: 15,
+    tel: '04 90 88 13 57',
+  },
+  {
+    id: 3,
+    cat: 'culture',
+    commerce: 'Chartreuse du Val de Bénédiction',
+    commerce_color: '#8b5e3c',
+    commerce_icon: 'church',
+    nom: 'Visite guidée patrimoine',
+    desc: 'Visite guidée de 1h30 du plus grand monastère de France avec un guide expert. Accès aux cloîtres et à l\'exposition temporaire.',
+    prix_avant: 15,
+    prix_apres: 10,
+    eco: 5,
+    reduction: '-33%',
+    dispo: 12,
+    urgence: false,
+    urgence_txt: null,
+    conditions: 'Visite à 14h30 et 16h. Sur présentation de l\'app à l\'entrée. Réservation conseillée par téléphone.',
+    points_bonus: 25,
+    tel: '04 90 15 24 24',
+  },
+  {
+    id: 4,
+    cat: 'bien-etre',
+    commerce: 'Institut Belle Provence',
+    commerce_color: '#be185d',
+    commerce_icon: 'spa',
+    nom: 'Soin visage découverte 30 min',
+    desc: 'Soin du visage aux huiles essentielles de Provence. Nettoyage, gommage et masque hydratant. Idéal après une journée de visite.',
+    prix_avant: 45,
+    prix_apres: 30,
+    eco: 15,
+    reduction: '-33%',
+    dispo: 3,
+    urgence: true,
+    urgence_txt: 'Dernières places',
+    conditions: 'Sur rendez-vous uniquement. Valable aujourd\'hui. Appelez pour vérifier les disponibilités.',
+    points_bonus: 30,
+    tel: '04 66 00 00 00',
+  },
+];
+
+var currentCat = 'tous';
+var currentOffre = null;
+
+// ══════════════════════════════════════════
+// COUNTDOWN
+// ══════════════════════════════════════════
+
+function updateCountdown() {
+  var now = new Date();
+  var midnight = new Date(now);
+  midnight.setHours(24, 0, 0, 0);
+  var diff = Math.floor((midnight - now) / 1000);
+
+  var h = Math.floor(diff / 3600);
+  var m = Math.floor((diff % 3600) / 60);
+  var s = diff % 60;
+
+  document.getElementById('cd-h').textContent = String(h).padStart(2,'0');
+  document.getElementById('cd-m').textContent = String(m).padStart(2,'0');
+  document.getElementById('cd-s').textContent = String(s).padStart(2,'0');
+}
+
+setInterval(updateCountdown, 1000);
+updateCountdown();
+
+// Date du jour
+var jours = ['Dimanche','Lundi','Mardi','Mercredi','Jeudi','Vendredi','Samedi'];
+var mois = ['janvier','février','mars','avril','mai','juin','juillet','août','septembre','octobre','novembre','décembre'];
+var now = new Date();
+document.getElementById('header-date').textContent = jours[now.getDay()] + ' ' + now.getDate() + ' ' + mois[now.getMonth()] + ' ' + now.getFullYear();
+
+// ══════════════════════════════════════════
+// STATS
+// ══════════════════════════════════════════
+
+function updateStats() {
+  var filtered = currentCat === 'tous' ? OFFRES : OFFRES.filter(function(o){ return o.cat === currentCat; });
+  var totalDispo = filtered.reduce(function(a,o){ return a + o.dispo; }, 0);
+  var totalEco = filtered.reduce(function(a,o){ return a + o.eco; }, 0);
+
+  document.getElementById('stat-total').textContent = filtered.length;
+  document.getElementById('stat-restant').textContent = totalDispo;
+  document.getElementById('stat-eco').textContent = totalEco + '€';
+}
+
+// ══════════════════════════════════════════
+// RENDER
+// ══════════════════════════════════════════
+
+var CAT_LABELS = {
+  restaurant: 'Restaurant',
+  artisan: 'Artisan',
+  culture: 'Culture',
+  'bien-etre': 'Bien-être',
+};
+
+function filterCat(cat, btn) {
+  currentCat = cat;
+  document.querySelectorAll('.cat-btn').forEach(function(b){
+    b.className = 'cat-btn ' + (b === btn ? 'active' : 'inactive');
+  });
+  renderOffres();
+  updateStats();
+}
+
+function renderOffres() {
+  var list = document.getElementById('offres-list');
+  var filtered = currentCat === 'tous'
+    ? OFFRES
+    : OFFRES.filter(function(o){ return o.cat === currentCat; });
+
+  if (filtered.length === 0) {
+    list.innerHTML = '<div style="background:#fff;border-radius:18px;padding:40px 20px;text-align:center;box-shadow:0 2px 10px rgba(0,0,0,0.05);"><span class="material-symbols-outlined" style="font-size:44px;color:#e2e8f0;display:block;margin-bottom:10px;font-variation-settings:\'FILL\' 1;">local_offer</span><div style="font-size:15px;font-weight:800;color:#0f1923;margin-bottom:6px;">Aucune offre dans cette catégorie</div><div style="font-size:12px;color:#94a3b8;">D\'autres partenaires arrivent bientôt !</div></div>';
+    return;
+  }
+
+  list.innerHTML = filtered.map(function(o) {
+    var dispoCls = o.dispo <= 5 ? 'offre-card-dispo urgent' : 'offre-card-dispo';
+    var dispoIcon = o.dispo <= 5 ? 'warning' : 'group';
+
+    return '<div class="offre-card" onclick="openModal(' + o.id + ')">' +
+      (o.urgence ? '<div class="offre-urgence"><div class="offre-urgence-txt"><span class="material-symbols-outlined">bolt</span>' + o.urgence_txt + '</div><div class="offre-urgence-time">Urgent</div></div>' : '<div class="offre-urgence" style="background:linear-gradient(90deg,#0f1923,#1e3a5f);"><div class="offre-urgence-txt"><span class="material-symbols-outlined">local_offer</span>Offre du jour</div><div class="offre-urgence-time">' + o.reduction + '</div></div>') +
+      '<div class="offre-card-body">' +
+        '<div class="offre-card-top">' +
+          '<div class="offre-card-icon" style="background:' + o.commerce_color + '18;"><span class="material-symbols-outlined" style="color:' + o.commerce_color + ';">' + o.commerce_icon + '</span></div>' +
+          '<div class="offre-card-info">' +
+            '<div class="offre-card-commerce" style="color:' + o.commerce_color + ';">' + esc(o.commerce) + '</div>' +
+            '<div class="offre-card-name">' + esc(o.nom) + '</div>' +
+            '<div class="offre-card-desc">' + esc(o.desc) + '</div>' +
+          '</div>' +
+        '</div>' +
+        '<div class="offre-card-prix">' +
+          '<div class="offre-prix-avant">' + o.prix_avant + '€</div>' +
+          '<div class="offre-prix-apres">' + o.prix_apres + '€</div>' +
+          '<div class="offre-prix-badge">' + o.reduction + '</div>' +
+        '</div>' +
+        '<div class="offre-card-footer">' +
+          '<div class="' + dispoCls + '"><span class="material-symbols-outlined">' + dispoIcon + '</span>' + o.dispo + ' places restantes</div>' +
+          '<button class="offre-cta"><span class="material-symbols-outlined">arrow_forward</span>Voir l\'offre</button>' +
+        '</div>' +
+        '<div class="offre-points"><span class="material-symbols-outlined">stars</span><div class="offre-points-txt">+' + o.points_bonus + ' points fidélité Cœur de Ville</div></div>' +
+      '</div>' +
+    '</div>';
+  }).join('');
+}
+
+// ══════════════════════════════════════════
+// MODAL
+// ══════════════════════════════════════════
+
+function openModal(id) {
+  var o = OFFRES.find(function(x){ return x.id === id; });
+  if (!o) return;
+  currentOffre = o;
+
+  document.getElementById('modal-title').textContent = o.nom;
+  document.getElementById('modal-commerce').textContent = o.commerce + ' · ' + (CAT_LABELS[o.cat] || o.cat);
+  document.getElementById('modal-avant').textContent = o.prix_avant + '€';
+  document.getElementById('modal-apres').textContent = o.prix_apres + '€';
+  document.getElementById('modal-eco').textContent = 'Économie : ' + o.eco + '€';
+  document.getElementById('modal-desc').textContent = o.desc;
+  document.getElementById('modal-conditions').textContent = 'Conditions : ' + o.conditions;
+
+  var ctaBtn = document.getElementById('modal-cta');
+  ctaBtn.onclick = function() {
+    if (o.tel) {
+      window.location.href = 'tel:' + o.tel.replace(/\s/g,'');
+    }
+  };
+  ctaBtn.innerHTML = '<span class="material-symbols-outlined">call</span>Appeler ' + o.commerce;
+
+  document.getElementById('modal').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeModal() {
+  document.getElementById('modal').classList.remove('open');
+  document.body.style.overflow = '';
+  currentOffre = null;
+}
+
+// ══════════════════════════════════════════
+// UTILS
+// ══════════════════════════════════════════
+
+function esc(s) {
+  return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+
+// INIT
+renderOffres();
+updateStats();
+</script>
+</body>
+</html>
