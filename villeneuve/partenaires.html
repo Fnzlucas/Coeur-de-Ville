@@ -1,0 +1,1139 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1"/>
+<title>Partenaires — Cœur de Ville</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800;900&display=swap"/>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html,body{font-family:'Manrope',sans-serif;background:#f8f9fa;color:#0f1923;-webkit-overflow-scrolling:touch;}
+body{padding-bottom:40px;}
+
+/* ── HEADER ── */
+.header{
+  position:sticky;top:0;z-index:100;
+  background:rgba(255,255,255,0.95);backdrop-filter:blur(20px);
+  border-bottom:1px solid rgba(0,0,0,0.06);
+  padding:0 16px;height:60px;
+  display:flex;align-items:center;gap:12px;
+}
+.back-btn{
+  width:36px;height:36px;border-radius:50%;
+  background:#f1f5f9;border:none;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+  text-decoration:none;flex-shrink:0;
+}
+.back-btn .material-symbols-outlined{font-size:20px;color:#0f1923;}
+.header-title{font-size:16px;font-weight:900;color:#0f1923;letter-spacing:-0.02em;}
+
+/* ── CARTE FIDELITE ── */
+.carte-wrap{padding:16px 16px 0;}
+
+.carte{
+  background:linear-gradient(135deg,#0f1923 0%,#1e3a5f 50%,#0f2027 100%);
+  border-radius:22px;
+  padding:22px 22px 20px;
+  position:relative;
+  overflow:hidden;
+  box-shadow:0 12px 40px rgba(15,25,35,0.35);
+}
+
+.carte::before{
+  content:'';position:absolute;
+  top:-60px;right:-60px;
+  width:200px;height:200px;
+  background:rgba(59,91,219,0.2);
+  border-radius:50%;filter:blur(50px);
+}
+.carte::after{
+  content:'';position:absolute;
+  bottom:-40px;left:-40px;
+  width:150px;height:150px;
+  background:rgba(59,91,219,0.12);
+  border-radius:50%;filter:blur(35px);
+}
+
+.carte-top{
+  display:flex;justify-content:space-between;
+  align-items:flex-start;margin-bottom:20px;position:relative;
+}
+
+.carte-brand{
+  font-size:11px;font-weight:800;
+  letter-spacing:0.18em;text-transform:uppercase;
+  color:rgba(255,255,255,0.45);
+}
+
+.carte-badge{
+  background:rgba(255,255,255,0.1);
+  border:1px solid rgba(255,255,255,0.2);
+  border-radius:100px;padding:4px 12px;
+  font-size:10px;font-weight:800;
+  color:rgba(255,255,255,0.7);
+  letter-spacing:0.06em;
+  display:flex;align-items:center;gap:5px;
+}
+
+.carte-badge .material-symbols-outlined{
+  font-size:13px;
+  font-variation-settings:'FILL' 1;
+}
+
+/* Points circulaire */
+.carte-points-wrap{
+  display:flex;align-items:center;gap:16px;
+  margin-bottom:18px;position:relative;
+}
+
+.carte-circle{
+  width:72px;height:72px;
+  border-radius:50%;
+  background:rgba(255,255,255,0.08);
+  border:2px solid rgba(255,255,255,0.15);
+  display:flex;flex-direction:column;
+  align-items:center;justify-content:center;
+  flex-shrink:0;position:relative;
+}
+
+.carte-circle-num{
+  font-size:22px;font-weight:900;color:#fff;
+  letter-spacing:-0.03em;line-height:1;
+}
+.carte-circle-label{
+  font-size:8px;font-weight:700;
+  color:rgba(255,255,255,0.45);
+  letter-spacing:0.08em;text-transform:uppercase;
+}
+
+.carte-info{}
+.carte-name{
+  font-size:18px;font-weight:900;
+  color:#fff;letter-spacing:-0.02em;
+  margin-bottom:3px;
+}
+.carte-level{
+  font-size:11px;font-weight:600;
+  color:rgba(255,255,255,0.5);
+  display:flex;align-items:center;gap:5px;
+}
+.carte-level .material-symbols-outlined{
+  font-size:13px;
+  font-variation-settings:'FILL' 1;
+}
+
+/* Barre de progression */
+.carte-progress-wrap{position:relative;}
+.carte-progress-labels{
+  display:flex;justify-content:space-between;
+  margin-bottom:6px;
+}
+.carte-progress-label{
+  font-size:9px;font-weight:600;
+  color:rgba(255,255,255,0.35);
+}
+.carte-progress-label.next{
+  color:rgba(255,255,255,0.6);
+  font-weight:700;
+}
+
+.carte-progress-bar{
+  height:5px;background:rgba(255,255,255,0.1);
+  border-radius:3px;overflow:hidden;margin-bottom:8px;
+}
+.carte-progress-fill{
+  height:100%;
+  background:linear-gradient(90deg,#3B5BDB,#6b8ef0);
+  border-radius:3px;
+  transition:width 1s cubic-bezier(0.4,0,0.2,1);
+}
+
+.carte-progress-next{
+  font-size:10px;font-weight:700;
+  color:rgba(255,255,255,0.5);
+  text-align:center;
+}
+.carte-progress-next span{color:#fff;}
+
+/* Paliers */
+.paliers-wrap{
+  display:flex;gap:8px;padding:16px 16px 0;
+  overflow-x:auto;scrollbar-width:none;
+}
+.paliers-wrap::-webkit-scrollbar{display:none;}
+
+.palier{
+  min-width:150px;max-width:150px;
+  background:#fff;border-radius:16px;
+  padding:14px;flex-shrink:0;
+  box-shadow:0 2px 10px rgba(0,0,0,0.07);
+  border:2px solid transparent;
+  transition:all 0.2s;
+}
+.palier.atteint{border-color:#22c55e;}
+.palier.prochain{border-color:#3B5BDB;}
+
+.palier-icon{
+  width:38px;height:38px;border-radius:11px;
+  display:flex;align-items:center;justify-content:center;
+  margin-bottom:10px;
+}
+.palier-icon .material-symbols-outlined{
+  font-size:20px;
+  font-variation-settings:'FILL' 1;
+}
+
+.palier-points{
+  font-size:10px;font-weight:800;
+  text-transform:uppercase;letter-spacing:0.06em;
+  margin-bottom:4px;
+}
+.palier-name{
+  font-size:13px;font-weight:900;
+  color:#0f1923;letter-spacing:-0.01em;
+  margin-bottom:4px;
+}
+.palier-desc{
+  font-size:10px;color:#94a3b8;
+  font-weight:500;line-height:1.4;
+}
+
+.palier-status{
+  display:flex;align-items:center;gap:4px;
+  margin-top:8px;font-size:9px;font-weight:800;
+  text-transform:uppercase;letter-spacing:0.06em;
+}
+.palier-status .material-symbols-outlined{
+  font-size:12px;
+  font-variation-settings:'FILL' 1;
+}
+
+/* ── QR CODE SECTION ── */
+.qr-section{
+  margin:16px 16px 0;
+  background:#fff;border-radius:18px;
+  padding:18px;
+  box-shadow:0 2px 10px rgba(0,0,0,0.06);
+  display:flex;align-items:center;gap:16px;
+}
+
+.qr-box{
+  width:72px;height:72px;
+  background:#0f1923;border-radius:12px;
+  display:flex;align-items:center;justify-content:center;
+  flex-shrink:0;cursor:pointer;
+  transition:transform 0.15s;
+  position:relative;overflow:hidden;
+}
+.qr-box:active{transform:scale(0.95);}
+
+/* Mini QR simulé */
+.qr-grid{
+  display:grid;grid-template-columns:repeat(7,1fr);
+  gap:2px;width:52px;height:52px;
+}
+.qr-cell{border-radius:1px;}
+
+.qr-info{}
+.qr-title{
+  font-size:14px;font-weight:900;
+  color:#0f1923;letter-spacing:-0.01em;
+  margin-bottom:3px;
+}
+.qr-desc{
+  font-size:11px;color:#94a3b8;
+  font-weight:500;line-height:1.5;
+  margin-bottom:8px;
+}
+.qr-btn{
+  display:inline-flex;align-items:center;gap:5px;
+  background:#0f1923;color:#fff;
+  border:none;border-radius:8px;
+  padding:7px 12px;font-family:Manrope;
+  font-size:11px;font-weight:700;cursor:pointer;
+  transition:all 0.15s;
+}
+.qr-btn:active{transform:scale(0.97);}
+.qr-btn .material-symbols-outlined{font-size:13px;}
+
+/* ── FILTRES CATEGORIES ── */
+.section-title{
+  font-size:17px;font-weight:900;
+  color:#0f1923;letter-spacing:-0.02em;
+  padding:20px 16px 0;
+}
+
+.cats{
+  display:flex;gap:8px;overflow-x:auto;
+  padding:12px 16px 0;scrollbar-width:none;
+}
+.cats::-webkit-scrollbar{display:none;}
+
+.cat-btn{
+  display:flex;align-items:center;gap:6px;
+  padding:8px 14px;border-radius:100px;
+  border:none;cursor:pointer;font-family:Manrope;
+  font-size:12px;font-weight:700;
+  white-space:nowrap;flex-shrink:0;
+  transition:all 0.15s;
+}
+.cat-btn:active{transform:scale(0.96);}
+.cat-btn.active{background:#0f1923;color:#fff;}
+.cat-btn.inactive{background:#fff;color:#64748b;box-shadow:0 1px 6px rgba(0,0,0,0.07);}
+.cat-btn .material-symbols-outlined{font-size:15px;}
+
+/* ── COMMERCE CARDS ── */
+.commerces-list{
+  padding:12px 16px 0;
+  display:flex;flex-direction:column;gap:10px;
+}
+
+.com-card{
+  background:#fff;border-radius:18px;
+  overflow:hidden;
+  box-shadow:0 2px 12px rgba(0,0,0,0.07);
+  cursor:pointer;transition:all 0.2s;
+}
+.com-card:active{transform:scale(0.98);}
+
+.com-card-img-wrap{
+  position:relative;height:140px;overflow:hidden;
+}
+.com-card-img{
+  width:100%;height:100%;object-fit:cover;
+  display:block;transition:transform 0.4s;
+}
+.com-card:hover .com-card-img{transform:scale(1.03);}
+
+.com-card-img-ph{
+  width:100%;height:100%;
+  display:flex;align-items:center;justify-content:center;
+}
+.com-card-img-ph .material-symbols-outlined{
+  font-size:48px;color:rgba(255,255,255,0.5);
+  font-variation-settings:'FILL' 1;
+}
+
+.com-card-overlay{
+  position:absolute;inset:0;
+  background:linear-gradient(to top,rgba(0,0,0,0.6) 0%,transparent 55%);
+}
+
+.com-card-top-badges{
+  position:absolute;top:10px;left:10px;right:10px;
+  display:flex;justify-content:space-between;align-items:flex-start;
+}
+
+.badge-open{
+  background:rgba(22,163,74,0.9);backdrop-filter:blur(6px);
+  color:#fff;font-size:9px;font-weight:800;
+  letter-spacing:0.08em;text-transform:uppercase;
+  padding:4px 10px;border-radius:20px;
+  display:flex;align-items:center;gap:4px;
+}
+.badge-open::before{
+  content:'';width:5px;height:5px;
+  background:#4ade80;border-radius:50%;
+}
+
+.badge-fid{
+  background:rgba(59,91,219,0.9);backdrop-filter:blur(6px);
+  color:#fff;font-size:9px;font-weight:800;
+  padding:4px 10px;border-radius:20px;
+  display:flex;align-items:center;gap:4px;
+}
+.badge-fid .material-symbols-outlined{
+  font-size:11px;
+  font-variation-settings:'FILL' 1;
+}
+
+.com-card-cat-pill{
+  position:absolute;bottom:10px;left:10px;
+  background:rgba(255,255,255,0.18);backdrop-filter:blur(8px);
+  border:1px solid rgba(255,255,255,0.3);
+  color:#fff;font-size:9px;font-weight:800;
+  letter-spacing:0.1em;text-transform:uppercase;
+  padding:4px 10px;border-radius:20px;
+}
+
+.com-card-body{padding:14px 16px 16px;}
+
+.com-card-header{
+  display:flex;justify-content:space-between;
+  align-items:flex-start;margin-bottom:6px;
+}
+.com-card-name{
+  font-size:16px;font-weight:900;
+  color:#0f1923;letter-spacing:-0.02em;
+  line-height:1.2;
+}
+.com-card-rating{
+  display:flex;align-items:center;gap:3px;
+  font-size:12px;font-weight:800;color:#0f1923;
+  flex-shrink:0;margin-left:8px;margin-top:2px;
+}
+.com-card-rating .star{color:#F59E0B;font-size:13px;}
+
+.com-card-desc{
+  font-size:12px;color:#6b7280;
+  line-height:1.55;margin-bottom:12px;
+  display:-webkit-box;-webkit-line-clamp:2;
+  -webkit-box-orient:vertical;overflow:hidden;
+}
+
+.com-card-footer{
+  display:flex;align-items:center;
+  justify-content:space-between;
+  padding-top:10px;
+  border-top:1px solid #f1f5f9;
+}
+
+.com-card-hours{
+  display:flex;align-items:center;gap:4px;
+  font-size:11px;color:#94a3b8;font-weight:500;
+}
+.com-card-hours .material-symbols-outlined{font-size:13px;}
+
+.com-card-offre{
+  display:flex;align-items:center;gap:4px;
+  background:#fff7ed;border-radius:100px;
+  padding:5px 10px;
+  font-size:10px;font-weight:800;color:#c2410c;
+  border:1px solid #fed7aa;
+}
+.com-card-offre .material-symbols-outlined{
+  font-size:12px;
+  font-variation-settings:'FILL' 1;
+}
+
+/* ── POINTS INFO ── */
+.com-card-points{
+  display:flex;align-items:center;gap:5px;
+  margin-top:10px;
+  background:#eef2ff;border-radius:10px;
+  padding:8px 12px;
+}
+.com-card-points .material-symbols-outlined{
+  font-size:15px;color:#3B5BDB;
+  font-variation-settings:'FILL' 1;
+}
+.com-card-points-txt{
+  font-size:11px;font-weight:700;color:#3B5BDB;
+}
+
+/* ── MODAL QR AGGRANDI ── */
+.qr-modal{
+  position:fixed;inset:0;z-index:500;
+  background:rgba(15,25,35,0.85);
+  backdrop-filter:blur(8px);
+  display:none;align-items:center;justify-content:center;
+  padding:20px;
+}
+.qr-modal.open{display:flex;}
+
+.qr-modal-box{
+  background:#fff;border-radius:24px;
+  padding:32px 28px;
+  text-align:center;
+  max-width:320px;width:100%;
+  box-shadow:0 40px 80px rgba(0,0,0,0.3);
+}
+
+.qr-modal-title{
+  font-size:20px;font-weight:900;
+  color:#0f1923;letter-spacing:-0.02em;
+  margin-bottom:6px;
+}
+.qr-modal-sub{
+  font-size:12px;color:#94a3b8;
+  font-weight:500;margin-bottom:24px;
+  line-height:1.5;
+}
+
+.qr-modal-code{
+  width:180px;height:180px;
+  background:#0f1923;border-radius:16px;
+  margin:0 auto 20px;
+  display:flex;align-items:center;justify-content:center;
+  position:relative;overflow:hidden;
+}
+
+.qr-modal-points{
+  display:flex;align-items:center;gap:8px;
+  justify-content:center;
+  background:#f0f4ff;border-radius:12px;
+  padding:12px 16px;margin-bottom:16px;
+}
+.qr-modal-points .material-symbols-outlined{
+  font-size:20px;color:#3B5BDB;
+  font-variation-settings:'FILL' 1;
+}
+.qr-modal-points-txt{
+  font-size:13px;font-weight:700;color:#0f1923;
+}
+
+.qr-modal-close{
+  width:100%;padding:13px;border-radius:12px;
+  background:#f1f5f9;border:none;
+  font-family:Manrope;font-size:13px;font-weight:700;
+  color:#64748b;cursor:pointer;transition:all 0.15s;
+}
+.qr-modal-close:hover{background:#e2e8f0;}
+
+/* ── HISTORIQUE ── */
+.historique-section{padding:20px 16px 0;}
+.historique-title{
+  font-size:14px;font-weight:800;
+  color:#0f1923;margin-bottom:12px;
+  display:flex;align-items:center;justify-content:space-between;
+}
+.historique-title span{
+  font-size:11px;font-weight:600;color:#94a3b8;
+}
+
+.histo-item{
+  display:flex;align-items:center;gap:12px;
+  padding:10px 0;border-bottom:1px solid #f1f5f9;
+}
+.histo-item:last-child{border-bottom:none;}
+
+.histo-icon{
+  width:36px;height:36px;border-radius:10px;
+  background:#f0f4ff;display:flex;
+  align-items:center;justify-content:center;flex-shrink:0;
+}
+.histo-icon .material-symbols-outlined{
+  font-size:17px;color:#3B5BDB;
+  font-variation-settings:'FILL' 1;
+}
+
+.histo-info{flex:1;}
+.histo-name{font-size:13px;font-weight:700;color:#0f1923;}
+.histo-date{font-size:11px;color:#94a3b8;font-weight:500;margin-top:1px;}
+
+.histo-pts{
+  font-size:13px;font-weight:800;color:#3B5BDB;
+}
+
+/* ── EMPTY STATE ── */
+.empty{
+  text-align:center;padding:40px 20px;
+  background:#fff;border-radius:16px;
+  margin:12px 16px 0;
+}
+.empty .material-symbols-outlined{
+  font-size:44px;color:#e2e8f0;
+  display:block;margin-bottom:10px;
+  font-variation-settings:'FILL' 1;
+}
+.empty-t{font-size:15px;font-weight:800;color:#0f1923;margin-bottom:5px;}
+.empty-s{font-size:12px;color:#94a3b8;}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="header">
+  <a href="index.html" class="back-btn">
+    <span class="material-symbols-outlined">arrow_back</span>
+  </a>
+  <div class="header-title">Partenaires &amp; Fidélité</div>
+</div>
+
+<!-- CARTE FIDELITE -->
+<div class="carte-wrap">
+  <div class="carte">
+    <div class="carte-top">
+      <div class="carte-brand">Cœur de Ville · Carte Fidélité</div>
+      <div class="carte-badge" id="badge-level">
+        <span class="material-symbols-outlined">star</span>
+        <span id="badge-label">Explorateur</span>
+      </div>
+    </div>
+
+    <div class="carte-points-wrap">
+      <div class="carte-circle">
+        <div class="carte-circle-num" id="pts-display">0</div>
+        <div class="carte-circle-label">points</div>
+      </div>
+      <div class="carte-info">
+        <div class="carte-name" id="user-name">Mon compte</div>
+        <div class="carte-level" id="user-level">
+          <span class="material-symbols-outlined">military_tech</span>
+          <span id="level-label">Niveau Visiteur</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="carte-progress-wrap">
+      <div class="carte-progress-labels">
+        <div class="carte-progress-label" id="prog-current-label">0 pts</div>
+        <div class="carte-progress-label next" id="prog-next-label">Prochain palier : 50 pts</div>
+      </div>
+      <div class="carte-progress-bar">
+        <div class="carte-progress-fill" id="prog-fill" style="width:0%"></div>
+      </div>
+      <div class="carte-progress-next" id="prog-next-txt">
+        Encore <span id="prog-manque">50</span> points pour devenir <span id="prog-next-level">Explorateur</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- PALIERS -->
+<div class="paliers-wrap">
+
+  <div class="palier" id="palier-0">
+    <div class="palier-icon" style="background:#fef3c7;">
+      <span class="material-symbols-outlined" style="color:#d97706;">explore</span>
+    </div>
+    <div class="palier-points" style="color:#d97706;">50 points</div>
+    <div class="palier-name">Explorateur</div>
+    <div class="palier-desc">10% de réduction chez tous les partenaires</div>
+    <div class="palier-status" id="status-0" style="color:#94a3b8;">
+      <span class="material-symbols-outlined" style="color:#94a3b8;">lock</span>
+      À débloquer
+    </div>
+  </div>
+
+  <div class="palier" id="palier-1">
+    <div class="palier-icon" style="background:#eff6ff;">
+      <span class="material-symbols-outlined" style="color:#3B5BDB;">favorite</span>
+    </div>
+    <div class="palier-points" style="color:#3B5BDB;">150 points</div>
+    <div class="palier-name">Habitué</div>
+    <div class="palier-desc">Cadeau surprise offert par un partenaire</div>
+    <div class="palier-status" id="status-1" style="color:#94a3b8;">
+      <span class="material-symbols-outlined" style="color:#94a3b8;">lock</span>
+      À débloquer
+    </div>
+  </div>
+
+  <div class="palier" id="palier-2">
+    <div class="palier-icon" style="background:#f0fdf4;">
+      <span class="material-symbols-outlined" style="color:#16a34a;">military_tech</span>
+    </div>
+    <div class="palier-points" style="color:#16a34a;">300 points</div>
+    <div class="palier-name">Ambassadeur</div>
+    <div class="palier-desc">15% de réduction + priorité sur les réservations partenaires</div>
+    <div class="palier-status" id="status-2" style="color:#94a3b8;">
+      <span class="material-symbols-outlined" style="color:#94a3b8;">lock</span>
+      À débloquer
+    </div>
+  </div>
+
+  <div class="palier" id="palier-3">
+    <div class="palier-icon" style="background:#faf5ff;">
+      <span class="material-symbols-outlined" style="color:#7c3aed;">diamond</span>
+    </div>
+    <div class="palier-points" style="color:#7c3aed;">500 points</div>
+    <div class="palier-name">Fidèle</div>
+    <div class="palier-desc">20% de réduction chez tous les partenaires</div>
+    <div class="palier-status" id="status-3" style="color:#94a3b8;">
+      <span class="material-symbols-outlined" style="color:#94a3b8;">lock</span>
+      À débloquer
+    </div>
+  </div>
+
+</div>
+
+<!-- QR CODE -->
+<div class="qr-section" onclick="openQR()">
+  <div class="qr-box" id="qr-mini">
+    <!-- QR simulé -->
+    <svg width="52" height="52" viewBox="0 0 52 52" xmlns="http://www.w3.org/2000/svg">
+      <!-- Coin haut gauche -->
+      <rect x="2" y="2" width="18" height="18" rx="2" fill="white"/>
+      <rect x="5" y="5" width="12" height="12" rx="1" fill="#0f1923"/>
+      <rect x="7" y="7" width="8" height="8" rx="0.5" fill="white"/>
+      <!-- Coin haut droit -->
+      <rect x="32" y="2" width="18" height="18" rx="2" fill="white"/>
+      <rect x="35" y="5" width="12" height="12" rx="1" fill="#0f1923"/>
+      <rect x="37" y="7" width="8" height="8" rx="0.5" fill="white"/>
+      <!-- Coin bas gauche -->
+      <rect x="2" y="32" width="18" height="18" rx="2" fill="white"/>
+      <rect x="5" y="35" width="12" height="12" rx="1" fill="#0f1923"/>
+      <rect x="7" y="37" width="8" height="8" rx="0.5" fill="white"/>
+      <!-- Data dots -->
+      <rect x="22" y="2" width="4" height="4" rx="0.5" fill="white"/>
+      <rect x="27" y="2" width="4" height="4" rx="0.5" fill="white"/>
+      <rect x="22" y="8" width="4" height="4" rx="0.5" fill="white"/>
+      <rect x="27" y="14" width="4" height="4" rx="0.5" fill="white"/>
+      <rect x="22" y="22" width="4" height="4" rx="0.5" fill="white"/>
+      <rect x="27" y="22" width="4" height="4" rx="0.5" fill="white"/>
+      <rect x="32" y="22" width="4" height="4" rx="0.5" fill="white"/>
+      <rect x="37" y="22" width="4" height="4" rx="0.5" fill="white"/>
+      <rect x="42" y="22" width="4" height="4" rx="0.5" fill="white"/>
+      <rect x="47" y="22" width="4" height="4" rx="0.5" fill="white"/>
+      <rect x="22" y="27" width="4" height="4" rx="0.5" fill="white"/>
+      <rect x="32" y="27" width="4" height="4" rx="0.5" fill="white"/>
+      <rect x="42" y="27" width="4" height="4" rx="0.5" fill="white"/>
+      <rect x="22" y="32" width="4" height="4" rx="0.5" fill="white"/>
+      <rect x="27" y="37" width="4" height="4" rx="0.5" fill="white"/>
+      <rect x="32" y="32" width="4" height="4" rx="0.5" fill="white"/>
+      <rect x="37" y="37" width="4" height="4" rx="0.5" fill="white"/>
+      <rect x="42" y="32" width="4" height="4" rx="0.5" fill="white"/>
+      <rect x="47" y="42" width="4" height="4" rx="0.5" fill="white"/>
+      <rect x="22" y="42" width="4" height="4" rx="0.5" fill="white"/>
+      <rect x="22" y="47" width="4" height="4" rx="0.5" fill="white"/>
+      <rect x="32" y="47" width="4" height="4" rx="0.5" fill="white"/>
+      <rect x="42" y="47" width="4" height="4" rx="0.5" fill="white"/>
+      <rect x="47" y="47" width="4" height="4" rx="0.5" fill="white"/>
+    </svg>
+  </div>
+  <div class="qr-info">
+    <div class="qr-title">Mon QR Code fidélité</div>
+    <div class="qr-desc">Montrez-le au commerçant pour qu'il valide votre passage et crédite vos points.</div>
+    <button class="qr-btn">
+      <span class="material-symbols-outlined">qr_code_2</span>
+      Agrandir
+    </button>
+  </div>
+</div>
+
+<!-- FILTRES -->
+<div class="section-title">Nos partenaires</div>
+<div class="cats">
+  <button class="cat-btn active" onclick="filterCat('tous',this)">
+    <span class="material-symbols-outlined">apps</span>
+    Tous
+  </button>
+  <button class="cat-btn inactive" onclick="filterCat('restaurant',this)">
+    <span class="material-symbols-outlined">restaurant</span>
+    Restaurants
+  </button>
+  <button class="cat-btn inactive" onclick="filterCat('artisan',this)">
+    <span class="material-symbols-outlined">bakery_dining</span>
+    Artisans
+  </button>
+  <button class="cat-btn inactive" onclick="filterCat('culture',this)">
+    <span class="material-symbols-outlined">palette</span>
+    Culture
+  </button>
+  <button class="cat-btn inactive" onclick="filterCat('bien-etre',this)">
+    <span class="material-symbols-outlined">spa</span>
+    Bien-être
+  </button>
+  <button class="cat-btn inactive" onclick="filterCat('commerce',this)">
+    <span class="material-symbols-outlined">storefront</span>
+    Commerces
+  </button>
+</div>
+
+<!-- LISTE COMMERCES -->
+<div class="commerces-list" id="commerces-list"></div>
+
+<!-- HISTORIQUE -->
+<div class="historique-section">
+  <div class="historique-title">
+    Mes derniers passages
+    <span id="histo-count">0 passage</span>
+  </div>
+  <div id="historique-list">
+    <div class="empty">
+      <span class="material-symbols-outlined">receipt_long</span>
+      <div class="empty-t">Aucun passage encore</div>
+      <div class="empty-s">Scannez votre QR code chez un partenaire pour gagner vos premiers points.</div>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL QR AGRANDI -->
+<div class="qr-modal" id="qr-modal" onclick="if(event.target===this)closeQR()">
+  <div class="qr-modal-box">
+    <div class="qr-modal-title">Mon QR Code</div>
+    <div class="qr-modal-sub">Présentez ce code au commerçant partenaire pour valider votre passage.</div>
+    <div class="qr-modal-code">
+      <svg width="140" height="140" viewBox="0 0 52 52" xmlns="http://www.w3.org/2000/svg">
+        <rect x="2" y="2" width="18" height="18" rx="2" fill="white"/>
+        <rect x="5" y="5" width="12" height="12" rx="1" fill="#0f1923"/>
+        <rect x="7" y="7" width="8" height="8" rx="0.5" fill="white"/>
+        <rect x="32" y="2" width="18" height="18" rx="2" fill="white"/>
+        <rect x="35" y="5" width="12" height="12" rx="1" fill="#0f1923"/>
+        <rect x="37" y="7" width="8" height="8" rx="0.5" fill="white"/>
+        <rect x="2" y="32" width="18" height="18" rx="2" fill="white"/>
+        <rect x="5" y="35" width="12" height="12" rx="1" fill="#0f1923"/>
+        <rect x="7" y="37" width="8" height="8" rx="0.5" fill="white"/>
+        <rect x="22" y="2" width="4" height="4" rx="0.5" fill="white"/>
+        <rect x="27" y="2" width="4" height="4" rx="0.5" fill="white"/>
+        <rect x="22" y="8" width="4" height="4" rx="0.5" fill="white"/>
+        <rect x="27" y="14" width="4" height="4" rx="0.5" fill="white"/>
+        <rect x="22" y="22" width="4" height="4" rx="0.5" fill="white"/>
+        <rect x="27" y="22" width="4" height="4" rx="0.5" fill="white"/>
+        <rect x="32" y="22" width="4" height="4" rx="0.5" fill="white"/>
+        <rect x="37" y="22" width="4" height="4" rx="0.5" fill="white"/>
+        <rect x="42" y="22" width="4" height="4" rx="0.5" fill="white"/>
+        <rect x="47" y="22" width="4" height="4" rx="0.5" fill="white"/>
+        <rect x="22" y="27" width="4" height="4" rx="0.5" fill="white"/>
+        <rect x="32" y="27" width="4" height="4" rx="0.5" fill="white"/>
+        <rect x="42" y="27" width="4" height="4" rx="0.5" fill="white"/>
+        <rect x="22" y="32" width="4" height="4" rx="0.5" fill="white"/>
+        <rect x="27" y="37" width="4" height="4" rx="0.5" fill="white"/>
+        <rect x="32" y="32" width="4" height="4" rx="0.5" fill="white"/>
+        <rect x="37" y="37" width="4" height="4" rx="0.5" fill="white"/>
+        <rect x="42" y="32" width="4" height="4" rx="0.5" fill="white"/>
+        <rect x="47" y="42" width="4" height="4" rx="0.5" fill="white"/>
+        <rect x="22" y="42" width="4" height="4" rx="0.5" fill="white"/>
+        <rect x="22" y="47" width="4" height="4" rx="0.5" fill="white"/>
+        <rect x="32" y="47" width="4" height="4" rx="0.5" fill="white"/>
+        <rect x="42" y="47" width="4" height="4" rx="0.5" fill="white"/>
+        <rect x="47" y="47" width="4" height="4" rx="0.5" fill="white"/>
+      </svg>
+    </div>
+    <div class="qr-modal-points">
+      <span class="material-symbols-outlined">stars</span>
+      <div class="qr-modal-points-txt">+10 points par validation commerçant</div>
+    </div>
+    <button class="qr-modal-close" onclick="closeQR()">Fermer</button>
+  </div>
+</div>
+
+<script>
+// ══════════════════════════════════════════
+// DONNÉES
+// ══════════════════════════════════════════
+
+const COMMERCES = [
+  {
+    id: 1,
+    cat: 'restaurant',
+    name: 'Restaurant Aubergine',
+    desc: 'Cuisine provençale et créative, terrasse ombragée, produits bio et pain fait maison. Service non-stop.',
+    horaires: 'Non-stop · Tous les jours',
+    note: '4.1',
+    offre: '-10% dès Explorateur',
+    points_par_passage: 10,
+    bg: null,
+    color: '#6b21a8',
+    icon: 'restaurant',
+    page: 'aubergine.html',
+    ouvert: true,
+  },
+  {
+    id: 2,
+    cat: 'artisan',
+    name: 'Pâtisserie Marcellin',
+    desc: 'Boulanger, pâtissier, chocolatier et glacier artisan. Macarons 10+ parfums, pains au levain, tout fait maison.',
+    horaires: 'Mar – Sam · 7h – 19h30',
+    note: '5.0',
+    offre: 'Macaron offert dès Habitué',
+    points_par_passage: 10,
+    bg: null,
+    color: '#b45a00',
+    icon: 'bakery_dining',
+    page: 'marcellin.html',
+    ouvert: true,
+  },
+  {
+    id: 3,
+    cat: 'culture',
+    name: 'Chartreuse du Val de Bénédiction',
+    desc: 'La plus grande chartreuse de France. Visites guidées, expositions et résidences artistiques.',
+    horaires: '9h – 17h · Fermé lundi',
+    note: '4.8',
+    offre: 'Entrée -20% dès Explorateur',
+    points_par_passage: 15,
+    bg: null,
+    color: '#8b5e3c',
+    icon: 'church',
+    page: 'chartreuse.html',
+    ouvert: true,
+  },
+  {
+    id: 4,
+    cat: 'restaurant',
+    name: 'Maison Bronzini',
+    desc: "L'ancien Moulin de la Chartreuse réveillé. Bistrot, salon de thé, boutique huile d'olive et jardin provençal.",
+    horaires: '8h – 00h30',
+    note: '4.6',
+    offre: 'Café offert dès Explorateur',
+    points_par_passage: 10,
+    bg: null,
+    color: '#16a085',
+    icon: 'local_cafe',
+    page: 'maison-bronzini.html',
+    ouvert: true,
+  },
+  {
+    id: 5,
+    cat: 'bien-etre',
+    name: 'Institut Belle Provence',
+    desc: "Soins du visage, massages et rituels provençaux aux huiles essentielles locales.",
+    horaires: 'Lun – Sam · 9h – 19h',
+    note: '4.7',
+    offre: 'Soin découverte -15% dès Habitué',
+    points_par_passage: 20,
+    bg: null,
+    color: '#be185d',
+    icon: 'spa',
+    page: null,
+    ouvert: true,
+  },
+  {
+    id: 6,
+    cat: 'commerce',
+    name: 'Santons Bérard',
+    desc: 'Atelier familial de santons provençaux modelés et peints à la main depuis 3 générations.',
+    horaires: 'Lun – Sam · 9h – 18h',
+    note: '4.5',
+    offre: 'Santon offert dès Ambassadeur',
+    points_par_passage: 10,
+    bg: null,
+    color: '#0891b2',
+    icon: 'handyman',
+    page: null,
+    ouvert: false,
+  },
+];
+
+// ══════════════════════════════════════════
+// STATE FIDÉLITÉ (localStorage)
+// ══════════════════════════════════════════
+
+var FID = JSON.parse(localStorage.getItem('cdv_fidelite') || 'null') || {
+  points: 0,
+  niveau: 0,
+  passages: [],
+  user: 'Mon compte',
+};
+
+const PALIERS = [
+  { pts: 50,  label: 'Explorateur', color: '#d97706', icon: 'explore' },
+  { pts: 150, label: 'Habitué',     color: '#3B5BDB', icon: 'favorite' },
+  { pts: 300, label: 'Ambassadeur', color: '#16a34a', icon: 'military_tech' },
+  { pts: 500, label: 'Fidèle',      color: '#7c3aed', icon: 'diamond' },
+];
+
+function saveFid() {
+  localStorage.setItem('cdv_fidelite', JSON.stringify(FID));
+}
+
+function getNiveau(pts) {
+  var n = -1;
+  for (var i = 0; i < PALIERS.length; i++) {
+    if (pts >= PALIERS[i].pts) n = i;
+  }
+  return n;
+}
+
+function updateCarte() {
+  var pts = FID.points;
+  var niv = getNiveau(pts);
+
+  document.getElementById('pts-display').textContent = pts;
+  document.getElementById('prog-current-label').textContent = pts + ' pts';
+
+  // Badge niveau
+  var badgeEl = document.getElementById('badge-level');
+  var badgeLbl = document.getElementById('badge-label');
+  var levelLbl = document.getElementById('level-label');
+
+  if (niv >= 0) {
+    badgeLbl.textContent = PALIERS[niv].label;
+    levelLbl.textContent = 'Niveau ' + PALIERS[niv].label;
+  } else {
+    badgeLbl.textContent = 'Visiteur';
+    levelLbl.textContent = 'Niveau Visiteur';
+  }
+
+  // Prochain palier
+  var nextPalier = null;
+  for (var i = 0; i < PALIERS.length; i++) {
+    if (pts < PALIERS[i].pts) { nextPalier = PALIERS[i]; break; }
+  }
+
+  if (nextPalier) {
+    var prevPts = niv >= 0 ? PALIERS[niv].pts : 0;
+    var range = nextPalier.pts - prevPts;
+    var progress = pts - prevPts;
+    var pct = Math.min(100, Math.round((progress / range) * 100));
+
+    document.getElementById('prog-fill').style.width = pct + '%';
+    document.getElementById('prog-next-label').textContent = 'Prochain : ' + nextPalier.pts + ' pts';
+    document.getElementById('prog-manque').textContent = nextPalier.pts - pts;
+    document.getElementById('prog-next-level').textContent = nextPalier.label;
+    document.getElementById('prog-next-txt').style.display = 'block';
+  } else {
+    document.getElementById('prog-fill').style.width = '100%';
+    document.getElementById('prog-next-label').textContent = 'Niveau maximum atteint !';
+    document.getElementById('prog-next-txt').style.display = 'none';
+  }
+
+  // Paliers visuels
+  for (var j = 0; j < PALIERS.length; j++) {
+    var el = document.getElementById('palier-' + j);
+    var st = document.getElementById('status-' + j);
+    if (!el || !st) continue;
+
+    if (pts >= PALIERS[j].pts) {
+      el.classList.add('atteint');
+      el.classList.remove('prochain');
+      st.innerHTML = '<span class="material-symbols-outlined" style="color:#22c55e;font-variation-settings:\'FILL\' 1;">check_circle</span> <span style="color:#22c55e;">Débloqué !</span>';
+    } else if (nextPalier && PALIERS[j].label === nextPalier.label) {
+      el.classList.add('prochain');
+      st.innerHTML = '<span class="material-symbols-outlined" style="color:#3B5BDB;">arrow_forward</span> <span style="color:#3B5BDB;">En cours</span>';
+    } else {
+      el.classList.remove('atteint','prochain');
+      st.innerHTML = '<span class="material-symbols-outlined" style="color:#94a3b8;">lock</span> <span style="color:#94a3b8;">À débloquer</span>';
+    }
+  }
+
+  // Historique
+  updateHistorique();
+}
+
+function updateHistorique() {
+  var list = document.getElementById('historique-list');
+  var count = document.getElementById('histo-count');
+  var passages = FID.passages || [];
+
+  count.textContent = passages.length + ' passage' + (passages.length > 1 ? 's' : '');
+
+  if (passages.length === 0) {
+    list.innerHTML = '<div class="empty"><span class="material-symbols-outlined">receipt_long</span><div class="empty-t">Aucun passage encore</div><div class="empty-s">Scannez votre QR code chez un partenaire pour gagner vos premiers points.</div></div>';
+    return;
+  }
+
+  list.innerHTML = passages.slice().reverse().slice(0,8).map(function(p) {
+    return '<div class="histo-item">' +
+      '<div class="histo-icon"><span class="material-symbols-outlined">' + (p.icon || 'storefront') + '</span></div>' +
+      '<div class="histo-info"><div class="histo-name">' + esc(p.name) + '</div><div class="histo-date">' + p.date + '</div></div>' +
+      '<div class="histo-pts">+' + p.pts + ' pts</div>' +
+    '</div>';
+  }).join('');
+}
+
+// ══════════════════════════════════════════
+// RENDU COMMERCES
+// ══════════════════════════════════════════
+
+var currentCat = 'tous';
+
+function filterCat(cat, btn) {
+  currentCat = cat;
+  document.querySelectorAll('.cat-btn').forEach(function(b) {
+    b.className = 'cat-btn ' + (b === btn ? 'active' : 'inactive');
+  });
+  renderCommerces();
+}
+
+function renderCommerces() {
+  var list = document.getElementById('commerces-list');
+  var filtered = currentCat === 'tous'
+    ? COMMERCES
+    : COMMERCES.filter(function(c) { return c.cat === currentCat; });
+
+  if (filtered.length === 0) {
+    list.innerHTML = '<div class="empty"><span class="material-symbols-outlined">storefront</span><div class="empty-t">Aucun partenaire dans cette catégorie</div><div class="empty-s">D\'autres partenaires arrivent bientôt !</div></div>';
+    return;
+  }
+
+  var gradients = [
+    'linear-gradient(135deg,#4a1a4a,#7b3f6b)',
+    'linear-gradient(135deg,#3d1a00,#7a3b00)',
+    'linear-gradient(135deg,#0f2027,#1e3a5f)',
+    'linear-gradient(135deg,#16a085,#0e6655)',
+    'linear-gradient(135deg,#be185d,#831843)',
+    'linear-gradient(135deg,#0891b2,#0e7490)',
+  ];
+
+  list.innerHTML = filtered.map(function(c, i) {
+    var imgHtml = c.bg
+      ? '<img class="com-card-img" src="' + c.bg + '" alt="' + c.name + '">'
+      : '<div class="com-card-img-ph" style="background:' + gradients[i % gradients.length] + ';"><span class="material-symbols-outlined">' + c.icon + '</span></div>';
+
+    var niv = getNiveau(FID.points);
+    var aDesDroits = niv >= 0;
+
+    return '<div class="com-card" onclick="goTo(\'' + (c.page || '#') + '\')">' +
+      '<div class="com-card-img-wrap">' +
+        imgHtml +
+        '<div class="com-card-overlay"></div>' +
+        '<div class="com-card-top-badges">' +
+          (c.ouvert ? '<div class="badge-open">Ouvert</div>' : '<div style="background:rgba(100,116,139,0.8);backdrop-filter:blur(6px);color:#fff;font-size:9px;font-weight:800;padding:4px 10px;border-radius:20px;">Fermé</div>') +
+          '<div class="badge-fid"><span class="material-symbols-outlined">stars</span>+' + c.points_par_passage + ' pts</div>' +
+        '</div>' +
+        '<div class="com-card-cat-pill">' + CAT_LABELS[c.cat] + '</div>' +
+      '</div>' +
+      '<div class="com-card-body">' +
+        '<div class="com-card-header">' +
+          '<div class="com-card-name">' + esc(c.name) + '</div>' +
+          (c.note ? '<div class="com-card-rating"><span class="star">★</span>' + c.note + '</div>' : '') +
+        '</div>' +
+        '<div class="com-card-desc">' + esc(c.desc) + '</div>' +
+        '<div class="com-card-footer">' +
+          '<div class="com-card-hours"><span class="material-symbols-outlined">schedule</span>' + esc(c.horaires) + '</div>' +
+          '<div class="com-card-offre"><span class="material-symbols-outlined">local_offer</span>' + esc(c.offre) + '</div>' +
+        '</div>' +
+        '<div class="com-card-points">' +
+          '<span class="material-symbols-outlined">stars</span>' +
+          '<div class="com-card-points-txt">+' + c.points_par_passage + ' points à chaque passage · ' + (aDesDroits ? '<span style="color:#22c55e;font-weight:800;">Avantage actif</span>' : 'Scannez votre QR') + '</div>' +
+        '</div>' +
+      '</div>' +
+    '</div>';
+  }).join('');
+}
+
+var CAT_LABELS = {
+  restaurant: 'Restaurant',
+  artisan: 'Artisan',
+  culture: 'Culture',
+  'bien-etre': 'Bien-être',
+  commerce: 'Commerce',
+};
+
+function goTo(url) {
+  if (url && url !== '#') window.location.href = url;
+}
+
+// ══════════════════════════════════════════
+// QR CODE
+// ══════════════════════════════════════════
+
+function openQR() {
+  document.getElementById('qr-modal').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeQR() {
+  document.getElementById('qr-modal').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+// ══════════════════════════════════════════
+// UTILS
+// ══════════════════════════════════════════
+
+function esc(s) {
+  return (s || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+
+// ══════════════════════════════════════════
+// INIT
+// ══════════════════════════════════════════
+
+// Demo : simuler des points pour montrer le système
+// À supprimer en prod — juste pour la démo visuelle
+if (FID.points === 0 && FID.passages.length === 0) {
+  // On laisse à 0 pour un vrai utilisateur
+}
+
+updateCarte();
+renderCommerces();
+
+// Exposer pour test depuis la console
+window.addPoints = function(pts, commerceName, icon) {
+  FID.points += pts;
+  FID.passages.push({
+    name: commerceName || 'Partenaire',
+    pts: pts,
+    icon: icon || 'storefront',
+    date: new Date().toLocaleDateString('fr-FR', {day:'numeric',month:'long',hour:'2-digit',minute:'2-digit'})
+  });
+  saveFid();
+  updateCarte();
+};
+</script>
+</body>
+</html>
