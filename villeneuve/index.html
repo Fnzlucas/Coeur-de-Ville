@@ -2233,11 +2233,17 @@ document.addEventListener('DOMContentLoaded', function() {
       <div><div class="cdv-mitem-name">Mode Surprise</div><div class="cdv-mitem-desc">Laissez-vous guider au hasard</div></div>
       <span class="material-symbols-outlined cdv-marrow" style="font-size:18px;">chevron_right</span>
     </button>
-    <button class="cdv-mitem" onclick="cdvOpenModal('reserver')">
-      <div class="cdv-micon" style="background:#f0faf4"><span class="material-symbols-outlined" style="font-size:19px;color:#16a34a;">calendar_add_on</span></div>
-      <div><div class="cdv-mitem-name">Réserver</div><div class="cdv-mitem-desc">Guide, visite privée, atelier, prestations</div></div>
+    <a class="cdv-mitem" href="bons-plans.html" style="text-decoration:none;" onclick="closeMenu()">
+      <div class="cdv-micon" style="background:#fff7ed;position:relative;">
+        <span class="material-symbols-outlined" style="font-size:19px;color:#ea580c;">local_offer</span>
+        <span id="bons-plans-badge" style="position:absolute;top:-4px;right:-4px;width:16px;height:16px;background:#ef4444;border-radius:50%;font-size:9px;font-weight:800;color:#fff;display:flex;align-items:center;justify-content:center;display:none;">3</span>
+      </div>
+      <div>
+        <div class="cdv-mitem-name">Bons plans du jour</div>
+        <div class="cdv-mitem-desc">Offres flash · Valables aujourd'hui seulement</div>
+      </div>
       <span class="material-symbols-outlined cdv-marrow" style="font-size:18px;">chevron_right</span>
-    </button>
+    </a>
     <button class="cdv-mitem" onclick="cdvOpenModal('partager')">
       <div class="cdv-micon" style="background:#f5f5f5"><span class="material-symbols-outlined" style="font-size:19px;color:#64748b;">ios_share</span></div>
       <div><div class="cdv-mitem-name">Partager ma visite</div><div class="cdv-mitem-desc">Carnet de voyage &amp; avis</div></div>
