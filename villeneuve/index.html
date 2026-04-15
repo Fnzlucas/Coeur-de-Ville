@@ -2261,11 +2261,11 @@ document.addEventListener('DOMContentLoaded', function() {
     </a>
     <div class="cdv-mdivider"></div>
     <div class="cdv-msec">Planning</div>
-    <button class="cdv-mitem" onclick="cdvOpenModal('planning')">
+    <a class="cdv-mitem" href="planning.html" style="text-decoration:none;" onclick="closeMenu()">
       <div class="cdv-micon" style="background:#f0fdf4"><span class="material-symbols-outlined" style="font-size:19px;color:#16a34a;">calendar_month</span></div>
       <div><div class="cdv-mitem-name">Mon planning</div><div class="cdv-mitem-desc">Organisez vos visites jour par jour</div></div>
       <span class="material-symbols-outlined cdv-marrow" style="font-size:18px;">chevron_right</span>
-    </button>
+    </a>
     <div class="cdv-mdivider"></div>
     <div class="cdv-msec">Compte</div>
     <button class="cdv-mitem" onclick="cdvOpenModal('compte')">
@@ -2290,18 +2290,18 @@ document.addEventListener('DOMContentLoaded', function() {
 </div>
 
 <div class="cdv-modal" id="cdv-modal-planning" style="display:none;" onclick="if(event.target===this)cdvCloseModal('planning')">
-  <div class="cdv-mbox" style="max-height:90vh;">
+  <div class="cdv-mbox" style="max-height:92vh;">
     <div class="cdv-mhandle"></div>
     <div class="cdv-mtop">
       <div>
         <div class="cdv-mtitle">Mon planning</div>
-        <div class="cdv-msub">Organisez vos visites</div>
+        <div class="cdv-msub">Organisez vos visites jour par jour</div>
       </div>
       <button class="cdv-mxbtn" onclick="cdvCloseModal('planning')">
         <span class="material-symbols-outlined" style="font-size:17px;">close</span>
       </button>
     </div>
-    <div class="cdv-mbody" id="planning-body" style="padding:0 0 32px;"></div>
+    <div id="planning-body"></div>
   </div>
 </div>
 
@@ -3116,7 +3116,7 @@ cdvOpenModal = function(name) {
     else if (name === 'partager') cdvRenderPartager();
     else if (name === 'parcours') cdvRenderParcours();
     else if (name === 'planning') cdvRenderPlanning();
-  }, 50);
+  }, 100);
 };
 
 // Override bouton démarrer parcours
@@ -3155,7 +3155,8 @@ function cdvRenderPlanning() {
   if (!body) return;
 
   var allPois = [];
-  if (typeof POIS !== 'undefined') allPois = allPois.concat(POIS);
+  if (typeof PLACES !== 'undefined') allPois = allPois.concat(PLACES);
+  if (typeof INSOLITES !== 'undefined') allPois = allPois.concat(INSOLITES);
   if (typeof COMMERCES !== 'undefined') allPois = allPois.concat(COMMERCES);
 
   var catMap = {
@@ -3172,37 +3173,35 @@ function cdvRenderPlanning() {
   var dayNames = ['Dim','Lun','Mar','Mer','Jeu','Ven','Sam'];
   var monthNames = ['Janvier','Février','Mars','Avril','Mai','Juin','Juillet','Août','Septembre','Octobre','Novembre','Décembre'];
 
-  // ── Calendrier mensuel ──
   var today = new Date();
   var selDate = new Date(planSelectedDay + 'T12:00:00');
   var year = today.getFullYear();
   var month = today.getMonth();
-
   var firstDay = new Date(year, month, 1);
   var lastDay  = new Date(year, month + 1, 0);
-  var startDow = (firstDay.getDay() + 6) % 7; // lundi=0
+  var startDow = (firstDay.getDay() + 6) % 7;
   var totalDays = lastDay.getDate();
 
-  var cal = '<div style="padding:16px 16px 0;">';
-  // Mois + nav
-  cal += '<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;">';
-  cal += '<div style="font-size:17px;font-weight:900;color:#0f1923;letter-spacing:-0.02em;">' + monthNames[month] + ' ' + year + '</div>';
-  cal += '<div style="font-size:11px;font-weight:700;color:#94a3b8;">Appuyez sur un jour</div>';
-  cal += '</div>';
+  var html = '';
 
-  // Jours de la semaine
-  cal += '<div style="display:grid;grid-template-columns:repeat(7,1fr);gap:2px;margin-bottom:6px;">';
+  // ── CALENDRIER ──
+  html += '<div style="padding:16px 16px 0;">';
+  html += '<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;">';
+  html += '<div style="font-size:17px;font-weight:900;color:#0f1923;letter-spacing:-0.02em;">' + monthNames[month] + ' ' + year + '</div>';
+  html += '<div style="font-size:10px;font-weight:600;color:#94a3b8;background:#f1f5f9;padding:4px 10px;border-radius:20px;">Appuyez sur un jour</div>';
+  html += '</div>';
+
+  // Headers jours
+  html += '<div style="display:grid;grid-template-columns:repeat(7,1fr);gap:3px;margin-bottom:4px;">';
   ['L','M','M','J','V','S','D'].forEach(function(d){
-    cal += '<div style="text-align:center;font-size:10px;font-weight:800;color:#94a3b8;padding:4px 0;">'+d+'</div>';
+    html += '<div style="text-align:center;font-size:10px;font-weight:800;color:#cbd5e1;padding:4px 0;">'+d+'</div>';
   });
-  cal += '</div>';
+  html += '</div>';
 
-  // Cases du calendrier
-  cal += '<div style="display:grid;grid-template-columns:repeat(7,1fr);gap:4px;">';
-  for(var i=0; i<startDow; i++) {
-    cal += '<div></div>';
-  }
-  for(var d=1; d<=totalDays; d++) {
+  // Cases
+  html += '<div style="display:grid;grid-template-columns:repeat(7,1fr);gap:3px;">';
+  for(var i=0;i<startDow;i++) html += '<div></div>';
+  for(var d=1;d<=totalDays;d++) {
     var cellDate = new Date(year, month, d);
     var key = planKey(cellDate);
     var isToday = key === planKey(today);
@@ -3211,108 +3210,119 @@ function cdvRenderPlanning() {
     var hasPois = planningData[key] && planningData[key].length > 0;
     var count   = hasPois ? planningData[key].length : 0;
 
-    var bg = isSel ? '#0f1923' : isToday ? '#f0f4ff' : 'transparent';
-    var col = isSel ? '#fff' : isPast ? '#cbd5e1' : '#0f1923';
-    var cursor = isPast ? 'default' : 'pointer';
+    var bg  = isSel ? '#0f1923' : isToday ? '#eef2ff' : 'transparent';
+    var col = isSel ? '#fff' : isPast ? '#e2e8f0' : '#0f1923';
+    var fw  = (isToday || isSel) ? '900' : '600';
 
-    cal += '<div onclick="'+(isPast?'':'planSelectDay(\''+key+'\')')+'" style="'+
-      'text-align:center;padding:8px 2px;border-radius:10px;cursor:'+cursor+';'+
-      'background:'+bg+';transition:all 0.15s;position:relative;">';
-    cal += '<div style="font-size:14px;font-weight:'+(isToday||isSel?'900':'600')+';color:'+col+';">'+d+'</div>';
+    html += '<div onclick="'+(isPast?'':'planSelectDay(''+key+'')')+'" style="text-align:center;padding:7px 2px;border-radius:10px;cursor:'+(isPast?'default':'pointer')+';background:'+bg+';transition:all 0.15s;position:relative;">';
+    html += '<div style="font-size:14px;font-weight:'+fw+';color:'+col+';">'+d+'</div>';
+    html += '<div style="display:flex;justify-content:center;gap:2px;margin-top:2px;height:5px;">';
     if(hasPois) {
-      cal += '<div style="display:flex;justify-content:center;gap:2px;margin-top:2px;">';
-      for(var pi=0; pi<Math.min(count,3); pi++) {
-        cal += '<div style="width:4px;height:4px;border-radius:50%;background:'+(isSel?'#4ade80':'#3B5BDB')+';"></div>';
+      for(var pi=0;pi<Math.min(count,3);pi++) {
+        html += '<div style="width:4px;height:4px;border-radius:50%;background:'+(isSel?'#4ade80':'#3B5BDB')+';"></div>';
       }
-      cal += '</div>';
-    } else {
-      cal += '<div style="height:8px;"></div>';
     }
-    cal += '</div>';
+    html += '</div></div>';
   }
-  cal += '</div></div>';
+  html += '</div></div>';
 
-  // ── Séparateur ──
-  cal += '<div style="height:1px;background:#f1f5f9;margin:16px 0 0;"></div>';
+  // ── SÉPARATEUR ──
+  html += '<div style="height:1px;background:#f1f5f9;margin:14px 0 0;"></div>';
 
-  // ── Entête du jour sélectionné ──
+  // ── JOUR SÉLECTIONNÉ ──
   var items = planningData[planSelectedDay] || [];
   var dayLabel = dayNames[selDate.getDay()] + ' ' + selDate.getDate() + ' ' + monthNames[selDate.getMonth()];
-  var countTxt = items.length === 0 ? 'Aucun lieu' : items.length + ' lieu' + (items.length > 1 ? 'x' : '');
+  var done = items.filter(function(i){return i.done;}).length;
 
-  cal += '<div style="padding:14px 16px 8px;display:flex;align-items:center;justify-content:space-between;">';
-  cal += '<div style="font-size:15px;font-weight:900;color:#0f1923;letter-spacing:-0.02em;">' + dayLabel + '</div>';
-  cal += '<div style="font-size:11px;font-weight:700;color:#94a3b8;">' + countTxt + '</div>';
-  cal += '</div>';
+  html += '<div style="padding:14px 16px 10px;display:flex;align-items:center;justify-content:space-between;">';
+  html += '<div style="font-size:15px;font-weight:900;color:#0f1923;letter-spacing:-0.02em;">' + dayLabel + '</div>';
+  if(items.length > 0) {
+    html += '<div style="background:#f0fdf4;color:#16a34a;font-size:11px;font-weight:800;padding:4px 10px;border-radius:20px;">' + done + '/' + items.length + ' visités</div>';
+  }
+  html += '</div>';
 
-  // ── Liste POIs du jour ──
+  // ── LISTE ITEMS ──
   if(items.length === 0) {
-    cal += '<div style="text-align:center;padding:24px 20px;color:#94a3b8;font-size:13px;font-weight:600;line-height:1.6;">';
-    cal += '<span class="material-symbols-outlined" style="font-size:36px;color:#e2e8f0;display:block;margin-bottom:8px;">calendar_month</span>';
-    cal += 'Aucun lieu pour ce jour.<br>Ajoutez des endroits à visiter !</div>';
+    html += '<div style="text-align:center;padding:20px 20px 16px;">';
+    html += '<span class="material-symbols-outlined" style="font-size:38px;color:#e2e8f0;display:block;margin-bottom:8px;font-variation-settings:'FILL' 1;">calendar_month</span>';
+    html += '<div style="font-size:14px;font-weight:800;color:#0f1923;margin-bottom:4px;">Aucun lieu prévu</div>';
+    html += '<div style="font-size:12px;color:#94a3b8;font-weight:400;">Ajoutez des endroits à visiter<br>pour organiser votre journée.</div>';
+    html += '</div>';
   } else {
-    cal += '<div style="padding:0 16px;">';
+    html += '<div style="padding:0 16px;">';
     items.forEach(function(item, idx){
-      var c = catMap[item.catKey] || {icon:'place', color:'#64748b'};
-      cal += '<div style="display:flex;align-items:center;gap:12px;background:#fff;border-radius:14px;padding:11px 14px;margin-bottom:8px;box-shadow:0 2px 10px rgba(0,0,0,0.06);border:1.5px solid '+(item.done?'#0f1923':'#f1f5f9')+';" onclick="planToggleDone(\''+planSelectedDay+'\','+idx+')">';
-      // Checkbox
-      cal += '<div style="width:24px;height:24px;border-radius:50%;border:2px solid '+(item.done?'#0f1923':'#e2e8f0')+';background:'+(item.done?'#0f1923':'transparent')+';display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all 0.15s;">';
-      if(item.done) cal += '<span class="material-symbols-outlined" style="font-size:14px;color:#fff;">check</span>';
-      cal += '</div>';
-      // Icône
-      cal += '<div style="width:36px;height:36px;border-radius:10px;background:'+item.color+'18;display:flex;align-items:center;justify-content:center;flex-shrink:0;">';
-      cal += '<span class="material-symbols-outlined" style="font-size:18px;color:'+item.color+';">"+item.icon+"</span>";
-      cal += '</div>';
+      var c = catMap[item.catKey] || {icon:'place', color:'#64748b', label:'Lieu'};
+      var isDone = item.done;
+      html += '<div onclick="planToggleDone(''+planSelectedDay+'','+idx+')" style="display:flex;align-items:center;gap:12px;background:#fff;border-radius:14px;padding:12px 14px;margin-bottom:8px;box-shadow:0 2px 8px rgba(0,0,0,0.06);border:1.5px solid '+(isDone?'#0f1923':'#f1f5f9')+';cursor:pointer;transition:all 0.15s;">';
+      // Check
+      html += '<div style="width:24px;height:24px;border-radius:50%;border:2px solid '+(isDone?'#0f1923':'#e2e8f0')+';background:'+(isDone?'#0f1923':'transparent')+';display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all 0.2s;">';
+      if(isDone) html += '<span class="material-symbols-outlined" style="font-size:13px;color:#fff;">check</span>';
+      html += '</div>';
+      // Icône cat
+      html += '<div style="width:38px;height:38px;border-radius:11px;background:'+c.color+'15;display:flex;align-items:center;justify-content:center;flex-shrink:0;">';
+      html += '<span class="material-symbols-outlined" style="font-size:19px;color:'+c.color+';font-variation-settings:'FILL' 1;">'+c.icon+'</span>';
+      html += '</div>';
       // Info
-      cal += '<div style="flex:1;min-width:0;">';
-      cal += '<div style="font-size:14px;font-weight:800;color:#0f1923;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;'+(item.done?'text-decoration:line-through;opacity:0.5;':'')+'">'+item.name+'</div>';
-      cal += '<div style="font-size:11px;color:#94a3b8;margin-top:1px;">'+item.cat+'</div>';
-      cal += '</div>';
-      // Supprimer
-      cal += '<button onclick="event.stopPropagation();planRemove(\''+planSelectedDay+'\','+idx+')" style="background:none;border:none;cursor:pointer;padding:4px;flex-shrink:0;">';
-      cal += '<span class="material-symbols-outlined" style="font-size:16px;color:#cbd5e1;">close</span></button>';
-      cal += '</div>';
+      html += '<div style="flex:1;min-width:0;">';
+      html += '<div style="font-size:14px;font-weight:800;color:'+(isDone?'#94a3b8':'#0f1923')+';white-space:nowrap;overflow:hidden;text-overflow:ellipsis;'+(isDone?'text-decoration:line-through;':'')+'">'+item.name+'</div>';
+      html += '<div style="font-size:11px;color:#94a3b8;margin-top:1px;">'+item.cat+'</div>';
+      html += '</div>';
+      // Suppr
+      html += '<button onclick="event.stopPropagation();planRemove(''+planSelectedDay+'','+idx+')" style="background:#f8f9fa;border:none;cursor:pointer;width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:background 0.15s;">';
+      html += '<span class="material-symbols-outlined" style="font-size:15px;color:#94a3b8;">delete</span></button>';
+      html += '</div>';
     });
-    // Résumé
-    var done = items.filter(function(i){return i.done;}).length;
-    cal += '<div style="margin-top:4px;padding:12px 14px;background:linear-gradient(120deg,#0f1923,#1e3a5f);border-radius:14px;display:flex;align-items:center;gap:12px;">';
-    cal += '<div style="flex:1;font-size:12px;font-weight:700;color:rgba(255,255,255,0.7);">Visites complétées</div>';
-    cal += '<div style="font-size:20px;font-weight:900;color:#fff;">'+done+'/'+items.length+'</div>';
-    cal += '</div>';
-    cal += '</div>';
+
+    // Barre progression
+    var pct = items.length > 0 ? Math.round((done/items.length)*100) : 0;
+    html += '<div style="margin:4px 0 12px;background:#f1f5f9;border-radius:12px;padding:12px 14px;">';
+    html += '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">';
+    html += '<div style="font-size:11px;font-weight:700;color:#64748b;">Progression de la journée</div>';
+    html += '<div style="font-size:11px;font-weight:800;color:#0f1923;">'+pct+'%</div>';
+    html += '</div>';
+    html += '<div style="height:6px;background:#e2e8f0;border-radius:3px;overflow:hidden;">';
+    html += '<div style="height:100%;width:'+pct+'%;background:linear-gradient(90deg,#3B5BDB,#4ade80);border-radius:3px;transition:width 0.5s;"></div>';
+    html += '</div></div>';
+    html += '</div>';
   }
 
-  // ── Bouton ajouter ──
-  cal += '<div style="padding:12px 16px 0;">';
-  cal += '<button onclick="planOpenPicker()" style="display:flex;align-items:center;justify-content:center;gap:8px;width:100%;padding:13px;border-radius:14px;border:1.5px dashed #cbd5e1;background:none;cursor:pointer;font-family:Manrope;font-size:13px;font-weight:700;color:#64748b;">';
-  cal += '<span class="material-symbols-outlined" style="font-size:18px;">add</span> Ajouter un lieu</button>';
-  cal += '</div>';
+  // ── BOUTON AJOUTER ──
+  html += '<div style="padding:0 16px 8px;">';
+  html += '<button onclick="planOpenPicker()" style="display:flex;align-items:center;justify-content:center;gap:8px;width:100%;padding:13px;border-radius:14px;border:1.5px dashed #cbd5e1;background:#fafafa;cursor:pointer;font-family:Manrope;font-size:13px;font-weight:700;color:#64748b;transition:all 0.15s;">';
+  html += '<span class="material-symbols-outlined" style="font-size:18px;color:#3B5BDB;">add_circle</span>';
+  html += 'Ajouter un lieu à visiter</button>';
+  html += '</div>';
 
-  // ── Picker POIs ──
-  cal += '<div id="plan-picker-wrap" style="display:none;padding:12px 16px 0;">';
-  cal += '<div style="font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:0.12em;color:#94a3b8;margin-bottom:10px;">Choisir un lieu</div>';
+  // ── PICKER ──
+  html += '<div id="plan-picker-wrap" style="display:none;padding:0 16px 16px;">';
+  html += '<div style="background:#f8f9fa;border-radius:16px;padding:14px;">';
+  html += '<div style="font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:0.14em;color:#94a3b8;margin-bottom:12px;display:flex;align-items:center;gap:6px;">';
+  html += '<span class="material-symbols-outlined" style="font-size:14px;">search</span>Choisir un lieu</div>';
 
   var already = (planningData[planSelectedDay]||[]).map(function(i){return i.id;});
-  var shown = allPois.filter(function(p){ return already.indexOf(p.id) === -1; }).slice(0, 15);
-
-  shown.forEach(function(poi){
-    var c = catMap[poi.cat] || {label: poi.cat||'Lieu', icon:'place', color:'#64748b'};
-    cal += '<div onclick="planAddPoi('+poi.id+',\''+poi.name.replace(/'/g,"\\'")+'\',\''+poi.cat+'\',\''+c.label+'\',\''+c.icon+'\',\''+c.color+'\')" ';
-    cal += 'style="display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:12px;cursor:pointer;margin-bottom:4px;transition:background 0.12s;" ';
-    cal += 'onmouseover="this.style.background=\'#f8f9fa\'" onmouseout="this.style.background=\'transparent\'">';
-    cal += '<div style="width:34px;height:34px;border-radius:10px;background:'+c.color+'18;display:flex;align-items:center;justify-content:center;flex-shrink:0;">';
-    cal += '<span class="material-symbols-outlined" style="font-size:17px;color:'+c.color+';">"+c.icon+"</span></div>";
-    cal += '<div><div style="font-size:13px;font-weight:700;color:#0f1923;">'+poi.name+'</div>';
-    cal += '<div style="font-size:11px;color:#94a3b8;">'+c.label+'</div></div></div>';
-  });
+  var shown = allPois.filter(function(p){ return already.indexOf(p.id) === -1; }).slice(0, 20);
 
   if(shown.length === 0) {
-    cal += '<div style="text-align:center;padding:16px;font-size:12px;color:#94a3b8;">Tous les lieux sont déjà ajoutés !</div>';
+    html += '<div style="text-align:center;padding:16px;font-size:12px;color:#94a3b8;font-weight:600;">Tous les lieux sont déjà ajoutés !</div>';
+  } else {
+    shown.forEach(function(poi){
+      var c = catMap[poi.cat] || {label: poi.cat||'Lieu', icon:'place', color:'#64748b'};
+      html += '<div onclick="planAddPoi('+poi.id+',''+poi.name.replace(/'/g,"\'")+'',''+poi.cat+'',''+c.label+'',''+c.icon+'',''+c.color+'')" ';
+      html += 'style="display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:12px;cursor:pointer;margin-bottom:4px;background:#fff;box-shadow:0 1px 4px rgba(0,0,0,0.05);transition:all 0.12s;"';
+      html += 'onmouseover="this.style.background='#f0f4ff'" onmouseout="this.style.background='#fff'">';
+      html += '<div style="width:36px;height:36px;border-radius:10px;background:'+c.color+'15;display:flex;align-items:center;justify-content:center;flex-shrink:0;">';
+      html += '<span class="material-symbols-outlined" style="font-size:18px;color:'+c.color+';font-variation-settings:'FILL' 1;">'+c.icon+'</span></div>';
+      html += '<div style="flex:1;">';
+      html += '<div style="font-size:13px;font-weight:700;color:#0f1923;">'+poi.name+'</div>';
+      html += '<div style="font-size:10px;color:#94a3b8;font-weight:600;text-transform:uppercase;letter-spacing:0.06em;margin-top:1px;">'+c.label+'</div>';
+      html += '</div>';
+      html += '<span class="material-symbols-outlined" style="font-size:16px;color:#cbd5e1;">add</span>';
+      html += '</div>';
+    });
   }
+  html += '</div></div>';
 
-  cal += '</div>';
-
-  body.innerHTML = cal;
+  body.innerHTML = html;
 }
 
 function planOpenPicker() {
