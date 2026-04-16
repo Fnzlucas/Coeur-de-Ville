@@ -213,18 +213,6 @@ html,body{height:100%;overflow:hidden;font-family:'Manrope',sans-serif;backgroun
 
 /* Street View */
 #sv-modal{display:none;position:fixed;inset:0;z-index:99999;flex-direction:column;background:#0f1923;}
-
-/* GPS Permission Modal */
-#gps-modal{display:none;position:fixed;inset:0;z-index:99999;background:rgba(0,0,0,0.6);backdrop-filter:blur(6px);align-items:flex-end;justify-content:center;}
-#gps-modal.open{display:flex;}
-#gps-modal-box,#gps-denied-box{background:#fff;border-radius:24px 24px 0 0;padding:32px 24px 48px;width:100%;max-width:480px;text-align:center;animation:gpsUp 0.3s cubic-bezier(0.34,1.3,0.64,1);}
-#gps-denied-box{display:none;}
-@keyframes gpsUp{from{transform:translateY(100%);opacity:0;}to{transform:translateY(0);opacity:1;}}
-.gps-ico{width:72px;height:72px;border-radius:20px;background:linear-gradient(135deg,#3B5BDB,#6b3fa0);display:flex;align-items:center;justify-content:center;margin:0 auto 20px;}
-#gps-modal h2{font-family:Manrope;font-size:20px;font-weight:900;color:#0f1923;margin-bottom:10px;}
-#gps-modal p{font-family:Manrope;font-size:14px;color:#64748b;line-height:1.6;margin-bottom:28px;}
-.gps-btn-ok{width:100%;background:#0f1923;color:#fff;border:none;border-radius:14px;padding:16px;font-family:Manrope;font-size:15px;font-weight:800;cursor:pointer;margin-bottom:12px;display:block;}
-.gps-btn-no{width:100%;background:#f1f5f9;color:#64748b;border:none;border-radius:14px;padding:14px;font-family:Manrope;font-size:14px;font-weight:600;cursor:pointer;display:block;}
 </style>
 </head>
 <body style="height:100%;margin:0;overflow:hidden;">
@@ -722,7 +710,6 @@ const EVENEMENTS = [
 
 let map, userMarker, routePolyline, routeActive = false;
 let userLat = null, userLng = null;
-let gpsReady = false;
 let currentSection = 'tourisme';
 let navActive = false, navDestLat = null, navDestLng = null;
 let selectedRadarPlace = null;
@@ -753,29 +740,18 @@ function initMap() {
   renderAllMarkers();
   map.on('click', () => closeCustomPopup());
 
-  // UN SEUL watchPosition — déclenche le popup natif du téléphone au chargement
-  gpsWatchId = navigator.geolocation.watchPosition(
-    function(pos) {
-      userLat = pos.coords.latitude;
-      userLng = pos.coords.longitude;
-      gpsReady = true;
-      if (!userMarker) map.setView([userLat, userLng], 16);
-      if (userMarker) map.removeLayer(userMarker);
-      userMarker = L.marker([userLat, userLng], { icon: makeUserMarkerIcon() }).addTo(map);
-      if (navActive) updateNavigation();
-    },
-    function(err) {
-      if (err.code === 1) { // PERMISSION_DENIED
-        var box = document.getElementById('gps-modal-box');
-        var denied = document.getElementById('gps-denied-box');
-        if (box) box.style.display = 'none';
-        if (denied) denied.style.display = 'block';
-        var modal = document.getElementById('gps-modal');
-        if (modal) modal.classList.add('open');
+  if (navigator.geolocation) {
+    navigator.geolocation.watchPosition(p => {
+      userLat = p.coords.latitude;
+      userLng = p.coords.longitude;
+      if (!userMarker) {
+        map.setView([userLat, userLng], 16);
+        userMarker = L.marker([userLat, userLng], { icon: makeUserMarkerIcon() }).addTo(map);
+      } else {
+        userMarker.setLatLng([userLat, userLng]);
       }
-    },
-    { enableHighAccuracy: true, maximumAge: 0, timeout: 30000 }
-  );
+    }, () => {}, { enableHighAccuracy: true, maximumAge: 0 });
+  }
 
   window.leafletMap = map;
 
@@ -1131,7 +1107,7 @@ function startRoute(lat, lng) {
   if (routePolyline) { map.removeLayer(routePolyline); routePolyline = null; }
   routeMarkers.forEach(m => map.removeLayer(m)); routeMarkers = [];
   document.getElementById('route-banner')?.remove();
-  if (!gpsReady) { showToast('GPS en cours…'); return; }
+  if (!userLat || !userLng) { showToast('Position GPS non disponible'); return; }
   showToast('Calcul des itinéraires…');
   _computeRoute(parseFloat(lat), parseFloat(lng));
 }
@@ -1176,12 +1152,22 @@ function cancelRoute() {
 
 // ─── GPS ──────────────────────────────────────────────────────
 function locateUser() {
-  if (!gpsReady) { showToast('GPS en cours…'); return; }
-  map.setView([userLat, userLng], 17);
-  showToast('Position trouvée');
+  navigator.geolocation?.getCurrentPosition(pos => {
+    userLat = pos.coords.latitude; userLng = pos.coords.longitude;
+    map.setView([userLat, userLng], 17);
+    if (userMarker) map.removeLayer(userMarker);
+    userMarker = L.marker([userLat, userLng], { icon: makeUserMarkerIcon() }).addTo(map);
+    showToast('Position trouvée');
+  }, () => showToast('GPS refusé'));
 }
 
-function startGPSWatch() { /* watchPosition déjà actif dès initMap */ }
+function startGPSWatch() {
+  if (gpsWatchId) return;
+  gpsWatchId = navigator.geolocation?.watchPosition(pos => {
+    userLat = pos.coords.latitude; userLng = pos.coords.longitude;
+    if (navActive) updateNavigation();
+  }, () => {}, { enableHighAccuracy: true, maximumAge: 0 });
+}
 
 function updateNavigation() {
   if (!navActive || !navDestLat) return;
@@ -1286,9 +1272,16 @@ async function _startARAsync() {
   document.getElementById('ar-distance-ring').textContent = 'Recherche GPS…';
 
   const pill = document.getElementById('ar-distance-ring');
+  let gpsReady = false;
 
-  // GPS déjà actif via watchPosition global dans initMap
-  pill.textContent = gpsReady ? 'GPS · actif' : 'GPS en cours…';
+  navigator.geolocation?.watchPosition(pos => {
+    userLat = pos.coords.latitude;
+    userLng = pos.coords.longitude;
+    if (!gpsReady) {
+      gpsReady = true;
+      pill.textContent = `GPS · ${pos.coords.accuracy.toFixed(0)}m`;
+    }
+  }, () => { pill.textContent = 'GPS erreur'; }, { enableHighAccuracy: true, maximumAge: 0, timeout: 15000 });
 
   arActive = true;
   heading = rawH;
@@ -1636,51 +1629,6 @@ if (poiId) {
     }
   }, 800);
 }
-</script>
-
-<!-- GPS PERMISSION MODAL -->
-<div id="gps-modal">
-  <div id="gps-modal-box">
-    <div class="gps-ico">
-      <span class="material-symbols-outlined" style="font-size:36px;color:#fff;">my_location</span>
-    </div>
-    <h2>Activer la localisation</h2>
-    <p>Pour calculer des itinéraires et trouver les lieux près de vous, autorisez l'accès à votre position.</p>
-    <button class="gps-btn-ok" onclick="requestGPS()"><span class="material-symbols-outlined" style="font-size:18px;vertical-align:middle;margin-right:6px;">my_location</span> Autoriser la localisation</button>
-    <button class="gps-btn-no" onclick="document.getElementById('gps-modal').classList.remove('open')">Pas maintenant</button>
-  </div>
-  <div id="gps-denied-box">
-    <div class="gps-ico" style="background:linear-gradient(135deg,#e11d48,#f97316);">
-      <span class="material-symbols-outlined" style="font-size:36px;color:#fff;">location_off</span>
-    </div>
-    <h2>Localisation bloquée</h2>
-    <p id="gps-denied-text">Pour l'activer : Réglages → Navigateur → Localisation → Autoriser.</p>
-    <button class="gps-btn-ok" onclick="openGPSSettings()"><span class="material-symbols-outlined" style="font-size:18px;vertical-align:middle;margin-right:6px;">settings</span> Ouvrir les réglages</button>
-    <button class="gps-btn-no" onclick="document.getElementById('gps-modal').classList.remove('open')">Fermer</button>
-  </div>
-</div>
-
-<script>
-function requestGPS() {
-  document.getElementById('gps-modal').classList.remove('open');
-}
-
-function openGPSSettings() {
-  var isIOS = /iphone|ipad|ipod/i.test(navigator.userAgent);
-  var isSafari = /safari/i.test(navigator.userAgent) && !/chrome/i.test(navigator.userAgent);
-  var isChrome = /chrome/i.test(navigator.userAgent);
-  var txt = document.getElementById('gps-denied-text');
-  if (isIOS && isSafari) {
-    txt.innerHTML = '<b>Sur iPhone :</b><br>Réglages → Confidentialité → Service de localisation → Safari → Lors de l\'utilisation';
-  } else if (isIOS) {
-    txt.innerHTML = '<b>Sur iPhone :</b><br>Réglages → Confidentialité → Service de localisation → Chrome → Lors de l\'utilisation';
-  } else if (isChrome) {
-    txt.innerHTML = '<b>Sur Android / Chrome :</b><br>Appuyez sur 🔒 dans la barre d\'adresse → Autorisations du site → Localisation → Autoriser';
-  } else {
-    txt.innerHTML = '<b>Dans votre navigateur :</b><br>Cliquez sur l\'icône 🔒 dans la barre d\'adresse → Localisation → Autoriser<br>Puis rechargez la page.';
-  }
-}
-
 </script>
 </body>
 </html>
