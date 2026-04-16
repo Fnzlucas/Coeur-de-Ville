@@ -1103,11 +1103,17 @@ function spawnParticles(color) {
 }
 
 // ─── ROUTE ────────────────────────────────────────────────────
-function startRoute(lat, lng) {
+function startRoute(lat, lng, attempt) {
   if (routePolyline) { map.removeLayer(routePolyline); routePolyline = null; }
   routeMarkers.forEach(m => map.removeLayer(m)); routeMarkers = [];
   document.getElementById('route-banner')?.remove();
-  if (!userLat || !userLng) { showToast('Position GPS non disponible'); return; }
+  attempt = attempt || 0;
+  if (!userLat || !userLng) {
+    if (attempt >= 10) { showToast('GPS indisponible, vérifiez les permissions'); return; }
+    showToast('Localisation en cours…');
+    setTimeout(() => startRoute(lat, lng, attempt + 1), 1000);
+    return;
+  }
   showToast('Calcul des itinéraires…');
   _computeRoute(parseFloat(lat), parseFloat(lng));
 }
@@ -1152,22 +1158,15 @@ function cancelRoute() {
 
 // ─── GPS ──────────────────────────────────────────────────────
 function locateUser() {
-  navigator.geolocation?.getCurrentPosition(pos => {
-    userLat = pos.coords.latitude; userLng = pos.coords.longitude;
+  if (userLat && userLng) {
     map.setView([userLat, userLng], 17);
-    if (userMarker) map.removeLayer(userMarker);
-    userMarker = L.marker([userLat, userLng], { icon: makeUserMarkerIcon() }).addTo(map);
     showToast('Position trouvée');
-  }, () => showToast('GPS refusé'));
+  } else {
+    showToast('GPS en cours…');
+  }
 }
 
-function startGPSWatch() {
-  if (gpsWatchId) return;
-  gpsWatchId = navigator.geolocation?.watchPosition(pos => {
-    userLat = pos.coords.latitude; userLng = pos.coords.longitude;
-    if (navActive) updateNavigation();
-  }, () => {}, { enableHighAccuracy: true, maximumAge: 0 });
-}
+function startGPSWatch() { /* watchPosition global déjà actif */ }
 
 function updateNavigation() {
   if (!navActive || !navDestLat) return;
@@ -1272,16 +1271,7 @@ async function _startARAsync() {
   document.getElementById('ar-distance-ring').textContent = 'Recherche GPS…';
 
   const pill = document.getElementById('ar-distance-ring');
-  let gpsReady = false;
-
-  navigator.geolocation?.watchPosition(pos => {
-    userLat = pos.coords.latitude;
-    userLng = pos.coords.longitude;
-    if (!gpsReady) {
-      gpsReady = true;
-      pill.textContent = `GPS · ${pos.coords.accuracy.toFixed(0)}m`;
-    }
-  }, () => { pill.textContent = 'GPS erreur'; }, { enableHighAccuracy: true, maximumAge: 0, timeout: 15000 });
+  pill.textContent = (userLat && userLng) ? 'GPS · actif' : 'GPS en cours…';
 
   arActive = true;
   heading = rawH;
