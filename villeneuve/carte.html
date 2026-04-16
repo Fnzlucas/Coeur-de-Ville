@@ -217,6 +217,15 @@ html,body{height:100%;overflow:hidden;font-family:'Manrope',sans-serif;backgroun
 </head>
 <body style="height:100%;margin:0;overflow:hidden;">
 
+<script>
+// Variables GPS globales déclarées en premier
+var userLat = null;
+var userLng = null;
+var userMarker = null;
+var map = null;
+var navActive = false;
+</script>
+
 <!-- SPLASH GPS -->
 <div id="gps-splash" style="position:fixed;inset:0;z-index:99999;background:#0f1923;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:32px;">
   <div style="width:80px;height:80px;border-radius:24px;background:linear-gradient(135deg,#3B5BDB,#6b3fa0);display:flex;align-items:center;justify-content:center;margin-bottom:24px;">
@@ -749,10 +758,9 @@ const EVENEMENTS = [
 
 
 
-let map, userMarker, routePolyline, routeActive = false;
-let userLat = null, userLng = null;
+let routePolyline, routeActive = false;
 let currentSection = 'tourisme';
-let navActive = false, navDestLat = null, navDestLng = null;
+let navDestLat = null, navDestLng = null;
 let selectedRadarPlace = null;
 let immTypewriterTimer = null;
 let gpsWatchId = null;
