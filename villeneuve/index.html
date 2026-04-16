@@ -3518,6 +3518,9 @@ function planRemove(key, idx) {
 <!-- ONBOARDING -->
 <div id="onb" aria-modal="true" role="dialog">
 
+  <div id="onb-progress-bar">
+    <div id="onb-progress-fill"></div>
+  </div>
   <div id="onb-track">
 
     <!-- S1 Bienvenue -->
@@ -3531,13 +3534,21 @@ function planRemove(key, idx) {
           <h1 class="onb-h">Votre ville,<br/><em>à portée de main</em></h1>
           <p class="onb-p">Patrimoine, commerces, événements et services — tout réuni dans une expérience fluide et intuitive.</p>
         </div>
+        <div class="onb-mayor-quote">
+          <div class="onb-mayor-avatar">
+            <span class="material-symbols-outlined" style="font-size:20px;color:#fff;font-variation-settings:'FILL' 1;">person</span>
+          </div>
+          <div class="onb-mayor-text">
+            <p class="onb-mayor-words">« Découvrez notre patrimoine et nos commerces comme jamais auparavant. »</p>
+            <span class="onb-mayor-name">Pascale Bories · Maire de Villeneuve-lès-Avignon</span>
+          </div>
+        </div>
         <div class="onb-loc-chip">
           <span class="material-symbols-outlined" style="font-size:13px;font-variation-settings:'FILL' 1;">location_on</span>
           Gard · Occitanie · 30400
         </div>
       </div>
     </div>
-
     <!-- S2 Tout en un -->
     <div class="onb-s" data-i="1">
       <div class="onb-s-inner">
@@ -3947,12 +3958,16 @@ function planRemove(key, idx) {
 </style>
 
 <script>
-var ONB_KEY='cdv_onb_v5', onbIdx=0, onbN=7;
+var ONB_KEY='cdv_onb_v99', onbIdx=0, onbN=7;
 function initOnb(){
   if(!localStorage.getItem(ONB_KEY)){
     document.getElementById('onb').classList.add('onb-on');
     document.querySelector('.onb-s[data-i="0"]').classList.add('on');
   }
+}
+function updateProgress(n) {
+  var fill = document.getElementById('onb-progress-fill');
+  if (fill) fill.style.width = ((n + 1) / onbN * 100) + '%';
 }
 function goToSlide(n){
   var all=document.querySelectorAll('.onb-s');
@@ -3963,6 +3978,7 @@ function goToSlide(n){
   setTimeout(function(){all[prev].classList.remove('out');},400);
   all[onbIdx].classList.add('on');
   dots.forEach(function(d,i){d.classList.toggle('active',i===onbIdx);});
+  updateProgress(onbIdx);
   var last=onbIdx===onbN-1;
   document.getElementById('onb-next-btn').style.display=last?'none':'flex';
   document.getElementById('onb-skip-btn').style.display=last?'none':'block';
