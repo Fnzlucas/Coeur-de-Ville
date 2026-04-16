@@ -741,11 +741,25 @@ function initMap() {
   map.on('click', () => closeCustomPopup());
 
   if (navigator.geolocation) {
+    // Acquisition initiale haute précision + recentrage automatique
     navigator.geolocation.getCurrentPosition(p => {
       userLat = p.coords.latitude;
       userLng = p.coords.longitude;
+      if (userMarker) map.removeLayer(userMarker);
       userMarker = L.marker([userLat, userLng], { icon: makeUserMarkerIcon() }).addTo(map);
-    }, () => {});
+      map.setView([userLat, userLng], 16);
+    }, () => {}, { enableHighAccuracy: true, timeout: 10000, maximumAge: 0 });
+
+    // Suivi continu pour mise à jour en temps réel
+    if (!gpsWatchId) {
+      gpsWatchId = navigator.geolocation.watchPosition(p => {
+        userLat = p.coords.latitude;
+        userLng = p.coords.longitude;
+        if (userMarker) map.removeLayer(userMarker);
+        userMarker = L.marker([userLat, userLng], { icon: makeUserMarkerIcon() }).addTo(map);
+        if (navActive) updateNavigation();
+      }, () => {}, { enableHighAccuracy: true, maximumAge: 0, timeout: 15000 });
+    }
   }
 
   window.leafletMap = map;
@@ -951,8 +965,7 @@ function renderAllMarkers() {
 
   // Create new cluster group
   clusterGroup = L.markerClusterGroup({
-    maxClusterRadius: 30,
-    disableClusteringAtZoom: 17,
+    maxClusterRadius: 60,
     spiderfyOnMaxZoom: true,
     showCoverageOnHover: false,
     zoomToBoundsOnClick: true,
@@ -1151,21 +1164,25 @@ function cancelRoute() {
 
 // ─── GPS ──────────────────────────────────────────────────────
 function locateUser() {
+  showToast('Recherche GPS…');
   navigator.geolocation?.getCurrentPosition(pos => {
     userLat = pos.coords.latitude; userLng = pos.coords.longitude;
     map.setView([userLat, userLng], 17);
     if (userMarker) map.removeLayer(userMarker);
     userMarker = L.marker([userLat, userLng], { icon: makeUserMarkerIcon() }).addTo(map);
-    showToast('Position trouvée');
-  }, () => showToast('GPS refusé'));
+    showToast('Position trouvée ✓');
+  }, () => showToast('GPS refusé ou indisponible'),
+  { enableHighAccuracy: true, timeout: 10000, maximumAge: 0 });
 }
 
 function startGPSWatch() {
   if (gpsWatchId) return;
   gpsWatchId = navigator.geolocation?.watchPosition(pos => {
     userLat = pos.coords.latitude; userLng = pos.coords.longitude;
+    if (userMarker) map.removeLayer(userMarker);
+    userMarker = L.marker([userLat, userLng], { icon: makeUserMarkerIcon() }).addTo(map);
     if (navActive) updateNavigation();
-  }, () => {}, { enableHighAccuracy: true, maximumAge: 0 });
+  }, () => {}, { enableHighAccuracy: true, maximumAge: 0, timeout: 15000 });
 }
 
 function updateNavigation() {
