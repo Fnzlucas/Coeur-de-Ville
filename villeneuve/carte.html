@@ -710,8 +710,6 @@ const EVENEMENTS = [
 
 let map, userMarker, routePolyline, routeActive = false;
 let userLat = CONFIG.lat, userLng = CONFIG.lng;
-let gpsReady = false;
-let pendingRoute = null;
 let currentSection = 'tourisme';
 let navActive = false, navDestLat = null, navDestLng = null;
 let selectedRadarPlace = null;
@@ -742,25 +740,13 @@ function initMap() {
   renderAllMarkers();
   map.on('click', () => closeCustomPopup());
 
-  // GPS continu - un seul watchPosition comme Google Maps
-  navigator.geolocation.watchPosition(p => {
-    userLat = p.coords.latitude;
-    userLng = p.coords.longitude;
-    if (!gpsReady) {
-      gpsReady = true;
-      map.setView([userLat, userLng], 16);
-      // Si l'user avait cliqué "Y aller" avant que le GPS soit prêt, on lance maintenant
-      if (pendingRoute) {
-        const { lat, lng } = pendingRoute;
-        pendingRoute = null;
-        showToast('Calcul des itinéraires…');
-        _computeRoute(lat, lng);
-      }
-    }
-    if (userMarker) map.removeLayer(userMarker);
-    userMarker = L.marker([userLat, userLng], { icon: makeUserMarkerIcon() }).addTo(map);
-    if (navActive) updateNavigation();
-  }, () => {}, { enableHighAccuracy: true, maximumAge: 0, timeout: 30000 });
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(p => {
+      userLat = p.coords.latitude;
+      userLng = p.coords.longitude;
+      userMarker = L.marker([userLat, userLng], { icon: makeUserMarkerIcon() }).addTo(map);
+    }, () => {});
+  }
 
   window.leafletMap = map;
 
@@ -1116,13 +1102,12 @@ function startRoute(lat, lng) {
   if (routePolyline) { map.removeLayer(routePolyline); routePolyline = null; }
   routeMarkers.forEach(m => map.removeLayer(m)); routeMarkers = [];
   document.getElementById('route-banner')?.remove();
-  if (!gpsReady) {
-    pendingRoute = { lat: parseFloat(lat), lng: parseFloat(lng) };
-    showToast('GPS en cours de localisation…');
-    return;
-  }
   showToast('Calcul des itinéraires…');
-  _computeRoute(parseFloat(lat), parseFloat(lng));
+  navigator.geolocation?.getCurrentPosition(
+    pos => { userLat = pos.coords.latitude; userLng = pos.coords.longitude; _computeRoute(parseFloat(lat), parseFloat(lng)); },
+    () => showToast('Activez le GPS pour calculer un itinéraire'),
+    { enableHighAccuracy: true, timeout: 15000, maximumAge: 0 }
+  );
 }
 
 function _computeRoute(dLat, dLng) {
@@ -1165,25 +1150,21 @@ function cancelRoute() {
 
 // ─── GPS ──────────────────────────────────────────────────────
 function locateUser() {
-  showToast('Recherche GPS…');
   navigator.geolocation?.getCurrentPosition(pos => {
     userLat = pos.coords.latitude; userLng = pos.coords.longitude;
     map.setView([userLat, userLng], 17);
     if (userMarker) map.removeLayer(userMarker);
     userMarker = L.marker([userLat, userLng], { icon: makeUserMarkerIcon() }).addTo(map);
-    showToast('Position trouvée ✓');
-  }, () => showToast('GPS refusé ou indisponible'),
-  { enableHighAccuracy: true, timeout: 10000, maximumAge: 0 });
+    showToast('Position trouvée');
+  }, () => showToast('GPS refusé'));
 }
 
 function startGPSWatch() {
   if (gpsWatchId) return;
   gpsWatchId = navigator.geolocation?.watchPosition(pos => {
     userLat = pos.coords.latitude; userLng = pos.coords.longitude;
-    if (userMarker) map.removeLayer(userMarker);
-    userMarker = L.marker([userLat, userLng], { icon: makeUserMarkerIcon() }).addTo(map);
     if (navActive) updateNavigation();
-  }, () => {}, { enableHighAccuracy: true, maximumAge: 0, timeout: 15000 });
+  }, () => {}, { enableHighAccuracy: true, maximumAge: 0 });
 }
 
 function updateNavigation() {
