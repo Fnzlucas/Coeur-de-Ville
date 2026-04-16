@@ -752,13 +752,30 @@ function initMap() {
   renderAllMarkers();
   map.on('click', () => closeCustomPopup());
 
-  if (navigator.geolocation) {
-    navigator.geolocation.getCurrentPosition(p => {
-      userLat = p.coords.latitude;
-      userLng = p.coords.longitude;
+  // Déclenche le popup natif GPS du téléphone immédiatement (comme Tinder, Google Maps)
+  navigator.geolocation.watchPosition(
+    function(pos) {
+      userLat = pos.coords.latitude;
+      userLng = pos.coords.longitude;
+      // Fermer le modal custom si ouvert
+      document.getElementById('gps-modal').classList.remove('open');
+      // Recentrer la carte la première fois
+      if (!userMarker) map.setView([userLat, userLng], 16);
+      // Mettre à jour le marqueur "Vous êtes ici"
+      if (userMarker) map.removeLayer(userMarker);
       userMarker = L.marker([userLat, userLng], { icon: makeUserMarkerIcon() }).addTo(map);
-    }, () => {});
-  }
+      if (navActive) updateNavigation();
+    },
+    function(err) {
+      // Refus → afficher les instructions
+      if (err.code === err.PERMISSION_DENIED) {
+        document.getElementById('gps-modal-box').style.display = 'none';
+        document.getElementById('gps-denied-box').style.display = 'block';
+        document.getElementById('gps-modal').classList.add('open');
+      }
+    },
+    { enableHighAccuracy: true, maximumAge: 0, timeout: 30000 }
+  );
 
   window.leafletMap = map;
 
@@ -1665,50 +1682,25 @@ if (poiId) {
 
 <script>
 function requestGPS() {
-  document.getElementById('gps-modal-box').style.display = 'none';
-  navigator.geolocation.getCurrentPosition(
-    function(pos) {
-      document.getElementById('gps-modal').classList.remove('open');
-      userLat = pos.coords.latitude;
-      userLng = pos.coords.longitude;
-      if (userMarker) map.removeLayer(userMarker);
-      userMarker = L.marker([userLat, userLng], { icon: makeUserMarkerIcon() }).addTo(map);
-      map.setView([userLat, userLng], 16);
-      showToast('Position trouvée !');
-    },
-    function() {
-      document.getElementById('gps-modal-box').style.display = 'none';
-      document.getElementById('gps-denied-box').style.display = 'block';
-    },
-    { enableHighAccuracy: true, timeout: 15000, maximumAge: 0 }
-  );
+  document.getElementById('gps-modal').classList.remove('open');
 }
 
 function openGPSSettings() {
-  if (/iphone|ipad|ipod/i.test(navigator.userAgent)) {
-    window.location.href = 'app-settings:';
+  var isIOS = /iphone|ipad|ipod/i.test(navigator.userAgent);
+  var isSafari = /safari/i.test(navigator.userAgent) && !/chrome/i.test(navigator.userAgent);
+  var isChrome = /chrome/i.test(navigator.userAgent);
+  var txt = document.getElementById('gps-denied-text');
+  if (isIOS && isSafari) {
+    txt.innerHTML = '<b>Sur iPhone :</b><br>Réglages → Confidentialité → Service de localisation → Safari → Lors de l\'utilisation';
+  } else if (isIOS) {
+    txt.innerHTML = '<b>Sur iPhone :</b><br>Réglages → Confidentialité → Service de localisation → Chrome → Lors de l\'utilisation';
+  } else if (isChrome) {
+    txt.innerHTML = '<b>Sur Android / Chrome :</b><br>Appuyez sur 🔒 dans la barre d\'adresse → Autorisations du site → Localisation → Autoriser';
   } else {
-    document.getElementById('gps-denied-text').innerHTML =
-      'Sur Android : Paramètres → Applications → votre navigateur → Autorisations → Localisation → Autoriser.';
+    txt.innerHTML = '<b>Dans votre navigateur :</b><br>Cliquez sur l\'icône 🔒 dans la barre d\'adresse → Localisation → Autoriser<br>Puis rechargez la page.';
   }
 }
 
-window.addEventListener('DOMContentLoaded', function() {
-  if (!navigator.geolocation) return;
-  if (navigator.permissions) {
-    navigator.permissions.query({ name: 'geolocation' }).then(function(result) {
-      if (result.state === 'denied') {
-        document.getElementById('gps-modal-box').style.display = 'none';
-        document.getElementById('gps-denied-box').style.display = 'block';
-        document.getElementById('gps-modal').classList.add('open');
-      } else if (result.state === 'prompt') {
-        document.getElementById('gps-modal').classList.add('open');
-      }
-    });
-  } else {
-    document.getElementById('gps-modal').classList.add('open');
-  }
-});
 </script>
 </body>
 </html>
