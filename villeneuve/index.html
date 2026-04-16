@@ -2228,6 +2228,17 @@ document.addEventListener('DOMContentLoaded', function() {
       <div class="cdv-mhead-sub">Villeneuve-lès-Avignon</div>
       <button class="cdv-mclose" onclick="closeMenu()"><span class="material-symbols-outlined" style="font-size:18px;">close</span></button>
     </div>
+
+    <!-- FICHE VILLE — item cliquable -->
+    <button class="cdv-mitem" onclick="cdvOpenModal('ville')" style="background:linear-gradient(135deg,#f0f7f3,#e6f2ec);border-bottom:1px solid #ddeee5;padding:12px 16px;">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d3/Blason_de_la_ville_de_Villeneuve-l%C3%A8s-Avignon_%2830%29.svg/200px-Blason_de_la_ville_de_Villeneuve-l%C3%A8s-Avignon_%2830%29.svg.png"
+        style="width:36px;height:36px;object-fit:contain;flex-shrink:0;" onerror="this.style.display='none'" alt="Blason"/>
+      <div style="flex:1;min-width:0;">
+        <div style="font-size:13px;font-weight:800;color:#1a3d28;letter-spacing:-0.01em;">Villeneuve-lès-Avignon</div>
+        <div style="font-size:10px;color:#2D6A4F;font-weight:600;margin-top:1px;">13 148 hab · Gard · XIVe s. · Voir la fiche ville</div>
+      </div>
+      <span class="material-symbols-outlined" style="font-size:18px;color:#2D6A4F;flex-shrink:0;">chevron_right</span>
+    </button>
     <div class="cdv-msec">Découverte</div>
     <button class="cdv-mitem" onclick="cdvOpenModal('parcours')">
       <div class="cdv-micon" style="background:#f0f4ff"><span class="material-symbols-outlined" style="font-size:19px;color:#3B5BDB;">route</span></div>
@@ -2295,7 +2306,105 @@ document.addEventListener('DOMContentLoaded', function() {
   </div>
 </div>
 
-<div class="cdv-modal" id="cdv-modal-planning" style="display:none;" onclick="if(event.target===this)cdvCloseModal('planning')">
+<!-- MODALE FICHE VILLE -->
+<div class="cdv-modal" id="cdv-modal-ville" style="display:none;" onclick="if(event.target===this)cdvCloseModal('ville')">
+  <div class="cdv-mbox" style="max-height:92vh;">
+    <div class="cdv-mhandle"></div>
+    <!-- Hero vert -->
+    <div style="background:linear-gradient(160deg,#1a3d28 0%,#2D6A4F 100%);padding:20px 20px 24px;position:relative;overflow:hidden;">
+      <div style="position:absolute;top:-30px;right:-30px;width:140px;height:140px;background:rgba(255,255,255,0.05);border-radius:50%;"></div>
+      <div style="position:absolute;bottom:-20px;left:40px;width:90px;height:90px;background:rgba(255,255,255,0.04);border-radius:50%;"></div>
+      <button onclick="cdvCloseModal('ville')" style="position:absolute;top:14px;right:14px;width:30px;height:30px;background:rgba(255,255,255,0.15);border:none;border-radius:50%;cursor:pointer;display:flex;align-items:center;justify-content:center;"><span class="material-symbols-outlined" style="font-size:16px;color:#fff;">close</span></button>
+      <div style="display:flex;align-items:center;gap:14px;margin-bottom:14px;position:relative;">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d3/Blason_de_la_ville_de_Villeneuve-l%C3%A8s-Avignon_%2830%29.svg/200px-Blason_de_la_ville_de_Villeneuve-l%C3%A8s-Avignon_%2830%29.svg.png"
+          style="width:52px;height:52px;object-fit:contain;filter:drop-shadow(0 3px 8px rgba(0,0,0,0.4));" onerror="this.style.display='none'" alt="Blason"/>
+        <div>
+          <div style="font-size:10px;font-weight:700;letter-spacing:0.15em;text-transform:uppercase;color:rgba(255,255,255,0.55);margin-bottom:3px;">Ville d'art et d'histoire</div>
+          <div style="font-size:20px;font-weight:900;color:#fff;font-family:Manrope;line-height:1.05;letter-spacing:-0.02em;">Villeneuve-lès-Avignon</div>
+          <div style="font-size:11px;color:rgba(255,255,255,0.55);margin-top:3px;font-weight:500;">Gard · Occitanie · 30400</div>
+        </div>
+      </div>
+      <!-- Stats grid -->
+      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:6px;position:relative;">
+        <div style="background:rgba(255,255,255,0.1);border-radius:10px;padding:8px 4px;text-align:center;">
+          <div style="font-size:15px;font-weight:900;color:#fff;font-family:Manrope;line-height:1;">13 148</div>
+          <div style="font-size:7.5px;font-weight:700;color:rgba(255,255,255,0.5);text-transform:uppercase;letter-spacing:0.05em;margin-top:2px;">Hab.</div>
+        </div>
+        <div style="background:rgba(255,255,255,0.1);border-radius:10px;padding:8px 4px;text-align:center;">
+          <div style="font-size:15px;font-weight:900;color:#fff;font-family:Manrope;line-height:1;">18,3</div>
+          <div style="font-size:7.5px;font-weight:700;color:rgba(255,255,255,0.5);text-transform:uppercase;letter-spacing:0.05em;margin-top:2px;">km²</div>
+        </div>
+        <div style="background:rgba(255,255,255,0.1);border-radius:10px;padding:8px 4px;text-align:center;">
+          <div style="font-size:15px;font-weight:900;color:#fff;font-family:Manrope;line-height:1;">XIVe</div>
+          <div style="font-size:7.5px;font-weight:700;color:rgba(255,255,255,0.5);text-transform:uppercase;letter-spacing:0.05em;margin-top:2px;">Siècle</div>
+        </div>
+        <div style="background:rgba(255,255,255,0.1);border-radius:10px;padding:8px 4px;text-align:center;">
+          <div style="font-size:15px;font-weight:900;color:#fff;font-family:Manrope;line-height:1;">5</div>
+          <div style="font-size:7.5px;font-weight:700;color:rgba(255,255,255,0.5);text-transform:uppercase;letter-spacing:0.05em;margin-top:2px;">Jumelages</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Corps de la fiche -->
+    <div style="padding:18px 20px 40px;">
+
+      <!-- Maire -->
+      <div style="display:flex;align-items:center;gap:10px;background:#f8f9fa;border-radius:12px;padding:12px 14px;margin-bottom:18px;border:1px solid #eef0f3;">
+        <div style="width:36px;height:36px;border-radius:50%;background:#2D6A4F;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+          <span class="material-symbols-outlined" style="font-size:18px;color:#fff;font-variation-settings:'FILL' 1;">person</span>
+        </div>
+        <div>
+          <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:#94a3b8;">Maire</div>
+          <div style="font-size:14px;font-weight:800;color:#0f1923;font-family:Manrope;">Pascale Bories</div>
+          <div style="font-size:10px;color:#94a3b8;font-weight:500;">Divers droite · Élue au 1er tour</div>
+        </div>
+      </div>
+
+      <!-- Description -->
+      <div style="margin-bottom:18px;">
+        <div style="font-size:11px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:#94a3b8;margin-bottom:8px;">À propos</div>
+        <p style="font-size:13px;color:#374151;line-height:1.7;font-weight:500;">Ancienne résidence des cardinaux pontificaux et des rois de France, Villeneuve-lès-Avignon s'étend face à Avignon sur la rive droite du Rhône. Ville royale par excellence, elle conserve un patrimoine médiéval exceptionnel : le Fort Saint-André, la Tour Philippe le Bel et la plus grande Chartreuse de France.</p>
+      </div>
+
+      <!-- Points clés -->
+      <div style="font-size:11px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:#94a3b8;margin-bottom:10px;">Points clés</div>
+      <div style="display:flex;flex-direction:column;gap:8px;margin-bottom:18px;">
+        <div style="display:flex;align-items:center;gap:10px;">
+          <span class="material-symbols-outlined" style="font-size:16px;color:#2D6A4F;font-variation-settings:'FILL' 1;">location_city</span>
+          <span style="font-size:13px;color:#374151;font-weight:500;">Chef-lieu de canton · Communauté d'agglomération Grand Avignon</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:10px;">
+          <span class="material-symbols-outlined" style="font-size:16px;color:#2D6A4F;font-variation-settings:'FILL' 1;">fort</span>
+          <span style="font-size:13px;color:#374151;font-weight:500;">Fort Saint-André, Chartreuse, Tour Philippe le Bel</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:10px;">
+          <span class="material-symbols-outlined" style="font-size:16px;color:#2D6A4F;font-variation-settings:'FILL' 1;">groups</span>
+          <span style="font-size:13px;color:#374151;font-weight:500;">+12,4 % de population depuis 2017</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:10px;">
+          <span class="material-symbols-outlined" style="font-size:16px;color:#2D6A4F;font-variation-settings:'FILL' 1;">water</span>
+          <span style="font-size:13px;color:#374151;font-weight:500;">Bordée par le Rhône · Face à Avignon</span>
+        </div>
+      </div>
+
+      <!-- Jumelages -->
+      <div style="font-size:11px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:#94a3b8;margin-bottom:10px;">Villes jumelées</div>
+      <div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:20px;">
+        <span style="background:#f1f5f9;color:#374151;font-size:11px;font-weight:700;padding:5px 12px;border-radius:20px;border:1px solid #e2e8f0;">🇩🇪 Bensheim</span>
+        <span style="background:#f1f5f9;color:#374151;font-size:11px;font-weight:700;padding:5px 12px;border-radius:20px;border:1px solid #e2e8f0;">🇬🇧 Tewkesbury</span>
+        <span style="background:#f1f5f9;color:#374151;font-size:11px;font-weight:700;padding:5px 12px;border-radius:20px;border:1px solid #e2e8f0;">🇮🇹 Fossombrone</span>
+        <span style="background:#f1f5f9;color:#374151;font-size:11px;font-weight:700;padding:5px 12px;border-radius:20px;border:1px solid #e2e8f0;">🇪🇸 Utrera</span>
+        <span style="background:#f1f5f9;color:#374151;font-size:11px;font-weight:700;padding:5px 12px;border-radius:20px;border:1px solid #e2e8f0;">🇲🇦 Meknès</span>
+      </div>
+
+      <!-- CTA carte -->
+      <button onclick="cdvCloseModal('ville');window.location.href='carte.html'" style="width:100%;background:#2D6A4F;color:#fff;border:none;border-radius:14px;padding:14px;font-family:Manrope;font-size:14px;font-weight:800;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;transition:all 0.15s;">
+        <span class="material-symbols-outlined" style="font-size:18px;font-variation-settings:'FILL' 1;">map</span>
+        Explorer la carte interactive
+      </button>
+    </div>
+  </div>
+</div>>
   <div class="cdv-mbox" style="max-height:92vh;">
     <div class="cdv-mhandle"></div>
     <div class="cdv-mtop">
