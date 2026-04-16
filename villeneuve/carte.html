@@ -951,7 +951,8 @@ function renderAllMarkers() {
 
   // Create new cluster group
   clusterGroup = L.markerClusterGroup({
-    maxClusterRadius: 60,
+    maxClusterRadius: 30,
+    disableClusteringAtZoom: 17,
     spiderfyOnMaxZoom: true,
     showCoverageOnHover: false,
     zoomToBoundsOnClick: true,
