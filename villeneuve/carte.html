@@ -217,6 +217,47 @@ html,body{height:100%;overflow:hidden;font-family:'Manrope',sans-serif;backgroun
 </head>
 <body style="height:100%;margin:0;overflow:hidden;">
 
+<!-- SPLASH GPS -->
+<div id="gps-splash" style="position:fixed;inset:0;z-index:99999;background:#0f1923;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:32px;">
+  <div style="width:80px;height:80px;border-radius:24px;background:linear-gradient(135deg,#3B5BDB,#6b3fa0);display:flex;align-items:center;justify-content:center;margin-bottom:24px;">
+    <span class="material-symbols-outlined" style="font-size:40px;color:#fff;">my_location</span>
+  </div>
+  <h2 style="font-family:Manrope;font-size:22px;font-weight:900;color:#fff;margin:0 0 12px;text-align:center;">Cœur de Ville</h2>
+  <p style="font-family:Manrope;font-size:15px;color:rgba(255,255,255,0.6);text-align:center;line-height:1.6;margin:0 0 40px;">Pour vous montrer les lieux autour de vous et calculer des itinéraires, nous avons besoin de votre position.</p>
+  <button onclick="activerGPS()" style="width:100%;max-width:340px;background:#fff;color:#0f1923;border:none;border-radius:16px;padding:18px;font-family:Manrope;font-size:16px;font-weight:800;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:10px;">
+    <span class="material-symbols-outlined" style="font-size:20px;">location_on</span>
+    Activer ma position
+  </button>
+  <button onclick="ignorerGPS()" style="margin-top:14px;background:none;border:none;color:rgba(255,255,255,0.4);font-family:Manrope;font-size:14px;cursor:pointer;padding:8px;">Continuer sans localisation</button>
+</div>
+
+<script>
+function activerGPS() {
+  navigator.geolocation.watchPosition(
+    function(pos) {
+      userLat = pos.coords.latitude;
+      userLng = pos.coords.longitude;
+      document.getElementById('gps-splash').style.display = 'none';
+      if (!userMarker) {
+        map.setView([userLat, userLng], 16);
+        userMarker = L.marker([userLat, userLng], { icon: makeUserMarkerIcon() }).addTo(map);
+      } else {
+        userMarker.setLatLng([userLat, userLng]);
+      }
+      if (typeof updateNavigation === 'function' && navActive) updateNavigation();
+    },
+    function() {
+      document.getElementById('gps-splash').innerHTML = '<div style="text-align:center;padding:32px;"><div style="width:80px;height:80px;border-radius:24px;background:linear-gradient(135deg,#e11d48,#f97316);display:flex;align-items:center;justify-content:center;margin:0 auto 24px;"><span class=\'material-symbols-outlined\' style=\'font-size:40px;color:#fff;\'>location_off</span></div><h2 style="font-family:Manrope;font-size:20px;font-weight:900;color:#fff;margin:0 0 12px;">Localisation bloquée</h2><p style="font-family:Manrope;font-size:14px;color:rgba(255,255,255,0.6);line-height:1.6;margin:0 0 32px;">Allez dans les Réglages de votre téléphone → Navigateur → Localisation → Autoriser</p><button onclick="ignorerGPS()" style="background:#fff;color:#0f1923;border:none;border-radius:14px;padding:16px 32px;font-family:Manrope;font-size:15px;font-weight:800;cursor:pointer;">Continuer quand même</button></div>';
+    },
+    { enableHighAccuracy: true, maximumAge: 0, timeout: 30000 }
+  );
+}
+
+function ignorerGPS() {
+  document.getElementById('gps-splash').style.display = 'none';
+}
+</script>
+
 <!-- HEADER -->
 <header id="app-header">
   <button onclick="window.location.href='index.html'">
@@ -739,19 +780,6 @@ function initMap() {
   map.zoomControl.setPosition('bottomright');
   renderAllMarkers();
   map.on('click', () => closeCustomPopup());
-
-  if (navigator.geolocation) {
-    navigator.geolocation.watchPosition(p => {
-      userLat = p.coords.latitude;
-      userLng = p.coords.longitude;
-      if (!userMarker) {
-        map.setView([userLat, userLng], 16);
-        userMarker = L.marker([userLat, userLng], { icon: makeUserMarkerIcon() }).addTo(map);
-      } else {
-        userMarker.setLatLng([userLat, userLng]);
-      }
-    }, () => {}, { enableHighAccuracy: true, maximumAge: 0 });
-  }
 
   window.leafletMap = map;
 
