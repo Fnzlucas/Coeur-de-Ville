@@ -721,7 +721,8 @@ const EVENEMENTS = [
 
 
 let map, userMarker, routePolyline, routeActive = false;
-let userLat = CONFIG.lat, userLng = CONFIG.lng;
+let userLat = null, userLng = null;
+let gpsReady = false;
 let currentSection = 'tourisme';
 let navActive = false, navDestLat = null, navDestLng = null;
 let selectedRadarPlace = null;
@@ -752,26 +753,25 @@ function initMap() {
   renderAllMarkers();
   map.on('click', () => closeCustomPopup());
 
-  // Déclenche le popup natif GPS du téléphone immédiatement (comme Tinder, Google Maps)
-  navigator.geolocation.watchPosition(
+  // UN SEUL watchPosition — déclenche le popup natif du téléphone au chargement
+  gpsWatchId = navigator.geolocation.watchPosition(
     function(pos) {
       userLat = pos.coords.latitude;
       userLng = pos.coords.longitude;
-      // Fermer le modal custom si ouvert
-      document.getElementById('gps-modal').classList.remove('open');
-      // Recentrer la carte la première fois
+      gpsReady = true;
       if (!userMarker) map.setView([userLat, userLng], 16);
-      // Mettre à jour le marqueur "Vous êtes ici"
       if (userMarker) map.removeLayer(userMarker);
       userMarker = L.marker([userLat, userLng], { icon: makeUserMarkerIcon() }).addTo(map);
       if (navActive) updateNavigation();
     },
     function(err) {
-      // Refus → afficher les instructions
-      if (err.code === err.PERMISSION_DENIED) {
-        document.getElementById('gps-modal-box').style.display = 'none';
-        document.getElementById('gps-denied-box').style.display = 'block';
-        document.getElementById('gps-modal').classList.add('open');
+      if (err.code === 1) { // PERMISSION_DENIED
+        var box = document.getElementById('gps-modal-box');
+        var denied = document.getElementById('gps-denied-box');
+        if (box) box.style.display = 'none';
+        if (denied) denied.style.display = 'block';
+        var modal = document.getElementById('gps-modal');
+        if (modal) modal.classList.add('open');
       }
     },
     { enableHighAccuracy: true, maximumAge: 0, timeout: 30000 }
@@ -1131,12 +1131,9 @@ function startRoute(lat, lng) {
   if (routePolyline) { map.removeLayer(routePolyline); routePolyline = null; }
   routeMarkers.forEach(m => map.removeLayer(m)); routeMarkers = [];
   document.getElementById('route-banner')?.remove();
+  if (!gpsReady) { showToast('GPS en cours…'); return; }
   showToast('Calcul des itinéraires…');
-  navigator.geolocation?.getCurrentPosition(
-    pos => { userLat = pos.coords.latitude; userLng = pos.coords.longitude; _computeRoute(parseFloat(lat), parseFloat(lng)); },
-    () => showToast('Activez le GPS pour calculer un itinéraire'),
-    { enableHighAccuracy: true, timeout: 15000, maximumAge: 0 }
-  );
+  _computeRoute(parseFloat(lat), parseFloat(lng));
 }
 
 function _computeRoute(dLat, dLng) {
@@ -1179,22 +1176,12 @@ function cancelRoute() {
 
 // ─── GPS ──────────────────────────────────────────────────────
 function locateUser() {
-  navigator.geolocation?.getCurrentPosition(pos => {
-    userLat = pos.coords.latitude; userLng = pos.coords.longitude;
-    map.setView([userLat, userLng], 17);
-    if (userMarker) map.removeLayer(userMarker);
-    userMarker = L.marker([userLat, userLng], { icon: makeUserMarkerIcon() }).addTo(map);
-    showToast('Position trouvée');
-  }, () => showToast('GPS refusé'));
+  if (!gpsReady) { showToast('GPS en cours…'); return; }
+  map.setView([userLat, userLng], 17);
+  showToast('Position trouvée');
 }
 
-function startGPSWatch() {
-  if (gpsWatchId) return;
-  gpsWatchId = navigator.geolocation?.watchPosition(pos => {
-    userLat = pos.coords.latitude; userLng = pos.coords.longitude;
-    if (navActive) updateNavigation();
-  }, () => {}, { enableHighAccuracy: true, maximumAge: 0 });
-}
+function startGPSWatch() { /* watchPosition déjà actif dès initMap */ }
 
 function updateNavigation() {
   if (!navActive || !navDestLat) return;
@@ -1299,16 +1286,9 @@ async function _startARAsync() {
   document.getElementById('ar-distance-ring').textContent = 'Recherche GPS…';
 
   const pill = document.getElementById('ar-distance-ring');
-  let gpsReady = false;
 
-  navigator.geolocation?.watchPosition(pos => {
-    userLat = pos.coords.latitude;
-    userLng = pos.coords.longitude;
-    if (!gpsReady) {
-      gpsReady = true;
-      pill.textContent = `GPS · ${pos.coords.accuracy.toFixed(0)}m`;
-    }
-  }, () => { pill.textContent = 'GPS erreur'; }, { enableHighAccuracy: true, maximumAge: 0, timeout: 15000 });
+  // GPS déjà actif via watchPosition global dans initMap
+  pill.textContent = gpsReady ? 'GPS · actif' : 'GPS en cours…';
 
   arActive = true;
   heading = rawH;
