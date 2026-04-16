@@ -23,8 +23,27 @@ html,body{height:100%;overflow:hidden;font-family:'Manrope',sans-serif;backgroun
 #app-header button{background:none;border:none;cursor:pointer;border-radius:50%;padding:6px;display:flex;align-items:center;justify-content:center;}
 #app-header button:hover{background:rgba(0,0,0,0.05);}
 
+/* City Banner */
+#city-banner{
+  position:fixed;top:48px;left:0;right:0;height:56px;z-index:999;
+  background:#fff;border-bottom:1px solid rgba(0,0,0,0.07);
+  display:flex;align-items:center;padding:0 14px;gap:12px;
+  box-shadow:0 2px 8px rgba(0,0,0,0.06);
+}
+#city-banner .cb-blason{width:34px;height:34px;object-fit:contain;flex-shrink:0;}
+#city-banner .cb-info{flex:1;min-width:0;}
+#city-banner .cb-name{font-size:12px;font-weight:800;color:#0f1923;letter-spacing:0.01em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+#city-banner .cb-stats{display:flex;gap:10px;margin-top:2px;}
+#city-banner .cb-stat{font-size:9.5px;font-weight:600;color:#94a3b8;white-space:nowrap;}
+#city-banner .cb-stat span{color:#0f1923;font-weight:700;}
+#pmr-toggle{display:flex;align-items:center;gap:6px;background:#f1f5f9;border:none;border-radius:20px;padding:5px 10px;cursor:pointer;transition:all 0.2s;flex-shrink:0;}
+#pmr-toggle.active{background:#2D6A4F;color:#fff;}
+#pmr-toggle .pmr-icon{font-size:16px;}
+#pmr-toggle .pmr-lbl{font-size:9px;font-weight:700;letter-spacing:0.05em;text-transform:uppercase;color:#555;}
+#pmr-toggle.active .pmr-lbl{color:#fff;}
+
 /* Map */
-#map-wrap{position:fixed;top:48px;left:0;right:0;bottom:64px;}
+#map-wrap{position:fixed;top:104px;left:0;right:0;bottom:64px;}
 #map{width:100%;height:100%;}
 
 /* Bottom Nav */
@@ -85,6 +104,12 @@ html,body{height:100%;overflow:hidden;font-family:'Manrope',sans-serif;backgroun
 
 /* Filter bar */
 #filter-bar{display:none;}
+
+/* PMR */
+#nav-pmr.pmr-on { color: #0077cc; }
+#nav-pmr.pmr-on span.material-symbols-outlined { font-variation-settings:'FILL' 1,'wght' 500; }
+.pmr-badge { position:absolute; top:-4px; right:-4px; width:14px; height:14px; background:#0077cc; border-radius:50%; border:2px solid #fff; display:flex; align-items:center; justify-content:center; }
+.pmr-badge svg { width:8px; height:8px; }
 
 /* Leaflet overrides */
 .leaflet-control-zoom{border:none!important;box-shadow:none!important;display:none;}
@@ -189,6 +214,23 @@ html,body{height:100%;overflow:hidden;font-family:'Manrope',sans-serif;backgroun
   </div>
 </div>
 
+<!-- CITY BANNER -->
+<div id="city-banner">
+  <img class="cb-blason" src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d3/Blason_de_la_ville_de_Villeneuve-l%C3%A8s-Avignon_%2830%29.svg/200px-Blason_de_la_ville_de_Villeneuve-l%C3%A8s-Avignon_%2830%29.svg.png" alt="Blason" onerror="this.style.display='none'"/>
+  <div class="cb-info">
+    <div class="cb-name">Villeneuve lez Avignon</div>
+    <div class="cb-stats">
+      <div class="cb-stat"><span>13 148</span> hab.</div>
+      <div class="cb-stat"><span>18,3</span> km²</div>
+      <div class="cb-stat">Maire : <span>P. Bories</span></div>
+    </div>
+  </div>
+  <button id="pmr-toggle" onclick="togglePMR()">
+    <span class="pmr-icon material-symbols-outlined">accessible</span>
+    <span class="pmr-lbl">PMR</span>
+  </button>
+</div>
+
 <!-- MAP -->
 <div id="map-wrap">
   <div id="map" style="width:100%;height:100%;"></div>
@@ -218,18 +260,15 @@ html,body{height:100%;overflow:hidden;font-family:'Manrope',sans-serif;backgroun
     <span class="material-symbols-outlined">home</span>
     <span class="lbl">Accueil</span>
   </button>
-  <button class="n-btn active" id="nav-tourisme" onclick="switchSection('tourisme')">
-    <span class="material-symbols-outlined">explore</span>
-    <span class="lbl">Patrimoine</span>
+  <button class="n-btn active" id="nav-carte">
+    <span class="material-symbols-outlined">map</span>
+    <span class="lbl">Carte</span>
   </button>
-  <button class="n-btn" id="nav-commerce" onclick="switchSection('commerce')">
-    <span class="material-symbols-outlined">storefront</span>
-    <span class="lbl">Commerces</span>
-  </button>
-  <button class="n-btn" id="nav-evenements" onclick="switchSection('evenements')">
-    <span class="material-symbols-outlined">event</span>
-    <span class="lbl">Agenda</span>
-  </button>
+  <div style="display:flex;flex-direction:column;gap:4px;justify-content:center;padding:0 8px;">
+    <div style="display:flex;align-items:center;gap:5px;"><div style="width:8px;height:8px;border-radius:50%;background:#2D6A4F;flex-shrink:0;"></div><span style="font-size:9px;font-weight:700;letter-spacing:0.06em;color:#555;text-transform:uppercase;">Patrimoine</span></div>
+    <div style="display:flex;align-items:center;gap:5px;"><div style="width:8px;height:8px;border-radius:50%;background:#E76F51;flex-shrink:0;"></div><span style="font-size:9px;font-weight:700;letter-spacing:0.06em;color:#555;text-transform:uppercase;">Commerces</span></div>
+    <div style="display:flex;align-items:center;gap:5px;"><div style="width:8px;height:8px;border-radius:50%;background:#3B5BDB;flex-shrink:0;"></div><span style="font-size:9px;font-weight:700;letter-spacing:0.06em;color:#555;text-transform:uppercase;">Événements</span></div>
+  </div>
   <button class="n-btn" id="nav-ar" onclick="startAR()">
     <span class="material-symbols-outlined">view_in_ar</span>
     <span class="lbl">AR</span>
@@ -420,6 +459,7 @@ const PLACES = [
   {
     id: 1,
     cat: 'militaire',
+    pmr: false,
     name: "Fort Saint-André",
     desc: "Forteresse royale du XIVe siècle érigée par Jean le Bon. Ses deux tours jumelles dominent le Rhône et offrent une vue panoramique exceptionnelle.",
     addr: "Montée du Fort, 30400 Villeneuve-lès-Avignon",
@@ -440,6 +480,7 @@ const PLACES = [
   {
     id: 2,
     cat: 'religieux',
+    pmr: true,
     name: "Chartreuse du Val de Bénédiction",
     desc: "La plus grande chartreuse de France, fondée en 1356 par le pape Innocent VI. Lieu de résidences artistiques reconnu mondialement.",
     addr: "58 Rue de la République, 30400 Villeneuve-lès-Avignon",
@@ -460,6 +501,7 @@ const PLACES = [
   {
     id: 3,
     cat: 'monument',
+    pmr: false,
     name: "Tour Philippe le Bel",
     desc: "Sentinelle médiévale à l'entrée du pont d'Avignon, la tour offre une vue imprenable sur le Rhône et le Palais des Papes.",
     addr: "Montée de la Tour, 30400 Villeneuve-lès-Avignon",
@@ -479,6 +521,7 @@ const PLACES = [
   {
     id: 4,
     cat: 'culturel',
+    pmr: true,
     name: "Musée Pierre de Luxembourg",
     desc: "Installé dans l'ancien hôtel du cardinal Pierre de Luxembourg, ce musée conserve des chefs-d'œuvre de la peinture gothique provençale.",
     addr: "3 Rue de la République, 30400 Villeneuve-lès-Avignon",
@@ -498,6 +541,7 @@ const PLACES = [
   {
     id: 5,
     cat: 'naturel',
+    pmr: false,
     name: "Colline des Mourgues",
     desc: "Promontoire secret offrant la plus belle vue sur le Palais des Papes, le Mont-Ventoux et les Alpilles — ignoré des touristes.",
     addr: "Colline des Mourgues, Villeneuve-lès-Avignon",
@@ -521,6 +565,7 @@ const COMMERCES = [
   {
     id: 151,
     cat: 'restaurant',
+    pmr: true,
     ville: 'villeneuve',
     name: "Maison Bronzini",
     desc: "L'ancien Moulin de la Chartreuse réveillé. Bistrot, salon de thé, boutique huile d'olive et jardin provençal dans un lieu classé au patrimoine historique.",
@@ -535,6 +580,7 @@ const COMMERCES = [
   {
     id: 101,
     cat: 'restaurant',
+    pmr: true,
     name: "La Table du Fort",
     desc: "Cuisine provençale sous les remparts — agneau des Alpilles, truffes du Vaucluse, vins AOC Côtes du Rhône.",
     addr: "Villeneuve-lès-Avignon",
@@ -545,6 +591,7 @@ const COMMERCES = [
   {
     id: 102,
     cat: 'artisan',
+    pmr: true,
     name: "Santons Bérard",
     desc: "Atelier familial de santons provençaux modelés et peints à la main depuis 3 générations.",
     addr: "Villeneuve-lès-Avignon",
@@ -594,6 +641,7 @@ const EVENEMENTS = [
   {
     id: 201,
     cat: 'fete',
+    pmr: true,
     name: "Fête de la Saint-Jean",
     desc: "Feux de joie et torches sur les remparts du Fort Saint-André au solstice d'été.",
     lat: 43.9663, lng: 4.7983,
@@ -602,6 +650,7 @@ const EVENEMENTS = [
   {
     id: 202,
     cat: 'culturel',
+    pmr: true,
     name: "Estivales de la Chartreuse",
     desc: "Résidences d'artistes, expositions et lectures publiques dans les cloîtres.",
     lat: 43.9635, lng: 4.7940,
@@ -610,6 +659,7 @@ const EVENEMENTS = [
   {
     id: 203,
     cat: 'fete',
+    pmr: true,
     name: "Marché de Noël Médiéval",
     desc: "Artisans en costume, vin chaud et animations historiques en décembre.",
     lat: 43.9655, lng: 4.7918,
@@ -662,9 +712,7 @@ function initMap() {
 
 
   map.zoomControl.setPosition('bottomright');
-  buildFilterBar();
-  renderPlaces('tourisme');
-  initEvenementsMarkers();
+  renderAllMarkers();
   map.on('click', () => closeCustomPopup());
 
   if (navigator.geolocation) {
@@ -718,16 +766,63 @@ function setFilterActive(el) {
 
 // ─── MARKERS ─────────────────────────────────────────────────
 
-function makePinSVG(color) {
-  return '<svg width="28" height="40" viewBox="0 0 28 40" xmlns="http://www.w3.org/2000/svg"><path d="M14 0C6.27 0 0 6.27 0 14c0 9.33 14 26 14 26S28 23.33 28 14C28 6.27 21.73 0 14 0z" fill="' + color + '"/><circle cx="14" cy="14" r="6" fill="white" opacity="0.9"/></svg>';
+// ─── COULEURS PAR GROUPE ─────────────────────────────────────
+const GROUP_COLOR = {
+  monument:   '#2D6A4F',
+  religieux:  '#2D6A4F',
+  militaire:  '#2D6A4F',
+  culturel:   '#2D6A4F',
+  naturel:    '#2D6A4F',
+  restaurant: '#E76F51',
+  artisan:    '#E76F51',
+  commerce:   '#E76F51',
+  fete:       '#3B5BDB',
+  evenement:  '#3B5BDB',
+};
+
+function getGroupColor(cat) {
+  return GROUP_COLOR[cat] || '#2D6A4F';
+}
+const CAT_SVG_ICONS = {
+  monument:  '<path d="M12 2L2 7h2v10H2v2h20v-2h-2V7h2L12 2zm0 2.5l6 3V17H6V7.5l6-3zM10 9h4v8h-4z" fill="white"/>',
+  religieux: '<path d="M11 2v3H9v2h2v2.07A5 5 0 0 0 7 14a5 5 0 0 0 5 5 5 5 0 0 0 5-5 5 5 0 0 0-4-4.93V9h2V7h-2V2h-2zm1 9a3 3 0 0 1 3 3 3 3 0 0 1-3 3 3 3 0 0 1-3-3 3 3 0 0 1 3-3z" fill="white"/>',
+  militaire: '<path d="M12 2L4 6v6c0 5.5 3.8 10.7 8 12 4.2-1.3 8-6.5 8-12V6L12 2zm0 2.2l6 2.7V12c0 4.4-2.9 8.6-6 9.9-3.1-1.3-6-5.5-6-9.9V6.9l6-2.7z" fill="white"/>',
+  culturel:  '<path d="M12 2a7 7 0 0 0-7 7c0 3 1.9 5.6 4.6 6.6L12 22l2.4-6.4A7 7 0 0 0 19 9a7 7 0 0 0-7-7zm0 2a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5zm0 2a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3z" fill="white"/>',
+  naturel:   '<path d="M17 8C8 10 5.9 16.2 3.2 21H5c.5-1 1-2 1.5-3h13.3c.5 1 1 2 1.5 3h1.8C20.1 16.2 18 10 9 8H17zm-1.2 8H8.2c1.1-2.6 2.7-4.6 7.6-5.5 1 1.3 1.5 3.2 1.5 5 0 .2 0 .4-.5.5z" fill="white"/>',
+  restaurant:'<path d="M11 9H9V2H7v7H5V2H3v7c0 2.1 1.3 3.9 3 4.7V22h2v-8.3c1.7-.8 3-2.6 3-4.7V2h-2v7zm5-3v8h2.5v8H21V2c-2.8 0-5 2.2-5 4z" fill="white"/>',
+  artisan:   '<path d="M15.5 2.1L11 6.6 9.6 5.1 8.2 6.5l1.5 1.5L2 15.6V20h4.4L14 12.4l1.5 1.5 1.4-1.4-1.5-1.5 4.5-4.5-4.4-4.4zm-1.4 1.9l2.5 2.5-3.9 3.9-2.5-2.5 3.9-3.9zM4 18v-1.8l7-7L12.8 11 6 17.9 4 18z" fill="white"/>',
+  commerce:  '<path d="M7 18c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm10 0c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zM4.2 4H3V2H1v2h2l3.6 7.6L5.3 14c-.2.3-.3.7-.3 1 0 1.1.9 2 2 2h14v-2H7.4c-.1 0-.2-.1-.2-.2l.1-.3.9-1.5H18c.7 0 1.4-.4 1.7-1l3.5-6.4c.4-.7-.1-1.6-1-1.6H5.2z" fill="white"/>',
+  fete:      '<path d="M11.5 2C6.81 2 3 5.81 3 10.5S6.81 19 11.5 19h.5v3c4.86-2.34 8-7 8-11.5C20 5.81 16.19 2 11.5 2zm1 14.5h-2v-2h2v2zm0-4h-2c0-3.25 3-3 3-5 0-1.1-.9-2-2-2s-2 .9-2 2h-2c0-2.21 1.79-4 4-4s4 1.79 4 4c0 2.5-3 2.75-3 5z" fill="white"/>',
+  evenement: '<path d="M17 12h-5v5h5v-5zM16 1v2H8V1H6v2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2h-1V1h-2zm3 18H5V8h14v11z" fill="white"/>',
+};
+
+function makeGoogleMarker(place, col) {
+  const svgIcon = CAT_SVG_ICONS[place.cat] || '<circle cx="12" cy="12" r="5" fill="white"/>';
+  const maxLen = 16;
+  const name = place.name.length > maxLen ? place.name.slice(0, maxLen - 1) + '…' : place.name;
+  const pmrBadge = place.pmr
+    ? `<div style="font-family:'Inter','Manrope',sans-serif;font-size:9px;font-weight:700;color:#0077cc;letter-spacing:0.08em;margin-bottom:2px;border:1.5px solid #0077cc;border-radius:4px;padding:1px 4px;background:#fff;">PMR</div>`
+    : '';
+
+  return `
+    <div style="display:flex;flex-direction:column;align-items:center;cursor:pointer;filter:drop-shadow(0 3px 6px rgba(0,0,0,0.28));">
+      ${pmrBadge}
+      <div style="position:relative;width:40px;height:40px;border-radius:50% 50% 50% 4px;background:${col};display:flex;align-items:center;justify-content:center;transform:rotate(-45deg);border:2.5px solid rgba(255,255,255,0.9);">
+        <div style="transform:rotate(45deg);display:flex;align-items:center;justify-content:center;">
+          <svg width="20" height="20" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">${svgIcon}</svg>
+        </div>
+      </div>
+      <div style="margin-top:4px;background:#fff;color:#1a1a2e;padding:2px 7px;border-radius:6px;font-family:'Inter','Manrope',sans-serif;font-size:10.5px;font-weight:600;white-space:nowrap;letter-spacing:0.01em;box-shadow:0 1px 4px rgba(0,0,0,0.18);border:1px solid rgba(0,0,0,0.07);">${name}</div>
+    </div>`;
 }
 
 function renderPlaces(section) {
   allMarkers.forEach(m => map.removeLayer(m)); allMarkers = [];
   const list = section === 'commerce' ? COMMERCES : section === 'evenements' ? EVENEMENTS : PLACES;
   list.forEach(place => {
-    const col = CATS[place.cat]?.color || CONFIG.couleurPrimaire;
-    const icon = L.divIcon({ html: makePinSVG(col), className: '', iconSize: [28, 40], iconAnchor: [14, 40] });
+    const col = getGroupColor(place.cat);
+    const html = makeGoogleMarker(place, col);
+    const icon = L.divIcon({ html, className: '', iconSize: [120, 90], iconAnchor: [60, 76] });
     const m = L.marker([place.lat, place.lng], { icon });
     m.on('click', () => openCustomPopup(buildPopupHTML(place)));
     m.addTo(map); allMarkers.push(m);
@@ -739,8 +834,9 @@ function filterPlaces(cat) {
   const list = currentSection === 'commerce' ? COMMERCES : PLACES;
   const filtered = cat ? list.filter(p => p.cat === cat) : list;
   filtered.forEach(place => {
-    const col = CATS[place.cat]?.color || CONFIG.couleurPrimaire;
-    const icon = L.divIcon({ html: makePinSVG(col), className: '', iconSize: [28, 40], iconAnchor: [14, 40] });
+    const col = getGroupColor(place.cat);
+    const html = makeGoogleMarker(place, col);
+    const icon = L.divIcon({ html, className: '', iconSize: [120, 90], iconAnchor: [60, 76] });
     const m = L.marker([place.lat, place.lng], { icon });
     m.on('click', () => openCustomPopup(buildPopupHTML(place)));
     m.addTo(map); allMarkers.push(m);
@@ -749,7 +845,7 @@ function filterPlaces(cat) {
 
 // ─── POPUP ────────────────────────────────────────────────────
 function buildPopupHTML(place) {
-  const col = CATS[place.cat]?.color || '#333';
+  const col = getGroupColor(place.cat);
   const label = CATS[place.cat]?.label || '';
   const dist = calcDist(userLat, userLng, place.lat, place.lng);
   const dTxt = dist < 1000 ? Math.round(dist) + 'm' : (dist / 1000).toFixed(1) + 'km';
@@ -772,6 +868,7 @@ function buildPopupHTML(place) {
     '<div class="pw-meta">' +
     '<div class="pw-cat-dot" style="background:' + col + '"></div>' +
     '<span class="pw-cat-label" style="color:' + col + '">' + label + (place.era ? ' · ' + place.era : '') + '</span>' +
+    (place.pmr ? '<span style="display:inline-flex;align-items:center;gap:3px;background:#e8f4fd;color:#0077cc;font-size:10px;font-weight:700;padding:2px 7px;border-radius:20px;margin-left:6px;">♿ PMR</span>' : '') +
     '<span class="pw-dist">' + dTxt + '</span>' +
     '</div>' +
     '<div class="pw-footer-row">' +
@@ -803,31 +900,49 @@ function closeCustomPopup() {
   setTimeout(() => { container.style.display = 'none'; card.innerHTML = ''; }, 280);
 }
 
-// ─── SECTIONS ─────────────────────────────────────────────────
+// ─── PMR ──────────────────────────────────────────────────────
+let pmrMode = false;
+
+function togglePMR() {
+  pmrMode = !pmrMode;
+  const btn = document.getElementById('pmr-toggle');
+  if (pmrMode) {
+    btn?.classList.add('active');
+    showToast('♿ Affichage PMR activé');
+  } else {
+    btn?.classList.remove('active');
+    showToast('Affichage complet');
+  }
+  renderAllMarkers();
+}
+
+// ─── RENDU GLOBAL ─────────────────────────────────────────────
+function renderAllMarkers() {
+  allMarkers.forEach(m => map.removeLayer(m)); allMarkers = [];
+  let all = [...PLACES, ...COMMERCES, ...EVENEMENTS];
+  if (pmrMode) all = all.filter(p => p.pmr === true);
+  all.forEach(place => {
+    const col = getGroupColor(place.cat);
+    const html = makeGoogleMarker(place, col);
+    const icon = L.divIcon({ html, className: '', iconSize: [120, 90], iconAnchor: [60, 76] });
+    const m = L.marker([place.lat, place.lng], { icon });
+    m.on('click', () => openCustomPopup(buildPopupHTML(place)));
+    m.addTo(map); allMarkers.push(m);
+  });
+}
+
+// ─── SECTIONS (conservé pour compatibilité AR) ────────────────
 function switchSection(section) {
   currentSection = section;
-  document.querySelectorAll('.n-btn').forEach(b => b.classList.remove('active'));
-  if (section === 'tourisme') {
-    document.getElementById('nav-tourisme')?.classList.add('active');
-    renderPlaces('tourisme'); buildFilterBar();
-  } else if (section === 'commerce') {
-    document.getElementById('nav-commerce')?.classList.add('active');
-    renderPlaces('commerce');
-    const _fb1 = document.getElementById('filter-bar'); if(_fb1) _fb1.innerHTML = '';
-  } else if (section === 'evenements') {
-    document.getElementById('nav-evenements')?.classList.add('active');
-    allMarkers.forEach(m => map.removeLayer(m)); allMarkers = [];
-    renderEvenements();
-    const _fb2 = document.getElementById('filter-bar'); if(_fb2) _fb2.innerHTML = '';
-  }
   closeCustomPopup();
 }
 
 // ─── ÉVÉNEMENTS ───────────────────────────────────────────────
 function renderEvenements() {
   EVENEMENTS.forEach(ev => {
-    const col = CATS[ev.cat]?.color || '#333';
-    const icon = L.divIcon({ html: makePinSVG(col), className: '', iconSize: [28, 40], iconAnchor: [14, 40] });
+    const col = getGroupColor(ev.cat);
+    const html = makeGoogleMarker(ev, col);
+    const icon = L.divIcon({ html, className: '', iconSize: [120, 90], iconAnchor: [60, 76] });
     const marker = L.marker([ev.lat, ev.lng], { icon });
     marker.addTo(map); allMarkers.push(marker);
     marker.on('click', () => {
@@ -1159,7 +1274,7 @@ function arLoop() {
     const y = H * 0.72 - ratio * (H * 0.54);
     const scale = 1.5 - ratio * 1.1;
     const opacity = 1.0 - ratio * 0.45;
-    const col = CATS[poi.cat]?.color || '#333';
+    const col = getGroupColor(poi.cat);
     const distTxt = poi.dist < 1000 ? Math.round(poi.dist) + 'm' : (poi.dist / 1000).toFixed(1) + 'km';
 
     const el = document.createElement('div');
@@ -1319,7 +1434,7 @@ function drawRadar() {
     const rad = bearing * Math.PI / 180;
     const px = cx + Math.sin(rad) * normDist * r;
     const py = cy - Math.cos(rad) * normDist * r;
-    const col = CATS[place.cat]?.color || '#1a73e8';
+    const col = getGroupColor(place.cat);
     const dTxt = dist < 1000 ? Math.round(dist) + 'm' : (dist / 1000).toFixed(1) + 'km';
 
     const pin = document.createElement('div');
