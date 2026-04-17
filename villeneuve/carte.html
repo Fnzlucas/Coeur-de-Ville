@@ -226,29 +226,6 @@ var map = null;
 var navActive = false;
 </script>
 
-<script>
-// GPS lancé directement sans splash - le navigateur affiche son popup natif
-window.addEventListener('load', function() {
-  navigator.geolocation.watchPosition(
-    function(pos) {
-      userLat = pos.coords.latitude;
-      userLng = pos.coords.longitude;
-      if (map) {
-        if (!userMarker) {
-          map.setView([userLat, userLng], 16);
-          userMarker = L.marker([userLat, userLng], { icon: makeUserMarkerIcon() }).addTo(map);
-        } else {
-          userMarker.setLatLng([userLat, userLng]);
-        }
-      }
-      if (typeof updateNavigation === 'function' && navActive) updateNavigation();
-    },
-    function() {},
-    { enableHighAccuracy: false, maximumAge: 30000, timeout: 27000 }
-  );
-});
-</script>
-
 <!-- HEADER -->
 <header id="app-header">
   <button onclick="window.location.href='index.html'">
@@ -770,6 +747,19 @@ function initMap() {
   map.zoomControl.setPosition('bottomright');
   renderAllMarkers();
   map.on('click', () => closeCustomPopup());
+
+  // GPS - simple comme Waze/Plans
+  navigator.geolocation.watchPosition(function(pos) {
+    userLat = pos.coords.latitude;
+    userLng = pos.coords.longitude;
+    if (!userMarker) {
+      map.setView([userLat, userLng], 16);
+      userMarker = L.marker([userLat, userLng], { icon: makeUserMarkerIcon() }).addTo(map);
+    } else {
+      userMarker.setLatLng([userLat, userLng]);
+    }
+    if (navActive) updateNavigation();
+  }, function() {}, { enableHighAccuracy: false, maximumAge: 30000 });
 
   window.leafletMap = map;
 
