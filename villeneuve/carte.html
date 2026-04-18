@@ -739,7 +739,7 @@ let currentSection = 'tourisme';
 let navDestLat = null, navDestLng = null;
 let selectedRadarPlace = null;
 let immTypewriterTimer = null;
-let gpsWatchId = null;
+// gpsWatchId already declared above as var
 let allMarkers = [];
 let routeMarkers = [];
 
@@ -1852,7 +1852,18 @@ window.openStreetView = openStreetView;
 window.closeStreetView = closeSV;
 document.addEventListener('keydown', e => { if (e.key === 'Escape') closeSV(); });
 
-if (typeof initMap === 'function') initMap();
+// Lancer la carte quand tout est prêt
+function _launchMap() {
+  if (typeof initMap === 'function') {
+    initMap();
+    setTimeout(function() {
+      if (window.leafletMap) window.leafletMap.invalidateSize(true);
+    }, 300);
+  }
+}
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', _launchMap);
+} else { _launchMap(); }
 
 // Ouvrir un POI si passé en paramètre URL
 const urlParams = new URLSearchParams(window.location.search);
