@@ -91,6 +91,15 @@ html,body{height:100%;overflow:hidden;font-family:'Manrope',sans-serif;backgroun
 .fab:hover{box-shadow:0 4px 16px rgba(0,0,0,0.2);transform:scale(1.05);}
 .fab .material-symbols-outlined{font-size:20px;}
 
+/* États du bouton GPS */
+#locate-btn.gps-loading .material-symbols-outlined{animation:gps-spin 1s linear infinite;color:#3B5BDB;}
+#locate-btn.gps-ready .material-symbols-outlined{color:#3B5BDB;}
+#locate-btn.gps-follow{background:#3B5BDB;box-shadow:0 2px 16px rgba(59,91,219,0.5);}
+#locate-btn.gps-follow .material-symbols-outlined{color:#fff;font-variation-settings:'FILL' 1;}
+#locate-btn.gps-denied .material-symbols-outlined,
+#locate-btn.gps-unavailable .material-symbols-outlined{color:#dc2626;}
+@keyframes gps-spin{to{transform:rotate(360deg);}}
+
 /* Searchbar */
 #search-bar-wrap{display:none;position:fixed;top:48px;left:0;right:0;z-index:999;background:rgba(255,255,255,0.97);backdrop-filter:blur(16px);padding:10px 16px;border-bottom:1px solid rgba(0,0,0,0.06);}
 #search-input{width:100%;background:#f1f3f4;border:none;border-radius:12px;padding:9px 14px 9px 38px;font-size:14px;font-family:Manrope;outline:none;}
@@ -138,10 +147,13 @@ html,body{height:100%;overflow:hidden;font-family:'Manrope',sans-serif;backgroun
 
 /* Leaflet overrides */
 .leaflet-control-zoom{border:none!important;box-shadow:none!important;display:none;}
-.yah-ring{position:absolute;width:44px;height:44px;border-radius:50%;border:2px solid #3B5BDB;animation:yah-pulse 2s infinite;}
-.yah-dot{position:absolute;width:16px;height:16px;border-radius:50%;background:#3B5BDB;border:2px solid #fff;box-shadow:0 2px 8px rgba(59,91,219,0.5);}
-.yah-label{font-family:Manrope;font-size:10px;font-weight:700;color:#3B5BDB;margin-top:2px;}
-@keyframes yah-pulse{0%,100%{transform:scale(1);opacity:0.6;}50%{transform:scale(1.4);opacity:0;}}
+.yah-icon-wrap{background:none!important;border:none!important;}
+.yah-wrap{position:relative;width:44px;height:44px;display:flex;align-items:center;justify-content:center;}
+.yah-ring{position:absolute;width:44px;height:44px;border-radius:50%;border:2px solid #3B5BDB;animation:yah-pulse 2.2s cubic-bezier(0.4,0,0.2,1) infinite;pointer-events:none;}
+.yah-dot{position:absolute;width:18px;height:18px;border-radius:50%;background:#3B5BDB;border:3px solid #fff;box-shadow:0 2px 10px rgba(59,91,219,0.6);z-index:2;}
+.yah-cone{position:absolute;width:44px;height:44px;pointer-events:none;transition:transform 0.2s cubic-bezier(0.4,0,0.2,1);transform-origin:center;}
+.yah-cone::before{content:'';position:absolute;top:-6px;left:50%;transform:translateX(-50%);width:0;height:0;border-left:10px solid transparent;border-right:10px solid transparent;border-bottom:16px solid #3B5BDB;filter:drop-shadow(0 2px 4px rgba(59,91,219,0.5));}
+@keyframes yah-pulse{0%{transform:scale(0.9);opacity:0.7;}100%{transform:scale(1.8);opacity:0;}}
 @keyframes spin{to{transform:rotate(360deg);}}
 @keyframes blink{0%,100%{opacity:1;}50%{opacity:0;}}
 
@@ -222,6 +234,11 @@ html,body{height:100%;overflow:hidden;font-family:'Manrope',sans-serif;backgroun
 var userLat = null;
 var userLng = null;
 var userMarker = null;
+var userAccuracyCircle = null;
+var userHeading = null;
+var gpsWatchId = null;
+var gpsTrackingMode = 'off'; // 'off', 'locate', 'follow'
+var lastGPSUpdate = 0;
 var map = null;
 var navActive = false;
 </script>
@@ -747,19 +764,16 @@ function initMap() {
   map.zoomControl.setPosition('bottomright');
   renderAllMarkers();
   map.on('click', () => closeCustomPopup());
-
-  // GPS - simple comme Waze/Plans
-  navigator.geolocation.watchPosition(function(pos) {
-    userLat = pos.coords.latitude;
-    userLng = pos.coords.longitude;
-    if (!userMarker) {
-      map.setView([userLat, userLng], 16);
-      userMarker = L.marker([userLat, userLng], { icon: makeUserMarkerIcon() }).addTo(map);
-    } else {
-      userMarker.setLatLng([userLat, userLng]);
+  map.on('dragstart', function(){
+    // L'utilisateur bouge manuellement → désactiver le suivi
+    if (gpsTrackingMode === 'follow') {
+      gpsTrackingMode = 'locate';
+      setLocateBtnState('ready');
     }
-    if (navActive) updateNavigation();
-  }, function() {}, { enableHighAccuracy: false, maximumAge: 30000 });
+  });
+
+  // GPS - système robuste avec accuracy, heading, états
+  initGPS();
 
   window.leafletMap = map;
 
@@ -767,11 +781,199 @@ function initMap() {
   PLACES.forEach(p => { if (p.bg) { const img = new Image(); img.src = p.bg; } });
 }
 
-function makeUserMarkerIcon() {
+function makeUserMarkerIcon(hasHeading) {
+  var headingHtml = hasHeading
+    ? '<div class="yah-cone"></div>'
+    : '';
   return L.divIcon({
-    html: '<div style="display:flex;flex-direction:column;align-items:center;"><div style="position:relative;display:flex;align-items:center;justify-content:center;width:44px;height:44px;"><div class=\"yah-ring\"></div><div class=\"yah-dot\"></div></div><div class=\"yah-label\">Vous</div></div>',
-    className: '', iconSize: [80, 60], iconAnchor: [40, 22],
+    html: '<div class="yah-wrap">' +
+            headingHtml +
+            '<div class="yah-ring"></div>' +
+            '<div class="yah-dot"></div>' +
+          '</div>',
+    className: 'yah-icon-wrap',
+    iconSize: [44, 44],
+    iconAnchor: [22, 22],
   });
+}
+
+// ─── GPS ROBUSTE ─────────────────────────────────────────────
+function initGPS() {
+  if (!('geolocation' in navigator)) {
+    setLocateBtnState('unavailable');
+    return;
+  }
+
+  // Premier lock rapide (basse précision) puis watch haute précision
+  navigator.geolocation.getCurrentPosition(
+    function(pos) {
+      applyGPSPosition(pos);
+      if (!userMarker) {
+        // Centrer + zoom initial dès qu'on a la position
+        map.setView([userLat, userLng], 16, { animate: true });
+      }
+      startGPSWatch();
+    },
+    function(err) {
+      // Échec initial : on démarre quand même le watch au cas où
+      console.warn('GPS initial fail', err);
+      startGPSWatch();
+    },
+    { enableHighAccuracy: false, timeout: 5000, maximumAge: 60000 }
+  );
+}
+
+function startGPSWatch() {
+  if (gpsWatchId !== null) return; // déjà actif
+  gpsWatchId = navigator.geolocation.watchPosition(
+    function(pos) {
+      applyGPSPosition(pos);
+      if (gpsTrackingMode === 'follow') {
+        map.setView([userLat, userLng], map.getZoom(), { animate: true });
+      }
+      if (navActive) updateNavigation();
+    },
+    function(err) {
+      handleGPSError(err);
+    },
+    { enableHighAccuracy: true, timeout: 15000, maximumAge: 5000 }
+  );
+
+  // Heading : utiliser les events deviceorientation quand dispo
+  if ('DeviceOrientationEvent' in window) {
+    window.addEventListener('deviceorientationabsolute', onHeading, true);
+    window.addEventListener('deviceorientation', onHeading, true);
+  }
+}
+
+function applyGPSPosition(pos) {
+  userLat = pos.coords.latitude;
+  userLng = pos.coords.longitude;
+  lastGPSUpdate = Date.now();
+  var accuracy = pos.coords.accuracy || 0;
+
+  // Marker utilisateur
+  if (!userMarker) {
+    userMarker = L.marker([userLat, userLng], {
+      icon: makeUserMarkerIcon(userHeading !== null),
+      zIndexOffset: 10000,
+      interactive: false,
+      keyboard: false
+    }).addTo(map);
+  } else {
+    userMarker.setLatLng([userLat, userLng]);
+  }
+
+  // Cercle d'incertitude (accuracy)
+  if (accuracy > 0) {
+    if (!userAccuracyCircle) {
+      userAccuracyCircle = L.circle([userLat, userLng], {
+        radius: accuracy,
+        color: '#3B5BDB',
+        weight: 1,
+        opacity: 0.35,
+        fillColor: '#3B5BDB',
+        fillOpacity: 0.08,
+        interactive: false
+      }).addTo(map);
+    } else {
+      userAccuracyCircle.setLatLng([userLat, userLng]);
+      userAccuracyCircle.setRadius(accuracy);
+    }
+  }
+
+  // Use heading from pos.coords if available (more accurate on mobile)
+  if (pos.coords.heading !== null && pos.coords.heading !== undefined && !isNaN(pos.coords.heading)) {
+    userHeading = pos.coords.heading;
+    updateHeadingVisual();
+  }
+
+  setLocateBtnState(gpsTrackingMode === 'follow' ? 'follow' : 'ready');
+}
+
+function onHeading(ev) {
+  var heading = null;
+  if (ev.webkitCompassHeading !== undefined) {
+    heading = ev.webkitCompassHeading; // iOS
+  } else if (ev.alpha !== null) {
+    heading = 360 - ev.alpha;
+  }
+  if (heading !== null && !isNaN(heading)) {
+    userHeading = heading;
+    updateHeadingVisual();
+  }
+}
+
+function updateHeadingVisual() {
+  if (!userMarker) return;
+  var el = userMarker.getElement();
+  if (!el) return;
+  var cone = el.querySelector('.yah-cone');
+  if (!cone) {
+    // Rebuild icon to include heading cone
+    userMarker.setIcon(makeUserMarkerIcon(true));
+    return;
+  }
+  cone.style.transform = 'rotate(' + userHeading + 'deg)';
+}
+
+function handleGPSError(err) {
+  if (err.code === err.PERMISSION_DENIED) {
+    setLocateBtnState('denied');
+    showToast('Autorisez la géolocalisation dans vos réglages');
+  } else if (err.code === err.POSITION_UNAVAILABLE) {
+    setLocateBtnState('unavailable');
+    showToast('Position introuvable — sortez à l\'extérieur');
+  } else if (err.code === err.TIMEOUT) {
+    setLocateBtnState('loading');
+    // pas de toast, on retente au prochain watch event
+  }
+}
+
+function setLocateBtnState(state) {
+  var btn = document.getElementById('locate-btn');
+  if (!btn) return;
+  btn.classList.remove('gps-loading', 'gps-ready', 'gps-follow', 'gps-denied', 'gps-unavailable');
+  var icon = btn.querySelector('.material-symbols-outlined');
+  switch (state) {
+    case 'loading':
+      btn.classList.add('gps-loading');
+      if (icon) icon.textContent = 'my_location';
+      break;
+    case 'ready':
+      btn.classList.add('gps-ready');
+      if (icon) icon.textContent = 'my_location';
+      break;
+    case 'follow':
+      btn.classList.add('gps-follow');
+      if (icon) icon.textContent = 'near_me';
+      break;
+    case 'denied':
+      btn.classList.add('gps-denied');
+      if (icon) icon.textContent = 'location_disabled';
+      break;
+    case 'unavailable':
+      btn.classList.add('gps-unavailable');
+      if (icon) icon.textContent = 'location_off';
+      break;
+  }
+}
+
+// Force refresh dynamique (tap bouton)
+function forceGPSRefresh() {
+  if (!('geolocation' in navigator)) return;
+  setLocateBtnState('loading');
+  navigator.geolocation.getCurrentPosition(
+    function(pos) {
+      applyGPSPosition(pos);
+      map.setView([userLat, userLng], Math.max(map.getZoom(), 17), { animate: true });
+      setLocateBtnState('ready');
+    },
+    function(err) {
+      handleGPSError(err);
+    },
+    { enableHighAccuracy: true, timeout: 12000, maximumAge: 0 }
+  );
 }
 
 // ─── BARRE DE FILTRES ─────────────────────────────────────────
@@ -1165,16 +1367,55 @@ function cancelRoute() {
 }
 
 // ─── GPS ──────────────────────────────────────────────────────
+// Tap 1: centrer + rafraîchir position
+// Tap 2 (déjà centré): activer mode suivi continu
+// Tap 3 (en suivi): désactiver suivi
 function locateUser() {
-  if (userLat && userLng) {
-    map.setView([userLat, userLng], 17);
-    showToast('Position trouvée');
+  if (!('geolocation' in navigator)) {
+    showToast('Géolocalisation non supportée');
+    return;
+  }
+
+  if (!userLat || !userLng) {
+    // Pas encore de fix GPS : forcer un refresh
+    forceGPSRefresh();
+    return;
+  }
+
+  if (gpsTrackingMode === 'follow') {
+    // Désactiver le suivi
+    gpsTrackingMode = 'locate';
+    setLocateBtnState('ready');
+    showToast('Suivi désactivé');
+    return;
+  }
+
+  // Vérifier si déjà centré sur l'utilisateur
+  var center = map.getCenter();
+  var distToCenter = calcDist(userLat, userLng, center.lat, center.lng);
+
+  if (distToCenter < 50 && map.getZoom() >= 16) {
+    // Déjà centré → activer suivi
+    gpsTrackingMode = 'follow';
+    setLocateBtnState('follow');
+    showToast('Suivi GPS activé');
+    // iOS 13+ nécessite une permission explicite pour la boussole
+    if (typeof DeviceOrientationEvent !== 'undefined' &&
+        typeof DeviceOrientationEvent.requestPermission === 'function') {
+      DeviceOrientationEvent.requestPermission().then(function(state){
+        if (state === 'granted') {
+          window.addEventListener('deviceorientationabsolute', onHeading, true);
+          window.addEventListener('deviceorientation', onHeading, true);
+        }
+      }).catch(function(){});
+    }
   } else {
-    showToast('GPS en cours…');
+    // Centrer sur la position + refresh
+    gpsTrackingMode = 'locate';
+    map.setView([userLat, userLng], Math.max(map.getZoom(), 17), { animate: true });
+    forceGPSRefresh();
   }
 }
-
-function startGPSWatch() { /* watchPosition global déjà actif */ }
 
 function updateNavigation() {
   if (!navActive || !navDestLat) return;
@@ -1559,7 +1800,6 @@ function toggleSearch() {
   }
 }
 
-function locateUser() { if(typeof _locateUser==='function') _locateUser(); }
 function startAR() { if(typeof _startAR==='function') _startAR(); }
 function stopAR() { if(typeof _stopAR==='function') _stopAR(); }
 function openRadar() { if(typeof _openRadar==='function') _openRadar(); }
