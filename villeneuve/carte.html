@@ -800,7 +800,9 @@ function makeUserMarkerIcon(hasHeading) {
 
 // ─── GPS ROBUSTE ─────────────────────────────────────────────
 function initGPS() {
+  gpsDebug('initGPS START | proto=' + window.location.protocol + ' | host=' + window.location.host);
   if (!('geolocation' in navigator)) {
+    gpsDebug('ERR: no geolocation API');
     setLocateBtnState('unavailable');
     return;
   }
@@ -815,7 +817,7 @@ function initGPS() {
       startGPSWatch();
     },
     function(err) {
-      // Échec initial : on démarre quand même le watch au cas où
+      gpsDebug('getCurrentPosition initial ERR code=' + err.code + ' msg=' + err.message);
       console.warn('GPS initial fail', err);
       startGPSWatch();
     },
@@ -846,11 +848,26 @@ function startGPSWatch() {
   }
 }
 
+function gpsDebug(msg) {
+  console.log('[GPS]', msg);
+  var d = document.getElementById('gps-debug');
+  if (!d) {
+    d = document.createElement('div');
+    d.id = 'gps-debug';
+    d.style.cssText = 'position:fixed;top:110px;left:10px;right:10px;z-index:99999;background:rgba(0,0,0,0.88);color:#0f0;font-family:monospace;font-size:11px;padding:8px 10px;border-radius:8px;max-height:180px;overflow-y:auto;line-height:1.5;';
+    document.body.appendChild(d);
+  }
+  var t = new Date().toLocaleTimeString();
+  d.innerHTML = '[' + t + '] ' + msg + '<br>' + d.innerHTML;
+  if (d.innerHTML.length > 4000) d.innerHTML = d.innerHTML.substring(0, 4000);
+}
+
 function applyGPSPosition(pos) {
   userLat = pos.coords.latitude;
   userLng = pos.coords.longitude;
   lastGPSUpdate = Date.now();
   var accuracy = pos.coords.accuracy || 0;
+  gpsDebug('POS: ' + userLat.toFixed(5) + ',' + userLng.toFixed(5) + ' acc=' + Math.round(accuracy) + 'm mode=' + gpsTrackingMode);
   // Marker utilisateur
   if (!userMarker) {
     userMarker = L.marker([userLat, userLng], {
