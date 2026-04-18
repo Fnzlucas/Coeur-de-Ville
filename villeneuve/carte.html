@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"/>
+<meta http-equiv="Permissions-Policy" content="geolocation=(self), camera=(self), accelerometer=(self), gyroscope=(self), magnetometer=(self)"/>
 <title>Carte — Cœur de Ville</title>
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
@@ -803,7 +804,6 @@ function initGPS() {
     setLocateBtnState('unavailable');
     return;
   }
-
   // Premier lock rapide (basse précision) puis watch haute précision
   navigator.geolocation.getCurrentPosition(
     function(pos) {
@@ -824,7 +824,7 @@ function initGPS() {
 }
 
 function startGPSWatch() {
-  if (gpsWatchId !== null) return; // déjà actif
+  if (gpsWatchId !== null) return;
   gpsWatchId = navigator.geolocation.watchPosition(
     function(pos) {
       applyGPSPosition(pos);
@@ -851,7 +851,6 @@ function applyGPSPosition(pos) {
   userLng = pos.coords.longitude;
   lastGPSUpdate = Date.now();
   var accuracy = pos.coords.accuracy || 0;
-
   // Marker utilisateur
   if (!userMarker) {
     userMarker = L.marker([userLat, userLng], {
