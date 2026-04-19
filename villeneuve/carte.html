@@ -549,11 +549,10 @@ let googleMap = null;
 let userMarker = null;
 let userAccuracyCircle = null;
 let userLat = null, userLng = null;
-let gpsTrackingMode = 'off'; // off | locate | follow
+let gpsState = 'idle'; // idle | loading | ready | follow | denied
 let gpsWatchId = null;
 let allMarkers = [];
 let selectedPlace = null;
-let infoWindow = null;
 
 function getCatColor(cat) {
   return (CATS[cat] && CATS[cat].color) || '#94a3b8';
@@ -591,8 +590,8 @@ function initMap() {
 
   // User dragged → disable follow mode
   googleMap.addListener('dragstart', () => {
-    if (gpsTrackingMode === 'follow') {
-      gpsTrackingMode = 'locate';
+    if (gpsState === 'follow') {
+      gpsState = 'ready';
       setLocateBtnState('ready');
     }
   });
@@ -757,54 +756,75 @@ function stopNavigation() {
 // GPS
 // ═══════════════════════════════════════════════════════════
 function setLocateBtnState(state) {
+  gpsState = state;
   const btn = document.getElementById('locate-btn');
   if (!btn) return;
   btn.classList.remove('gps-loading','gps-ready','gps-follow','gps-denied');
-  if (state === 'loading') btn.classList.add('gps-loading');
-  else if (state === 'ready') btn.classList.add('gps-ready');
-  else if (state === 'follow') btn.classList.add('gps-follow');
-  else if (state === 'denied') btn.classList.add('gps-denied');
+  const icon = btn.querySelector('.material-symbols-outlined');
+  if (state === 'loading') {
+    btn.classList.add('gps-loading');
+  } else if (state === 'ready') {
+    btn.classList.add('gps-ready');
+  } else if (state === 'follow') {
+    btn.classList.add('gps-follow');
+  } else if (state === 'denied') {
+    btn.classList.add('gps-denied');
+  }
 }
 
-function initGPS() {
+// ─── GPS centralisé ───────────────────────────────────────
+function locateUser() {
   if (!('geolocation' in navigator)) {
     setLocateBtnState('denied');
+    showToast('Géolocalisation non disponible');
     return;
   }
-  setLocateBtnState('loading');
 
-  // Watch position continuously
+  // Si position déjà connue → toggle follow
+  if (userLat !== null) {
+    if (gpsState === 'follow') {
+      gpsState = 'ready';
+      setLocateBtnState('ready');
+      showToast('Suivi désactivé');
+    } else {
+      gpsState = 'follow';
+      setLocateBtnState('follow');
+      googleMap.panTo({ lat: userLat, lng: userLng });
+      googleMap.setZoom(17);
+      showToast('Suivi GPS activé');
+    }
+    return;
+  }
+
+  // Pas encore de fix → démarrer watchPosition
+  if (gpsWatchId !== null) {
+    // Déjà en cours, juste rappeler le toast
+    showToast('Recherche GPS en cours…');
+    return;
+  }
+
+  setLocateBtnState('loading');
+  showToast('Recherche GPS…');
+
   gpsWatchId = navigator.geolocation.watchPosition(
-    pos => {
-      onGPSUpdate(pos);
-    },
-    err => {
-      console.warn('GPS err', err);
-      if (err.code === 1) {
-        setLocateBtnState('denied');
-        showToast('Géolocalisation refusée');
-      } else if (err.code === 2) {
-        setLocateBtnState('denied');
-        showToast('Position introuvable');
-      } else {
-        setLocateBtnState('loading');
-      }
-    },
-    { enableHighAccuracy: true, timeout: 15000, maximumAge: 5000 }
+    onGPSSuccess,
+    onGPSError,
+    { enableHighAccuracy: true, timeout: 30000, maximumAge: 5000 }
   );
 }
 
-function onGPSUpdate(pos) {
+function onGPSSuccess(pos) {
   userLat = pos.coords.latitude;
   userLng = pos.coords.longitude;
-  const accuracy = pos.coords.accuracy || 0;
-  const latLng = { lat: userLat, lng: userLng };
+  const acc = pos.coords.accuracy || 0;
+  const latlng = { lat: userLat, lng: userLng };
 
+  // Créer ou déplacer le point bleu
   if (!userMarker) {
-    // Custom HTML-styled marker via OverlayView (simpler: use Marker with SVG)
     userMarker = new google.maps.Marker({
-      position: latLng,
+      position: latlng,
       map: googleMap,
+      zIndex: 9999,
       icon: {
         path: google.maps.SymbolPath.CIRCLE,
         fillColor: '#3B5BDB',
@@ -812,103 +832,58 @@ function onGPSUpdate(pos) {
         strokeColor: '#fff',
         strokeWeight: 3,
         scale: 9,
-      },
-      zIndex: 9999,
+      }
     });
-
-    // Auto-center on first fix
-    googleMap.setCenter(latLng);
+    // Premier fix → centrer la carte
+    googleMap.panTo(latlng);
     googleMap.setZoom(16);
-    setLocateBtnState('ready');
+    gpsState = 'follow';
+    setLocateBtnState('follow');
   } else {
-    userMarker.setPosition(latLng);
+    userMarker.setPosition(latlng);
   }
 
-  // Accuracy circle
-  if (accuracy > 0) {
+  // Cercle de précision
+  if (acc > 0) {
     if (!userAccuracyCircle) {
       userAccuracyCircle = new google.maps.Circle({
         map: googleMap,
-        center: latLng,
-        radius: accuracy,
+        center: latlng,
+        radius: acc,
         strokeColor: '#3B5BDB',
-        strokeOpacity: 0.4,
+        strokeOpacity: 0.3,
         strokeWeight: 1,
         fillColor: '#3B5BDB',
-        fillOpacity: 0.08,
+        fillOpacity: 0.07,
       });
     } else {
-      userAccuracyCircle.setCenter(latLng);
-      userAccuracyCircle.setRadius(accuracy);
+      userAccuracyCircle.setCenter(latlng);
+      userAccuracyCircle.setRadius(acc);
     }
   }
 
-  // If user enabled follow mode, recenter
-  if (gpsTrackingMode === 'follow') {
-    googleMap.panTo(latLng);
+  // Si mode follow → recentrer à chaque update
+  if (gpsState === 'follow') {
+    googleMap.panTo(latlng);
   }
 
-  // If user requested navigation but GPS wasn't ready, draw the route now
+  // Si une navigation était en attente de position
   if (currentRoutePlace && !directionsRenderer) {
     drawRoute(currentRoutePlace);
   }
 }
 
-function locateUser() {
-  if (!('geolocation' in navigator)) {
-    showToast('Géolocalisation non supportée');
-    return;
-  }
-
-  // Already have a fix → toggle follow mode
-  if (userLat !== null) {
-    if (gpsTrackingMode === 'follow') {
-      gpsTrackingMode = 'locate';
-      setLocateBtnState('ready');
-      showToast('Suivi désactivé');
-    } else {
-      googleMap.panTo({ lat: userLat, lng: userLng });
-      googleMap.setZoom(17);
-      gpsTrackingMode = 'follow';
-      setLocateBtnState('follow');
-      showToast('Suivi GPS activé');
+function onGPSError(err) {
+  console.warn('GPS error', err.code, err.message);
+  if (err.code === 1) { // PERMISSION_DENIED
+    setLocateBtnState('denied');
+    showToast('Géolocalisation refusée — activez-la dans les réglages');
+    if (gpsWatchId !== null) {
+      navigator.geolocation.clearWatch(gpsWatchId);
+      gpsWatchId = null;
     }
-    return;
   }
-
-  // No fix yet — start the watchPosition (it will trigger Safari permission prompt)
-  if (gpsWatchId !== null) {
-    // Already watching, just waiting for first fix
-    setLocateBtnState('loading');
-    showToast('Recherche du signal GPS…');
-    return;
-  }
-
-  setLocateBtnState('loading');
-  showToast('Recherche du signal GPS…');
-
-  gpsWatchId = navigator.geolocation.watchPosition(
-    pos => {
-      // First fix received
-      onGPSUpdate(pos);
-      gpsTrackingMode = 'follow';
-      setLocateBtnState('follow');
-    },
-    err => {
-      console.warn('GPS error code', err.code, err.message);
-      if (err.code === 1) {
-        // PERMISSION_DENIED — only true denial
-        setLocateBtnState('denied');
-        showToast('Géolocalisation refusée');
-        gpsWatchId = null;
-      } else if (err.code === 2) {
-        // POSITION_UNAVAILABLE — keep waiting, no scary message
-        setLocateBtnState('loading');
-      }
-      // code 3 = TIMEOUT → keep waiting silently, watchPosition will retry
-    },
-    { enableHighAccuracy: true, timeout: 30000, maximumAge: 0 }
-  );
+  // code 2 (UNAVAILABLE) et 3 (TIMEOUT) → on garde l'icône loading, watchPosition réessaie
 }
 
 // Open POI from URL param (?poi=X)
