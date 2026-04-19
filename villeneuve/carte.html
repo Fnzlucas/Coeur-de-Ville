@@ -125,6 +125,26 @@ html,body{height:100%;font-family:'Manrope',sans-serif;background:#f8f8f6;overfl
 #toast{position:fixed;bottom:80px;left:50%;transform:translateX(-50%) translateY(20px);background:rgba(15,25,35,0.92);color:#fff;padding:9px 18px;border-radius:20px;font-size:13px;font-weight:600;opacity:0;transition:all 0.3s;z-index:9000;pointer-events:none;}
 #toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
 
+/* Permission Modal (iOS & Android) */
+#perm-overlay{position:fixed;inset:0;background:rgba(15,25,35,0.5);backdrop-filter:blur(4px);z-index:9500;display:none;align-items:flex-end;justify-content:center;opacity:0;transition:opacity 0.25s;}
+#perm-overlay.show{display:flex;opacity:1;}
+#perm-modal{background:#fff;border-radius:20px 20px 0 0;width:100%;max-width:480px;padding:24px 20px 32px;transform:translateY(100%);transition:transform 0.3s cubic-bezier(0.34,1.5,0.64,1);box-shadow:0 -4px 30px rgba(0,0,0,0.15);}
+#perm-overlay.show #perm-modal{transform:translateY(0);}
+.ipm-handle{width:40px;height:4px;background:#e2e8f0;border-radius:2px;margin:0 auto 20px;}
+.ipm-icon-wrap{width:56px;height:56px;border-radius:16px;background:#fee2e2;display:flex;align-items:center;justify-content:center;margin:0 auto 14px;}
+.ipm-icon-wrap .material-symbols-outlined{font-size:28px;color:#dc2626;font-variation-settings:'FILL' 1;}
+.ipm-title{font-size:18px;font-weight:800;color:#0f1923;text-align:center;margin-bottom:6px;}
+.ipm-desc{font-size:13px;color:#6b7280;text-align:center;line-height:1.5;margin-bottom:18px;padding:0 8px;}
+.ipm-steps{background:#f8f8f6;border-radius:14px;padding:14px 14px;margin-bottom:16px;}
+.ipm-step{display:flex;align-items:center;gap:10px;font-size:12.5px;color:#475569;font-weight:500;padding:5px 0;}
+.ipm-step-num{width:20px;height:20px;border-radius:50%;background:#3B5BDB;color:#fff;font-size:10px;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.ipm-step strong{color:#0f1923;font-weight:700;}
+.ipm-step .material-symbols-outlined{font-size:15px;color:#94a3b8;}
+.ipm-btn-primary{width:100%;background:#3B5BDB;color:#fff;border:none;border-radius:12px;padding:14px;font-family:Manrope;font-size:14px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;text-decoration:none;-webkit-tap-highlight-color:transparent;}
+.ipm-btn-primary:active{transform:scale(0.98);background:#2f48b3;}
+.ipm-btn-primary .material-symbols-outlined{font-size:18px;}
+.ipm-btn-secondary{width:100%;background:none;color:#94a3b8;border:none;padding:12px;font-family:Manrope;font-size:13px;font-weight:600;cursor:pointer;margin-top:4px;-webkit-tap-highlight-color:transparent;}
+
 /* User location dot (overlay div) */
 .user-dot-wrap{position:relative;width:24px;height:24px;}
 .user-dot{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:18px;height:18px;border-radius:50%;background:#3B5BDB;border:3px solid #fff;box-shadow:0 2px 10px rgba(59,91,219,0.5);}
@@ -203,6 +223,26 @@ a[href^="https://maps.google.com/maps"]{display:none!important;}
 </div>
 
 <div id="toast"></div>
+
+<!-- Geolocation Permission Modal (iOS & Android) -->
+<div id="perm-overlay" onclick="if(event.target===this)closePermModal()">
+  <div id="perm-modal">
+    <div class="ipm-handle"></div>
+    <div class="ipm-icon-wrap"><span class="material-symbols-outlined">location_off</span></div>
+    <div class="ipm-title">Géolocalisation désactivée</div>
+    <div class="ipm-desc" id="perm-desc">Pour voir votre position sur la carte et calculer les itinéraires, activez la localisation.</div>
+    <div class="ipm-steps" id="perm-steps"></div>
+    <a id="perm-btn-primary" class="ipm-btn-primary" href="#" onclick="setTimeout(closePermModal,500)">
+      <span class="material-symbols-outlined">settings</span>
+      <span id="perm-btn-primary-label">Ouvrir Réglages</span>
+    </a>
+    <a id="perm-btn-secondary-link" class="ipm-btn-primary" href="#" style="display:none;background:#f1f5f9;color:#0f1923;border:1px solid #e2e8f0;margin-top:8px;" onclick="setTimeout(closePermModal,500)">
+      <span class="material-symbols-outlined">public</span>
+      <span id="perm-btn-secondary-link-label">Réglages système</span>
+    </a>
+    <button class="ipm-btn-secondary" onclick="closePermModal()">Plus tard</button>
+  </div>
+</div>
 
 <nav id="bottomnav">
   <button class="n-btn" onclick="window.location.href='index.html'">
@@ -780,6 +820,16 @@ function locateUser() {
     return;
   }
 
+  // Si déjà refusé → rouvrir la modale iOS/Android ou toast
+  if (gpsState === 'denied') {
+    if (isIOS() || isAndroid()) {
+      openPermModal();
+    } else {
+      showToast('Géolocalisation refusée — activez-la dans les réglages');
+    }
+    return;
+  }
+
   // Si position déjà connue → toggle follow
   if (userLat !== null) {
     if (gpsState === 'follow') {
@@ -877,13 +927,65 @@ function onGPSError(err) {
   console.warn('GPS error', err.code, err.message);
   if (err.code === 1) { // PERMISSION_DENIED
     setLocateBtnState('denied');
-    showToast('Géolocalisation refusée — activez-la dans les réglages');
+    if (isIOS() || isAndroid()) {
+      openPermModal();
+    } else {
+      showToast('Géolocalisation refusée — activez-la dans les réglages');
+    }
     if (gpsWatchId !== null) {
       navigator.geolocation.clearWatch(gpsWatchId);
       gpsWatchId = null;
     }
   }
   // code 2 (UNAVAILABLE) et 3 (TIMEOUT) → on garde l'icône loading, watchPosition réessaie
+}
+
+// Platform detection
+function isIOS() {
+  const ua = navigator.userAgent;
+  return /iPad|iPhone|iPod/.test(ua) ||
+    (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1); // iPadOS 13+
+}
+function isAndroid() {
+  return /Android/i.test(navigator.userAgent);
+}
+
+function openPermModal() {
+  const desc = document.getElementById('perm-desc');
+  const steps = document.getElementById('perm-steps');
+  const btnPrimary = document.getElementById('perm-btn-primary');
+  const btnPrimaryLabel = document.getElementById('perm-btn-primary-label');
+  const btnSecondary = document.getElementById('perm-btn-secondary-link');
+  const btnSecondaryLabel = document.getElementById('perm-btn-secondary-link-label');
+
+  if (isIOS()) {
+    desc.textContent = "Pour voir votre position sur la carte et calculer les itinéraires, activez la localisation pour Safari.";
+    steps.innerHTML = `
+      <div class="ipm-step"><span class="ipm-step-num">1</span><span>Appuyez sur <strong>Ouvrir Réglages</strong></span></div>
+      <div class="ipm-step"><span class="ipm-step-num">2</span><span>Sélectionnez <strong>Localisation</strong></span></div>
+      <div class="ipm-step"><span class="ipm-step-num">3</span><span>Choisissez <strong>Lors de l'utilisation</strong></span></div>
+    `;
+    btnPrimary.href = 'App-prefs:root=SAFARI';
+    btnPrimaryLabel.textContent = 'Ouvrir Réglages Safari';
+    btnSecondary.style.display = 'none';
+  } else if (isAndroid()) {
+    desc.textContent = "Pour voir votre position sur la carte, autorisez la localisation pour ce site dans votre navigateur.";
+    steps.innerHTML = `
+      <div class="ipm-step"><span class="ipm-step-num">1</span><span>Appuyez sur le <strong>cadenas</strong> 🔒 à gauche de l'URL</span></div>
+      <div class="ipm-step"><span class="ipm-step-num">2</span><span>Ouvrez <strong>Autorisations</strong></span></div>
+      <div class="ipm-step"><span class="ipm-step-num">3</span><span>Activez la <strong>Localisation</strong></span></div>
+    `;
+    btnPrimary.href = 'intent://#Intent;scheme=https;action=android.settings.APPLICATION_DETAILS_SETTINGS;end';
+    btnPrimaryLabel.textContent = 'Réglages du navigateur';
+    btnSecondary.style.display = 'flex';
+    btnSecondary.href = 'intent://#Intent;action=android.settings.LOCATION_SOURCE_SETTINGS;end';
+    btnSecondaryLabel.textContent = 'Réglages système de localisation';
+  }
+
+  document.getElementById('perm-overlay').classList.add('show');
+}
+function closePermModal() {
+  document.getElementById('perm-overlay').classList.remove('show');
 }
 
 // Open POI from URL param (?poi=X)
