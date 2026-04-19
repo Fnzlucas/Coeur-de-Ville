@@ -101,6 +101,26 @@ html,body{height:100%;font-family:'Manrope',sans-serif;background:#f8f8f6;overfl
 .pw-x{position:absolute;top:10px;right:10px;background:rgba(255,255,255,0.95);border:none;border-radius:50%;width:30px;height:30px;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 10px rgba(0,0,0,0.2);z-index:2;}
 .pw-img-wrap{position:relative;}
 
+/* Navigation banner */
+#nav-banner{
+  display:none;
+  position:fixed;top:104px;left:14px;right:14px;z-index:850;
+  background:#0f1923;color:#fff;border-radius:14px;padding:12px 14px;
+  box-shadow:0 4px 20px rgba(0,0,0,0.25);
+  align-items:center;gap:12px;
+  animation:slideDown 0.3s cubic-bezier(0.34,1.5,0.64,1);
+}
+@keyframes slideDown{from{opacity:0;transform:translateY(-20px);}to{opacity:1;transform:translateY(0);}}
+#nav-banner.show{display:flex;}
+#nav-banner .nav-icon{width:36px;height:36px;border-radius:50%;background:rgba(255,255,255,0.12);display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+#nav-banner .nav-icon .material-symbols-outlined{color:#fff;font-size:20px;}
+#nav-banner .nav-info{flex:1;min-width:0;}
+#nav-banner .nav-dest{font-size:13px;font-weight:700;line-height:1.2;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+#nav-banner .nav-meta{font-size:11px;font-weight:500;color:rgba(255,255,255,0.65);margin-top:2px;}
+#nav-banner .nav-meta b{color:#fff;font-weight:700;}
+#nav-banner .nav-close{background:rgba(255,255,255,0.12);border:none;border-radius:50%;width:30px;height:30px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+#nav-banner .nav-close .material-symbols-outlined{color:#fff;font-size:18px;}
+
 /* Toast */
 #toast{position:fixed;bottom:80px;left:50%;transform:translateX(-50%) translateY(20px);background:rgba(15,25,35,0.92);color:#fff;padding:9px 18px;border-radius:20px;font-size:13px;font-weight:600;opacity:0;transition:all 0.3s;z-index:9000;pointer-events:none;}
 #toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
@@ -171,6 +191,15 @@ a[href^="https://maps.google.com/maps"]{display:none!important;}
       </button>
     </div>
   </div>
+</div>
+
+<div id="nav-banner">
+  <div class="nav-icon"><span class="material-symbols-outlined">directions_walk</span></div>
+  <div class="nav-info">
+    <div class="nav-dest" id="nav-dest"></div>
+    <div class="nav-meta"><b id="nav-dist"></b> · <b id="nav-time"></b></div>
+  </div>
+  <button class="nav-close" onclick="stopNavigation()"><span class="material-symbols-outlined">close</span></button>
 </div>
 
 <div id="toast"></div>
@@ -649,10 +678,80 @@ function closePopup() {
   selectedPlace = null;
 }
 
+let directionsRenderer = null;
+let directionsService = null;
+let currentRoutePlace = null;
+
 function navigateToSelected() {
   if (!selectedPlace) return;
-  const url = 'https://www.google.com/maps/dir/?api=1&destination=' + selectedPlace.lat + ',' + selectedPlace.lng + '&travelmode=walking';
-  window.open(url, '_blank');
+
+  // Need user location first
+  if (userLat === null) {
+    showToast('Activez d\'abord la géolocalisation');
+    locateUser(); // Trigger GPS request
+    // Save the destination so we can resume after GPS lock
+    currentRoutePlace = selectedPlace;
+    return;
+  }
+
+  drawRoute(selectedPlace);
+}
+
+function drawRoute(place) {
+  if (!directionsService) {
+    directionsService = new google.maps.DirectionsService();
+  }
+
+  // Init renderer once, suppress default markers (we keep ours)
+  if (!directionsRenderer) {
+    directionsRenderer = new google.maps.DirectionsRenderer({
+      suppressMarkers: true,
+      polylineOptions: {
+        strokeColor: '#3B5BDB',
+        strokeWeight: 5,
+        strokeOpacity: 0.85,
+      },
+    });
+    directionsRenderer.setMap(googleMap);
+  }
+
+  const request = {
+    origin: { lat: userLat, lng: userLng },
+    destination: { lat: place.lat, lng: place.lng },
+    travelMode: google.maps.TravelMode.WALKING,
+  };
+
+  directionsService.route(request, (result, status) => {
+    if (status === 'OK') {
+      directionsRenderer.setDirections(result);
+      currentRoutePlace = place;
+
+      // Show nav banner
+      const route = result.routes[0].legs[0];
+      document.getElementById('nav-dest').textContent = place.name;
+      document.getElementById('nav-dist').textContent = route.distance.text;
+      document.getElementById('nav-time').textContent = route.duration.text;
+      document.getElementById('nav-banner').classList.add('show');
+
+      // Close popup, fit map to show whole route
+      closePopup();
+      googleMap.fitBounds(result.routes[0].bounds, { top: 140, right: 60, bottom: 100, left: 30 });
+    } else if (status === 'ZERO_RESULTS') {
+      showToast('Aucun itinéraire trouvé');
+    } else {
+      showToast('Erreur de calcul d\'itinéraire');
+      console.warn('Directions error:', status);
+    }
+  });
+}
+
+function stopNavigation() {
+  if (directionsRenderer) {
+    directionsRenderer.setMap(null);
+    directionsRenderer = null;
+  }
+  document.getElementById('nav-banner').classList.remove('show');
+  currentRoutePlace = null;
 }
 
 // ═══════════════════════════════════════════════════════════
@@ -748,6 +847,11 @@ function onGPSUpdate(pos) {
   // If user enabled follow mode, recenter
   if (gpsTrackingMode === 'follow') {
     googleMap.panTo(latLng);
+  }
+
+  // If user requested navigation but GPS wasn't ready, draw the route now
+  if (currentRoutePlace && !directionsRenderer) {
+    drawRoute(currentRoutePlace);
   }
 }
 
