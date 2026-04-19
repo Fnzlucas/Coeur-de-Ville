@@ -1,42 +1,15 @@
 <!DOCTYPE html>
-<html lang="fr" style="height:100%;">
+<html lang="fr">
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"/>
-<meta http-equiv="Permissions-Policy" content="geolocation=(self), camera=(self), accelerometer=(self), gyroscope=(self), magnetometer=(self)"/>
+<meta http-equiv="Permissions-Policy" content="geolocation=(self), camera=(self)"/>
 <title>Carte — Cœur de Ville</title>
-<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
-<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-<link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.css"/>
-<link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.Default.css"/>
-<script src="https://unpkg.com/leaflet.markercluster@1.5.3/dist/leaflet.markercluster.js"></script>
-<style>
-/* Cluster styling */
-.marker-cluster-small, .marker-cluster-medium, .marker-cluster-large {
-  background-clip: padding-box;
-}
-.marker-cluster-small { background-color: rgba(15,25,35,0.15); }
-.marker-cluster-small div { background-color: #0f1923; }
-.marker-cluster-medium { background-color: rgba(15,25,35,0.2); }
-.marker-cluster-medium div { background-color: #0f1923; }
-.marker-cluster-large { background-color: rgba(15,25,35,0.25); }
-.marker-cluster-large div { background-color: #0f1923; }
-.marker-cluster div {
-  width: 34px; height: 34px;
-  margin-left: 5px; margin-top: 5px;
-  text-align: center; border-radius: 50%;
-  font-family: 'Manrope', sans-serif;
-  font-size: 13px; font-weight: 800;
-  color: #fff; line-height: 34px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.25);
-}
-.marker-cluster { width: 44px !important; height: 44px !important; }
-</style>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600&display=swap"/>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800;900&display=swap"/>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"/>
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
-html,body{height:100%;overflow:hidden;font-family:'Manrope',sans-serif;background:#f8f8f6;}
+html,body{height:100%;font-family:'Manrope',sans-serif;background:#f8f8f6;overflow:hidden;}
 
 /* Header */
 #app-header{
@@ -45,11 +18,11 @@ html,body{height:100%;overflow:hidden;font-family:'Manrope',sans-serif;backgroun
   border-bottom:1px solid rgba(0,0,0,0.06);
   display:flex;align-items:center;padding:0 8px;
 }
-#app-header .h-logo{flex:1;display:flex;justify-content:center;}
+#app-header .h-logo{flex:1;display:flex;justify-content:center;font-family:Manrope;font-weight:900;font-size:15px;color:#0f1923;letter-spacing:-0.02em;}
 #app-header button{background:none;border:none;cursor:pointer;border-radius:50%;padding:6px;display:flex;align-items:center;justify-content:center;}
 #app-header button:hover{background:rgba(0,0,0,0.05);}
 
-/* City Banner */
+/* City banner */
 #city-banner{
   position:fixed;top:48px;left:0;right:0;height:56px;z-index:999;
   background:#fff;border-bottom:1px solid rgba(0,0,0,0.07);
@@ -58,217 +31,103 @@ html,body{height:100%;overflow:hidden;font-family:'Manrope',sans-serif;backgroun
 }
 #city-banner .cb-blason{width:34px;height:34px;object-fit:contain;flex-shrink:0;}
 #city-banner .cb-info{flex:1;min-width:0;}
-#city-banner .cb-name{font-size:12px;font-weight:800;color:#0f1923;letter-spacing:0.01em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+#city-banner .cb-name{font-size:12px;font-weight:800;color:#0f1923;letter-spacing:0.01em;}
 #city-banner .cb-stats{display:flex;gap:10px;margin-top:2px;}
-#city-banner .cb-stat{font-size:9.5px;font-weight:600;color:#94a3b8;white-space:nowrap;}
+#city-banner .cb-stat{font-size:9.5px;font-weight:600;color:#94a3b8;}
 #city-banner .cb-stat span{color:#0f1923;font-weight:700;}
-#pmr-toggle{display:flex;align-items:center;gap:6px;background:#f1f5f9;border:none;border-radius:20px;padding:5px 10px;cursor:pointer;transition:all 0.2s;flex-shrink:0;}
-#pmr-toggle.active{background:#2D6A4F;color:#fff;}
-#pmr-toggle .pmr-icon{font-size:16px;}
-#pmr-toggle .pmr-lbl{font-size:9px;font-weight:700;letter-spacing:0.05em;text-transform:uppercase;color:#555;}
-#pmr-toggle.active .pmr-lbl{color:#fff;}
 
 /* Map */
 #map-wrap{position:fixed;top:104px;left:0;right:0;bottom:64px;}
-#map{width:100%;height:100%;}
+#map{width:100%;height:100%;background:#e8e8e0;}
 
-/* Bottom Nav */
+/* Bottom nav */
 #bottomnav{
   position:fixed;bottom:0;left:0;right:0;height:64px;z-index:1000;
-  background:rgba(255,255,255,0.92);backdrop-filter:blur(20px);
+  background:rgba(255,255,255,0.95);backdrop-filter:blur(20px);
   border-top:1px solid rgba(0,0,0,0.06);
   display:flex;align-items:center;justify-content:space-around;padding:0 8px;
   border-radius:20px 20px 0 0;
 }
-.n-btn{background:none;border:none;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:2px;padding:6px 12px;border-radius:12px;transition:all 0.2s;color:#94a3b8;}
+.n-btn{background:none;border:none;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:2px;padding:6px 12px;color:#94a3b8;-webkit-tap-highlight-color:transparent;}
 .n-btn span.material-symbols-outlined{font-size:22px;}
 .n-btn span.lbl{font-size:9px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;}
 .n-btn.active{color:#0f1923;}
 .n-btn.active span.material-symbols-outlined{font-variation-settings:'FILL' 1,'wght' 500;}
+.n-legend{display:flex;flex-direction:column;gap:4px;justify-content:center;padding:0 8px;}
+.n-legend-row{display:flex;align-items:center;gap:5px;}
+.n-legend-dot{width:8px;height:8px;border-radius:50%;}
+.n-legend-lbl{font-size:9px;font-weight:700;letter-spacing:0.06em;color:#555;text-transform:uppercase;}
 
-/* FAB */
-#map-fabs{position:fixed;right:16px;bottom:80px;display:flex;flex-direction:column;gap:10px;z-index:500;}
-.fab{width:44px;height:44px;border-radius:50%;border:none;cursor:pointer;background:#fff;box-shadow:0 2px 12px rgba(0,0,0,0.15);display:flex;align-items:center;justify-content:center;color:#0f1923;transition:all 0.2s;}
-.fab:hover{box-shadow:0 4px 16px rgba(0,0,0,0.2);transform:scale(1.05);}
-.fab .material-symbols-outlined{font-size:20px;}
-
-/* États du bouton GPS */
-#locate-btn.gps-loading .material-symbols-outlined{animation:gps-spin 1s linear infinite;color:#3B5BDB;}
+/* FABs */
+#map-fabs{position:fixed;right:14px;bottom:80px;display:flex;flex-direction:column;gap:10px;z-index:500;}
+.fab{width:46px;height:46px;border-radius:50%;border:none;cursor:pointer;background:#fff;box-shadow:0 2px 12px rgba(0,0,0,0.18);display:flex;align-items:center;justify-content:center;color:#0f1923;transition:all 0.15s;}
+.fab:active{transform:scale(0.94);}
+.fab .material-symbols-outlined{font-size:22px;}
+#locate-btn.gps-loading .material-symbols-outlined{animation:spin 1s linear infinite;color:#3B5BDB;}
 #locate-btn.gps-ready .material-symbols-outlined{color:#3B5BDB;}
-#locate-btn.gps-follow{background:#3B5BDB;box-shadow:0 2px 16px rgba(59,91,219,0.5);}
+#locate-btn.gps-follow{background:#3B5BDB;}
 #locate-btn.gps-follow .material-symbols-outlined{color:#fff;font-variation-settings:'FILL' 1;}
-#locate-btn.gps-denied .material-symbols-outlined,
-#locate-btn.gps-unavailable .material-symbols-outlined{color:#dc2626;}
-@keyframes gps-spin{to{transform:rotate(360deg);}}
+#locate-btn.gps-denied .material-symbols-outlined{color:#dc2626;}
+@keyframes spin{to{transform:rotate(360deg);}}
 
-/* Searchbar */
-#search-bar-wrap{display:none;position:fixed;top:48px;left:0;right:0;z-index:999;background:rgba(255,255,255,0.97);backdrop-filter:blur(16px);padding:10px 16px;border-bottom:1px solid rgba(0,0,0,0.06);}
-#search-input{width:100%;background:#f1f3f4;border:none;border-radius:12px;padding:9px 14px 9px 38px;font-size:14px;font-family:Manrope;outline:none;}
+/* POI marker (custom HTML overlay via AdvancedMarkerElement-like effect) */
+.poi-pin{
+  width:36px;height:36px;border-radius:50% 50% 50% 0;
+  transform:rotate(-45deg);
+  display:flex;align-items:center;justify-content:center;
+  box-shadow:0 3px 10px rgba(0,0,0,0.3);
+  border:2px solid #fff;cursor:pointer;
+}
+.poi-pin .material-symbols-outlined{
+  transform:rotate(45deg);color:#fff;font-size:18px;
+  font-variation-settings:'FILL' 1,'wght' 600;
+}
 
-/* Popup Card */
-#popup-container{display:none;position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);width:calc(100% - 32px);max-width:360px;z-index:800;}
-#popup-card{background:#fff;border-radius:24px;width:100%;box-shadow:0 20px 60px rgba(0,0,0,0.25);opacity:0;transform:scale(0.92) translateY(8px);transition:opacity 0.2s ease,transform 0.28s cubic-bezier(0.34,1.5,0.64,1);overflow:hidden;}
-#popup-card.visible{opacity:1;transform:scale(1) translateY(0);}
-.pw-img-wrap{position:relative;width:100%;height:220px;overflow:hidden;border-radius:24px 24px 0 0;}
-.pw-img{width:100%;height:100%;object-fit:cover;display:block;}
-.pw-img-placeholder{width:100%;height:100%;display:flex;align-items:center;justify-content:center;}
-.pw-badge{position:absolute;top:14px;left:14px;color:#fff;font-size:10px;font-weight:700;letter-spacing:0.06em;text-transform:uppercase;padding:5px 12px;border-radius:20px;background:rgba(0,0,0,0.45);backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,0.2);}
-.pw-x{position:absolute;top:12px;right:12px;background:rgba(255,255,255,0.95);backdrop-filter:blur(8px);border:none;border-radius:50%;width:32px;height:32px;color:#0f1923;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 12px rgba(0,0,0,0.2);}
-.pw-body{padding:16px 18px 4px;}
-.pw-name{font-size:18px;font-weight:800;color:#0f1923;margin-bottom:5px;line-height:1.2;}
-.pw-desc{font-size:13px;color:#6b7280;line-height:1.5;margin-bottom:0;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;}
-.pw-meta{display:flex;align-items:center;gap:8px;padding:8px 18px 10px;}
-.pw-cat-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0;}
-.pw-cat-label{font-size:12px;font-weight:600;}
-.pw-dist{font-size:12px;color:#94a3b8;margin-left:auto;font-weight:500;}
-.pw-footer-row{display:flex;align-items:center;justify-content:space-between;padding:14px 20px 20px;border-top:1px solid #f1f5f9;}
-.pw-rating{display:flex;align-items:center;gap:5px;font-size:14px;font-weight:700;color:#0f1923;}
-.pw-rating-star{font-size:16px;color:#f59e0b;}
-.pw-cta-btn{background:#0f1923;color:#fff;border:none;border-radius:12px;padding:10px 20px;font-family:Manrope;font-size:13px;font-weight:700;cursor:pointer;display:flex;align-items:center;gap:6px;transition:all 0.15s;}
-.pw-cta-btn:active{transform:scale(0.97);}
-.pw-cta-btn .material-symbols-outlined{font-size:16px;}
-.pw-cta-secondary{background:#f1f5f9;color:#0f1923;}
-.pw-era,.pw-cta,.pw-nav,.pw-sv-btn,.pw-btn,.pw-actions,.pw-cat-row{display:none;}
+/* Popup card */
+#popup-container{display:none;position:fixed;bottom:80px;left:14px;right:14px;z-index:800;max-width:420px;margin:0 auto;}
+#popup-container.show{display:block;}
+#popup-card{background:#fff;border-radius:20px;box-shadow:0 12px 40px rgba(0,0,0,0.22);overflow:hidden;animation:slideUp 0.3s cubic-bezier(0.34,1.5,0.64,1);}
+@keyframes slideUp{from{opacity:0;transform:translateY(30px);}to{opacity:1;transform:translateY(0);}}
+.pw-img{width:100%;height:160px;object-fit:cover;display:block;background:#e8e8e0;}
+.pw-body{padding:14px 16px 6px;}
+.pw-cat{font-size:10px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;margin-bottom:6px;display:flex;align-items:center;gap:6px;}
+.pw-cat-dot{width:8px;height:8px;border-radius:50%;}
+.pw-name{font-size:17px;font-weight:800;color:#0f1923;line-height:1.2;margin-bottom:6px;}
+.pw-desc{font-size:13px;color:#6b7280;line-height:1.5;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;}
+.pw-footer{display:flex;align-items:center;justify-content:space-between;padding:12px 16px 14px;border-top:1px solid #f1f5f9;margin-top:8px;}
+.pw-dist{font-size:12px;color:#94a3b8;font-weight:600;}
+.pw-cta{background:#0f1923;color:#fff;border:none;border-radius:10px;padding:9px 16px;font-family:Manrope;font-size:12px;font-weight:700;cursor:pointer;display:flex;align-items:center;gap:5px;}
+.pw-cta .material-symbols-outlined{font-size:15px;}
+.pw-x{position:absolute;top:10px;right:10px;background:rgba(255,255,255,0.95);border:none;border-radius:50%;width:30px;height:30px;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 10px rgba(0,0,0,0.2);z-index:2;}
+.pw-img-wrap{position:relative;}
 
 /* Toast */
-#toast{position:fixed;bottom:80px;left:50%;transform:translateX(-50%) translateY(20px);background:rgba(15,25,35,0.9);color:#fff;padding:8px 20px;border-radius:20px;font-size:13px;font-family:Manrope;font-weight:600;opacity:0;transition:all 0.3s;z-index:9000;white-space:nowrap;}
+#toast{position:fixed;bottom:80px;left:50%;transform:translateX(-50%) translateY(20px);background:rgba(15,25,35,0.92);color:#fff;padding:9px 18px;border-radius:20px;font-size:13px;font-weight:600;opacity:0;transition:all 0.3s;z-index:9000;pointer-events:none;}
 #toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
 
-/* Route banner */
-#route-banner{position:fixed;bottom:72px;left:16px;right:16px;z-index:700;background:#fff;border-radius:16px;padding:14px 16px;box-shadow:0 4px 20px rgba(0,0,0,0.15);display:flex;align-items:center;gap:12px;}
+/* User location dot (overlay div) */
+.user-dot-wrap{position:relative;width:24px;height:24px;}
+.user-dot{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:18px;height:18px;border-radius:50%;background:#3B5BDB;border:3px solid #fff;box-shadow:0 2px 10px rgba(59,91,219,0.5);}
+.user-pulse{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:24px;height:24px;border-radius:50%;background:#3B5BDB;opacity:0.4;animation:pulse 2s ease-out infinite;}
+@keyframes pulse{0%{transform:translate(-50%,-50%) scale(0.8);opacity:0.6;}100%{transform:translate(-50%,-50%) scale(2.2);opacity:0;}}
 
-/* Filter bar */
-#filter-bar{display:none;}
-
-/* PMR */
-#nav-pmr.pmr-on { color: #0077cc; }
-#nav-pmr.pmr-on span.material-symbols-outlined { font-variation-settings:'FILL' 1,'wght' 500; }
-.pmr-badge { position:absolute; top:-4px; right:-4px; width:14px; height:14px; background:#0077cc; border-radius:50%; border:2px solid #fff; display:flex; align-items:center; justify-content:center; }
-.pmr-badge svg { width:8px; height:8px; }
-
-/* Leaflet overrides */
-.leaflet-control-zoom{border:none!important;box-shadow:none!important;display:none;}
-.yah-icon-wrap{background:none!important;border:none!important;}
-.yah-wrap{position:relative;width:44px;height:44px;display:flex;align-items:center;justify-content:center;}
-.yah-ring{position:absolute;width:44px;height:44px;border-radius:50%;border:2px solid #3B5BDB;animation:yah-pulse 2.2s cubic-bezier(0.4,0,0.2,1) infinite;pointer-events:none;}
-.yah-dot{position:absolute;width:18px;height:18px;border-radius:50%;background:#3B5BDB;border:3px solid #fff;box-shadow:0 2px 10px rgba(59,91,219,0.6);z-index:2;}
-.yah-cone{position:absolute;width:44px;height:44px;pointer-events:none;transition:transform 0.2s cubic-bezier(0.4,0,0.2,1);transform-origin:center;}
-.yah-cone::before{content:'';position:absolute;top:-6px;left:50%;transform:translateX(-50%);width:0;height:0;border-left:10px solid transparent;border-right:10px solid transparent;border-bottom:16px solid #3B5BDB;filter:drop-shadow(0 2px 4px rgba(59,91,219,0.5));}
-@keyframes yah-pulse{0%{transform:scale(0.9);opacity:0.7;}100%{transform:scale(1.8);opacity:0;}}
-@keyframes spin{to{transform:rotate(360deg);}}
-@keyframes blink{0%,100%{opacity:1;}50%{opacity:0;}}
-
-/* Immersive */
-#imm-overlay{display:none;position:fixed;inset:0;z-index:2000;background:#0f1923;flex-direction:column;}
-#imm-overlay.open{display:flex;}
-#imm-bg{position:absolute;inset:0;background-size:cover;background-position:center;transition:opacity 0.8s;opacity:0;}
-#imm-bg.ready{opacity:1;}
-#imm-tint{position:absolute;inset:0;opacity:0;transition:opacity 0.8s;}
-#imm-tint.ready{opacity:1;}
-#imm-particles{display:none;}
-#imm-overlay.ready #imm-content{opacity:1;transform:translateY(0);}
-#imm-content{position:relative;z-index:10;display:flex;flex-direction:column;height:100%;padding:60px 28px 36px;opacity:0;transform:translateY(30px);transition:all 0.6s 0.3s;background:linear-gradient(90deg,rgba(0,0,0,0.72) 0%,rgba(0,0,0,0.45) 55%,transparent 100%);}
-#imm-era-badge{font-size:10px;font-weight:700;letter-spacing:0.15em;text-transform:uppercase;color:rgba(255,255,255,0.9);background:rgba(255,255,255,0.15);backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,0.25);padding:5px 12px;border-radius:20px;width:fit-content;margin-bottom:16px;}
-#imm-title{font-size:28px;font-weight:800;color:#fff;line-height:1.1;margin-bottom:8px;text-shadow:0 2px 16px rgba(0,0,0,0.5);}
-#imm-subtitle{font-size:11px;font-weight:600;letter-spacing:0.12em;color:rgba(255,255,255,0.75);margin-bottom:24px;}
-#imm-stats{display:flex;gap:0;margin-bottom:28px;background:rgba(255,255,255,0.1);backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,0.18);border-radius:16px;padding:14px 20px;width:fit-content;}
-.imm-stat{display:flex;flex-direction:column;gap:2px;}
-.imm-stat+.imm-stat{border-left:1px solid rgba(255,255,255,0.15);margin-left:20px;padding-left:20px;}
-.imm-stat-val{font-size:18px;font-weight:800;color:#fff;line-height:1.2;}
-.imm-stat-lbl{font-size:10px;color:rgba(255,255,255,0.6);font-weight:500;margin-top:2px;}
-#imm-narration-text{font-size:15px;line-height:1.8;color:rgba(255,255,255,0.95);font-weight:500;max-width:420px;flex:1;opacity:0;transform:translateY(14px);transition:opacity 0.8s,transform 0.8s;text-shadow:0 1px 8px rgba(0,0,0,0.4);}
-#imm-narration-text.visible{opacity:1;transform:translateY(0);}
-#imm-cursor{display:inline-block;width:2px;height:1em;background:rgba(255,255,255,0.7);margin-left:2px;animation:blink 1s infinite;}
-#imm-cursor.done{animation:none;opacity:0;}
-#imm-actions{display:flex;gap:10px;margin-top:20px;}
-#imm-navigate-btn{background:#fff;color:#0f1923;border:none;border-radius:14px;padding:13px 26px;font-family:Manrope;font-size:14px;font-weight:700;cursor:pointer;display:flex;align-items:center;gap:8px;box-shadow:0 4px 20px rgba(0,0,0,0.25);transition:all 0.15s;}
-#imm-navigate-btn:active{transform:scale(0.97);}
-#imm-close-btn{background:rgba(255,255,255,0.12);color:#fff;border:1px solid rgba(255,255,255,0.25);border-radius:14px;padding:13px 20px;font-family:Manrope;font-size:14px;font-weight:600;cursor:pointer;display:flex;align-items:center;gap:6px;backdrop-filter:blur(8px);transition:all 0.15s;}
-#imm-close-btn:active{transform:scale(0.97);}
-#imm-scroll{background:none;border:none;color:rgba(255,255,255,0.65);cursor:pointer;display:flex;align-items:center;gap:5px;font-family:Manrope;font-size:12px;font-weight:500;margin-top:14px;letter-spacing:0.04em;}
-#imm-detail{position:absolute;bottom:0;left:0;right:0;background:rgba(15,25,35,0.97);backdrop-filter:blur(20px);border-radius:24px 24px 0 0;padding:20px 20px 40px;transform:translateY(100%);transition:transform 0.4s cubic-bezier(0.34,1.2,0.64,1);z-index:20;max-height:70vh;overflow-y:auto;}
-#imm-detail.open{transform:translateY(0);}
-.imm-detail-section{margin-bottom:20px;}
-.imm-detail-section h4{font-size:11px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:rgba(255,255,255,0.75);margin-bottom:8px;}
-.imm-detail-section p{font-size:14px;line-height:1.8;color:rgba(255,255,255,0.95);font-weight:500;}
-.imm-timeline{display:flex;flex-direction:column;gap:12px;}
-.imm-tl-item{display:flex;align-items:flex-start;gap:12px;}
-.imm-tl-dot{width:8px;height:8px;border-radius:50%;background:#fff;flex-shrink:0;margin-top:5px;opacity:0.7;}
-.imm-tl-year{font-size:12px;font-weight:700;color:#fff;width:40px;flex-shrink:0;}
-.imm-tl-text{font-size:13px;color:rgba(255,255,255,0.95);font-weight:500;}
-
-/* AR View */
-#ar-view{display:none;position:fixed;inset:0;z-index:3000;background:#000;}
-#ar-video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;}
-#ar-epoch-banner{position:absolute;top:80px;left:50%;transform:translateX(-50%);background:rgba(0,0,0,0.6);backdrop-filter:blur(10px);color:#fff;font-family:Manrope;font-size:12px;font-weight:600;padding:6px 16px;border-radius:20px;white-space:nowrap;z-index:10;}
-#ar-hud{position:absolute;top:0;left:0;right:0;z-index:10;padding:16px;}
-#ar-hud-inner{display:flex;align-items:center;gap:12px;}
-.ar-compass{width:32px;height:32px;}
-#ar-heading-text{color:#fff;font-family:Manrope;font-size:13px;font-weight:600;flex:1;}
-#ar-close-btn{background:rgba(255,255,255,0.15);border:none;border-radius:50%;width:32px;height:32px;color:#fff;cursor:pointer;font-size:16px;}
-#ar-distance-ring{position:absolute;bottom:160px;left:50%;transform:translateX(-50%);background:rgba(0,0,0,0.6);color:#fff;font-family:Manrope;font-size:12px;padding:6px 14px;border-radius:20px;z-index:10;}
-#ar-bottom-bar{position:absolute;bottom:72px;left:16px;right:16px;z-index:10;display:flex;gap:10px;}
-#ar-radar-btn,#ar-ghost-btn,#ar-nearest-btn{flex:1;background:rgba(255,255,255,0.12);backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,0.2);border-radius:14px;color:#fff;font-family:Manrope;font-size:11px;font-weight:600;padding:10px 6px;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:4px;}
-#ar-grain,#ar-vignette,#ar-ghost-ov,#ar-flash,#ar-ov{position:absolute;inset:0;pointer-events:none;}
-#ar-grain{background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");opacity:0.4;}
-#ar-vignette{background:radial-gradient(ellipse at center,transparent 60%,rgba(0,0,0,0.5) 100%);}
-#nav-overlay{display:none;position:fixed;top:48px;left:16px;right:16px;z-index:600;background:#fff;border-radius:16px;padding:14px 16px;box-shadow:0 4px 20px rgba(0,0,0,0.15);}
-#nav-overlay.on{display:flex;align-items:center;gap:12px;}
-#hist-lightbox{display:none;position:fixed;inset:0;z-index:4000;background:rgba(0,0,0,0.95);flex-direction:column;align-items:center;justify-content:center;gap:16px;}
-#hist-lightbox.open{display:flex;}
-#hist-lightbox-close{position:absolute;top:16px;right:16px;background:rgba(255,255,255,0.15);border:none;border-radius:50%;width:36px;height:36px;color:#fff;font-size:18px;cursor:pointer;}
-#hist-lightbox-label{color:rgba(255,255,255,0.5);font-family:Manrope;font-size:12px;}
-#hist-lightbox-img{max-width:90vw;max-height:60vh;border-radius:12px;object-fit:contain;}
-#hist-lightbox-caption{color:rgba(255,255,255,0.7);font-family:Manrope;font-size:13px;text-align:center;max-width:320px;line-height:1.5;}
-#radar-overlay{display:none;position:fixed;inset:0;z-index:3500;background:rgba(5,10,20,0.97);flex-direction:column;align-items:center;justify-content:center;}
-#radar-overlay.open{display:flex;}
-.fp,.fdot{display:none;}
-
-/* Street View */
-#sv-modal{display:none;position:fixed;inset:0;z-index:99999;flex-direction:column;background:#0f1923;}
+/* Hide Google logo & ToS to give clean UI (allowed by ToS) — actually we MUST show attribution, so keep but reduce */
+.gm-style-cc{display:none!important;}
+a[href^="https://maps.google.com/maps"]{display:none!important;}
 </style>
 </head>
-<body style="height:100%;margin:0;overflow:hidden;">
+<body>
 
-<script>
-// Variables GPS globales
-var userLat = null;
-var userLng = null;
-var userMarker = null;
-var userAccuracyCircle = null;
-var userHeading = null;
-var gpsWatchId = null;
-var gpsTrackingMode = 'off'; // 'off', 'locate', 'follow'
-var lastGPSUpdate = 0;
-var map = null;
-var navActive = false;
-</script>
-
-<!-- HEADER -->
 <header id="app-header">
   <button onclick="window.location.href='index.html'">
     <span class="material-symbols-outlined" style="font-size:22px;color:#0f1923;">arrow_back</span>
   </button>
-  <div class="h-logo">
-    <img src="data:image/png;base64,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" style="height:26px;object-fit:contain;" alt="Cœur de Ville"/>
-    <span style="display:none;font-family:Manrope;font-weight:900;font-size:16px;color:#0f1923;letter-spacing:-0.02em;">♥ CŒUR DE VILLE</span>
-  </div>
-  <button id="search-btn" onclick="toggleSearch()">
-    <span id="search-icon" class="material-symbols-outlined" style="font-size:22px;color:#0f1923;">search</span>
-  </button>
+  <div class="h-logo">♥ Cœur de Ville</div>
+  <button onclick="alert('Recherche bientôt')"><span class="material-symbols-outlined" style="font-size:22px;color:#0f1923;">search</span></button>
 </header>
 
-<!-- SEARCHBAR -->
-<div id="search-bar-wrap">
-  <div style="position:relative;">
-    <span class="material-symbols-outlined" style="position:absolute;left:10px;top:50%;transform:translateY(-50%);font-size:16px;color:#94a3b8;">search</span>
-    <input id="search-input" type="text" placeholder="Rechercher un lieu…"/>
-  </div>
-</div>
-
-<!-- CITY BANNER -->
 <div id="city-banner">
-  <img class="cb-blason" src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d3/Blason_de_la_ville_de_Villeneuve-l%C3%A8s-Avignon_%2830%29.svg/200px-Blason_de_la_ville_de_Villeneuve-l%C3%A8s-Avignon_%2830%29.svg.png" alt="Blason" onerror="this.style.display='none'"/>
+  <img class="cb-blason" src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d3/Blason_de_la_ville_de_Villeneuve-l%C3%A8s-Avignon_%2830%29.svg/200px-Blason_de_la_ville_de_Villeneuve-l%C3%A8s-Avignon_%2830%29.svg.png" alt="" onerror="this.style.display='none'"/>
   <div class="cb-info">
     <div class="cb-name">Villeneuve lez Avignon</div>
     <div class="cb-stats">
@@ -277,136 +136,69 @@ var navActive = false;
       <div class="cb-stat">Maire : <span>P. Bories</span></div>
     </div>
   </div>
-  <button id="pmr-toggle" onclick="togglePMR()">
-    <span class="pmr-icon material-symbols-outlined">accessible</span>
-    <span class="pmr-lbl">PMR</span>
-  </button>
 </div>
 
-<!-- MAP -->
-<div id="map-wrap">
-  <div id="map" style="width:100%;height:100%;"></div>
-</div>
+<div id="map-wrap"><div id="map"></div></div>
 
-<!-- FAB -->
 <div id="map-fabs">
-  <button class="fab" onclick="locateUser()" id="locate-btn">
+  <button class="fab" id="locate-btn" onclick="locateUser()">
     <span class="material-symbols-outlined">my_location</span>
   </button>
-  <button class="fab" onclick="window.leafletMap && window.leafletMap.zoomIn()">
+  <button class="fab" onclick="googleMap && googleMap.setZoom(googleMap.getZoom()+1)">
     <span class="material-symbols-outlined">add</span>
   </button>
-  <button class="fab" onclick="window.leafletMap && window.leafletMap.zoomOut()">
+  <button class="fab" onclick="googleMap && googleMap.setZoom(googleMap.getZoom()-1)">
     <span class="material-symbols-outlined">remove</span>
   </button>
 </div>
 
-<!-- POPUP -->
-<div id="popup-container"><div id="popup-card"></div></div>
-<div id="filter-bar"></div>
+<div id="popup-container">
+  <div id="popup-card">
+    <div class="pw-img-wrap">
+      <button class="pw-x" onclick="closePopup()"><span class="material-symbols-outlined" style="font-size:18px;">close</span></button>
+      <img class="pw-img" id="pw-img" src="" alt="" style="display:none;"/>
+    </div>
+    <div class="pw-body">
+      <div class="pw-cat" id="pw-cat"></div>
+      <div class="pw-name" id="pw-name"></div>
+      <div class="pw-desc" id="pw-desc"></div>
+    </div>
+    <div class="pw-footer">
+      <span class="pw-dist" id="pw-dist"></span>
+      <button class="pw-cta" id="pw-cta" onclick="navigateToSelected()">
+        <span class="material-symbols-outlined">near_me</span>
+        Y aller
+      </button>
+    </div>
+  </div>
+</div>
+
 <div id="toast"></div>
 
-<!-- BOTTOM NAV -->
 <nav id="bottomnav">
   <button class="n-btn" onclick="window.location.href='index.html'">
     <span class="material-symbols-outlined">home</span>
     <span class="lbl">Accueil</span>
   </button>
-  <button class="n-btn active" id="nav-carte">
+  <button class="n-btn active">
     <span class="material-symbols-outlined">map</span>
     <span class="lbl">Carte</span>
   </button>
-  <div style="display:flex;flex-direction:column;gap:4px;justify-content:center;padding:0 8px;">
-    <div style="display:flex;align-items:center;gap:5px;"><div style="width:8px;height:8px;border-radius:50%;background:#2D6A4F;flex-shrink:0;"></div><span style="font-size:9px;font-weight:700;letter-spacing:0.06em;color:#555;text-transform:uppercase;">Patrimoine</span></div>
-    <div style="display:flex;align-items:center;gap:5px;"><div style="width:8px;height:8px;border-radius:50%;background:#E76F51;flex-shrink:0;"></div><span style="font-size:9px;font-weight:700;letter-spacing:0.06em;color:#555;text-transform:uppercase;">Commerces</span></div>
-    <div style="display:flex;align-items:center;gap:5px;"><div style="width:8px;height:8px;border-radius:50%;background:#3B5BDB;flex-shrink:0;"></div><span style="font-size:9px;font-weight:700;letter-spacing:0.06em;color:#555;text-transform:uppercase;">Événements</span></div>
+  <div class="n-legend">
+    <div class="n-legend-row"><div class="n-legend-dot" style="background:#2D6A4F;"></div><span class="n-legend-lbl">Patrimoine</span></div>
+    <div class="n-legend-row"><div class="n-legend-dot" style="background:#E76F51;"></div><span class="n-legend-lbl">Commerces</span></div>
+    <div class="n-legend-row"><div class="n-legend-dot" style="background:#3B5BDB;"></div><span class="n-legend-lbl">Événements</span></div>
   </div>
-  <button class="n-btn" id="nav-ar" onclick="startAR()">
-    <span class="material-symbols-outlined">view_in_ar</span>
-    <span class="lbl">AR</span>
+  <button class="n-btn" onclick="alert('Bientôt')">
+    <span class="material-symbols-outlined">photo_camera</span>
+    <span class="lbl">Photos</span>
   </button>
 </nav>
 
-<!-- IMMERSIVE -->
-<div id="imm-overlay">
-  <div id="imm-bg"></div><div id="imm-tint"></div><div id="imm-particles"></div>
-  <div id="imm-content">
-    <div id="imm-era-badge"></div>
-    <div id="imm-title"></div>
-    <div id="imm-subtitle"></div>
-    <div id="imm-stats">
-      <div class="imm-stat"><div class="imm-stat-val" id="imm-stat-age"></div><div class="imm-stat-lbl">Siècle</div></div>
-      <div class="imm-stat"><div class="imm-stat-val" id="imm-stat-cat"></div><div class="imm-stat-lbl">Type</div></div>
-      <div class="imm-stat"><div class="imm-stat-val" id="imm-stat-dist"></div><div class="imm-stat-lbl">Distance</div></div>
-    </div>
-    <div id="imm-narration-text"></div><span id="imm-cursor"></span>
-    <div id="imm-actions">
-      <button id="imm-navigate-btn"><span class="material-symbols-outlined" style="font-size:16px;">near_me</span>Y aller</button>
-      <button id="imm-close-btn" onclick="closeImmersive()"><span class="material-symbols-outlined" style="font-size:16px;">close</span>Fermer</button>
-    </div>
-    <button id="imm-scroll"><span class="material-symbols-outlined" style="font-size:14px;">expand_more</span>En savoir plus</button>
-  </div>
-  <div id="imm-detail"><div id="imm-detail-inner"></div></div>
-</div>
-
-<!-- AR VIEW -->
-<div id="ar-view">
-  <video id="ar-video" autoplay playsinline muted></video>
-  <div id="ar-grain"></div><div id="ar-vignette"></div><div id="ar-ghost-ov"></div>
-  <div id="ar-epoch-banner"></div>
-  <div id="ar-flash"></div><div id="ar-ov"></div>
-  <div id="ar-hud">
-    <div id="ar-hud-inner">
-      <div class="ar-compass"><svg id="ar-compass-svg" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><circle cx="12" cy="12" r="10"/><polygon points="12,4 14,12 12,11 10,12" fill="red" stroke="none"/><polygon points="12,20 14,12 12,13 10,12" fill="white" stroke="none"/></svg></div>
-      <span id="ar-heading-text">AR · Réalité Augmentée</span>
-      <button id="ar-close-btn" onclick="stopAR()">✕</button>
-    </div>
-  </div>
-  <div id="ar-distance-ring">Recherche GPS…</div>
-  <div id="ar-bottom-bar">
-    <button id="ar-radar-btn" onclick="openRadar()"><span class="material-symbols-outlined" style="font-size:18px;">radar</span>Radar</button>
-    <button id="ar-ghost-btn" onclick="toggleGhostMode()"><span class="material-symbols-outlined" style="font-size:18px;">ghost</span>Ghost</button>
-    <button id="ar-nearest-btn" onclick="navigateToNearest()"><span class="material-symbols-outlined" style="font-size:18px;">near_me</span>Plus proche</button>
-  </div>
-</div>
-
-<!-- Autres overlays -->
-<div id="nav-overlay">
-  <div><div id="nav-dest-name" style="font-weight:700;font-size:14px;color:#0f1923;"></div><div id="nav-dest-cat" style="font-size:11px;color:#94a3b8;"></div></div>
-  <div id="nav-top-dist" style="font-size:13px;font-weight:600;color:#3B5BDB;margin-left:auto;"></div>
-  <button onclick="stopNavigation()" style="background:none;border:none;cursor:pointer;"><span class="material-symbols-outlined" style="font-size:20px;color:#94a3b8;">close</span></button>
-</div>
-<div id="hist-lightbox">
-  <button id="hist-lightbox-close" onclick="closeHistLightbox()">✕</button>
-  <div id="hist-lightbox-label">Vue d'antan</div>
-  <img id="hist-lightbox-img" src="" alt=""/>
-  <div id="hist-lightbox-caption"></div>
-</div>
-<div id="radar-overlay">
-  <button onclick="closeRadar()" style="position:absolute;top:16px;right:16px;background:rgba(255,255,255,0.1);border:none;border-radius:50%;width:36px;height:36px;color:#fff;cursor:pointer;font-size:18px;">✕</button>
-</div>
-
-<!-- Street View -->
-<div id="sv-modal" style="display:none;position:fixed;inset:0;z-index:99999;flex-direction:column;background:#0f1923;">
-  <div style="display:flex;align-items:center;justify-content:space-between;padding:12px 16px;background:rgba(0,0,0,0.6);backdrop-filter:blur(16px);flex-shrink:0;border-bottom:1px solid rgba(255,255,255,0.08);">
-    <div style="display:flex;align-items:center;gap:10px;">
-      <span class="material-symbols-outlined" style="color:#fff;font-size:20px;">streetview</span>
-      <span id="sv-title" style="color:#fff;font-family:Manrope;font-size:15px;font-weight:700;"></span>
-    </div>
-    <button onclick="closeSV()" style="background:rgba(255,255,255,0.1);border:none;border-radius:50%;width:34px;height:34px;display:flex;align-items:center;justify-content:center;cursor:pointer;">
-      <span class="material-symbols-outlined" style="color:#fff;font-size:18px;">close</span>
-    </button>
-  </div>
-  <div id="sv-pano" style="flex:1;width:100%;min-height:0;"></div>
-</div>
-
-<!-- SCRIPTS -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- DATA -->
+<!-- ═══════════════════════════════════════════════════════════ -->
 <script>
-// CONFIG
-// ═══════════════════════════════════════════════════
-// CONFIG.JS — À modifier pour chaque ville
-// ═══════════════════════════════════════════════════
-
 const CONFIG = {
   titre: 'Cœur de Ville — Villeneuve-lès-Avignon',
   ville: 'Villeneuve-lès-Avignon',
@@ -718,1182 +510,308 @@ const EVENEMENTS = [
     date: "Décembre",
   },
 ];
-
 </script>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- GOOGLE MAPS LOGIC -->
+<!-- ═══════════════════════════════════════════════════════════ -->
 <script>
-</script>
-<script>
-// UI
-// ═══════════════════════════════════════════════════
-// CORE/UI.JS — Logique carte, popups, navigation
-// Ne pas modifier
-// ═══════════════════════════════════════════════════
-
-// ═══════════════════════════════════════════════════════════
-// CORE/UI.JS — Google Maps SDK natif
-// ═══════════════════════════════════════════════════════════
-
-
-
-let routePolyline, routeActive = false;
-let currentSection = 'tourisme';
-let navDestLat = null, navDestLng = null;
-let selectedRadarPlace = null;
-let immTypewriterTimer = null;
-// gpsWatchId already declared above as var
+let googleMap = null;
+let userMarker = null;
+let userAccuracyCircle = null;
+let userLat = null, userLng = null;
+let gpsTrackingMode = 'off'; // off | locate | follow
+let gpsWatchId = null;
 let allMarkers = [];
-let routeMarkers = [];
+let selectedPlace = null;
+let infoWindow = null;
 
-// ─── INIT CARTE ───────────────────────────────────────────────
+function getCatColor(cat) {
+  return (CATS[cat] && CATS[cat].color) || '#94a3b8';
+}
+
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2500);
+}
+
+function calcDist(lat1, lng1, lat2, lng2) {
+  const R = 6371000;
+  const dLat = (lat2 - lat1) * Math.PI / 180;
+  const dLng = (lng2 - lng1) * Math.PI / 180;
+  const a = Math.sin(dLat/2)**2 + Math.cos(lat1*Math.PI/180)*Math.cos(lat2*Math.PI/180)*Math.sin(dLng/2)**2;
+  return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+}
+
+// ═══════════════════════════════════════════════════════════
+// INIT MAP — Called by Google Maps SDK callback
+// ═══════════════════════════════════════════════════════════
 function initMap() {
   document.title = CONFIG.titre;
-  document.getElementById('ar-epoch-banner').textContent = CONFIG.epochBanner;
 
-  map = L.map('map', {
-    center: [CONFIG.lat, CONFIG.lng],
+  googleMap = new google.maps.Map(document.getElementById('map'), {
+    center: { lat: CONFIG.lat, lng: CONFIG.lng },
     zoom: CONFIG.zoom,
-    zoomControl: true,
-    attributionControl: false,
+    disableDefaultUI: true,
+    gestureHandling: 'greedy',
+    clickableIcons: false,
+    mapId: 'DEMO_MAP_ID' // Required for Advanced Markers; use your own in prod
   });
 
-  L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
-    maxZoom: 20,
-    attribution: '© OpenStreetMap © CARTO'
-  }).addTo(map);
-
-
-  map.zoomControl.setPosition('bottomright');
-  renderAllMarkers();
-  map.on('click', () => closeCustomPopup());
-  map.on('dragstart', function(){
-    // L'utilisateur bouge manuellement → désactiver le suivi
+  // User dragged → disable follow mode
+  googleMap.addListener('dragstart', () => {
     if (gpsTrackingMode === 'follow') {
       gpsTrackingMode = 'locate';
       setLocateBtnState('ready');
     }
   });
 
-  // GPS - système robuste avec accuracy, heading, états
+  // Click on map → close popup
+  googleMap.addListener('click', () => closePopup());
+
+  renderAllMarkers();
+
+  // Start GPS automatically
   initGPS();
-
-  window.leafletMap = map;
-
-  // Précharger toutes les images des POIs au démarrage
-  PLACES.forEach(p => { if (p.bg) { const img = new Image(); img.src = p.bg; } });
 }
 
-function makeUserMarkerIcon(hasHeading) {
-  var headingHtml = hasHeading
-    ? '<div class="yah-cone"></div>'
-    : '';
-  return L.divIcon({
-    html: '<div class="yah-wrap">' +
-            headingHtml +
-            '<div class="yah-ring"></div>' +
-            '<div class="yah-dot"></div>' +
-          '</div>',
-    className: 'yah-icon-wrap',
-    iconSize: [44, 44],
-    iconAnchor: [22, 22],
+// ═══════════════════════════════════════════════════════════
+// MARKERS
+// ═══════════════════════════════════════════════════════════
+function renderAllMarkers() {
+  // Clear old markers
+  allMarkers.forEach(m => m.setMap(null));
+  allMarkers = [];
+
+  const all = [...PLACES, ...COMMERCES, ...EVENEMENTS];
+
+  all.forEach(place => {
+    const color = getCatColor(place.cat);
+    const icon = (CATS[place.cat] && CATS[place.cat].label) || '';
+
+    // Use a simple SVG marker for compatibility
+    const marker = new google.maps.Marker({
+      position: { lat: place.lat, lng: place.lng },
+      map: googleMap,
+      title: place.name,
+      icon: {
+        path: 'M12 2C8 2 4 5 4 9c0 5 8 13 8 13s8-8 8-13c0-4-4-7-8-7z',
+        fillColor: color,
+        fillOpacity: 1,
+        strokeColor: '#fff',
+        strokeWeight: 2,
+        scale: 1.6,
+        anchor: new google.maps.Point(12, 22),
+      }
+    });
+
+    marker.addListener('click', () => openPopup(place));
+    allMarkers.push(marker);
   });
 }
 
-// ─── GPS ROBUSTE ─────────────────────────────────────────────
-function initGPS() {
-  gpsDebug('initGPS START | proto=' + window.location.protocol + ' | host=' + window.location.host);
-  if (!('geolocation' in navigator)) {
-    gpsDebug('ERR: no geolocation API');
-    setLocateBtnState('unavailable');
-    return;
+// ═══════════════════════════════════════════════════════════
+// POPUP
+// ═══════════════════════════════════════════════════════════
+function openPopup(place) {
+  selectedPlace = place;
+  const cont = document.getElementById('popup-container');
+  const img = document.getElementById('pw-img');
+  if (place.bg) {
+    img.src = place.bg;
+    img.style.display = 'block';
+  } else {
+    img.style.display = 'none';
   }
-  // Premier lock rapide (basse précision) puis watch haute précision
-  navigator.geolocation.getCurrentPosition(
-    function(pos) {
-      applyGPSPosition(pos);
-      if (!userMarker) {
-        // Centrer + zoom initial dès qu'on a la position
-        map.setView([userLat, userLng], 16, { animate: true });
-      }
-      startGPSWatch();
-    },
-    function(err) {
-      gpsDebug('getCurrentPosition initial ERR code=' + err.code + ' msg=' + err.message);
-      console.warn('GPS initial fail', err);
-      startGPSWatch();
-    },
-    { enableHighAccuracy: false, timeout: 5000, maximumAge: 60000 }
-  );
+  const color = getCatColor(place.cat);
+  const label = (CATS[place.cat] && CATS[place.cat].label) || '';
+  document.getElementById('pw-cat').innerHTML = '<span class="pw-cat-dot" style="background:'+color+';"></span>' + label + (place.era ? ' · ' + place.era : '');
+  document.getElementById('pw-name').textContent = place.name;
+  document.getElementById('pw-desc').textContent = place.desc || '';
+
+  let distTxt = '';
+  if (userLat !== null) {
+    const d = calcDist(userLat, userLng, place.lat, place.lng);
+    distTxt = d < 1000 ? Math.round(d) + ' m' : (d/1000).toFixed(1) + ' km';
+  }
+  document.getElementById('pw-dist').textContent = distTxt;
+
+  cont.classList.add('show');
+
+  // Pan to marker, slightly above center to leave room for popup
+  googleMap.panTo({ lat: place.lat, lng: place.lng });
 }
 
-function startGPSWatch() {
-  if (gpsWatchId !== null) return;
+function closePopup() {
+  document.getElementById('popup-container').classList.remove('show');
+  selectedPlace = null;
+}
+
+function navigateToSelected() {
+  if (!selectedPlace) return;
+  const url = 'https://www.google.com/maps/dir/?api=1&destination=' + selectedPlace.lat + ',' + selectedPlace.lng + '&travelmode=walking';
+  window.open(url, '_blank');
+}
+
+// ═══════════════════════════════════════════════════════════
+// GPS
+// ═══════════════════════════════════════════════════════════
+function setLocateBtnState(state) {
+  const btn = document.getElementById('locate-btn');
+  if (!btn) return;
+  btn.classList.remove('gps-loading','gps-ready','gps-follow','gps-denied');
+  if (state === 'loading') btn.classList.add('gps-loading');
+  else if (state === 'ready') btn.classList.add('gps-ready');
+  else if (state === 'follow') btn.classList.add('gps-follow');
+  else if (state === 'denied') btn.classList.add('gps-denied');
+}
+
+function initGPS() {
+  if (!('geolocation' in navigator)) {
+    setLocateBtnState('denied');
+    return;
+  }
+  setLocateBtnState('loading');
+
+  // Watch position continuously
   gpsWatchId = navigator.geolocation.watchPosition(
-    function(pos) {
-      applyGPSPosition(pos);
-      if (gpsTrackingMode === 'follow') {
-        map.setView([userLat, userLng], map.getZoom(), { animate: true });
-      }
-      if (navActive) updateNavigation();
+    pos => {
+      onGPSUpdate(pos);
     },
-    function(err) {
-      handleGPSError(err);
+    err => {
+      console.warn('GPS err', err);
+      if (err.code === 1) {
+        setLocateBtnState('denied');
+        showToast('Géolocalisation refusée');
+      } else if (err.code === 2) {
+        setLocateBtnState('denied');
+        showToast('Position introuvable');
+      } else {
+        setLocateBtnState('loading');
+      }
     },
     { enableHighAccuracy: true, timeout: 15000, maximumAge: 5000 }
   );
-
-  // Heading : utiliser les events deviceorientation quand dispo
-  if ('DeviceOrientationEvent' in window) {
-    window.addEventListener('deviceorientationabsolute', onHeading, true);
-    window.addEventListener('deviceorientation', onHeading, true);
-  }
 }
 
-function gpsDebug(msg) {
-  console.log('[GPS]', msg);
-  var d = document.getElementById('gps-debug');
-  if (!d) {
-    d = document.createElement('div');
-    d.id = 'gps-debug';
-    d.style.cssText = 'position:fixed;top:110px;left:10px;right:10px;z-index:99999;background:rgba(0,0,0,0.88);color:#0f0;font-family:monospace;font-size:11px;padding:8px 10px;border-radius:8px;max-height:180px;overflow-y:auto;line-height:1.5;';
-    document.body.appendChild(d);
-  }
-  var t = new Date().toLocaleTimeString();
-  d.innerHTML = '[' + t + '] ' + msg + '<br>' + d.innerHTML;
-  if (d.innerHTML.length > 4000) d.innerHTML = d.innerHTML.substring(0, 4000);
-}
-
-function applyGPSPosition(pos) {
+function onGPSUpdate(pos) {
   userLat = pos.coords.latitude;
   userLng = pos.coords.longitude;
-  lastGPSUpdate = Date.now();
-  var accuracy = pos.coords.accuracy || 0;
-  gpsDebug('POS: ' + userLat.toFixed(5) + ',' + userLng.toFixed(5) + ' acc=' + Math.round(accuracy) + 'm mode=' + gpsTrackingMode);
-  // Marker utilisateur
+  const accuracy = pos.coords.accuracy || 0;
+  const latLng = { lat: userLat, lng: userLng };
+
   if (!userMarker) {
-    userMarker = L.marker([userLat, userLng], {
-      icon: makeUserMarkerIcon(userHeading !== null),
-      zIndexOffset: 10000,
-      interactive: false,
-      keyboard: false
-    }).addTo(map);
+    // Custom HTML-styled marker via OverlayView (simpler: use Marker with SVG)
+    userMarker = new google.maps.Marker({
+      position: latLng,
+      map: googleMap,
+      icon: {
+        path: google.maps.SymbolPath.CIRCLE,
+        fillColor: '#3B5BDB',
+        fillOpacity: 1,
+        strokeColor: '#fff',
+        strokeWeight: 3,
+        scale: 9,
+      },
+      zIndex: 9999,
+    });
+
+    // Auto-center on first fix
+    googleMap.setCenter(latLng);
+    googleMap.setZoom(16);
+    setLocateBtnState('ready');
   } else {
-    userMarker.setLatLng([userLat, userLng]);
+    userMarker.setPosition(latLng);
   }
 
-  // Cercle d'incertitude (accuracy)
+  // Accuracy circle
   if (accuracy > 0) {
     if (!userAccuracyCircle) {
-      userAccuracyCircle = L.circle([userLat, userLng], {
+      userAccuracyCircle = new google.maps.Circle({
+        map: googleMap,
+        center: latLng,
         radius: accuracy,
-        color: '#3B5BDB',
-        weight: 1,
-        opacity: 0.35,
+        strokeColor: '#3B5BDB',
+        strokeOpacity: 0.4,
+        strokeWeight: 1,
         fillColor: '#3B5BDB',
         fillOpacity: 0.08,
-        interactive: false
-      }).addTo(map);
+      });
     } else {
-      userAccuracyCircle.setLatLng([userLat, userLng]);
+      userAccuracyCircle.setCenter(latLng);
       userAccuracyCircle.setRadius(accuracy);
     }
   }
 
-  // Use heading from pos.coords if available (more accurate on mobile)
-  if (pos.coords.heading !== null && pos.coords.heading !== undefined && !isNaN(pos.coords.heading)) {
-    userHeading = pos.coords.heading;
-    updateHeadingVisual();
-  }
-
-  setLocateBtnState(gpsTrackingMode === 'follow' ? 'follow' : 'ready');
-}
-
-function onHeading(ev) {
-  var heading = null;
-  if (ev.webkitCompassHeading !== undefined) {
-    heading = ev.webkitCompassHeading; // iOS
-  } else if (ev.alpha !== null) {
-    heading = 360 - ev.alpha;
-  }
-  if (heading !== null && !isNaN(heading)) {
-    userHeading = heading;
-    updateHeadingVisual();
+  // If user enabled follow mode, recenter
+  if (gpsTrackingMode === 'follow') {
+    googleMap.panTo(latLng);
   }
 }
 
-function updateHeadingVisual() {
-  if (!userMarker) return;
-  var el = userMarker.getElement();
-  if (!el) return;
-  var cone = el.querySelector('.yah-cone');
-  if (!cone) {
-    // Rebuild icon to include heading cone
-    userMarker.setIcon(makeUserMarkerIcon(true));
-    return;
-  }
-  cone.style.transform = 'rotate(' + userHeading + 'deg)';
-}
-
-function handleGPSError(err) {
-  if (err.code === err.PERMISSION_DENIED) {
-    setLocateBtnState('denied');
-    showToast('Autorisez la géolocalisation dans vos réglages');
-  } else if (err.code === err.POSITION_UNAVAILABLE) {
-    setLocateBtnState('unavailable');
-    showToast('Position introuvable — sortez à l\'extérieur');
-  } else if (err.code === err.TIMEOUT) {
-    setLocateBtnState('loading');
-    // pas de toast, on retente au prochain watch event
-  }
-}
-
-function setLocateBtnState(state) {
-  var btn = document.getElementById('locate-btn');
-  if (!btn) return;
-  btn.classList.remove('gps-loading', 'gps-ready', 'gps-follow', 'gps-denied', 'gps-unavailable');
-  var icon = btn.querySelector('.material-symbols-outlined');
-  switch (state) {
-    case 'loading':
-      btn.classList.add('gps-loading');
-      if (icon) icon.textContent = 'my_location';
-      break;
-    case 'ready':
-      btn.classList.add('gps-ready');
-      if (icon) icon.textContent = 'my_location';
-      break;
-    case 'follow':
-      btn.classList.add('gps-follow');
-      if (icon) icon.textContent = 'near_me';
-      break;
-    case 'denied':
-      btn.classList.add('gps-denied');
-      if (icon) icon.textContent = 'location_disabled';
-      break;
-    case 'unavailable':
-      btn.classList.add('gps-unavailable');
-      if (icon) icon.textContent = 'location_off';
-      break;
-  }
-}
-
-// Force refresh dynamique (tap bouton)
-function forceGPSRefresh() {
-  if (!('geolocation' in navigator)) return;
-  setLocateBtnState('loading');
-  navigator.geolocation.getCurrentPosition(
-    function(pos) {
-      applyGPSPosition(pos);
-      map.setView([userLat, userLng], Math.max(map.getZoom(), 17), { animate: true });
-      setLocateBtnState('ready');
-    },
-    function(err) {
-      handleGPSError(err);
-    },
-    { enableHighAccuracy: true, timeout: 12000, maximumAge: 0 }
-  );
-}
-
-// ─── BARRE DE FILTRES ─────────────────────────────────────────
-function buildFilterBar() {
-  const bar = document.getElementById('filter-bar');
-  if (!bar) return;
-  bar.innerHTML = '';
-  const cats = [...new Set(PLACES.map(p => p.cat))];
-  const allBtn = document.createElement('button');
-  allBtn.className = 'fp active';
-  allBtn.style.setProperty('--cc', CONFIG.couleurPrimaire);
-  allBtn.innerHTML = '<span class="fdot" style="background:' + CONFIG.couleurPrimaire + '"></span>Tout';
-  allBtn.onclick = () => { filterPlaces(null); setFilterActive(allBtn); };
-  bar.appendChild(allBtn);
-  cats.forEach(cat => {
-    const c = CATS[cat]; if (!c) return;
-    const btn = document.createElement('button');
-    btn.className = 'fp';
-    btn.style.setProperty('--cc', c.color);
-    btn.innerHTML = '<span class="fdot" style="background:' + c.dot + '"></span>' + c.label;
-    btn.onclick = () => { filterPlaces(cat); setFilterActive(btn); };
-    bar.appendChild(btn);
-  });
-}
-
-function setFilterActive(el) {
-  document.querySelectorAll('.fp').forEach(b => b.classList.remove('active'));
-  el.classList.add('active');
-}
-
-// ─── MARKERS ─────────────────────────────────────────────────
-
-// ─── COULEURS PAR GROUPE ─────────────────────────────────────
-const GROUP_COLOR = {
-  monument:   '#2D6A4F',
-  religieux:  '#2D6A4F',
-  militaire:  '#2D6A4F',
-  culturel:   '#2D6A4F',
-  naturel:    '#2D6A4F',
-  restaurant: '#E76F51',
-  artisan:    '#E76F51',
-  commerce:   '#E76F51',
-  fete:       '#3B5BDB',
-  evenement:  '#3B5BDB',
-};
-
-function getGroupColor(cat) {
-  return GROUP_COLOR[cat] || '#2D6A4F';
-}
-const CAT_SVG_ICONS = {
-  monument:  '<path d="M12 2L2 7h2v10H2v2h20v-2h-2V7h2L12 2zm0 2.5l6 3V17H6V7.5l6-3zM10 9h4v8h-4z" fill="white"/>',
-  religieux: '<path d="M11 2v3H9v2h2v2.07A5 5 0 0 0 7 14a5 5 0 0 0 5 5 5 5 0 0 0 5-5 5 5 0 0 0-4-4.93V9h2V7h-2V2h-2zm1 9a3 3 0 0 1 3 3 3 3 0 0 1-3 3 3 3 0 0 1-3-3 3 3 0 0 1 3-3z" fill="white"/>',
-  militaire: '<path d="M12 2L4 6v6c0 5.5 3.8 10.7 8 12 4.2-1.3 8-6.5 8-12V6L12 2zm0 2.2l6 2.7V12c0 4.4-2.9 8.6-6 9.9-3.1-1.3-6-5.5-6-9.9V6.9l6-2.7z" fill="white"/>',
-  culturel:  '<path d="M12 2a7 7 0 0 0-7 7c0 3 1.9 5.6 4.6 6.6L12 22l2.4-6.4A7 7 0 0 0 19 9a7 7 0 0 0-7-7zm0 2a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5zm0 2a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3z" fill="white"/>',
-  naturel:   '<path d="M17 8C8 10 5.9 16.2 3.2 21H5c.5-1 1-2 1.5-3h13.3c.5 1 1 2 1.5 3h1.8C20.1 16.2 18 10 9 8H17zm-1.2 8H8.2c1.1-2.6 2.7-4.6 7.6-5.5 1 1.3 1.5 3.2 1.5 5 0 .2 0 .4-.5.5z" fill="white"/>',
-  restaurant:'<path d="M11 9H9V2H7v7H5V2H3v7c0 2.1 1.3 3.9 3 4.7V22h2v-8.3c1.7-.8 3-2.6 3-4.7V2h-2v7zm5-3v8h2.5v8H21V2c-2.8 0-5 2.2-5 4z" fill="white"/>',
-  artisan:   '<path d="M15.5 2.1L11 6.6 9.6 5.1 8.2 6.5l1.5 1.5L2 15.6V20h4.4L14 12.4l1.5 1.5 1.4-1.4-1.5-1.5 4.5-4.5-4.4-4.4zm-1.4 1.9l2.5 2.5-3.9 3.9-2.5-2.5 3.9-3.9zM4 18v-1.8l7-7L12.8 11 6 17.9 4 18z" fill="white"/>',
-  commerce:  '<path d="M7 18c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm10 0c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zM4.2 4H3V2H1v2h2l3.6 7.6L5.3 14c-.2.3-.3.7-.3 1 0 1.1.9 2 2 2h14v-2H7.4c-.1 0-.2-.1-.2-.2l.1-.3.9-1.5H18c.7 0 1.4-.4 1.7-1l3.5-6.4c.4-.7-.1-1.6-1-1.6H5.2z" fill="white"/>',
-  fete:      '<path d="M11.5 2C6.81 2 3 5.81 3 10.5S6.81 19 11.5 19h.5v3c4.86-2.34 8-7 8-11.5C20 5.81 16.19 2 11.5 2zm1 14.5h-2v-2h2v2zm0-4h-2c0-3.25 3-3 3-5 0-1.1-.9-2-2-2s-2 .9-2 2h-2c0-2.21 1.79-4 4-4s4 1.79 4 4c0 2.5-3 2.75-3 5z" fill="white"/>',
-  evenement: '<path d="M17 12h-5v5h5v-5zM16 1v2H8V1H6v2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2h-1V1h-2zm3 18H5V8h14v11z" fill="white"/>',
-};
-
-function makeGoogleMarker(place, col) {
-  const svgIcon = CAT_SVG_ICONS[place.cat] || '<circle cx="12" cy="12" r="5" fill="white"/>';
-  const maxLen = 16;
-  const name = place.name.length > maxLen ? place.name.slice(0, maxLen - 1) + '…' : place.name;
-  const pmrBadge = place.pmr
-    ? `<div style="font-family:'Inter','Manrope',sans-serif;font-size:9px;font-weight:700;color:#0077cc;letter-spacing:0.08em;margin-bottom:2px;border:1.5px solid #0077cc;border-radius:4px;padding:1px 4px;background:#fff;">PMR</div>`
-    : '';
-
-  return `
-    <div style="display:flex;flex-direction:column;align-items:center;cursor:pointer;filter:drop-shadow(0 3px 6px rgba(0,0,0,0.28));">
-      ${pmrBadge}
-      <div style="position:relative;width:40px;height:40px;border-radius:50% 50% 50% 4px;background:${col};display:flex;align-items:center;justify-content:center;transform:rotate(-45deg);border:2.5px solid rgba(255,255,255,0.9);">
-        <div style="transform:rotate(45deg);display:flex;align-items:center;justify-content:center;">
-          <svg width="20" height="20" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">${svgIcon}</svg>
-        </div>
-      </div>
-      <div style="margin-top:4px;background:#fff;color:#1a1a2e;padding:2px 7px;border-radius:6px;font-family:'Inter','Manrope',sans-serif;font-size:10.5px;font-weight:600;white-space:nowrap;letter-spacing:0.01em;box-shadow:0 1px 4px rgba(0,0,0,0.18);border:1px solid rgba(0,0,0,0.07);">${name}</div>
-    </div>`;
-}
-
-function renderPlaces(section) {
-  allMarkers.forEach(m => map.removeLayer(m)); allMarkers = [];
-  const list = section === 'commerce' ? COMMERCES : section === 'evenements' ? EVENEMENTS : PLACES;
-  list.forEach(place => {
-    const col = getGroupColor(place.cat);
-    const html = makeGoogleMarker(place, col);
-    const icon = L.divIcon({ html, className: '', iconSize: [120, 90], iconAnchor: [60, 76] });
-    const m = L.marker([place.lat, place.lng], { icon });
-    m.on('click', () => openCustomPopup(buildPopupHTML(place)));
-    m.addTo(map); allMarkers.push(m);
-  });
-}
-
-function filterPlaces(cat) {
-  allMarkers.forEach(m => map.removeLayer(m)); allMarkers = [];
-  const list = currentSection === 'commerce' ? COMMERCES : PLACES;
-  const filtered = cat ? list.filter(p => p.cat === cat) : list;
-  filtered.forEach(place => {
-    const col = getGroupColor(place.cat);
-    const html = makeGoogleMarker(place, col);
-    const icon = L.divIcon({ html, className: '', iconSize: [120, 90], iconAnchor: [60, 76] });
-    const m = L.marker([place.lat, place.lng], { icon });
-    m.on('click', () => openCustomPopup(buildPopupHTML(place)));
-    m.addTo(map); allMarkers.push(m);
-  });
-}
-
-// ─── POPUP ────────────────────────────────────────────────────
-function buildPopupHTML(place) {
-  const col = getGroupColor(place.cat);
-  const label = CATS[place.cat]?.label || '';
-  const dist = calcDist(userLat, userLng, place.lat, place.lng);
-  const dTxt = dist < 1000 ? Math.round(dist) + 'm' : (dist / 1000).toFixed(1) + 'km';
-  const isPlace = !!PLACES.find(p => p.id === place.id);
-
-  if (place.bg) { const _pi = new Image(); _pi.src = place.bg; }
-
-  const imgHTML = place.bg
-    ? '<img class="pw-img" src="' + place.bg + '" alt="' + place.name + '" loading="eager" decoding="sync"/>'
-    : '<div class="pw-img-placeholder" style="background:linear-gradient(160deg,' + col + '18,' + col + '40);height:200px;"><span class="material-symbols-outlined" style="font-size:48px;color:' + col + ';opacity:0.35;">location_city</span></div>';
-
-  return '<div class="pw-img-wrap">' + imgHTML +
-    '<span class="pw-badge">' + label + '</span>' +
-    '<button class="pw-x" onclick="closeCustomPopup()"><span class="material-symbols-outlined" style="font-size:16px;">close</span></button>' +
-    '</div>' +
-    '<div class="pw-body">' +
-    '<div class="pw-name">' + place.name + '</div>' +
-    '<div class="pw-desc">' + (place.desc.length > 80 ? place.desc.slice(0,80) + '…' : place.desc) + '</div>' +
-    '</div>' +
-    '<div class="pw-meta">' +
-    '<div class="pw-cat-dot" style="background:' + col + '"></div>' +
-    '<span class="pw-cat-label" style="color:' + col + '">' + label + (place.era ? ' · ' + place.era : '') + '</span>' +
-    (place.pmr ? '<span style="display:inline-flex;align-items:center;gap:3px;background:#e8f4fd;color:#0077cc;font-size:10px;font-weight:700;padding:2px 7px;border-radius:20px;margin-left:6px;">♿ PMR</span>' : '') +
-    '<span class="pw-dist">' + dTxt + '</span>' +
-    '</div>' +
-    '<div class="pw-footer-row">' +
-    '<div class="pw-rating"><span class="pw-rating-star">★</span> ' + (place.note || '4.8') + '</div>' +
-    '<div style="display:flex;gap:8px;">' +
-    '<button class="pw-cta-btn pw-cta-secondary" onclick="startRoute(' + place.lat + ',' + place.lng + ');closeCustomPopup()"><span class="material-symbols-outlined">near_me</span>Y aller</button>' +
-    (isPlace
-      ? '<button class="pw-cta-btn" onclick="closeCustomPopup();openImmersive(' + place.id + ')">Découvrir <span class="material-symbols-outlined">arrow_forward</span></button>'
-      : ''
-    ) +
-    '</div>' +
-    '</div>';
-}
-
-function openCustomPopup(html) {
-  const card = document.getElementById('popup-card');
-  const container = document.getElementById('popup-container');
-  if (!card || !container) return;
-  card.innerHTML = html;
-  card.classList.remove('visible');
-  container.style.display = 'block';
-  setTimeout(() => card.classList.add('visible'), 10);
-}
-
-function closeCustomPopup() {
-  const card = document.getElementById('popup-card');
-  const container = document.getElementById('popup-container');
-  card.classList.remove('visible');
-  setTimeout(() => { container.style.display = 'none'; card.innerHTML = ''; }, 280);
-}
-
-// ─── PMR ──────────────────────────────────────────────────────
-let pmrMode = false;
-
-function togglePMR() {
-  pmrMode = !pmrMode;
-  const btn = document.getElementById('pmr-toggle');
-  if (pmrMode) {
-    btn?.classList.add('active');
-    showToast('♿ Affichage PMR activé');
-  } else {
-    btn?.classList.remove('active');
-    showToast('Affichage complet');
-  }
-  renderAllMarkers();
-}
-
-// ─── RENDU GLOBAL ─────────────────────────────────────────────
-let clusterGroup = null;
-
-function renderAllMarkers() {
-  // Remove old cluster group
-  if (clusterGroup) { map.removeLayer(clusterGroup); }
-  allMarkers.forEach(m => map.removeLayer(m)); allMarkers = [];
-
-  // Create new cluster group
-  clusterGroup = L.markerClusterGroup({
-    maxClusterRadius: 60,
-    spiderfyOnMaxZoom: true,
-    showCoverageOnHover: false,
-    zoomToBoundsOnClick: true,
-    iconCreateFunction: function(cluster) {
-      const count = cluster.getChildCount();
-      return L.divIcon({
-        html: `<div style="
-          width:44px;height:44px;border-radius:50%;
-          background:#0f1923;color:#fff;
-          display:flex;align-items:center;justify-content:center;
-          font-family:'Manrope',sans-serif;font-size:14px;font-weight:800;
-          box-shadow:0 3px 12px rgba(0,0,0,0.3);
-          border:2.5px solid #fff;
-        ">${count}</div>`,
-        className: '',
-        iconSize: [44, 44],
-        iconAnchor: [22, 22],
-      });
-    }
-  });
-
-  let all = [...PLACES, ...COMMERCES, ...EVENEMENTS];
-  if (pmrMode) all = all.filter(p => p.pmr === true);
-
-  all.forEach(place => {
-    const col = getGroupColor(place.cat);
-    const html = makeGoogleMarker(place, col);
-    const icon = L.divIcon({ html, className: '', iconSize: [120, 90], iconAnchor: [60, 76] });
-    const m = L.marker([place.lat, place.lng], { icon });
-    m.on('click', () => openCustomPopup(buildPopupHTML(place)));
-    clusterGroup.addLayer(m);
-    allMarkers.push(m);
-  });
-
-  map.addLayer(clusterGroup);
-}
-
-// ─── SECTIONS (conservé pour compatibilité AR) ────────────────
-function switchSection(section) {
-  currentSection = section;
-  closeCustomPopup();
-}
-
-// ─── ÉVÉNEMENTS ───────────────────────────────────────────────
-function renderEvenements() {
-  EVENEMENTS.forEach(ev => {
-    const col = getGroupColor(ev.cat);
-    const html = makeGoogleMarker(ev, col);
-    const icon = L.divIcon({ html, className: '', iconSize: [120, 90], iconAnchor: [60, 76] });
-    const marker = L.marker([ev.lat, ev.lng], { icon });
-    marker.addTo(map); allMarkers.push(marker);
-    marker.on('click', () => {
-      openCustomPopup(buildPopupHTML(ev));
-    });
-  });
-}
-
-function initEvenementsMarkers() {}
-
-// ─── IMMERSIVE ────────────────────────────────────────────────
-function openImmersive(placeId) {
-  const place = PLACES.find(p => p.id === placeId);
-  if (!place) return;
-  const theme = CAT_THEMES[place.cat] || CAT_THEMES.monument;
-  const dist = calcDist(userLat, userLng, place.lat, place.lng);
-  const dTxt = dist < 1000 ? Math.round(dist) + 'm' : (dist / 1000).toFixed(1) + 'km';
-  const ov = document.getElementById('imm-overlay');
-  ov.style.setProperty('--acc', theme.accent);
-  ov.style.setProperty('--acc-mid', theme.accentLight);
-  ov.classList.add('open'); ov.classList.remove('ready', 'bars-open');
-  const bg = document.getElementById('imm-bg');
-  if (place.bg) {
-    // Précharger l'image avant de l'afficher pour éviter le délai
-    const preloadImg = new Image();
-    preloadImg.src = place.bg;
-    bg.style.backgroundImage = 'url(' + place.bg + ')';
-  }
-  else { bg.style.background = 'linear-gradient(135deg, #0a0a0a 0%, ' + theme.accent + '33 100%)'; }
-  document.getElementById('imm-tint').style.background = theme.tint;
-  document.getElementById('imm-era-badge').textContent = (place.era || '').toUpperCase();
-  document.getElementById('imm-title').textContent = place.name;
-  document.getElementById('imm-subtitle').textContent = CONFIG.ville.toUpperCase();
-  document.getElementById('imm-stat-age').textContent = place.siecle ? place.siecle + 's' : '—';
-  document.getElementById('imm-stat-cat').textContent = CATS[place.cat]?.label || '—';
-  document.getElementById('imm-stat-dist').textContent = dTxt;
-  document.getElementById('imm-navigate-btn').onclick = () => { closeImmersive(); startRoute(place.lat, place.lng); };
-  const narEl = document.getElementById('imm-narration-text');
-  const cursor = document.getElementById('imm-cursor');
-  narEl.textContent = ''; cursor.classList.remove('done');
-  requestAnimationFrame(() => {
-    bg.classList.add('ready');
-    const tintEl = document.getElementById('imm-tint'); tintEl.style.opacity='0'; tintEl.classList.add('ready'); tintEl.style.opacity='0.45';
-    setTimeout(() => {
-      ov.classList.add('ready'); ov.classList.remove('bars-open');
-      /* particules désactivées */
-      typewrite(narEl, place.anecdote || place.desc || '', cursor);
-    }, 400);
-  });
-  buildImmDetail(place, theme);
-  let startY = 0;
-  ov.addEventListener('touchstart', e => { startY = e.touches[0].clientY; }, { passive: true });
-  ov.addEventListener('touchend', e => {
-    const dy = startY - e.changedTouches[0].clientY;
-    if (dy > 60) document.getElementById('imm-detail').classList.add('open');
-    if (dy < -60) document.getElementById('imm-detail').classList.remove('open');
-  }, { passive: true });
-  document.getElementById('imm-scroll').onclick = () => document.getElementById('imm-detail').classList.toggle('open');
-}
-
-function buildImmDetail(place, theme) {
-  const inner = document.getElementById('imm-detail-inner'); inner.innerHTML = '';
-  if (place.histoire) { const s = document.createElement('div'); s.className = 'imm-detail-section'; s.innerHTML = '<h4>Histoire</h4><p>' + place.histoire + '</p>'; inner.appendChild(s); }
-  if (place.timeline?.length) {
-    const s = document.createElement('div'); s.className = 'imm-detail-section';
-    s.innerHTML = '<h4>Chronologie</h4><div class="imm-timeline">' + place.timeline.map(t => '<div class="imm-tl-item"><div class="imm-tl-dot"></div><div class="imm-tl-year">' + t.year + '</div><div class="imm-tl-text">' + t.text + '</div></div>').join('') + '</div>';
-    inner.appendChild(s);
-  }
-  if (place.anecdote) { const s = document.createElement('div'); s.className = 'imm-detail-section'; s.innerHTML = "<h4>L'anecdote</h4><p>" + place.anecdote + '</p>'; inner.appendChild(s); }
-}
-
-function closeImmersive() {
-  clearTimeout(immTypewriterTimer);
-  const ov = document.getElementById('imm-overlay');
-  ov.classList.remove('ready', 'open'); ov.classList.add('bars-open');
-  document.getElementById('imm-detail').classList.remove('open');
-  document.getElementById('imm-bg').classList.remove('ready');
-  document.getElementById('imm-tint').classList.remove('ready');
-  document.getElementById('imm-particles').innerHTML = '';
-}
-
-function typewrite(el, text, cursor) {
-  el.textContent = text; cursor.classList.add('done');
-  el.classList.remove('visible');
-  requestAnimationFrame(() => requestAnimationFrame(() => el.classList.add('visible')));
-}
-
-function spawnParticles(color) {
-  const c = document.getElementById('imm-particles'); c.innerHTML = '';
-  for (let i = 0; i < 12; i++) {
-    const p = document.createElement('div'); p.className = 'imm-particle';
-    p.style.cssText = 'left:' + (Math.random()*100) + '%;bottom:' + (Math.random()*20) + '%;width:' + (3+Math.random()*4) + 'px;height:' + (3+Math.random()*4) + 'px;background:' + color + ';animation-duration:' + (4+Math.random()*6) + 's;animation-delay:' + (Math.random()*3) + 's;';
-    c.appendChild(p);
-  }
-}
-
-// ─── ROUTE ────────────────────────────────────────────────────
-function startRoute(lat, lng, attempt) {
-  if (routePolyline) { map.removeLayer(routePolyline); routePolyline = null; }
-  routeMarkers.forEach(m => map.removeLayer(m)); routeMarkers = [];
-  document.getElementById('route-banner')?.remove();
-  attempt = attempt || 0;
-  if (!userLat || !userLng) {
-    if (attempt >= 10) { showToast('GPS indisponible, vérifiez les permissions'); return; }
-    showToast('Localisation en cours…');
-    setTimeout(() => startRoute(lat, lng, attempt + 1), 1000);
-    return;
-  }
-  showToast('Calcul des itinéraires…');
-  _computeRoute(parseFloat(lat), parseFloat(lng));
-}
-
-function _computeRoute(dLat, dLng) {
-  fetch('https://router.project-osrm.org/route/v1/foot/' + userLng + ',' + userLat + ';' + dLng + ',' + dLat + '?overview=full&geometries=geojson')
-    .then(r => r.json()).then(data => {
-      const foot = data.routes?.[0]; if (!foot) { showToast('Introuvable'); return; }
-      const coords = foot.geometry.coordinates.map(c => [c[1], c[0]]);
-      routePolyline = L.polyline(coords, { color: CONFIG.couleurPrimaire, weight: 5, opacity: 0.85, lineCap: 'round', lineJoin: 'round' }).addTo(map);
-      const sIcon = L.divIcon({ html: '<div style="width:14px;height:14px;border-radius:50%;background:#fff;border:3px solid #0f1923"></div>', className: '', iconSize: [14,14], iconAnchor: [7,7] });
-      const eIcon = L.divIcon({ html: '<div style="width:16px;height:16px;border-radius:50%;background:#0f1923;border:3px solid #fff"></div>', className: '', iconSize: [16,16], iconAnchor: [8,8] });
-      const sM = L.marker([userLat, userLng], { icon: sIcon }).addTo(map);
-      const eM = L.marker([dLat, dLng], { icon: eIcon }).addTo(map);
-      routeMarkers = [sM, eM];
-      map.fitBounds(routePolyline.getBounds(), { padding: [60, 60] });
-      routeActive = true;
-      const distKm = foot.distance / 1000;
-      const footDist = foot.distance < 1000 ? Math.round(foot.distance) + 'm' : distKm.toFixed(1) + 'km';
-      const footTime = Math.max(1, Math.round(distKm / 7.5 * 60)) + ' min';
-      const carDistKm = calcDist(userLat, userLng, dLat, dLng) * 1.35 / 1000;
-      const carDist = carDistKm < 1 ? Math.round(carDistKm * 1000) + 'm' : carDistKm.toFixed(1) + 'km';
-      const carTime = Math.max(2, Math.round(carDistKm / 40 * 60)) + ' min';
-      _showRouteBanner(footTime, footDist, carTime, carDist);
-    }).catch(() => showToast('Erreur réseau'));
-}
-
-function _showRouteBanner(footTime, footDist, carTime, carDist) {
-  document.getElementById('route-banner')?.remove();
-  const banner = document.createElement('div'); banner.id = 'route-banner';
-  banner.innerHTML = '<div style="display:flex;flex-direction:column;gap:10px;flex:1;"><div style="display:flex;align-items:center;gap:10px;"><div style="width:32px;height:32px;border-radius:50%;background:#f0f4ff;display:flex;align-items:center;justify-content:center;flex-shrink:0;"><svg width="16" height="16" viewBox="0 0 24 24" fill="#0f1923"><path d="M13.5 5.5c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zM9.8 8.9L7 23h2.1l1.8-8 2.1 2v6h2v-7.5l-2.1-2 .6-3C14.8 12 16.8 13 19 13v-2c-1.9 0-3.5-1-4.3-2.4l-1-1.6c-.4-.6-1-1-1.7-1-.3 0-.5.1-.8.1L6 8.3V13h2V9.6l1.8-.7"/></svg></div><div style="flex:1;"><div style="font-family:Manrope;font-weight:800;font-size:13px;color:#0f1923;">À pied · ' + footTime + '</div><div style="font-family:Manrope;font-size:11px;color:#9aa0a6;">' + footDist + '</div></div></div><div style="display:flex;align-items:center;gap:10px;"><div style="width:32px;height:32px;border-radius:50%;background:#f0f4ff;display:flex;align-items:center;justify-content:center;flex-shrink:0;"><svg width="16" height="16" viewBox="0 0 24 24" fill="#0f1923"><path d="M18.92 6.01C18.72 5.42 18.16 5 17.5 5h-11c-.66 0-1.21.42-1.42 1.01L3 12v8c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-1h12v1c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-8l-2.08-5.99zM6.5 16c-.83 0-1.5-.67-1.5-1.5S5.67 13 6.5 13s1.5.67 1.5 1.5S7.33 16 6.5 16zm11 0c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zM5 11l1.5-4.5h11L19 11H5z"/></svg></div><div style="flex:1;"><div style="font-family:Manrope;font-weight:800;font-size:13px;color:#0f1923;">En voiture · ' + carTime + '</div><div style="font-family:Manrope;font-size:11px;color:#9aa0a6;">' + carDist + '</div></div></div></div><button onclick="cancelRoute()" style="background:#0f1923;border:none;border-radius:12px;color:#fff;font-family:Manrope;font-weight:800;font-size:12px;cursor:pointer;padding:10px 16px;flex-shrink:0;display:flex;align-items:center;gap:6px;"><svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>Annuler</button>';
-  (document.querySelector('main') || document.body).appendChild(banner);
-  showToast('Itinéraires calculés');
-}
-
-function cancelRoute() {
-  if (routePolyline) { map.removeLayer(routePolyline); routePolyline = null; }
-  routeMarkers.forEach(m => map.removeLayer(m)); routeMarkers = [];
-  document.getElementById('route-banner')?.remove();
-  routeActive = false; showToast('Itinéraire annulé');
-}
-
-// ─── GPS ──────────────────────────────────────────────────────
-// Tap 1: centrer + rafraîchir position
-// Tap 2 (déjà centré): activer mode suivi continu
-// Tap 3 (en suivi): désactiver suivi
 function locateUser() {
   if (!('geolocation' in navigator)) {
     showToast('Géolocalisation non supportée');
     return;
   }
 
-  if (!userLat || !userLng) {
-    // Pas encore de fix GPS : forcer un refresh
-    forceGPSRefresh();
+  if (userLat === null) {
+    // No fix yet — request a one-shot to trigger permission prompt
+    setLocateBtnState('loading');
+    navigator.geolocation.getCurrentPosition(
+      pos => onGPSUpdate(pos),
+      err => {
+        if (err.code === 1) {
+          setLocateBtnState('denied');
+          showToast('Autorisez la géolocalisation dans Safari');
+        } else {
+          showToast('Position introuvable');
+        }
+      },
+      { enableHighAccuracy: true, timeout: 10000 }
+    );
     return;
   }
 
   if (gpsTrackingMode === 'follow') {
-    // Désactiver le suivi
     gpsTrackingMode = 'locate';
     setLocateBtnState('ready');
     showToast('Suivi désactivé');
     return;
   }
 
-  // Vérifier si déjà centré sur l'utilisateur
-  var center = map.getCenter();
-  var distToCenter = calcDist(userLat, userLng, center.lat, center.lng);
+  // Center on user, switch to follow mode
+  googleMap.panTo({ lat: userLat, lng: userLng });
+  googleMap.setZoom(17);
+  gpsTrackingMode = 'follow';
+  setLocateBtnState('follow');
+  showToast('Suivi GPS activé');
+}
 
-  if (distToCenter < 50 && map.getZoom() >= 16) {
-    // Déjà centré → activer suivi
-    gpsTrackingMode = 'follow';
-    setLocateBtnState('follow');
-    showToast('Suivi GPS activé');
-    // iOS 13+ nécessite une permission explicite pour la boussole
-    if (typeof DeviceOrientationEvent !== 'undefined' &&
-        typeof DeviceOrientationEvent.requestPermission === 'function') {
-      DeviceOrientationEvent.requestPermission().then(function(state){
-        if (state === 'granted') {
-          window.addEventListener('deviceorientationabsolute', onHeading, true);
-          window.addEventListener('deviceorientation', onHeading, true);
-        }
-      }).catch(function(){});
-    }
-  } else {
-    // Centrer sur la position + refresh
-    gpsTrackingMode = 'locate';
-    map.setView([userLat, userLng], Math.max(map.getZoom(), 17), { animate: true });
-    forceGPSRefresh();
+// Open POI from URL param (?poi=X)
+window.addEventListener('load', () => {
+  const params = new URLSearchParams(window.location.search);
+  const poiId = params.get('poi');
+  if (poiId) {
+    setTimeout(() => {
+      const id = parseInt(poiId);
+      const place = [...PLACES, ...COMMERCES, ...EVENEMENTS].find(p => p.id === id);
+      if (place && googleMap) {
+        googleMap.setCenter({ lat: place.lat, lng: place.lng });
+        googleMap.setZoom(17);
+        openPopup(place);
+      }
+    }, 800);
   }
-}
-
-function updateNavigation() {
-  if (!navActive || !navDestLat) return;
-  const dist = calcDist(userLat, userLng, navDestLat, navDestLng);
-  document.getElementById('nav-top-dist').textContent = (dist < 1000 ? Math.round(dist) + 'm' : (dist/1000).toFixed(1) + 'km') + ' restants';
-  if (dist < 30) { showToast('Vous êtes arrivé !'); stopNavigation(); }
-}
-
-function startNavigation(place) {
-  navDestLat = place.lat; navDestLng = place.lng; navActive = true;
-  document.getElementById('nav-overlay').classList.add('on');
-  document.getElementById('nav-dest-name').textContent = place.name;
-  document.getElementById('nav-dest-cat').textContent = CATS[place.cat]?.label || '';
-  switchSection('tourisme'); startGPSWatch();
-}
-
-function stopNavigation() {
-  navActive = false; document.getElementById('nav-overlay').classList.remove('on');
-}
-
-// ─── TOAST ────────────────────────────────────────────────────
-let _toastTimer;
-function showToast(msg) {
-  const t = document.getElementById('toast'); t.textContent = msg;
-  t.classList.add('show'); clearTimeout(_toastTimer);
-  _toastTimer = setTimeout(() => t.classList.remove('show'), 2500);
-}
-
-// ─── UTILS ────────────────────────────────────────────────────
-function calcDist(la1, lo1, la2, lo2) {
-  const R = 6371000, r = Math.PI / 180;
-  const dla = (la2-la1)*r, dlo = (lo2-lo1)*r;
-  return R*2*Math.asin(Math.sqrt(Math.sin(dla/2)**2+Math.cos(la1*r)*Math.cos(la2*r)*Math.sin(dlo/2)**2));
-}
-
-function getBearing(la1, lo1, la2, lo2) {
-  const dlo = (lo2-lo1)*Math.PI/180;
-  const y = Math.sin(dlo)*Math.cos(la2*Math.PI/180);
-  const x = Math.cos(la1*Math.PI/180)*Math.sin(la2*Math.PI/180)-Math.sin(la1*Math.PI/180)*Math.cos(la2*Math.PI/180)*Math.cos(dlo);
-  return (Math.atan2(y,x)*180/Math.PI+360)%360;
-}
-
-
-
-
-
-
+});
 </script>
-<script>
-// AR
-// ═══════════════════════════════════════════════════
-// CORE/AR.JS — Réalité augmentée
-// Ne pas modifier
-// ═══════════════════════════════════════════════════
 
-// ═══════════════════════════════════════════════════════════
-// CORE/AR.JS — Logique AR, Radar, Ghost Mode, Gyroscope
-// ═══════════════════════════════════════════════════════════
-
-let arStream = null;
-let arActive = false;
-let arHeading = 0;
-let rawH = 0;
-let heading = 0;
-let calibOffset = 0;
-let ghostMode = false;
-let arRAF = null;
-
-// ─── DÉMARRAGE AR ─────────────────────────────────────────────
-function startAR() {
-  document.getElementById('nav-ar').classList.add('active');
-  document.querySelectorAll('.n-btn:not(#nav-ar)').forEach(b => b.classList.remove('active'));
-
-  if (typeof DeviceOrientationEvent !== 'undefined' && typeof DeviceOrientationEvent.requestPermission === 'function') {
-    DeviceOrientationEvent.requestPermission().then(perm => {
-      if (perm === 'granted') window.addEventListener('deviceorientation', handleOrientation, true);
-    }).catch(() => {
-      window.addEventListener('deviceorientation', handleOrientation, true);
-    });
-  } else {
-    window.addEventListener('deviceorientationabsolute', handleOrientation, true);
-    window.addEventListener('deviceorientation', handleOrientation, true);
-  }
-
-  _startARAsync();
-}
-
-async function _startARAsync() {
-  try {
-    arStream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: { exact: 'environment' } }, audio: false });
-  } catch {
-    try {
-      arStream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' }, audio: false });
-    } catch {
-      showToast('Caméra non disponible');
-      return;
-    }
-  }
-
-  document.getElementById('ar-video').srcObject = arStream;
-  document.getElementById('ar-view').classList.add('on');
-  document.getElementById('ar-distance-ring').textContent = 'Recherche GPS…';
-
-  const pill = document.getElementById('ar-distance-ring');
-  pill.textContent = (userLat && userLng) ? 'GPS · actif' : 'GPS en cours…';
-
-  arActive = true;
-  heading = rawH;
-  arLoop();
-}
-
-// ─── ARRÊT AR ─────────────────────────────────────────────────
-function stopAR() {
-  arActive = false;
-  if (arRAF) { cancelAnimationFrame(arRAF); arRAF = null; }
-  if (arStream) { arStream.getTracks().forEach(t => t.stop()); arStream = null; }
-  if (ghostMode) { ghostMode = false; _applyGhostMode(false); }
-  window.removeEventListener('deviceorientationabsolute', handleOrientation, true);
-  window.removeEventListener('deviceorientation', handleOrientation, true);
-  document.getElementById('ar-view').classList.remove('on');
-  document.getElementById('ar-video').srcObject = null;
-  document.getElementById('ar-ov').innerHTML = '';
-  document.getElementById('nav-ar').classList.remove('active');
-}
-
-// ─── BOUCLE AR ────────────────────────────────────────────────
-function arLoop() {
-  if (!arActive) return;
-
-  heading = lerpAngle(heading, rawH, 0.08);
-
-  const ov = document.getElementById('ar-ov');
-  const W = ov.clientWidth;
-  const H = ov.clientHeight;
-  const FOV = CONFIG.arFOV || 100;
-
-  document.getElementById('ar-heading-text').textContent = Math.round(heading) + '° · AR Live';
-  ov.innerHTML = '';
-
-  const poisWithDist = PLACES.map(p => ({
-    ...p, dist: calcDist(userLat, userLng, p.lat, p.lng),
-  })).sort((a, b) => b.dist - a.dist);
-
-  poisWithDist.forEach(poi => {
-    if (poi.dist > (CONFIG.arRayonMax || 2000)) return;
-
-    const bear = getBearing(userLat, userLng, poi.lat, poi.lng);
-    let diff = bear - heading;
-    while (diff > 180) diff -= 360;
-    while (diff < -180) diff += 360;
-    if (Math.abs(diff) > FOV / 2) return;
-
-    const x = W / 2 + (diff / (FOV / 2)) * (W / 2);
-    const ratio = Math.pow(Math.min(poi.dist / 800, 1), 0.5);
-    const y = H * 0.72 - ratio * (H * 0.54);
-    const scale = 1.5 - ratio * 1.1;
-    const opacity = 1.0 - ratio * 0.45;
-    const col = getGroupColor(poi.cat);
-    const distTxt = poi.dist < 1000 ? Math.round(poi.dist) + 'm' : (poi.dist / 1000).toFixed(1) + 'km';
-
-    const el = document.createElement('div');
-    el.className = 'arc';
-    el.style.cssText = `position:absolute;left:${x.toFixed(1)}px;top:${y.toFixed(1)}px;transform:translateX(-50%) scale(${scale.toFixed(3)});transform-origin:bottom center;opacity:${opacity.toFixed(2)};--cc:${col};`;
-    el.innerHTML = `
-      <div class="arc-bubble" style="--cc:${col}">
-        <div class="arc-icon" style="background:${col};border-radius:50%;width:32px;height:32px;display:flex;align-items:center;justify-content:center;">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="white"><path d="M12 2C8 2 4 5 4 9c0 5 8 13 8 13s8-8 8-13c0-4-4-7-8-7z"/></svg>
-        </div>
-        <div class="arc-info">
-          <div class="arc-name">${poi.name}</div>
-          <div class="arc-dist">${distTxt}</div>
-        </div>
-      </div>
-      <div class="arc-stem"></div>
-      <div class="arc-dot" style="--cc:${col}"></div>`;
-
-    el.onclick = () => { stopAR(); setTimeout(() => openImmersive(poi.id), 300); };
-    ov.appendChild(el);
-  });
-
-  arRAF = requestAnimationFrame(arLoop);
-}
-
-// ─── ORIENTATION ──────────────────────────────────────────────
-function handleOrientation(e) {
-  let raw = 0;
-  if (typeof e.webkitCompassHeading === 'number' && e.webkitCompassHeading >= 0) {
-    raw = e.webkitCompassHeading;
-  } else if (e.absolute === true && e.alpha != null) {
-    raw = (360 - e.alpha) % 360;
-  } else if (e.alpha != null) {
-    raw = (360 - e.alpha) % 360;
-  }
-  window._rawCompass = raw;
-  rawH = (raw - calibOffset + 360) % 360;
-  arHeading = rawH;
-}
-
-function lerpAngle(cur, tgt, t) {
-  let d = tgt - cur;
-  while (d > 180) d -= 360;
-  while (d < -180) d += 360;
-  return (cur + d * t + 360) % 360;
-}
-
-// ─── GHOST MODE ───────────────────────────────────────────────
-function toggleGhostMode() {
-  ghostMode = !ghostMode;
-  _applyGhostMode(ghostMode);
-  const btn = document.getElementById('ar-ghost-btn');
-  if (ghostMode) {
-    btn.classList.add('active');
-    btn.innerHTML = `<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12,6 12,12 15,15"/></svg> Époque active`;
-    document.getElementById('ar-epoch-banner').classList.add('on');
-    showToast('Mode Histoire activé');
-  } else {
-    btn.classList.remove('active');
-    btn.innerHTML = `<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12,6 12,12 15,15"/></svg> Mode Histoire`;
-    document.getElementById('ar-epoch-banner').classList.remove('on');
-  }
-}
-
-function _applyGhostMode(on) {
-  const video    = document.getElementById('ar-video');
-  const grain    = document.getElementById('ar-grain');
-  const vignette = document.getElementById('ar-vignette');
-  const scratches= document.getElementById('ar-scratches');
-  const ghostOv  = document.getElementById('ar-ghost-ov');
-  if (on) {
-    video.classList.add('ghost-mode');
-    grain.classList.add('on');
-    vignette.classList.add('on');
-    if (scratches) scratches.classList.add('on');
-    ghostOv.classList.add('on');
-    const flash = document.getElementById('ar-flash');
-    flash.classList.remove('flash');
-    void flash.offsetWidth;
-    flash.classList.add('flash');
-  } else {
-    video.classList.remove('ghost-mode');
-    grain.classList.remove('on');
-    vignette.classList.remove('on');
-    if (scratches) scratches.classList.remove('on');
-    ghostOv.classList.remove('on');
-  }
-}
-
-// ─── RADAR ────────────────────────────────────────────────────
-function openRadar() {
-  stopAR();
-  document.getElementById('radar-view').classList.add('on');
-  startGPSWatch();
-  setTimeout(drawRadar, 100);
-}
-
-function closeRadar() {
-  document.getElementById('radar-view').classList.remove('on');
-  document.getElementById('radar-info').classList.add('hidden');
-  selectedRadarPlace = null;
-}
-
-function drawRadar() {
-  if (!document.getElementById('radar-view').classList.contains('on')) return;
-
-  const canvas = document.getElementById('radar-canvas');
-  const wrap   = document.getElementById('radar-canvas-wrap');
-  const size   = Math.min(wrap.clientWidth, wrap.clientHeight - 20);
-  canvas.width = size; canvas.height = size;
-  const ctx = canvas.getContext('2d');
-  const cx = size / 2, cy = size / 2, r = size / 2 - 10;
-
-  const grad = ctx.createRadialGradient(cx, cy, 0, cx, cy, r);
-  grad.addColorStop(0, 'rgba(26,115,232,0.08)');
-  grad.addColorStop(1, 'rgba(0,0,0,0)');
-  ctx.fillStyle = grad;
-  ctx.beginPath(); ctx.arc(cx, cy, r, 0, Math.PI * 2); ctx.fill();
-
-  [0.33, 0.66, 1].forEach((f, i) => {
-    ctx.beginPath(); ctx.arc(cx, cy, r * f, 0, Math.PI * 2);
-    ctx.strokeStyle = `rgba(26,115,232,${0.15 - i * 0.03})`; ctx.lineWidth = 1; ctx.stroke();
-    const labels = ['200m', '500m', '1km'];
-    ctx.fillStyle = 'rgba(255,255,255,0.25)'; ctx.font = '10px Manrope'; ctx.textAlign = 'center';
-    ctx.fillText(labels[i], cx, cy - r * f + 14);
-  });
-
-  [['N', 0], ['E', 90], ['S', 180], ['O', 270]].forEach(([l, a]) => {
-    const rad = a * Math.PI / 180;
-    ctx.fillStyle = a === 0 ? '#e74c3c' : 'rgba(255,255,255,0.5)';
-    ctx.font = 'bold 11px Manrope'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
-    ctx.fillText(l, cx + Math.sin(rad) * (r + 2), cy - Math.cos(rad) * (r + 2));
-  });
-
-  const sweep = (Date.now() / 3000) % 1 * Math.PI * 2;
-  ctx.save();
-  ctx.translate(cx, cy); ctx.rotate(sweep);
-  ctx.beginPath(); ctx.moveTo(0, 0); ctx.arc(0, 0, r, -Math.PI / 2, -Math.PI / 2 + 0.8, false);
-  ctx.fillStyle = 'rgba(26,115,232,0.15)'; ctx.fill();
-  ctx.restore();
-
-  ctx.beginPath(); ctx.arc(cx, cy, 8, 0, Math.PI * 2);
-  ctx.fillStyle = '#0f1923'; ctx.fill();
-  ctx.beginPath(); ctx.arc(cx, cy, 4, 0, Math.PI * 2);
-  ctx.fillStyle = '#fff'; ctx.fill();
-
-  const pinsLayer = document.getElementById('radar-pins-layer');
-  pinsLayer.innerHTML = '';
-  pinsLayer.style.cssText = 'position:absolute;inset:0;pointer-events:auto';
-  const maxDist = CONFIG.radarRayonMax || 1000;
-
-  PLACES.forEach(place => {
-    const dist = calcDist(userLat, userLng, place.lat, place.lng);
-    if (dist > maxDist * 1.5) return;
-    const bearing = getBearing(userLat, userLng, place.lat, place.lng);
-    const normDist = Math.min(dist / maxDist, 1);
-    const rad = bearing * Math.PI / 180;
-    const px = cx + Math.sin(rad) * normDist * r;
-    const py = cy - Math.cos(rad) * normDist * r;
-    const col = getGroupColor(place.cat);
-    const dTxt = dist < 1000 ? Math.round(dist) + 'm' : (dist / 1000).toFixed(1) + 'km';
-
-    const pin = document.createElement('div');
-    pin.className = 'radar-pin';
-    pin.style.cssText = `left:${px}px;top:${py}px;`;
-    pin.innerHTML = `
-      <div class="radar-pin-dot" style="background:${col};color:${col}"></div>
-      <div class="radar-pin-label">${place.name}<br><span class="radar-pin-dist">${dTxt}</span></div>`;
-    pin.onclick = () => selectRadarPlace(place, col, dTxt);
-    pinsLayer.appendChild(pin);
-  });
-
-  requestAnimationFrame(drawRadar);
-}
-
-function selectRadarPlace(place, col, dTxt) {
-  selectedRadarPlace = place;
-  const info = document.getElementById('radar-info');
-  info.classList.remove('hidden');
-  document.getElementById('radar-info-icon').innerHTML = `
-    <div style="width:40px;height:40px;border-radius:50%;background:${col};display:flex;align-items:center;justify-content:center;">
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="white"><path d="M12 2C8 2 4 5 4 9c0 5 8 13 8 13s8-8 8-13c0-4-4-7-8-7z"/></svg>
-    </div>`;
-  document.getElementById('radar-info-name').textContent = place.name;
-  document.getElementById('radar-info-dist').textContent = `${dTxt} · ${CATS[place.cat]?.label || ''}`;
-}
-
-function navigateToSelected() {
-  if (!selectedRadarPlace) return;
-  closeRadar();
-  startNavigation(selectedRadarPlace);
-}
-
-function navigateToNearest() {
-  const nearest = PLACES.reduce((best, p) => {
-    const d = calcDist(userLat, userLng, p.lat, p.lng);
-    return d < best.d ? { d, p } : best;
-  }, { d: Infinity, p: null });
-  if (nearest.p) { stopAR(); startNavigation(nearest.p); }
-}
-
-// ─── LIGHTBOX HISTORIQUE ──────────────────────────────────────
-function openHistLightbox(src, caption) {
-  document.getElementById('hist-lightbox-img').src = src;
-  document.getElementById('hist-lightbox-caption').textContent = caption;
-  document.getElementById('hist-lightbox').classList.add('on');
-}
-
-function closeHistLightbox() {
-  document.getElementById('hist-lightbox').classList.remove('on');
-}
+<!-- Google Maps SDK -->
+<script async defer
+  src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAiHCBsQvmoYR8ANs5vBiZX9UByytL86mQ&callback=initMap&loading=async">
 </script>
-<script>
-window.leafletMap = null;
 
-function toggleSearch() {
-  const wrap = document.getElementById('search-bar-wrap');
-  const icon = document.getElementById('search-icon');
-  if (!wrap.style.display || wrap.style.display === 'none') {
-    wrap.style.display = 'block'; icon.textContent = 'close';
-    document.getElementById('search-input').focus();
-  } else {
-    wrap.style.display = 'none'; icon.textContent = 'search';
-  }
-}
-
-function startAR() { if(typeof _startAR==='function') _startAR(); }
-function stopAR() { if(typeof _stopAR==='function') _stopAR(); }
-function openRadar() { if(typeof _openRadar==='function') _openRadar(); }
-function closeRadar() { if(typeof _closeRadar==='function') _closeRadar(); }
-function toggleGhostMode() { if(typeof _toggleGhostMode==='function') _toggleGhostMode(); }
-function navigateToNearest() { if(typeof _navigateToNearest==='function') _navigateToNearest(); }
-function closeHistLightbox() { if(typeof _closeHistLightbox==='function') _closeHistLightbox(); }
-
-// Street View
-function openStreetView(lat, lng, name) {
-  if (lat == null) {
-    const ctr = window.leafletMap ? window.leafletMap.getCenter() : {lat:CONFIG.lat, lng:CONFIG.lng};
-    lat = ctr.lat; lng = ctr.lng; name = 'Vue actuelle';
-  }
-  lat = parseFloat(lat); lng = parseFloat(lng);
-  const modal = document.getElementById('sv-modal');
-  document.getElementById('sv-title').textContent = name || 'Street View';
-  modal.style.display = 'flex';
-  document.body.style.overflow = 'hidden';
-  const pano = document.getElementById('sv-pano');
-  pano.innerHTML = '<div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:12px;"><div style="width:36px;height:36px;border:3px solid rgba(255,255,255,0.15);border-top-color:#fff;border-radius:50%;animation:spin 0.8s linear infinite;"></div><span style="color:rgba(255,255,255,0.4);font-family:Manrope;font-size:13px;">Chargement…</span></div>';
-  const MLY = 'MLY|9426507510724280|cb87f51f21cb07d66cf03f9c9b7bde4e';
-  const delta = 0.005;
-  const bbox = (lng-delta)+','+(lat-delta)+','+(lng+delta)+','+(lat+delta);
-  fetch('https://graph.mapillary.com/images?access_token='+MLY+'&fields=id&limit=1&bbox='+bbox)
-    .then(r => r.json())
-    .then(data => {
-      if (!data.data || !data.data.length) { showSVMsg('Aucune photo disponible ici'); return; }
-      pano.innerHTML = '';
-      const iframe = document.createElement('iframe');
-      iframe.style.cssText = 'width:100%;height:100%;border:none;';
-      iframe.src = 'https://www.mapillary.com/embed?image_key='+data.data[0].id+'&style=photo';
-      iframe.allowFullscreen = true;
-      pano.appendChild(iframe);
-    })
-    .catch(() => showSVMsg('Connexion impossible'));
-}
-
-function showSVMsg(msg) {
-  document.getElementById('sv-pano').innerHTML = '<div style="width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;"><span class="material-symbols-outlined" style="font-size:56px;color:rgba(255,255,255,0.2);">no_photography</span><p style="color:rgba(255,255,255,0.5);font-family:Manrope;font-size:14px;text-align:center;max-width:240px;margin:0;">'+msg+'</p><button onclick="closeSV()" style="background:#3B5BDB;color:#fff;border:none;border-radius:12px;padding:10px 24px;font-family:Manrope;font-size:14px;font-weight:600;cursor:pointer;">Fermer</button></div>';
-}
-
-function closeSV() {
-  document.getElementById('sv-modal').style.display = 'none';
-  document.body.style.overflow = '';
-  document.getElementById('sv-pano').innerHTML = '';
-}
-
-window.openStreetView = openStreetView;
-window.closeStreetView = closeSV;
-document.addEventListener('keydown', e => { if (e.key === 'Escape') closeSV(); });
-
-// Lancer la carte quand tout est prêt
-function _launchMap() {
-  if (typeof initMap === 'function') {
-    initMap();
-    setTimeout(function() {
-      if (window.leafletMap) window.leafletMap.invalidateSize(true);
-    }, 300);
-  }
-}
-if (document.readyState === 'loading') {
-  document.addEventListener('DOMContentLoaded', _launchMap);
-} else { _launchMap(); }
-
-// Ouvrir un POI si passé en paramètre URL
-const urlParams = new URLSearchParams(window.location.search);
-const poiId = urlParams.get('poi');
-if (poiId) {
-  setTimeout(() => {
-    const id = parseInt(poiId);
-    const place = [...(typeof PLACES !== 'undefined' ? PLACES : []), ...(typeof COMMERCES !== 'undefined' ? COMMERCES : []), ...(typeof EVENEMENTS !== 'undefined' ? EVENEMENTS : [])].find(p => p.id === id);
-    if (place && window.leafletMap) {
-      window.leafletMap.setView([place.lat, place.lng], 17);
-      openCustomPopup(buildPopupHTML(place));
-    }
-  }, 800);
-}
-</script>
 </body>
 </html>
