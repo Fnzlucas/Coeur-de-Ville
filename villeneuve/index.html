@@ -3618,25 +3618,35 @@ function planRemove(key, idx) {
 <!-- ONBOARDING -->
 <div id="onb" aria-modal="true" role="dialog">
 
-  <div id="onb-progress-bar">
-    <div id="onb-progress-fill"></div>
-  </div>
   <div id="onb-track">
 
-    <!-- S1 Bienvenue -->
+    <!-- S1 — Slide unique -->
     <div class="onb-s" data-i="0">
       <div class="onb-s-inner">
-        <div class="onb-hero-visual onb-hero-s1">
+
+        <div class="onb-logo-wrap">
           <div class="onb-heart-ring">
             <span class="material-symbols-outlined onb-heart-icon">favorite</span>
           </div>
-          <div class="onb-brand-tag">Application officielle</div>
-        </div>
-        <div class="onb-text-block">
           <div class="onb-wordmark">Cœur de Ville</div>
-          <h1 class="onb-h">Villeneuve-lès-Avignon<br/><span class="onb-h-accent">dans votre poche.</span></h1>
-          <p class="onb-p">Patrimoine, commerces, agenda et services — tout réuni en une seule app fluide et intuitive.</p>
+          <div class="onb-brand-tag">Application officielle · Villeneuve-lès-Avignon</div>
         </div>
+
+        <h1 class="onb-h">Votre ville,<br/><span class="onb-h-accent">en une seule app.</span></h1>
+        <p class="onb-p">Patrimoine, commerces locaux, agenda municipal et services — tout réuni pour habitants et visiteurs.</p>
+
+        <div class="onb-modules">
+          <div class="onb-mod"><span class="material-symbols-outlined" style="font-size:18px;color:#2D6A4F;font-variation-settings:'FILL' 1;">fort</span><span>Patrimoine & AR</span></div>
+          <div class="onb-mod"><span class="material-symbols-outlined" style="font-size:18px;color:#FF6B35;font-variation-settings:'FILL' 1;">storefront</span><span>Commerces</span></div>
+          <div class="onb-mod"><span class="material-symbols-outlined" style="font-size:18px;color:#3B5BDB;font-variation-settings:'FILL' 1;">event</span><span>Agenda</span></div>
+          <div class="onb-mod"><span class="material-symbols-outlined" style="font-size:18px;color:#e11d48;font-variation-settings:'FILL' 1;">emergency</span><span>Contacts</span></div>
+        </div>
+
+        <button onclick="closeOnboarding()" class="onb-start-btn">
+          <span class="material-symbols-outlined" style="font-size:18px;font-variation-settings:'FILL' 1;">explore</span>
+          Découvrir Villeneuve
+        </button>
+
         <div class="onb-mayor-card">
           <div class="onb-mayor-avatar">
             <span class="material-symbols-outlined" style="font-size:18px;color:#fff;font-variation-settings:'FILL' 1;">person</span>
@@ -3646,166 +3656,12 @@ function planRemove(key, idx) {
             <span>Pascale Bories · Maire</span>
           </div>
         </div>
+
       </div>
     </div>
 
-    <!-- S2 Tout en un -->
-    <div class="onb-s" data-i="1">
-      <div class="onb-s-inner">
-        <div class="onb-hero-visual onb-hero-s2">
-          <div class="onb-grid-preview">
-            <div class="onb-gp-card" style="--c:#2D6A4F;--bg:#EFF7F3;"><span class="material-symbols-outlined" style="font-size:20px;color:#2D6A4F;font-variation-settings:'FILL' 1;">fort</span><span>Patrimoine</span></div>
-            <div class="onb-gp-card" style="--c:#FF6B35;--bg:#FFF3EE;"><span class="material-symbols-outlined" style="font-size:20px;color:#FF6B35;font-variation-settings:'FILL' 1;">storefront</span><span>Commerces</span></div>
-            <div class="onb-gp-card" style="--c:#3B5BDB;--bg:#EEF1FD;"><span class="material-symbols-outlined" style="font-size:20px;color:#3B5BDB;font-variation-settings:'FILL' 1;">event</span><span>Agenda</span></div>
-            <div class="onb-gp-card" style="--c:#e11d48;--bg:#FEF2F4;"><span class="material-symbols-outlined" style="font-size:20px;color:#e11d48;font-variation-settings:'FILL' 1;">emergency</span><span>Contacts</span></div>
-            <div class="onb-gp-card onb-gp-wide" style="--c:#0f1923;--bg:#f1f5f9;"><span class="material-symbols-outlined" style="font-size:20px;color:#0f1923;font-variation-settings:'FILL' 1;">map</span><span>Carte interactive PMR</span></div>
-          </div>
-        </div>
-        <div class="onb-text-block">
-          <div class="onb-kicker">5 modules</div>
-          <h1 class="onb-h">Tout ce dont<br/>vous avez besoin</h1>
-          <p class="onb-p">Une app complète pensée pour les habitants et les visiteurs de Villeneuve-lès-Avignon.</p>
-        </div>
-      </div>
-    </div>
+      </div><!-- /track -->
 
-    <!-- S3 Commerces -->
-    <div class="onb-s" data-i="2">
-      <div class="onb-s-inner">
-        <div class="onb-hero-visual" style="background:linear-gradient(135deg,#FFF3EE 0%,#ffe8d6 100%);">
-          <div class="onb-feature-icon" style="background:#FF6B35;">
-            <span class="material-symbols-outlined" style="font-size:36px;color:#fff;font-variation-settings:'FILL' 1;">storefront</span>
-          </div>
-          <div class="onb-feature-pills">
-            <div class="onb-fpill" style="background:#fff;border:1.5px solid #fde0d5;color:#FF6B35;"><span class="material-symbols-outlined" style="font-size:13px;font-variation-settings:'FILL' 1;">loyalty</span>Points fidélité</div>
-            <div class="onb-fpill" style="background:#fff;border:1.5px solid #fde0d5;color:#FF6B35;"><span class="material-symbols-outlined" style="font-size:13px;font-variation-settings:'FILL' 1;">local_offer</span>Offres exclusives</div>
-            <div class="onb-fpill" style="background:#fff;border:1.5px solid #fde0d5;color:#FF6B35;"><span class="material-symbols-outlined" style="font-size:13px;font-variation-settings:'FILL' 1;">restaurant</span>Restaurants</div>
-            <div class="onb-fpill" style="background:#fff;border:1.5px solid #fde0d5;color:#FF6B35;"><span class="material-symbols-outlined" style="font-size:13px;font-variation-settings:'FILL' 1;">handyman</span>Artisans</div>
-          </div>
-        </div>
-        <div class="onb-text-block">
-          <div class="onb-kicker" style="color:#FF6B35;">Commerces locaux</div>
-          <h1 class="onb-h">Soutenez<br/>les artisans</h1>
-          <p class="onb-p">Chaque visite chez un partenaire vous rapporte des <strong>points fidélité</strong> échangeables contre des avantages exclusifs.</p>
-        </div>
-      </div>
-    </div>
-
-    <!-- S4 Patrimoine -->
-    <div class="onb-s" data-i="3">
-      <div class="onb-s-inner">
-        <div class="onb-hero-visual" style="background:linear-gradient(135deg,#EFF7F3 0%,#d8f0e5 100%);">
-          <div class="onb-feature-icon" style="background:#2D6A4F;">
-            <span class="material-symbols-outlined" style="font-size:36px;color:#fff;font-variation-settings:'FILL' 1;">fort</span>
-          </div>
-          <div class="onb-feature-pills">
-            <div class="onb-fpill" style="background:#fff;border:1.5px solid #c3e6d4;color:#2D6A4F;"><span class="material-symbols-outlined" style="font-size:13px;font-variation-settings:'FILL' 1;">view_in_ar</span>Réalité augmentée</div>
-            <div class="onb-fpill" style="background:#fff;border:1.5px solid #c3e6d4;color:#2D6A4F;"><span class="material-symbols-outlined" style="font-size:13px;font-variation-settings:'FILL' 1;">account_balance</span>Monuments</div>
-            <div class="onb-fpill" style="background:#fff;border:1.5px solid #c3e6d4;color:#2D6A4F;"><span class="material-symbols-outlined" style="font-size:13px;font-variation-settings:'FILL' 1;">auto_stories</span>Anecdotes</div>
-          </div>
-        </div>
-        <div class="onb-text-block">
-          <div class="onb-kicker" style="color:#2D6A4F;">Patrimoine</div>
-          <h1 class="onb-h">L'histoire<br/>s'anime</h1>
-          <p class="onb-p">Fort Saint-André, Chartreuse, Tour Philippe le Bel… Pointez votre téléphone pour découvrir des siècles d'histoire en <strong>réalité augmentée</strong>.</p>
-        </div>
-      </div>
-    </div>
-
-    <!-- S5 Événements -->
-    <div class="onb-s" data-i="4">
-      <div class="onb-s-inner">
-        <div class="onb-hero-visual" style="background:linear-gradient(135deg,#EEF1FD 0%,#dce3fa 100%);">
-          <div class="onb-feature-icon" style="background:#3B5BDB;">
-            <span class="material-symbols-outlined" style="font-size:36px;color:#fff;font-variation-settings:'FILL' 1;">event</span>
-          </div>
-          <div class="onb-feature-pills">
-            <div class="onb-fpill" style="background:#fff;border:1.5px solid #c5d0f8;color:#3B5BDB;"><span class="material-symbols-outlined" style="font-size:13px;font-variation-settings:'FILL' 1;">celebration</span>Fêtes</div>
-            <div class="onb-fpill" style="background:#fff;border:1.5px solid #c5d0f8;color:#3B5BDB;"><span class="material-symbols-outlined" style="font-size:13px;font-variation-settings:'FILL' 1;">shopping_bag</span>Marchés</div>
-            <div class="onb-fpill" style="background:#fff;border:1.5px solid #c5d0f8;color:#3B5BDB;"><span class="material-symbols-outlined" style="font-size:13px;font-variation-settings:'FILL' 1;">calendar_month</span>Planning perso</div>
-          </div>
-        </div>
-        <div class="onb-text-block">
-          <div class="onb-kicker" style="color:#3B5BDB;">Agenda</div>
-          <h1 class="onb-h">Ne manquez<br/>plus rien</h1>
-          <p class="onb-p">L'agenda complet mis à jour par la mairie. Ajoutez vos favoris à votre <strong>planning personnel</strong>.</p>
-        </div>
-      </div>
-    </div>
-
-    <!-- S6 Carte -->
-    <div class="onb-s" data-i="5">
-      <div class="onb-s-inner">
-        <div class="onb-hero-visual" style="background:linear-gradient(135deg,#f1f5f9 0%,#e2e8f0 100%);">
-          <div class="onb-feature-icon" style="background:#0f1923;">
-            <span class="material-symbols-outlined" style="font-size:36px;color:#fff;font-variation-settings:'FILL' 1;">map</span>
-          </div>
-          <div class="onb-map-legend">
-            <div class="onb-leg"><div class="onb-leg-dot" style="background:#2D6A4F;"></div>Patrimoine</div>
-            <div class="onb-leg"><div class="onb-leg-dot" style="background:#FF6B35;"></div>Commerces</div>
-            <div class="onb-leg"><div class="onb-leg-dot" style="background:#3B5BDB;"></div>Événements</div>
-          </div>
-          <div class="onb-pmr-badge"><span class="material-symbols-outlined" style="font-size:13px;font-variation-settings:'FILL' 1;">accessible</span>Filtre accessibilité PMR</div>
-        </div>
-        <div class="onb-text-block">
-          <div class="onb-kicker">Carte interactive</div>
-          <h1 class="onb-h">Tout visible<br/>d'un coup d'œil</h1>
-          <p class="onb-p">Patrimoine, commerces et événements en simultané. Filtrez par accessibilité <strong>PMR</strong> en un tap.</p>
-        </div>
-      </div>
-    </div>
-
-    <!-- S7 Contacts -->
-    <div class="onb-s" data-i="6">
-      <div class="onb-s-inner">
-        <div class="onb-hero-visual" style="background:linear-gradient(135deg,#FEF2F4 0%,#fce7eb 100%);">
-          <div class="onb-contacts-row">
-            <div class="onb-contact-item">
-              <div class="onb-contact-ico" style="background:#EFF7F3;"><span class="material-symbols-outlined" style="font-size:22px;color:#2D6A4F;font-variation-settings:'FILL' 1;">account_balance</span></div>
-              <span>Mairie</span>
-            </div>
-            <div class="onb-contact-item">
-              <div class="onb-contact-ico" style="background:#EEF1FD;"><span class="material-symbols-outlined" style="font-size:22px;color:#3B5BDB;font-variation-settings:'FILL' 1;">info</span></div>
-              <span>Tourisme</span>
-            </div>
-            <div class="onb-contact-item">
-              <div class="onb-contact-ico" style="background:#FEF2F4;"><span class="material-symbols-outlined" style="font-size:22px;color:#e11d48;font-variation-settings:'FILL' 1;">emergency</span></div>
-              <span>Urgences</span>
-            </div>
-          </div>
-        </div>
-        <div class="onb-text-block">
-          <div class="onb-kicker" style="color:#e11d48;">Contacts utiles</div>
-          <h1 class="onb-h">Les bons numéros,<br/>toujours là</h1>
-          <p class="onb-p">Mairie, office de tourisme, urgences — en bas de l'accueil, accessibles en un tap.</p>
-        </div>
-        <button onclick="closeOnboarding()" class="onb-start-btn">
-          <span class="material-symbols-outlined" style="font-size:18px;font-variation-settings:'FILL' 1;">explore</span>
-          Commencer l'exploration
-        </button>
-      </div>
-    </div>
-
-  </div><!-- /track -->
-
-  <div id="onb-bar">
-    <div id="onb-dots-row">
-      <div class="onb-d active" onclick="goToSlide(0)"></div>
-      <div class="onb-d" onclick="goToSlide(1)"></div>
-      <div class="onb-d" onclick="goToSlide(2)"></div>
-      <div class="onb-d" onclick="goToSlide(3)"></div>
-      <div class="onb-d" onclick="goToSlide(4)"></div>
-      <div class="onb-d" onclick="goToSlide(5)"></div>
-      <div class="onb-d" onclick="goToSlide(6)"></div>
-    </div>
-    <div id="onb-actions">
-      <button id="onb-skip-btn" onclick="closeOnboarding()">Passer</button>
-      <button id="onb-next-btn" onclick="nextSlide()">
-        Suivant
-        <span class="material-symbols-outlined" style="font-size:15px;">chevron_right</span>
-      </button>
-    </div>
-  </div>
 
 </div><!-- /onb -->
 
@@ -3813,91 +3669,93 @@ function planRemove(key, idx) {
 /* ── ONBOARDING ─────────────────────────────── */
 #onb {
   display:none;position:fixed;inset:0;z-index:9999;
-  flex-direction:column;
+  flex-direction:column;align-items:center;justify-content:center;
   background:#f4f6f9;
   font-family:'Manrope',sans-serif;
   -webkit-font-smoothing:antialiased;
+  padding:32px 24px;
+  box-sizing:border-box;
 }
 #onb.onb-on { display:flex !important; }
 
-/* Progress bar */
-#onb-progress-bar {
-  height:3px;background:#e8edf2;flex-shrink:0;
-}
-#onb-progress-fill {
-  height:100%;background:linear-gradient(90deg,#3B5BDB,#748ffc);
-  border-radius:0 2px 2px 0;
-  transition:width 0.4s cubic-bezier(0.4,0,0.2,1);
-  width:14.28%;
-}
+#onb-track { width:100%;max-width:400px; }
 
-/* Track */
-#onb-track { flex:1;position:relative;overflow:hidden; }
-
-/* Slides */
-.onb-s {
-  position:absolute;inset:0;
-  display:flex;align-items:center;justify-content:center;
-  background:#f4f6f9;
-  opacity:0;transform:translateX(28px);
-  transition:opacity 0.36s cubic-bezier(0.4,0,0.2,1),
-             transform 0.36s cubic-bezier(0.4,0,0.2,1);
-  pointer-events:none;
-}
-.onb-s.on  { opacity:1;transform:translateX(0);pointer-events:all; }
-.onb-s.out { opacity:0;transform:translateX(-28px); }
-
+.onb-s { width:100%; }
 .onb-s-inner {
-  width:100%;display:flex;flex-direction:column;align-items:center;
-  text-align:center;padding:16px 24px 12px;
-  gap:0;box-sizing:border-box;
+  display:flex;flex-direction:column;align-items:center;
+  text-align:center;gap:0;
 }
 
-/* ── HERO VISUAL ── */
-.onb-hero-visual {
-  width:100%;border-radius:24px;
-  display:flex;flex-direction:column;align-items:center;justify-content:center;
-  gap:16px;padding:28px 20px;margin-bottom:24px;
-  box-shadow:0 2px 16px rgba(15,25,35,0.07);
-  min-height:220px;box-sizing:border-box;
+/* Logo */
+.onb-logo-wrap {
+  display:flex;flex-direction:column;align-items:center;gap:10px;
+  margin-bottom:28px;
 }
-
-/* Slide 1 */
-.onb-hero-s1 { background:#fff; }
 .onb-heart-ring {
-  width:80px;height:80px;border-radius:50%;
+  width:72px;height:72px;border-radius:50%;
   background:linear-gradient(135deg,#0f1923,#1e3a5f);
   display:flex;align-items:center;justify-content:center;
   box-shadow:0 8px 28px rgba(15,25,35,0.22);
 }
-.onb-heart-icon {
-  font-size:36px;color:#fff;
-  font-variation-settings:'FILL' 1;
-}
+.onb-heart-icon { font-size:32px;color:#fff;font-variation-settings:'FILL' 1; }
+.onb-wordmark { font-size:22px;font-weight:900;letter-spacing:-0.03em;color:#0f1923; }
 .onb-brand-tag {
   background:#f1f5f9;border:1.5px solid #e2e8f0;
-  border-radius:100px;padding:6px 14px;
-  font-size:11px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;
-  color:#64748b;
-}
-.onb-wordmark {
-  font-size:22px;font-weight:900;letter-spacing:-0.03em;
-  color:#0f1923;margin-bottom:8px;
+  border-radius:100px;padding:5px 14px;
+  font-size:10px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:#64748b;
 }
 
-/* Slide 2 - grille */
-.onb-hero-s2 { background:#fff;gap:12px; }
-.onb-grid-preview {
-  display:grid;grid-template-columns:1fr 1fr;gap:8px;width:100%;
+/* Titre */
+.onb-h {
+  font-size:clamp(24px,6vw,32px);font-weight:900;line-height:1.15;
+  letter-spacing:-0.03em;color:#0f1923;margin:0 0 12px;
 }
-.onb-gp-card {
-  background:#fff;border:1.5px solid #e8edf2;border-radius:14px;
-  padding:12px 10px;display:flex;flex-direction:column;align-items:center;gap:6px;
+.onb-h-accent { color:#3B5BDB; }
+.onb-p {
+  font-size:14px;line-height:1.6;color:#64748b;
+  margin:0 0 24px;max-width:300px;
+}
+
+/* Modules */
+.onb-modules {
+  display:grid;grid-template-columns:1fr 1fr;gap:8px;
+  width:100%;margin-bottom:28px;
+}
+.onb-mod {
+  background:#fff;border:1.5px solid #e8edf2;border-radius:12px;
+  padding:10px 12px;display:flex;align-items:center;gap:8px;
   font-size:12px;font-weight:700;color:#0f1923;
   box-shadow:0 1px 6px rgba(15,25,35,0.06);
 }
-.onb-gp-card span:first-child { font-size:20px; }
-.onb-gp-wide { grid-column:1/-1;flex-direction:row;gap:10px;justify-content:center; }
+
+/* Bouton */
+.onb-start-btn {
+  width:100%;padding:16px;border:none;border-radius:16px;
+  background:linear-gradient(135deg,#0f1923,#1e3a5f);
+  color:#fff;font-family:'Manrope',sans-serif;
+  font-size:15px;font-weight:800;letter-spacing:-0.01em;
+  cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;
+  box-shadow:0 6px 24px rgba(15,25,35,0.22);
+  margin-bottom:20px;
+}
+
+/* Carte maire */
+.onb-mayor-card {
+  display:flex;align-items:center;gap:12px;
+  background:#fff;border:1.5px solid #e8edf2;border-radius:16px;
+  padding:12px 16px;width:100%;box-sizing:border-box;
+  box-shadow:0 1px 6px rgba(15,25,35,0.05);text-align:left;
+}
+.onb-mayor-avatar {
+  width:36px;height:36px;border-radius:50%;flex-shrink:0;
+  background:linear-gradient(135deg,#0f1923,#1e3a5f);
+  display:flex;align-items:center;justify-content:center;
+}
+.onb-mayor-text p {
+  font-size:12px;font-weight:600;color:#0f1923;
+  font-style:italic;margin:0 0 2px;line-height:1.4;
+}
+.onb-mayor-text span { font-size:10px;color:#94a3b8;font-weight:600; }
 
 /* Feature icon */
 .onb-feature-icon {
@@ -4043,48 +3901,17 @@ function planRemove(key, idx) {
 </style>
 
 <script>
-var ONB_KEY='cdv_onb_v101', onbIdx=0, onbN=7;
+var ONB_KEY='cdv_onb_v101';
 function initOnb(){
-  // Toujours afficher l'onboarding si clé absente OU réinitialiser pour test
   localStorage.removeItem(ONB_KEY);
   document.getElementById('onb').classList.add('onb-on');
   document.querySelector('.onb-s[data-i="0"]').classList.add('on');
-  updateProgress(0);
 }
-function updateProgress(n) {
-  var fill = document.getElementById('onb-progress-fill');
-  if (fill) fill.style.width = ((n + 1) / onbN * 100) + '%';
-}
-function goToSlide(n){
-  var all=document.querySelectorAll('.onb-s');
-  var dots=document.querySelectorAll('.onb-d');
-  all[onbIdx].classList.remove('on');
-  all[onbIdx].classList.add('out');
-  var prev=onbIdx; onbIdx=n;
-  setTimeout(function(){all[prev].classList.remove('out');},400);
-  all[onbIdx].classList.add('on');
-  dots.forEach(function(d,i){d.classList.toggle('active',i===onbIdx);});
-  updateProgress(onbIdx);
-  var last=onbIdx===onbN-1;
-  document.getElementById('onb-next-btn').style.display=last?'none':'flex';
-  document.getElementById('onb-skip-btn').style.display=last?'none':'block';
-  // Mode splash (slide 0 sombre)
-  document.getElementById('onb').classList.toggle('onb-splash-active', onbIdx===0);
-}
-function nextSlide(){if(onbIdx<onbN-1)goToSlide(onbIdx+1);}
 function closeOnboarding(){
   localStorage.setItem(ONB_KEY,'1');
   var el=document.getElementById('onb');
-  el.style.cssText='display:flex!important;opacity:0;transition:opacity 0.35s ease;pointer-events:none;position:fixed;inset:0;z-index:9999;flex-direction:column;background:#fafafa;';
+  el.style.cssText='display:flex!important;opacity:0;transition:opacity 0.35s ease;pointer-events:none;position:fixed;inset:0;z-index:9999;flex-direction:column;background:#f4f6f9;';
   setTimeout(function(){el.classList.remove('onb-on');el.style.cssText='';},360);
 }
-(function(){
-  var el=document.getElementById('onb-track'),sx=0;
-  el.addEventListener('touchstart',function(e){sx=e.touches[0].clientX;},{passive:true});
-  el.addEventListener('touchend',function(e){
-    var dx=e.changedTouches[0].clientX-sx;
-    if(Math.abs(dx)>45){if(dx<0&&onbIdx<onbN-1)nextSlide();else if(dx>0&&onbIdx>0)goToSlide(onbIdx-1);}
-  },{passive:true});
-})();
 window.addEventListener('DOMContentLoaded',function(){initOnb();});
 </script>
