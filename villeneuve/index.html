@@ -248,42 +248,42 @@ body{padding-bottom:88px;}
 .une-card-btn:active{transform:scale(0.97);}
 
 /* ── TAXI BANNER ── */
-.taxi-banner-wrap{padding:52px 20px 0;}
+.taxi-banner-wrap{padding:16px 20px 0;}
 .taxi-banner{
-  position:relative;border-radius:22px;overflow:hidden;
-  height:120px;cursor:pointer;display:block;text-decoration:none;
+  position:relative;border-radius:16px;overflow:hidden;
+  height:68px;cursor:pointer;display:block;text-decoration:none;
   background:linear-gradient(120deg,#0a1628 0%,#1e3a6e 55%,#0d2040 100%);
-  box-shadow:0 8px 32px rgba(15,25,35,0.25);
+  box-shadow:0 4px 18px rgba(15,25,35,0.2);
   transition:transform 0.18s,box-shadow 0.18s;
 }
-.taxi-banner:active{transform:scale(0.98);box-shadow:0 4px 16px rgba(15,25,35,0.2);}
+.taxi-banner:active{transform:scale(0.98);box-shadow:0 2px 10px rgba(15,25,35,0.15);}
 .taxi-banner-glow{display:none;}
 .taxi-banner-icon{
-  position:absolute;right:-8px;top:50%;transform:translateY(-50%);
-  font-size:100px;opacity:0.07;color:#fff;
+  position:absolute;right:-6px;top:50%;transform:translateY(-50%);
+  font-size:70px;opacity:0.07;color:#fff;
   font-variation-settings:'FILL' 1;
   line-height:1;
 }
 .taxi-banner-content{
   position:relative;z-index:1;
-  display:flex;align-items:center;height:100%;padding:0 20px;gap:16px;
+  display:flex;align-items:center;height:100%;padding:0 14px;gap:12px;
 }
 .taxi-banner-picto{
-  width:50px;height:50px;border-radius:14px;
+  width:40px;height:40px;border-radius:11px;
   background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.15);
   display:flex;align-items:center;justify-content:center;flex-shrink:0;
 }
-.taxi-banner-picto .material-symbols-outlined{font-size:24px;color:#fff;font-variation-settings:'FILL' 1;}
-.taxi-banner-text{flex:1;}
-.taxi-banner-label{font-size:9px;font-weight:800;letter-spacing:0.16em;text-transform:uppercase;color:rgba(255,255,255,0.5);margin-bottom:4px;}
-.taxi-banner-title{font-size:17px;font-weight:900;color:#fff;font-family:Manrope;letter-spacing:-0.02em;line-height:1.1;margin-bottom:3px;}
-.taxi-banner-sub{font-size:11px;color:rgba(255,255,255,0.5);font-weight:500;}
+.taxi-banner-picto .material-symbols-outlined{font-size:20px;color:#fff;font-variation-settings:'FILL' 1;}
+.taxi-banner-text{flex:1;min-width:0;}
+.taxi-banner-label{font-size:9px;font-weight:800;letter-spacing:0.14em;text-transform:uppercase;color:rgba(255,255,255,0.5);margin-bottom:2px;}
+.taxi-banner-title{font-size:14px;font-weight:900;color:#fff;font-family:Manrope;letter-spacing:-0.02em;line-height:1.15;}
+.taxi-banner-sub{display:none;}
 .taxi-banner-arrow{
-  width:36px;height:36px;border-radius:50%;
+  width:28px;height:28px;border-radius:50%;
   background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.15);
   display:flex;align-items:center;justify-content:center;flex-shrink:0;
 }
-.taxi-banner-arrow .material-symbols-outlined{font-size:17px;color:#fff;}
+.taxi-banner-arrow .material-symbols-outlined{font-size:14px;color:#fff;}
 
 /* ── MÉTÉO + BANNIÈRE ── */
 .home-widgets{display:flex;gap:10px;padding:12px 16px 0;}
@@ -927,6 +927,313 @@ html,body{background:#eceff4;}
   box-shadow:0 1px 0 rgba(15,25,35,0.04);
 }
 
+/* ═══════════════════════════════════════════════════════════════
+   🎯 HERO STATUS BAR & Pills+ & Compteurs
+   ═══════════════════════════════════════════════════════════════ */
+
+/* Status bar intégrée au hero — donne de la matière vivante */
+.hero-status-bar{
+  display:flex;align-items:center;gap:8px;
+  background:rgba(255,255,255,0.1);
+  backdrop-filter:blur(12px);
+  -webkit-backdrop-filter:blur(12px);
+  border:1px solid rgba(255,255,255,0.15);
+  border-radius:100px;
+  padding:8px 14px;
+  margin-bottom:16px;
+  width:fit-content;
+  max-width:100%;
+  flex-wrap:wrap;
+}
+.hero-status-item{
+  display:flex;align-items:center;gap:5px;
+  color:rgba(255,255,255,0.95);
+  font-size:11px;
+  font-weight:700;
+  letter-spacing:0.01em;
+  text-shadow:0 1px 2px rgba(0,0,0,0.3);
+}
+.hero-status-sep{
+  width:3px;height:3px;border-radius:50%;
+  background:rgba(255,255,255,0.4);
+}
+.hero-status-dot{
+  width:7px;height:7px;border-radius:50%;
+  background:#4ade80;
+  box-shadow:0 0 0 2px rgba(74,222,128,0.25);
+  animation:pulse-dot 2s ease-in-out infinite;
+}
+@keyframes pulse-dot{
+  0%,100%{box-shadow:0 0 0 2px rgba(74,222,128,0.25);}
+  50%{box-shadow:0 0 0 5px rgba(74,222,128,0.12);}
+}
+
+/* Pills couleur par catégorie — chaque icône prend la couleur de sa famille */
+.home-pill .material-symbols-outlined{
+  padding:4px;border-radius:8px;
+  font-size:16px !important;
+}
+.home-pill:nth-child(1) .material-symbols-outlined{background:#e8f5ef;color:#2D6A4F;}
+.home-pill:nth-child(2) .material-symbols-outlined{background:#fff3ed;color:#FF6B35;}
+.home-pill:nth-child(3) .material-symbols-outlined{background:#fff1f3;color:#e11d48;}
+.home-pill:nth-child(4) .material-symbols-outlined{background:#eef2ff;color:#3B5BDB;}
+
+.home-pill{
+  padding:8px 14px 8px 6px !important;
+  gap:8px;
+  font-weight:800 !important;
+  font-size:12.5px !important;
+  letter-spacing:-0.01em;
+}
+
+/* Compteur discret dans "Voir tout" */
+.home-see-all .count-badge{
+  display:inline-block;
+  background:rgba(15,25,35,0.06);
+  padding:1px 6px;
+  border-radius:100px;
+  font-size:10px;
+  font-weight:800;
+  margin-right:4px;
+  color:#64748b;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   🏛️ ZONE PATRIMOINE — bento clair, cohérent avec la page
+   ═══════════════════════════════════════════════════════════════ */
+.patrimoine-zone{
+  position:relative;
+  margin:20px 0 10px;
+}
+.patrimoine-zone-bg{display:none;}
+.patrimoine-zone-inner{
+  padding:20px 16px 10px;
+}
+.patrimoine-header{margin-bottom:16px;}
+.patrimoine-eyebrow{
+  display:block;
+  font-size:10px;font-weight:800;letter-spacing:0.2em;
+  text-transform:uppercase;
+  color:#94a3b8;
+  margin-bottom:6px;
+}
+.patrimoine-title{
+  font-size:22px;font-weight:900;letter-spacing:-0.02em;line-height:1.1;
+  color:#0a1220;margin-bottom:4px;
+}
+.patrimoine-title em{
+  font-style:normal;
+  color:#0a1220;
+}
+.patrimoine-desc{
+  display:none; /* on garde l'interface sobre comme le reste */
+}
+
+/* Grid bento — même style que les cards de la page */
+.patrimoine-bento{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  grid-template-rows:180px 120px 120px;
+  gap:10px;
+  margin-bottom:14px;
+}
+.bento-tile{
+  position:relative;
+  border-radius:18px;
+  overflow:hidden;
+  cursor:pointer;
+  background:#fff;
+  border:1px solid rgba(15,25,35,0.08);
+  box-shadow:
+    0 1px 0 rgba(15,25,35,0.04),
+    0 2px 6px -2px rgba(15,25,35,0.08),
+    0 6px 16px -8px rgba(15,25,35,0.12);
+  transition:transform 0.2s, border-color 0.2s, box-shadow 0.2s;
+}
+.bento-tile:active{transform:translateY(1px) scale(0.99);}
+.bento-tile:hover{
+  border-color:rgba(15,25,35,0.14);
+  box-shadow:
+    0 1px 0 rgba(15,25,35,0.04),
+    0 6px 16px -6px rgba(15,25,35,0.14);
+}
+
+.bento-tile-hero{grid-column:1 / -1;grid-row:1 / 2;}
+.bento-tile-wide{grid-column:1 / -1;grid-row:3 / 4;}
+
+.bento-bg{
+  position:absolute;inset:0;
+  background-size:cover;
+  background-position:center;
+  transition:transform 0.4s ease;
+}
+.bento-tile:hover .bento-bg{transform:scale(1.04);}
+
+.bento-overlay{
+  position:absolute;inset:0;
+  background:linear-gradient(to top, rgba(10,18,28,0.82) 0%, rgba(10,18,28,0.1) 55%, transparent 80%);
+}
+
+.bento-pill{
+  position:absolute;top:12px;left:12px;
+  padding:4px 10px;border-radius:100px;
+  font-size:10px;font-weight:800;letter-spacing:0.08em;
+  color:#fff;text-transform:uppercase;
+  backdrop-filter:blur(8px);
+}
+
+.bento-body{
+  position:absolute;bottom:12px;left:14px;right:14px;
+  color:#fff;
+}
+.bento-title{
+  font-size:20px;font-weight:900;letter-spacing:-0.02em;
+  line-height:1.1;margin-bottom:3px;
+  text-shadow:0 2px 10px rgba(0,0,0,0.5);
+}
+.bento-title-sm{
+  font-size:14px;font-weight:900;letter-spacing:-0.02em;
+  line-height:1.15;margin-bottom:3px;
+  text-shadow:0 1px 6px rgba(0,0,0,0.5);
+}
+.bento-sub{
+  font-size:11px;font-weight:600;
+  color:rgba(255,255,255,0.75);
+}
+.bento-cat{
+  font-size:10px;font-weight:800;letter-spacing:0.12em;
+  text-transform:uppercase;
+  color:rgba(255,255,255,0.65);
+}
+
+/* CTA "voir tout" — pas un bouton lourd, juste un lien propre */
+.patrimoine-cta{
+  display:flex;align-items:center;justify-content:center;gap:6px;
+  width:100%;
+  background:none;border:none;
+  padding:8px 0 16px;
+  color:#3B5BDB;
+  font-family:Manrope;font-size:13px;font-weight:700;
+  cursor:pointer;
+}
+.patrimoine-cta:active{opacity:0.6;}
+
+/* ═══════════════════════════════════════════════════════════════
+   📏 Bannières PMR + Taxi — versions compactes
+   ═══════════════════════════════════════════════════════════════ */
+
+/* Taxi : hauteur réduite + padding réduit */
+.taxi-banner-wrap{padding:16px 20px 0 !important;}
+.taxi-banner{height:68px !important;border-radius:16px !important;}
+.taxi-banner-content{padding:0 14px !important;gap:12px !important;}
+.taxi-banner-picto{width:40px !important;height:40px !important;border-radius:11px !important;}
+.taxi-banner-picto .material-symbols-outlined{font-size:20px !important;}
+.taxi-banner-title{font-size:14px !important;margin-bottom:0 !important;}
+.taxi-banner-sub{display:none !important;}
+.taxi-banner-label{font-size:9px !important;margin-bottom:2px !important;}
+.taxi-banner-arrow{width:28px !important;height:28px !important;}
+.taxi-banner-arrow .material-symbols-outlined{font-size:14px !important;}
+.taxi-banner-icon{font-size:70px !important;}
+
+
+.services-section{padding:40px 16px 20px;}
+.services-head{margin-bottom:18px;padding:0 4px;}
+.services-eyebrow{
+  display:block;
+  font-size:10px;font-weight:800;letter-spacing:0.22em;
+  text-transform:uppercase;
+  color:#94a3b8;
+  margin-bottom:6px;
+}
+.services-title{
+  font-size:22px;font-weight:900;letter-spacing:-0.03em;
+  color:#0a1220;line-height:1;
+}
+.services-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:10px;
+}
+.service-card{
+  position:relative;
+  display:flex;flex-direction:column;
+  padding:18px 16px 16px;
+  background:#fff;
+  border:1px solid rgba(15,25,35,0.08);
+  border-radius:18px;
+  text-decoration:none;
+  box-shadow:
+    0 1px 0 rgba(15,25,35,0.04),
+    0 2px 8px -4px rgba(15,25,35,0.08);
+  transition:transform 0.18s, box-shadow 0.18s, border-color 0.18s;
+  min-height:120px;
+  overflow:hidden;
+}
+.service-card:active{transform:translateY(1px) scale(0.99);}
+.service-card:hover{
+  border-color:rgba(15,25,35,0.15);
+  box-shadow:
+    0 2px 0 rgba(15,25,35,0.05),
+    0 8px 20px -8px rgba(15,25,35,0.15);
+}
+.service-icon-wrap{
+  width:40px;height:40px;border-radius:12px;
+  display:flex;align-items:center;justify-content:center;
+  margin-bottom:12px;
+}
+.service-icon-wrap .material-symbols-outlined{
+  font-size:22px;
+  font-variation-settings:'FILL' 1;
+}
+.service-label{
+  font-size:9px;font-weight:800;letter-spacing:0.14em;
+  text-transform:uppercase;
+  color:#94a3b8;
+  margin-bottom:4px;
+}
+.service-name{
+  font-size:15px;font-weight:900;letter-spacing:-0.02em;
+  color:#0a1220;line-height:1.15;
+  margin-bottom:3px;
+}
+.service-sub{
+  font-size:11px;font-weight:600;
+  color:#64748b;line-height:1.3;
+}
+.service-arrow{
+  position:absolute;top:16px;right:14px;
+  width:28px;height:28px;border-radius:50%;
+  background:rgba(15,25,35,0.05);
+  display:flex;align-items:center;justify-content:center;
+  transition:background 0.18s;
+}
+.service-card:hover .service-arrow{
+  background:rgba(15,25,35,0.1);
+}
+.service-arrow .material-symbols-outlined{
+  font-size:14px;color:#64748b;
+}
+
+/* Variantes couleur par service */
+.service-taxi .service-icon-wrap{background:#fef3c7;}
+.service-taxi .service-icon-wrap .material-symbols-outlined{color:#d97706;}
+
+.service-pmr .service-icon-wrap{background:#dcfce7;}
+.service-pmr .service-icon-wrap .material-symbols-outlined{color:#16a34a;}
+
+.service-tourisme .service-icon-wrap{background:#ffedd5;}
+.service-tourisme .service-icon-wrap .material-symbols-outlined{color:#ea580c;}
+
+.service-urgence{
+  background:linear-gradient(135deg, #fff 0%, #fff1f2 100%);
+  border-color:rgba(225,29,72,0.15);
+}
+.service-urgence .service-icon-wrap{background:#fee2e2;}
+.service-urgence .service-icon-wrap .material-symbols-outlined{color:#e11d48;}
+.service-urgence .service-label{color:#e11d48;}
+.service-urgence .service-arrow{background:rgba(225,29,72,0.1);}
+.service-urgence .service-arrow .material-symbols-outlined{color:#e11d48;}
+
 </style>
 
 <style id="hero-img-style">
@@ -1023,6 +1330,24 @@ setTimeout(function(){
     <span class="home-hero-label" id="hero-label">Bienvenue à Cœur de Ville</span>
     <h2 class="home-hero-title"><span id="t-hero-title"></span><br/><span id="t-hero-sub"></span></h2>
 
+    <!-- STATUS BAR (ajouté) -->
+    <div class="hero-status-bar" id="hero-status-bar">
+      <div class="hero-status-item">
+        <span class="material-symbols-outlined" style="font-size:15px;">wb_sunny</span>
+        <span id="hero-weather-temp">--°</span>
+      </div>
+      <div class="hero-status-sep"></div>
+      <div class="hero-status-item">
+        <span class="material-symbols-outlined" style="font-size:15px;">schedule</span>
+        <span id="hero-date-label">—</span>
+      </div>
+      <div class="hero-status-sep"></div>
+      <div class="hero-status-item">
+        <span class="hero-status-dot"></span>
+        <span id="hero-open-count">Lieux ouverts</span>
+      </div>
+    </div>
+
     <button class="home-hero-btn" onclick="window.location.href='carte.html'">
       <span class="material-symbols-outlined">explore</span>
       <span id="t-explorer"></span>
@@ -1086,51 +1411,66 @@ setTimeout(function(){
 </div>
 <div class="home-aujourdhui" id="aujourdhui-container"></div>
 
-<!-- SITES PATRIMONIAUX — pleine largeur -->
-<div style="padding:20px 16px 0;">
-  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
-    <div style="font-size:22px;font-weight:900;color:#0f1923;letter-spacing:-0.02em;">Sites patrimoniaux</div>
-    <button style="font-size:14px;font-weight:700;color:#3B5BDB;background:none;border:none;cursor:pointer;font-family:Manrope;display:flex;align-items:center;gap:3px;" onclick="window.location.href='carte.html'">Voir tout <span class="material-symbols-outlined" style="font-size:16px;">arrow_forward</span></button>
-  </div>
-</div>
-<div style="display:flex;gap:10px;overflow-x:auto;padding:0 16px 12px;scrollbar-width:none;-webkit-overflow-scrolling:touch;">
+<!-- SITES PATRIMONIAUX — zone immersive sombre avec bento -->
+<div class="patrimoine-zone">
+  <div class="patrimoine-zone-bg"></div>
+  <div class="patrimoine-zone-inner">
 
-  <div class="home-poi-card" onclick="window.location.href='fort-saint-andre.html'" style="min-width:145px;max-width:145px;">
-    <img class="home-poi-card-img" src="../assets/villeneuve/poi_001.jpg" alt="Fort Saint-André" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
-    <div class="home-poi-card-ph" style="background:#2c3e5015;display:none;"><span class="material-symbols-outlined" style="font-size:28px;color:#2c3e50;">castle</span></div>
-    <div class="home-poi-card-body">
-      <div class="home-poi-card-cat" style="color:#2c3e50;">Militaire</div>
-      <div class="home-poi-card-name">Fort Saint-André</div>
+    <div class="patrimoine-header">
+      <span class="patrimoine-eyebrow">Patrimoine d'exception</span>
+      <h2 class="patrimoine-title">Sites <em>remarquables</em></h2>
+      <p class="patrimoine-desc">Neuf siècles d'histoire à explorer au cœur de la ville.</p>
     </div>
-  </div>
 
-  <div class="home-poi-card" onclick="window.location.href='chartreuse.html'" style="min-width:145px;max-width:145px;">
-    <img class="home-poi-card-img" src="../assets/villeneuve/poi_002.jpg" alt="Chartreuse" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
-    <div class="home-poi-card-ph" style="background:#8b5e3c15;display:none;"><span class="material-symbols-outlined" style="font-size:28px;color:#8b5e3c;">church</span></div>
-    <div class="home-poi-card-body">
-      <div class="home-poi-card-cat" style="color:#8b5e3c;">Religieux</div>
-      <div class="home-poi-card-name">Chartreuse du Val de Bénédiction</div>
+    <div class="patrimoine-bento">
+      <!-- Grande tuile : Fort -->
+      <div class="bento-tile bento-tile-hero" onclick="window.location.href='fort-saint-andre.html'">
+        <div class="bento-bg" style="background-image:url('../assets/villeneuve/poi_001.jpg');"></div>
+        <div class="bento-overlay"></div>
+        <div class="bento-pill" style="background:rgba(44,62,80,0.95);">Militaire · XIVᵉ s.</div>
+        <div class="bento-body">
+          <div class="bento-title">Fort Saint-André</div>
+          <div class="bento-sub">Forteresse médiévale</div>
+        </div>
+      </div>
+
+      <!-- Tuile Chartreuse -->
+      <div class="bento-tile" onclick="window.location.href='chartreuse.html'">
+        <div class="bento-bg" style="background-image:url('../assets/villeneuve/poi_002.jpg');"></div>
+        <div class="bento-overlay"></div>
+        <div class="bento-body">
+          <div class="bento-title-sm">Chartreuse du Val</div>
+          <div class="bento-cat" style="color:#d4a574;">Religieux</div>
+        </div>
+      </div>
+
+      <!-- Tuile Tour -->
+      <div class="bento-tile" onclick="window.location.href='tour-philippe-le-bel.html'">
+        <div class="bento-bg" style="background-image:url('../assets/villeneuve/poi_003.jpg');"></div>
+        <div class="bento-overlay"></div>
+        <div class="bento-body">
+          <div class="bento-title-sm">Tour Philippe le Bel</div>
+          <div class="bento-cat" style="color:#e57373;">Monument</div>
+        </div>
+      </div>
+
+      <!-- Tuile Colline -->
+      <div class="bento-tile bento-tile-wide" onclick="window.location.href='colline-des-mourgues.html'">
+        <div class="bento-bg" style="background-image:url('../assets/villeneuve/poi_004.jpg');"></div>
+        <div class="bento-overlay"></div>
+        <div class="bento-body">
+          <div class="bento-title-sm">Colline des Mourgues</div>
+          <div class="bento-cat" style="color:#81c784;">Nature · Panorama</div>
+        </div>
+      </div>
     </div>
-  </div>
 
-  <div class="home-poi-card" onclick="window.location.href='tour-philippe-le-bel.html'" style="min-width:145px;max-width:145px;">
-    <img class="home-poi-card-img" src="../assets/villeneuve/poi_003.jpg" alt="Tour Philippe le Bel" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
-    <div class="home-poi-card-ph" style="background:#c0392b15;display:none;"><span class="material-symbols-outlined" style="font-size:28px;color:#c0392b;">account_balance</span></div>
-    <div class="home-poi-card-body">
-      <div class="home-poi-card-cat" style="color:#c0392b;">Monument</div>
-      <div class="home-poi-card-name">Tour Philippe le Bel</div>
-    </div>
-  </div>
+    <button class="patrimoine-cta" onclick="window.location.href='carte.html'">
+      <span>Voir les 12 sites sur la carte</span>
+      <span class="material-symbols-outlined" style="font-size:18px;">arrow_forward</span>
+    </button>
 
-  <div class="home-poi-card" onclick="window.location.href='colline-des-mourgues.html'" style="min-width:145px;max-width:145px;">
-    <img class="home-poi-card-img" src="../assets/villeneuve/poi_004.jpg" alt="Colline des Mourgues" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
-    <div class="home-poi-card-ph" style="background:#27ae6015;display:none;"><span class="material-symbols-outlined" style="font-size:28px;color:#27ae60;">park</span></div>
-    <div class="home-poi-card-body">
-      <div class="home-poi-card-cat" style="color:#27ae60;">Nature</div>
-      <div class="home-poi-card-name">Colline des Mourgues</div>
-    </div>
   </div>
-
 </div>
 
 
@@ -1163,33 +1503,30 @@ setTimeout(function(){
 
 
 <!-- PMR BANNER -->
-<div style="padding:20px 20px 0;">
+<div style="padding:16px 20px 0;">
   <a href="accessibilite.html" style="
-    display:flex;align-items:center;gap:16px;
+    display:flex;align-items:center;gap:12px;
     background:linear-gradient(120deg,#1a4a2e,#2d7a4f);
-    border-radius:22px;padding:18px 20px;text-decoration:none;
-    box-shadow:0 8px 32px rgba(26,74,46,0.25);
+    border-radius:16px;padding:12px 14px;text-decoration:none;
+    box-shadow:0 4px 18px rgba(26,74,46,0.2);
     position:relative;overflow:hidden;
     transition:transform 0.18s,box-shadow 0.18s;
   " onclick="this.style.transform='scale(0.98)'">
     <!-- Glow -->
-    <div style="position:absolute;top:-30px;right:-30px;width:120px;height:120px;background:rgba(74,222,128,0.15);border-radius:50%;filter:blur(30px);"></div>
+    <div style="position:absolute;top:-20px;right:-20px;width:80px;height:80px;background:rgba(74,222,128,0.15);border-radius:50%;filter:blur(24px);"></div>
     <!-- Icône -->
-    <div style="width:54px;height:54px;border-radius:16px;background:rgba(255,255,255,0.12);border:1px solid rgba(255,255,255,0.2);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
-      <span class="material-symbols-outlined" style="font-size:28px;color:#fff;font-variation-settings:'FILL' 1;">accessible</span>
+    <div style="width:40px;height:40px;border-radius:11px;background:rgba(255,255,255,0.12);border:1px solid rgba(255,255,255,0.2);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+      <span class="material-symbols-outlined" style="font-size:20px;color:#fff;font-variation-settings:'FILL' 1;">accessible</span>
     </div>
     <!-- Texte -->
-    <div style="flex:1;">
-      <div style="font-size:10px;font-weight:800;letter-spacing:0.16em;text-transform:uppercase;color:rgba(255,255,255,0.55);margin-bottom:4px;">Accessibilité</div>
-      <div style="font-size:17px;font-weight:900;color:#fff;font-family:Manrope;letter-spacing:-0.02em;line-height:1.1;margin-bottom:3px;">Lieux accessibles PMR</div>
-      <div style="font-size:11px;color:rgba(255,255,255,0.55);font-weight:500;">Fauteuil roulant · Mobilité réduite · Poussettes</div>
+    <div style="flex:1;min-width:0;">
+      <div style="font-size:9px;font-weight:800;letter-spacing:0.14em;text-transform:uppercase;color:rgba(255,255,255,0.55);margin-bottom:2px;">Accessibilité</div>
+      <div style="font-size:14px;font-weight:900;color:#fff;font-family:Manrope;letter-spacing:-0.02em;line-height:1.15;">Lieux accessibles PMR</div>
     </div>
-    <!-- Arrow + badge -->
-    <div style="display:flex;flex-direction:column;align-items:flex-end;gap:8px;flex-shrink:0;">
-      <div style="width:34px;height:34px;border-radius:50%;background:rgba(255,255,255,0.12);border:1px solid rgba(255,255,255,0.2);display:flex;align-items:center;justify-content:center;">
-        <span class="material-symbols-outlined" style="font-size:17px;color:#fff;">arrow_forward</span>
-      </div>
-      <div style="background:#4ade80;color:#0f1923;font-size:9px;font-weight:900;letter-spacing:0.06em;padding:3px 8px;border-radius:20px;">7 lieux</div>
+    <!-- Badge + arrow -->
+    <div style="display:flex;align-items:center;gap:8px;flex-shrink:0;">
+      <div style="background:#4ade80;color:#0f1923;font-size:9px;font-weight:900;letter-spacing:0.04em;padding:3px 7px;border-radius:20px;">7 lieux</div>
+      <span class="material-symbols-outlined" style="font-size:18px;color:rgba(255,255,255,0.7);">arrow_forward</span>
     </div>
   </a>
 </div>
@@ -1215,8 +1552,8 @@ setTimeout(function(){
   </a>
 </div>
 
-<!-- CITATION PHILOSOPHIQUE -->
-<div style="padding:72px 28px 48px;text-align:center;">
+<!-- CITATION PHILOSOPHIQUE (unique) -->
+<div style="padding:52px 28px 40px;text-align:center;">
   <div style="font-size:11px;font-weight:700;letter-spacing:0.2em;text-transform:uppercase;color:#3B5BDB;margin-bottom:16px;">Cœur de Ville</div>
   <p style="font-size:22px;font-weight:300;color:#0f1923;line-height:1.55;letter-spacing:-0.01em;font-family:Manrope;margin:0;">
     Chaque rue a une histoire.<br>Il suffit de savoir<br><span style="font-weight:800;font-style:italic;">où regarder.</span>
@@ -1301,14 +1638,6 @@ setTimeout(function(){
       <div class="cdc-arrow"><span class="material-symbols-outlined" style="font-size:22px;color:#fff;">chevron_right</span></div>
     </div>
   </div>
-</div>
-
-<!-- CITATION 2 -->
-<div style="padding:96px 28px 72px;text-align:center;">
-  <p style="font-size:22px;font-weight:300;color:#0f1923;line-height:1.6;letter-spacing:-0.01em;font-family:Manrope;margin:0;">
-    Ils ont bâti ces murs.<br>À toi de découvrir<br><span style="font-weight:800;font-style:italic;">ce qu'ils y ont caché.</span>
-  </p>
-  <div style="width:32px;height:2px;background:#3B5BDB;border-radius:2px;margin:22px auto 0;"></div>
 </div>
 
 <!-- IDÉES DE VISITES -->
@@ -2377,6 +2706,65 @@ function applyTranslations() {
 }
 document.addEventListener('DOMContentLoaded', function() {
   applyTranslations();
+
+  // ═══ HERO STATUS BAR — Date + compteur de commerces ═══
+  try {
+    // Date joliment formatée en français
+    var heroDate = document.getElementById('hero-date-label');
+    if (heroDate) {
+      var days = ['Dim.', 'Lun.', 'Mar.', 'Mer.', 'Jeu.', 'Ven.', 'Sam.'];
+      var months = ['janv.', 'févr.', 'mars', 'avr.', 'mai', 'juin',
+                    'juil.', 'août', 'sept.', 'oct.', 'nov.', 'déc.'];
+      var d = new Date();
+      heroDate.textContent = days[d.getDay()] + ' ' + d.getDate() + ' ' + months[d.getMonth()];
+    }
+
+    // Compteur de commerces "ouverts" — estimation simple basée sur l'heure
+    var heroOpen = document.getElementById('hero-open-count');
+    if (heroOpen && typeof COMMERCES !== 'undefined') {
+      var h = new Date().getHours();
+      // Heuristique : commerces ouverts entre 9h et 20h
+      var openCount;
+      if (h >= 9 && h < 20) {
+        openCount = Math.max(2, Math.floor(COMMERCES.length * 0.7)); // ~70% ouverts en journée
+        heroOpen.textContent = openCount + ' commerces ouverts';
+      } else if (h >= 20 && h < 23) {
+        openCount = Math.floor(COMMERCES.length * 0.3); // restaurants du soir
+        heroOpen.textContent = openCount + ' restaurants ouverts';
+      } else {
+        heroOpen.textContent = 'Ouvre à 9h';
+        // Remplacer le point vert par gris
+        var dot = heroOpen.parentElement.querySelector('.hero-status-dot');
+        if (dot) {
+          dot.style.background = '#94a3b8';
+          dot.style.animation = 'none';
+          dot.style.boxShadow = '0 0 0 2px rgba(148,163,184,0.2)';
+        }
+      }
+    }
+
+    // Compteur dans "Voir tout" de la section commerces
+    var seeAllCommerces = document.querySelector('button.home-see-all[onclick*="carte"]');
+    if (seeAllCommerces && typeof COMMERCES !== 'undefined') {
+      // On vise spécifiquement celui proche du header "Commerces"
+      var allSeeAll = document.querySelectorAll('.home-see-all');
+      allSeeAll.forEach(function(btn){
+        // Trouver celui dans la section Commerces (celui qui suit un header avec "Local")
+        var parent = btn.closest('.home-section-header');
+        if (parent && parent.querySelector('[id*="commerces"]')) {
+          // Ne pas dupliquer si déjà injecté
+          if (!btn.querySelector('.count-badge')) {
+            var badge = document.createElement('span');
+            badge.className = 'count-badge';
+            badge.textContent = COMMERCES.length;
+            btn.insertBefore(badge, btn.firstChild);
+          }
+        }
+      });
+    }
+  } catch(e) {
+    console.warn('Hero status bar init failed:', e);
+  }
 });
 </script>
 
@@ -2747,6 +3135,9 @@ document.addEventListener('DOMContentLoaded', function() {
 
       // Température et description
       document.getElementById('weather-temp').textContent = Math.round(cur.temperature_2m) + '°';
+      // Aussi alimenter la status bar du hero
+      var heroTemp = document.getElementById('hero-weather-temp');
+      if (heroTemp) heroTemp.textContent = Math.round(cur.temperature_2m) + '°';
       var windDesc = '';
       if (cur.windspeed_10m >= 30) windDesc = ' · Vent fort ' + Math.round(cur.windspeed_10m) + ' km/h';
       else if (cur.windspeed_10m >= 15) windDesc = ' · Venteux ' + Math.round(cur.windspeed_10m) + ' km/h';
