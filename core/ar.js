@@ -1,29 +1,59 @@
 // ═══════════════════════════════════════════════════════════
-// CORE/AR.JS — Logique AR, Radar, Ghost Mode, Gyroscope
+// CORE/AR.JS — Logique AR v2 : Pitch + Tilt Compensation + Smoothing
 // ═══════════════════════════════════════════════════════════
 
 let arStream = null;
 let arActive = false;
-let arHeading = 0;
-let rawH = 0;
-let heading = 0;
-let calibOffset = 0;
-let ghostMode = false;
 let arRAF = null;
 
-// ─── DÉMARRAGE AR ─────────────────────────────────────────────
+// Heading (horizontal) - boussole
+let rawHeading = 0;
+let heading = 0;
+let calibOffset = 0;
+
+// Pitch (vertical) - inclinaison avant/arrière
+let rawPitch = 0;
+let pitch = 0;
+
+// Roll - rotation gauche/droite (utile pour tilt compensation Android)
+let rawRoll = 0;
+
+// Position GPS lissée (moyenne glissante)
+let gpsBuffer = [];
+const GPS_BUFFER_SIZE = 5;
+
+// Ghost mode
+let ghostMode = false;
+
+// État capteurs
+let hasAbsoluteOrientation = false;
+let isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
+
+// ═══════════════════════════════════════════════════════════
+// DÉMARRAGE AR
+// ═══════════════════════════════════════════════════════════
+
 function startAR() {
   document.getElementById('nav-ar').classList.add('active');
   document.querySelectorAll('.n-btn:not(#nav-ar)').forEach(b => b.classList.remove('active'));
 
+  // Permission iOS 13+
   if (typeof DeviceOrientationEvent !== 'undefined' && typeof DeviceOrientationEvent.requestPermission === 'function') {
     DeviceOrientationEvent.requestPermission().then(perm => {
-      if (perm === 'granted') window.addEventListener('deviceorientation', handleOrientation, true);
+      if (perm === 'granted') {
+        window.addEventListener('deviceorientation', handleOrientation, true);
+      } else {
+        showToast('Permission orientation refusée');
+      }
     }).catch(() => {
       window.addEventListener('deviceorientation', handleOrientation, true);
     });
   } else {
-    window.addEventListener('deviceorientationabsolute', handleOrientation, true);
+    // Android : préfère deviceorientationabsolute (boussole absolue)
+    window.addEventListener('deviceorientationabsolute', (e) => {
+      hasAbsoluteOrientation = true;
+      handleOrientation(e);
+    }, true);
     window.addEventListener('deviceorientation', handleOrientation, true);
   }
 
@@ -32,10 +62,16 @@ function startAR() {
 
 async function _startARAsync() {
   try {
-    arStream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: { exact: 'environment' } }, audio: false });
+    arStream = await navigator.mediaDevices.getUserMedia({
+      video: { facingMode: { exact: 'environment' } },
+      audio: false
+    });
   } catch {
     try {
-      arStream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' }, audio: false });
+      arStream = await navigator.mediaDevices.getUserMedia({
+        video: { facingMode: 'environment' },
+        audio: false
+      });
     } catch {
       showToast('Caméra non disponible');
       return;
@@ -50,75 +86,221 @@ async function _startARAsync() {
   let gpsReady = false;
 
   navigator.geolocation?.watchPosition(pos => {
-    userLat = pos.coords.latitude;
-    userLng = pos.coords.longitude;
+    // Lissage GPS : moyenne glissante pour stabiliser
+    gpsBuffer.push({ lat: pos.coords.latitude, lng: pos.coords.longitude });
+    if (gpsBuffer.length > GPS_BUFFER_SIZE) gpsBuffer.shift();
+
+    const avg = gpsBuffer.reduce((acc, p) => ({ lat: acc.lat + p.lat, lng: acc.lng + p.lng }), { lat: 0, lng: 0 });
+    userLat = avg.lat / gpsBuffer.length;
+    userLng = avg.lng / gpsBuffer.length;
+
     if (!gpsReady) {
       gpsReady = true;
       pill.textContent = `GPS · ${pos.coords.accuracy.toFixed(0)}m`;
+    } else {
+      pill.textContent = `GPS · ${pos.coords.accuracy.toFixed(0)}m`;
     }
-  }, () => { pill.textContent = 'GPS erreur'; }, { enableHighAccuracy: true, maximumAge: 0, timeout: 15000 });
+  }, () => {
+    pill.textContent = 'GPS erreur';
+  }, {
+    enableHighAccuracy: true,
+    maximumAge: 0,
+    timeout: 15000
+  });
 
   arActive = true;
-  heading = rawH;
+  heading = rawHeading;
+  pitch = rawPitch;
   arLoop();
 }
 
-// ─── ARRÊT AR ─────────────────────────────────────────────────
+// ═══════════════════════════════════════════════════════════
+// ARRÊT AR
+// ═══════════════════════════════════════════════════════════
+
 function stopAR() {
   arActive = false;
   if (arRAF) { cancelAnimationFrame(arRAF); arRAF = null; }
   if (arStream) { arStream.getTracks().forEach(t => t.stop()); arStream = null; }
   if (ghostMode) { ghostMode = false; _applyGhostMode(false); }
+
   window.removeEventListener('deviceorientationabsolute', handleOrientation, true);
   window.removeEventListener('deviceorientation', handleOrientation, true);
+
   document.getElementById('ar-view').classList.remove('on');
   document.getElementById('ar-video').srcObject = null;
   document.getElementById('ar-ov').innerHTML = '';
   document.getElementById('nav-ar').classList.remove('active');
+
+  gpsBuffer = [];
 }
 
-// ─── BOUCLE AR ────────────────────────────────────────────────
+// ═══════════════════════════════════════════════════════════
+// GESTION ORIENTATION (boussole + inclinaison)
+// ═══════════════════════════════════════════════════════════
+
+function handleOrientation(e) {
+  // ─── HEADING (boussole horizontale) ────────────────────
+  let rawH = 0;
+
+  if (typeof e.webkitCompassHeading === 'number' && e.webkitCompassHeading >= 0) {
+    // iOS : valeur déjà compensée en tilt, c'est la meilleure source
+    rawH = e.webkitCompassHeading;
+  } else if (e.absolute === true && e.alpha != null) {
+    // Android avec boussole absolue
+    rawH = compensateCompassTilt(e.alpha, e.beta, e.gamma);
+  } else if (e.alpha != null) {
+    // Fallback : alpha brute (moins précis mais fonctionnel)
+    rawH = (360 - e.alpha) % 360;
+  }
+
+  rawHeading = (rawH - calibOffset + 360) % 360;
+
+  // ─── PITCH (inclinaison avant/arrière) ──────────────────
+  // beta: 0° = couché à plat, 90° = debout vertical
+  // On veut convertir pour que 0 = regard horizontal
+  if (e.beta != null) {
+    // beta va de -180 à 180. En usage AR (téléphone tenu devant soi)
+    // beta est généralement entre 0 et 90
+    // On veut : 0 = horizontal, +1 = regard vers le haut, -1 = regard vers le bas
+    rawPitch = 90 - e.beta; // Si beta=90 (téléphone vertical) → pitch=0 (regard horizontal)
+  }
+
+  // ─── ROLL (pour tilt compensation) ──────────────────────
+  if (e.gamma != null) {
+    rawRoll = e.gamma;
+  }
+
+  // Pour debug éventuel
+  window._rawCompass = rawH;
+  window._rawPitch = rawPitch;
+}
+
+/**
+ * Tilt compensation pour Android (sans webkitCompassHeading)
+ * Convertit alpha/beta/gamma en heading réel même si le téléphone est incliné
+ */
+function compensateCompassTilt(alpha, beta, gamma) {
+  if (alpha == null || beta == null || gamma == null) {
+    return (360 - (alpha || 0)) % 360;
+  }
+
+  const alphaRad = alpha * Math.PI / 180;
+  const betaRad = beta * Math.PI / 180;
+  const gammaRad = gamma * Math.PI / 180;
+
+  const cA = Math.cos(alphaRad), sA = Math.sin(alphaRad);
+  const cB = Math.cos(betaRad), sB = Math.sin(betaRad);
+  const cG = Math.cos(gammaRad), sG = Math.sin(gammaRad);
+
+  // Matrice de rotation pour projeter le nord magnétique
+  const rA = -cA * sG - sA * sB * cG;
+  const rB = -sA * sG + cA * sB * cG;
+
+  let heading = Math.atan2(rA, rB) * 180 / Math.PI;
+  if (heading < 0) heading += 360;
+
+  return heading;
+}
+
+// ═══════════════════════════════════════════════════════════
+// BOUCLE AR
+// ═══════════════════════════════════════════════════════════
+
 function arLoop() {
   if (!arActive) return;
 
-  heading = lerpAngle(heading, rawH, 0.08);
+  // ─── LISSAGE : lerp adaptatif ──────────────────────────
+  // Plus la différence est grande, plus on rattrape vite (éviter le lag visuel)
+  const diffH = angleDiff(rawHeading, heading);
+  const smoothH = Math.abs(diffH) > 15 ? 0.35 : 0.18;
+  heading = lerpAngle(heading, rawHeading, smoothH);
 
+  // Pitch : lissage plus doux car moins de bruit
+  pitch = pitch + (rawPitch - pitch) * 0.2;
+
+  // ─── DIMENSIONS & FOV ──────────────────────────────────
   const ov = document.getElementById('ar-ov');
   const W = ov.clientWidth;
   const H = ov.clientHeight;
-  const FOV = CONFIG.arFOV || 100;
+  const FOV_H = CONFIG.arFOV || 70;        // FOV horizontal caméra (~70° typique)
+  const FOV_V = (FOV_H * H) / W;           // FOV vertical dérivé du ratio écran
 
-  document.getElementById('ar-heading-text').textContent = Math.round(heading) + '° · AR Live';
+  document.getElementById('ar-heading-text').textContent =
+    Math.round(heading) + '° · AR';
+
   ov.innerHTML = '';
 
+  // ─── TRI POI par distance (plus loin = rendu en premier, donc en arrière) ─
   const poisWithDist = PLACES.map(p => ({
-    ...p, dist: calcDist(userLat, userLng, p.lat, p.lng),
+    ...p,
+    dist: calcDist(userLat, userLng, p.lat, p.lng),
+    bearing: getBearing(userLat, userLng, p.lat, p.lng)
   })).sort((a, b) => b.dist - a.dist);
 
   poisWithDist.forEach(poi => {
     if (poi.dist > (CONFIG.arRayonMax || 2000)) return;
 
-    const bear = getBearing(userLat, userLng, poi.lat, poi.lng);
-    let diff = bear - heading;
-    while (diff > 180) diff -= 360;
-    while (diff < -180) diff += 360;
-    if (Math.abs(diff) > FOV / 2) return;
+    // ─── ANGLE HORIZONTAL ────────────────────────────────
+    let diffH = poi.bearing - heading;
+    while (diffH > 180) diffH -= 360;
+    while (diffH < -180) diffH += 360;
 
-    const x = W / 2 + (diff / (FOV / 2)) * (W / 2);
-    const ratio = Math.pow(Math.min(poi.dist / 800, 1), 0.5);
-    const y = H * 0.72 - ratio * (H * 0.54);
-    const scale = 1.5 - ratio * 1.1;
-    const opacity = 1.0 - ratio * 0.45;
+    // POI hors du champ de vision horizontal → skip
+    if (Math.abs(diffH) > FOV_H / 2) return;
+
+    // ─── POSITION X (horizontale) ────────────────────────
+    const x = W / 2 + (diffH / (FOV_H / 2)) * (W / 2);
+
+    // ─── POSITION Y (verticale) — GROS CHANGEMENT ─────────
+    // On simule une altitude au niveau du sol
+    // Plus le POI est loin, plus il doit être haut sur l'écran (horizon)
+    // + On compense avec le pitch du téléphone
+
+    // Angle d'élévation apparent du POI (approximation simple)
+    // POI proche = bas dans le champ de vision, POI loin = proche de l'horizon
+    const poiElevationAngle = Math.atan2(-2, poi.dist) * 180 / Math.PI;
+    // -2 = hauteur approx du POI sous les yeux (2m en dessous du regard)
+
+    // Position Y : combinaison de l'élévation du POI et du pitch du téléphone
+    const verticalAngleFromCenter = poiElevationAngle + pitch;
+
+    // Conversion angle → pixels
+    const y = H / 2 - (verticalAngleFromCenter / (FOV_V / 2)) * (H / 2);
+
+    // POI hors du champ vertical → skip
+    if (y < -50 || y > H + 50) return;
+
+    // ─── TAILLE & OPACITÉ selon distance ──────────────────
+    const distRatio = Math.min(poi.dist / 1000, 1);
+    const scale = Math.max(0.5, 1.3 - distRatio * 0.7);
+    const opacity = Math.max(0.5, 1.0 - distRatio * 0.4);
+
     const col = CATS[poi.cat]?.color || '#333';
-    const distTxt = poi.dist < 1000 ? Math.round(poi.dist) + 'm' : (poi.dist / 1000).toFixed(1) + 'km';
+    const distTxt = poi.dist < 1000
+      ? Math.round(poi.dist) + 'm'
+      : (poi.dist / 1000).toFixed(1) + 'km';
 
+    // ─── CRÉATION ÉLÉMENT DOM ─────────────────────────────
     const el = document.createElement('div');
     el.className = 'arc';
-    el.style.cssText = `position:absolute;left:${x.toFixed(1)}px;top:${y.toFixed(1)}px;transform:translateX(-50%) scale(${scale.toFixed(3)});transform-origin:bottom center;opacity:${opacity.toFixed(2)};--cc:${col};`;
+    el.style.cssText = `
+      position:absolute;
+      left:${x.toFixed(1)}px;
+      top:${y.toFixed(1)}px;
+      transform:translate(-50%, -50%) scale(${scale.toFixed(3)});
+      transform-origin:center center;
+      opacity:${opacity.toFixed(2)};
+      --cc:${col};
+      will-change:transform, left, top;
+    `;
+
     el.innerHTML = `
       <div class="arc-bubble" style="--cc:${col}">
         <div class="arc-icon" style="background:${col};border-radius:50%;width:32px;height:32px;display:flex;align-items:center;justify-content:center;">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="white"><path d="M12 2C8 2 4 5 4 9c0 5 8 13 8 13s8-8 8-13c0-4-4-7-8-7z"/></svg>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="white">
+            <path d="M12 2C8 2 4 5 4 9c0 5 8 13 8 13s8-8 8-13c0-4-4-7-8-7z"/>
+          </svg>
         </div>
         <div class="arc-info">
           <div class="arc-name">${poi.name}</div>
@@ -126,29 +308,23 @@ function arLoop() {
         </div>
       </div>
       <div class="arc-stem"></div>
-      <div class="arc-dot" style="--cc:${col}"></div>`;
+      <div class="arc-dot" style="--cc:${col}"></div>
+    `;
 
-    el.onclick = () => { stopAR(); setTimeout(() => openImmersive(poi.id), 300); };
+    el.onclick = () => {
+      stopAR();
+      setTimeout(() => openImmersive(poi.id), 300);
+    };
+
     ov.appendChild(el);
   });
 
   arRAF = requestAnimationFrame(arLoop);
 }
 
-// ─── ORIENTATION ──────────────────────────────────────────────
-function handleOrientation(e) {
-  let raw = 0;
-  if (typeof e.webkitCompassHeading === 'number' && e.webkitCompassHeading >= 0) {
-    raw = e.webkitCompassHeading;
-  } else if (e.absolute === true && e.alpha != null) {
-    raw = (360 - e.alpha) % 360;
-  } else if (e.alpha != null) {
-    raw = (360 - e.alpha) % 360;
-  }
-  window._rawCompass = raw;
-  rawH = (raw - calibOffset + 360) % 360;
-  arHeading = rawH;
-}
+// ═══════════════════════════════════════════════════════════
+// UTILS ANGLES
+// ═══════════════════════════════════════════════════════════
 
 function lerpAngle(cur, tgt, t) {
   let d = tgt - cur;
@@ -157,7 +333,17 @@ function lerpAngle(cur, tgt, t) {
   return (cur + d * t + 360) % 360;
 }
 
-// ─── GHOST MODE ───────────────────────────────────────────────
+function angleDiff(a, b) {
+  let d = a - b;
+  while (d > 180) d -= 360;
+  while (d < -180) d += 360;
+  return d;
+}
+
+// ═══════════════════════════════════════════════════════════
+// GHOST MODE
+// ═══════════════════════════════════════════════════════════
+
 function toggleGhostMode() {
   ghostMode = !ghostMode;
   _applyGhostMode(ghostMode);
@@ -175,11 +361,11 @@ function toggleGhostMode() {
 }
 
 function _applyGhostMode(on) {
-  const video    = document.getElementById('ar-video');
-  const grain    = document.getElementById('ar-grain');
+  const video = document.getElementById('ar-video');
+  const grain = document.getElementById('ar-grain');
   const vignette = document.getElementById('ar-vignette');
-  const scratches= document.getElementById('ar-scratches');
-  const ghostOv  = document.getElementById('ar-ghost-ov');
+  const scratches = document.getElementById('ar-scratches');
+  const ghostOv = document.getElementById('ar-ghost-ov');
   if (on) {
     video.classList.add('ghost-mode');
     grain.classList.add('on');
@@ -199,7 +385,10 @@ function _applyGhostMode(on) {
   }
 }
 
-// ─── RADAR ────────────────────────────────────────────────────
+// ═══════════════════════════════════════════════════════════
+// RADAR (inchangé - ça marchait bien)
+// ═══════════════════════════════════════════════════════════
+
 function openRadar() {
   stopAR();
   document.getElementById('radar-view').classList.add('on');
@@ -217,8 +406,8 @@ function drawRadar() {
   if (!document.getElementById('radar-view').classList.contains('on')) return;
 
   const canvas = document.getElementById('radar-canvas');
-  const wrap   = document.getElementById('radar-canvas-wrap');
-  const size   = Math.min(wrap.clientWidth, wrap.clientHeight - 20);
+  const wrap = document.getElementById('radar-canvas-wrap');
+  const size = Math.min(wrap.clientWidth, wrap.clientHeight - 20);
   canvas.width = size; canvas.height = size;
   const ctx = canvas.getContext('2d');
   const cx = size / 2, cy = size / 2, r = size / 2 - 10;
@@ -311,7 +500,10 @@ function navigateToNearest() {
   if (nearest.p) { stopAR(); startNavigation(nearest.p); }
 }
 
-// ─── LIGHTBOX HISTORIQUE ──────────────────────────────────────
+// ═══════════════════════════════════════════════════════════
+// LIGHTBOX HISTORIQUE
+// ═══════════════════════════════════════════════════════════
+
 function openHistLightbox(src, caption) {
   document.getElementById('hist-lightbox-img').src = src;
   document.getElementById('hist-lightbox-caption').textContent = caption;
