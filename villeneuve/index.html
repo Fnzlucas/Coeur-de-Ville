@@ -3620,7 +3620,7 @@ function planRemove(key, idx) {
 
   <div id="onb-track">
 
-    <!-- S1 — Slide unique -->
+    <!-- PAGE 1 — Présentation -->
     <div class="onb-s" data-i="0">
       <div class="onb-s-inner">
 
@@ -3632,20 +3632,8 @@ function planRemove(key, idx) {
           <div class="onb-brand-tag">Application officielle · Villeneuve-lès-Avignon</div>
         </div>
 
-        <h1 class="onb-h">Votre ville,<br/><span class="onb-h-accent">en une seule app.</span></h1>
-        <p class="onb-p">Patrimoine, commerces locaux, agenda municipal et services — tout réuni pour habitants et visiteurs.</p>
-
-        <div class="onb-modules">
-          <div class="onb-mod"><span class="material-symbols-outlined" style="font-size:18px;color:#2D6A4F;font-variation-settings:'FILL' 1;">fort</span><span>Patrimoine & AR</span></div>
-          <div class="onb-mod"><span class="material-symbols-outlined" style="font-size:18px;color:#FF6B35;font-variation-settings:'FILL' 1;">storefront</span><span>Commerces</span></div>
-          <div class="onb-mod"><span class="material-symbols-outlined" style="font-size:18px;color:#3B5BDB;font-variation-settings:'FILL' 1;">event</span><span>Agenda</span></div>
-          <div class="onb-mod"><span class="material-symbols-outlined" style="font-size:18px;color:#e11d48;font-variation-settings:'FILL' 1;">emergency</span><span>Contacts</span></div>
-        </div>
-
-        <button onclick="closeOnboarding()" class="onb-start-btn">
-          <span class="material-symbols-outlined" style="font-size:18px;font-variation-settings:'FILL' 1;">explore</span>
-          Découvrir Villeneuve
-        </button>
+        <h1 class="onb-h">Bienvenue à<br/><span class="onb-h-accent">Villeneuve-lès-Avignon</span></h1>
+        <p class="onb-p">L'application officielle de votre ville, conçue pour habitants et visiteurs.</p>
 
         <div class="onb-mayor-card">
           <div class="onb-mayor-avatar">
@@ -3660,8 +3648,143 @@ function planRemove(key, idx) {
       </div>
     </div>
 
-      </div><!-- /track -->
+    <!-- PAGE 2 — Explication des fonctionnalités -->
+    <div class="onb-s" data-i="1">
+      <div class="onb-s-inner">
 
+        <div class="onb-logo-wrap">
+          <div class="onb-heart-ring" style="background:linear-gradient(135deg,#1e3a5f,#3B5BDB);">
+            <span class="material-symbols-outlined onb-heart-icon" style="font-size:28px;">apps</span>
+          </div>
+          <div class="onb-wordmark">Tout en un</div>
+          <div class="onb-brand-tag">4 modules essentiels</div>
+        </div>
+
+        <h2 class="onb-h">Ce que vous<br/><span class="onb-h-accent">pouvez faire</span></h2>
+        <p class="onb-p" style="margin-bottom:20px;">Une seule app pour tout explorer, tout trouver, tout vivre dans votre ville.</p>
+
+        <div class="onb-modules" style="margin-bottom:0;">
+          <div class="onb-mod" style="flex-direction:column;align-items:flex-start;gap:6px;padding:14px;">
+            <span class="material-symbols-outlined" style="font-size:22px;color:#2D6A4F;font-variation-settings:'FILL' 1;">fort</span>
+            <span style="font-size:13px;font-weight:800;color:#0f1923;">Patrimoine & AR</span>
+            <span style="font-size:11px;font-weight:500;color:#64748b;line-height:1.4;">Explorez les lieux historiques en réalité augmentée</span>
+          </div>
+          <div class="onb-mod" style="flex-direction:column;align-items:flex-start;gap:6px;padding:14px;">
+            <span class="material-symbols-outlined" style="font-size:22px;color:#FF6B35;font-variation-settings:'FILL' 1;">storefront</span>
+            <span style="font-size:13px;font-weight:800;color:#0f1923;">Commerces locaux</span>
+            <span style="font-size:11px;font-weight:500;color:#64748b;line-height:1.4;">Horaires, contacts et infos des boutiques du centre</span>
+          </div>
+          <div class="onb-mod" style="flex-direction:column;align-items:flex-start;gap:6px;padding:14px;">
+            <span class="material-symbols-outlined" style="font-size:22px;color:#3B5BDB;font-variation-settings:'FILL' 1;">event</span>
+            <span style="font-size:13px;font-weight:800;color:#0f1923;">Agenda municipal</span>
+            <span style="font-size:11px;font-weight:500;color:#64748b;line-height:1.4;">Événements, fêtes et manifestations à venir</span>
+          </div>
+          <div class="onb-mod" style="flex-direction:column;align-items:flex-start;gap:6px;padding:14px;">
+            <span class="material-symbols-outlined" style="font-size:22px;color:#e11d48;font-variation-settings:'FILL' 1;">emergency</span>
+            <span style="font-size:13px;font-weight:800;color:#0f1923;">Contacts d'urgence</span>
+            <span style="font-size:11px;font-weight:500;color:#64748b;line-height:1.4;">Mairie, police, pompiers et services essentiels</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- PAGE 3 — Autorisations GPS & Caméra -->
+    <div class="onb-s" data-i="2">
+      <div class="onb-s-inner">
+
+        <div class="onb-logo-wrap">
+          <div class="onb-heart-ring" style="background:linear-gradient(135deg,#0f5132,#2D6A4F);">
+            <span class="material-symbols-outlined onb-heart-icon" style="font-size:28px;">shield_person</span>
+          </div>
+          <div class="onb-wordmark">Autorisations</div>
+          <div class="onb-brand-tag">Nécessaires au bon fonctionnement</div>
+        </div>
+
+        <h2 class="onb-h">Pour une<br/><span class="onb-h-accent">expérience complète</span></h2>
+        <p class="onb-p" style="margin-bottom:20px;">Ces accès sont utilisés uniquement dans l'application, jamais partagés.</p>
+
+        <div style="width:100%;display:flex;flex-direction:column;gap:12px;margin-bottom:4px;">
+          <div class="onb-perm-card" id="perm-gps">
+            <div class="onb-perm-icon" style="background:#e8f5e9;">
+              <span class="material-symbols-outlined" style="font-size:24px;color:#2D6A4F;font-variation-settings:'FILL' 1;">my_location</span>
+            </div>
+            <div class="onb-perm-body">
+              <div class="onb-perm-title">Localisation GPS</div>
+              <div class="onb-perm-desc">Trouvez les POI et commerces à proximité, calculez les itinéraires.</div>
+            </div>
+            <button class="onb-perm-btn" id="btn-gps" onclick="requestGPS()">Autoriser</button>
+          </div>
+
+          <div class="onb-perm-card" id="perm-cam">
+            <div class="onb-perm-icon" style="background:#fff3e0;">
+              <span class="material-symbols-outlined" style="font-size:24px;color:#FF6B35;font-variation-settings:'FILL' 1;">photo_camera</span>
+            </div>
+            <div class="onb-perm-body">
+              <div class="onb-perm-title">Caméra</div>
+              <div class="onb-perm-desc">Utilisez la réalité augmentée pour explorer le patrimoine historique.</div>
+            </div>
+            <button class="onb-perm-btn" id="btn-cam" onclick="requestCamera()">Autoriser</button>
+          </div>
+        </div>
+
+        <p style="font-size:11px;color:#94a3b8;font-weight:500;text-align:center;line-height:1.5;margin-top:12px;">
+          Vous pouvez modifier ces autorisations à tout moment dans les réglages de votre appareil.
+        </p>
+
+      </div>
+    </div>
+
+    <!-- PAGE 4 — Accéder à l'application -->
+    <div class="onb-s" data-i="3">
+      <div class="onb-s-inner">
+
+        <div class="onb-logo-wrap">
+          <div class="onb-heart-ring" style="background:linear-gradient(135deg,#0f1923,#1e3a5f);box-shadow:0 0 0 8px rgba(59,91,219,0.15),0 8px 28px rgba(15,25,35,0.22);">
+            <span class="material-symbols-outlined onb-heart-icon">favorite</span>
+          </div>
+          <div class="onb-wordmark">Cœur de Ville</div>
+          <div class="onb-brand-tag">Tout est prêt !</div>
+        </div>
+
+        <h2 class="onb-h">Prêt à<br/><span class="onb-h-accent">explorer ?</span></h2>
+        <p class="onb-p" style="margin-bottom:28px;">Villeneuve-lès-Avignon n'attend plus que vous. Découvrez ses trésors, ses commerces et son agenda.</p>
+
+        <button onclick="closeOnboarding()" class="onb-start-btn">
+          <span class="material-symbols-outlined" style="font-size:18px;font-variation-settings:'FILL' 1;">explore</span>
+          Accéder à l'application
+        </button>
+
+        <div class="onb-mayor-card">
+          <div class="onb-mayor-avatar">
+            <span class="material-symbols-outlined" style="font-size:18px;color:#fff;font-variation-settings:'FILL' 1;">person</span>
+          </div>
+          <div class="onb-mayor-text">
+            <p>« Bienvenue dans notre belle ville. Bonne découverte ! »</p>
+            <span>Pascale Bories · Maire de Villeneuve-lès-Avignon</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </div><!-- /track -->
+
+  <!-- BARRE DE NAVIGATION BAS -->
+  <div id="onb-bar">
+    <div id="onb-dots-row">
+      <div class="onb-d active" onclick="onbGoto(0)"></div>
+      <div class="onb-d" onclick="onbGoto(1)"></div>
+      <div class="onb-d" onclick="onbGoto(2)"></div>
+      <div class="onb-d" onclick="onbGoto(3)"></div>
+    </div>
+    <div id="onb-actions">
+      <button id="onb-skip-btn" onclick="closeOnboarding()">Passer</button>
+      <button id="onb-next-btn" onclick="onbNext()">
+        Suivant <span class="material-symbols-outlined" style="font-size:16px;">arrow_forward</span>
+      </button>
+    </div>
+  </div>
 
 </div><!-- /onb -->
 
@@ -3669,22 +3792,48 @@ function planRemove(key, idx) {
 /* ── ONBOARDING ─────────────────────────────── */
 #onb {
   display:none;position:fixed;inset:0;z-index:9999;
-  flex-direction:column;align-items:center;justify-content:center;
+  flex-direction:column;align-items:center;
   background:#f4f6f9;
   font-family:'Manrope',sans-serif;
   -webkit-font-smoothing:antialiased;
-  padding:32px 24px;
   box-sizing:border-box;
+  overflow:hidden;
 }
 #onb.onb-on { display:flex !important; }
 
-#onb-track { width:100%;max-width:400px; }
+#onb-track {
+  flex:1;overflow-y:auto;width:100%;max-width:400px;
+  padding:32px 24px 12px;
+  -webkit-overflow-scrolling:touch;
+}
 
-.onb-s { width:100%; }
+.onb-s { width:100%;display:none; }
+.onb-s.on { display:block; }
 .onb-s-inner {
   display:flex;flex-direction:column;align-items:center;
   text-align:center;gap:0;
 }
+
+/* Permission cards */
+.onb-perm-card {
+  background:#fff;border:1.5px solid #e8edf2;border-radius:16px;
+  padding:14px 16px;display:flex;align-items:center;gap:12px;
+  box-shadow:0 1px 6px rgba(15,25,35,0.06);text-align:left;
+}
+.onb-perm-icon {
+  width:48px;height:48px;border-radius:14px;flex-shrink:0;
+  display:flex;align-items:center;justify-content:center;
+}
+.onb-perm-body { flex:1; }
+.onb-perm-title { font-size:13px;font-weight:800;color:#0f1923;margin-bottom:3px; }
+.onb-perm-desc { font-size:11px;color:#64748b;line-height:1.45;font-weight:500; }
+.onb-perm-btn {
+  flex-shrink:0;background:#0f1923;color:#fff;border:none;
+  border-radius:10px;padding:8px 13px;
+  font-family:'Manrope',sans-serif;font-size:12px;font-weight:700;
+  cursor:pointer;transition:all 0.18s;white-space:nowrap;
+}
+.onb-perm-btn:disabled { cursor:default; }
 
 /* Logo */
 .onb-logo-wrap {
@@ -3902,16 +4051,72 @@ function planRemove(key, idx) {
 
 <script>
 var ONB_KEY='cdv_onb_v101';
+var onbCurrent=0;
+var onbTotal=4;
+
 function initOnb(){
   localStorage.removeItem(ONB_KEY);
+  onbCurrent=0;
   document.getElementById('onb').classList.add('onb-on');
-  document.querySelector('.onb-s[data-i="0"]').classList.add('on');
+  onbRender();
 }
+
+function onbRender(){
+  document.querySelectorAll('.onb-s').forEach(function(s,i){
+    s.classList.toggle('on', i===onbCurrent);
+    s.style.display = i===onbCurrent ? '' : 'none';
+  });
+  document.querySelectorAll('.onb-d').forEach(function(d,i){
+    d.classList.toggle('active', i===onbCurrent);
+  });
+  var nextBtn=document.getElementById('onb-next-btn');
+  var skipBtn=document.getElementById('onb-skip-btn');
+  if(onbCurrent===onbTotal-1){
+    nextBtn.style.display='none';
+    skipBtn.style.display='none';
+  } else {
+    nextBtn.style.display='';
+    skipBtn.style.display='';
+  }
+}
+
+function onbNext(){
+  if(onbCurrent<onbTotal-1){ onbCurrent++; onbRender(); }
+}
+
+function onbGoto(i){
+  onbCurrent=i; onbRender();
+}
+
 function closeOnboarding(){
   localStorage.setItem(ONB_KEY,'1');
   var el=document.getElementById('onb');
   el.style.cssText='display:flex!important;opacity:0;transition:opacity 0.35s ease;pointer-events:none;position:fixed;inset:0;z-index:9999;flex-direction:column;background:#f4f6f9;';
   setTimeout(function(){el.classList.remove('onb-on');el.style.cssText='';},360);
 }
+
+function requestGPS(){
+  var btn=document.getElementById('btn-gps');
+  if(navigator.geolocation){
+    navigator.geolocation.getCurrentPosition(
+      function(){ btn.textContent='✓ Autorisé'; btn.style.background='#2D6A4F'; btn.style.color='#fff'; btn.disabled=true; },
+      function(){ btn.textContent='Refusé'; btn.style.background='#e8edf2'; btn.style.color='#94a3b8'; btn.disabled=true; }
+    );
+  } else {
+    btn.textContent='Non dispo'; btn.disabled=true;
+  }
+}
+
+function requestCamera(){
+  var btn=document.getElementById('btn-cam');
+  if(navigator.mediaDevices && navigator.mediaDevices.getUserMedia){
+    navigator.mediaDevices.getUserMedia({video:true})
+      .then(function(s){ s.getTracks().forEach(function(t){t.stop();}); btn.textContent='✓ Autorisé'; btn.style.background='#FF6B35'; btn.style.color='#fff'; btn.disabled=true; })
+      .catch(function(){ btn.textContent='Refusé'; btn.style.background='#e8edf2'; btn.style.color='#94a3b8'; btn.disabled=true; });
+  } else {
+    btn.textContent='Non dispo'; btn.disabled=true;
+  }
+}
+
 window.addEventListener('DOMContentLoaded',function(){initOnb();});
 </script>
