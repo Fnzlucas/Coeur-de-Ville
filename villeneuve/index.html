@@ -778,7 +778,12 @@ body { background: #f4f6f9; }
 .n-btn.active .material-symbols-outlined { color: #3B5BDB; }
 
 /* Scroll snap on carousels */
-.home-carousel { scroll-snap-type: x mandatory; }
+.home-carousel { 
+  scroll-snap-type: x mandatory;
+  scroll-padding-left: 20px;
+  padding-left: 20px !important;
+  padding-right: 20px !important;
+}
 .home-poi-card, .home-anecdote-card, .home-commerce-card, .com-card {
   scroll-snap-align: start;
 }
