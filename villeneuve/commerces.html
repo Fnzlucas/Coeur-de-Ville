@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1"/>
+<meta name="theme-color" content="#0f1923"/>
+<title>Commerces — Cœur de Ville</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800;900&family=Inter:wght@300;400;500;600&display=swap"/>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html,body{font-family:'Manrope',sans-serif;background:#f4f6f9;color:#0f1923;-webkit-overflow-scrolling:touch;}
+body{padding-bottom:88px;}
+
+/* ── HEADER ── */
+#app-header{
+  position:fixed;top:0;left:0;right:0;height:64px;z-index:1000;
+  background:rgba(255,255,255,0.94);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);
+  border-bottom:1px solid rgba(0,0,0,0.05);
+  box-shadow:0 2px 20px rgba(15,25,35,0.07);
+  display:flex;align-items:center;padding:0 16px;gap:8px;
+}
+#app-header .brand{font-family:Manrope;font-weight:900;font-size:16px;letter-spacing:-0.02em;display:flex;align-items:center;gap:6px;}
+#app-header .brand .heart{color:#0f1923;font-variation-settings:'FILL' 1;}
+#app-header .spacer{flex:1;}
+#app-header button{background:none;border:none;cursor:pointer;padding:6px;border-radius:50%;display:flex;color:#0f1923;}
+#app-header button:hover{background:rgba(0,0,0,0.05);}
+
+/* ── PAGE HEADER ── */
+.page-head{padding:80px 20px 16px;}
+.page-eyebrow{font-size:10px;font-weight:800;letter-spacing:0.2em;text-transform:uppercase;color:#FF6B35;margin-bottom:12px;display:flex;align-items:center;gap:8px;}
+.page-eyebrow::before{content:'';width:18px;height:2px;background:#FF6B35;border-radius:2px;display:inline-block;}
+.page-title{font-size:32px;font-weight:900;color:#0f1923;line-height:1.04;letter-spacing:-0.03em;}
+
+/* ── SEARCH ── */
+.search-wrap{padding:6px 20px 22px;}
+.search{
+  display:flex;align-items:center;background:#fff;border-radius:16px;
+  padding:0 16px;height:50px;box-shadow:0 2px 12px rgba(15,25,35,0.06);
+}
+.search .material-symbols-outlined{font-size:20px;color:#94a3b8;margin-right:10px;}
+.search input{
+  border:none;background:none;flex:1;
+  font-family:Manrope;font-size:14px;font-weight:500;color:#0f1923;outline:none;
+}
+.search input::placeholder{color:#94a3b8;font-weight:500;}
+
+/* ── SECTION HEADER ── */
+.section-head{padding:8px 20px 14px;}
+.section-eyebrow{font-size:10px;font-weight:800;letter-spacing:0.2em;text-transform:uppercase;color:#FF6B35;margin-bottom:10px;display:flex;align-items:center;gap:8px;}
+.section-eyebrow::before{content:'';width:18px;height:2px;background:#FF6B35;border-radius:2px;display:inline-block;}
+.section-title{font-size:22px;font-weight:900;color:#0f1923;line-height:1.1;letter-spacing:-0.02em;}
+
+/* ── CATEGORIES ── */
+.cat-grid{padding:0 20px 24px;display:grid;grid-template-columns:repeat(4,1fr);gap:10px;}
+.cat-tile{
+  background:#fff;border-radius:18px;
+  padding:14px 8px 12px;
+  text-align:center;cursor:pointer;transition:all 0.2s;
+  text-decoration:none;color:#0f1923;
+  display:flex;flex-direction:column;align-items:center;gap:8px;
+  box-shadow:0 1px 8px rgba(0,0,0,0.05);
+}
+.cat-tile:active{transform:scale(0.96);}
+.cat-tile.active{background:#0f1923;color:#fff;}
+.cat-icon{
+  width:38px;height:38px;border-radius:12px;background:#f4f6f9;
+  display:flex;align-items:center;justify-content:center;
+  color:#0f1923;transition:all 0.2s;
+}
+.cat-tile.active .cat-icon{background:rgba(255,255,255,0.15);color:#fff;}
+.cat-icon .material-symbols-outlined{font-size:20px;}
+.cat-name{font-size:11px;font-weight:800;line-height:1.2;font-family:Manrope;}
+.cat-count{font-size:10px;color:#94a3b8;font-weight:700;}
+.cat-tile.active .cat-count{color:rgba(255,255,255,0.7);}
+
+/* ── FEATURED ── */
+.featured-section{padding:0 20px 24px;}
+.featured-card{
+  position:relative;border-radius:26px;overflow:hidden;height:280px;
+  cursor:pointer;display:block;text-decoration:none;
+  box-shadow:0 16px 56px rgba(0,0,0,0.2);
+}
+.featured-ph{width:100%;height:100%;background:linear-gradient(135deg,#8B6F2C 0%,#4A3B1B 50%,#0f1923 100%);}
+.featured-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,0.82) 0%,rgba(0,0,0,0.25) 50%,transparent 100%);}
+.featured-content{position:absolute;bottom:0;left:0;right:0;padding:20px 22px 22px;}
+.featured-cat{font-size:10px;font-weight:800;letter-spacing:0.12em;text-transform:uppercase;color:rgba(255,255,255,0.7);margin-bottom:10px;}
+.featured-name{font-size:24px;font-weight:900;color:#fff;line-height:1.1;margin-bottom:10px;font-family:Manrope;letter-spacing:-0.02em;}
+.featured-meta{display:flex;align-items:center;gap:10px;font-size:12px;color:rgba(255,255,255,0.85);font-weight:600;}
+.featured-meta .material-symbols-outlined{font-size:14px;}
+.featured-meta .star{color:#F59E0B;}
+.featured-tag{
+  position:absolute;top:14px;left:14px;
+  backdrop-filter:blur(8px);background:rgba(255,107,53,0.95);
+  color:#fff;font-size:9px;font-weight:800;letter-spacing:0.1em;
+  text-transform:uppercase;padding:5px 10px;border-radius:20px;
+}
+.featured-status{
+  position:absolute;top:14px;right:14px;
+  backdrop-filter:blur(6px);background:rgba(22,163,74,0.92);
+  color:#fff;font-size:9px;font-weight:800;letter-spacing:0.08em;
+  text-transform:uppercase;padding:5px 10px;border-radius:20px;
+  display:flex;align-items:center;gap:5px;
+}
+.featured-status::before{content:'';width:5px;height:5px;background:#4ade80;border-radius:50%;}
+
+/* ── TABS ── */
+.tab-bar{
+  display:flex;gap:0;padding:0 20px;
+  border-bottom:1px solid #e8edf2;margin-bottom:14px;
+  overflow-x:auto;scrollbar-width:none;
+}
+.tab-bar::-webkit-scrollbar{display:none;}
+.tab{
+  background:none;border:none;padding:14px 4px;margin-right:24px;
+  font-family:Manrope;font-size:13px;font-weight:700;
+  color:#94a3b8;cursor:pointer;position:relative;white-space:nowrap;
+}
+.tab.active{color:#0f1923;font-weight:900;}
+.tab.active::after{
+  content:'';position:absolute;bottom:-1px;left:0;right:0;height:2px;background:#0f1923;
+}
+
+/* ── COMMERCE LIST ── */
+.commerces-list{padding:0 20px 32px;}
+.com-list-card{
+  background:#fff;border-radius:18px;overflow:hidden;
+  margin-bottom:10px;cursor:pointer;transition:transform 0.15s;
+  box-shadow:0 1px 8px rgba(0,0,0,0.06);display:flex;
+  text-decoration:none;color:inherit;
+}
+.com-list-card:active{transform:scale(0.98);}
+.com-list-img{width:108px;flex-shrink:0;position:relative;display:flex;align-items:center;justify-content:center;}
+.com-list-img .material-symbols-outlined{font-size:36px;color:rgba(255,255,255,0.85);}
+.com-list-status{
+  position:absolute;top:8px;left:8px;
+  background:rgba(22,163,74,0.95);
+  color:#fff;font-size:9px;font-weight:800;letter-spacing:0.05em;
+  padding:3px 8px;border-radius:20px;
+  display:flex;align-items:center;gap:4px;
+  text-transform:uppercase;
+}
+.com-list-status::before{content:'';width:5px;height:5px;background:#4ade80;border-radius:50%;}
+.com-list-status.closed{background:rgba(148,163,184,0.95);}
+.com-list-status.closed::before{background:#cbd5e1;}
+.com-list-body{flex:1;padding:13px 14px;display:flex;flex-direction:column;justify-content:space-between;min-width:0;}
+.com-list-cat{font-size:10px;font-weight:800;letter-spacing:0.1em;text-transform:uppercase;color:#FF6B35;margin-bottom:4px;}
+.com-list-name{font-size:15px;font-weight:900;color:#0f1923;line-height:1.2;font-family:Manrope;letter-spacing:-0.01em;margin-bottom:4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.com-list-desc{font-size:11px;color:#6b7280;line-height:1.4;margin-bottom:8px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;}
+.com-list-meta{display:flex;align-items:center;gap:8px;font-size:11px;color:#94a3b8;font-weight:700;}
+.com-list-rating{display:flex;align-items:center;gap:3px;color:#0f1923;font-weight:900;}
+.com-list-rating .material-symbols-outlined{font-size:13px;color:#F59E0B;font-variation-settings:'FILL' 1;}
+
+/* ── BOTTOM NAV ── */
+#bottomnav{
+  position:fixed;bottom:0;left:0;right:0;z-index:1000;
+  padding:0 14px calc(env(safe-area-inset-bottom,0px) + 10px);
+  background:transparent;pointer-events:none;
+}
+#bottomnav > *{pointer-events:all;}
+.nav-inner{
+  background:rgba(255,255,255,0.96);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);
+  border-radius:20px;
+  display:flex;align-items:center;justify-content:space-around;
+  padding:10px 8px;
+  box-shadow:0 4px 32px rgba(15,25,35,0.12),0 1px 0 rgba(255,255,255,0.8) inset;
+}
+.n-btn{background:none!important;border:none;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:3px;padding:6px 14px;border-radius:0;transition:color 0.2s;color:#94a3b8;-webkit-tap-highlight-color:transparent;font-family:Manrope;}
+.n-btn .material-symbols-outlined{font-size:22px;}
+.n-btn .lbl{font-size:9px;font-weight:700;letter-spacing:0.06em;text-transform:uppercase;}
+.n-btn.active{color:#0f1923;}
+.n-btn.active .material-symbols-outlined{font-variation-settings:'FILL' 1,'wght' 600;}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header id="app-header">
+  <button onclick="history.back()" aria-label="Retour">
+    <span class="material-symbols-outlined">arrow_back</span>
+  </button>
+  <div class="brand">
+    <span class="material-symbols-outlined heart">favorite</span>
+    <span>Cœur de Ville</span>
+  </div>
+  <div class="spacer"></div>
+  <button aria-label="Recherche">
+    <span class="material-symbols-outlined">search</span>
+  </button>
+</header>
+
+<!-- PAGE HEADER -->
+<section class="page-head">
+  <div class="page-eyebrow">Vivre Villeneuve</div>
+  <h1 class="page-title">Les commerces<br>de votre ville</h1>
+</section>
+
+<!-- SEARCH -->
+<div class="search-wrap">
+  <div class="search">
+    <span class="material-symbols-outlined">search</span>
+    <input type="text" placeholder="Rechercher un commerce, un artisan…">
+  </div>
+</div>
+
+<!-- CATEGORIES -->
+<div class="section-head">
+  <div class="section-eyebrow">Catégories</div>
+  <h2 class="section-title">Trouvez ce qu'il vous faut</h2>
+</div>
+
+<div class="cat-grid">
+  <a class="cat-tile active" href="#">
+    <div class="cat-icon"><span class="material-symbols-outlined">apps</span></div>
+    <span class="cat-name">Tout</span>
+    <span class="cat-count">87</span>
+  </a>
+  <a class="cat-tile" href="#">
+    <div class="cat-icon"><span class="material-symbols-outlined">restaurant</span></div>
+    <span class="cat-name">Restos</span>
+    <span class="cat-count">23</span>
+  </a>
+  <a class="cat-tile" href="#">
+    <div class="cat-icon"><span class="material-symbols-outlined">shopping_bag</span></div>
+    <span class="cat-name">Boutiques</span>
+    <span class="cat-count">19</span>
+  </a>
+  <a class="cat-tile" href="#">
+    <div class="cat-icon"><span class="material-symbols-outlined">handyman</span></div>
+    <span class="cat-name">Artisans</span>
+    <span class="cat-count">15</span>
+  </a>
+  <a class="cat-tile" href="#">
+    <div class="cat-icon"><span class="material-symbols-outlined">grocery</span></div>
+    <span class="cat-name">Alimentation</span>
+    <span class="cat-count">12</span>
+  </a>
+  <a class="cat-tile" href="#">
+    <div class="cat-icon"><span class="material-symbols-outlined">bed</span></div>
+    <span class="cat-name">Hébergement</span>
+    <span class="cat-count">8</span>
+  </a>
+  <a class="cat-tile" href="#">
+    <div class="cat-icon"><span class="material-symbols-outlined">spa</span></div>
+    <span class="cat-name">Bien-être</span>
+    <span class="cat-count">7</span>
+  </a>
+  <a class="cat-tile" href="#">
+    <div class="cat-icon"><span class="material-symbols-outlined">business_center</span></div>
+    <span class="cat-name">Services</span>
+    <span class="cat-count">3</span>
+  </a>
+</div>
+
+<!-- À LA UNE -->
+<div class="section-head">
+  <div class="section-eyebrow">À la une</div>
+  <h2 class="section-title">Le coup de cœur du moment</h2>
+</div>
+
+<div class="featured-section">
+  <a href="#" class="featured-card">
+    <div class="featured-ph"></div>
+    <div class="featured-overlay"></div>
+    <span class="featured-tag">Coup de cœur</span>
+    <span class="featured-status">Ouvert</span>
+    <div class="featured-content">
+      <div class="featured-cat">Restaurant gastronomique</div>
+      <h3 class="featured-name">La Magnaneraie</h3>
+      <div class="featured-meta">
+        <span class="material-symbols-outlined star">star</span>
+        <span>4,8</span>
+        <span>·</span>
+        <span>€€€€</span>
+        <span>·</span>
+        <span class="material-symbols-outlined">location_on</span>
+        <span>Rue de la Foire</span>
+      </div>
+    </div>
+  </a>
+</div>
+
+<!-- TABS -->
+<div class="tab-bar">
+  <button class="tab active">Populaires</button>
+  <button class="tab">Ouverts maintenant</button>
+  <button class="tab">À proximité</button>
+  <button class="tab">Nouveaux</button>
+</div>
+
+<!-- COMMERCES LIST -->
+<div class="commerces-list">
+
+  <a href="#" class="com-list-card">
+    <div class="com-list-img" style="background:linear-gradient(135deg,#B8927A 0%,#6B4226 100%);">
+      <span class="material-symbols-outlined">restaurant</span>
+      <span class="com-list-status">Ouvert</span>
+    </div>
+    <div class="com-list-body">
+      <div>
+        <div class="com-list-cat">Restaurant</div>
+        <div class="com-list-name">Le Saint-André</div>
+        <div class="com-list-desc">Cuisine de marché et accents provençaux dans un cadre intimiste.</div>
+      </div>
+      <div class="com-list-meta">
+        <span class="com-list-rating"><span class="material-symbols-outlined">star</span>4,7</span>
+        <span>·</span><span>€€€</span><span>·</span><span>320 m</span>
+      </div>
+    </div>
+  </a>
+
+  <a href="#" class="com-list-card">
+    <div class="com-list-img" style="background:linear-gradient(135deg,#6B7B6E 0%,#2C3E2D 100%);">
+      <span class="material-symbols-outlined">bakery_dining</span>
+      <span class="com-list-status">Ouvert</span>
+    </div>
+    <div class="com-list-body">
+      <div>
+        <div class="com-list-cat">Boulangerie</div>
+        <div class="com-list-name">La Mie de Villeneuve</div>
+        <div class="com-list-desc">Pains au levain, viennoiseries pur beurre, tartes de saison.</div>
+      </div>
+      <div class="com-list-meta">
+        <span class="com-list-rating"><span class="material-symbols-outlined">star</span>4,9</span>
+        <span>·</span><span>€</span><span>·</span><span>180 m</span>
+      </div>
+    </div>
+  </a>
+
+  <a href="#" class="com-list-card">
+    <div class="com-list-img" style="background:linear-gradient(135deg,#C9A961 0%,#8B6F2C 100%);">
+      <span class="material-symbols-outlined">wine_bar</span>
+      <span class="com-list-status">Ouvert</span>
+    </div>
+    <div class="com-list-body">
+      <div>
+        <div class="com-list-cat">Cave & Épicerie fine</div>
+        <div class="com-list-name">Les Caves de la Tour</div>
+        <div class="com-list-desc">Vins du Rhône, huiles d'olive AOP et produits du terroir.</div>
+      </div>
+      <div class="com-list-meta">
+        <span class="com-list-rating"><span class="material-symbols-outlined">star</span>4,8</span>
+        <span>·</span><span>€€</span><span>·</span><span>450 m</span>
+      </div>
+    </div>
+  </a>
+
+  <a href="#" class="com-list-card">
+    <div class="com-list-img" style="background:linear-gradient(135deg,#A89B82 0%,#5C5346 100%);">
+      <span class="material-symbols-outlined">palette</span>
+      <span class="com-list-status closed">Fermé</span>
+    </div>
+    <div class="com-list-body">
+      <div>
+        <div class="com-list-cat">Atelier d'art</div>
+        <div class="com-list-name">Atelier Céramique d'Olivier</div>
+        <div class="com-list-desc">Création et vente de poteries artisanales. Ouvre à 14h.</div>
+      </div>
+      <div class="com-list-meta">
+        <span class="com-list-rating"><span class="material-symbols-outlined">star</span>5,0</span>
+        <span>·</span><span>€€</span><span>·</span><span>610 m</span>
+      </div>
+    </div>
+  </a>
+
+  <a href="#" class="com-list-card">
+    <div class="com-list-img" style="background:linear-gradient(135deg,#D4C5A9 0%,#8B7355 100%);">
+      <span class="material-symbols-outlined">storefront</span>
+      <span class="com-list-status">Ouvert</span>
+    </div>
+    <div class="com-list-body">
+      <div>
+        <div class="com-list-cat">Concept store</div>
+        <div class="com-list-name">Maison Jeanne</div>
+        <div class="com-list-desc">Mode, déco et art de vivre. Sélection de créateurs français.</div>
+      </div>
+      <div class="com-list-meta">
+        <span class="com-list-rating"><span class="material-symbols-outlined">star</span>4,6</span>
+        <span>·</span><span>€€</span><span>·</span><span>240 m</span>
+      </div>
+    </div>
+  </a>
+
+  <a href="#" class="com-list-card">
+    <div class="com-list-img" style="background:linear-gradient(135deg,#8B6F2C 0%,#4A3B1B 100%);">
+      <span class="material-symbols-outlined">local_bar</span>
+      <span class="com-list-status">Ouvert</span>
+    </div>
+    <div class="com-list-body">
+      <div>
+        <div class="com-list-cat">Bistrot</div>
+        <div class="com-list-name">Le Chartreux</div>
+        <div class="com-list-desc">Bistrot de quartier, ardoise du jour et vins choisis.</div>
+      </div>
+      <div class="com-list-meta">
+        <span class="com-list-rating"><span class="material-symbols-outlined">star</span>4,5</span>
+        <span>·</span><span>€€</span><span>·</span><span>380 m</span>
+      </div>
+    </div>
+  </a>
+
+  <a href="#" class="com-list-card">
+    <div class="com-list-img" style="background:linear-gradient(135deg,#B8927A 0%,#6B4226 100%);">
+      <span class="material-symbols-outlined">cake</span>
+      <span class="com-list-status">Ouvert</span>
+    </div>
+    <div class="com-list-body">
+      <div>
+        <div class="com-list-cat">Fromagerie</div>
+        <div class="com-list-name">L'Affineur du Rocher</div>
+        <div class="com-list-desc">Fromages fermiers et affinages maison. Conseils et dégustations.</div>
+      </div>
+      <div class="com-list-meta">
+        <span class="com-list-rating"><span class="material-symbols-outlined">star</span>4,9</span>
+        <span>·</span><span>€€</span><span>·</span><span>290 m</span>
+      </div>
+    </div>
+  </a>
+
+</div>
+
+<!-- BOTTOM NAV -->
+<nav id="bottomnav">
+<div class="nav-inner">
+  <button class="n-btn" onclick="window.location.href='index.html'">
+    <span class="material-symbols-outlined">home</span>
+    <span class="lbl">Accueil</span>
+  </button>
+  <button class="n-btn" onclick="window.location.href='carte.html'">
+    <span class="material-symbols-outlined">explore</span>
+    <span class="lbl">Carte</span>
+  </button>
+  <button class="n-btn active">
+    <span class="material-symbols-outlined">storefront</span>
+    <span class="lbl">Commerces</span>
+  </button>
+  <button class="n-btn" onclick="window.location.href='agenda.html'">
+    <span class="material-symbols-outlined">event</span>
+    <span class="lbl">Agenda</span>
+  </button>
+</div>
+</nav>
+
+<script>
+document.querySelectorAll('.cat-tile').forEach(function(t){
+  t.addEventListener('click',function(e){
+    e.preventDefault();
+    document.querySelectorAll('.cat-tile').forEach(function(x){x.classList.remove('active');});
+    t.classList.add('active');
+  });
+});
+document.querySelectorAll('.tab').forEach(function(t){
+  t.addEventListener('click',function(){
+    document.querySelectorAll('.tab').forEach(function(x){x.classList.remove('active');});
+    t.classList.add('active');
+  });
+});
+</script>
+
+</body>
+</html>
