@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Agenda — Cœur de Ville</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+  :root {
+    --bg: #F1F2F4;
+    --surface: #FFFFFF;
+    --ink: #0A0A0A;
+    --ink-soft: #4A4A4A;
+    --ink-muted: #8A8A8A;
+    --line: #E4E6EA;
+    --accent: #2563EB;
+    --orange: #FF6B2C;
+    --green: #10B981;
+  }
+  html, body {
+    background: var(--bg); color: var(--ink);
+    font-family: 'Plus Jakarta Sans', -apple-system, sans-serif;
+    font-weight: 500; -webkit-font-smoothing: antialiased; overflow-x: hidden;
+  }
+  body { padding-bottom: 110px; }
+
+  .top-header {
+    position: sticky; top: 0; z-index: 100; background: var(--bg);
+    padding: 14px 20px;
+    display: grid; grid-template-columns: 40px 1fr 40px; align-items: center;
+  }
+  .icon-btn {
+    width: 40px; height: 40px;
+    display: flex; align-items: center; justify-content: center;
+    background: none; border: none; color: var(--ink); cursor: pointer; border-radius: 50%;
+  }
+  .icon-btn svg { width: 22px; height: 22px; }
+  .logo {
+    display: flex; align-items: center; justify-content: center; gap: 8px;
+    font-size: 18px; font-weight: 700; letter-spacing: -0.01em;
+  }
+  .logo-heart { width: 22px; height: 22px; color: var(--ink); }
+
+  .hero { padding: 24px 20px 24px; }
+  .hero-eyebrow { display: flex; align-items: center; gap: 10px; margin-bottom: 14px; }
+  .eyebrow-line { width: 24px; height: 2px; background: var(--orange); }
+  .eyebrow-text {
+    font-size: 12px; font-weight: 700; letter-spacing: 0.1em;
+    text-transform: uppercase; color: var(--orange);
+  }
+  .hero-title {
+    font-size: 34px; font-weight: 800; line-height: 1.1;
+    letter-spacing: -0.02em; color: var(--ink);
+  }
+
+  .month-bar {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 20px 16px;
+  }
+  .month-bar button {
+    width: 40px; height: 40px;
+    background: var(--surface); border: 1px solid var(--line); border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer; color: var(--ink);
+  }
+  .month-bar button svg { width: 18px; height: 18px; }
+  .month-display { font-size: 18px; font-weight: 700; letter-spacing: -0.01em; }
+
+  .mini-cal {
+    background: var(--surface); margin: 0 20px 24px;
+    padding: 18px 16px; border-radius: 20px;
+  }
+  .mini-cal-header {
+    display: grid; grid-template-columns: repeat(7, 1fr); margin-bottom: 10px;
+  }
+  .mini-cal-header span {
+    text-align: center; font-size: 11px; font-weight: 700;
+    color: var(--ink-muted); letter-spacing: 0.05em; text-transform: uppercase;
+  }
+  .mini-cal-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; }
+  .cal-day {
+    aspect-ratio: 1; display: flex; align-items: center; justify-content: center;
+    font-size: 14px; font-weight: 600; color: var(--ink);
+    border-radius: 12px; cursor: pointer; position: relative; transition: all 0.15s;
+  }
+  .cal-day:hover { background: var(--bg); }
+  .cal-day.has-event::after {
+    content: ''; width: 4px; height: 4px; background: var(--accent);
+    border-radius: 50%; position: absolute; bottom: 5px;
+  }
+  .cal-day.active { background: var(--accent); color: #fff; }
+  .cal-day.active.has-event::after { background: #fff; }
+  .cal-day.muted { color: var(--ink-muted); opacity: 0.35; }
+
+  .section-head {
+    padding: 8px 20px 14px;
+    display: flex; align-items: baseline; justify-content: space-between;
+  }
+  .section-eyebrow { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; }
+  .section-eyebrow .line { width: 20px; height: 2px; background: var(--orange); }
+  .section-eyebrow span {
+    font-size: 11px; font-weight: 700; color: var(--orange);
+    letter-spacing: 0.1em; text-transform: uppercase;
+  }
+  .section-title { font-size: 22px; font-weight: 800; letter-spacing: -0.01em; }
+
+  .filters { padding: 0 20px 16px; overflow-x: auto; -webkit-overflow-scrolling: touch; scrollbar-width: none; }
+  .filters::-webkit-scrollbar { display: none; }
+  .filters-row { display: flex; gap: 8px; width: max-content; }
+  .filter-chip {
+    background: var(--surface); border: 1px solid var(--line); color: var(--ink);
+    padding: 10px 18px; border-radius: 100px;
+    font-size: 13px; font-weight: 600; font-family: inherit;
+    cursor: pointer; white-space: nowrap; transition: all 0.2s;
+  }
+  .filter-chip.active { background: var(--ink); color: #fff; border-color: var(--ink); }
+
+  .featured-section { padding: 0 20px 28px; }
+  .featured-card {
+    border-radius: 24px; overflow: hidden; position: relative;
+    height: 280px; background: linear-gradient(135deg, #4A5D4E 0%, #1F2A21 100%);
+    display: flex; align-items: flex-end; padding: 20px; color: #fff; cursor: pointer;
+  }
+  .featured-card::before {
+    content: ''; position: absolute; inset: 0;
+    background: linear-gradient(to top, rgba(0,0,0,0.78) 0%, transparent 55%);
+  }
+  .featured-content { position: relative; z-index: 2; width: 100%; }
+  .featured-tag {
+    display: inline-flex; align-items: center; gap: 5px;
+    background: var(--orange); color: #fff;
+    font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase;
+    padding: 6px 11px; border-radius: 6px; margin-bottom: 14px;
+  }
+  .featured-title {
+    font-size: 26px; font-weight: 800; line-height: 1.15;
+    margin-bottom: 8px; letter-spacing: -0.015em;
+  }
+  .featured-meta {
+    display: flex; align-items: center; gap: 8px;
+    font-size: 13px; font-weight: 500; opacity: 0.95;
+  }
+  .featured-meta .dot { opacity: 0.5; }
+
+  .timeline { padding: 0 20px 32px; }
+  .day-group { margin-bottom: 28px; }
+  .day-header { display: flex; align-items: center; gap: 14px; margin-bottom: 14px; }
+  .day-number-box {
+    width: 56px; height: 56px;
+    background: var(--surface); border-radius: 16px;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    flex-shrink: 0;
+  }
+  .day-number { font-size: 22px; font-weight: 800; line-height: 1; letter-spacing: -0.02em; }
+  .day-month-mini {
+    font-size: 9px; font-weight: 700; letter-spacing: 0.1em;
+    text-transform: uppercase; color: var(--ink-muted); margin-top: 2px;
+  }
+  .day-info { display: flex; flex-direction: column; gap: 2px; flex: 1; }
+  .day-name { font-size: 16px; font-weight: 700; letter-spacing: -0.01em; }
+  .day-count { font-size: 12px; font-weight: 500; color: var(--ink-muted); }
+  .day-badge {
+    background: var(--orange); color: #fff;
+    font-size: 10px; font-weight: 700; padding: 4px 10px;
+    border-radius: 100px; letter-spacing: 0.04em; text-transform: uppercase;
+  }
+
+  .event-card {
+    background: var(--surface); border-radius: 20px; overflow: hidden;
+    margin-bottom: 12px; cursor: pointer; transition: transform 0.15s ease;
+  }
+  .event-card:active { transform: scale(0.98); }
+  .event-img {
+    width: 100%; height: 180px;
+    background: linear-gradient(135deg, #D4C5A9 0%, #8B7355 100%);
+    position: relative; overflow: hidden;
+  }
+  .event-img.img-2 { background: linear-gradient(135deg, #6B7B6E 0%, #2C3E2D 100%); }
+  .event-img.img-3 { background: linear-gradient(135deg, #C9A961 0%, #8B6F2C 100%); }
+  .event-img.img-4 { background: linear-gradient(135deg, #A89B82 0%, #5C5346 100%); }
+  .event-img.img-5 { background: linear-gradient(135deg, #B8927A 0%, #6B4226 100%); }
+  .event-tag {
+    position: absolute; top: 14px; left: 14px;
+    background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px);
+    color: var(--ink);
+    font-size: 10px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase;
+    padding: 6px 10px; border-radius: 8px;
+  }
+  .event-time-badge {
+    position: absolute; top: 14px; right: 14px;
+    background: var(--ink); color: #fff;
+    font-size: 12px; font-weight: 700;
+    padding: 6px 12px; border-radius: 8px;
+  }
+  .event-body { padding: 16px 18px 18px; }
+  .event-title {
+    font-size: 17px; font-weight: 700; line-height: 1.3;
+    letter-spacing: -0.01em; margin-bottom: 8px;
+  }
+  .event-place {
+    font-size: 13px; color: var(--ink-muted); font-weight: 500;
+    display: flex; align-items: center; gap: 5px; margin-bottom: 14px;
+  }
+  .event-place svg { width: 13px; height: 13px; flex-shrink: 0; }
+  .event-footer {
+    display: flex; align-items: center; justify-content: space-between;
+    padding-top: 14px; border-top: 1px solid var(--line);
+  }
+  .event-price { font-size: 14px; font-weight: 700; color: var(--ink); }
+  .event-price.free { color: var(--green); }
+  .event-cta {
+    background: var(--accent); color: #fff; border: none; font-family: inherit;
+    font-size: 13px; font-weight: 700;
+    padding: 9px 16px; border-radius: 100px; cursor: pointer;
+    display: flex; align-items: center; gap: 5px;
+  }
+  .event-cta svg { width: 14px; height: 14px; }
+
+  .bottom-nav {
+    position: fixed; bottom: 16px; left: 16px; right: 16px; z-index: 100;
+    background: var(--surface); border-radius: 100px; padding: 10px 8px;
+    display: grid; grid-template-columns: repeat(4, 1fr);
+    box-shadow: 0 8px 32px rgba(0,0,0,0.08), 0 1px 3px rgba(0,0,0,0.04);
+  }
+  .nav-item {
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    gap: 3px; padding: 6px 4px;
+    color: var(--ink-muted); text-decoration: none;
+    font-size: 10px; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase;
+    transition: color 0.2s;
+  }
+  .nav-item.active { color: var(--accent); }
+  .nav-item svg { width: 22px; height: 22px; }
+</style>
+</head>
+<body>
+
+<header class="top-header">
+  <button class="icon-btn" onclick="history.back()" aria-label="Retour">
+    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M15 19l-7-7 7-7"/></svg>
+  </button>
+  <div class="logo">
+    <svg class="logo-heart" viewBox="0 0 24 24" fill="currentColor"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+    Cœur de Ville
+  </div>
+  <button class="icon-btn" aria-label="Recherche">
+    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+  </button>
+</header>
+
+<section class="hero">
+  <div class="hero-eyebrow">
+    <span class="eyebrow-line"></span>
+    <span class="eyebrow-text">Que faire à Villeneuve</span>
+  </div>
+  <h1 class="hero-title">L'agenda<br>de votre ville</h1>
+</section>
+
+<div class="month-bar">
+  <button aria-label="Mois précédent"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M15 19l-7-7 7-7"/></svg></button>
+  <div class="month-display">Avril 2026</div>
+  <button aria-label="Mois suivant"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"/></svg></button>
+</div>
+
+<div class="mini-cal">
+  <div class="mini-cal-header"><span>L</span><span>M</span><span>M</span><span>J</span><span>V</span><span>S</span><span>D</span></div>
+  <div class="mini-cal-grid">
+    <div class="cal-day muted">30</div><div class="cal-day muted">31</div>
+    <div class="cal-day">1</div><div class="cal-day has-event">2</div><div class="cal-day">3</div><div class="cal-day has-event">4</div><div class="cal-day has-event">5</div>
+    <div class="cal-day">6</div><div class="cal-day">7</div><div class="cal-day has-event">8</div><div class="cal-day">9</div><div class="cal-day">10</div><div class="cal-day has-event">11</div><div class="cal-day has-event">12</div>
+    <div class="cal-day">13</div><div class="cal-day">14</div><div class="cal-day">15</div><div class="cal-day has-event">16</div><div class="cal-day has-event">17</div><div class="cal-day has-event">18</div><div class="cal-day has-event">19</div>
+    <div class="cal-day">20</div><div class="cal-day">21</div><div class="cal-day">22</div><div class="cal-day">23</div><div class="cal-day has-event">24</div><div class="cal-day active has-event">25</div><div class="cal-day has-event">26</div>
+    <div class="cal-day">27</div><div class="cal-day">28</div><div class="cal-day">29</div><div class="cal-day">30</div>
+  </div>
+</div>
+
+<div class="section-head">
+  <div>
+    <div class="section-eyebrow"><span class="line"></span><span>À la une</span></div>
+    <h2 class="section-title">L'événement du moment</h2>
+  </div>
+</div>
+
+<div class="featured-section">
+  <article class="featured-card">
+    <div class="featured-content">
+      <span class="featured-tag">Festival</span>
+      <h3 class="featured-title">Les Rencontres de la Chartreuse</h3>
+      <div class="featured-meta">
+        <span>26 avril → 4 mai</span><span class="dot">•</span><span>Chartreuse</span>
+      </div>
+    </div>
+  </article>
+</div>
+
+<div class="section-head">
+  <div>
+    <div class="section-eyebrow"><span class="line"></span><span>Cette semaine</span></div>
+    <h2 class="section-title">12 événements à venir</h2>
+  </div>
+</div>
+
+<div class="filters">
+  <div class="filters-row">
+    <button class="filter-chip active">Tout</button>
+    <button class="filter-chip">Aujourd'hui</button>
+    <button class="filter-chip">Ce week-end</button>
+    <button class="filter-chip">Concerts</button>
+    <button class="filter-chip">Expositions</button>
+    <button class="filter-chip">Marchés</button>
+    <button class="filter-chip">Patrimoine</button>
+    <button class="filter-chip">Famille</button>
+  </div>
+</div>
+
+<div class="timeline">
+
+  <div class="day-group">
+    <div class="day-header">
+      <div class="day-number-box"><span class="day-number">25</span><span class="day-month-mini">Avril</span></div>
+      <div class="day-info"><span class="day-name">Vendredi</span><span class="day-count">2 événements</span></div>
+      <span class="day-badge">Aujourd'hui</span>
+    </div>
+    <article class="event-card">
+      <div class="event-img img-2">
+        <span class="event-tag">Concert</span><span class="event-time-badge">20h30</span>
+      </div>
+      <div class="event-body">
+        <h3 class="event-title">Quatuor à cordes Sirba</h3>
+        <p class="event-place"><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>Église Notre-Dame</p>
+        <div class="event-footer">
+          <span class="event-price">18 €</span>
+          <button class="event-cta">Réserver<svg fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg></button>
+        </div>
+      </div>
+    </article>
+    <article class="event-card">
+      <div class="event-img img-3">
+        <span class="event-tag">Marché</span><span class="event-time-badge">8h — 13h</span>
+      </div>
+      <div class="event-body">
+        <h3 class="event-title">Marché des producteurs</h3>
+        <p class="event-place"><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>Place Charles David</p>
+        <div class="event-footer">
+          <span class="event-price free">Gratuit</span>
+          <button class="event-cta">Voir<svg fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg></button>
+        </div>
+      </div>
+    </article>
+  </div>
+
+  <div class="day-group">
+    <div class="day-header">
+      <div class="day-number-box"><span class="day-number">26</span><span class="day-month-mini">Avril</span></div>
+      <div class="day-info"><span class="day-name">Samedi</span><span class="day-count">3 événements</span></div>
+    </div>
+    <article class="event-card">
+      <div class="event-img img-4">
+        <span class="event-tag">Visite guidée</span><span class="event-time-badge">10h00</span>
+      </div>
+      <div class="event-body">
+        <h3 class="event-title">Tour Philippe le Bel — visite contée</h3>
+        <p class="event-place"><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>Tour Philippe le Bel</p>
+        <div class="event-footer">
+          <span class="event-price">8 €</span>
+          <button class="event-cta">Réserver<svg fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg></button>
+        </div>
+      </div>
+    </article>
+    <article class="event-card">
+      <div class="event-img img-5">
+        <span class="event-tag">Festival</span><span class="event-time-badge">19h00</span>
+      </div>
+      <div class="event-body">
+        <h3 class="event-title">Ouverture des Rencontres de la Chartreuse</h3>
+        <p class="event-place"><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>Chartreuse de Villeneuve</p>
+        <div class="event-footer">
+          <span class="event-price free">Gratuit</span>
+          <button class="event-cta">Voir<svg fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg></button>
+        </div>
+      </div>
+    </article>
+  </div>
+
+  <div class="day-group">
+    <div class="day-header">
+      <div class="day-number-box"><span class="day-number">27</span><span class="day-month-mini">Avril</span></div>
+      <div class="day-info"><span class="day-name">Dimanche</span><span class="day-count">1 événement</span></div>
+    </div>
+    <article class="event-card">
+      <div class="event-img">
+        <span class="event-tag">Exposition</span><span class="event-time-badge">14h — 18h</span>
+      </div>
+      <div class="event-body">
+        <h3 class="event-title">« Lumières de Provence » — vernissage</h3>
+        <p class="event-place"><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>Fort Saint-André</p>
+        <div class="event-footer">
+          <span class="event-price free">Gratuit</span>
+          <button class="event-cta">Voir<svg fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg></button>
+        </div>
+      </div>
+    </article>
+  </div>
+
+</div>
+
+<nav class="bottom-nav">
+  <a href="index.html" class="nav-item">
+    <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>
+    Accueil
+  </a>
+  <a href="carte.html" class="nav-item">
+    <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7"/></svg>
+    Carte
+  </a>
+  <a href="commerces.html" class="nav-item">
+    <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"/></svg>
+    Commerces
+  </a>
+  <a href="agenda.html" class="nav-item active">
+    <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+    Agenda
+  </a>
+</nav>
+
+<script>
+  document.querySelectorAll('.filter-chip').forEach(chip => {
+    chip.addEventListener('click', () => {
+      document.querySelectorAll('.filter-chip').forEach(c => c.classList.remove('active'));
+      chip.classList.add('active');
+    });
+  });
+  document.querySelectorAll('.cal-day:not(.muted)').forEach(day => {
+    day.addEventListener('click', () => {
+      document.querySelectorAll('.cal-day').forEach(d => d.classList.remove('active'));
+      day.classList.add('active');
+    });
+  });
+</script>
+
+</body>
+</html>
