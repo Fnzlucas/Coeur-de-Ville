@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1"/>
+<meta name="theme-color" content="#0f1923"/>
+<title>Agenda — Cœur de Ville</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800;900&family=Inter:wght@300;400;500;600&display=swap"/>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html,body{font-family:'Manrope',sans-serif;background:#f4f6f9;color:#0f1923;-webkit-overflow-scrolling:touch;}
+body{padding-bottom:88px;}
+
+/* ── HEADER ── */
+#app-header{
+  position:fixed;top:0;left:0;right:0;height:64px;z-index:1000;
+  background:rgba(255,255,255,0.94);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);
+  border-bottom:1px solid rgba(0,0,0,0.05);
+  box-shadow:0 2px 20px rgba(15,25,35,0.07);
+  display:flex;align-items:center;padding:0 16px;gap:8px;
+}
+#app-header .brand{font-family:Manrope;font-weight:900;font-size:16px;letter-spacing:-0.02em;display:flex;align-items:center;gap:6px;}
+#app-header .brand .heart{color:#0f1923;font-variation-settings:'FILL' 1;}
+#app-header .spacer{flex:1;}
+#app-header button{background:none;border:none;cursor:pointer;padding:6px;border-radius:50%;display:flex;color:#0f1923;}
+#app-header button:hover{background:rgba(0,0,0,0.05);}
+
+/* ── PAGE HEADER ── */
+.page-head{padding:80px 20px 16px;}
+.page-eyebrow{font-size:10px;font-weight:800;letter-spacing:0.2em;text-transform:uppercase;color:#FF6B35;margin-bottom:12px;display:flex;align-items:center;gap:8px;}
+.page-eyebrow::before{content:'';width:18px;height:2px;background:#FF6B35;border-radius:2px;display:inline-block;}
+.page-title{font-size:32px;font-weight:900;color:#0f1923;line-height:1.04;letter-spacing:-0.03em;}
+
+/* ── MONTH SWITCHER ── */
+.month-switch{
+  display:flex;align-items:center;justify-content:space-between;
+  background:#fff;margin:18px 20px 16px;padding:12px 14px;border-radius:18px;
+  box-shadow:0 2px 12px rgba(15,25,35,0.06);
+}
+.month-switch button{
+  width:38px;height:38px;border:none;background:#f4f6f9;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;cursor:pointer;color:#0f1923;
+}
+.month-switch button .material-symbols-outlined{font-size:20px;}
+.month-label{font-size:16px;font-weight:900;letter-spacing:-0.01em;}
+
+/* ── MINI CALENDAR ── */
+.mini-cal{background:#fff;margin:0 20px 22px;padding:18px 16px;border-radius:22px;box-shadow:0 2px 12px rgba(15,25,35,0.06);}
+.mini-cal-header{display:grid;grid-template-columns:repeat(7,1fr);margin-bottom:10px;}
+.mini-cal-header span{text-align:center;font-size:10px;font-weight:800;color:#94a3b8;letter-spacing:0.06em;text-transform:uppercase;}
+.mini-cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;}
+.cal-day{
+  aspect-ratio:1;display:flex;align-items:center;justify-content:center;
+  font-size:14px;font-weight:700;color:#0f1923;
+  border-radius:12px;cursor:pointer;position:relative;transition:all 0.15s;
+}
+.cal-day:hover{background:#f4f6f9;}
+.cal-day.has-event::after{content:'';width:4px;height:4px;background:#3B5BDB;border-radius:50%;position:absolute;bottom:5px;}
+.cal-day.active{background:#3B5BDB;color:#fff;}
+.cal-day.active.has-event::after{background:#fff;}
+.cal-day.muted{color:#cbd5e1;}
+
+/* ── SECTION HEADER ── */
+.section-head{padding:8px 20px 14px;}
+.section-eyebrow{font-size:10px;font-weight:800;letter-spacing:0.2em;text-transform:uppercase;color:#FF6B35;margin-bottom:10px;display:flex;align-items:center;gap:8px;}
+.section-eyebrow::before{content:'';width:18px;height:2px;background:#FF6B35;border-radius:2px;display:inline-block;}
+.section-title{font-size:22px;font-weight:900;color:#0f1923;line-height:1.1;letter-spacing:-0.02em;}
+
+/* ── FEATURED ── */
+.featured-section{padding:0 20px 24px;}
+.featured-card{
+  position:relative;border-radius:26px;overflow:hidden;height:260px;
+  cursor:pointer;display:block;text-decoration:none;
+  box-shadow:0 16px 56px rgba(0,0,0,0.2);
+}
+.featured-ph{width:100%;height:100%;background:linear-gradient(135deg,#1e4d3b 0%,#0f2820 50%,#0f1923 100%);}
+.featured-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,0.82) 0%,rgba(0,0,0,0.25) 50%,transparent 100%);}
+.featured-content{position:absolute;bottom:0;left:0;right:0;padding:20px 22px 22px;}
+.featured-cat{font-size:10px;font-weight:800;letter-spacing:0.12em;text-transform:uppercase;color:rgba(255,255,255,0.7);margin-bottom:10px;}
+.featured-name{font-size:24px;font-weight:900;color:#fff;line-height:1.1;margin-bottom:10px;font-family:Manrope;letter-spacing:-0.02em;}
+.featured-meta{display:flex;align-items:center;gap:10px;font-size:12px;color:rgba(255,255,255,0.85);font-weight:600;}
+.featured-meta .material-symbols-outlined{font-size:14px;}
+.featured-tag{
+  position:absolute;top:14px;left:14px;
+  backdrop-filter:blur(8px);background:rgba(255,107,53,0.95);
+  color:#fff;font-size:9px;font-weight:800;letter-spacing:0.1em;
+  text-transform:uppercase;padding:5px 10px;border-radius:20px;
+}
+
+/* ── FILTERS ── */
+.filters{padding:0 20px 20px;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;}
+.filters::-webkit-scrollbar{display:none;}
+.filters-row{display:flex;gap:8px;width:max-content;}
+.filter-chip{
+  background:#fff;border:1px solid #e8edf2;color:#0f1923;
+  padding:9px 16px;border-radius:100px;
+  font-size:12px;font-weight:700;font-family:Manrope;
+  cursor:pointer;white-space:nowrap;transition:all 0.2s;
+}
+.filter-chip.active{background:#0f1923;color:#fff;border-color:#0f1923;}
+
+/* ── DAY GROUP ── */
+.timeline{padding:0 20px 24px;}
+.day-group{margin-bottom:24px;}
+.day-header{display:flex;align-items:center;gap:12px;margin-bottom:12px;}
+.day-box{
+  min-width:54px;height:54px;border-radius:14px;
+  background:#fff;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  flex-shrink:0;box-shadow:0 1px 8px rgba(0,0,0,0.06);
+}
+.day-num{font-size:20px;font-weight:900;line-height:1;font-family:Manrope;color:#0f1923;}
+.day-mon{font-size:9px;font-weight:800;letter-spacing:0.08em;text-transform:uppercase;color:#94a3b8;margin-top:2px;}
+.day-info{flex:1;display:flex;flex-direction:column;gap:2px;}
+.day-name{font-size:15px;font-weight:900;font-family:Manrope;letter-spacing:-0.01em;}
+.day-count{font-size:11px;color:#94a3b8;font-weight:600;}
+.day-badge{
+  background:#FF6B35;color:#fff;
+  font-size:9px;font-weight:800;letter-spacing:0.08em;text-transform:uppercase;
+  padding:5px 10px;border-radius:20px;
+}
+
+/* ── EVENT CARD ── */
+.event-card{
+  background:#fff;border-radius:18px;overflow:hidden;
+  margin-bottom:10px;cursor:pointer;transition:transform 0.15s;
+  box-shadow:0 1px 8px rgba(0,0,0,0.06);display:block;text-decoration:none;color:inherit;
+}
+.event-card:active{transform:scale(0.98);}
+.event-img-wrap{position:relative;width:100%;height:160px;overflow:hidden;}
+.event-img-ph{width:100%;height:100%;display:flex;align-items:center;justify-content:center;}
+.event-img-ph .material-symbols-outlined{font-size:48px;color:rgba(255,255,255,0.7);}
+.event-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,0.5) 0%,transparent 55%);}
+.event-tag{
+  position:absolute;top:12px;left:12px;
+  backdrop-filter:blur(8px);background:rgba(255,255,255,0.92);
+  color:#0f1923;font-size:9px;font-weight:800;letter-spacing:0.1em;
+  text-transform:uppercase;padding:5px 10px;border-radius:20px;
+}
+.event-time{
+  position:absolute;top:12px;right:12px;
+  background:#0f1923;color:#fff;
+  font-size:11px;font-weight:800;letter-spacing:0.04em;
+  padding:5px 10px;border-radius:20px;
+}
+.event-body{padding:14px 16px 16px;}
+.event-name{font-size:16px;font-weight:900;color:#0f1923;line-height:1.25;font-family:Manrope;letter-spacing:-0.01em;margin-bottom:6px;}
+.event-place{font-size:12px;color:#6b7280;font-weight:600;display:flex;align-items:center;gap:5px;margin-bottom:12px;}
+.event-place .material-symbols-outlined{font-size:14px;color:#94a3b8;}
+.event-footer{display:flex;align-items:center;justify-content:space-between;padding-top:12px;border-top:1px solid #e8edf2;}
+.event-price{font-size:13px;font-weight:900;color:#0f1923;}
+.event-price.free{color:#16a34a;}
+.event-cta{
+  background:#3B5BDB;color:#fff;border:none;border-radius:100px;
+  padding:8px 14px;font-size:11px;font-weight:800;font-family:Manrope;cursor:pointer;
+  display:inline-flex;align-items:center;gap:4px;
+}
+.event-cta .material-symbols-outlined{font-size:14px;}
+
+/* ── BOTTOM NAV (identique index) ── */
+#bottomnav{
+  position:fixed;bottom:0;left:0;right:0;z-index:1000;
+  padding:0 14px calc(env(safe-area-inset-bottom,0px) + 10px);
+  background:transparent;pointer-events:none;
+}
+#bottomnav > *{pointer-events:all;}
+.nav-inner{
+  background:rgba(255,255,255,0.96);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);
+  border-radius:20px;
+  display:flex;align-items:center;justify-content:space-around;
+  padding:10px 8px;
+  box-shadow:0 4px 32px rgba(15,25,35,0.12),0 1px 0 rgba(255,255,255,0.8) inset;
+}
+.n-btn{background:none!important;border:none;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:3px;padding:6px 14px;border-radius:0;transition:color 0.2s;color:#94a3b8;-webkit-tap-highlight-color:transparent;font-family:Manrope;}
+.n-btn .material-symbols-outlined{font-size:22px;}
+.n-btn .lbl{font-size:9px;font-weight:700;letter-spacing:0.06em;text-transform:uppercase;}
+.n-btn.active{color:#0f1923;}
+.n-btn.active .material-symbols-outlined{font-variation-settings:'FILL' 1,'wght' 600;}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header id="app-header">
+  <button onclick="history.back()" aria-label="Retour">
+    <span class="material-symbols-outlined">arrow_back</span>
+  </button>
+  <div class="brand">
+    <span class="material-symbols-outlined heart">favorite</span>
+    <span>Cœur de Ville</span>
+  </div>
+  <div class="spacer"></div>
+  <button aria-label="Recherche">
+    <span class="material-symbols-outlined">search</span>
+  </button>
+</header>
+
+<!-- PAGE HEADER -->
+<section class="page-head">
+  <div class="page-eyebrow">Que faire à Villeneuve</div>
+  <h1 class="page-title">L'agenda<br>de votre ville</h1>
+</section>
+
+<!-- MONTH SWITCHER -->
+<div class="month-switch">
+  <button aria-label="Mois précédent"><span class="material-symbols-outlined">chevron_left</span></button>
+  <div class="month-label">Avril 2026</div>
+  <button aria-label="Mois suivant"><span class="material-symbols-outlined">chevron_right</span></button>
+</div>
+
+<!-- MINI CALENDAR -->
+<div class="mini-cal">
+  <div class="mini-cal-header">
+    <span>L</span><span>M</span><span>M</span><span>J</span><span>V</span><span>S</span><span>D</span>
+  </div>
+  <div class="mini-cal-grid">
+    <div class="cal-day muted">30</div><div class="cal-day muted">31</div>
+    <div class="cal-day">1</div><div class="cal-day has-event">2</div><div class="cal-day">3</div><div class="cal-day has-event">4</div><div class="cal-day has-event">5</div>
+    <div class="cal-day">6</div><div class="cal-day">7</div><div class="cal-day has-event">8</div><div class="cal-day">9</div><div class="cal-day">10</div><div class="cal-day has-event">11</div><div class="cal-day has-event">12</div>
+    <div class="cal-day">13</div><div class="cal-day">14</div><div class="cal-day">15</div><div class="cal-day has-event">16</div><div class="cal-day has-event">17</div><div class="cal-day has-event">18</div><div class="cal-day has-event">19</div>
+    <div class="cal-day">20</div><div class="cal-day">21</div><div class="cal-day">22</div><div class="cal-day">23</div><div class="cal-day has-event">24</div><div class="cal-day active has-event">25</div><div class="cal-day has-event">26</div>
+    <div class="cal-day">27</div><div class="cal-day">28</div><div class="cal-day">29</div><div class="cal-day">30</div>
+  </div>
+</div>
+
+<!-- À LA UNE -->
+<div class="section-head">
+  <div class="section-eyebrow">À la une</div>
+  <h2 class="section-title">L'événement du moment</h2>
+</div>
+
+<div class="featured-section">
+  <a href="#" class="featured-card">
+    <div class="featured-ph"></div>
+    <div class="featured-overlay"></div>
+    <span class="featured-tag">Festival</span>
+    <div class="featured-content">
+      <div class="featured-cat">Théâtre & écriture</div>
+      <h3 class="featured-name">Les Rencontres de la Chartreuse</h3>
+      <div class="featured-meta">
+        <span class="material-symbols-outlined">calendar_month</span>
+        <span>26 avril → 4 mai</span>
+        <span>·</span>
+        <span class="material-symbols-outlined">location_on</span>
+        <span>Chartreuse</span>
+      </div>
+    </div>
+  </a>
+</div>
+
+<!-- FILTERS -->
+<div class="section-head">
+  <div class="section-eyebrow">Cette semaine</div>
+  <h2 class="section-title">12 événements à venir</h2>
+</div>
+
+<div class="filters">
+  <div class="filters-row">
+    <button class="filter-chip active">Tout</button>
+    <button class="filter-chip">Aujourd'hui</button>
+    <button class="filter-chip">Ce week-end</button>
+    <button class="filter-chip">Concerts</button>
+    <button class="filter-chip">Expositions</button>
+    <button class="filter-chip">Marchés</button>
+    <button class="filter-chip">Patrimoine</button>
+    <button class="filter-chip">Famille</button>
+  </div>
+</div>
+
+<!-- TIMELINE -->
+<div class="timeline">
+
+  <!-- VENDREDI 25 -->
+  <div class="day-group">
+    <div class="day-header">
+      <div class="day-box">
+        <div class="day-num">25</div>
+        <div class="day-mon">Avril</div>
+      </div>
+      <div class="day-info">
+        <div class="day-name">Vendredi</div>
+        <div class="day-count">2 événements</div>
+      </div>
+      <span class="day-badge">Aujourd'hui</span>
+    </div>
+
+    <a href="#" class="event-card">
+      <div class="event-img-wrap">
+        <div class="event-img-ph" style="background:linear-gradient(135deg,#6B7B6E 0%,#2C3E2D 100%);">
+          <span class="material-symbols-outlined">music_note</span>
+        </div>
+        <div class="event-overlay"></div>
+        <span class="event-tag">Concert</span>
+        <span class="event-time">20h30</span>
+      </div>
+      <div class="event-body">
+        <h3 class="event-name">Quatuor à cordes Sirba</h3>
+        <div class="event-place">
+          <span class="material-symbols-outlined">location_on</span>
+          Église Notre-Dame
+        </div>
+        <div class="event-footer">
+          <span class="event-price">18 €</span>
+          <button class="event-cta">Réserver <span class="material-symbols-outlined">arrow_forward</span></button>
+        </div>
+      </div>
+    </a>
+
+    <a href="#" class="event-card">
+      <div class="event-img-wrap">
+        <div class="event-img-ph" style="background:linear-gradient(135deg,#C9A961 0%,#8B6F2C 100%);">
+          <span class="material-symbols-outlined">storefront</span>
+        </div>
+        <div class="event-overlay"></div>
+        <span class="event-tag">Marché</span>
+        <span class="event-time">8h — 13h</span>
+      </div>
+      <div class="event-body">
+        <h3 class="event-name">Marché des producteurs</h3>
+        <div class="event-place">
+          <span class="material-symbols-outlined">location_on</span>
+          Place Charles David
+        </div>
+        <div class="event-footer">
+          <span class="event-price free">Gratuit</span>
+          <button class="event-cta">Voir <span class="material-symbols-outlined">arrow_forward</span></button>
+        </div>
+      </div>
+    </a>
+  </div>
+
+  <!-- SAMEDI 26 -->
+  <div class="day-group">
+    <div class="day-header">
+      <div class="day-box">
+        <div class="day-num">26</div>
+        <div class="day-mon">Avril</div>
+      </div>
+      <div class="day-info">
+        <div class="day-name">Samedi</div>
+        <div class="day-count">3 événements</div>
+      </div>
+    </div>
+
+    <a href="#" class="event-card">
+      <div class="event-img-wrap">
+        <div class="event-img-ph" style="background:linear-gradient(135deg,#A89B82 0%,#5C5346 100%);">
+          <span class="material-symbols-outlined">tour</span>
+        </div>
+        <div class="event-overlay"></div>
+        <span class="event-tag">Visite guidée</span>
+        <span class="event-time">10h00</span>
+      </div>
+      <div class="event-body">
+        <h3 class="event-name">Tour Philippe le Bel — visite contée</h3>
+        <div class="event-place">
+          <span class="material-symbols-outlined">location_on</span>
+          Tour Philippe le Bel
+        </div>
+        <div class="event-footer">
+          <span class="event-price">8 €</span>
+          <button class="event-cta">Réserver <span class="material-symbols-outlined">arrow_forward</span></button>
+        </div>
+      </div>
+    </a>
+
+    <a href="#" class="event-card">
+      <div class="event-img-wrap">
+        <div class="event-img-ph" style="background:linear-gradient(135deg,#B8927A 0%,#6B4226 100%);">
+          <span class="material-symbols-outlined">festival</span>
+        </div>
+        <div class="event-overlay"></div>
+        <span class="event-tag">Festival</span>
+        <span class="event-time">19h00</span>
+      </div>
+      <div class="event-body">
+        <h3 class="event-name">Ouverture des Rencontres de la Chartreuse</h3>
+        <div class="event-place">
+          <span class="material-symbols-outlined">location_on</span>
+          Chartreuse de Villeneuve
+        </div>
+        <div class="event-footer">
+          <span class="event-price free">Entrée libre</span>
+          <button class="event-cta">Voir <span class="material-symbols-outlined">arrow_forward</span></button>
+        </div>
+      </div>
+    </a>
+  </div>
+
+  <!-- DIMANCHE 27 -->
+  <div class="day-group">
+    <div class="day-header">
+      <div class="day-box">
+        <div class="day-num">27</div>
+        <div class="day-mon">Avril</div>
+      </div>
+      <div class="day-info">
+        <div class="day-name">Dimanche</div>
+        <div class="day-count">1 événement</div>
+      </div>
+    </div>
+
+    <a href="#" class="event-card">
+      <div class="event-img-wrap">
+        <div class="event-img-ph" style="background:linear-gradient(135deg,#D4C5A9 0%,#8B7355 100%);">
+          <span class="material-symbols-outlined">palette</span>
+        </div>
+        <div class="event-overlay"></div>
+        <span class="event-tag">Exposition</span>
+        <span class="event-time">14h — 18h</span>
+      </div>
+      <div class="event-body">
+        <h3 class="event-name">« Lumières de Provence » — vernissage</h3>
+        <div class="event-place">
+          <span class="material-symbols-outlined">location_on</span>
+          Fort Saint-André
+        </div>
+        <div class="event-footer">
+          <span class="event-price free">Gratuit</span>
+          <button class="event-cta">Voir <span class="material-symbols-outlined">arrow_forward</span></button>
+        </div>
+      </div>
+    </a>
+  </div>
+
+</div>
+
+<!-- BOTTOM NAV -->
+<nav id="bottomnav">
+<div class="nav-inner">
+  <button class="n-btn" onclick="window.location.href='index.html'">
+    <span class="material-symbols-outlined">home</span>
+    <span class="lbl">Accueil</span>
+  </button>
+  <button class="n-btn" onclick="window.location.href='carte.html'">
+    <span class="material-symbols-outlined">explore</span>
+    <span class="lbl">Carte</span>
+  </button>
+  <button class="n-btn" onclick="window.location.href='commerces.html'">
+    <span class="material-symbols-outlined">storefront</span>
+    <span class="lbl">Commerces</span>
+  </button>
+  <button class="n-btn active">
+    <span class="material-symbols-outlined">event</span>
+    <span class="lbl">Agenda</span>
+  </button>
+</div>
+</nav>
+
+<script>
+document.querySelectorAll('.filter-chip').forEach(function(chip){
+  chip.addEventListener('click',function(){
+    document.querySelectorAll('.filter-chip').forEach(function(c){c.classList.remove('active');});
+    chip.classList.add('active');
+  });
+});
+document.querySelectorAll('.cal-day:not(.muted)').forEach(function(d){
+  d.addEventListener('click',function(){
+    document.querySelectorAll('.cal-day').forEach(function(x){x.classList.remove('active');});
+    d.classList.add('active');
+  });
+});
+</script>
+
+</body>
+</html>
