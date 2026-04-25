@@ -1235,55 +1235,144 @@ html,body{background:#eceff4;}
 .service-urgence .service-arrow .material-symbols-outlined{color:#e11d48;}
 
 
-/* ── PARCOURS SECTION HOME ── */
-.parcours-home-section{padding:52px 0 0;}
-.parcours-home-header{padding:0 20px;}
-.parcours-home-label{font-size:10px;font-weight:800;letter-spacing:0.2em;text-transform:uppercase;color:#FF6B35;margin-bottom:14px;display:flex;align-items:center;gap:8px;}
-.parcours-home-label::before{content:'';width:18px;height:2px;background:#FF6B35;border-radius:2px;display:inline-block;}
-.parcours-home-title-row{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:20px;}
-.parcours-home-title{font-size:24px;font-weight:900;color:#0f1923;line-height:1.08;letter-spacing:-0.03em;}
-.parcours-home-link{font-size:12px;font-weight:800;color:#3B5BDB;text-decoration:none;display:flex;align-items:center;gap:3px;white-space:nowrap;}
-.parcours-home-link .material-symbols-outlined{font-size:14px;}
+/* ── PARCOURS — FORMAT TICKET ── */
+.tk-section{padding:52px 20px 0;}
+.tk-label{font-size:10px;font-weight:800;letter-spacing:0.2em;text-transform:uppercase;color:#FF6B35;margin-bottom:14px;display:flex;align-items:center;gap:8px;}
+.tk-label::before{content:'';width:18px;height:2px;background:#FF6B35;border-radius:2px;display:inline-block;}
+.tk-titlerow{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:6px;}
+.tk-title{font-size:24px;font-weight:900;color:#0f1923;line-height:1.08;letter-spacing:-0.03em;}
+.tk-link{font-size:12px;font-weight:800;color:#3B5BDB;text-decoration:none;display:flex;align-items:center;gap:3px;white-space:nowrap;}
+.tk-link .material-symbols-outlined{font-size:14px;}
+.tk-sub{font-size:13px;color:#6b7280;font-weight:500;margin-bottom:22px;}
 
-/* ── HERO PARCOURS DU JOUR ── */
-.parcours-hero-wrap{padding:0 20px 18px;}
-.parcours-hero{
-  position:relative;border-radius:24px;overflow:hidden;height:200px;
-  cursor:pointer;display:block;text-decoration:none;
-  box-shadow:0 12px 40px rgba(0,0,0,0.18);
-}
-.parcours-hero-bg{width:100%;height:100%;background:linear-gradient(135deg,#5C3D1F 0%,#3A2510 50%,#0f1923 100%);}
-.parcours-hero-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,0.85) 0%,rgba(0,0,0,0.25) 50%,transparent 100%);}
-.parcours-hero-content{position:absolute;bottom:0;left:0;right:80px;padding:18px 20px 20px;}
-.parcours-hero-badge{position:absolute;top:14px;left:14px;backdrop-filter:blur(8px);background:rgba(255,107,53,0.95);color:#fff;font-size:9px;font-weight:800;letter-spacing:0.1em;text-transform:uppercase;padding:6px 11px;border-radius:20px;display:inline-flex;align-items:center;gap:5px;}
-.parcours-hero-badge .material-symbols-outlined{font-size:12px;font-variation-settings:'FILL' 1;}
-.parcours-hero-cat{font-size:10px;font-weight:800;letter-spacing:0.14em;text-transform:uppercase;color:rgba(255,255,255,0.7);margin-bottom:6px;}
-.parcours-hero-name{font-size:22px;font-weight:900;color:#fff;line-height:1.05;margin-bottom:8px;font-family:Manrope;letter-spacing:-0.02em;}
-.parcours-hero-stats{display:flex;align-items:center;gap:12px;}
-.parcours-hero-stat{display:flex;align-items:center;gap:4px;color:rgba(255,255,255,0.9);font-size:11px;font-weight:700;}
-.parcours-hero-stat .material-symbols-outlined{font-size:13px;color:rgba(255,255,255,0.6);}
-.parcours-hero-play{position:absolute;bottom:18px;right:18px;background:#fff;color:#0f1923;border:none;border-radius:100px;width:44px;height:44px;display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:0 4px 16px rgba(0,0,0,0.3);}
-.parcours-hero-play .material-symbols-outlined{font-size:22px;font-variation-settings:'FILL' 1;}
+/* Liste de tickets empilés */
+.tk-stack{display:flex;flex-direction:column;gap:14px;}
 
-/* ── SCROLL PARCOURS ── */
-.parcours-scroll{display:flex;gap:12px;overflow-x:auto;padding:4px 20px 8px;-webkit-overflow-scrolling:touch;scrollbar-width:none;}
-.parcours-scroll::-webkit-scrollbar{display:none;}
-.parcours-mini-card{
-  min-width:200px;max-width:200px;flex-shrink:0;
-  background:#fff;border-radius:18px;overflow:hidden;
-  box-shadow:0 4px 18px rgba(0,0,0,0.07);
-  cursor:pointer;text-decoration:none;color:inherit;
-  transition:transform 0.15s;
+/* TICKET — base */
+.tk-card{
+  display:flex;
+  background:#fff;
+  border-radius:16px;
+  text-decoration:none;color:inherit;cursor:pointer;
+  position:relative;
+  box-shadow:0 4px 18px rgba(0,0,0,0.08);
+  transition:transform 0.15s,box-shadow 0.15s;
+  overflow:hidden;
+  /* Effet trous crénelés sur le côté droit de la souche */
+  -webkit-mask-image:
+    radial-gradient(circle at 110px 50%,transparent 8px,#000 8.5px);
+  mask-image:
+    radial-gradient(circle at 110px 50%,transparent 8px,#000 8.5px);
 }
-.parcours-mini-card:active{transform:scale(0.97);}
-.parcours-mini-img{width:100%;height:100px;display:flex;align-items:center;justify-content:center;position:relative;}
-.parcours-mini-img .material-symbols-outlined{font-size:36px;color:rgba(255,255,255,0.6);}
-.parcours-mini-tag{position:absolute;top:8px;left:8px;backdrop-filter:blur(8px);background:rgba(255,255,255,0.92);color:#0f1923;font-size:9px;font-weight:800;letter-spacing:0.06em;text-transform:uppercase;padding:4px 8px;border-radius:20px;}
-.parcours-mini-body{padding:11px 13px 13px;}
-.parcours-mini-name{font-size:13px;font-weight:900;color:#0f1923;line-height:1.2;font-family:Manrope;letter-spacing:-0.01em;margin-bottom:5px;}
-.parcours-mini-stats{display:flex;align-items:center;gap:8px;font-size:10px;font-weight:700;color:#94a3b8;}
-.parcours-mini-stat{display:flex;align-items:center;gap:3px;}
-.parcours-mini-stat .material-symbols-outlined{font-size:12px;}
+.tk-card:active{transform:scale(0.98);}
+
+/* SOUCHE GAUCHE (la partie colorée détachable) */
+.tk-stub{
+  width:118px;flex-shrink:0;position:relative;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  padding:14px 8px;color:#fff;
+}
+.tk-stub-num{
+  font-size:9px;font-weight:800;letter-spacing:0.16em;text-transform:uppercase;
+  color:rgba(255,255,255,0.6);margin-bottom:6px;font-family:Manrope;
+}
+.tk-stub-icon{
+  width:48px;height:48px;border-radius:50%;
+  background:rgba(255,255,255,0.15);
+  display:flex;align-items:center;justify-content:center;margin-bottom:10px;
+  border:1.5px solid rgba(255,255,255,0.25);
+}
+.tk-stub-icon .material-symbols-outlined{font-size:24px;color:#fff;}
+.tk-stub-cat{
+  font-size:10px;font-weight:800;letter-spacing:0.1em;text-transform:uppercase;
+  color:#fff;text-align:center;line-height:1.2;
+}
+
+/* SÉPARATEUR pointillé vertical */
+.tk-card::before{
+  content:'';position:absolute;left:110px;top:14px;bottom:14px;
+  width:0;border-left:2px dashed rgba(0,0,0,0.12);
+  z-index:1;
+}
+
+/* CORPS DROIT (les infos du parcours) */
+.tk-body{
+  flex:1;padding:14px 16px 12px 22px;
+  display:flex;flex-direction:column;justify-content:space-between;
+  min-width:0;
+}
+.tk-header{
+  display:flex;justify-content:space-between;align-items:flex-start;
+  gap:10px;margin-bottom:10px;
+}
+.tk-route{flex:1;min-width:0;}
+.tk-route-line{
+  font-size:9px;font-weight:800;letter-spacing:0.12em;text-transform:uppercase;
+  color:#94a3b8;display:flex;align-items:center;gap:5px;margin-bottom:4px;
+}
+.tk-route-line .material-symbols-outlined{font-size:11px;}
+.tk-name{
+  font-size:16px;font-weight:900;color:#0f1923;line-height:1.2;
+  font-family:Manrope;letter-spacing:-0.015em;
+}
+.tk-stamp{
+  flex-shrink:0;font-size:8px;font-weight:800;letter-spacing:0.12em;text-transform:uppercase;
+  color:#16a34a;border:1.5px solid #16a34a;border-radius:6px;padding:3px 6px;
+  transform:rotate(-4deg);
+  font-family:'Inter',monospace;
+  white-space:nowrap;
+}
+.tk-stamp.new{color:#FF6B35;border-color:#FF6B35;}
+.tk-stamp.popular{color:#3B5BDB;border-color:#3B5BDB;}
+
+/* INFOS BAS (durée / distance / étapes) */
+.tk-stats{
+  display:flex;align-items:center;gap:14px;
+  padding-top:10px;border-top:1px dashed #e8edf2;
+}
+.tk-stat{
+  display:flex;align-items:center;gap:4px;
+  font-size:11px;font-weight:700;color:#0f1923;
+  font-variant-numeric:tabular-nums;
+}
+.tk-stat .material-symbols-outlined{font-size:13px;color:#94a3b8;}
+.tk-stat-label{font-size:8px;font-weight:800;letter-spacing:0.1em;text-transform:uppercase;color:#94a3b8;display:block;margin-bottom:1px;}
+
+/* CODE-BARRES DÉCORATIF */
+.tk-barcode{
+  display:flex;gap:1px;align-items:center;height:14px;margin-left:auto;
+  opacity:0.55;
+}
+.tk-barcode span{display:block;background:#0f1923;width:1.5px;height:100%;}
+.tk-barcode span:nth-child(1){height:60%;}
+.tk-barcode span:nth-child(2){height:100%;}
+.tk-barcode span:nth-child(3){height:80%;}
+.tk-barcode span:nth-child(4){width:1px;height:100%;}
+.tk-barcode span:nth-child(5){height:100%;width:2px;}
+.tk-barcode span:nth-child(6){height:50%;}
+.tk-barcode span:nth-child(7){height:90%;}
+.tk-barcode span:nth-child(8){height:100%;}
+.tk-barcode span:nth-child(9){height:70%;width:1px;}
+.tk-barcode span:nth-child(10){height:100%;width:2px;}
+.tk-barcode span:nth-child(11){height:60%;}
+.tk-barcode span:nth-child(12){height:100%;}
+
+/* CTA voir tous les parcours */
+.tk-seeall{
+  margin-top:16px;display:flex;align-items:center;justify-content:center;gap:8px;
+  background:#fff;border:1.5px dashed #cbd5e1;
+  border-radius:14px;padding:14px 16px;
+  font-size:13px;font-weight:800;color:#0f1923;
+  font-family:Manrope;letter-spacing:-0.01em;
+  text-decoration:none;cursor:pointer;
+  transition:all 0.15s;
+}
+.tk-seeall:hover{border-color:#3B5BDB;color:#3B5BDB;}
+.tk-seeall .material-symbols-outlined{font-size:18px;}
+.tk-seeall .count{
+  background:#FF6B35;color:#fff;font-size:10px;font-weight:800;
+  padding:2px 8px;border-radius:20px;letter-spacing:0.04em;
+}
 
 </style>
 
@@ -1527,105 +1616,121 @@ setTimeout(function(){
 
 
 
-<!-- PARCOURS SIGNATURE -->
-<section class="parcours-home-section">
-  <div class="parcours-home-header">
-    <div class="parcours-home-label">Découvrir Villeneuve</div>
-    <div class="parcours-home-title-row">
-      <div class="parcours-home-title">Nos parcours signature</div>
-      <a href="parcours.html" class="parcours-home-link">Voir tous <span class="material-symbols-outlined">arrow_forward</span></a>
-    </div>
+<!-- PARCOURS SIGNATURE — FORMAT TICKET -->
+<section class="tk-section">
+  <div class="tk-label">Découvrir Villeneuve</div>
+  <div class="tk-titlerow">
+    <div class="tk-title">Embarquement immédiat</div>
+    <a href="parcours.html" class="tk-link">Voir tous <span class="material-symbols-outlined">arrow_forward</span></a>
+  </div>
+  <p class="tk-sub">Choisissez votre billet et laissez-vous guider à travers la ville</p>
+
+  <div class="tk-stack">
+
+    <!-- TICKET 1 — Tour gourmand -->
+    <a href="parcours.html" class="tk-card">
+      <div class="tk-stub" style="background:linear-gradient(135deg,#8B6F2C 0%,#4A3B1B 100%);">
+        <div class="tk-stub-num">N° 001</div>
+        <div class="tk-stub-icon"><span class="material-symbols-outlined">restaurant</span></div>
+        <div class="tk-stub-cat">Gastro&shy;nomie</div>
+      </div>
+      <div class="tk-body">
+        <div class="tk-header">
+          <div class="tk-route">
+            <div class="tk-route-line"><span class="material-symbols-outlined">flag</span>Boulangerie → Restaurant</div>
+            <div class="tk-name">Tour gourmand</div>
+          </div>
+          <div class="tk-stamp">Du jour</div>
+        </div>
+        <div class="tk-stats">
+          <div class="tk-stat"><span class="material-symbols-outlined">schedule</span>2h</div>
+          <div class="tk-stat"><span class="material-symbols-outlined">directions_walk</span>1,8 km</div>
+          <div class="tk-stat"><span class="material-symbols-outlined">place</span>5 étapes</div>
+          <div class="tk-barcode"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+        </div>
+      </div>
+    </a>
+
+    <!-- TICKET 2 — Sur les traces des papes -->
+    <a href="parcours.html" class="tk-card">
+      <div class="tk-stub" style="background:linear-gradient(135deg,#A89B82 0%,#5C5346 100%);">
+        <div class="tk-stub-num">N° 002</div>
+        <div class="tk-stub-icon"><span class="material-symbols-outlined">castle</span></div>
+        <div class="tk-stub-cat">Patri&shy;moine</div>
+      </div>
+      <div class="tk-body">
+        <div class="tk-header">
+          <div class="tk-route">
+            <div class="tk-route-line"><span class="material-symbols-outlined">flag</span>Tour Philippe → Chartreuse</div>
+            <div class="tk-name">Sur les traces des papes</div>
+          </div>
+          <div class="tk-stamp popular">★ 4,9</div>
+        </div>
+        <div class="tk-stats">
+          <div class="tk-stat"><span class="material-symbols-outlined">schedule</span>1h30</div>
+          <div class="tk-stat"><span class="material-symbols-outlined">directions_walk</span>2,2 km</div>
+          <div class="tk-stat"><span class="material-symbols-outlined">place</span>4 étapes</div>
+          <div class="tk-barcode"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+        </div>
+      </div>
+    </a>
+
+    <!-- TICKET 3 — Coucher de soleil -->
+    <a href="parcours.html" class="tk-card">
+      <div class="tk-stub" style="background:linear-gradient(135deg,#D88B5C 0%,#A04E2A 100%);">
+        <div class="tk-stub-num">N° 003</div>
+        <div class="tk-stub-icon"><span class="material-symbols-outlined">wb_twilight</span></div>
+        <div class="tk-stub-cat">Roman&shy;tique</div>
+      </div>
+      <div class="tk-body">
+        <div class="tk-header">
+          <div class="tk-route">
+            <div class="tk-route-line"><span class="material-symbols-outlined">flag</span>Mourgues → Le Chartreux</div>
+            <div class="tk-name">Coucher de soleil & apéro</div>
+          </div>
+          <div class="tk-stamp">2 pers.</div>
+        </div>
+        <div class="tk-stats">
+          <div class="tk-stat"><span class="material-symbols-outlined">schedule</span>1h</div>
+          <div class="tk-stat"><span class="material-symbols-outlined">directions_walk</span>1,2 km</div>
+          <div class="tk-stat"><span class="material-symbols-outlined">place</span>2 étapes</div>
+          <div class="tk-barcode"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+        </div>
+      </div>
+    </a>
+
+    <!-- TICKET 4 — Famille -->
+    <a href="parcours.html" class="tk-card">
+      <div class="tk-stub" style="background:linear-gradient(135deg,#7BA05B 0%,#3D5C2A 100%);">
+        <div class="tk-stub-num">N° 004</div>
+        <div class="tk-stub-icon"><span class="material-symbols-outlined">family_restroom</span></div>
+        <div class="tk-stub-cat">Famille</div>
+      </div>
+      <div class="tk-body">
+        <div class="tk-header">
+          <div class="tk-route">
+            <div class="tk-route-line"><span class="material-symbols-outlined">flag</span>Aire de jeux → Glacier</div>
+            <div class="tk-name">En famille à Villeneuve</div>
+          </div>
+          <div class="tk-stamp new">Nouveau</div>
+        </div>
+        <div class="tk-stats">
+          <div class="tk-stat"><span class="material-symbols-outlined">schedule</span>3h</div>
+          <div class="tk-stat"><span class="material-symbols-outlined">directions_walk</span>2,5 km</div>
+          <div class="tk-stat"><span class="material-symbols-outlined">place</span>6 étapes</div>
+          <div class="tk-barcode"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+        </div>
+      </div>
+    </a>
+
   </div>
 
-  <!-- Parcours du jour -->
-  <div class="parcours-hero-wrap">
-    <a href="parcours.html" class="parcours-hero">
-      <div class="parcours-hero-bg"></div>
-      <div class="parcours-hero-overlay"></div>
-      <span class="parcours-hero-badge"><span class="material-symbols-outlined">star</span>Parcours du jour</span>
-      <div class="parcours-hero-content">
-        <div class="parcours-hero-cat">Gastronomie</div>
-        <div class="parcours-hero-name">Tour gourmand</div>
-        <div class="parcours-hero-stats">
-          <div class="parcours-hero-stat"><span class="material-symbols-outlined">schedule</span>2h</div>
-          <div class="parcours-hero-stat"><span class="material-symbols-outlined">directions_walk</span>1,8 km</div>
-          <div class="parcours-hero-stat"><span class="material-symbols-outlined">place</span>5 étapes</div>
-        </div>
-      </div>
-      <button class="parcours-hero-play" aria-label="Démarrer">
-        <span class="material-symbols-outlined">play_arrow</span>
-      </button>
-    </a>
-  </div>
-
-  <!-- Scroll horizontal autres parcours -->
-  <div class="parcours-scroll">
-    <a href="parcours.html" class="parcours-mini-card">
-      <div class="parcours-mini-img" style="background:linear-gradient(135deg,#A89B82 0%,#5C5346 100%);">
-        <span class="material-symbols-outlined">castle</span>
-        <span class="parcours-mini-tag">Histoire</span>
-      </div>
-      <div class="parcours-mini-body">
-        <div class="parcours-mini-name">Sur les traces des papes</div>
-        <div class="parcours-mini-stats">
-          <div class="parcours-mini-stat"><span class="material-symbols-outlined">schedule</span>1h30</div>
-          <div class="parcours-mini-stat"><span class="material-symbols-outlined">place</span>4 étapes</div>
-        </div>
-      </div>
-    </a>
-    <a href="parcours.html" class="parcours-mini-card">
-      <div class="parcours-mini-img" style="background:linear-gradient(135deg,#D88B5C 0%,#A04E2A 50%,#3A1F0F 100%);">
-        <span class="material-symbols-outlined">wb_twilight</span>
-        <span class="parcours-mini-tag">Romantique</span>
-      </div>
-      <div class="parcours-mini-body">
-        <div class="parcours-mini-name">Coucher de soleil & apéro</div>
-        <div class="parcours-mini-stats">
-          <div class="parcours-mini-stat"><span class="material-symbols-outlined">schedule</span>1h</div>
-          <div class="parcours-mini-stat"><span class="material-symbols-outlined">place</span>2 étapes</div>
-        </div>
-      </div>
-    </a>
-    <a href="parcours.html" class="parcours-mini-card">
-      <div class="parcours-mini-img" style="background:linear-gradient(135deg,#7BA05B 0%,#3D5C2A 100%);">
-        <span class="material-symbols-outlined">family_restroom</span>
-        <span class="parcours-mini-tag">Famille</span>
-      </div>
-      <div class="parcours-mini-body">
-        <div class="parcours-mini-name">En famille à Villeneuve</div>
-        <div class="parcours-mini-stats">
-          <div class="parcours-mini-stat"><span class="material-symbols-outlined">schedule</span>3h</div>
-          <div class="parcours-mini-stat"><span class="material-symbols-outlined">place</span>6 étapes</div>
-        </div>
-      </div>
-    </a>
-    <a href="parcours.html" class="parcours-mini-card">
-      <div class="parcours-mini-img" style="background:linear-gradient(135deg,#4A5D6A 0%,#1F2A33 100%);">
-        <span class="material-symbols-outlined">explore</span>
-        <span class="parcours-mini-tag">Insolite</span>
-      </div>
-      <div class="parcours-mini-body">
-        <div class="parcours-mini-name">Villeneuve secrète</div>
-        <div class="parcours-mini-stats">
-          <div class="parcours-mini-stat"><span class="material-symbols-outlined">schedule</span>2h</div>
-          <div class="parcours-mini-stat"><span class="material-symbols-outlined">place</span>7 étapes</div>
-        </div>
-      </div>
-    </a>
-    <a href="parcours.html" class="parcours-mini-card">
-      <div class="parcours-mini-img" style="background:linear-gradient(135deg,#C9A961 0%,#8B6F2C 100%);">
-        <span class="material-symbols-outlined">storefront</span>
-        <span class="parcours-mini-tag">Marché</span>
-      </div>
-      <div class="parcours-mini-body">
-        <div class="parcours-mini-name">Marché du matin</div>
-        <div class="parcours-mini-stats">
-          <div class="parcours-mini-stat"><span class="material-symbols-outlined">schedule</span>45 min</div>
-          <div class="parcours-mini-stat"><span class="material-symbols-outlined">place</span>3 étapes</div>
-        </div>
-      </div>
-    </a>
-  </div>
+  <!-- CTA -->
+  <a href="parcours.html" class="tk-seeall">
+    <span class="material-symbols-outlined">confirmation_number</span>
+    Voir tous les parcours
+    <span class="count">+2</span>
+  </a>
 </section>
 
 <!-- COMMERCE À LA UNE -->
