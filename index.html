@@ -283,18 +283,94 @@ window.addEventListener('load', function() {
 });
 </script>
 
-<!-- ============= PWA INSTALL BANNER ============= -->
+<!--
+  ============================================================
+  COEUR DE VILLE - PWA BLOC AMÉLIORÉ (iOS modale visuelle)
+  Remplace l'ancien bloc PWA dans index.html
+  ============================================================
+-->
+
+
+<!-- BANNIÈRE D'INSTALLATION -->
 <div id="pwa-install-banner" style="display:none;position:fixed;bottom:20px;left:20px;right:20px;background:#000;color:#fff;padding:16px 20px;border-radius:16px;box-shadow:0 12px 40px rgba(0,0,0,0.5);z-index:9999;max-width:480px;margin:0 auto;font-family:'Manrope',system-ui,sans-serif;border:0.5px solid rgba(255,255,255,0.1);">
   <div style="display:flex;align-items:center;gap:14px;">
-    <div style="width:42px;height:42px;background:rgba(255,255,255,0.08);border-radius:11px;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:22px;color:#fff;">♥</div>
+    <div style="width:42px;height:42px;background:#fff;border-radius:11px;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:22px;color:#000;">♥</div>
     <div style="flex:1;min-width:0;">
-      <div id="pwa-banner-title" style="font-weight:800;font-size:14px;margin-bottom:2px;letter-spacing:-0.01em;">Installer Cœur de Ville</div>
-      <div id="pwa-banner-sub" style="font-size:12px;color:rgba(255,255,255,0.5);line-height:1.4;">Accès rapide depuis votre écran d'accueil</div>
+      <div style="font-weight:800;font-size:14px;margin-bottom:2px;letter-spacing:-0.01em;">Installer Cœur de Ville</div>
+      <div style="font-size:12px;color:rgba(255,255,255,0.5);line-height:1.4;">Accès rapide depuis votre écran d'accueil</div>
     </div>
     <button id="pwa-install-btn" style="background:#fff;color:#000;border:none;padding:10px 16px;border-radius:10px;font-weight:800;font-size:13px;cursor:pointer;flex-shrink:0;font-family:'Manrope',system-ui,sans-serif;letter-spacing:-0.01em;">Installer</button>
     <button id="pwa-dismiss-btn" style="background:transparent;color:rgba(255,255,255,0.4);border:none;font-size:22px;cursor:pointer;padding:0 4px;flex-shrink:0;line-height:1;" aria-label="Fermer">×</button>
   </div>
 </div>
+
+
+<!-- MODALE iOS - Instructions visuelles -->
+<div id="pwa-ios-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.85);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);z-index:10000;font-family:'Manrope',system-ui,sans-serif;animation:pwaFadeIn 0.3s ease;">
+  
+  <!-- Bouton fermer -->
+  <button id="pwa-ios-close" style="position:absolute;top:24px;right:24px;background:rgba(255,255,255,0.1);color:#fff;border:none;width:40px;height:40px;border-radius:50%;font-size:22px;cursor:pointer;display:flex;align-items:center;justify-content:center;line-height:1;backdrop-filter:blur(10px);" aria-label="Fermer">×</button>
+  
+  <!-- Contenu centré -->
+  <div style="height:100%;display:flex;flex-direction:column;justify-content:center;align-items:center;padding:40px 24px;text-align:center;color:#fff;">
+    
+    <!-- Logo Cœur de Ville -->
+    <div style="width:88px;height:88px;background:#000;border-radius:22px;display:flex;align-items:center;justify-content:center;margin-bottom:28px;border:1px solid rgba(255,255,255,0.1);box-shadow:0 12px 40px rgba(0,0,0,0.5);">
+      <span style="font-size:42px;color:#fff;">♥</span>
+    </div>
+    
+    <h2 style="font-size:24px;font-weight:800;letter-spacing:-0.02em;margin-bottom:8px;">Installer Cœur de Ville</h2>
+    <p style="font-size:14px;color:rgba(255,255,255,0.6);margin-bottom:48px;max-width:300px;line-height:1.5;">2 étapes rapides depuis Safari</p>
+    
+    <!-- Étape 1 -->
+    <div style="display:flex;align-items:center;gap:16px;background:rgba(255,255,255,0.06);padding:18px 22px;border-radius:16px;border:0.5px solid rgba(255,255,255,0.1);width:100%;max-width:340px;margin-bottom:14px;">
+      <div style="width:32px;height:32px;background:#fff;color:#000;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:14px;flex-shrink:0;">1</div>
+      <div style="flex:1;text-align:left;">
+        <div style="font-size:14px;font-weight:700;margin-bottom:2px;">Tapez le bouton Partager</div>
+        <div style="font-size:12px;color:rgba(255,255,255,0.5);">En bas de Safari</div>
+      </div>
+      <!-- Icône Partager iOS animée -->
+      <div style="width:36px;height:42px;display:flex;align-items:center;justify-content:center;flex-shrink:0;animation:pwaPulse 1.5s ease-in-out infinite;">
+        <svg width="28" height="36" viewBox="0 0 24 30" fill="none">
+          <rect x="3" y="11" width="18" height="17" rx="3" stroke="#0A84FF" stroke-width="2"/>
+          <path d="M12 18 L12 3" stroke="#0A84FF" stroke-width="2" stroke-linecap="round"/>
+          <path d="M7 8 L12 3 L17 8" stroke="#0A84FF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+        </svg>
+      </div>
+    </div>
+    
+    <!-- Étape 2 -->
+    <div style="display:flex;align-items:center;gap:16px;background:rgba(255,255,255,0.06);padding:18px 22px;border-radius:16px;border:0.5px solid rgba(255,255,255,0.1);width:100%;max-width:340px;margin-bottom:32px;">
+      <div style="width:32px;height:32px;background:#fff;color:#000;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:14px;flex-shrink:0;">2</div>
+      <div style="flex:1;text-align:left;">
+        <div style="font-size:14px;font-weight:700;margin-bottom:2px;">Sur l'écran d'accueil</div>
+        <div style="font-size:12px;color:rgba(255,255,255,0.5);">Faites défiler et tapez</div>
+      </div>
+      <!-- Icône + iOS -->
+      <div style="width:36px;height:36px;background:rgba(255,255,255,0.1);border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0;border:0.5px solid rgba(255,255,255,0.15);">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+          <path d="M12 5 L12 19 M5 12 L19 12" stroke="#fff" stroke-width="2.5" stroke-linecap="round"/>
+        </svg>
+      </div>
+    </div>
+    
+    <p style="font-size:11px;color:rgba(255,255,255,0.35);letter-spacing:0.05em;text-transform:uppercase;font-weight:600;">↑ Bouton Partager en bas de Safari ↓</p>
+    
+  </div>
+</div>
+
+
+<style>
+@keyframes pwaFadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+@keyframes pwaPulse {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.15); opacity: 0.7; }
+}
+</style>
+
 
 <script>
 (function(){
@@ -302,79 +378,102 @@ window.addEventListener('load', function() {
 
   // 1. Service Worker
   if('serviceWorker' in navigator){
-    window.addEventListener('load',function(){
+    window.addEventListener('load', function(){
       navigator.serviceWorker.register('/service-worker.js')
-        .then(function(reg){console.log('[PWA] SW enregistré:',reg.scope);})
-        .catch(function(err){console.warn('[PWA] Erreur SW:',err);});
+        .then(function(reg){ console.log('[PWA] SW enregistré:', reg.scope); })
+        .catch(function(err){ console.warn('[PWA] Erreur SW:', err); });
     });
   }
 
-  // 2. Bannière install
-  let deferredPrompt=null;
-  const banner=document.getElementById('pwa-install-banner');
-  const installBtn=document.getElementById('pwa-install-btn');
-  const dismissBtn=document.getElementById('pwa-dismiss-btn');
-  const titleEl=document.getElementById('pwa-banner-title');
-  const subEl=document.getElementById('pwa-banner-sub');
+  // 2. Détection
+  let deferredPrompt = null;
+  const banner = document.getElementById('pwa-install-banner');
+  const installBtn = document.getElementById('pwa-install-btn');
+  const dismissBtn = document.getElementById('pwa-dismiss-btn');
+  const iosModal = document.getElementById('pwa-ios-modal');
+  const iosClose = document.getElementById('pwa-ios-close');
 
   function shouldShow(){
-    const d=localStorage.getItem('pwa-banner-dismissed');
+    const d = localStorage.getItem('pwa-banner-dismissed');
     if(!d) return true;
-    return (Date.now()-parseInt(d))/(1000*60*60*24)>7;
+    return (Date.now() - parseInt(d)) / (1000*60*60*24) > 7;
   }
 
   function isStandalone(){
     return window.matchMedia('(display-mode: standalone)').matches
-      || window.navigator.standalone===true;
+      || window.navigator.standalone === true;
   }
 
   function isIOS(){
     return /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
   }
 
-  // Android / Desktop
-  window.addEventListener('beforeinstallprompt',function(e){
+  // 3. Android / Desktop - install natif en 1 clic
+  window.addEventListener('beforeinstallprompt', function(e){
     e.preventDefault();
-    deferredPrompt=e;
+    deferredPrompt = e;
     if(banner && shouldShow() && !isStandalone()){
-      setTimeout(function(){banner.style.display='block';},6000);
+      setTimeout(function(){ banner.style.display = 'block'; }, 5000);
     }
   });
 
+  // 4. Click sur "Installer"
   if(installBtn){
-    installBtn.addEventListener('click',async function(){
-      if(!deferredPrompt) return;
-      banner.style.display='none';
-      deferredPrompt.prompt();
-      await deferredPrompt.userChoice;
-      deferredPrompt=null;
+    installBtn.addEventListener('click', async function(){
+      // Si Android/Desktop avec prompt natif disponible
+      if(deferredPrompt){
+        banner.style.display = 'none';
+        deferredPrompt.prompt();
+        await deferredPrompt.userChoice;
+        deferredPrompt = null;
+        return;
+      }
+      // Sinon (iOS), on ouvre la modale visuelle
+      if(isIOS()){
+        banner.style.display = 'none';
+        iosModal.style.display = 'block';
+      }
     });
   }
 
+  // 5. Fermer modale iOS
+  if(iosClose){
+    iosClose.addEventListener('click', function(){
+      iosModal.style.display = 'none';
+    });
+  }
+  // Click sur le fond noir = fermer
+  if(iosModal){
+    iosModal.addEventListener('click', function(e){
+      if(e.target === iosModal){
+        iosModal.style.display = 'none';
+      }
+    });
+  }
+
+  // 6. Dismiss bannière (ne plus montrer 7j)
   if(dismissBtn){
-    dismissBtn.addEventListener('click',function(){
-      banner.style.display='none';
-      localStorage.setItem('pwa-banner-dismissed',Date.now().toString());
+    dismissBtn.addEventListener('click', function(){
+      banner.style.display = 'none';
+      localStorage.setItem('pwa-banner-dismissed', Date.now().toString());
     });
   }
 
-  // iOS — instructions manuelles
+  // 7. iOS - afficher la bannière auto (vu qu'il n'y a pas de beforeinstallprompt sur iOS)
   if(isIOS() && !isStandalone() && shouldShow() && banner){
-    setTimeout(function(){
-      if(titleEl) titleEl.textContent='Ajouter Cœur de Ville';
-      if(subEl) subEl.innerHTML='Tapez <strong style="color:#fff">Partager</strong> puis <strong style="color:#fff">"Sur l\'écran d\'accueil"</strong>';
-      if(installBtn) installBtn.style.display='none';
-      banner.style.display='block';
-    },6000);
+    setTimeout(function(){ banner.style.display = 'block'; }, 5000);
   }
 
-  window.addEventListener('appinstalled',function(){
+  // 8. Détection install réussi
+  window.addEventListener('appinstalled', function(){
     console.log('[PWA] Installée');
-    if(banner) banner.style.display='none';
+    if(banner) banner.style.display = 'none';
+    if(iosModal) iosModal.style.display = 'none';
   });
+
 })();
 </script>
-<!-- ============= /PWA ============= -->
+
 
 </body>
 </html>
