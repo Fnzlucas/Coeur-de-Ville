@@ -3871,8 +3871,16 @@ body.onb-open{overflow:hidden;}
   var ONB_KEY = 'cdv_onb_done';
   var onbEl = document.getElementById('onb');
 
-  // On efface l'ancien localStorage pour forcer l'affichage (migration ancien → nouveau onboarding)
-  try { localStorage.removeItem(ONB_KEY); } catch(e){}
+  // Vérifier si l'utilisateur a déjà vu l'onboarding
+  var alreadySeen = false;
+  try { alreadySeen = localStorage.getItem(ONB_KEY) === '1'; } catch(e){}
+
+  // Si déjà vu : on cache l'onboarding et on arrête là
+  if (alreadySeen) {
+    onbEl.classList.add('hidden');
+    onbEl.style.display = 'none';
+    return;
+  }
 
   document.body.classList.add('onb-open');
 
