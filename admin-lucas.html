@@ -1,0 +1,624 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<meta name="theme-color" content="#0a0a0a"/>
+<title>Admin Cœur de Ville — Modération</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"/>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html,body{font-family:'Inter',-apple-system,sans-serif;background:#0a0a0a;color:#e5e5e5;-webkit-font-smoothing:antialiased;font-size:14px;line-height:1.5;min-height:100vh;}
+
+/* LOGIN */
+#login-screen{position:fixed;inset:0;z-index:100;background:radial-gradient(ellipse at top,#1a1a1a 0%,#0a0a0a 60%);display:flex;align-items:center;justify-content:center;padding:20px;}
+#login-screen.hidden{display:none;}
+.login-glow{position:absolute;top:20%;left:50%;transform:translateX(-50%);width:600px;height:300px;background:radial-gradient(ellipse,rgba(255,107,53,0.15) 0%,transparent 70%);pointer-events:none;}
+.login-card{position:relative;z-index:1;width:100%;max-width:380px;background:rgba(20,20,20,0.7);backdrop-filter:blur(20px);border:1px solid rgba(255,255,255,0.08);border-radius:14px;padding:32px 28px;box-shadow:0 20px 60px rgba(0,0,0,0.5);}
+.login-brand{display:flex;align-items:center;gap:8px;margin-bottom:8px;font-size:13px;font-weight:700;color:#FF6B35;letter-spacing:-0.005em;}
+.login-brand .material-symbols-outlined{font-size:18px;font-variation-settings:'FILL' 1;}
+.login-title{font-size:22px;font-weight:800;color:#fff;margin-bottom:6px;letter-spacing:-0.015em;}
+.login-sub{font-size:13px;color:#888;margin-bottom:24px;line-height:1.5;}
+.login-field{margin-bottom:14px;}
+.login-label{font-size:11px;font-weight:600;color:#aaa;letter-spacing:0.04em;text-transform:uppercase;margin-bottom:6px;display:block;}
+.login-input{width:100%;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:8px;padding:11px 14px;font-family:Inter;font-size:14px;color:#fff;outline:none;transition:all 0.15s;}
+.login-input::placeholder{color:#555;}
+.login-input:focus{border-color:#FF6B35;background:rgba(255,107,53,0.05);}
+.login-btn{width:100%;background:#FF6B35;color:#000;border:none;border-radius:8px;padding:12px;font-family:Inter;font-size:14px;font-weight:700;cursor:pointer;margin-top:8px;letter-spacing:-0.005em;transition:all 0.15s;}
+.login-btn:hover{background:#ff8657;}
+.login-btn:active{transform:scale(0.98);}
+.login-error{margin-top:14px;padding:10px 12px;background:rgba(220,38,38,0.1);border:1px solid rgba(220,38,38,0.3);border-radius:8px;color:#fca5a5;font-size:12px;font-weight:500;display:flex;align-items:center;gap:6px;}
+.login-error .material-symbols-outlined{font-size:16px;}
+.login-foot{text-align:center;margin-top:18px;font-size:11px;color:#555;line-height:1.5;}
+
+/* TOPBAR */
+.topbar{background:rgba(10,10,10,0.85);backdrop-filter:blur(20px);border-bottom:1px solid rgba(255,255,255,0.06);height:56px;display:flex;align-items:center;justify-content:space-between;padding:0 24px;position:sticky;top:0;z-index:10;}
+.topbar-brand{display:flex;align-items:center;gap:8px;font-size:14px;font-weight:700;letter-spacing:-0.01em;}
+.topbar-brand .material-symbols-outlined{font-size:18px;color:#FF6B35;font-variation-settings:'FILL' 1;}
+.topbar-brand .badge-admin{background:rgba(255,107,53,0.15);color:#FF6B35;border:1px solid rgba(255,107,53,0.3);font-size:9px;font-weight:800;letter-spacing:0.08em;text-transform:uppercase;padding:2px 7px;border-radius:3px;margin-left:6px;}
+.topbar-user{display:flex;align-items:center;gap:10px;cursor:pointer;padding:6px 12px;border-radius:8px;transition:background 0.12s;}
+.topbar-user:hover{background:rgba(255,255,255,0.05);}
+.topbar-avatar{width:30px;height:30px;border-radius:50%;background:linear-gradient(135deg,#FF6B35,#3B5BDB);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:#fff;}
+.topbar-user-name{font-size:13px;font-weight:600;color:#fff;}
+.topbar-icon-btn{background:none;border:none;color:#888;cursor:pointer;width:36px;height:36px;border-radius:8px;display:flex;align-items:center;justify-content:center;transition:all 0.12s;}
+.topbar-icon-btn:hover{background:rgba(255,255,255,0.05);color:#fff;}
+.topbar-icon-btn .material-symbols-outlined{font-size:20px;}
+
+/* LAYOUT */
+.main{max-width:1200px;margin:0 auto;padding:32px 24px 60px;}
+
+.page-head{margin-bottom:32px;}
+.page-eyebrow{font-size:10px;font-weight:800;letter-spacing:0.2em;text-transform:uppercase;color:#FF6B35;margin-bottom:8px;display:flex;align-items:center;gap:8px;}
+.page-eyebrow::before{content:'';width:18px;height:2px;background:#FF6B35;border-radius:2px;display:inline-block;}
+.page-title{font-size:28px;font-weight:800;color:#fff;letter-spacing:-0.02em;margin-bottom:4px;line-height:1.1;}
+.page-sub{font-size:14px;color:#888;line-height:1.5;}
+
+/* STATS */
+.stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:32px;}
+.stat-card{background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.06);border-radius:12px;padding:18px;}
+.stat-head{display:flex;align-items:center;gap:8px;margin-bottom:12px;}
+.stat-head .material-symbols-outlined{font-size:18px;color:#888;}
+.stat-head-label{font-size:11px;font-weight:600;color:#888;letter-spacing:0.02em;text-transform:uppercase;}
+.stat-value{font-size:28px;font-weight:800;color:#fff;letter-spacing:-0.025em;line-height:1;font-variant-numeric:tabular-nums;}
+.stat-extra{font-size:11px;color:#666;margin-top:6px;font-weight:500;}
+.stat-card.urgent{border-color:rgba(255,107,53,0.3);background:rgba(255,107,53,0.04);}
+.stat-card.urgent .stat-head .material-symbols-outlined{color:#FF6B35;}
+.stat-card.urgent .stat-value{color:#FF6B35;}
+
+/* TABS */
+.tabs{display:flex;gap:4px;border-bottom:1px solid rgba(255,255,255,0.06);margin-bottom:24px;overflow-x:auto;-webkit-overflow-scrolling:touch;}
+.tab{padding:12px 20px;font-size:13px;font-weight:600;color:#888;cursor:pointer;border:none;background:none;font-family:Inter;border-bottom:2px solid transparent;transition:all 0.12s;white-space:nowrap;display:flex;align-items:center;gap:8px;}
+.tab:hover{color:#fff;}
+.tab.active{color:#fff;border-bottom-color:#FF6B35;}
+.tab .tab-count{background:rgba(255,255,255,0.08);font-size:11px;font-weight:700;padding:2px 8px;border-radius:10px;color:#aaa;}
+.tab.active .tab-count{background:rgba(255,107,53,0.2);color:#FF6B35;}
+.tab.urgent .tab-count{background:#FF6B35;color:#000;}
+
+/* IDEA CARDS — version dense pour modération */
+.ideas-grid{display:flex;flex-direction:column;gap:12px;}
+.idea-card{
+  background:rgba(255,255,255,0.03);
+  border:1px solid rgba(255,255,255,0.06);
+  border-radius:12px;
+  padding:18px 20px;
+  transition:all 0.15s;
+}
+.idea-card:hover{border-color:rgba(255,255,255,0.12);background:rgba(255,255,255,0.04);}
+.idea-card.pending{border-left:3px solid #FF6B35;}
+
+.idea-row1{display:flex;align-items:center;gap:10px;margin-bottom:10px;flex-wrap:wrap;}
+.idea-cat{font-size:10px;font-weight:700;color:#FF6B35;background:rgba(255,107,53,0.12);padding:3px 8px;border-radius:4px;letter-spacing:0.04em;text-transform:uppercase;}
+.idea-meta{font-size:11px;color:#666;font-weight:500;display:flex;align-items:center;gap:5px;}
+.idea-meta .material-symbols-outlined{font-size:13px;}
+.idea-status-pill{font-size:10px;font-weight:700;padding:3px 8px;border-radius:4px;letter-spacing:0.04em;text-transform:uppercase;display:inline-flex;align-items:center;gap:4px;}
+.idea-status-pill .material-symbols-outlined{font-size:12px;}
+.idea-status-pill.pending{background:rgba(255,107,53,0.12);color:#FF6B35;}
+.idea-status-pill.approved{background:rgba(34,197,94,0.12);color:#4ade80;}
+.idea-status-pill.in_progress{background:rgba(59,91,219,0.12);color:#60a5fa;}
+.idea-status-pill.done{background:rgba(34,197,94,0.18);color:#22c55e;}
+.idea-status-pill.rejected{background:rgba(239,68,68,0.12);color:#f87171;}
+
+.idea-title{font-size:16px;font-weight:700;color:#fff;letter-spacing:-0.01em;margin-bottom:6px;line-height:1.3;}
+.idea-body{font-size:13px;color:#b5b5b5;line-height:1.5;margin-bottom:12px;}
+
+.idea-stats-row{display:flex;align-items:center;gap:18px;margin-bottom:14px;padding-top:12px;border-top:1px solid rgba(255,255,255,0.05);font-size:12px;color:#888;font-weight:600;}
+.idea-stat{display:flex;align-items:center;gap:5px;}
+.idea-stat .material-symbols-outlined{font-size:14px;}
+.idea-stat .num{color:#fff;font-weight:700;font-variant-numeric:tabular-nums;}
+.idea-score-positive{color:#4ade80;}
+.idea-score-negative{color:#f87171;}
+
+.idea-actions{display:flex;gap:8px;flex-wrap:wrap;}
+.btn{font-family:Inter;font-size:12px;font-weight:600;border:none;border-radius:8px;padding:8px 14px;cursor:pointer;display:inline-flex;align-items:center;gap:6px;transition:all 0.12s;letter-spacing:-0.005em;}
+.btn .material-symbols-outlined{font-size:16px;}
+.btn-approve{background:#22c55e;color:#000;}
+.btn-approve:hover{background:#16a34a;color:#fff;}
+.btn-reject{background:rgba(239,68,68,0.1);color:#f87171;border:1px solid rgba(239,68,68,0.3);}
+.btn-reject:hover{background:rgba(239,68,68,0.2);}
+.btn-default{background:rgba(255,255,255,0.05);color:#ccc;border:1px solid rgba(255,255,255,0.1);}
+.btn-default:hover{background:rgba(255,255,255,0.08);color:#fff;}
+.btn-progress{background:rgba(59,91,219,0.15);color:#60a5fa;border:1px solid rgba(59,91,219,0.3);}
+.btn-progress:hover{background:rgba(59,91,219,0.25);}
+.btn-done{background:rgba(34,197,94,0.15);color:#4ade80;border:1px solid rgba(34,197,94,0.3);}
+.btn-done:hover{background:rgba(34,197,94,0.25);}
+
+/* MODAL */
+.modal-overlay{position:fixed;inset:0;z-index:200;background:rgba(0,0,0,0.7);backdrop-filter:blur(6px);display:none;align-items:center;justify-content:center;padding:20px;}
+.modal-overlay.show{display:flex;}
+.modal{background:#141414;border:1px solid rgba(255,255,255,0.1);border-radius:14px;width:100%;max-width:480px;max-height:85vh;overflow:hidden;display:flex;flex-direction:column;box-shadow:0 25px 80px rgba(0,0,0,0.6);}
+.modal-head{padding:18px 22px;border-bottom:1px solid rgba(255,255,255,0.06);display:flex;align-items:center;justify-content:space-between;}
+.modal-head-title{font-size:16px;font-weight:700;color:#fff;letter-spacing:-0.01em;}
+.modal-close{background:none;border:none;color:#888;cursor:pointer;width:32px;height:32px;border-radius:6px;display:flex;align-items:center;justify-content:center;}
+.modal-close:hover{background:rgba(255,255,255,0.05);color:#fff;}
+.modal-close .material-symbols-outlined{font-size:20px;}
+.modal-body{padding:20px 22px;overflow-y:auto;flex:1;}
+.modal-foot{padding:14px 22px;border-top:1px solid rgba(255,255,255,0.06);display:flex;gap:8px;justify-content:flex-end;}
+
+.field{margin-bottom:14px;}
+.field-label{font-size:12px;font-weight:600;color:#aaa;margin-bottom:6px;display:block;letter-spacing:0.02em;}
+.field-input,.field-textarea{width:100%;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:8px;padding:10px 12px;font-family:Inter;font-size:14px;color:#fff;outline:none;transition:all 0.15s;}
+.field-input:focus,.field-textarea:focus{border-color:#FF6B35;background:rgba(255,107,53,0.04);}
+.field-textarea{resize:vertical;min-height:80px;line-height:1.5;}
+
+/* TOAST */
+.toast{position:fixed;bottom:24px;right:24px;z-index:300;background:#1a1a1a;border:1px solid rgba(255,255,255,0.1);color:#fff;border-radius:10px;padding:12px 18px;display:flex;align-items:center;gap:10px;box-shadow:0 8px 32px rgba(0,0,0,0.5);font-size:13px;font-weight:600;transform:translateY(20px);opacity:0;pointer-events:none;transition:all 0.25s;}
+.toast.show{transform:translateY(0);opacity:1;pointer-events:auto;}
+.toast.success{border-color:rgba(34,197,94,0.3);}
+.toast.success .material-symbols-outlined{color:#22c55e;}
+.toast.error{border-color:rgba(239,68,68,0.3);}
+.toast.error .material-symbols-outlined{color:#f87171;}
+.toast .material-symbols-outlined{font-size:18px;font-variation-settings:'FILL' 1;}
+
+/* EMPTY STATE */
+.empty{text-align:center;padding:60px 20px;color:#666;}
+.empty .material-symbols-outlined{font-size:42px;color:#333;margin-bottom:12px;}
+.empty-title{font-size:14px;font-weight:600;color:#aaa;margin-bottom:4px;}
+.empty-text{font-size:13px;color:#666;}
+
+@media(max-width:768px){
+  .stats-grid{grid-template-columns:repeat(2,1fr);}
+  .main{padding:20px 16px 40px;}
+  .page-title{font-size:22px;}
+  .topbar{padding:0 16px;}
+}
+</style>
+</head>
+<body>
+
+<!-- LOGIN -->
+<div id="login-screen">
+  <div class="login-glow"></div>
+  <div class="login-card">
+    <div class="login-brand">
+      <span class="material-symbols-outlined">favorite</span>
+      Cœur de Ville
+    </div>
+    <h1 class="login-title">Espace administration</h1>
+    <p class="login-sub">Modération des idées citoyennes — accès restreint</p>
+
+    <div class="login-field">
+      <label class="login-label" for="login-pass">Mot de passe</label>
+      <input type="password" class="login-input" id="login-pass" placeholder="••••••••••••" autocomplete="current-password"/>
+    </div>
+
+    <button class="login-btn" onclick="doLogin()">Accéder à la plateforme</button>
+
+    <div id="login-error" class="login-error" style="display:none;">
+      <span class="material-symbols-outlined">error</span>
+      Mot de passe incorrect.
+    </div>
+
+    <div class="login-foot">Lucas — Admin Cœur de Ville · v1.0</div>
+  </div>
+</div>
+
+<!-- ADMIN -->
+<div id="admin-app" style="display:none;">
+
+  <header class="topbar">
+    <div class="topbar-brand">
+      <span class="material-symbols-outlined">favorite</span>
+      Cœur de Ville
+      <span class="badge-admin">Admin</span>
+    </div>
+    <div style="display:flex;align-items:center;gap:8px;">
+      <button class="topbar-icon-btn" onclick="loadAll()" title="Rafraîchir"><span class="material-symbols-outlined">refresh</span></button>
+      <div class="topbar-user" onclick="doLogout()" title="Déconnexion">
+        <div class="topbar-avatar">L</div>
+        <div class="topbar-user-name">Lucas</div>
+      </div>
+    </div>
+  </header>
+
+  <main class="main">
+
+    <div class="page-head">
+      <div class="page-eyebrow">Modération · Villeneuve-lès-Avignon</div>
+      <h1 class="page-title">Boîte à idées citoyennes</h1>
+      <p class="page-sub">Examinez les soumissions, validez ou rejetez avant publication. Suivez l'avancement des idées.</p>
+    </div>
+
+    <!-- STATS -->
+    <div class="stats-grid">
+      <div class="stat-card urgent">
+        <div class="stat-head"><span class="material-symbols-outlined">pending_actions</span><span class="stat-head-label">À modérer</span></div>
+        <div class="stat-value" id="stat-pending">—</div>
+        <div class="stat-extra">en attente de votre décision</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-head"><span class="material-symbols-outlined">check_circle</span><span class="stat-head-label">Validées</span></div>
+        <div class="stat-value" id="stat-approved">—</div>
+        <div class="stat-extra">visibles sur l'app habitants</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-head"><span class="material-symbols-outlined">how_to_vote</span><span class="stat-head-label">Votes citoyens</span></div>
+        <div class="stat-value" id="stat-votes">—</div>
+        <div class="stat-extra">soutiens cumulés</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-head"><span class="material-symbols-outlined">block</span><span class="stat-head-label">Rejetées</span></div>
+        <div class="stat-value" id="stat-rejected">—</div>
+        <div class="stat-extra">non conformes</div>
+      </div>
+    </div>
+
+    <!-- TABS -->
+    <div class="tabs">
+      <button class="tab urgent active" data-filter="pending"><span class="material-symbols-outlined">pending_actions</span>À modérer <span class="tab-count" id="tab-pending">—</span></button>
+      <button class="tab" data-filter="approved"><span class="material-symbols-outlined">visibility</span>Validées <span class="tab-count" id="tab-approved">—</span></button>
+      <button class="tab" data-filter="in_progress"><span class="material-symbols-outlined">build</span>En cours <span class="tab-count" id="tab-progress">—</span></button>
+      <button class="tab" data-filter="done"><span class="material-symbols-outlined">check_circle</span>Réalisées <span class="tab-count" id="tab-done">—</span></button>
+      <button class="tab" data-filter="rejected"><span class="material-symbols-outlined">block</span>Rejetées <span class="tab-count" id="tab-rejected">—</span></button>
+      <button class="tab" data-filter="all"><span class="material-symbols-outlined">all_inclusive</span>Toutes</button>
+    </div>
+
+    <!-- LISTE -->
+    <div class="ideas-grid" id="ideas-container">
+      <div class="empty"><span class="material-symbols-outlined">progress_activity</span><div class="empty-title">Chargement...</div></div>
+    </div>
+
+  </main>
+</div>
+
+<!-- MODAL RESPONSE -->
+<div class="modal-overlay" id="response-modal" onclick="if(event.target===this) closeResponseModal()">
+  <div class="modal">
+    <div class="modal-head">
+      <div class="modal-head-title">Réponse de la mairie</div>
+      <button class="modal-close" onclick="closeResponseModal()"><span class="material-symbols-outlined">close</span></button>
+    </div>
+    <div class="modal-body">
+      <p style="font-size:13px;color:#888;margin-bottom:14px;line-height:1.5;">Cette réponse sera affichée publiquement sous l'idée pour informer les citoyens.</p>
+      <div class="field">
+        <label class="field-label">Statut de l'idée</label>
+        <select class="field-input" id="response-status">
+          <option value="in_progress">🔵 En cours d'étude / réalisation</option>
+          <option value="done">✅ Réalisée / terminée</option>
+          <option value="approved">⚪ Garder en validée (non commencée)</option>
+        </select>
+      </div>
+      <div class="field">
+        <label class="field-label">Message de la mairie</label>
+        <textarea class="field-textarea" id="response-text" rows="4" placeholder="Ex : Travaux prévus T3 2026 / Étude budgétaire en cours / Réalisé le 8 avril 2026"></textarea>
+      </div>
+    </div>
+    <div class="modal-foot">
+      <button class="btn btn-default" onclick="closeResponseModal()">Annuler</button>
+      <button class="btn btn-approve" onclick="saveResponse()"><span class="material-symbols-outlined">save</span>Enregistrer</button>
+    </div>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast">
+  <span class="material-symbols-outlined">check_circle</span>
+  <span id="toast-msg"></span>
+</div>
+
+<script>
+// ════════════════════════════════════════════════════
+// CONFIG
+// ════════════════════════════════════════════════════
+const ADMIN_PASSWORD = 'cdv-mairie-2026-xK9pQzL3r7nM';
+const AUTH_KEY = 'cdv_lucas_auth';
+const API_BASE = '';
+const VILLE = 'villeneuve';
+
+const SUPABASE_URL = 'https://bopeecfejyrezrigdhex.supabase.co';
+const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJvcGVlY2ZlanlyZXpyaWdkaGV4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzcyMTQxNTYsImV4cCI6MjA5Mjc5MDE1Nn0.F5AB9XfuXmLlnPUrYNxF1ArOwaaAP-A2iEcc6qRCNiE';
+
+let CURRENT_FILTER = 'pending';
+let ALL_IDEAS = []; // Cache de toutes les idées
+let CURRENT_IDEA_ID = null;
+
+// ════════════════════════════════════════════════════
+// AUTH
+// ════════════════════════════════════════════════════
+function checkAuth() {
+  if (sessionStorage.getItem(AUTH_KEY) === '1') showApp();
+}
+
+function doLogin() {
+  const pass = document.getElementById('login-pass').value;
+  const err = document.getElementById('login-error');
+  if (pass === ADMIN_PASSWORD) {
+    sessionStorage.setItem(AUTH_KEY, '1');
+    showApp();
+  } else {
+    err.style.display = 'flex';
+    setTimeout(() => err.style.display = 'none', 4000);
+  }
+}
+
+function doLogout() {
+  if (!confirm('Se déconnecter ?')) return;
+  sessionStorage.removeItem(AUTH_KEY);
+  location.reload();
+}
+
+function showApp() {
+  document.getElementById('login-screen').classList.add('hidden');
+  document.getElementById('admin-app').style.display = 'block';
+  loadAll();
+}
+
+document.getElementById('login-pass').addEventListener('keypress', e => {
+  if (e.key === 'Enter') doLogin();
+});
+
+// ════════════════════════════════════════════════════
+// SUPABASE — Lecture directe (anon key + RLS bypass via service_role pas possible côté client, donc on fait une requête custom REST)
+// ════════════════════════════════════════════════════
+async function fetchAllIdeas() {
+  // On utilise l'API REST de Supabase directement avec l'anon key
+  // Mais l'anon key ne lit que les status approved/in_progress/done à cause des RLS.
+  // Pour voir les "pending" il faut un endpoint admin côté Vercel. Je le crée.
+  const res = await fetch(`${API_BASE}/api/admin-list-ideas?ville=${VILLE}`, {
+    headers: { 'x-admin-token': ADMIN_PASSWORD }
+  });
+  if (!res.ok) throw new Error('Erreur de chargement');
+  const data = await res.json();
+  return data.ideas || [];
+}
+
+async function updateIdeaStatus(ideaId, status, response = null) {
+  const res = await fetch(`${API_BASE}/api/admin-update-idea`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', 'x-admin-token': ADMIN_PASSWORD },
+    body: JSON.stringify({ id: ideaId, status, mairie_response: response })
+  });
+  if (!res.ok) {
+    const err = await res.json().catch(() => ({}));
+    throw new Error(err.error || 'Erreur de mise à jour');
+  }
+  return res.json();
+}
+
+// ════════════════════════════════════════════════════
+// HELPERS
+// ════════════════════════════════════════════════════
+function escapeHtml(s) {
+  return (s || '').replace(/[&<>"']/g, c => ({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[c]));
+}
+
+function timeAgo(ts) {
+  if (!ts) return 'inconnu';
+  const d = new Date(ts);
+  const diff = (Date.now() - d.getTime()) / 1000;
+  if (diff < 60) return "à l'instant";
+  if (diff < 3600) return `il y a ${Math.floor(diff/60)} min`;
+  if (diff < 86400) return `il y a ${Math.floor(diff/3600)} h`;
+  if (diff < 86400 * 30) return `il y a ${Math.floor(diff/86400)} j`;
+  return d.toLocaleDateString('fr-FR', { day:'numeric', month:'short', year:'numeric' });
+}
+
+const STATUS_LABELS = {
+  pending: { label: 'À modérer', icon: 'pending_actions', cls: 'pending' },
+  approved: { label: 'Validée', icon: 'visibility', cls: 'approved' },
+  in_progress: { label: 'En cours', icon: 'build', cls: 'in_progress' },
+  done: { label: 'Réalisée', icon: 'check_circle', cls: 'done' },
+  rejected: { label: 'Rejetée', icon: 'block', cls: 'rejected' }
+};
+
+// ════════════════════════════════════════════════════
+// RENDU
+// ════════════════════════════════════════════════════
+function renderIdea(idea) {
+  const status = STATUS_LABELS[idea.status] || STATUS_LABELS.approved;
+  const score = (idea.votes_up || 0) - (idea.votes_down || 0);
+  const scoreClass = score > 0 ? 'idea-score-positive' : (score < 0 ? 'idea-score-negative' : '');
+  const sign = score >= 0 ? '+' : '';
+
+  let actionsHtml = '';
+  if (idea.status === 'pending') {
+    actionsHtml = `
+      <button class="btn btn-approve" onclick="approveIdea(${idea.id})"><span class="material-symbols-outlined">check</span>Valider</button>
+      <button class="btn btn-reject" onclick="rejectIdea(${idea.id})"><span class="material-symbols-outlined">close</span>Rejeter</button>
+    `;
+  } else if (idea.status === 'approved') {
+    actionsHtml = `
+      <button class="btn btn-progress" onclick="openResponseModal(${idea.id})"><span class="material-symbols-outlined">build</span>Marquer en cours</button>
+      <button class="btn btn-done" onclick="markDone(${idea.id})"><span class="material-symbols-outlined">check_circle</span>Marquer réalisée</button>
+      <button class="btn btn-default" onclick="rejectIdea(${idea.id})"><span class="material-symbols-outlined">block</span>Retirer</button>
+    `;
+  } else if (idea.status === 'in_progress') {
+    actionsHtml = `
+      <button class="btn btn-done" onclick="markDone(${idea.id})"><span class="material-symbols-outlined">check_circle</span>Marquer réalisée</button>
+      <button class="btn btn-default" onclick="openResponseModal(${idea.id})"><span class="material-symbols-outlined">edit</span>Modifier réponse</button>
+    `;
+  } else if (idea.status === 'rejected') {
+    actionsHtml = `<button class="btn btn-default" onclick="restoreIdea(${idea.id})"><span class="material-symbols-outlined">restore</span>Restaurer</button>`;
+  } else if (idea.status === 'done') {
+    actionsHtml = `<button class="btn btn-default" onclick="openResponseModal(${idea.id})"><span class="material-symbols-outlined">edit</span>Modifier message</button>`;
+  }
+
+  const responseBlock = idea.mairie_response ? `
+    <div style="margin:10px 0;padding:10px 12px;background:rgba(96,165,250,0.08);border-left:3px solid #60a5fa;border-radius:6px;font-size:12px;color:#93c5fd;">
+      <strong style="color:#60a5fa;">Réponse mairie : </strong>${escapeHtml(idea.mairie_response)}
+    </div>` : '';
+
+  return `
+    <article class="idea-card ${idea.status === 'pending' ? 'pending' : ''}" data-id="${idea.id}">
+      <div class="idea-row1">
+        <span class="idea-cat">${escapeHtml(idea.category)}</span>
+        <span class="idea-status-pill ${status.cls}"><span class="material-symbols-outlined">${status.icon}</span>${status.label}</span>
+        <span class="idea-meta"><span class="material-symbols-outlined">person</span>${idea.author_name ? escapeHtml(idea.author_name) : 'Anonyme'}</span>
+        <span class="idea-meta"><span class="material-symbols-outlined">schedule</span>${timeAgo(idea.created_at)}</span>
+      </div>
+      <h3 class="idea-title">${escapeHtml(idea.title)}</h3>
+      <p class="idea-body">${escapeHtml(idea.body)}</p>
+      ${responseBlock}
+      <div class="idea-stats-row">
+        <div class="idea-stat"><span class="material-symbols-outlined">thumb_up</span><span class="num">${idea.votes_up || 0}</span></div>
+        <div class="idea-stat"><span class="material-symbols-outlined">thumb_down</span><span class="num">${idea.votes_down || 0}</span></div>
+        <div class="idea-stat"><span class="material-symbols-outlined">trending_up</span><span class="num ${scoreClass}">${sign}${score}</span></div>
+        <div class="idea-stat"><span class="material-symbols-outlined">visibility</span><span class="num">${idea.views || 0}</span></div>
+      </div>
+      <div class="idea-actions">${actionsHtml}</div>
+    </article>
+  `;
+}
+
+function renderList() {
+  const filtered = CURRENT_FILTER === 'all' ? ALL_IDEAS : ALL_IDEAS.filter(i => i.status === CURRENT_FILTER);
+  const container = document.getElementById('ideas-container');
+
+  if (filtered.length === 0) {
+    container.innerHTML = `
+      <div class="empty">
+        <span class="material-symbols-outlined">inbox</span>
+        <div class="empty-title">Aucune idée ${CURRENT_FILTER === 'pending' ? 'à modérer pour le moment' : 'dans cette catégorie'}</div>
+        <div class="empty-text">${CURRENT_FILTER === 'pending' ? 'Tout est à jour ! 🎉' : ''}</div>
+      </div>`;
+    return;
+  }
+
+  container.innerHTML = filtered.map(renderIdea).join('');
+}
+
+function updateStats() {
+  const pending = ALL_IDEAS.filter(i => i.status === 'pending').length;
+  const approved = ALL_IDEAS.filter(i => i.status === 'approved').length;
+  const inProgress = ALL_IDEAS.filter(i => i.status === 'in_progress').length;
+  const done = ALL_IDEAS.filter(i => i.status === 'done').length;
+  const rejected = ALL_IDEAS.filter(i => i.status === 'rejected').length;
+  const totalVotes = ALL_IDEAS.reduce((s, i) => s + (i.votes_up || 0) + (i.votes_down || 0), 0);
+
+  document.getElementById('stat-pending').textContent = pending;
+  document.getElementById('stat-approved').textContent = approved + inProgress + done;
+  document.getElementById('stat-votes').textContent = totalVotes.toLocaleString('fr-FR');
+  document.getElementById('stat-rejected').textContent = rejected;
+
+  document.getElementById('tab-pending').textContent = pending;
+  document.getElementById('tab-approved').textContent = approved;
+  document.getElementById('tab-progress').textContent = inProgress;
+  document.getElementById('tab-done').textContent = done;
+  document.getElementById('tab-rejected').textContent = rejected;
+}
+
+// ════════════════════════════════════════════════════
+// CHARGEMENT
+// ════════════════════════════════════════════════════
+async function loadAll() {
+  const container = document.getElementById('ideas-container');
+  container.innerHTML = `<div class="empty"><span class="material-symbols-outlined" style="animation:spin 1s linear infinite;">progress_activity</span><div class="empty-title">Chargement...</div></div>`;
+
+  try {
+    ALL_IDEAS = await fetchAllIdeas();
+    updateStats();
+    renderList();
+  } catch (err) {
+    console.error(err);
+    container.innerHTML = `<div class="empty"><span class="material-symbols-outlined">error</span><div class="empty-title">Erreur de chargement</div><div class="empty-text">${escapeHtml(err.message)}</div></div>`;
+  }
+}
+
+// ════════════════════════════════════════════════════
+// ACTIONS
+// ════════════════════════════════════════════════════
+async function approveIdea(id) {
+  try {
+    await updateIdeaStatus(id, 'approved');
+    showToast('Idée validée et publiée', 'success');
+    await loadAll();
+  } catch (err) {
+    showToast('Erreur : ' + err.message, 'error');
+  }
+}
+
+async function rejectIdea(id) {
+  if (!confirm('Rejeter cette idée ? Elle ne sera plus visible.')) return;
+  try {
+    await updateIdeaStatus(id, 'rejected');
+    showToast('Idée rejetée', 'success');
+    await loadAll();
+  } catch (err) {
+    showToast('Erreur : ' + err.message, 'error');
+  }
+}
+
+async function restoreIdea(id) {
+  try {
+    await updateIdeaStatus(id, 'pending');
+    showToast('Idée restaurée — à re-modérer', 'success');
+    await loadAll();
+  } catch (err) {
+    showToast('Erreur : ' + err.message, 'error');
+  }
+}
+
+async function markDone(id) {
+  const idea = ALL_IDEAS.find(i => i.id === id);
+  const msg = prompt("Message public à afficher (optionnel) :", idea?.mairie_response || 'Idée réalisée');
+  if (msg === null) return; // annulé
+  try {
+    await updateIdeaStatus(id, 'done', msg);
+    showToast('Idée marquée comme réalisée', 'success');
+    await loadAll();
+  } catch (err) {
+    showToast('Erreur : ' + err.message, 'error');
+  }
+}
+
+// MODAL
+function openResponseModal(id) {
+  CURRENT_IDEA_ID = id;
+  const idea = ALL_IDEAS.find(i => i.id === id);
+  if (idea) {
+    document.getElementById('response-status').value = idea.status === 'pending' || idea.status === 'approved' ? 'in_progress' : idea.status;
+    document.getElementById('response-text').value = idea.mairie_response || '';
+  }
+  document.getElementById('response-modal').classList.add('show');
+}
+
+function closeResponseModal() {
+  document.getElementById('response-modal').classList.remove('show');
+  CURRENT_IDEA_ID = null;
+}
+
+async function saveResponse() {
+  if (!CURRENT_IDEA_ID) return;
+  const status = document.getElementById('response-status').value;
+  const text = document.getElementById('response-text').value.trim();
+  try {
+    await updateIdeaStatus(CURRENT_IDEA_ID, status, text || null);
+    showToast('Réponse enregistrée', 'success');
+    closeResponseModal();
+    await loadAll();
+  } catch (err) {
+    showToast('Erreur : ' + err.message, 'error');
+  }
+}
+
+// TABS
+document.querySelectorAll('.tab').forEach(t => {
+  t.addEventListener('click', () => {
+    document.querySelectorAll('.tab').forEach(x => x.classList.remove('active'));
+    t.classList.add('active');
+    CURRENT_FILTER = t.dataset.filter;
+    renderList();
+  });
+});
+
+// TOAST
+function showToast(msg, type = 'success') {
+  const t = document.getElementById('toast');
+  document.getElementById('toast-msg').textContent = msg;
+  t.classList.remove('success', 'error');
+  t.classList.add(type);
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 3500);
+}
+
+// SPIN ANIM
+const style = document.createElement('style');
+style.textContent = '@keyframes spin{to{transform:rotate(360deg);}}';
+document.head.appendChild(style);
+
+// INIT
+checkAuth();
+</script>
+
+</body>
+</html>
