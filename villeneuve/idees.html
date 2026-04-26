@@ -1,0 +1,723 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1"/>
+<meta name="theme-color" content="#0f1923"/>
+<title>Boîte à idées — Cœur de Ville</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800;900&family=Inter:wght@300;400;500;600&display=swap"/>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
+html,body{font-family:'Manrope',sans-serif;background:#f4f6f9;color:#0f1923;-webkit-overflow-scrolling:touch;overflow-x:hidden;}
+body{padding-bottom:88px;}
+
+/* HEADER */
+#app-header{position:fixed;top:0;left:0;right:0;height:64px;z-index:1000;background:rgba(255,255,255,0.94);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);border-bottom:1px solid rgba(0,0,0,0.05);box-shadow:0 2px 20px rgba(15,25,35,0.07);display:flex;align-items:center;padding:0 16px;gap:8px;}
+#app-header .brand{font-family:Manrope;font-weight:900;font-size:16px;letter-spacing:-0.02em;display:flex;align-items:center;gap:6px;flex:1;justify-content:center;}
+#app-header .logo-img{height:26px;width:auto;display:block;object-fit:contain;}
+#app-header button{background:none;border:none;cursor:pointer;padding:6px;border-radius:50%;display:flex;color:#0f1923;}
+#app-header button:hover{background:rgba(0,0,0,0.05);}
+
+/* PAGE HEADER */
+.page-head{padding:80px 20px 16px;}
+.page-eyebrow{font-size:10px;font-weight:800;letter-spacing:0.2em;text-transform:uppercase;color:#FF6B35;margin-bottom:12px;display:flex;align-items:center;gap:8px;}
+.page-eyebrow::before{content:'';width:18px;height:2px;background:#FF6B35;border-radius:2px;display:inline-block;}
+.page-title{font-size:32px;font-weight:900;color:#0f1923;line-height:1.04;letter-spacing:-0.03em;margin-bottom:10px;}
+.page-sub{font-size:14px;color:#6b7280;line-height:1.5;font-weight:500;max-width:340px;}
+
+/* CTA SOUMETTRE */
+.submit-banner{
+  margin:8px 20px 24px;
+  background:linear-gradient(135deg,#3B5BDB 0%,#1a3a6e 100%);
+  border-radius:22px;padding:22px 22px 22px;color:#fff;
+  position:relative;overflow:hidden;
+  box-shadow:0 12px 32px rgba(59,91,219,0.25);
+}
+.submit-banner-glow{position:absolute;top:-30px;right:-30px;width:140px;height:140px;background:rgba(255,107,53,0.35);border-radius:50%;filter:blur(40px);}
+.submit-banner-content{position:relative;z-index:1;}
+.submit-banner-icon{width:42px;height:42px;border-radius:12px;background:rgba(255,255,255,0.15);display:flex;align-items:center;justify-content:center;margin-bottom:14px;}
+.submit-banner-icon .material-symbols-outlined{font-size:24px;color:#fff;font-variation-settings:'FILL' 1;}
+.submit-banner-title{font-size:18px;font-weight:900;letter-spacing:-0.015em;margin-bottom:6px;line-height:1.2;}
+.submit-banner-text{font-size:13px;color:rgba(255,255,255,0.82);line-height:1.5;font-weight:500;margin-bottom:16px;}
+.submit-banner-btn{
+  background:#fff;color:#1a3a6e;border:none;border-radius:100px;
+  padding:11px 20px;font-family:Manrope;font-size:13px;font-weight:800;
+  cursor:pointer;display:inline-flex;align-items:center;gap:6px;letter-spacing:-0.01em;
+  transition:transform 0.15s;
+}
+.submit-banner-btn:active{transform:scale(0.97);}
+.submit-banner-btn .material-symbols-outlined{font-size:16px;}
+
+/* STATS HABITANTS */
+.stats-row{display:flex;gap:8px;margin:0 20px 20px;}
+.stat-mini{flex:1;background:#fff;border-radius:14px;padding:12px 10px;text-align:center;box-shadow:0 2px 8px rgba(0,0,0,0.04);}
+.stat-mini-num{font-size:18px;font-weight:900;color:#0f1923;line-height:1;letter-spacing:-0.02em;font-variant-numeric:tabular-nums;}
+.stat-mini-lbl{font-size:9px;font-weight:700;color:#6b7280;letter-spacing:0.06em;text-transform:uppercase;margin-top:4px;line-height:1.2;}
+
+/* SECTION HEAD */
+.section-head{padding:8px 20px 14px;display:flex;align-items:baseline;justify-content:space-between;}
+.section-eyebrow{font-size:10px;font-weight:800;letter-spacing:0.2em;text-transform:uppercase;color:#FF6B35;margin-bottom:8px;display:flex;align-items:center;gap:8px;}
+.section-eyebrow::before{content:'';width:18px;height:2px;background:#FF6B35;border-radius:2px;display:inline-block;}
+.section-title{font-size:22px;font-weight:900;color:#0f1923;line-height:1.1;letter-spacing:-0.02em;}
+
+/* TABS */
+.tabs-row{padding:0 20px 14px;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;}
+.tabs-row::-webkit-scrollbar{display:none;}
+.tabs-inner{display:flex;gap:8px;width:max-content;}
+.tab-chip{
+  background:#fff;border:1px solid #e8edf2;color:#0f1923;
+  padding:8px 14px;border-radius:100px;
+  font-size:12px;font-weight:700;font-family:Manrope;
+  cursor:pointer;white-space:nowrap;transition:all 0.2s;
+  display:flex;align-items:center;gap:6px;
+}
+.tab-chip:hover{border-color:#0f1923;}
+.tab-chip.active{background:#0f1923;color:#fff;border-color:#0f1923;}
+.tab-chip-count{background:rgba(0,0,0,0.06);font-size:10px;padding:1px 6px;border-radius:20px;font-weight:800;}
+.tab-chip.active .tab-chip-count{background:rgba(255,255,255,0.2);}
+
+/* IDEA CARDS */
+.ideas-list{padding:0 20px 24px;display:flex;flex-direction:column;gap:12px;}
+.idea-card{
+  background:#fff;border-radius:18px;padding:16px;
+  display:flex;gap:14px;
+  box-shadow:0 2px 12px rgba(0,0,0,0.05);
+  transition:transform 0.15s;
+  cursor:pointer;
+}
+.idea-card:active{transform:scale(0.99);}
+
+.idea-vote-col{
+  display:flex;flex-direction:column;align-items:center;gap:4px;
+  flex-shrink:0;width:54px;
+}
+.vote-btn{
+  width:42px;height:42px;border-radius:50%;
+  border:1.5px solid #e8edf2;background:#fff;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+  transition:all 0.15s;color:#6b7280;
+}
+.vote-btn:hover{background:#f4f6f9;}
+.vote-btn .material-symbols-outlined{font-size:20px;}
+.vote-btn.up.voted{background:#dcfce7;border-color:#16a34a;color:#15803d;}
+.vote-btn.up.voted .material-symbols-outlined{font-variation-settings:'FILL' 1;}
+.vote-btn.down.voted{background:#fee2e2;border-color:#c8102e;color:#c8102e;}
+.vote-btn.down.voted .material-symbols-outlined{font-variation-settings:'FILL' 1;}
+.vote-score{
+  font-size:14px;font-weight:900;color:#0f1923;line-height:1;
+  font-variant-numeric:tabular-nums;
+}
+.vote-score.positive{color:#15803d;}
+.vote-score.negative{color:#c8102e;}
+
+.idea-body{flex:1;min-width:0;}
+.idea-meta-row{display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin-bottom:8px;}
+.idea-cat-tag{
+  font-size:9px;font-weight:800;letter-spacing:0.1em;text-transform:uppercase;
+  color:#FF6B35;
+}
+.idea-status-badge{
+  font-size:9px;font-weight:800;padding:3px 8px;border-radius:20px;
+  letter-spacing:0.06em;text-transform:uppercase;
+  display:inline-flex;align-items:center;gap:4px;
+}
+.idea-status-badge .material-symbols-outlined{font-size:11px;}
+.idea-status-badge.review{background:#fef3c7;color:#92400e;}
+.idea-status-badge.progress{background:#dbeafe;color:#1e40af;}
+.idea-status-badge.done{background:#dcfce7;color:#15803d;}
+.idea-author-mini{font-size:11px;color:#9ca3af;font-weight:600;margin-left:auto;}
+
+.idea-title{
+  font-size:15px;font-weight:800;color:#0f1923;line-height:1.3;
+  letter-spacing:-0.01em;margin-bottom:6px;font-family:Manrope;
+}
+.idea-text{
+  font-size:13px;color:#4a5568;line-height:1.5;font-weight:500;
+  margin-bottom:10px;
+  display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;
+}
+.idea-foot{display:flex;align-items:center;gap:14px;font-size:11px;color:#9ca3af;font-weight:600;}
+.idea-foot-item{display:flex;align-items:center;gap:4px;}
+.idea-foot-item .material-symbols-outlined{font-size:13px;}
+.idea-progress-note{
+  margin-top:10px;padding:8px 10px;background:#dbeafe;color:#1e40af;
+  border-radius:8px;font-size:11px;font-weight:600;display:flex;align-items:center;gap:6px;
+}
+.idea-progress-note .material-symbols-outlined{font-size:14px;}
+.idea-done-note{
+  margin-top:10px;padding:8px 10px;background:#dcfce7;color:#15803d;
+  border-radius:8px;font-size:11px;font-weight:600;display:flex;align-items:center;gap:6px;
+}
+.idea-done-note .material-symbols-outlined{font-size:14px;font-variation-settings:'FILL' 1;}
+
+/* MODAL FORMULAIRE */
+.modal-overlay{
+  position:fixed;inset:0;z-index:2000;
+  background:rgba(15,25,35,0.6);backdrop-filter:blur(4px);
+  display:none;align-items:flex-end;justify-content:center;
+}
+.modal-overlay.show{display:flex;}
+.modal-sheet{
+  background:#fff;border-radius:24px 24px 0 0;
+  width:100%;max-width:500px;max-height:92vh;
+  display:flex;flex-direction:column;
+  animation:slideUp 0.25s ease;
+}
+@keyframes slideUp{from{transform:translateY(100%);}to{transform:translateY(0);}}
+.modal-handle{width:36px;height:4px;background:#e5e7eb;border-radius:4px;margin:8px auto 0;flex-shrink:0;}
+.modal-head{padding:14px 20px 16px;border-bottom:1px solid #f1f5f9;display:flex;align-items:center;justify-content:space-between;}
+.modal-head-title{font-size:16px;font-weight:900;letter-spacing:-0.015em;}
+.modal-close{background:none;border:none;cursor:pointer;color:#6b7280;width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;}
+.modal-close:hover{background:#f4f6f9;color:#0f1923;}
+.modal-close .material-symbols-outlined{font-size:22px;}
+.modal-body{padding:18px 20px;overflow-y:auto;flex:1;}
+
+.notice{
+  padding:12px 14px;background:#eff6ff;border-left:3px solid #3B5BDB;
+  border-radius:8px;display:flex;gap:8px;align-items:flex-start;
+  margin-bottom:18px;
+}
+.notice .material-symbols-outlined{font-size:18px;color:#3B5BDB;flex-shrink:0;margin-top:1px;}
+.notice-text{font-size:12px;color:#1e3a8a;line-height:1.5;font-weight:500;}
+.notice-text strong{font-weight:700;}
+
+.field{margin-bottom:16px;}
+.field-label{font-size:12px;font-weight:800;color:#0f1923;margin-bottom:6px;display:flex;align-items:center;justify-content:space-between;letter-spacing:-0.005em;}
+.field-required{color:#c8102e;margin-left:2px;}
+.field-counter{font-size:10px;color:#9ca3af;font-weight:700;}
+.field-input,.field-textarea,.field-select{
+  width:100%;background:#f4f6f9;border:1.5px solid transparent;border-radius:12px;
+  padding:12px 14px;font-family:Manrope;font-size:14px;font-weight:600;color:#0f1923;
+  outline:none;transition:all 0.15s;
+}
+.field-input:focus,.field-textarea:focus,.field-select:focus{background:#fff;border-color:#3B5BDB;}
+.field-textarea{resize:none;min-height:100px;line-height:1.5;}
+.field-help{font-size:11px;color:#9ca3af;margin-top:5px;font-weight:500;}
+
+.cat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;}
+.cat-pick{
+  background:#f4f6f9;border:1.5px solid transparent;border-radius:12px;
+  padding:12px 6px;cursor:pointer;font-family:Manrope;text-align:center;
+  display:flex;flex-direction:column;align-items:center;gap:4px;
+  transition:all 0.12s;
+}
+.cat-pick:hover{background:#e8edf2;}
+.cat-pick.active{background:#fff;border-color:#3B5BDB;}
+.cat-pick .material-symbols-outlined{font-size:20px;color:#0f1923;}
+.cat-pick.active .material-symbols-outlined{color:#3B5BDB;font-variation-settings:'FILL' 1;}
+.cat-pick-name{font-size:10px;font-weight:700;color:#0f1923;line-height:1.2;}
+
+.modal-foot{padding:14px 20px;border-top:1px solid #f1f5f9;display:flex;gap:10px;flex-shrink:0;}
+.btn{font-family:Manrope;font-size:13px;font-weight:800;border-radius:100px;padding:13px 20px;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:6px;letter-spacing:-0.01em;border:none;}
+.btn-default{background:#f4f6f9;color:#0f1923;flex:1;}
+.btn-default:hover{background:#e8edf2;}
+.btn-primary{background:#0f1923;color:#fff;flex:2;}
+.btn-primary:hover{background:#1a2a3a;}
+.btn .material-symbols-outlined{font-size:16px;}
+
+/* TOAST */
+.toast{position:fixed;bottom:100px;left:20px;right:20px;z-index:3000;background:#0f1923;color:#fff;border-radius:14px;padding:14px 18px;display:flex;align-items:center;gap:10px;box-shadow:0 8px 32px rgba(0,0,0,0.25);font-size:13px;font-weight:700;transform:translateY(120%);transition:all 0.3s;max-width:500px;margin:0 auto;}
+.toast.show{transform:translateY(0);}
+.toast .material-symbols-outlined{font-size:20px;color:#16a34a;font-variation-settings:'FILL' 1;}
+
+/* BOTTOM NAV */
+#bottomnav{position:fixed;bottom:0;left:0;right:0;z-index:1000;padding:0 14px calc(env(safe-area-inset-bottom,0px) + 10px);background:transparent;pointer-events:none;}
+#bottomnav > *{pointer-events:all;}
+.nav-inner{background:rgba(255,255,255,0.96);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);border-radius:20px;display:flex;align-items:center;justify-content:space-around;padding:10px 8px;box-shadow:0 4px 32px rgba(15,25,35,0.12),0 1px 0 rgba(255,255,255,0.8) inset;}
+.n-btn{background:none!important;border:none;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:3px;padding:6px 10px;border-radius:0;transition:color 0.2s;color:#94a3b8;font-family:Manrope;}
+.n-btn .material-symbols-outlined{font-size:22px;}
+.n-btn .lbl{font-size:9px;font-weight:700;letter-spacing:0.06em;text-transform:uppercase;}
+.n-btn.active{color:#0f1923;}
+.n-btn.active .material-symbols-outlined{font-variation-settings:'FILL' 1,'wght' 600;}
+
+/* HOW IT WORKS */
+.how-section{margin:24px 20px 32px;background:#fff;border-radius:18px;padding:22px;box-shadow:0 2px 12px rgba(0,0,0,0.04);}
+.how-title{font-size:14px;font-weight:900;color:#0f1923;margin-bottom:14px;letter-spacing:-0.01em;display:flex;align-items:center;gap:8px;}
+.how-title .material-symbols-outlined{font-size:18px;color:#FF6B35;}
+.how-step{display:flex;gap:12px;margin-bottom:14px;}
+.how-step:last-child{margin-bottom:0;}
+.how-step-num{width:28px;height:28px;border-radius:50%;background:#0f1923;color:#fff;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:900;flex-shrink:0;font-family:Manrope;}
+.how-step-content{flex:1;}
+.how-step-title{font-size:13px;font-weight:800;color:#0f1923;margin-bottom:2px;letter-spacing:-0.005em;}
+.how-step-text{font-size:12px;color:#6b7280;line-height:1.5;font-weight:500;}
+</style>
+</head>
+<body>
+
+<header id="app-header">
+  <button onclick="history.back()" aria-label="Retour">
+    <span class="material-symbols-outlined">arrow_back</span>
+  </button>
+  <div class="brand">
+    <span style="font-size:18px;font-weight:900;">Cœur de Ville</span>
+  </div>
+  <button aria-label="Recherche">
+    <span class="material-symbols-outlined">search</span>
+  </button>
+</header>
+
+<section class="page-head">
+  <div class="page-eyebrow">Démocratie participative</div>
+  <h1 class="page-title">Boîte à idées<br/>citoyennes</h1>
+  <p class="page-sub">Proposez vos idées pour Villeneuve, votez celles que vous soutenez, suivez ce que la mairie en fait.</p>
+</section>
+
+<!-- CTA Soumettre -->
+<div class="submit-banner">
+  <div class="submit-banner-glow"></div>
+  <div class="submit-banner-content">
+    <div class="submit-banner-icon">
+      <span class="material-symbols-outlined">lightbulb</span>
+    </div>
+    <div class="submit-banner-title">Vous avez une idée pour la commune ?</div>
+    <div class="submit-banner-text">Partagez-la avec les autres habitants. Elle sera examinée puis publiée pour être votée par la communauté.</div>
+    <button class="submit-banner-btn" onclick="openSubmit()">
+      <span class="material-symbols-outlined">add</span>
+      Soumettre une idée
+    </button>
+  </div>
+</div>
+
+<!-- STATS -->
+<div class="stats-row">
+  <div class="stat-mini">
+    <div class="stat-mini-num">42</div>
+    <div class="stat-mini-lbl">Idées partagées</div>
+  </div>
+  <div class="stat-mini">
+    <div class="stat-mini-num">1 836</div>
+    <div class="stat-mini-lbl">Votes citoyens</div>
+  </div>
+  <div class="stat-mini">
+    <div class="stat-mini-num">9</div>
+    <div class="stat-mini-lbl">Idées réalisées</div>
+  </div>
+</div>
+
+<!-- TABS FILTRES -->
+<div class="section-head">
+  <div>
+    <div class="section-eyebrow">Idées de la commune</div>
+    <div class="section-title">Que pensez-vous de ça&nbsp;?</div>
+  </div>
+</div>
+
+<div class="tabs-row">
+  <div class="tabs-inner">
+    <button class="tab-chip active">Populaires <span class="tab-chip-count">42</span></button>
+    <button class="tab-chip">Nouvelles <span class="tab-chip-count">12</span></button>
+    <button class="tab-chip">En cours <span class="tab-chip-count">3</span></button>
+    <button class="tab-chip">Réalisées <span class="tab-chip-count">9</span></button>
+  </div>
+</div>
+
+<!-- LISTE IDÉES -->
+<div class="ideas-list">
+
+  <article class="idea-card">
+    <div class="idea-vote-col">
+      <button class="vote-btn up" onclick="voteUp(this,event)">
+        <span class="material-symbols-outlined">thumb_up</span>
+      </button>
+      <div class="vote-score positive">+128</div>
+      <button class="vote-btn down" onclick="voteDown(this,event)">
+        <span class="material-symbols-outlined">thumb_down</span>
+      </button>
+    </div>
+    <div class="idea-body">
+      <div class="idea-meta-row">
+        <span class="idea-cat-tag">Mobilité</span>
+        <span class="idea-status-badge review"><span class="material-symbols-outlined">schedule</span>À l'étude</span>
+        <span class="idea-author-mini">par Marc D.</span>
+      </div>
+      <h3 class="idea-title">Créer une piste cyclable sécurisée le long de la RD900</h3>
+      <p class="idea-text">Beaucoup de cyclistes empruntent cette route dangereuse pour se rendre à Avignon. Une piste séparée améliorerait la sécurité.</p>
+      <div class="idea-foot">
+        <div class="idea-foot-item"><span class="material-symbols-outlined">calendar_today</span>22 avril</div>
+        <div class="idea-foot-item"><span class="material-symbols-outlined">comment</span>14</div>
+        <div class="idea-foot-item"><span class="material-symbols-outlined">visibility</span>423</div>
+      </div>
+    </div>
+  </article>
+
+  <article class="idea-card">
+    <div class="idea-vote-col">
+      <button class="vote-btn up" onclick="voteUp(this,event)">
+        <span class="material-symbols-outlined">thumb_up</span>
+      </button>
+      <div class="vote-score positive">+94</div>
+      <button class="vote-btn down" onclick="voteDown(this,event)">
+        <span class="material-symbols-outlined">thumb_down</span>
+      </button>
+    </div>
+    <div class="idea-body">
+      <div class="idea-meta-row">
+        <span class="idea-cat-tag">Espaces verts</span>
+        <span class="idea-status-badge progress"><span class="material-symbols-outlined">build</span>En cours</span>
+        <span class="idea-author-mini">par Sylvie M.</span>
+      </div>
+      <h3 class="idea-title">Aménager un parc pour enfants au quartier des Mourgues</h3>
+      <p class="idea-text">Le quartier compte de nombreuses jeunes familles mais aucun espace de jeu sécurisé. Un petit parc avec équipements adaptés serait apprécié.</p>
+      <div class="idea-progress-note">
+        <span class="material-symbols-outlined">schedule</span>
+        Réponse mairie : travaux prévus T3 2026
+      </div>
+      <div class="idea-foot" style="margin-top:10px;">
+        <div class="idea-foot-item"><span class="material-symbols-outlined">calendar_today</span>12 mars</div>
+        <div class="idea-foot-item"><span class="material-symbols-outlined">comment</span>28</div>
+        <div class="idea-foot-item"><span class="material-symbols-outlined">visibility</span>892</div>
+      </div>
+    </div>
+  </article>
+
+  <article class="idea-card">
+    <div class="idea-vote-col">
+      <button class="vote-btn up" onclick="voteUp(this,event)">
+        <span class="material-symbols-outlined">thumb_up</span>
+      </button>
+      <div class="vote-score positive">+76</div>
+      <button class="vote-btn down" onclick="voteDown(this,event)">
+        <span class="material-symbols-outlined">thumb_down</span>
+      </button>
+    </div>
+    <div class="idea-body">
+      <div class="idea-meta-row">
+        <span class="idea-cat-tag">Vie associative</span>
+        <span class="idea-status-badge review"><span class="material-symbols-outlined">schedule</span>À l'étude</span>
+        <span class="idea-author-mini">par Asso. ABC</span>
+      </div>
+      <h3 class="idea-title">Organiser un marché de Noël place Charles-David</h3>
+      <p class="idea-text">Plusieurs commerçants et artisans seraient prêts à participer. Cela animerait le centre-ville et soutiendrait l'économie locale.</p>
+      <div class="idea-foot">
+        <div class="idea-foot-item"><span class="material-symbols-outlined">calendar_today</span>5 mars</div>
+        <div class="idea-foot-item"><span class="material-symbols-outlined">comment</span>9</div>
+        <div class="idea-foot-item"><span class="material-symbols-outlined">visibility</span>312</div>
+      </div>
+    </div>
+  </article>
+
+  <article class="idea-card">
+    <div class="idea-vote-col">
+      <button class="vote-btn up" onclick="voteUp(this,event)">
+        <span class="material-symbols-outlined">thumb_up</span>
+      </button>
+      <div class="vote-score positive">+61</div>
+      <button class="vote-btn down" onclick="voteDown(this,event)">
+        <span class="material-symbols-outlined">thumb_down</span>
+      </button>
+    </div>
+    <div class="idea-body">
+      <div class="idea-meta-row">
+        <span class="idea-cat-tag">Voirie</span>
+        <span class="idea-status-badge done"><span class="material-symbols-outlined">check_circle</span>Réalisée</span>
+        <span class="idea-author-mini">par Pierre L.</span>
+      </div>
+      <h3 class="idea-title">Réfection des trottoirs rue de la République</h3>
+      <p class="idea-text">Les trottoirs étaient en très mauvais état, dangereux pour les personnes âgées et les poussettes.</p>
+      <div class="idea-done-note">
+        <span class="material-symbols-outlined">check_circle</span>
+        Travaux achevés le 8 avril 2026
+      </div>
+      <div class="idea-foot" style="margin-top:10px;">
+        <div class="idea-foot-item"><span class="material-symbols-outlined">calendar_today</span>18 janvier</div>
+        <div class="idea-foot-item"><span class="material-symbols-outlined">comment</span>34</div>
+      </div>
+    </div>
+  </article>
+
+  <article class="idea-card">
+    <div class="idea-vote-col">
+      <button class="vote-btn up" onclick="voteUp(this,event)">
+        <span class="material-symbols-outlined">thumb_up</span>
+      </button>
+      <div class="vote-score positive">+52</div>
+      <button class="vote-btn down" onclick="voteDown(this,event)">
+        <span class="material-symbols-outlined">thumb_down</span>
+      </button>
+    </div>
+    <div class="idea-body">
+      <div class="idea-meta-row">
+        <span class="idea-cat-tag">Environnement</span>
+        <span class="idea-status-badge review"><span class="material-symbols-outlined">schedule</span>À l'étude</span>
+        <span class="idea-author-mini">par Julie R.</span>
+      </div>
+      <h3 class="idea-title">Installer plus de poubelles de tri au centre-ville</h3>
+      <p class="idea-text">Il manque des points de collecte pour le verre et le plastique près de la place du marché.</p>
+      <div class="idea-foot">
+        <div class="idea-foot-item"><span class="material-symbols-outlined">calendar_today</span>il y a 4 jours</div>
+        <div class="idea-foot-item"><span class="material-symbols-outlined">comment</span>6</div>
+        <div class="idea-foot-item"><span class="material-symbols-outlined">visibility</span>178</div>
+      </div>
+    </div>
+  </article>
+
+  <article class="idea-card">
+    <div class="idea-vote-col">
+      <button class="vote-btn up" onclick="voteUp(this,event)">
+        <span class="material-symbols-outlined">thumb_up</span>
+      </button>
+      <div class="vote-score positive">+34</div>
+      <button class="vote-btn down" onclick="voteDown(this,event)">
+        <span class="material-symbols-outlined">thumb_down</span>
+      </button>
+    </div>
+    <div class="idea-body">
+      <div class="idea-meta-row">
+        <span class="idea-cat-tag">Culture</span>
+        <span class="idea-status-badge review"><span class="material-symbols-outlined">schedule</span>À l'étude</span>
+        <span class="idea-author-mini">par Thomas G.</span>
+      </div>
+      <h3 class="idea-title">Cinéma en plein air l'été à la Chartreuse</h3>
+      <p class="idea-text">Une séance par semaine en juillet-août dans le grand cloître. Cadre exceptionnel et animation pour les habitants.</p>
+      <div class="idea-foot">
+        <div class="idea-foot-item"><span class="material-symbols-outlined">calendar_today</span>il y a 1 semaine</div>
+        <div class="idea-foot-item"><span class="material-symbols-outlined">comment</span>11</div>
+        <div class="idea-foot-item"><span class="material-symbols-outlined">visibility</span>245</div>
+      </div>
+    </div>
+  </article>
+
+</div>
+
+<!-- COMMENT ÇA MARCHE -->
+<div class="how-section">
+  <div class="how-title"><span class="material-symbols-outlined">help</span>Comment ça marche&nbsp;?</div>
+  <div class="how-step">
+    <div class="how-step-num">1</div>
+    <div class="how-step-content">
+      <div class="how-step-title">Vous proposez une idée</div>
+      <div class="how-step-text">Décrivez votre suggestion en quelques lignes. Restez constructif et précis.</div>
+    </div>
+  </div>
+  <div class="how-step">
+    <div class="how-step-num">2</div>
+    <div class="how-step-content">
+      <div class="how-step-title">Vérification sous 48h</div>
+      <div class="how-step-text">Un modérateur vérifie qu'elle respecte les règles avant publication.</div>
+    </div>
+  </div>
+  <div class="how-step">
+    <div class="how-step-num">3</div>
+    <div class="how-step-content">
+      <div class="how-step-title">Les habitants votent</div>
+      <div class="how-step-text">Pouce vers le haut ou vers le bas pour faire entendre votre voix.</div>
+    </div>
+  </div>
+  <div class="how-step">
+    <div class="how-step-num">4</div>
+    <div class="how-step-content">
+      <div class="how-step-title">La mairie répond</div>
+      <div class="how-step-text">Elle examine, communique et fait avancer les idées les plus soutenues.</div>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL SOUMISSION -->
+<div class="modal-overlay" id="submit-modal" onclick="if(event.target===this) closeSubmit()">
+  <div class="modal-sheet">
+    <div class="modal-handle"></div>
+    <div class="modal-head">
+      <div class="modal-head-title">Soumettre une idée</div>
+      <button class="modal-close" onclick="closeSubmit()"><span class="material-symbols-outlined">close</span></button>
+    </div>
+    <div class="modal-body">
+
+      <div class="notice">
+        <span class="material-symbols-outlined">info</span>
+        <div class="notice-text">Votre idée sera <strong>vérifiée par un modérateur sous 48h</strong> avant d'être publiée. Vous serez notifié de sa publication.</div>
+      </div>
+
+      <div class="field">
+        <div class="field-label">
+          Titre de votre idée<span class="field-required">*</span>
+          <span class="field-counter" id="t-c">0 / 80</span>
+        </div>
+        <input type="text" class="field-input" id="idea-title-input" maxlength="80" placeholder="Ex : Créer une piste cyclable rue X" oninput="updCounters()"/>
+      </div>
+
+      <div class="field">
+        <div class="field-label">Catégorie<span class="field-required">*</span></div>
+        <div class="cat-grid">
+          <button class="cat-pick active" data-cat="Mobilité" onclick="pickCat(this)">
+            <span class="material-symbols-outlined">directions_bike</span>
+            <span class="cat-pick-name">Mobilité</span>
+          </button>
+          <button class="cat-pick" data-cat="Espaces verts" onclick="pickCat(this)">
+            <span class="material-symbols-outlined">park</span>
+            <span class="cat-pick-name">Espaces verts</span>
+          </button>
+          <button class="cat-pick" data-cat="Voirie" onclick="pickCat(this)">
+            <span class="material-symbols-outlined">construction</span>
+            <span class="cat-pick-name">Voirie</span>
+          </button>
+          <button class="cat-pick" data-cat="Culture" onclick="pickCat(this)">
+            <span class="material-symbols-outlined">theater_comedy</span>
+            <span class="cat-pick-name">Culture</span>
+          </button>
+          <button class="cat-pick" data-cat="Vie associative" onclick="pickCat(this)">
+            <span class="material-symbols-outlined">groups</span>
+            <span class="cat-pick-name">Associatif</span>
+          </button>
+          <button class="cat-pick" data-cat="Environnement" onclick="pickCat(this)">
+            <span class="material-symbols-outlined">eco</span>
+            <span class="cat-pick-name">Environnement</span>
+          </button>
+          <button class="cat-pick" data-cat="Sécurité" onclick="pickCat(this)">
+            <span class="material-symbols-outlined">shield</span>
+            <span class="cat-pick-name">Sécurité</span>
+          </button>
+          <button class="cat-pick" data-cat="Patrimoine" onclick="pickCat(this)">
+            <span class="material-symbols-outlined">castle</span>
+            <span class="cat-pick-name">Patrimoine</span>
+          </button>
+          <button class="cat-pick" data-cat="Autre" onclick="pickCat(this)">
+            <span class="material-symbols-outlined">more_horiz</span>
+            <span class="cat-pick-name">Autre</span>
+          </button>
+        </div>
+      </div>
+
+      <div class="field">
+        <div class="field-label">
+          Décrivez votre idée<span class="field-required">*</span>
+          <span class="field-counter" id="b-c">0 / 500</span>
+        </div>
+        <textarea class="field-textarea" id="idea-body-input" maxlength="500" rows="4" placeholder="Expliquez votre proposition, le contexte, les bénéfices attendus pour la commune..." oninput="updCounters()"></textarea>
+        <div class="field-help">Soyez constructif et précis. Plus c'est clair, plus ça aura de chance d'être soutenu.</div>
+      </div>
+
+      <div class="field">
+        <div class="field-label">Votre prénom (affiché publiquement)</div>
+        <input type="text" class="field-input" id="idea-author-input" maxlength="30" placeholder="Ex : Marie L."/>
+        <div class="field-help">Laissez vide pour rester anonyme.</div>
+      </div>
+
+    </div>
+    <div class="modal-foot">
+      <button class="btn btn-default" onclick="closeSubmit()">Annuler</button>
+      <button class="btn btn-primary" onclick="submitIdea()">
+        <span class="material-symbols-outlined">send</span>
+        Envoyer mon idée
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast">
+  <span class="material-symbols-outlined">check_circle</span>
+  <span id="toast-msg">Idée envoyée pour vérification</span>
+</div>
+
+<!-- BOTTOM NAV -->
+<nav id="bottomnav">
+  <div class="nav-inner">
+    <button class="n-btn" onclick="window.location.href='index.html'">
+      <span class="material-symbols-outlined">home</span>
+      <span class="lbl">Accueil</span>
+    </button>
+    <button class="n-btn" onclick="window.location.href='carte.html'">
+      <span class="material-symbols-outlined">explore</span>
+      <span class="lbl">Carte</span>
+    </button>
+    <button class="n-btn" onclick="window.location.href='parcours.html'">
+      <span class="material-symbols-outlined">route</span>
+      <span class="lbl">Parcours</span>
+    </button>
+    <button class="n-btn" onclick="window.location.href='commerces.html'">
+      <span class="material-symbols-outlined">storefront</span>
+      <span class="lbl">Commerces</span>
+    </button>
+    <button class="n-btn" onclick="window.location.href='agenda.html'">
+      <span class="material-symbols-outlined">event</span>
+      <span class="lbl">Agenda</span>
+    </button>
+  </div>
+</nav>
+
+<script>
+// VOTES
+function voteUp(btn,e){
+  e.stopPropagation();
+  const card = btn.closest('.idea-card');
+  const downBtn = card.querySelector('.vote-btn.down');
+  const score = card.querySelector('.vote-score');
+  const wasVoted = btn.classList.contains('voted');
+  btn.classList.toggle('voted');
+  downBtn.classList.remove('voted');
+  let n = parseInt(score.textContent.replace(/[+\-\s]/g,''),10);
+  if(wasVoted){ n-=1; }
+  else{ n+=1; }
+  score.textContent = (n>=0?'+':'')+n;
+  score.classList.toggle('positive', n>0);
+  score.classList.toggle('negative', n<0);
+}
+function voteDown(btn,e){
+  e.stopPropagation();
+  const card = btn.closest('.idea-card');
+  const upBtn = card.querySelector('.vote-btn.up');
+  const score = card.querySelector('.vote-score');
+  const wasVoted = btn.classList.contains('voted');
+  btn.classList.toggle('voted');
+  upBtn.classList.remove('voted');
+  let n = parseInt(score.textContent.replace(/[+\-\s]/g,''),10);
+  if(wasVoted){ n+=1; }
+  else{ n-=1; }
+  score.textContent = (n>=0?'+':'')+n;
+  score.classList.toggle('positive', n>0);
+  score.classList.toggle('negative', n<0);
+}
+
+// TABS
+document.querySelectorAll('.tab-chip').forEach(t=>{
+  t.addEventListener('click',()=>{
+    document.querySelectorAll('.tab-chip').forEach(x=>x.classList.remove('active'));
+    t.classList.add('active');
+  });
+});
+
+// MODAL SOUMISSION
+function openSubmit(){
+  document.getElementById('submit-modal').classList.add('show');
+  document.body.style.overflow='hidden';
+}
+function closeSubmit(){
+  document.getElementById('submit-modal').classList.remove('show');
+  document.body.style.overflow='';
+}
+function pickCat(btn){
+  document.querySelectorAll('.cat-pick').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+}
+function updCounters(){
+  const t=document.getElementById('idea-title-input').value.length;
+  const b=document.getElementById('idea-body-input').value.length;
+  document.getElementById('t-c').textContent=`${t} / 80`;
+  document.getElementById('b-c').textContent=`${b} / 500`;
+}
+function submitIdea(){
+  const title=document.getElementById('idea-title-input').value.trim();
+  const body=document.getElementById('idea-body-input').value.trim();
+  if(!title || !body){
+    showToast("Merci de remplir tous les champs requis","error");
+    return;
+  }
+  closeSubmit();
+  showToast("Merci ! Votre idée sera publiée après vérification (sous 48h)");
+  document.getElementById('idea-title-input').value='';
+  document.getElementById('idea-body-input').value='';
+  document.getElementById('idea-author-input').value='';
+  updCounters();
+}
+
+function showToast(msg,type){
+  const t=document.getElementById('toast');
+  document.getElementById('toast-msg').textContent=msg;
+  t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'),3500);
+}
+</script>
+
+</body>
+</html>
