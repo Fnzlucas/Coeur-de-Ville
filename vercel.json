@@ -8,6 +8,21 @@
           "value": "geolocation=(self), camera=(self), accelerometer=(self), gyroscope=(self), magnetometer=(self)"
         }
       ]
+    },
+    {
+      "source": "/api/(.*)",
+      "headers": [
+        { "key": "Access-Control-Allow-Origin", "value": "*" },
+        { "key": "Access-Control-Allow-Methods", "value": "GET, POST, OPTIONS" },
+        { "key": "Access-Control-Allow-Headers", "value": "Content-Type, x-admin-token" }
+      ]
+    },
+    {
+      "source": "/villeneuve/sw.js",
+      "headers": [
+        { "key": "Service-Worker-Allowed", "value": "/" },
+        { "key": "Cache-Control", "value": "no-cache" }
+      ]
     }
   ]
 }
