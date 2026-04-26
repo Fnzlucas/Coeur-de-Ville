@@ -217,8 +217,8 @@ body{padding-bottom:88px;}
 .btn .material-symbols-outlined{font-size:16px;}
 
 /* TOAST */
-.toast{position:fixed;bottom:100px;left:20px;right:20px;z-index:3000;background:#0f1923;color:#fff;border-radius:14px;padding:14px 18px;display:flex;align-items:center;gap:10px;box-shadow:0 8px 32px rgba(0,0,0,0.25);font-size:13px;font-weight:700;transform:translateY(120%);transition:all 0.3s;max-width:500px;margin:0 auto;}
-.toast.show{transform:translateY(0);}
+.toast{position:fixed;bottom:100px;left:20px;right:20px;z-index:3000;background:#0f1923;color:#fff;border-radius:14px;padding:14px 18px;display:flex;align-items:center;gap:10px;box-shadow:0 8px 32px rgba(0,0,0,0.25);font-size:13px;font-weight:700;transform:translateY(140%);opacity:0;pointer-events:none;transition:transform 0.3s ease,opacity 0.3s ease;max-width:500px;margin:0 auto;}
+.toast.show{transform:translateY(0);opacity:1;pointer-events:auto;}
 .toast .material-symbols-outlined{font-size:20px;color:#16a34a;font-variation-settings:'FILL' 1;}
 
 /* BOTTOM NAV */
@@ -282,15 +282,15 @@ body{padding-bottom:88px;}
 <!-- STATS -->
 <div class="stats-row">
   <div class="stat-mini">
-    <div class="stat-mini-num">42</div>
+    <div class="stat-mini-num" id="stat-total">—</div>
     <div class="stat-mini-lbl">Idées partagées</div>
   </div>
   <div class="stat-mini">
-    <div class="stat-mini-num">1 836</div>
+    <div class="stat-mini-num" id="stat-votes">—</div>
     <div class="stat-mini-lbl">Votes citoyens</div>
   </div>
   <div class="stat-mini">
-    <div class="stat-mini-num">9</div>
+    <div class="stat-mini-num" id="stat-done">—</div>
     <div class="stat-mini-lbl">Idées réalisées</div>
   </div>
 </div>
@@ -305,10 +305,10 @@ body{padding-bottom:88px;}
 
 <div class="tabs-row">
   <div class="tabs-inner">
-    <button class="tab-chip active">Populaires <span class="tab-chip-count">42</span></button>
-    <button class="tab-chip">Nouvelles <span class="tab-chip-count">12</span></button>
-    <button class="tab-chip">En cours <span class="tab-chip-count">3</span></button>
-    <button class="tab-chip">Réalisées <span class="tab-chip-count">9</span></button>
+    <button class="tab-chip active" data-filter="all">Populaires <span class="tab-chip-count" id="cnt-all">—</span></button>
+    <button class="tab-chip" data-filter="new">Nouvelles <span class="tab-chip-count" id="cnt-new">—</span></button>
+    <button class="tab-chip" data-filter="in_progress">En cours <span class="tab-chip-count" id="cnt-progress">—</span></button>
+    <button class="tab-chip" data-filter="done">Réalisées <span class="tab-chip-count" id="cnt-done">—</span></button>
   </div>
 </div>
 
@@ -588,16 +588,23 @@ function renderIdea(idea) {
 // ════════════════════════════════════════════════════
 // CHARGEMENT DES IDÉES
 // ════════════════════════════════════════════════════
-async function loadIdeas(status) {
+async function loadIdeas(filter) {
   const container = document.getElementById('ideas-container');
-  const loading = document.getElementById('ideas-loading');
-  const empty = document.getElementById('ideas-empty');
-
-  if (loading) loading.style.display = 'block';
-  if (empty) empty.style.display = 'none';
+  container.innerHTML = `
+    <div style="text-align:center;padding:40px 20px;color:#9ca3af;font-size:13px;font-weight:600;">
+      <span class="material-symbols-outlined" style="font-size:32px;display:block;margin-bottom:8px;animation:spin 1s linear infinite;">progress_activity</span>
+      Chargement des idées...
+    </div>`;
 
   try {
-    const url = `${API_BASE}/api/get-ideas?ville=${VILLE}${status ? '&status=' + status : ''}`;
+    // Mapping filtre → status API
+    let statusParam = '';
+    let sortParam = '';
+    if (filter === 'in_progress') statusParam = '&status=in_progress';
+    else if (filter === 'done') statusParam = '&status=done';
+    else if (filter === 'new') sortParam = '&sort=recent';
+
+    const url = `${API_BASE}/api/get-ideas?ville=${VILLE}${statusParam}${sortParam}`;
     console.log('[CDV] Fetching:', url);
     const res = await fetch(url);
     console.log('[CDV] Response status:', res.status);
@@ -614,7 +621,6 @@ async function loadIdeas(status) {
 
     if (ideas.length === 0) {
       const emptyDiv = document.createElement('div');
-      emptyDiv.id = 'ideas-empty';
       emptyDiv.style.cssText = 'text-align:center;padding:40px 20px;color:#9ca3af;';
       emptyDiv.innerHTML = `
         <span class="material-symbols-outlined" style="font-size:42px;display:block;margin-bottom:10px;color:#cbd5e1;">lightbulb</span>
@@ -633,6 +639,37 @@ async function loadIdeas(status) {
         <span class="material-symbols-outlined" style="font-size:32px;display:block;margin-bottom:8px;">error</span>
         Erreur de chargement. Réessayez plus tard.
       </div>`;
+  }
+}
+
+// Charge les compteurs des stats et tabs
+async function loadStats() {
+  try {
+    const res = await fetch(`${API_BASE}/api/get-ideas?ville=${VILLE}`);
+    if (!res.ok) return;
+    const data = await res.json();
+    const ideas = data.ideas || [];
+
+    const total = ideas.length;
+    const totalVotes = ideas.reduce((sum, i) => sum + (i.votes_up || 0), 0);
+    const done = ideas.filter(i => i.status === 'done').length;
+    const inProgress = ideas.filter(i => i.status === 'in_progress').length;
+    const recent = ideas.filter(i => {
+      const d = new Date(i.validated_at || i.created_at);
+      return (Date.now() - d.getTime()) < 1000 * 60 * 60 * 24 * 14; // 14 jours
+    }).length;
+
+    document.getElementById('stat-total').textContent = total;
+    document.getElementById('stat-votes').textContent = totalVotes.toLocaleString('fr-FR');
+    document.getElementById('stat-done').textContent = done;
+
+    document.getElementById('cnt-all').textContent = total;
+    document.getElementById('cnt-new').textContent = recent;
+    document.getElementById('cnt-progress').textContent = inProgress;
+    document.getElementById('cnt-done').textContent = done;
+  } catch (err) {
+    console.warn('Stats load failed:', err);
+    // En cas d'erreur, on met des "—" partout (déjà dans le HTML par défaut)
   }
 }
 
@@ -696,20 +733,12 @@ async function handleVote(ideaId, value, e) {
 // ════════════════════════════════════════════════════
 // TABS / FILTRES
 // ════════════════════════════════════════════════════
-const FILTER_MAP = {
-  'Populaires': null,        // tout (sort par votes)
-  'Nouvelles': null,         // tout (sort par date)
-  'En cours': 'in_progress',
-  'Réalisées': 'done'
-};
-
 document.querySelectorAll('.tab-chip').forEach(t => {
   t.addEventListener('click', () => {
     document.querySelectorAll('.tab-chip').forEach(x => x.classList.remove('active'));
     t.classList.add('active');
-    const label = t.textContent.trim().split(' ')[0]; // "Populaires", "Nouvelles", etc.
-    const status = FILTER_MAP[label] || null;
-    loadIdeas(status);
+    const filter = t.dataset.filter;
+    loadIdeas(filter === 'all' ? null : filter);
   });
 });
 
@@ -805,6 +834,7 @@ function showToast(msg, type) {
 // INIT
 // ════════════════════════════════════════════════════
 loadIdeas();
+loadStats();
 </script>
 
 </body>
