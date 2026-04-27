@@ -3,164 +3,265 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1"/>
-<meta name="theme-color" content="#0a0a0a"/>
-<title>Admin Cœur de Ville — Modération</title>
+<meta name="theme-color" content="#ffffff"/>
+<title>Cockpit Cœur de Ville</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"/>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"/>
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
-html,body{font-family:'Inter',-apple-system,sans-serif;background:#0a0a0a;color:#e5e5e5;-webkit-font-smoothing:antialiased;font-size:14px;line-height:1.5;min-height:100vh;}
+html,body{font-family:'Inter',-apple-system,sans-serif;background:#f7f8fa;color:#0f1923;-webkit-font-smoothing:antialiased;font-size:14px;line-height:1.5;}
 
-/* LOGIN */
-#login-screen{position:fixed;inset:0;z-index:100;background:radial-gradient(ellipse at top,#1a1a1a 0%,#0a0a0a 60%);display:flex;align-items:center;justify-content:center;padding:20px;}
+/* ═══════════════ LOGIN ═══════════════ */
+#login-screen{position:fixed;inset:0;z-index:100;background:linear-gradient(160deg,#fff 0%,#f0f4ff 100%);display:flex;align-items:center;justify-content:center;padding:20px;}
 #login-screen.hidden{display:none;}
-.login-glow{position:absolute;top:20%;left:50%;transform:translateX(-50%);width:600px;height:300px;background:radial-gradient(ellipse,rgba(255,107,53,0.15) 0%,transparent 70%);pointer-events:none;}
-.login-card{position:relative;z-index:1;width:100%;max-width:380px;background:rgba(20,20,20,0.7);backdrop-filter:blur(20px);border:1px solid rgba(255,255,255,0.08);border-radius:14px;padding:32px 28px;box-shadow:0 20px 60px rgba(0,0,0,0.5);}
-.login-brand{display:flex;align-items:center;gap:8px;margin-bottom:8px;font-size:13px;font-weight:700;color:#FF6B35;letter-spacing:-0.005em;}
+.login-glow{position:absolute;top:20%;left:50%;transform:translateX(-50%);width:600px;height:300px;background:radial-gradient(ellipse,rgba(255,107,53,0.12) 0%,transparent 70%);pointer-events:none;}
+.login-card{position:relative;z-index:1;width:100%;max-width:380px;background:#fff;border:1px solid #e5e8ec;border-radius:14px;padding:32px 28px;box-shadow:0 20px 60px rgba(15,25,35,0.08);}
+.login-brand{display:flex;align-items:center;gap:8px;margin-bottom:8px;font-size:13px;font-weight:700;color:#FF6B35;}
 .login-brand .material-symbols-outlined{font-size:18px;font-variation-settings:'FILL' 1;}
-.login-title{font-size:22px;font-weight:800;color:#fff;margin-bottom:6px;letter-spacing:-0.015em;}
-.login-sub{font-size:13px;color:#888;margin-bottom:24px;line-height:1.5;}
+.login-title{font-size:22px;font-weight:800;color:#0f1923;margin-bottom:6px;letter-spacing:-0.015em;}
+.login-sub{font-size:13px;color:#6b7280;margin-bottom:24px;}
 .login-field{margin-bottom:14px;}
-.login-label{font-size:11px;font-weight:600;color:#aaa;letter-spacing:0.04em;text-transform:uppercase;margin-bottom:6px;display:block;}
-.login-input{width:100%;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:8px;padding:11px 14px;font-family:Inter;font-size:14px;color:#fff;outline:none;transition:all 0.15s;}
-.login-input::placeholder{color:#555;}
-.login-input:focus{border-color:#FF6B35;background:rgba(255,107,53,0.05);}
-.login-btn{width:100%;background:#FF6B35;color:#000;border:none;border-radius:8px;padding:12px;font-family:Inter;font-size:14px;font-weight:700;cursor:pointer;margin-top:8px;letter-spacing:-0.005em;transition:all 0.15s;}
-.login-btn:hover{background:#ff8657;}
-.login-btn:active{transform:scale(0.98);}
-.login-error{margin-top:14px;padding:10px 12px;background:rgba(220,38,38,0.1);border:1px solid rgba(220,38,38,0.3);border-radius:8px;color:#fca5a5;font-size:12px;font-weight:500;display:flex;align-items:center;gap:6px;}
+.login-label{font-size:11px;font-weight:600;color:#5a6068;letter-spacing:0.04em;text-transform:uppercase;margin-bottom:6px;display:block;}
+.login-input{width:100%;background:#f4f6f9;border:1px solid #e5e8ec;border-radius:8px;padding:11px 14px;font-family:Inter;font-size:14px;color:#0f1923;outline:none;transition:all 0.15s;}
+.login-input:focus{border-color:#FF6B35;background:#fff;box-shadow:0 0 0 3px rgba(255,107,53,0.1);}
+.login-btn{width:100%;background:#0f1923;color:#fff;border:none;border-radius:8px;padding:12px;font-family:Inter;font-size:14px;font-weight:700;cursor:pointer;margin-top:8px;}
+.login-btn:hover{background:#1a2a3a;}
+.login-error{margin-top:14px;padding:10px 12px;background:#fef2f2;border:1px solid #fecaca;border-radius:8px;color:#991b1b;font-size:12px;display:flex;align-items:center;gap:6px;}
 .login-error .material-symbols-outlined{font-size:16px;}
-.login-foot{text-align:center;margin-top:18px;font-size:11px;color:#555;line-height:1.5;}
+.login-foot{text-align:center;margin-top:18px;font-size:11px;color:#94a3b8;}
 
-/* TOPBAR */
-.topbar{background:rgba(10,10,10,0.85);backdrop-filter:blur(20px);border-bottom:1px solid rgba(255,255,255,0.06);height:56px;display:flex;align-items:center;justify-content:space-between;padding:0 24px;position:sticky;top:0;z-index:10;}
-.topbar-brand{display:flex;align-items:center;gap:8px;font-size:14px;font-weight:700;letter-spacing:-0.01em;}
+/* ═══════════════ SELECTEUR DE VILLE ═══════════════ */
+#ville-screen{min-height:100vh;background:#f7f8fa;padding:48px 24px;display:none;}
+#ville-screen.show{display:block;}
+.ville-screen-wrap{max-width:900px;margin:0 auto;}
+.ville-screen-head{margin-bottom:32px;display:flex;align-items:flex-start;justify-content:space-between;gap:20px;flex-wrap:wrap;}
+.ville-brand{display:flex;align-items:center;gap:8px;font-size:13px;font-weight:700;color:#FF6B35;margin-bottom:14px;}
+.ville-brand .material-symbols-outlined{font-size:18px;font-variation-settings:'FILL' 1;}
+.ville-screen-title{font-size:32px;font-weight:800;color:#0f1923;letter-spacing:-0.025em;line-height:1.05;margin-bottom:8px;}
+.ville-screen-sub{font-size:14px;color:#6b7280;}
+.ville-logout-btn{background:#fff;border:1px solid #e5e8ec;color:#5a6068;font-size:12px;font-weight:600;padding:8px 14px;border-radius:8px;cursor:pointer;display:inline-flex;align-items:center;gap:6px;font-family:Inter;}
+.ville-logout-btn:hover{color:#0f1923;background:#f4f6f9;}
+.ville-logout-btn .material-symbols-outlined{font-size:14px;}
+
+.ville-table-wrap{background:#fff;border:1px solid #e5e8ec;border-radius:12px;overflow:hidden;box-shadow:0 1px 3px rgba(15,25,35,0.04);}
+.ville-table-head{padding:14px 20px;border-bottom:1px solid #f1f5f9;display:flex;align-items:center;justify-content:space-between;}
+.ville-table-title{font-size:13px;font-weight:700;color:#0f1923;display:flex;align-items:center;gap:8px;}
+.ville-table-title .material-symbols-outlined{font-size:17px;color:#FF6B35;}
+.ville-table-count{font-size:11px;color:#94a3b8;font-weight:600;}
+.ville-row{display:flex;align-items:center;gap:18px;padding:18px 20px;border-bottom:1px solid #f1f5f9;cursor:pointer;transition:all 0.12s;}
+.ville-row:hover{background:#fff7ed;}
+.ville-row:last-child{border-bottom:none;}
+.ville-row-icon{width:42px;height:42px;border-radius:10px;background:#fff7ed;color:#FF6B35;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.ville-row-icon .material-symbols-outlined{font-size:22px;}
+.ville-row.demo .ville-row-icon{background:#fef3c7;color:#92400e;}
+.ville-row.nego .ville-row-icon{background:#dbeafe;color:#1e40af;}
+.ville-row-info{flex:1;min-width:0;}
+.ville-row-name{font-size:15px;font-weight:700;color:#0f1923;letter-spacing:-0.005em;margin-bottom:2px;display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
+.ville-row-meta{font-size:11px;color:#6b7280;font-weight:500;display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
+.ville-row-meta-dot{opacity:0.4;}
+.ville-row-stats{display:flex;align-items:center;gap:24px;flex-shrink:0;}
+.ville-stat{text-align:right;}
+.ville-stat-num{font-size:14px;font-weight:700;color:#0f1923;font-variant-numeric:tabular-nums;line-height:1;}
+.ville-stat-lbl{font-size:9px;font-weight:700;color:#94a3b8;letter-spacing:0.06em;text-transform:uppercase;margin-top:3px;}
+.ville-row-arrow{color:#cbd5e1;flex-shrink:0;}
+.ville-row-arrow .material-symbols-outlined{font-size:20px;}
+.ville-row:hover .ville-row-arrow{color:#FF6B35;}
+.pill-status{font-size:9px;font-weight:800;padding:2px 7px;border-radius:3px;letter-spacing:0.06em;text-transform:uppercase;}
+.pill-status.live{background:#dcfce7;color:#15803d;}
+.pill-status.demo{background:#fef3c7;color:#92400e;}
+.pill-status.nego{background:#dbeafe;color:#1e40af;}
+
+.add-ville-btn{margin-top:14px;width:100%;background:#fff;border:1.5px dashed #e5e8ec;color:#6b7280;padding:14px;border-radius:12px;font-family:Inter;font-size:13px;font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px;transition:all 0.12s;}
+.add-ville-btn:hover{border-color:#FF6B35;color:#FF6B35;background:#fff7ed;}
+.add-ville-btn .material-symbols-outlined{font-size:16px;}
+
+/* ═══════════════ TOPBAR ═══════════════ */
+.topbar{background:#fff;border-bottom:1px solid #e5e8ec;height:56px;display:flex;align-items:center;justify-content:space-between;padding:0 20px;position:sticky;top:0;z-index:30;box-shadow:0 1px 3px rgba(15,25,35,0.03);}
+.topbar-left{display:flex;align-items:center;gap:16px;}
+.topbar-burger{background:none;border:none;color:#5a6068;cursor:pointer;width:36px;height:36px;border-radius:6px;display:flex;align-items:center;justify-content:center;}
+.topbar-burger:hover{background:#f4f6f9;color:#0f1923;}
+.topbar-burger .material-symbols-outlined{font-size:22px;}
+.topbar-brand{display:flex;align-items:center;gap:8px;font-size:14px;font-weight:700;color:#0f1923;}
 .topbar-brand .material-symbols-outlined{font-size:18px;color:#FF6B35;font-variation-settings:'FILL' 1;}
-.topbar-brand .badge-admin{background:rgba(255,107,53,0.15);color:#FF6B35;border:1px solid rgba(255,107,53,0.3);font-size:9px;font-weight:800;letter-spacing:0.08em;text-transform:uppercase;padding:2px 7px;border-radius:3px;margin-left:6px;}
-.topbar-user{display:flex;align-items:center;gap:10px;cursor:pointer;padding:6px 12px;border-radius:8px;transition:background 0.12s;}
-.topbar-user:hover{background:rgba(255,255,255,0.05);}
-.topbar-avatar{width:30px;height:30px;border-radius:50%;background:linear-gradient(135deg,#FF6B35,#3B5BDB);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:#fff;}
-.topbar-user-name{font-size:13px;font-weight:600;color:#fff;}
-.topbar-icon-btn{background:none;border:none;color:#888;cursor:pointer;width:36px;height:36px;border-radius:8px;display:flex;align-items:center;justify-content:center;transition:all 0.12s;}
-.topbar-icon-btn:hover{background:rgba(255,255,255,0.05);color:#fff;}
+.topbar-ville-switch{background:#f4f6f9;border:1px solid #e5e8ec;color:#0f1923;font-family:Inter;font-size:13px;font-weight:600;padding:7px 12px;border-radius:8px;cursor:pointer;display:flex;align-items:center;gap:8px;margin-left:6px;}
+.topbar-ville-switch:hover{background:#fff7ed;border-color:#FF6B35;}
+.topbar-ville-switch .material-symbols-outlined{font-size:14px;color:#FF6B35;}
+.topbar-ville-switch .city-icon{font-size:16px;}
+.topbar-right{display:flex;align-items:center;gap:8px;}
+.topbar-icon-btn{background:none;border:none;color:#5a6068;cursor:pointer;width:36px;height:36px;border-radius:8px;display:flex;align-items:center;justify-content:center;transition:all 0.12s;}
+.topbar-icon-btn:hover{background:#f4f6f9;color:#0f1923;}
 .topbar-icon-btn .material-symbols-outlined{font-size:20px;}
+.topbar-avatar{width:30px;height:30px;border-radius:50%;background:linear-gradient(135deg,#FF6B35,#3B5BDB);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:#fff;cursor:pointer;}
 
-/* LAYOUT */
-.main{max-width:1200px;margin:0 auto;padding:32px 24px 60px;}
+/* ═══════════════ EMPTY VILLE BANNER ═══════════════ */
+.empty-banner{background:#fff7ed;border:1px solid #fed7aa;border-radius:12px;padding:18px 22px;margin-bottom:22px;display:flex;align-items:center;gap:14px;}
+.empty-banner-icon{width:38px;height:38px;border-radius:10px;background:#fed7aa;color:#9a3412;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.empty-banner-icon .material-symbols-outlined{font-size:20px;font-variation-settings:'FILL' 1;}
+.empty-banner-text{flex:1;}
+.empty-banner-title{font-size:14px;font-weight:700;color:#9a3412;margin-bottom:2px;}
+.empty-banner-desc{font-size:12px;color:#9a3412;}
 
-.page-head{margin-bottom:32px;}
+/* ═══════════════ LAYOUT ═══════════════ */
+.layout{display:flex;min-height:calc(100vh - 56px);}
+.sidebar{width:240px;background:#fff;border-right:1px solid #e5e8ec;position:sticky;top:56px;height:calc(100vh - 56px);overflow-y:auto;flex-shrink:0;display:flex;flex-direction:column;transition:transform 0.25s ease;}
+.sidebar-section{font-size:10px;font-weight:700;color:#94a3b8;letter-spacing:0.12em;text-transform:uppercase;padding:18px 18px 8px;}
+.sidebar-link{display:flex;align-items:center;gap:11px;padding:9px 18px;font-size:13px;font-weight:500;color:#5a6068;cursor:pointer;text-decoration:none;border-left:2px solid transparent;transition:all 0.12s;}
+.sidebar-link:hover{background:#f4f6f9;color:#0f1923;}
+.sidebar-link.active{background:#fff7ed;color:#FF6B35;border-left-color:#FF6B35;font-weight:600;}
+.sidebar-link .material-symbols-outlined{font-size:18px;}
+.sidebar-link.active .material-symbols-outlined{color:#FF6B35;}
+.sidebar-link .badge{margin-left:auto;background:#FF6B35;color:#fff;font-size:9px;font-weight:800;padding:2px 6px;border-radius:10px;}
+.sidebar-foot{margin-top:auto;padding:14px 18px;border-top:1px solid #f1f5f9;font-size:11px;color:#94a3b8;}
+
+.main{flex:1;padding:28px 32px 60px;max-width:1320px;width:100%;}
 .page-eyebrow{font-size:10px;font-weight:800;letter-spacing:0.2em;text-transform:uppercase;color:#FF6B35;margin-bottom:8px;display:flex;align-items:center;gap:8px;}
-.page-eyebrow::before{content:'';width:18px;height:2px;background:#FF6B35;border-radius:2px;display:inline-block;}
-.page-title{font-size:28px;font-weight:800;color:#fff;letter-spacing:-0.02em;margin-bottom:4px;line-height:1.1;}
-.page-sub{font-size:14px;color:#888;line-height:1.5;}
+.page-eyebrow::before{content:'';width:18px;height:2px;background:#FF6B35;border-radius:2px;}
+.page-title{font-size:26px;font-weight:800;color:#0f1923;letter-spacing:-0.02em;margin-bottom:4px;line-height:1.1;}
+.page-sub{font-size:13px;color:#6b7280;line-height:1.5;}
+.page-head{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:24px;flex-wrap:wrap;gap:14px;}
 
-/* STATS */
-.stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:32px;}
-.stat-card{background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.06);border-radius:12px;padding:18px;}
+.stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:24px;}
+.stat-card{background:#fff;border:1px solid #e5e8ec;border-radius:12px;padding:18px;box-shadow:0 1px 2px rgba(15,25,35,0.03);}
+.stat-card.featured{background:linear-gradient(135deg,#fff7ed,#fff);border-color:#fed7aa;}
 .stat-head{display:flex;align-items:center;gap:8px;margin-bottom:12px;}
-.stat-head .material-symbols-outlined{font-size:18px;color:#888;}
-.stat-head-label{font-size:11px;font-weight:600;color:#888;letter-spacing:0.02em;text-transform:uppercase;}
-.stat-value{font-size:28px;font-weight:800;color:#fff;letter-spacing:-0.025em;line-height:1;font-variant-numeric:tabular-nums;}
-.stat-extra{font-size:11px;color:#666;margin-top:6px;font-weight:500;}
-.stat-card.urgent{border-color:rgba(255,107,53,0.3);background:rgba(255,107,53,0.04);}
-.stat-card.urgent .stat-head .material-symbols-outlined{color:#FF6B35;}
-.stat-card.urgent .stat-value{color:#FF6B35;}
+.stat-head .material-symbols-outlined{font-size:18px;color:#94a3b8;}
+.stat-card.featured .stat-head .material-symbols-outlined{color:#FF6B35;}
+.stat-head-label{font-size:11px;font-weight:600;color:#6b7280;letter-spacing:0.02em;text-transform:uppercase;}
+.stat-value{font-size:28px;font-weight:800;color:#0f1923;letter-spacing:-0.025em;line-height:1;font-variant-numeric:tabular-nums;}
+.stat-card.featured .stat-value{color:#FF6B35;}
+.stat-extra{font-size:11px;color:#6b7280;margin-top:8px;font-weight:500;}
+.stat-extra .up{color:#15803d;font-weight:700;}
+.stat-extra .down{color:#dc2626;font-weight:700;}
+.stat-loading{color:#cbd5e1;}
 
-/* TABS */
-.tabs{display:flex;gap:4px;border-bottom:1px solid rgba(255,255,255,0.06);margin-bottom:24px;overflow-x:auto;-webkit-overflow-scrolling:touch;}
-.tab{padding:12px 20px;font-size:13px;font-weight:600;color:#888;cursor:pointer;border:none;background:none;font-family:Inter;border-bottom:2px solid transparent;transition:all 0.12s;white-space:nowrap;display:flex;align-items:center;gap:8px;}
-.tab:hover{color:#fff;}
-.tab.active{color:#fff;border-bottom-color:#FF6B35;}
-.tab .tab-count{background:rgba(255,255,255,0.08);font-size:11px;font-weight:700;padding:2px 8px;border-radius:10px;color:#aaa;}
-.tab.active .tab-count{background:rgba(255,107,53,0.2);color:#FF6B35;}
-.tab.urgent .tab-count{background:#FF6B35;color:#000;}
+.panel{background:#fff;border:1px solid #e5e8ec;border-radius:12px;margin-bottom:18px;overflow:hidden;box-shadow:0 1px 2px rgba(15,25,35,0.03);}
+.panel-head{padding:14px 20px;border-bottom:1px solid #f1f5f9;display:flex;align-items:center;justify-content:space-between;}
+.panel-head-title{font-size:14px;font-weight:700;color:#0f1923;display:flex;align-items:center;gap:8px;letter-spacing:-0.005em;}
+.panel-head-title .material-symbols-outlined{font-size:18px;color:#FF6B35;}
+.panel-body{padding:20px;}
 
-/* IDEA CARDS — version dense pour modération */
-.ideas-grid{display:flex;flex-direction:column;gap:12px;}
-.idea-card{
-  background:rgba(255,255,255,0.03);
-  border:1px solid rgba(255,255,255,0.06);
-  border-radius:12px;
-  padding:18px 20px;
-  transition:all 0.15s;
-}
-.idea-card:hover{border-color:rgba(255,255,255,0.12);background:rgba(255,255,255,0.04);}
+.two-col{display:grid;grid-template-columns:2fr 1fr;gap:18px;margin-bottom:18px;}
+@media(max-width:1024px){.two-col{grid-template-columns:1fr;}}
+
+.activity-item{display:flex;align-items:flex-start;gap:12px;padding:12px 20px;border-bottom:1px solid #f1f5f9;}
+.activity-item:last-child{border-bottom:none;}
+.activity-icon{width:32px;height:32px;border-radius:50%;background:#fff7ed;color:#FF6B35;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.activity-icon .material-symbols-outlined{font-size:16px;}
+.activity-text{font-size:13px;color:#3a3f47;line-height:1.4;}
+.activity-text strong{color:#0f1923;font-weight:600;}
+.activity-meta{font-size:11px;color:#94a3b8;font-weight:500;margin-top:2px;}
+
+.data-table{width:100%;border-collapse:collapse;}
+.data-table thead{background:#fafbfc;}
+.data-table th{text-align:left;padding:10px 16px;font-size:10px;font-weight:700;color:#6b7280;letter-spacing:0.06em;text-transform:uppercase;border-bottom:1px solid #e5e8ec;}
+.data-table td{padding:14px 16px;border-bottom:1px solid #f1f5f9;font-size:13px;color:#0f1923;vertical-align:middle;}
+.data-table tr:last-child td{border-bottom:none;}
+.data-table tr:hover{background:#fafbfc;}
+.data-table .num{font-variant-numeric:tabular-nums;font-weight:600;}
+
+.pill{display:inline-flex;align-items:center;gap:4px;font-size:10px;font-weight:700;padding:3px 8px;border-radius:4px;letter-spacing:0.04em;text-transform:uppercase;}
+.pill .material-symbols-outlined{font-size:12px;}
+.pill.live{background:#dcfce7;color:#15803d;}
+.pill.demo{background:#fef3c7;color:#92400e;}
+.pill.paused{background:#f1f5f9;color:#5a6068;}
+.pill.cat{background:#f1f5f9;color:#3a3f47;}
+
+.btn{font-family:Inter;font-size:13px;font-weight:600;border:none;border-radius:8px;padding:8px 14px;cursor:pointer;display:inline-flex;align-items:center;gap:6px;transition:all 0.12s;letter-spacing:-0.005em;}
+.btn .material-symbols-outlined{font-size:16px;}
+.btn-primary{background:#0f1923;color:#fff;}
+.btn-primary:hover{background:#1a2a3a;}
+.btn-default{background:#fff;color:#3a3f47;border:1px solid #e5e8ec;}
+.btn-default:hover{background:#f4f6f9;border-color:#cbd5e1;}
+.btn-success{background:#16a34a;color:#fff;}
+.btn-success:hover{background:#15803d;}
+.btn-danger{background:#fff;color:#dc2626;border:1px solid #fecaca;}
+.btn-danger:hover{background:#fef2f2;}
+.btn-orange{background:#FF6B35;color:#fff;}
+.btn-orange:hover{background:#ea580c;}
+.btn-ghost{background:transparent;color:#6b7280;border:1px solid #e5e8ec;}
+.btn-ghost:hover{color:#0f1923;background:#f4f6f9;}
+.btn-sm{padding:6px 10px;font-size:12px;}
+
+.toolbar{display:flex;gap:10px;padding:14px 20px;border-bottom:1px solid #f1f5f9;align-items:center;flex-wrap:wrap;}
+.toolbar-search{flex:1;min-width:200px;position:relative;}
+.toolbar-search .material-symbols-outlined{position:absolute;left:10px;top:50%;transform:translateY(-50%);font-size:16px;color:#94a3b8;}
+.toolbar-search input{width:100%;padding:8px 12px 8px 34px;background:#f4f6f9;border:1px solid #e5e8ec;border-radius:6px;font-family:Inter;font-size:13px;color:#0f1923;outline:none;}
+.toolbar-search input:focus{border-color:#FF6B35;background:#fff;}
+
+/* MODAL */
+.modal-overlay{position:fixed;inset:0;z-index:200;background:rgba(15,25,35,0.4);backdrop-filter:blur(6px);display:none;align-items:center;justify-content:center;padding:20px;}
+.modal-overlay.show{display:flex;}
+.modal{background:#fff;border:1px solid #e5e8ec;border-radius:14px;width:100%;max-width:520px;max-height:85vh;overflow:hidden;display:flex;flex-direction:column;box-shadow:0 25px 80px rgba(15,25,35,0.2);}
+.modal-head{padding:18px 22px;border-bottom:1px solid #f1f5f9;display:flex;align-items:center;justify-content:space-between;}
+.modal-head-title{font-size:16px;font-weight:700;color:#0f1923;}
+.modal-close{background:none;border:none;color:#6b7280;cursor:pointer;width:32px;height:32px;border-radius:6px;display:flex;align-items:center;justify-content:center;}
+.modal-close:hover{background:#f4f6f9;color:#0f1923;}
+.modal-close .material-symbols-outlined{font-size:20px;}
+.modal-body{padding:20px 22px;overflow-y:auto;flex:1;}
+.modal-foot{padding:14px 22px;border-top:1px solid #f1f5f9;display:flex;gap:8px;justify-content:flex-end;}
+
+.field{margin-bottom:14px;}
+.field-label{font-size:11px;font-weight:700;color:#5a6068;margin-bottom:6px;display:block;letter-spacing:0.04em;text-transform:uppercase;}
+.field-input,.field-textarea,.field-select{width:100%;background:#f4f6f9;border:1px solid #e5e8ec;border-radius:8px;padding:10px 12px;font-family:Inter;font-size:14px;color:#0f1923;outline:none;}
+.field-input:focus,.field-textarea:focus,.field-select:focus{border-color:#FF6B35;background:#fff;}
+.field-textarea{resize:vertical;min-height:80px;line-height:1.5;}
+
+.toast{position:fixed;bottom:24px;right:24px;z-index:300;background:#0f1923;border:none;color:#fff;border-radius:10px;padding:12px 18px;display:flex;align-items:center;gap:10px;box-shadow:0 8px 32px rgba(15,25,35,0.25);font-size:13px;font-weight:600;transform:translateY(20px);opacity:0;pointer-events:none;transition:all 0.25s;}
+.toast.show{transform:translateY(0);opacity:1;pointer-events:auto;}
+.toast.success .material-symbols-outlined{color:#4ade80;}
+.toast.error{background:#dc2626;}
+.toast .material-symbols-outlined{font-size:18px;font-variation-settings:'FILL' 1;}
+
+/* IDÉES */
+.idea-card{background:#fff;border:1px solid #e5e8ec;border-radius:12px;padding:18px 20px;margin-bottom:12px;box-shadow:0 1px 2px rgba(15,25,35,0.03);}
 .idea-card.pending{border-left:3px solid #FF6B35;}
-
 .idea-row1{display:flex;align-items:center;gap:10px;margin-bottom:10px;flex-wrap:wrap;}
-.idea-cat{font-size:10px;font-weight:700;color:#FF6B35;background:rgba(255,107,53,0.12);padding:3px 8px;border-radius:4px;letter-spacing:0.04em;text-transform:uppercase;}
-.idea-meta{font-size:11px;color:#666;font-weight:500;display:flex;align-items:center;gap:5px;}
+.idea-cat{font-size:10px;font-weight:700;color:#FF6B35;background:#fff7ed;padding:3px 8px;border-radius:4px;letter-spacing:0.04em;text-transform:uppercase;}
+.idea-meta{font-size:11px;color:#94a3b8;font-weight:500;display:flex;align-items:center;gap:5px;}
 .idea-meta .material-symbols-outlined{font-size:13px;}
 .idea-status-pill{font-size:10px;font-weight:700;padding:3px 8px;border-radius:4px;letter-spacing:0.04em;text-transform:uppercase;display:inline-flex;align-items:center;gap:4px;}
 .idea-status-pill .material-symbols-outlined{font-size:12px;}
-.idea-status-pill.pending{background:rgba(255,107,53,0.12);color:#FF6B35;}
-.idea-status-pill.approved{background:rgba(34,197,94,0.12);color:#4ade80;}
-.idea-status-pill.in_progress{background:rgba(59,91,219,0.12);color:#60a5fa;}
-.idea-status-pill.done{background:rgba(34,197,94,0.18);color:#22c55e;}
-.idea-status-pill.rejected{background:rgba(239,68,68,0.12);color:#f87171;}
-
-.idea-title{font-size:16px;font-weight:700;color:#fff;letter-spacing:-0.01em;margin-bottom:6px;line-height:1.3;}
-.idea-body{font-size:13px;color:#b5b5b5;line-height:1.5;margin-bottom:12px;}
-
-.idea-stats-row{display:flex;align-items:center;gap:18px;margin-bottom:14px;padding-top:12px;border-top:1px solid rgba(255,255,255,0.05);font-size:12px;color:#888;font-weight:600;}
+.idea-status-pill.pending{background:#fff7ed;color:#FF6B35;}
+.idea-status-pill.approved{background:#dcfce7;color:#15803d;}
+.idea-status-pill.in_progress{background:#dbeafe;color:#1e40af;}
+.idea-status-pill.done{background:#dcfce7;color:#15803d;}
+.idea-status-pill.rejected{background:#fef2f2;color:#dc2626;}
+.idea-title{font-size:15px;font-weight:700;color:#0f1923;letter-spacing:-0.005em;margin-bottom:6px;line-height:1.3;}
+.idea-body{font-size:13px;color:#5a6068;line-height:1.5;margin-bottom:12px;}
+.idea-stats-row{display:flex;align-items:center;gap:18px;margin-bottom:14px;padding-top:12px;border-top:1px solid #f1f5f9;font-size:12px;color:#6b7280;font-weight:600;}
 .idea-stat{display:flex;align-items:center;gap:5px;}
 .idea-stat .material-symbols-outlined{font-size:14px;}
-.idea-stat .num{color:#fff;font-weight:700;font-variant-numeric:tabular-nums;}
-.idea-score-positive{color:#4ade80;}
-.idea-score-negative{color:#f87171;}
-
+.idea-stat .num{color:#0f1923;font-weight:700;font-variant-numeric:tabular-nums;}
 .idea-actions{display:flex;gap:8px;flex-wrap:wrap;}
-.btn{font-family:Inter;font-size:12px;font-weight:600;border:none;border-radius:8px;padding:8px 14px;cursor:pointer;display:inline-flex;align-items:center;gap:6px;transition:all 0.12s;letter-spacing:-0.005em;}
-.btn .material-symbols-outlined{font-size:16px;}
-.btn-approve{background:#22c55e;color:#000;}
-.btn-approve:hover{background:#16a34a;color:#fff;}
-.btn-reject{background:rgba(239,68,68,0.1);color:#f87171;border:1px solid rgba(239,68,68,0.3);}
-.btn-reject:hover{background:rgba(239,68,68,0.2);}
-.btn-default{background:rgba(255,255,255,0.05);color:#ccc;border:1px solid rgba(255,255,255,0.1);}
-.btn-default:hover{background:rgba(255,255,255,0.08);color:#fff;}
-.btn-progress{background:rgba(59,91,219,0.15);color:#60a5fa;border:1px solid rgba(59,91,219,0.3);}
-.btn-progress:hover{background:rgba(59,91,219,0.25);}
-.btn-done{background:rgba(34,197,94,0.15);color:#4ade80;border:1px solid rgba(34,197,94,0.3);}
-.btn-done:hover{background:rgba(34,197,94,0.25);}
 
-/* MODAL */
-.modal-overlay{position:fixed;inset:0;z-index:200;background:rgba(0,0,0,0.7);backdrop-filter:blur(6px);display:none;align-items:center;justify-content:center;padding:20px;}
-.modal-overlay.show{display:flex;}
-.modal{background:#141414;border:1px solid rgba(255,255,255,0.1);border-radius:14px;width:100%;max-width:480px;max-height:85vh;overflow:hidden;display:flex;flex-direction:column;box-shadow:0 25px 80px rgba(0,0,0,0.6);}
-.modal-head{padding:18px 22px;border-bottom:1px solid rgba(255,255,255,0.06);display:flex;align-items:center;justify-content:space-between;}
-.modal-head-title{font-size:16px;font-weight:700;color:#fff;letter-spacing:-0.01em;}
-.modal-close{background:none;border:none;color:#888;cursor:pointer;width:32px;height:32px;border-radius:6px;display:flex;align-items:center;justify-content:center;}
-.modal-close:hover{background:rgba(255,255,255,0.05);color:#fff;}
-.modal-close .material-symbols-outlined{font-size:20px;}
-.modal-body{padding:20px 22px;overflow-y:auto;flex:1;}
-.modal-foot{padding:14px 22px;border-top:1px solid rgba(255,255,255,0.06);display:flex;gap:8px;justify-content:flex-end;}
+.tabs{display:flex;gap:4px;border-bottom:1px solid #e5e8ec;margin-bottom:18px;overflow-x:auto;-webkit-overflow-scrolling:touch;}
+.tab{padding:11px 16px;font-size:13px;font-weight:600;color:#6b7280;cursor:pointer;border:none;background:none;font-family:Inter;border-bottom:2px solid transparent;white-space:nowrap;display:flex;align-items:center;gap:7px;}
+.tab:hover{color:#0f1923;}
+.tab.active{color:#0f1923;border-bottom-color:#FF6B35;}
+.tab .tab-count{background:#f1f5f9;font-size:10px;font-weight:700;padding:1px 7px;border-radius:10px;color:#6b7280;}
+.tab.active .tab-count{background:#fff7ed;color:#FF6B35;}
 
-.field{margin-bottom:14px;}
-.field-label{font-size:12px;font-weight:600;color:#aaa;margin-bottom:6px;display:block;letter-spacing:0.02em;}
-.field-input,.field-textarea{width:100%;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:8px;padding:10px 12px;font-family:Inter;font-size:14px;color:#fff;outline:none;transition:all 0.15s;}
-.field-input:focus,.field-textarea:focus{border-color:#FF6B35;background:rgba(255,107,53,0.04);}
-.field-textarea{resize:vertical;min-height:80px;line-height:1.5;}
+/* EMPTY */
+.empty{text-align:center;padding:60px 20px;color:#6b7280;}
+.empty .material-symbols-outlined{font-size:48px;color:#cbd5e1;margin-bottom:12px;}
+.empty-title{font-size:14px;font-weight:600;color:#3a3f47;margin-bottom:4px;}
+.empty-text{font-size:13px;color:#94a3b8;}
 
-/* TOAST */
-.toast{position:fixed;bottom:24px;right:24px;z-index:300;background:#1a1a1a;border:1px solid rgba(255,255,255,0.1);color:#fff;border-radius:10px;padding:12px 18px;display:flex;align-items:center;gap:10px;box-shadow:0 8px 32px rgba(0,0,0,0.5);font-size:13px;font-weight:600;transform:translateY(20px);opacity:0;pointer-events:none;transition:all 0.25s;}
-.toast.show{transform:translateY(0);opacity:1;pointer-events:auto;}
-.toast.success{border-color:rgba(34,197,94,0.3);}
-.toast.success .material-symbols-outlined{color:#22c55e;}
-.toast.error{border-color:rgba(239,68,68,0.3);}
-.toast.error .material-symbols-outlined{color:#f87171;}
-.toast .material-symbols-outlined{font-size:18px;font-variation-settings:'FILL' 1;}
+.view{display:none;}
+.view.active{display:block;animation:fadeIn 0.2s ease;}
+@keyframes fadeIn{from{opacity:0;transform:translateY(4px);}to{opacity:1;transform:translateY(0);}}
+@keyframes spin{to{transform:rotate(360deg);}}
+@keyframes pulse{0%,100%{opacity:0.4;}50%{opacity:1;}}
+.loading-pulse{animation:pulse 1.5s ease-in-out infinite;}
 
-/* EMPTY STATE */
-.empty{text-align:center;padding:60px 20px;color:#666;}
-.empty .material-symbols-outlined{font-size:42px;color:#333;margin-bottom:12px;}
-.empty-title{font-size:14px;font-weight:600;color:#aaa;margin-bottom:4px;}
-.empty-text{font-size:13px;color:#666;}
-
-@media(max-width:768px){
+@media(max-width:900px){
+  .sidebar{position:fixed;left:0;top:56px;z-index:25;transform:translateX(-100%);box-shadow:4px 0 24px rgba(0,0,0,0.15);}
+  .sidebar.open{transform:translateX(0);}
+  .sidebar-overlay{position:fixed;inset:56px 0 0 0;background:rgba(15,25,35,0.4);z-index:20;display:none;}
+  .sidebar-overlay.show{display:block;}
+  .main{padding:18px;}
   .stats-grid{grid-template-columns:repeat(2,1fr);}
-  .main{padding:20px 16px 40px;}
-  .page-title{font-size:22px;}
-  .topbar{padding:0 16px;}
+  .ville-row-stats{display:none;}
 }
 </style>
 </head>
@@ -170,98 +271,314 @@ html,body{font-family:'Inter',-apple-system,sans-serif;background:#0a0a0a;color:
 <div id="login-screen">
   <div class="login-glow"></div>
   <div class="login-card">
-    <div class="login-brand">
-      <span class="material-symbols-outlined">favorite</span>
-      Cœur de Ville
-    </div>
-    <h1 class="login-title">Espace administration</h1>
-    <p class="login-sub">Modération des idées citoyennes — accès restreint</p>
-
+    <div class="login-brand"><span class="material-symbols-outlined">favorite</span>Cœur de Ville</div>
+    <h1 class="login-title">Cockpit administrateur</h1>
+    <p class="login-sub">Pilotage global de la plateforme — accès restreint</p>
     <div class="login-field">
       <label class="login-label" for="login-pass">Mot de passe</label>
       <input type="password" class="login-input" id="login-pass" placeholder="••••••••••••" autocomplete="current-password"/>
     </div>
-
-    <button class="login-btn" onclick="doLogin()">Accéder à la plateforme</button>
-
-    <div id="login-error" class="login-error" style="display:none;">
-      <span class="material-symbols-outlined">error</span>
-      Mot de passe incorrect.
-    </div>
-
-    <div class="login-foot">Lucas — Admin Cœur de Ville · v1.0</div>
+    <button class="login-btn" onclick="doLogin()">Accéder au cockpit</button>
+    <div id="login-error" class="login-error" style="display:none;"><span class="material-symbols-outlined">error</span>Mot de passe incorrect.</div>
+    <div class="login-foot">Lucas — Admin Cœur de Ville · v4.0</div>
   </div>
 </div>
 
-<!-- ADMIN -->
+<!-- SÉLECTEUR -->
+<div id="ville-screen">
+  <div class="ville-screen-wrap">
+    <div class="ville-screen-head">
+      <div>
+        <div class="ville-brand"><span class="material-symbols-outlined">favorite</span>Cœur de Ville · Cockpit</div>
+        <h1 class="ville-screen-title">Choisissez une ville</h1>
+        <p class="ville-screen-sub">Sélectionnez la commune pour accéder à son tableau de bord et ses données réelles.</p>
+      </div>
+      <button class="ville-logout-btn" onclick="doLogout()"><span class="material-symbols-outlined">logout</span>Déconnexion</button>
+    </div>
+
+    <div class="ville-table-wrap">
+      <div class="ville-table-head">
+        <div class="ville-table-title"><span class="material-symbols-outlined">location_city</span>Mes villes</div>
+        <div class="ville-table-count" id="ville-count">— villes</div>
+      </div>
+      <div id="villes-list"></div>
+    </div>
+
+    <button class="add-ville-btn" onclick="showToast('Fonctionnalité à venir — création de ville depuis le cockpit','info')"><span class="material-symbols-outlined">add</span>Ajouter une nouvelle ville</button>
+  </div>
+</div>
+
+<!-- COCKPIT -->
 <div id="admin-app" style="display:none;">
 
   <header class="topbar">
-    <div class="topbar-brand">
-      <span class="material-symbols-outlined">favorite</span>
-      Cœur de Ville
-      <span class="badge-admin">Admin</span>
+    <div class="topbar-left">
+      <button class="topbar-burger" onclick="toggleSidebar()"><span class="material-symbols-outlined">menu</span></button>
+      <div class="topbar-brand"><span class="material-symbols-outlined">favorite</span>Cœur de Ville</div>
+      <button class="topbar-ville-switch" onclick="goToVilleSelector()" title="Changer de ville">
+        <span class="material-symbols-outlined city-icon">location_city</span>
+        <span id="topbar-ville-name">—</span>
+        <span class="material-symbols-outlined">unfold_more</span>
+      </button>
     </div>
-    <div style="display:flex;align-items:center;gap:8px;">
-      <button class="topbar-icon-btn" onclick="loadAll()" title="Rafraîchir"><span class="material-symbols-outlined">refresh</span></button>
-      <div class="topbar-user" onclick="doLogout()" title="Déconnexion">
-        <div class="topbar-avatar">L</div>
-        <div class="topbar-user-name">Lucas</div>
-      </div>
+    <div class="topbar-right">
+      <button class="topbar-icon-btn" onclick="refreshAll()" title="Rafraîchir"><span class="material-symbols-outlined">refresh</span></button>
+      <div class="topbar-avatar" onclick="doLogout()" title="Déconnexion">L</div>
     </div>
   </header>
 
-  <main class="main">
+  <div class="layout">
+    <div class="sidebar-overlay" id="sidebar-overlay" onclick="closeSidebar()"></div>
 
-    <div class="page-head">
-      <div class="page-eyebrow">Modération · Villeneuve-lès-Avignon</div>
-      <h1 class="page-title">Boîte à idées citoyennes</h1>
-      <p class="page-sub">Examinez les soumissions, validez ou rejetez avant publication. Suivez l'avancement des idées.</p>
-    </div>
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-section">Pilotage</div>
+      <a class="sidebar-link active" data-view="dashboard"><span class="material-symbols-outlined">dashboard</span>Tableau de bord</a>
 
-    <!-- STATS -->
-    <div class="stats-grid">
-      <div class="stat-card urgent">
-        <div class="stat-head"><span class="material-symbols-outlined">pending_actions</span><span class="stat-head-label">À modérer</span></div>
-        <div class="stat-value" id="stat-pending">—</div>
-        <div class="stat-extra">en attente de votre décision</div>
+      <div class="sidebar-section">Catalogue</div>
+      <a class="sidebar-link" data-view="commerces"><span class="material-symbols-outlined">storefront</span>Commerces</a>
+      <a class="sidebar-link" data-view="parcours"><span class="material-symbols-outlined">route</span>Parcours</a>
+      <a class="sidebar-link" data-view="evenements"><span class="material-symbols-outlined">event</span>Événements</a>
+
+      <div class="sidebar-section">Communication</div>
+      <a class="sidebar-link" data-view="notifications"><span class="material-symbols-outlined">campaign</span>Notifications</a>
+      <a class="sidebar-link" data-view="ideas"><span class="material-symbols-outlined">lightbulb</span>Boîte à idées<span class="badge" id="ideas-badge" style="display:none;">—</span></a>
+
+      <div class="sidebar-section">Mairie</div>
+      <a class="sidebar-link" data-view="users"><span class="material-symbols-outlined">supervisor_account</span>Utilisateurs</a>
+      <a class="sidebar-link" data-view="config"><span class="material-symbols-outlined">settings</span>Configuration</a>
+
+      <div class="sidebar-foot">Cœur de Ville · Cockpit v4.0<br/>Admin Lucas</div>
+    </aside>
+
+    <main class="main">
+
+      <div id="empty-banner" style="display:none;"></div>
+
+      <!-- DASHBOARD -->
+      <div class="view active" id="view-dashboard">
+        <div class="page-eyebrow" id="dash-eyebrow">Tableau de bord</div>
+        <h1 class="page-title" id="dash-title">Vue d'ensemble</h1>
+        <p class="page-sub" id="dash-sub">Pilotage et performance.</p>
+
+        <div class="stats-grid" style="margin-top:24px;">
+          <div class="stat-card featured">
+            <div class="stat-head"><span class="material-symbols-outlined">groups</span><span class="stat-head-label">Abonnés actifs</span></div>
+            <div class="stat-value loading-pulse" id="stat-abonnes">—</div>
+            <div class="stat-extra" id="stat-abonnes-extra">utilisateurs ayant activé les notifications</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-head"><span class="material-symbols-outlined">campaign</span><span class="stat-head-label">Notifications ce mois</span></div>
+            <div class="stat-value loading-pulse" id="stat-notifs">—</div>
+            <div class="stat-extra" id="stat-notifs-extra">diffusées par la mairie</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-head"><span class="material-symbols-outlined">lightbulb</span><span class="stat-head-label">Idées citoyennes</span></div>
+            <div class="stat-value loading-pulse" id="stat-ideas">—</div>
+            <div class="stat-extra" id="stat-ideas-extra">soumises par les habitants</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-head"><span class="material-symbols-outlined">trending_up</span><span class="stat-head-label">Engagement moyen</span></div>
+            <div class="stat-value loading-pulse" id="stat-engagement">—</div>
+            <div class="stat-extra" id="stat-engagement-extra">taux d'ouverture des notifications</div>
+          </div>
+        </div>
+
+        <div class="two-col">
+          <section class="panel">
+            <div class="panel-head"><div class="panel-head-title"><span class="material-symbols-outlined">notifications_active</span>Activité récente</div></div>
+            <div id="activity-list">
+              <div class="empty"><span class="material-symbols-outlined" style="animation:spin 1s linear infinite;">progress_activity</span><div class="empty-title">Chargement...</div></div>
+            </div>
+          </section>
+          <section class="panel">
+            <div class="panel-head"><div class="panel-head-title"><span class="material-symbols-outlined">info</span>État de la ville</div></div>
+            <div class="panel-body" id="ville-state">
+              <div class="empty"><span class="material-symbols-outlined">progress_activity</span><div class="empty-title">Chargement...</div></div>
+            </div>
+          </section>
+        </div>
       </div>
-      <div class="stat-card">
-        <div class="stat-head"><span class="material-symbols-outlined">check_circle</span><span class="stat-head-label">Validées</span></div>
-        <div class="stat-value" id="stat-approved">—</div>
-        <div class="stat-extra">visibles sur l'app habitants</div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-head"><span class="material-symbols-outlined">how_to_vote</span><span class="stat-head-label">Votes citoyens</span></div>
-        <div class="stat-value" id="stat-votes">—</div>
-        <div class="stat-extra">soutiens cumulés</div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-head"><span class="material-symbols-outlined">block</span><span class="stat-head-label">Rejetées</span></div>
-        <div class="stat-value" id="stat-rejected">—</div>
-        <div class="stat-extra">non conformes</div>
-      </div>
-    </div>
 
-    <!-- TABS -->
-    <div class="tabs">
-      <button class="tab urgent active" data-filter="pending"><span class="material-symbols-outlined">pending_actions</span>À modérer <span class="tab-count" id="tab-pending">—</span></button>
-      <button class="tab" data-filter="approved"><span class="material-symbols-outlined">visibility</span>Validées <span class="tab-count" id="tab-approved">—</span></button>
-      <button class="tab" data-filter="in_progress"><span class="material-symbols-outlined">build</span>En cours <span class="tab-count" id="tab-progress">—</span></button>
-      <button class="tab" data-filter="done"><span class="material-symbols-outlined">check_circle</span>Réalisées <span class="tab-count" id="tab-done">—</span></button>
-      <button class="tab" data-filter="rejected"><span class="material-symbols-outlined">block</span>Rejetées <span class="tab-count" id="tab-rejected">—</span></button>
-      <button class="tab" data-filter="all"><span class="material-symbols-outlined">all_inclusive</span>Toutes</button>
-    </div>
+      <!-- COMMERCES -->
+      <div class="view" id="view-commerces">
+        <div class="page-head">
+          <div>
+            <div class="page-eyebrow">Catalogue</div>
+            <h1 class="page-title">Commerces</h1>
+            <p class="page-sub">Gestion des commerces visibles dans l'app habitants.</p>
+          </div>
+          <button class="btn btn-orange"><span class="material-symbols-outlined">add</span>Ajouter un commerce</button>
+        </div>
+        <div class="stats-grid">
+          <div class="stat-card featured"><div class="stat-head"><span class="material-symbols-outlined">storefront</span><span class="stat-head-label">Commerces</span></div><div class="stat-value">0</div><div class="stat-extra">aucun import en base</div></div>
+          <div class="stat-card"><div class="stat-head"><span class="material-symbols-outlined">visibility</span><span class="stat-head-label">Vues totales</span></div><div class="stat-value">—</div><div class="stat-extra">en attente de tracking</div></div>
+          <div class="stat-card"><div class="stat-head"><span class="material-symbols-outlined">touch_app</span><span class="stat-head-label">Clics fiche</span></div><div class="stat-value">—</div><div class="stat-extra">en attente de tracking</div></div>
+          <div class="stat-card"><div class="stat-head"><span class="material-symbols-outlined">directions</span><span class="stat-head-label">Itinéraires GPS</span></div><div class="stat-value">—</div><div class="stat-extra">en attente de tracking</div></div>
+        </div>
+        <section class="panel">
+          <div class="empty">
+            <span class="material-symbols-outlined">storefront</span>
+            <div class="empty-title">Aucun commerce en base</div>
+            <div class="empty-text">Les commerces affichés dans l'app sont encore hardcodés. La migration en base sera faite prochainement.</div>
+          </div>
+        </section>
+      </div>
 
-    <!-- LISTE -->
-    <div class="ideas-grid" id="ideas-container">
-      <div class="empty"><span class="material-symbols-outlined">progress_activity</span><div class="empty-title">Chargement...</div></div>
-    </div>
+      <!-- PARCOURS -->
+      <div class="view" id="view-parcours">
+        <div class="page-head">
+          <div>
+            <div class="page-eyebrow">Catalogue</div>
+            <h1 class="page-title">Parcours signature</h1>
+            <p class="page-sub">Itinéraires touristiques visibles dans l'app habitants.</p>
+          </div>
+          <button class="btn btn-orange"><span class="material-symbols-outlined">add</span>Créer un parcours</button>
+        </div>
+        <div class="stats-grid">
+          <div class="stat-card featured"><div class="stat-head"><span class="material-symbols-outlined">route</span><span class="stat-head-label">Parcours</span></div><div class="stat-value">0</div><div class="stat-extra">aucun en base</div></div>
+          <div class="stat-card"><div class="stat-head"><span class="material-symbols-outlined">directions_walk</span><span class="stat-head-label">Démarrés</span></div><div class="stat-value">—</div><div class="stat-extra">tracking à venir</div></div>
+          <div class="stat-card"><div class="stat-head"><span class="material-symbols-outlined">flag</span><span class="stat-head-label">Terminés</span></div><div class="stat-value">—</div><div class="stat-extra">tracking à venir</div></div>
+          <div class="stat-card"><div class="stat-head"><span class="material-symbols-outlined">star</span><span class="stat-head-label">Note moyenne</span></div><div class="stat-value">—</div><div class="stat-extra">tracking à venir</div></div>
+        </div>
+        <section class="panel">
+          <div class="empty">
+            <span class="material-symbols-outlined">route</span>
+            <div class="empty-title">Aucun parcours en base</div>
+            <div class="empty-text">Les parcours affichés dans l'app sont encore hardcodés. La migration en base sera faite prochainement.</div>
+          </div>
+        </section>
+      </div>
 
-  </main>
+      <!-- ÉVÉNEMENTS -->
+      <div class="view" id="view-evenements">
+        <div class="page-head">
+          <div>
+            <div class="page-eyebrow">Catalogue</div>
+            <h1 class="page-title">Événements</h1>
+            <p class="page-sub">Agenda événementiel diffusé dans l'app.</p>
+          </div>
+          <button class="btn btn-orange"><span class="material-symbols-outlined">add</span>Ajouter un événement</button>
+        </div>
+        <div class="stats-grid">
+          <div class="stat-card featured"><div class="stat-head"><span class="material-symbols-outlined">event</span><span class="stat-head-label">À venir</span></div><div class="stat-value">0</div><div class="stat-extra">aucun en base</div></div>
+          <div class="stat-card"><div class="stat-head"><span class="material-symbols-outlined">visibility</span><span class="stat-head-label">Vues</span></div><div class="stat-value">—</div><div class="stat-extra">tracking à venir</div></div>
+          <div class="stat-card"><div class="stat-head"><span class="material-symbols-outlined">favorite</span><span class="stat-head-label">Favoris</span></div><div class="stat-value">—</div><div class="stat-extra">tracking à venir</div></div>
+          <div class="stat-card"><div class="stat-head"><span class="material-symbols-outlined">share</span><span class="stat-head-label">Partages</span></div><div class="stat-value">—</div><div class="stat-extra">tracking à venir</div></div>
+        </div>
+        <section class="panel">
+          <div class="empty">
+            <span class="material-symbols-outlined">event</span>
+            <div class="empty-title">Aucun événement en base</div>
+            <div class="empty-text">Les événements affichés dans l'app sont encore hardcodés. La migration en base sera faite prochainement.</div>
+          </div>
+        </section>
+      </div>
+
+      <!-- NOTIFICATIONS -->
+      <div class="view" id="view-notifications">
+        <div class="page-eyebrow">Communication</div>
+        <h1 class="page-title">Historique des notifications</h1>
+        <p class="page-sub">Toutes les notifications push réellement diffusées par la mairie.</p>
+        <div class="stats-grid" style="margin-top:24px;">
+          <div class="stat-card featured"><div class="stat-head"><span class="material-symbols-outlined">send</span><span class="stat-head-label">Total diffusées</span></div><div class="stat-value loading-pulse" id="notif-total">—</div><div class="stat-extra">depuis le lancement</div></div>
+          <div class="stat-card"><div class="stat-head"><span class="material-symbols-outlined">calendar_today</span><span class="stat-head-label">Ce mois-ci</span></div><div class="stat-value loading-pulse" id="notif-month">—</div><div class="stat-extra">notifications</div></div>
+          <div class="stat-card"><div class="stat-head"><span class="material-symbols-outlined">visibility</span><span class="stat-head-label">Engagement moyen</span></div><div class="stat-value loading-pulse" id="notif-engagement">—</div><div class="stat-extra">taux de réception</div></div>
+          <div class="stat-card"><div class="stat-head"><span class="material-symbols-outlined">groups</span><span class="stat-head-label">Abonnés joignables</span></div><div class="stat-value loading-pulse" id="notif-subs">—</div><div class="stat-extra">avec push activé</div></div>
+        </div>
+        <section class="panel" id="notifs-panel">
+          <div class="empty"><span class="material-symbols-outlined">progress_activity</span><div class="empty-title">Chargement...</div></div>
+        </section>
+      </div>
+
+      <!-- IDÉES -->
+      <div class="view" id="view-ideas">
+        <div class="page-head">
+          <div>
+            <div class="page-eyebrow">Modération</div>
+            <h1 class="page-title">Boîte à idées citoyennes</h1>
+            <p class="page-sub">Examinez les soumissions, validez ou rejetez avant publication.</p>
+          </div>
+        </div>
+        <div class="stats-grid">
+          <div class="stat-card featured"><div class="stat-head"><span class="material-symbols-outlined">pending_actions</span><span class="stat-head-label">À modérer</span></div><div class="stat-value" id="ideas-stat-pending">—</div><div class="stat-extra">en attente</div></div>
+          <div class="stat-card"><div class="stat-head"><span class="material-symbols-outlined">check_circle</span><span class="stat-head-label">Validées</span></div><div class="stat-value" id="ideas-stat-approved">—</div><div class="stat-extra">visibles sur l'app</div></div>
+          <div class="stat-card"><div class="stat-head"><span class="material-symbols-outlined">how_to_vote</span><span class="stat-head-label">Votes citoyens</span></div><div class="stat-value" id="ideas-stat-votes">—</div><div class="stat-extra">soutiens cumulés</div></div>
+          <div class="stat-card"><div class="stat-head"><span class="material-symbols-outlined">block</span><span class="stat-head-label">Rejetées</span></div><div class="stat-value" id="ideas-stat-rejected">—</div><div class="stat-extra">non conformes</div></div>
+        </div>
+        <div class="tabs">
+          <button class="tab active" data-filter="pending"><span class="material-symbols-outlined">pending_actions</span>À modérer <span class="tab-count" id="ideas-tab-pending">—</span></button>
+          <button class="tab" data-filter="approved"><span class="material-symbols-outlined">visibility</span>Validées <span class="tab-count" id="ideas-tab-approved">—</span></button>
+          <button class="tab" data-filter="in_progress"><span class="material-symbols-outlined">build</span>En cours <span class="tab-count" id="ideas-tab-progress">—</span></button>
+          <button class="tab" data-filter="done"><span class="material-symbols-outlined">check_circle</span>Réalisées <span class="tab-count" id="ideas-tab-done">—</span></button>
+          <button class="tab" data-filter="rejected"><span class="material-symbols-outlined">block</span>Rejetées <span class="tab-count" id="ideas-tab-rejected">—</span></button>
+          <button class="tab" data-filter="all"><span class="material-symbols-outlined">all_inclusive</span>Toutes</button>
+        </div>
+        <div id="ideas-container">
+          <div class="empty"><span class="material-symbols-outlined">progress_activity</span><div class="empty-title">Chargement...</div></div>
+        </div>
+      </div>
+
+      <!-- USERS -->
+      <div class="view" id="view-users">
+        <div class="page-head">
+          <div>
+            <div class="page-eyebrow">Mairie</div>
+            <h1 class="page-title">Utilisateurs mairie</h1>
+            <p class="page-sub">Comptes des agents municipaux ayant accès à l'admin mairie.</p>
+          </div>
+          <button class="btn btn-orange"><span class="material-symbols-outlined">person_add</span>Inviter un utilisateur</button>
+        </div>
+        <div class="stats-grid">
+          <div class="stat-card featured"><div class="stat-head"><span class="material-symbols-outlined">supervisor_account</span><span class="stat-head-label">Utilisateurs</span></div><div class="stat-value">0</div><div class="stat-extra">aucun en base</div></div>
+          <div class="stat-card"><div class="stat-head"><span class="material-symbols-outlined">admin_panel_settings</span><span class="stat-head-label">Administrateurs</span></div><div class="stat-value">—</div><div class="stat-extra">en attente</div></div>
+          <div class="stat-card"><div class="stat-head"><span class="material-symbols-outlined">login</span><span class="stat-head-label">Connexions ce mois</span></div><div class="stat-value">—</div><div class="stat-extra">tracking à venir</div></div>
+          <div class="stat-card"><div class="stat-head"><span class="material-symbols-outlined">mail</span><span class="stat-head-label">Invitations en attente</span></div><div class="stat-value">—</div><div class="stat-extra">aucune</div></div>
+        </div>
+        <section class="panel">
+          <div class="empty">
+            <span class="material-symbols-outlined">supervisor_account</span>
+            <div class="empty-title">Aucun utilisateur en base</div>
+            <div class="empty-text">L'admin mairie utilise actuellement un mot de passe partagé. Les comptes individuels seront ajoutés prochainement.</div>
+          </div>
+        </section>
+      </div>
+
+      <!-- CONFIG -->
+      <div class="view" id="view-config">
+        <div class="page-eyebrow">Paramètres</div>
+        <h1 class="page-title">Configuration de la ville</h1>
+        <p class="page-sub">Informations, branding et tarifs de la ville.</p>
+
+        <div class="two-col" style="margin-top:24px;">
+          <section class="panel">
+            <div class="panel-head"><div class="panel-head-title"><span class="material-symbols-outlined">info</span>Informations générales</div></div>
+            <div class="panel-body">
+              <div class="field"><label class="field-label">Nom de la ville</label><input type="text" class="field-input" id="config-name"/></div>
+              <div class="field"><label class="field-label">Code postal</label><input type="text" class="field-input" id="config-cp"/></div>
+              <div class="field"><label class="field-label">Population</label><input type="text" class="field-input" id="config-pop"/></div>
+              <div class="field"><label class="field-label">Statut</label><select class="field-select" id="config-status"><option value="live">🟢 Live</option><option value="demo">🟠 Démo</option><option value="nego">🔵 Négociation</option></select></div>
+            </div>
+          </section>
+          <section class="panel">
+            <div class="panel-head"><div class="panel-head-title"><span class="material-symbols-outlined">payments</span>Tarification</div></div>
+            <div class="panel-body">
+              <div class="field"><label class="field-label">Forfait mensuel</label><select class="field-select"><option>Standard (1 500 €)</option><option>Premium (2 500 €)</option><option>Élite (4 000 €)</option></select></div>
+              <div class="field"><label class="field-label">Frais d'installation</label><input type="text" class="field-input" value="25 000 €"/></div>
+              <div class="field"><label class="field-label">Date contrat</label><input type="text" class="field-input" id="config-date"/></div>
+            </div>
+          </section>
+        </div>
+        <div style="display:flex;gap:10px;justify-content:flex-end;margin-top:18px;">
+          <button class="btn btn-default">Annuler</button>
+          <button class="btn btn-primary"><span class="material-symbols-outlined">save</span>Enregistrer</button>
+        </div>
+      </div>
+
+    </main>
+  </div>
 </div>
 
-<!-- MODAL RESPONSE -->
+<!-- MODAL RÉPONSE -->
 <div class="modal-overlay" id="response-modal" onclick="if(event.target===this) closeResponseModal()">
   <div class="modal">
     <div class="modal-head">
@@ -269,352 +586,474 @@ html,body{font-family:'Inter',-apple-system,sans-serif;background:#0a0a0a;color:
       <button class="modal-close" onclick="closeResponseModal()"><span class="material-symbols-outlined">close</span></button>
     </div>
     <div class="modal-body">
-      <p style="font-size:13px;color:#888;margin-bottom:14px;line-height:1.5;">Cette réponse sera affichée publiquement sous l'idée pour informer les citoyens.</p>
-      <div class="field">
-        <label class="field-label">Statut de l'idée</label>
-        <select class="field-input" id="response-status">
-          <option value="in_progress">🔵 En cours d'étude / réalisation</option>
-          <option value="done">✅ Réalisée / terminée</option>
-          <option value="approved">⚪ Garder en validée (non commencée)</option>
-        </select>
-      </div>
-      <div class="field">
-        <label class="field-label">Message de la mairie</label>
-        <textarea class="field-textarea" id="response-text" rows="4" placeholder="Ex : Travaux prévus T3 2026 / Étude budgétaire en cours / Réalisé le 8 avril 2026"></textarea>
-      </div>
+      <p style="font-size:13px;color:#6b7280;margin-bottom:14px;line-height:1.5;">Cette réponse sera affichée publiquement sous l'idée pour informer les citoyens.</p>
+      <div class="field"><label class="field-label">Statut de l'idée</label><select class="field-input" id="response-status"><option value="in_progress">🔵 En cours d'étude / réalisation</option><option value="done">✅ Réalisée / terminée</option><option value="approved">⚪ Garder en validée</option></select></div>
+      <div class="field"><label class="field-label">Message public</label><textarea class="field-textarea" id="response-text" rows="4" placeholder="Ex : Travaux prévus T3 2026"></textarea></div>
     </div>
     <div class="modal-foot">
       <button class="btn btn-default" onclick="closeResponseModal()">Annuler</button>
-      <button class="btn btn-approve" onclick="saveResponse()"><span class="material-symbols-outlined">save</span>Enregistrer</button>
+      <button class="btn btn-success" onclick="saveResponse()"><span class="material-symbols-outlined">save</span>Enregistrer</button>
     </div>
   </div>
 </div>
 
-<!-- TOAST -->
-<div class="toast" id="toast">
-  <span class="material-symbols-outlined">check_circle</span>
-  <span id="toast-msg"></span>
-</div>
+<div class="toast" id="toast"><span class="material-symbols-outlined">check_circle</span><span id="toast-msg"></span></div>
 
 <script>
-// ════════════════════════════════════════════════════
-// CONFIG
 // ════════════════════════════════════════════════════
 const ADMIN_PASSWORD = 'cdv-mairie-2026-xK9pQzL3r7nM';
 const AUTH_KEY = 'cdv_lucas_auth';
 const API_BASE = '';
-const VILLE = 'villeneuve';
-
-const SUPABASE_URL = 'https://bopeecfejyrezrigdhex.supabase.co';
-const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJvcGVlY2ZlanlyZXpyaWdkaGV4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzcyMTQxNTYsImV4cCI6MjA5Mjc5MDE1Nn0.F5AB9XfuXmLlnPUrYNxF1ArOwaaAP-A2iEcc6qRCNiE';
-
+let CURRENT_VILLE = null;
 let CURRENT_FILTER = 'pending';
-let ALL_IDEAS = []; // Cache de toutes les idées
+let ALL_IDEAS = [];
 let CURRENT_IDEA_ID = null;
 
-// ════════════════════════════════════════════════════
-// AUTH
-// ════════════════════════════════════════════════════
-function checkAuth() {
-  if (sessionStorage.getItem(AUTH_KEY) === '1') showApp();
-}
+// Métadonnées des villes (la liste, pas les stats — qui viennent de l'API)
+const VILLES_META = {
+  villeneuve: { label: 'Villeneuve-lès-Avignon', cp: '30400', dep: 'Gard', pop: 12950, status: 'live', statusLabel: 'Live', date: '15/01/2026' },
+  bagnols: { label: 'Bagnols-sur-Cèze', cp: '30200', dep: 'Gard', pop: 19450, status: 'demo', statusLabel: 'Démo', date: 'RDV 30/04' },
+  tavel: { label: 'Tavel', cp: '30126', dep: 'Gard', pop: 1720, status: 'nego', statusLabel: 'Négo', date: 'Premier contact' },
+  pontstesprit: { label: 'Pont-Saint-Esprit', cp: '30130', dep: 'Gard', pop: 10850, status: 'nego', statusLabel: 'Négo', date: 'RDV 12/05' },
+  roquemaure: { label: 'Roquemaure', cp: '30150', dep: 'Gard', pop: 5350, status: 'nego', statusLabel: 'Négo', date: 'Email envoyé' }
+};
 
-function doLogin() {
-  const pass = document.getElementById('login-pass').value;
-  const err = document.getElementById('login-error');
-  if (pass === ADMIN_PASSWORD) {
-    sessionStorage.setItem(AUTH_KEY, '1');
-    showApp();
+// Cache des stats par ville (chargé via API)
+const VILLES_STATS = {};
+
+// AUTH
+function checkAuth(){ if(sessionStorage.getItem(AUTH_KEY)==='1') showVilleSelector(); }
+function doLogin(){
+  const pass=document.getElementById('login-pass').value;
+  const err=document.getElementById('login-error');
+  if(pass===ADMIN_PASSWORD){
+    sessionStorage.setItem(AUTH_KEY,'1');
+    showVilleSelector();
   } else {
-    err.style.display = 'flex';
-    setTimeout(() => err.style.display = 'none', 4000);
+    err.style.display='flex';
+    setTimeout(()=>err.style.display='none',4000);
   }
 }
-
-function doLogout() {
-  if (!confirm('Se déconnecter ?')) return;
+function doLogout(){
+  if(!confirm('Se déconnecter ?')) return;
   sessionStorage.removeItem(AUTH_KEY);
   location.reload();
 }
+document.getElementById('login-pass').addEventListener('keypress',e=>{ if(e.key==='Enter') doLogin(); });
 
-function showApp() {
+// SÉLECTEUR
+async function showVilleSelector(){
   document.getElementById('login-screen').classList.add('hidden');
-  document.getElementById('admin-app').style.display = 'block';
-  loadAll();
+  document.getElementById('admin-app').style.display='none';
+  document.getElementById('ville-screen').classList.add('show');
+  await renderVillesList();
 }
 
-document.getElementById('login-pass').addEventListener('keypress', e => {
-  if (e.key === 'Enter') doLogin();
-});
+async function renderVillesList(){
+  const container=document.getElementById('villes-list');
+  document.getElementById('ville-count').textContent=`${Object.keys(VILLES_META).length} villes`;
+
+  // Affichage initial avec stats en cours de chargement
+  container.innerHTML=Object.entries(VILLES_META).map(([key,v])=>`
+    <div class="ville-row ${v.status}" onclick="selectVille('${key}')" data-key="${key}">
+      <div class="ville-row-icon"><span class="material-symbols-outlined">location_city</span></div>
+      <div class="ville-row-info">
+        <div class="ville-row-name">${v.label}<span class="pill-status ${v.status}">${v.statusLabel}</span></div>
+        <div class="ville-row-meta">
+          <span>${v.cp} · ${v.dep}</span>
+          <span class="ville-row-meta-dot">·</span>
+          <span>${v.pop.toLocaleString('fr-FR')} habitants</span>
+          <span class="ville-row-meta-dot">·</span>
+          <span>${v.date}</span>
+        </div>
+      </div>
+      <div class="ville-row-stats">
+        <div class="ville-stat"><div class="ville-stat-num loading-pulse" data-stat-row="${key}-abonnes">—</div><div class="ville-stat-lbl">Abonnés</div></div>
+        <div class="ville-stat"><div class="ville-stat-num loading-pulse" data-stat-row="${key}-notifs">—</div><div class="ville-stat-lbl">Notifs</div></div>
+        <div class="ville-stat"><div class="ville-stat-num loading-pulse" data-stat-row="${key}-ideas">—</div><div class="ville-stat-lbl">Idées</div></div>
+      </div>
+      <div class="ville-row-arrow"><span class="material-symbols-outlined">chevron_right</span></div>
+    </div>
+  `).join('');
+
+  // Charge les stats en parallèle pour chaque ville
+  Object.keys(VILLES_META).forEach(async key => {
+    try {
+      const stats = await fetchVilleStats(key);
+      VILLES_STATS[key] = stats;
+      const a = document.querySelector(`[data-stat-row="${key}-abonnes"]`);
+      const n = document.querySelector(`[data-stat-row="${key}-notifs"]`);
+      const i = document.querySelector(`[data-stat-row="${key}-ideas"]`);
+      if (a) { a.textContent = stats.abonnes; a.classList.remove('loading-pulse'); }
+      if (n) { n.textContent = stats.notifs_total; n.classList.remove('loading-pulse'); }
+      if (i) { i.textContent = stats.ideas_pending + stats.ideas_approved; i.classList.remove('loading-pulse'); }
+    } catch (e) {
+      console.warn(`Stats ${key} non chargées:`, e);
+    }
+  });
+}
+
+async function selectVille(key){
+  CURRENT_VILLE=key;
+  document.getElementById('ville-screen').classList.remove('show');
+  document.getElementById('admin-app').style.display='block';
+  document.getElementById('topbar-ville-name').textContent=VILLES_META[key].label;
+  goView(location.hash.replace('#','') || 'dashboard');
+  await loadVilleData();
+}
+
+function goToVilleSelector(){ showVilleSelector(); }
 
 // ════════════════════════════════════════════════════
-// SUPABASE — Lecture directe (anon key + RLS bypass via service_role pas possible côté client, donc on fait une requête custom REST)
+// API CALLS
 // ════════════════════════════════════════════════════
-async function fetchAllIdeas() {
-  // On utilise l'API REST de Supabase directement avec l'anon key
-  // Mais l'anon key ne lit que les status approved/in_progress/done à cause des RLS.
-  // Pour voir les "pending" il faut un endpoint admin côté Vercel. Je le crée.
-  const res = await fetch(`${API_BASE}/api/admin-list-ideas?ville=${VILLE}`, {
+async function fetchVilleStats(ville){
+  const res = await fetch(`${API_BASE}/api/admin-ville-stats?ville=${ville}`, {
     headers: { 'x-admin-token': ADMIN_PASSWORD }
   });
-  if (!res.ok) throw new Error('Erreur de chargement');
-  const data = await res.json();
-  return data.ideas || [];
+  if (!res.ok) throw new Error('Erreur stats');
+  return await res.json();
 }
 
-async function updateIdeaStatus(ideaId, status, response = null) {
-  const res = await fetch(`${API_BASE}/api/admin-update-idea`, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json', 'x-admin-token': ADMIN_PASSWORD },
-    body: JSON.stringify({ id: ideaId, status, mairie_response: response })
+async function fetchAllIdeas(){
+  if(!CURRENT_VILLE) return [];
+  const res=await fetch(`${API_BASE}/api/admin-list-ideas?ville=${CURRENT_VILLE}`,{
+    headers:{'x-admin-token':ADMIN_PASSWORD}
   });
-  if (!res.ok) {
-    const err = await res.json().catch(() => ({}));
-    throw new Error(err.error || 'Erreur de mise à jour');
-  }
+  if(!res.ok) throw new Error('Erreur de chargement');
+  const data=await res.json();
+  return data.ideas||[];
+}
+
+async function updateIdeaStatus(id,status,response=null){
+  const res=await fetch(`${API_BASE}/api/admin-update-idea`,{
+    method:'POST',
+    headers:{'Content-Type':'application/json','x-admin-token':ADMIN_PASSWORD},
+    body:JSON.stringify({id,status,mairie_response:response})
+  });
+  if(!res.ok){const err=await res.json().catch(()=>({}));throw new Error(err.error||'Erreur');}
   return res.json();
 }
 
 // ════════════════════════════════════════════════════
-// HELPERS
+// CHARGEMENT DES DONNÉES VILLE
 // ════════════════════════════════════════════════════
-function escapeHtml(s) {
-  return (s || '').replace(/[&<>"']/g, c => ({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[c]));
+async function loadVilleData(){
+  const meta = VILLES_META[CURRENT_VILLE];
+  if (!meta) return;
+
+  // Header
+  document.getElementById('dash-eyebrow').textContent = `Tableau de bord · ${meta.label}`;
+  document.getElementById('dash-title').textContent = `Vue d'ensemble`;
+  document.getElementById('dash-sub').textContent = `Pilotage et performance pour ${meta.label} · ${meta.pop.toLocaleString('fr-FR')} habitants`;
+
+  // Bannière démo/négo
+  const banner = document.getElementById('empty-banner');
+  if (meta.status !== 'live') {
+    banner.style.display = 'flex';
+    banner.className = 'empty-banner';
+    const isDemo = meta.status === 'demo';
+    banner.innerHTML = `
+      <div class="empty-banner-icon"><span class="material-symbols-outlined">${isDemo ? 'science' : 'handshake'}</span></div>
+      <div class="empty-banner-text">
+        <div class="empty-banner-title">Ville en ${isDemo ? 'démo' : 'négociation'}</div>
+        <div class="empty-banner-desc">${meta.label} n'est pas encore en production. Les compteurs sont à zéro.</div>
+      </div>
+    `;
+  } else {
+    banner.style.display = 'none';
+  }
+
+  // Config
+  document.getElementById('config-name').value = meta.label;
+  document.getElementById('config-cp').value = meta.cp;
+  document.getElementById('config-pop').value = meta.pop.toLocaleString('fr-FR');
+  document.getElementById('config-status').value = meta.status;
+  document.getElementById('config-date').value = meta.date;
+
+  // Charge les vraies stats depuis l'API
+  try {
+    const data = await fetchVilleStats(CURRENT_VILLE);
+    renderDashboard(data);
+    renderNotifsView(data);
+    loadAllIdeas();
+  } catch (err) {
+    console.error('Load ville data error:', err);
+    showToast('Erreur de chargement des stats', 'error');
+  }
 }
 
-function timeAgo(ts) {
-  if (!ts) return 'inconnu';
-  const d = new Date(ts);
-  const diff = (Date.now() - d.getTime()) / 1000;
-  if (diff < 60) return "à l'instant";
-  if (diff < 3600) return `il y a ${Math.floor(diff/60)} min`;
-  if (diff < 86400) return `il y a ${Math.floor(diff/3600)} h`;
-  if (diff < 86400 * 30) return `il y a ${Math.floor(diff/86400)} j`;
-  return d.toLocaleDateString('fr-FR', { day:'numeric', month:'short', year:'numeric' });
+function renderDashboard(data) {
+  const s = data.stats;
+
+  // Stats KPIs
+  setStat('stat-abonnes', s.abonnes);
+  setStat('stat-notifs', s.notifs_this_month);
+  setStat('stat-ideas', s.ideas_pending + s.ideas_approved);
+  setStat('stat-engagement', s.engagement > 0 ? s.engagement + ' %' : '0 %');
+
+  // Activité
+  const activityEl = document.getElementById('activity-list');
+  if (data.activity.length === 0) {
+    activityEl.innerHTML = `<div class="empty" style="padding:30px 20px;"><span class="material-symbols-outlined">notifications_off</span><div class="empty-title">Aucune activité</div><div class="empty-text">L'activité apparaîtra ici dès que la ville sera utilisée.</div></div>`;
+  } else {
+    activityEl.innerHTML = data.activity.map(a => `
+      <div class="activity-item">
+        <div class="activity-icon"><span class="material-symbols-outlined">${a.icon}</span></div>
+        <div>
+          <div class="activity-text">${a.text}</div>
+          <div class="activity-meta">${a.meta}</div>
+        </div>
+      </div>
+    `).join('');
+  }
+
+  // État de la ville
+  const stateEl = document.getElementById('ville-state');
+  stateEl.innerHTML = `
+    <div style="display:flex;flex-direction:column;gap:14px;">
+      <div style="display:flex;justify-content:space-between;align-items:center;font-size:13px;">
+        <span style="color:#6b7280;">Abonnés push</span>
+        <strong style="color:#0f1923;">${s.abonnes}</strong>
+      </div>
+      <div style="display:flex;justify-content:space-between;align-items:center;font-size:13px;">
+        <span style="color:#6b7280;">Notifications totales</span>
+        <strong style="color:#0f1923;">${s.notifs_total}</strong>
+      </div>
+      <div style="display:flex;justify-content:space-between;align-items:center;font-size:13px;">
+        <span style="color:#6b7280;">Idées en modération</span>
+        <strong style="color:#FF6B35;">${s.ideas_pending}</strong>
+      </div>
+      <div style="display:flex;justify-content:space-between;align-items:center;font-size:13px;">
+        <span style="color:#6b7280;">Idées validées</span>
+        <strong style="color:#15803d;">${s.ideas_approved}</strong>
+      </div>
+      <div style="display:flex;justify-content:space-between;align-items:center;font-size:13px;">
+        <span style="color:#6b7280;">Idées réalisées</span>
+        <strong style="color:#15803d;">${s.ideas_done}</strong>
+      </div>
+      <div style="display:flex;justify-content:space-between;align-items:center;font-size:13px;">
+        <span style="color:#6b7280;">Votes citoyens</span>
+        <strong style="color:#0f1923;">${s.ideas_votes}</strong>
+      </div>
+    </div>
+  `;
+
+  // Badge sidebar
+  const badge = document.getElementById('ideas-badge');
+  if (badge) {
+    if (s.ideas_pending > 0) { badge.textContent = s.ideas_pending; badge.style.display = ''; }
+    else badge.style.display = 'none';
+  }
 }
 
-const STATUS_LABELS = {
-  pending: { label: 'À modérer', icon: 'pending_actions', cls: 'pending' },
-  approved: { label: 'Validée', icon: 'visibility', cls: 'approved' },
-  in_progress: { label: 'En cours', icon: 'build', cls: 'in_progress' },
-  done: { label: 'Réalisée', icon: 'check_circle', cls: 'done' },
-  rejected: { label: 'Rejetée', icon: 'block', cls: 'rejected' }
+function renderNotifsView(data) {
+  const s = data.stats;
+  setStat('notif-total', s.notifs_total);
+  setStat('notif-month', s.notifs_this_month);
+  setStat('notif-engagement', s.engagement > 0 ? s.engagement + ' %' : '0 %');
+  setStat('notif-subs', s.abonnes);
+
+  const panel = document.getElementById('notifs-panel');
+  if (s.notifs_total === 0) {
+    panel.innerHTML = `<div class="empty"><span class="material-symbols-outlined">notifications_off</span><div class="empty-title">Aucune notification diffusée</div><div class="empty-text">La mairie n'a pas encore envoyé de notification depuis l'admin.</div></div>`;
+  } else {
+    panel.innerHTML = `<div class="empty"><span class="material-symbols-outlined">notifications</span><div class="empty-title">${s.notifs_total} notifications dans la base</div><div class="empty-text">Le détail apparaîtra ici prochainement (endpoint à connecter).</div></div>`;
+  }
+}
+
+function setStat(id, value) {
+  const el = document.getElementById(id);
+  if (el) {
+    el.textContent = value;
+    el.classList.remove('loading-pulse');
+  }
+}
+
+async function refreshAll() {
+  await loadVilleData();
+  showToast('Données rafraîchies', 'success');
+}
+
+// ════════════════════════════════════════════════════
+// IDÉES
+// ════════════════════════════════════════════════════
+function escapeHtml(s){return (s||'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
+function timeAgo(ts){
+  if(!ts) return 'inconnu';
+  const d=new Date(ts);
+  const diff=(Date.now()-d.getTime())/1000;
+  if(diff<60) return "à l'instant";
+  if(diff<3600) return `il y a ${Math.floor(diff/60)} min`;
+  if(diff<86400) return `il y a ${Math.floor(diff/3600)} h`;
+  if(diff<86400*30) return `il y a ${Math.floor(diff/86400)} j`;
+  return d.toLocaleDateString('fr-FR',{day:'numeric',month:'short',year:'numeric'});
+}
+
+const STATUS_LABELS={
+  pending:{label:'À modérer',icon:'pending_actions',cls:'pending'},
+  approved:{label:'Validée',icon:'visibility',cls:'approved'},
+  in_progress:{label:'En cours',icon:'build',cls:'in_progress'},
+  done:{label:'Réalisée',icon:'check_circle',cls:'done'},
+  rejected:{label:'Rejetée',icon:'block',cls:'rejected'}
 };
 
-// ════════════════════════════════════════════════════
-// RENDU
-// ════════════════════════════════════════════════════
-function renderIdea(idea) {
-  const status = STATUS_LABELS[idea.status] || STATUS_LABELS.approved;
-  const score = (idea.votes_up || 0) - (idea.votes_down || 0);
-  const scoreClass = score > 0 ? 'idea-score-positive' : (score < 0 ? 'idea-score-negative' : '');
-  const sign = score >= 0 ? '+' : '';
-
-  let actionsHtml = '';
-  if (idea.status === 'pending') {
-    actionsHtml = `
-      <button class="btn btn-approve" onclick="approveIdea(${idea.id})"><span class="material-symbols-outlined">check</span>Valider</button>
-      <button class="btn btn-reject" onclick="rejectIdea(${idea.id})"><span class="material-symbols-outlined">close</span>Rejeter</button>
-    `;
-  } else if (idea.status === 'approved') {
-    actionsHtml = `
-      <button class="btn btn-progress" onclick="openResponseModal(${idea.id})"><span class="material-symbols-outlined">build</span>Marquer en cours</button>
-      <button class="btn btn-done" onclick="markDone(${idea.id})"><span class="material-symbols-outlined">check_circle</span>Marquer réalisée</button>
-      <button class="btn btn-default" onclick="rejectIdea(${idea.id})"><span class="material-symbols-outlined">block</span>Retirer</button>
-    `;
-  } else if (idea.status === 'in_progress') {
-    actionsHtml = `
-      <button class="btn btn-done" onclick="markDone(${idea.id})"><span class="material-symbols-outlined">check_circle</span>Marquer réalisée</button>
-      <button class="btn btn-default" onclick="openResponseModal(${idea.id})"><span class="material-symbols-outlined">edit</span>Modifier réponse</button>
-    `;
-  } else if (idea.status === 'rejected') {
-    actionsHtml = `<button class="btn btn-default" onclick="restoreIdea(${idea.id})"><span class="material-symbols-outlined">restore</span>Restaurer</button>`;
-  } else if (idea.status === 'done') {
-    actionsHtml = `<button class="btn btn-default" onclick="openResponseModal(${idea.id})"><span class="material-symbols-outlined">edit</span>Modifier message</button>`;
+function renderIdea(idea){
+  const status=STATUS_LABELS[idea.status]||STATUS_LABELS.approved;
+  const score=(idea.votes_up||0)-(idea.votes_down||0);
+  const sign=score>=0?'+':'';
+  let actionsHtml='';
+  if(idea.status==='pending'){
+    actionsHtml=`<button class="btn btn-success" onclick="approveIdea(${idea.id})"><span class="material-symbols-outlined">check</span>Valider</button><button class="btn btn-danger" onclick="rejectIdea(${idea.id})"><span class="material-symbols-outlined">close</span>Rejeter</button>`;
+  } else if(idea.status==='approved'){
+    actionsHtml=`<button class="btn btn-default" onclick="openResponseModal(${idea.id})"><span class="material-symbols-outlined">build</span>Marquer en cours</button><button class="btn btn-success" onclick="markDone(${idea.id})"><span class="material-symbols-outlined">check_circle</span>Marquer réalisée</button><button class="btn btn-default" onclick="rejectIdea(${idea.id})"><span class="material-symbols-outlined">block</span>Retirer</button>`;
+  } else if(idea.status==='in_progress'){
+    actionsHtml=`<button class="btn btn-success" onclick="markDone(${idea.id})"><span class="material-symbols-outlined">check_circle</span>Marquer réalisée</button><button class="btn btn-default" onclick="openResponseModal(${idea.id})"><span class="material-symbols-outlined">edit</span>Modifier</button>`;
+  } else if(idea.status==='rejected'){
+    actionsHtml=`<button class="btn btn-default" onclick="restoreIdea(${idea.id})"><span class="material-symbols-outlined">restore</span>Restaurer</button>`;
+  } else if(idea.status==='done'){
+    actionsHtml=`<button class="btn btn-default" onclick="openResponseModal(${idea.id})"><span class="material-symbols-outlined">edit</span>Modifier message</button>`;
   }
-
-  const responseBlock = idea.mairie_response ? `
-    <div style="margin:10px 0;padding:10px 12px;background:rgba(96,165,250,0.08);border-left:3px solid #60a5fa;border-radius:6px;font-size:12px;color:#93c5fd;">
-      <strong style="color:#60a5fa;">Réponse mairie : </strong>${escapeHtml(idea.mairie_response)}
-    </div>` : '';
-
-  return `
-    <article class="idea-card ${idea.status === 'pending' ? 'pending' : ''}" data-id="${idea.id}">
-      <div class="idea-row1">
-        <span class="idea-cat">${escapeHtml(idea.category)}</span>
-        <span class="idea-status-pill ${status.cls}"><span class="material-symbols-outlined">${status.icon}</span>${status.label}</span>
-        <span class="idea-meta"><span class="material-symbols-outlined">person</span>${idea.author_name ? escapeHtml(idea.author_name) : 'Anonyme'}</span>
-        <span class="idea-meta"><span class="material-symbols-outlined">schedule</span>${timeAgo(idea.created_at)}</span>
-      </div>
-      <h3 class="idea-title">${escapeHtml(idea.title)}</h3>
-      <p class="idea-body">${escapeHtml(idea.body)}</p>
-      ${responseBlock}
-      <div class="idea-stats-row">
-        <div class="idea-stat"><span class="material-symbols-outlined">thumb_up</span><span class="num">${idea.votes_up || 0}</span></div>
-        <div class="idea-stat"><span class="material-symbols-outlined">thumb_down</span><span class="num">${idea.votes_down || 0}</span></div>
-        <div class="idea-stat"><span class="material-symbols-outlined">trending_up</span><span class="num ${scoreClass}">${sign}${score}</span></div>
-        <div class="idea-stat"><span class="material-symbols-outlined">visibility</span><span class="num">${idea.views || 0}</span></div>
-      </div>
-      <div class="idea-actions">${actionsHtml}</div>
-    </article>
-  `;
+  const responseBlock=idea.mairie_response?`<div style="margin:10px 0;padding:10px 12px;background:#dbeafe;border-left:3px solid #1e40af;border-radius:6px;font-size:12px;color:#1e3a8a;"><strong>Réponse mairie : </strong>${escapeHtml(idea.mairie_response)}</div>`:'';
+  return `<article class="idea-card ${idea.status==='pending'?'pending':''}" data-id="${idea.id}">
+    <div class="idea-row1">
+      <span class="idea-cat">${escapeHtml(idea.category)}</span>
+      <span class="idea-status-pill ${status.cls}"><span class="material-symbols-outlined">${status.icon}</span>${status.label}</span>
+      <span class="idea-meta"><span class="material-symbols-outlined">person</span>${idea.author_name?escapeHtml(idea.author_name):'Anonyme'}</span>
+      <span class="idea-meta"><span class="material-symbols-outlined">schedule</span>${timeAgo(idea.created_at)}</span>
+    </div>
+    <h3 class="idea-title">${escapeHtml(idea.title)}</h3>
+    <p class="idea-body">${escapeHtml(idea.body)}</p>
+    ${responseBlock}
+    <div class="idea-stats-row">
+      <div class="idea-stat"><span class="material-symbols-outlined">thumb_up</span><span class="num">${idea.votes_up||0}</span></div>
+      <div class="idea-stat"><span class="material-symbols-outlined">thumb_down</span><span class="num">${idea.votes_down||0}</span></div>
+      <div class="idea-stat"><span class="material-symbols-outlined">trending_up</span><span class="num">${sign}${score}</span></div>
+      <div class="idea-stat"><span class="material-symbols-outlined">visibility</span><span class="num">${idea.views||0}</span></div>
+    </div>
+    <div class="idea-actions">${actionsHtml}</div>
+  </article>`;
 }
 
-function renderList() {
-  const filtered = CURRENT_FILTER === 'all' ? ALL_IDEAS : ALL_IDEAS.filter(i => i.status === CURRENT_FILTER);
-  const container = document.getElementById('ideas-container');
-
-  if (filtered.length === 0) {
-    container.innerHTML = `
-      <div class="empty">
-        <span class="material-symbols-outlined">inbox</span>
-        <div class="empty-title">Aucune idée ${CURRENT_FILTER === 'pending' ? 'à modérer pour le moment' : 'dans cette catégorie'}</div>
-        <div class="empty-text">${CURRENT_FILTER === 'pending' ? 'Tout est à jour ! 🎉' : ''}</div>
-      </div>`;
+function renderIdeasList(){
+  const filtered=CURRENT_FILTER==='all'?ALL_IDEAS:ALL_IDEAS.filter(i=>i.status===CURRENT_FILTER);
+  const c=document.getElementById('ideas-container');
+  if(filtered.length===0){
+    c.innerHTML=`<div class="empty"><span class="material-symbols-outlined">inbox</span><div class="empty-title">Aucune idée ${CURRENT_FILTER==='pending'?'à modérer':'dans cette catégorie'}</div><div class="empty-text">${CURRENT_FILTER==='pending'?'Tout est à jour ! 🎉':''}</div></div>`;
     return;
   }
-
-  container.innerHTML = filtered.map(renderIdea).join('');
+  c.innerHTML=filtered.map(renderIdea).join('');
 }
 
-function updateStats() {
-  const pending = ALL_IDEAS.filter(i => i.status === 'pending').length;
-  const approved = ALL_IDEAS.filter(i => i.status === 'approved').length;
-  const inProgress = ALL_IDEAS.filter(i => i.status === 'in_progress').length;
-  const done = ALL_IDEAS.filter(i => i.status === 'done').length;
-  const rejected = ALL_IDEAS.filter(i => i.status === 'rejected').length;
-  const totalVotes = ALL_IDEAS.reduce((s, i) => s + (i.votes_up || 0) + (i.votes_down || 0), 0);
-
-  document.getElementById('stat-pending').textContent = pending;
-  document.getElementById('stat-approved').textContent = approved + inProgress + done;
-  document.getElementById('stat-votes').textContent = totalVotes.toLocaleString('fr-FR');
-  document.getElementById('stat-rejected').textContent = rejected;
-
-  document.getElementById('tab-pending').textContent = pending;
-  document.getElementById('tab-approved').textContent = approved;
-  document.getElementById('tab-progress').textContent = inProgress;
-  document.getElementById('tab-done').textContent = done;
-  document.getElementById('tab-rejected').textContent = rejected;
+function updateIdeasStats(){
+  const pending=ALL_IDEAS.filter(i=>i.status==='pending').length;
+  const approved=ALL_IDEAS.filter(i=>i.status==='approved').length;
+  const inProgress=ALL_IDEAS.filter(i=>i.status==='in_progress').length;
+  const done=ALL_IDEAS.filter(i=>i.status==='done').length;
+  const rejected=ALL_IDEAS.filter(i=>i.status==='rejected').length;
+  const totalVotes=ALL_IDEAS.reduce((s,i)=>s+(i.votes_up||0)+(i.votes_down||0),0);
+  const set=(id,v)=>{const e=document.getElementById(id);if(e) e.textContent=v;};
+  set('ideas-stat-pending',pending);
+  set('ideas-stat-approved',approved+inProgress+done);
+  set('ideas-stat-votes',totalVotes.toLocaleString('fr-FR'));
+  set('ideas-stat-rejected',rejected);
+  set('ideas-tab-pending',pending);
+  set('ideas-tab-approved',approved);
+  set('ideas-tab-progress',inProgress);
+  set('ideas-tab-done',done);
+  set('ideas-tab-rejected',rejected);
 }
 
-// ════════════════════════════════════════════════════
-// CHARGEMENT
-// ════════════════════════════════════════════════════
-async function loadAll() {
-  const container = document.getElementById('ideas-container');
-  container.innerHTML = `<div class="empty"><span class="material-symbols-outlined" style="animation:spin 1s linear infinite;">progress_activity</span><div class="empty-title">Chargement...</div></div>`;
-
-  try {
-    ALL_IDEAS = await fetchAllIdeas();
-    updateStats();
-    renderList();
-  } catch (err) {
-    console.error(err);
-    container.innerHTML = `<div class="empty"><span class="material-symbols-outlined">error</span><div class="empty-title">Erreur de chargement</div><div class="empty-text">${escapeHtml(err.message)}</div></div>`;
+async function loadAllIdeas(){
+  const c=document.getElementById('ideas-container');
+  if(c) c.innerHTML=`<div class="empty"><span class="material-symbols-outlined" style="animation:spin 1s linear infinite;">progress_activity</span><div class="empty-title">Chargement...</div></div>`;
+  try{
+    ALL_IDEAS=await fetchAllIdeas();
+    updateIdeasStats();
+    renderIdeasList();
+  }catch(err){
+    if(c) c.innerHTML=`<div class="empty"><span class="material-symbols-outlined">error</span><div class="empty-title">Erreur de chargement</div><div class="empty-text">${escapeHtml(err.message)}</div></div>`;
   }
 }
 
-// ════════════════════════════════════════════════════
-// ACTIONS
-// ════════════════════════════════════════════════════
-async function approveIdea(id) {
-  try {
-    await updateIdeaStatus(id, 'approved');
-    showToast('Idée validée et publiée', 'success');
-    await loadAll();
-  } catch (err) {
-    showToast('Erreur : ' + err.message, 'error');
-  }
+async function approveIdea(id){
+  try{await updateIdeaStatus(id,'approved');showToast('Idée validée');await loadAllIdeas();await loadVilleData();}
+  catch(err){showToast('Erreur : '+err.message,'error');}
+}
+async function rejectIdea(id){
+  if(!confirm('Rejeter cette idée ?')) return;
+  try{await updateIdeaStatus(id,'rejected');showToast('Idée rejetée');await loadAllIdeas();await loadVilleData();}
+  catch(err){showToast('Erreur : '+err.message,'error');}
+}
+async function restoreIdea(id){
+  try{await updateIdeaStatus(id,'pending');showToast('Idée restaurée');await loadAllIdeas();await loadVilleData();}
+  catch(err){showToast('Erreur : '+err.message,'error');}
+}
+async function markDone(id){
+  const idea=ALL_IDEAS.find(i=>i.id===id);
+  const msg=prompt("Message public (optionnel) :",idea?.mairie_response||'Idée réalisée');
+  if(msg===null) return;
+  try{await updateIdeaStatus(id,'done',msg);showToast('Idée marquée réalisée');await loadAllIdeas();await loadVilleData();}
+  catch(err){showToast('Erreur : '+err.message,'error');}
 }
 
-async function rejectIdea(id) {
-  if (!confirm('Rejeter cette idée ? Elle ne sera plus visible.')) return;
-  try {
-    await updateIdeaStatus(id, 'rejected');
-    showToast('Idée rejetée', 'success');
-    await loadAll();
-  } catch (err) {
-    showToast('Erreur : ' + err.message, 'error');
-  }
-}
-
-async function restoreIdea(id) {
-  try {
-    await updateIdeaStatus(id, 'pending');
-    showToast('Idée restaurée — à re-modérer', 'success');
-    await loadAll();
-  } catch (err) {
-    showToast('Erreur : ' + err.message, 'error');
-  }
-}
-
-async function markDone(id) {
-  const idea = ALL_IDEAS.find(i => i.id === id);
-  const msg = prompt("Message public à afficher (optionnel) :", idea?.mairie_response || 'Idée réalisée');
-  if (msg === null) return; // annulé
-  try {
-    await updateIdeaStatus(id, 'done', msg);
-    showToast('Idée marquée comme réalisée', 'success');
-    await loadAll();
-  } catch (err) {
-    showToast('Erreur : ' + err.message, 'error');
-  }
-}
-
-// MODAL
-function openResponseModal(id) {
-  CURRENT_IDEA_ID = id;
-  const idea = ALL_IDEAS.find(i => i.id === id);
-  if (idea) {
-    document.getElementById('response-status').value = idea.status === 'pending' || idea.status === 'approved' ? 'in_progress' : idea.status;
-    document.getElementById('response-text').value = idea.mairie_response || '';
+function openResponseModal(id){
+  CURRENT_IDEA_ID=id;
+  const idea=ALL_IDEAS.find(i=>i.id===id);
+  if(idea){
+    document.getElementById('response-status').value=idea.status==='pending'||idea.status==='approved'?'in_progress':idea.status;
+    document.getElementById('response-text').value=idea.mairie_response||'';
   }
   document.getElementById('response-modal').classList.add('show');
 }
-
-function closeResponseModal() {
-  document.getElementById('response-modal').classList.remove('show');
-  CURRENT_IDEA_ID = null;
-}
-
-async function saveResponse() {
-  if (!CURRENT_IDEA_ID) return;
-  const status = document.getElementById('response-status').value;
-  const text = document.getElementById('response-text').value.trim();
-  try {
-    await updateIdeaStatus(CURRENT_IDEA_ID, status, text || null);
-    showToast('Réponse enregistrée', 'success');
+function closeResponseModal(){document.getElementById('response-modal').classList.remove('show');CURRENT_IDEA_ID=null;}
+async function saveResponse(){
+  if(!CURRENT_IDEA_ID) return;
+  const status=document.getElementById('response-status').value;
+  const text=document.getElementById('response-text').value.trim();
+  try{
+    await updateIdeaStatus(CURRENT_IDEA_ID,status,text||null);
+    showToast('Réponse enregistrée');
     closeResponseModal();
-    await loadAll();
-  } catch (err) {
-    showToast('Erreur : ' + err.message, 'error');
-  }
+    await loadAllIdeas();
+    await loadVilleData();
+  }catch(err){showToast('Erreur : '+err.message,'error');}
 }
 
-// TABS
-document.querySelectorAll('.tab').forEach(t => {
-  t.addEventListener('click', () => {
-    document.querySelectorAll('.tab').forEach(x => x.classList.remove('active'));
+document.querySelectorAll('#view-ideas .tab').forEach(t=>{
+  t.addEventListener('click',()=>{
+    document.querySelectorAll('#view-ideas .tab').forEach(x=>x.classList.remove('active'));
     t.classList.add('active');
-    CURRENT_FILTER = t.dataset.filter;
-    renderList();
+    CURRENT_FILTER=t.dataset.filter;
+    renderIdeasList();
   });
 });
 
-// TOAST
-function showToast(msg, type = 'success') {
-  const t = document.getElementById('toast');
-  document.getElementById('toast-msg').textContent = msg;
-  t.classList.remove('success', 'error');
+// ROUTING
+function goView(name){
+  document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
+  const target=document.getElementById('view-'+name);
+  if(target) target.classList.add('active');
+  document.querySelectorAll('.sidebar-link').forEach(l=>l.classList.toggle('active',l.dataset.view===name));
+  location.hash=name;
+  window.scrollTo(0,0);
+  closeSidebar();
+}
+document.querySelectorAll('.sidebar-link').forEach(l=>{
+  l.addEventListener('click',e=>{ e.preventDefault(); if(l.dataset.view) goView(l.dataset.view); });
+});
+
+function toggleSidebar(){document.getElementById('sidebar').classList.toggle('open');document.getElementById('sidebar-overlay').classList.toggle('show');}
+function closeSidebar(){document.getElementById('sidebar').classList.remove('open');document.getElementById('sidebar-overlay').classList.remove('show');}
+
+function showToast(msg,type='success'){
+  const t=document.getElementById('toast');
+  document.getElementById('toast-msg').textContent=msg;
+  t.classList.remove('success','error');
   t.classList.add(type);
   t.classList.add('show');
-  setTimeout(() => t.classList.remove('show'), 3500);
+  setTimeout(()=>t.classList.remove('show'),3500);
 }
-
-// SPIN ANIM
-const style = document.createElement('style');
-style.textContent = '@keyframes spin{to{transform:rotate(360deg);}}';
-document.head.appendChild(style);
 
 // INIT
 checkAuth();
