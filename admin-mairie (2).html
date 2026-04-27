@@ -1,0 +1,1998 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<meta name="theme-color" content="#1a3a6e"/>
+<title>Espace administration — Cœur de Ville · Mairie de Villeneuve-lès-Avignon</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"/>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html,body{font-family:'Inter',-apple-system,sans-serif;background:#f4f5f7;color:#1a1a1a;-webkit-font-smoothing:antialiased;font-size:14px;line-height:1.5;}
+
+/* LOGIN */
+#login-screen{position:fixed;inset:0;z-index:100;background:#f4f5f7;display:flex;align-items:center;justify-content:center;padding:20px;}
+#login-screen.hidden{display:none;}
+.login-wrap{width:100%;max-width:420px;}
+.login-official-band{background:#1a3a6e;color:#fff;padding:14px 20px;border-radius:4px 4px 0 0;display:flex;align-items:center;gap:12px;border-top:3px solid #c8102e;}
+.login-official-band .material-symbols-outlined{font-size:24px;flex-shrink:0;}
+.login-official-band-text{font-size:11px;font-weight:600;letter-spacing:0.04em;text-transform:uppercase;line-height:1.3;}
+.login-official-band-text strong{display:block;font-size:13px;margin-bottom:2px;letter-spacing:0;text-transform:none;}
+.login-card{background:#fff;border:1px solid #d0d4da;border-top:none;border-radius:0 0 4px 4px;padding:36px 32px 28px;}
+.login-title{font-size:20px;font-weight:700;color:#1a1a1a;margin-bottom:6px;letter-spacing:-0.005em;}
+.login-sub{font-size:13px;color:#5a6068;margin-bottom:28px;line-height:1.5;}
+.login-field{margin-bottom:16px;}
+.login-label{font-size:13px;font-weight:600;color:#1a1a1a;margin-bottom:6px;display:block;}
+.login-input{width:100%;background:#fff;border:1px solid #c0c5cc;border-radius:4px;padding:11px 12px;font-family:Inter;font-size:14px;color:#1a1a1a;outline:none;transition:border-color 0.12s,box-shadow 0.12s;}
+.login-input:focus{border-color:#1a3a6e;box-shadow:0 0 0 3px rgba(26,58,110,0.12);}
+.login-actions{display:flex;align-items:center;justify-content:space-between;margin-top:8px;}
+.login-forgot{font-size:12px;color:#1a3a6e;text-decoration:underline;background:none;border:none;cursor:pointer;font-family:inherit;padding:0;}
+.login-btn{background:#1a3a6e;color:#fff;border:none;border-radius:4px;padding:11px 22px;font-family:Inter;font-size:14px;font-weight:600;cursor:pointer;transition:background 0.12s;display:flex;align-items:center;gap:6px;}
+.login-btn:hover{background:#142d56;}
+.login-btn .material-symbols-outlined{font-size:18px;}
+.login-error{margin-top:14px;padding:10px 12px;background:#fdf2f2;border:1px solid #f5c2c7;border-left:3px solid #c8102e;color:#842029;font-size:12px;font-weight:500;border-radius:3px;display:flex;align-items:center;gap:8px;}
+.login-error .material-symbols-outlined{font-size:16px;}
+.login-hint{margin-top:24px;padding:12px;background:#f4f5f7;border:1px dashed #c0c5cc;border-radius:3px;font-size:11px;color:#5a6068;line-height:1.5;}
+.login-hint strong{color:#1a1a1a;font-weight:600;}
+.login-foot{text-align:center;margin-top:18px;font-size:11px;color:#7a808a;line-height:1.6;}
+.login-foot a{color:#1a3a6e;text-decoration:underline;}
+
+/* TOPBAR */
+.topbar{background:#1a3a6e;color:#fff;border-bottom:3px solid #c8102e;display:flex;align-items:center;justify-content:space-between;padding:0 20px;height:54px;}
+.topbar-left{display:flex;align-items:center;gap:14px;}
+.topbar-marianne{display:flex;align-items:center;gap:10px;padding-right:14px;border-right:1px solid rgba(255,255,255,0.2);}
+.topbar-marianne .material-symbols-outlined{font-size:22px;}
+.topbar-marianne-text{font-size:11px;font-weight:600;line-height:1.2;letter-spacing:0.02em;}
+.topbar-app{font-size:14px;font-weight:600;}
+.topbar-app .sep{color:rgba(255,255,255,0.4);margin:0 8px;}
+.topbar-app .ville{font-weight:500;color:rgba(255,255,255,0.85);}
+.topbar-right{display:flex;align-items:center;gap:12px;}
+.topbar-user{display:flex;align-items:center;gap:10px;padding:6px 12px;border-radius:3px;cursor:pointer;transition:background 0.12s;}
+.topbar-user:hover{background:rgba(255,255,255,0.08);}
+.topbar-avatar{width:30px;height:30px;border-radius:50%;background:rgba(255,255,255,0.15);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:600;}
+.topbar-user-info{font-size:12px;line-height:1.2;}
+.topbar-user-name{font-weight:600;}
+.topbar-user-role{color:rgba(255,255,255,0.65);font-size:10px;}
+.topbar-icon-btn{background:none;border:none;color:#fff;cursor:pointer;width:36px;height:36px;border-radius:3px;display:flex;align-items:center;justify-content:center;transition:background 0.12s;}
+.topbar-icon-btn:hover{background:rgba(255,255,255,0.08);}
+.topbar-icon-btn .material-symbols-outlined{font-size:20px;}
+
+/* BOUTON ALERTE TOPBAR (rouge, pulse) */
+.alert-btn{
+  background:#c8102e;color:#fff;border:none;border-radius:4px;
+  padding:6px 14px;font-family:Inter;font-size:12px;font-weight:700;
+  letter-spacing:0.04em;text-transform:uppercase;cursor:pointer;
+  display:flex;align-items:center;gap:6px;
+  transition:background 0.12s;
+  box-shadow:0 0 0 0 rgba(200,16,46,0.5);
+  animation:alertPulse 2.5s ease-in-out infinite;
+}
+.alert-btn:hover{background:#a30d25;animation:none;}
+.alert-btn .material-symbols-outlined{font-size:16px;font-variation-settings:'FILL' 1;}
+@keyframes alertPulse{
+  0%,100%{box-shadow:0 0 0 0 rgba(200,16,46,0.4);}
+  50%{box-shadow:0 0 0 6px rgba(200,16,46,0);}
+}
+
+/* MODAL ALERTE */
+.modal-overlay{
+  position:fixed;inset:0;z-index:300;
+  background:rgba(15,25,35,0.55);
+  display:none;align-items:center;justify-content:center;
+  padding:20px;
+}
+.modal-overlay.show{display:flex;}
+.modal{
+  background:#fff;border-radius:6px;
+  width:100%;max-width:680px;max-height:90vh;overflow:hidden;
+  display:flex;flex-direction:column;
+  box-shadow:0 20px 60px rgba(0,0,0,0.4);
+  border-top:4px solid #c8102e;
+}
+.modal-head{
+  padding:18px 24px;border-bottom:1px solid #e5e7eb;
+  display:flex;align-items:center;justify-content:space-between;
+  background:#fdf2f2;
+}
+.modal-head-title{
+  font-size:16px;font-weight:700;color:#c8102e;
+  display:flex;align-items:center;gap:10px;
+}
+.modal-head-title .material-symbols-outlined{font-size:22px;font-variation-settings:'FILL' 1;}
+.modal-close{background:none;border:none;cursor:pointer;color:#5a6068;width:32px;height:32px;border-radius:4px;display:flex;align-items:center;justify-content:center;}
+.modal-close:hover{background:#fff;color:#1a1a1a;}
+.modal-close .material-symbols-outlined{font-size:20px;}
+.modal-body{padding:22px 24px;overflow-y:auto;flex:1;}
+.modal-foot{padding:14px 24px;border-top:1px solid #e5e7eb;background:#fafbfc;display:flex;gap:10px;justify-content:flex-end;}
+
+/* TEMPLATES ALERTE */
+.alert-templates{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-bottom:18px;}
+.alert-template{
+  background:#fff;border:1px solid #d0d4da;border-left:3px solid #c8102e;border-radius:3px;
+  padding:12px;cursor:pointer;text-align:left;font-family:Inter;
+  transition:all 0.12s;
+}
+.alert-template:hover{background:#fdf2f2;border-color:#c8102e;}
+.alert-template-head{display:flex;align-items:center;gap:8px;margin-bottom:4px;}
+.alert-template-head .material-symbols-outlined{font-size:18px;color:#c8102e;}
+.alert-template-name{font-size:13px;font-weight:700;color:#1a1a1a;}
+.alert-template-desc{font-size:11px;color:#5a6068;line-height:1.4;font-weight:500;}
+
+/* STATS AVEC CONTEXTE */
+.stat-context{
+  margin-top:8px;padding-top:8px;border-top:1px dashed #e5e7eb;
+  font-size:11px;color:#5a6068;line-height:1.5;
+}
+.stat-context strong{color:#1a3a6e;font-weight:600;}
+.stat-context .nat{color:#7a808a;font-weight:500;}
+.stat-context .savings{color:#15803d;font-weight:600;}
+.stat-progress{
+  height:5px;background:#f1f5f9;border-radius:3px;margin-top:8px;overflow:hidden;
+}
+.stat-progress-fill{height:100%;background:#1a3a6e;border-radius:3px;}
+
+/* BOÎTE À IDÉES */
+.idea-card{
+  background:#fff;border:1px solid #e5e7eb;border-radius:4px;
+  padding:16px 18px;margin-bottom:12px;
+  display:flex;gap:14px;
+}
+.idea-votes{
+  display:flex;flex-direction:column;align-items:center;gap:4px;
+  flex-shrink:0;background:#f4f5f7;border:1px solid #d0d4da;border-radius:3px;
+  padding:8px 12px;min-width:54px;
+}
+.idea-vote-num{font-size:18px;font-weight:700;color:#1a3a6e;line-height:1;font-variant-numeric:tabular-nums;}
+.idea-vote-lbl{font-size:9px;font-weight:700;color:#7a808a;letter-spacing:0.06em;text-transform:uppercase;}
+.idea-content{flex:1;min-width:0;}
+.idea-head{display:flex;align-items:center;gap:8px;margin-bottom:6px;flex-wrap:wrap;}
+.idea-cat{font-size:10px;font-weight:700;color:#1a3a6e;background:#eef2f8;padding:2px 8px;border-radius:3px;letter-spacing:0.04em;text-transform:uppercase;}
+.idea-status{font-size:10px;font-weight:700;padding:2px 8px;border-radius:3px;letter-spacing:0.04em;text-transform:uppercase;}
+.idea-status.new{background:#dbeafe;color:#1e40af;}
+.idea-status.review{background:#fef3c7;color:#92400e;}
+.idea-status.progress{background:#e0e7ff;color:#3730a3;}
+.idea-status.done{background:#dcfce7;color:#15803d;}
+.idea-status.rejected{background:#f1f5f9;color:#5a6068;}
+.idea-author{font-size:11px;color:#7a808a;font-weight:500;}
+.idea-title{font-size:14px;font-weight:600;color:#1a1a1a;margin-bottom:4px;line-height:1.3;}
+.idea-text{font-size:13px;color:#3a3f47;line-height:1.5;margin-bottom:10px;}
+.idea-meta{display:flex;align-items:center;gap:14px;font-size:11px;color:#7a808a;font-weight:500;margin-bottom:10px;}
+.idea-meta .material-symbols-outlined{font-size:13px;}
+.idea-actions{display:flex;gap:6px;flex-wrap:wrap;}
+
+/* TABS pour idées */
+.tabs{display:flex;border-bottom:1px solid #e5e7eb;background:#fafbfc;padding:0 20px;}
+.tab{padding:10px 18px;font-size:13px;font-weight:600;color:#5a6068;cursor:pointer;border-bottom:2px solid transparent;transition:all 0.12s;background:none;border-top:none;border-left:none;border-right:none;font-family:Inter;}
+.tab:hover{color:#1a1a1a;}
+.tab.active{color:#1a3a6e;border-bottom-color:#1a3a6e;}
+.tab-count{font-size:11px;color:#7a808a;background:#f1f5f9;padding:1px 7px;border-radius:10px;margin-left:6px;font-weight:600;}
+.tab.active .tab-count{background:#1a3a6e;color:#fff;}
+
+/* LAYOUT */
+.admin-layout{display:flex;min-height:calc(100vh - 54px);}
+.sidebar{width:240px;background:#fff;border-right:1px solid #d0d4da;flex-shrink:0;display:flex;flex-direction:column;position:sticky;top:54px;height:calc(100vh - 54px);}
+.sidebar-section{font-size:11px;font-weight:600;color:#7a808a;letter-spacing:0.06em;text-transform:uppercase;padding:18px 20px 8px;}
+.sidebar-link{display:flex;align-items:center;gap:10px;padding:9px 20px;font-size:13px;font-weight:500;color:#3a3f47;cursor:pointer;text-decoration:none;border-left:3px solid transparent;transition:all 0.12s;}
+.sidebar-link:hover{background:#f4f5f7;color:#1a1a1a;}
+.sidebar-link.active{background:#eef2f8;color:#1a3a6e;border-left-color:#1a3a6e;font-weight:600;}
+.sidebar-link .material-symbols-outlined{font-size:18px;color:#5a6068;}
+.sidebar-link.active .material-symbols-outlined{color:#1a3a6e;}
+.sidebar-link .badge{margin-left:auto;background:#c8102e;color:#fff;font-size:10px;font-weight:600;padding:1px 6px;border-radius:10px;letter-spacing:0;}
+.sidebar-foot{margin-top:auto;padding:14px 20px;border-top:1px solid #e5e7eb;font-size:11px;color:#7a808a;line-height:1.5;}
+.sidebar-foot a{color:#1a3a6e;text-decoration:none;}
+.sidebar-foot a:hover{text-decoration:underline;}
+
+/* MAIN */
+.main{flex:1;padding:24px 32px 40px;max-width:1280px;}
+.breadcrumb{display:flex;align-items:center;gap:6px;font-size:12px;color:#5a6068;font-weight:500;margin-bottom:18px;}
+.breadcrumb a{color:#1a3a6e;text-decoration:none;cursor:pointer;}
+.breadcrumb a:hover{text-decoration:underline;}
+.breadcrumb .material-symbols-outlined{font-size:14px;color:#a0a5ad;}
+.page-title{font-size:22px;font-weight:700;color:#1a1a1a;letter-spacing:-0.005em;margin-bottom:6px;}
+.page-sub{font-size:13px;color:#5a6068;margin-bottom:24px;}
+.page-header-row{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:24px;flex-wrap:wrap;gap:14px;}
+
+/* STATS */
+.stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:28px;}
+.stat-card{background:#fff;border:1px solid #d0d4da;border-radius:4px;padding:18px 18px 16px;}
+.stat-card-head{display:flex;align-items:center;gap:8px;margin-bottom:12px;}
+.stat-card-head .material-symbols-outlined{font-size:18px;color:#5a6068;}
+.stat-card-head-label{font-size:12px;font-weight:600;color:#3a3f47;}
+.stat-value{font-size:24px;font-weight:700;color:#1a1a1a;letter-spacing:-0.01em;line-height:1.1;margin-bottom:4px;}
+.stat-extra{font-size:11px;color:#5a6068;font-weight:500;}
+.stat-extra strong{color:#1a3a6e;font-weight:600;}
+.stat-extra .up{color:#15803d;font-weight:600;}
+.stat-extra .down{color:#c8102e;font-weight:600;}
+
+/* PANELS */
+.panel{background:#fff;border:1px solid #d0d4da;border-radius:4px;margin-bottom:18px;}
+.panel-head{padding:14px 20px;border-bottom:1px solid #e5e7eb;display:flex;align-items:center;justify-content:space-between;}
+.panel-head-title{font-size:14px;font-weight:600;color:#1a1a1a;display:flex;align-items:center;gap:8px;}
+.panel-head-title .material-symbols-outlined{font-size:18px;color:#5a6068;}
+.panel-body{padding:24px 20px;}
+
+/* NOTICE */
+.notice{background:#fff8e1;border:1px solid #f0d075;border-left:3px solid #b8860b;padding:12px 14px;border-radius:3px;display:flex;gap:10px;align-items:flex-start;margin-bottom:20px;}
+.notice .material-symbols-outlined{font-size:18px;color:#8b6914;flex-shrink:0;margin-top:1px;}
+.notice-text{font-size:12px;color:#5c4615;line-height:1.5;}
+.notice-text strong{color:#1a1a1a;font-weight:600;}
+.notice.info{background:#eef5fc;border-color:#9ec5ee;border-left-color:#1a3a6e;}
+.notice.info .material-symbols-outlined{color:#1a3a6e;}
+.notice.info .notice-text{color:#1a3a6e;}
+
+/* COMPOSE */
+.compose-grid{display:grid;grid-template-columns:1fr 320px;gap:32px;}
+@media(max-width:1024px){.compose-grid{grid-template-columns:1fr;}}
+.field{margin-bottom:18px;}
+.field-label{font-size:13px;font-weight:600;color:#1a1a1a;margin-bottom:6px;display:flex;align-items:center;justify-content:space-between;}
+.field-required{color:#c8102e;margin-left:2px;}
+.field-counter{font-size:11px;color:#7a808a;font-weight:500;}
+.field-counter.warn{color:#b8860b;font-weight:600;}
+.field-help{font-size:11px;color:#7a808a;margin-top:4px;}
+.field-input,.field-textarea,.field-select{width:100%;background:#fff;border:1px solid #c0c5cc;border-radius:4px;padding:9px 12px;font-family:Inter;font-size:14px;color:#1a1a1a;outline:none;transition:border-color 0.12s,box-shadow 0.12s;}
+.field-input:focus,.field-textarea:focus,.field-select:focus{border-color:#1a3a6e;box-shadow:0 0 0 3px rgba(26,58,110,0.12);}
+.field-textarea{resize:vertical;min-height:90px;line-height:1.5;}
+
+/* CATEGORY */
+.cat-radio-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;}
+.cat-radio{background:#fff;border:1px solid #d0d4da;border-radius:3px;padding:9px 8px;cursor:pointer;font-family:Inter;text-align:center;display:flex;flex-direction:column;align-items:center;gap:4px;transition:all 0.12s;}
+.cat-radio:hover{border-color:#1a3a6e;background:#f4f5f7;}
+.cat-radio.active{background:#eef2f8;border-color:#1a3a6e;}
+.cat-radio .material-symbols-outlined{font-size:18px;color:#5a6068;}
+.cat-radio.active .material-symbols-outlined{color:#1a3a6e;}
+.cat-radio-name{font-size:11px;font-weight:600;color:#3a3f47;}
+.cat-radio.active .cat-radio-name{color:#1a3a6e;}
+
+/* TARGET */
+.target-list{display:flex;flex-direction:column;gap:6px;}
+.target-row{display:flex;align-items:center;gap:10px;padding:10px 12px;background:#fff;border:1px solid #d0d4da;border-radius:3px;cursor:pointer;font-family:Inter;transition:all 0.12s;}
+.target-row:hover{border-color:#1a3a6e;background:#f4f5f7;}
+.target-row.active{background:#eef2f8;border-color:#1a3a6e;}
+.target-radio-dot{width:16px;height:16px;border-radius:50%;border:1.5px solid #c0c5cc;flex-shrink:0;display:flex;align-items:center;justify-content:center;background:#fff;}
+.target-row.active .target-radio-dot{border-color:#1a3a6e;}
+.target-row.active .target-radio-dot::after{content:'';width:8px;height:8px;border-radius:50%;background:#1a3a6e;}
+.target-info{flex:1;min-width:0;}
+.target-name{font-size:13px;font-weight:600;color:#1a1a1a;}
+.target-desc{font-size:11px;color:#5a6068;font-weight:500;}
+.target-count{font-size:12px;font-weight:600;color:#1a3a6e;background:#eef2f8;padding:3px 9px;border-radius:3px;}
+
+/* PREVIEW */
+.preview-section{}
+.preview-label{font-size:11px;font-weight:600;color:#7a808a;letter-spacing:0.04em;text-transform:uppercase;margin-bottom:8px;}
+.phone-frame{background:#1a1a1a;border-radius:18px;padding:8px;}
+.phone-screen{background:linear-gradient(180deg,#3a4d6e 0%,#1f2937 100%);border-radius:12px;padding:12px 10px;min-height:280px;position:relative;}
+.phone-status{display:flex;justify-content:space-between;align-items:center;padding:0 8px 12px;color:rgba(255,255,255,0.85);font-size:11px;font-weight:600;}
+.phone-status .material-symbols-outlined{font-size:13px;}
+.notif-prev{background:rgba(255,255,255,0.96);border-radius:12px;padding:11px 12px;display:flex;gap:10px;align-items:flex-start;}
+.notif-prev-icon{width:36px;height:36px;border-radius:8px;flex-shrink:0;background:#1a3a6e;display:flex;align-items:center;justify-content:center;}
+.notif-prev-icon .material-symbols-outlined{font-size:18px;color:#fff;}
+.notif-prev-content{flex:1;min-width:0;}
+.notif-prev-meta{font-size:10px;color:#5a6068;font-weight:500;margin-bottom:2px;display:flex;align-items:center;gap:5px;}
+.notif-prev-meta-dot{opacity:0.5;}
+.notif-prev-title{font-size:13px;font-weight:600;color:#1a1a1a;line-height:1.3;margin-bottom:2px;}
+.notif-prev-body{font-size:12px;color:#3a3f47;line-height:1.4;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;}
+.preview-info{margin-top:10px;padding:10px 12px;background:#f4f5f7;border:1px solid #e5e7eb;border-radius:3px;font-size:11px;color:#5a6068;line-height:1.5;}
+
+/* ACTIONS */
+.actions{display:flex;gap:10px;justify-content:flex-end;padding:14px 20px;border-top:1px solid #e5e7eb;background:#fafbfc;border-radius:0 0 4px 4px;}
+.btn{font-family:Inter;font-size:13px;font-weight:600;border-radius:4px;padding:9px 16px;cursor:pointer;display:inline-flex;align-items:center;gap:6px;transition:all 0.12s;}
+.btn .material-symbols-outlined{font-size:16px;}
+.btn-default{background:#fff;border:1px solid #c0c5cc;color:#3a3f47;}
+.btn-default:hover{background:#f4f5f7;border-color:#7a808a;}
+.btn-primary{background:#1a3a6e;border:1px solid #1a3a6e;color:#fff;}
+.btn-primary:hover{background:#142d56;}
+.btn-danger{background:#fff;border:1px solid #c0c5cc;color:#c8102e;}
+.btn-danger:hover{background:#fdf2f2;border-color:#c8102e;}
+.btn-sm{padding:5px 10px;font-size:12px;}
+
+/* TABLES */
+.data-table{width:100%;border-collapse:collapse;}
+.data-table thead{background:#f4f5f7;}
+.data-table th{text-align:left;padding:10px 16px;font-size:11px;font-weight:600;color:#5a6068;letter-spacing:0.04em;text-transform:uppercase;border-bottom:1px solid #e5e7eb;}
+.data-table td{padding:14px 16px;border-bottom:1px solid #e5e7eb;font-size:13px;color:#1a1a1a;vertical-align:middle;}
+.data-table tr:last-child td{border-bottom:none;}
+.data-table tr:hover{background:#fafbfc;}
+.data-table .num{font-variant-numeric:tabular-nums;font-weight:600;}
+
+/* PILLS */
+.pill{display:inline-flex;align-items:center;gap:4px;font-size:11px;font-weight:600;padding:3px 8px;border-radius:3px;}
+.pill.cat{background:#eef2f8;color:#1a3a6e;}
+.pill.cat .material-symbols-outlined{font-size:13px;}
+.pill.status-active{background:#dcfce7;color:#15803d;}
+.pill.status-pending{background:#fef3c7;color:#92400e;}
+.pill.status-error{background:#fee2e2;color:#991b1b;}
+.pill.status-inactive{background:#f1f5f9;color:#5a6068;}
+
+/* EMPTY STATE */
+.empty-state{padding:60px 20px;text-align:center;color:#7a808a;}
+.empty-state .material-symbols-outlined{font-size:42px;color:#c0c5cc;margin-bottom:12px;}
+.empty-state-title{font-size:14px;font-weight:600;color:#3a3f47;margin-bottom:4px;}
+.empty-state-text{font-size:13px;}
+
+/* TOAST */
+.toast{position:fixed;bottom:20px;right:20px;z-index:200;background:#1a3a6e;color:#fff;border-left:3px solid #fff;border-radius:3px;padding:12px 18px;display:flex;align-items:center;gap:10px;box-shadow:0 4px 16px rgba(0,0,0,0.2);font-size:13px;font-weight:500;transform:translateY(20px);opacity:0;transition:all 0.25s ease;}
+.toast.show{transform:translateY(0);opacity:1;}
+.toast.error{background:#c8102e;}
+.toast .material-symbols-outlined{font-size:18px;}
+
+/* FOOTER */
+.global-footer{background:#fff;border-top:1px solid #d0d4da;padding:16px 32px;display:flex;align-items:center;justify-content:space-between;font-size:11px;color:#7a808a;}
+.global-footer a{color:#1a3a6e;text-decoration:none;margin:0 6px;}
+.global-footer a:hover{text-decoration:underline;}
+.global-footer-version{font-variant-numeric:tabular-nums;}
+
+/* DASHBOARD */
+.welcome-banner{background:linear-gradient(120deg,#1a3a6e 0%,#142d56 100%);color:#fff;padding:24px 28px;border-radius:4px;margin-bottom:20px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px;border-top:3px solid #c8102e;}
+.welcome-text-title{font-size:18px;font-weight:700;letter-spacing:-0.005em;margin-bottom:4px;}
+.welcome-text-sub{font-size:13px;color:rgba(255,255,255,0.78);}
+.welcome-actions{display:flex;gap:8px;flex-wrap:wrap;}
+.welcome-btn{background:rgba(255,255,255,0.12);border:1px solid rgba(255,255,255,0.25);color:#fff;padding:8px 14px;border-radius:4px;font-family:Inter;font-size:12px;font-weight:600;cursor:pointer;display:flex;align-items:center;gap:6px;}
+.welcome-btn:hover{background:rgba(255,255,255,0.2);}
+.welcome-btn .material-symbols-outlined{font-size:16px;}
+.welcome-btn.primary{background:#fff;color:#1a3a6e;border-color:#fff;}
+
+.two-col-grid{display:grid;grid-template-columns:2fr 1fr;gap:18px;margin-bottom:18px;}
+@media(max-width:1024px){.two-col-grid{grid-template-columns:1fr;}}
+
+.activity-list{padding:0;}
+.activity-item{display:flex;align-items:flex-start;gap:12px;padding:12px 20px;border-bottom:1px solid #f1f5f9;}
+.activity-item:last-child{border-bottom:none;}
+.activity-icon{width:34px;height:34px;border-radius:50%;background:#eef2f8;color:#1a3a6e;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.activity-icon .material-symbols-outlined{font-size:18px;}
+.activity-info{flex:1;min-width:0;}
+.activity-text{font-size:13px;color:#1a1a1a;line-height:1.4;}
+.activity-text strong{font-weight:600;}
+.activity-meta{font-size:11px;color:#7a808a;font-weight:500;margin-top:2px;}
+
+/* SIMPLE CHART */
+.chart-bar-row{display:flex;align-items:center;gap:10px;margin-bottom:8px;}
+.chart-bar-label{font-size:12px;color:#3a3f47;min-width:80px;font-weight:500;}
+.chart-bar-track{flex:1;height:18px;background:#f1f5f9;border-radius:3px;overflow:hidden;position:relative;}
+.chart-bar-fill{height:100%;background:#1a3a6e;border-radius:3px;display:flex;align-items:center;padding:0 8px;color:#fff;font-size:11px;font-weight:600;justify-content:flex-end;font-variant-numeric:tabular-nums;}
+.chart-bar-fill.alt{background:#3b6db1;}
+.chart-bar-fill.alt2{background:#5a8dcb;}
+
+.line-chart-wrap{padding:18px;}
+.line-chart-svg{width:100%;height:200px;}
+
+/* AVATAR */
+.avatar{width:34px;height:34px;border-radius:50%;background:#eef2f8;color:#1a3a6e;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:600;flex-shrink:0;}
+
+/* SEARCH BAR */
+.toolbar{display:flex;gap:10px;padding:14px 20px;border-bottom:1px solid #e5e7eb;background:#fafbfc;align-items:center;flex-wrap:wrap;}
+.toolbar-search{flex:1;min-width:200px;position:relative;}
+.toolbar-search .material-symbols-outlined{position:absolute;left:10px;top:50%;transform:translateY(-50%);font-size:16px;color:#7a808a;}
+.toolbar-search input{width:100%;padding:8px 12px 8px 34px;background:#fff;border:1px solid #c0c5cc;border-radius:4px;font-family:Inter;font-size:13px;outline:none;}
+.toolbar-search input:focus{border-color:#1a3a6e;box-shadow:0 0 0 2px rgba(26,58,110,0.12);}
+.toolbar-filter{padding:7px 12px;background:#fff;border:1px solid #c0c5cc;border-radius:4px;font-family:Inter;font-size:13px;color:#3a3f47;cursor:pointer;display:flex;align-items:center;gap:6px;}
+.toolbar-filter:hover{background:#f4f5f7;border-color:#7a808a;}
+.toolbar-filter .material-symbols-outlined{font-size:16px;}
+
+/* PAGINATION */
+.pagination{display:flex;align-items:center;justify-content:space-between;padding:12px 20px;border-top:1px solid #e5e7eb;background:#fafbfc;}
+.pagination-info{font-size:12px;color:#5a6068;font-weight:500;}
+.pagination-controls{display:flex;gap:4px;}
+.pagination-btn{width:30px;height:30px;background:#fff;border:1px solid #c0c5cc;border-radius:3px;font-family:Inter;font-size:12px;font-weight:600;color:#3a3f47;cursor:pointer;display:flex;align-items:center;justify-content:center;}
+.pagination-btn:hover{background:#f4f5f7;}
+.pagination-btn.active{background:#1a3a6e;color:#fff;border-color:#1a3a6e;}
+.pagination-btn .material-symbols-outlined{font-size:16px;}
+.pagination-btn:disabled{opacity:0.4;cursor:not-allowed;}
+
+/* PROGRAMMÉE — TIMELINE */
+.timeline-day{margin-bottom:18px;}
+.timeline-day-head{font-size:11px;font-weight:700;color:#5a6068;letter-spacing:0.06em;text-transform:uppercase;padding:8px 0;border-bottom:1px solid #e5e7eb;margin-bottom:10px;}
+.scheduled-item{display:flex;align-items:flex-start;gap:14px;padding:14px;background:#fafbfc;border:1px solid #e5e7eb;border-left:3px solid #1a3a6e;border-radius:3px;margin-bottom:8px;}
+.scheduled-time{flex-shrink:0;text-align:center;min-width:60px;}
+.scheduled-time-h{font-size:18px;font-weight:700;color:#1a1a1a;font-variant-numeric:tabular-nums;line-height:1;}
+.scheduled-time-d{font-size:10px;color:#7a808a;font-weight:600;margin-top:2px;letter-spacing:0.04em;text-transform:uppercase;}
+.scheduled-info{flex:1;min-width:0;}
+.scheduled-title{font-size:14px;font-weight:600;color:#1a1a1a;margin-bottom:2px;}
+.scheduled-body{font-size:12px;color:#5a6068;margin-bottom:6px;line-height:1.4;}
+.scheduled-meta{display:flex;gap:10px;font-size:11px;color:#7a808a;font-weight:500;align-items:center;flex-wrap:wrap;}
+.scheduled-meta .material-symbols-outlined{font-size:13px;}
+.scheduled-actions{display:flex;gap:6px;flex-shrink:0;}
+
+/* MOBILE */
+@media(max-width:900px){
+  .sidebar{position:fixed;top:54px;left:0;height:calc(100vh - 54px);transform:translateX(-100%);transition:transform 0.25s ease;z-index:50;box-shadow:4px 0 16px rgba(0,0,0,0.15);}
+  .sidebar.open{transform:translateX(0);}
+  .sidebar-overlay{position:fixed;inset:54px 0 0 0;background:rgba(15,25,35,0.5);z-index:40;display:none;}
+  .sidebar-overlay.show{display:block;}
+  .main{padding:18px;}
+  .stats-grid{grid-template-columns:repeat(2,1fr);}
+  .compose-grid{grid-template-columns:1fr;}
+  .topbar-user-info{display:none;}
+  .topbar-marianne-text{display:none;}
+  .topbar{padding:0 12px;}
+}
+
+/* Hamburger : toujours visible */
+.mobile-menu-btn{
+  display:flex;background:none;border:none;color:#fff;cursor:pointer;
+  width:40px;height:40px;border-radius:3px;
+  align-items:center;justify-content:center;margin-right:6px;
+}
+.mobile-menu-btn:hover{background:rgba(255,255,255,0.1);}
+.mobile-menu-btn .material-symbols-outlined{font-size:24px;}
+
+/* Sidebar repliée sur desktop */
+@media(min-width:901px){
+  .admin-layout.sidebar-collapsed .sidebar{width:0;border-right:none;overflow:hidden;}
+  .admin-layout.sidebar-collapsed .main{max-width:none;}
+}
+
+.view{display:none;}
+.view.active{display:block;}
+</style>
+</head>
+<body>
+
+<!-- LOGIN -->
+<div id="login-screen">
+  <div class="login-wrap">
+    <div class="login-official-band">
+      <span class="material-symbols-outlined">verified_user</span>
+      <div class="login-official-band-text">
+        <strong>Espace administration sécurisé</strong>
+        Mairie de Villeneuve-lès-Avignon
+      </div>
+    </div>
+    <div class="login-card">
+      <h1 class="login-title">Connexion à votre espace</h1>
+      <p class="login-sub">Identifiez-vous pour accéder à l'administration de Cœur de Ville.</p>
+      <div class="login-field">
+        <label class="login-label" for="login-user">Identifiant</label>
+        <input type="text" class="login-input" id="login-user" placeholder="prenom.nom@villeneuve-lez-avignon.fr" autocomplete="username"/>
+      </div>
+      <div class="login-field">
+        <label class="login-label" for="login-pass">Mot de passe</label>
+        <input type="password" class="login-input" id="login-pass" autocomplete="current-password"/>
+      </div>
+      <div class="login-actions">
+        <button class="login-forgot" type="button">Mot de passe oublié ?</button>
+        <button class="login-btn" onclick="doLogin()">Se connecter <span class="material-symbols-outlined">arrow_forward</span></button>
+      </div>
+      <div id="login-error" class="login-error" style="display:none;">
+        <span class="material-symbols-outlined">error</span>
+        Identifiant ou mot de passe incorrect.
+      </div>
+      <div class="login-hint">
+        <strong>Démonstration :</strong><br/>
+        Identifiant : <strong>mairie@villeneuve.fr</strong><br/>
+        Mot de passe : <strong>demo2026</strong>
+      </div>
+    </div>
+    <div class="login-foot">
+      Conformément au RGPD, vos identifiants sont traités selon notre <a href="#">politique de confidentialité</a>.<br/>
+      Toute tentative d'accès non autorisé est passible de poursuites — Article 323-1 du Code pénal.
+    </div>
+  </div>
+</div>
+
+<!-- ADMIN -->
+<div id="admin-app" style="display:none;">
+
+  <header class="topbar">
+    <div class="topbar-left">
+      <button class="mobile-menu-btn" onclick="toggleSidebar()" aria-label="Menu">
+        <span class="material-symbols-outlined">menu</span>
+      </button>
+      <div class="topbar-marianne">
+        <span class="material-symbols-outlined">account_balance</span>
+        <div class="topbar-marianne-text">République<br/>Française</div>
+      </div>
+      <div class="topbar-app">
+        Cœur de Ville
+        <span class="sep">|</span>
+        <span class="ville">Mairie de Villeneuve-lès-Avignon</span>
+      </div>
+    </div>
+    <div class="topbar-right">
+      <button class="alert-btn" onclick="openAlertModal()" title="Diffuser une alerte d'urgence à toute la commune">
+        <span class="material-symbols-outlined">crisis_alert</span>
+        Diffuser une alerte
+      </button>
+      <button class="topbar-icon-btn" title="Aide"><span class="material-symbols-outlined">help</span></button>
+      <button class="topbar-icon-btn" title="Notifications"><span class="material-symbols-outlined">notifications</span></button>
+      <div class="topbar-user" onclick="doLogout()" title="Cliquez pour vous déconnecter">
+        <div class="topbar-avatar">JM</div>
+        <div class="topbar-user-info">
+          <div class="topbar-user-name">Jean Martin</div>
+          <div class="topbar-user-role">Service communication</div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <div class="admin-layout">
+
+    <div class="sidebar-overlay" id="sidebar-overlay" onclick="toggleSidebar()"></div>
+
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-section">Tableau de bord</div>
+      <a class="sidebar-link" data-view="dashboard"><span class="material-symbols-outlined">dashboard</span>Vue d'ensemble</a>
+
+      <div class="sidebar-section">Communication</div>
+      <a class="sidebar-link" data-view="notifications"><span class="material-symbols-outlined">campaign</span>Nouvelle notification</a>
+      <a class="sidebar-link" data-view="scheduled"><span class="material-symbols-outlined">schedule</span>Programmées<span class="badge">2</span></a>
+      <a class="sidebar-link" data-view="history"><span class="material-symbols-outlined">history</span>Historique</a>
+
+      <div class="sidebar-section">Données</div>
+      <a class="sidebar-link" data-view="stats"><span class="material-symbols-outlined">bar_chart</span>Statistiques</a>
+      <a class="sidebar-link" data-view="public"><span class="material-symbols-outlined">groups</span>Public</a>
+      <a class="sidebar-link" data-view="ideas"><span class="material-symbols-outlined">lightbulb</span>Boîte à idées<span class="badge">7</span></a>
+
+      <div class="sidebar-section">Paramètres</div>
+      <a class="sidebar-link" data-view="users"><span class="material-symbols-outlined">supervisor_account</span>Utilisateurs</a>
+
+      <div class="sidebar-foot">
+        Cœur de Ville · v2.4<br/>
+        <a href="#">Documentation</a> · <a href="#">Support</a>
+      </div>
+    </aside>
+
+    <main class="main">
+
+      <!-- ════════════════════════════════════════════════════ -->
+      <!-- VUE D'ENSEMBLE                                         -->
+      <!-- ════════════════════════════════════════════════════ -->
+      <div class="view" id="view-dashboard">
+        <nav class="breadcrumb">
+          <span>Accueil</span>
+          <span class="material-symbols-outlined">chevron_right</span>
+          <span>Vue d'ensemble</span>
+        </nav>
+
+        <div class="welcome-banner">
+          <div>
+            <div class="welcome-text-title">Bonjour Jean Martin 👋</div>
+            <div class="welcome-text-sub">Voici un résumé de l'activité Cœur de Ville pour Villeneuve-lès-Avignon.</div>
+          </div>
+          <div class="welcome-actions">
+            <button class="welcome-btn primary" onclick="goView('notifications')"><span class="material-symbols-outlined">campaign</span>Nouvelle notification</button>
+            <button class="welcome-btn" onclick="goView('stats')"><span class="material-symbols-outlined">bar_chart</span>Voir les statistiques</button>
+          </div>
+        </div>
+
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div class="stat-card-head"><span class="material-symbols-outlined">groups</span><span class="stat-card-head-label">Abonnés actifs</span></div>
+            <div class="stat-value" id="dash-abonnes">—</div>
+            <div class="stat-extra" id="dash-abonnes-extra">utilisateurs ayant activé les notifications</div>
+            <div class="stat-progress"><div class="stat-progress-fill" id="dash-abonnes-progress" style="width:0%;"></div></div>
+            <div class="stat-context" id="dash-abonnes-context">
+              <span class="nat">Pourcentage de la population de Villeneuve (12 950 hab.)</span>
+            </div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-card-head"><span class="material-symbols-outlined">person_pin_circle</span><span class="stat-card-head-label">Idées citoyennes</span></div>
+            <div class="stat-value" id="dash-ideas">—</div>
+            <div class="stat-extra" id="dash-ideas-extra">soumises par les habitants</div>
+            <div class="stat-context" id="dash-ideas-context">
+              dont <strong id="dash-ideas-pending">—</strong> en attente de modération
+            </div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-card-head"><span class="material-symbols-outlined">send</span><span class="stat-card-head-label">Notifications ce mois</span></div>
+            <div class="stat-value" id="dash-notifs">—</div>
+            <div class="stat-extra" id="dash-notifs-extra">diffusées via la plateforme</div>
+            <div class="stat-progress"><div class="stat-progress-fill" id="dash-notifs-progress" style="width:0%;background:#FF6B35;"></div></div>
+            <div class="stat-context" id="dash-notifs-context">
+              <span class="nat">Total depuis le lancement : <strong id="dash-notifs-total">—</strong></span>
+            </div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-card-head"><span class="material-symbols-outlined">trending_up</span><span class="stat-card-head-label">Engagement moyen</span></div>
+            <div class="stat-value" id="dash-engagement">—</div>
+            <div class="stat-extra" id="dash-engagement-extra">taux de réception moyen</div>
+            <div class="stat-context" id="dash-engagement-context">
+              <span class="nat">Calculé sur l'ensemble des notifications diffusées</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="two-col-grid">
+          <section class="panel">
+            <div class="panel-head">
+              <div class="panel-head-title"><span class="material-symbols-outlined">timeline</span>Activité des 30 derniers jours</div>
+              <button class="btn btn-default btn-sm">Période</button>
+            </div>
+            <div class="line-chart-wrap">
+              <svg class="line-chart-svg" viewBox="0 0 600 200" preserveAspectRatio="none">
+                <defs>
+                  <linearGradient id="grad1" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%" stop-color="#1a3a6e" stop-opacity="0.18"/>
+                    <stop offset="100%" stop-color="#1a3a6e" stop-opacity="0"/>
+                  </linearGradient>
+                </defs>
+                <line x1="0" y1="40" x2="600" y2="40" stroke="#e5e7eb" stroke-width="1"/>
+                <line x1="0" y1="100" x2="600" y2="100" stroke="#e5e7eb" stroke-width="1"/>
+                <line x1="0" y1="160" x2="600" y2="160" stroke="#e5e7eb" stroke-width="1"/>
+                <path d="M0,140 L40,135 L80,120 L120,128 L160,108 L200,118 L240,95 L280,90 L320,82 L360,75 L400,68 L440,60 L480,55 L520,48 L560,42 L600,38 L600,200 L0,200 Z" fill="url(#grad1)"/>
+                <path d="M0,140 L40,135 L80,120 L120,128 L160,108 L200,118 L240,95 L280,90 L320,82 L360,75 L400,68 L440,60 L480,55 L520,48 L560,42 L600,38" fill="none" stroke="#1a3a6e" stroke-width="2"/>
+                <text x="0" y="195" font-size="9" fill="#7a808a" font-family="Inter">28 mars</text>
+                <text x="280" y="195" font-size="9" fill="#7a808a" font-family="Inter">11 avril</text>
+                <text x="555" y="195" font-size="9" fill="#7a808a" font-family="Inter">26 avril</text>
+              </svg>
+              <div style="display:flex;gap:18px;font-size:11px;color:#5a6068;font-weight:500;margin-top:8px;padding:0 4px;">
+                <div style="display:flex;align-items:center;gap:5px;"><span style="width:10px;height:2px;background:#1a3a6e;display:inline-block;"></span>Visiteurs uniques</div>
+                <div style="margin-left:auto;color:#15803d;font-weight:600;">+18 % de croissance</div>
+              </div>
+            </div>
+          </section>
+
+          <section class="panel">
+            <div class="panel-head">
+              <div class="panel-head-title"><span class="material-symbols-outlined">notifications</span>Activité récente</div>
+            </div>
+            <div class="activity-list" id="activity-list">
+              <div class="activity-item">
+                <div class="activity-icon"><span class="material-symbols-outlined" style="animation:spin 1s linear infinite;">progress_activity</span></div>
+                <div class="activity-info">
+                  <div class="activity-text">Chargement de l'activité…</div>
+                </div>
+              </div>
+            </div>
+          </section>
+        </div>
+
+        <section class="panel">
+          <div class="panel-head">
+            <div class="panel-head-title"><span class="material-symbols-outlined">leaderboard</span>Catégories de notification les plus consultées</div>
+          </div>
+          <div style="padding:18px 20px;">
+            <div class="chart-bar-row"><div class="chart-bar-label">Événements</div><div class="chart-bar-track"><div class="chart-bar-fill" style="width:88%;">88 %</div></div></div>
+            <div class="chart-bar-row"><div class="chart-bar-label">Marché</div><div class="chart-bar-track"><div class="chart-bar-fill alt" style="width:72%;">72 %</div></div></div>
+            <div class="chart-bar-row"><div class="chart-bar-label">Travaux</div><div class="chart-bar-track"><div class="chart-bar-fill alt" style="width:54%;">54 %</div></div></div>
+            <div class="chart-bar-row"><div class="chart-bar-label">Vie civique</div><div class="chart-bar-track"><div class="chart-bar-fill alt2" style="width:42%;">42 %</div></div></div>
+            <div class="chart-bar-row"><div class="chart-bar-label">Service public</div><div class="chart-bar-track"><div class="chart-bar-fill alt2" style="width:35%;">35 %</div></div></div>
+          </div>
+        </section>
+      </div>
+
+      <!-- ════════════════════════════════════════════════════ -->
+      <!-- NOTIFICATIONS                                          -->
+      <!-- ════════════════════════════════════════════════════ -->
+      <div class="view" id="view-notifications">
+        <nav class="breadcrumb">
+          <a onclick="goView('dashboard')">Accueil</a>
+          <span class="material-symbols-outlined">chevron_right</span>
+          <span>Communication</span>
+          <span class="material-symbols-outlined">chevron_right</span>
+          <span>Nouvelle notification</span>
+        </nav>
+
+        <h1 class="page-title">Notifications aux usagers</h1>
+        <p class="page-sub">Composez et diffusez un message officiel aux abonnés de l'application Cœur de Ville.</p>
+
+        <div class="stats-grid">
+          <div class="stat-card"><div class="stat-card-head"><span class="material-symbols-outlined">groups</span><span class="stat-card-head-label">Abonnés actifs</span></div><div class="stat-value" id="comp-abonnes">—</div><div class="stat-extra">utilisateurs joignables</div></div>
+          <div class="stat-card"><div class="stat-card-head"><span class="material-symbols-outlined">send</span><span class="stat-card-head-label">Notifications envoyées</span></div><div class="stat-value" id="comp-notifs">—</div><div class="stat-extra">au cours du mois en cours</div></div>
+          <div class="stat-card"><div class="stat-card-head"><span class="material-symbols-outlined">visibility</span><span class="stat-card-head-label">Taux d'ouverture moyen</span></div><div class="stat-value" id="comp-ouverture">—</div><div class="stat-extra">taux de réception</div></div>
+          <div class="stat-card"><div class="stat-card-head"><span class="material-symbols-outlined">ads_click</span><span class="stat-card-head-label">Total notifications</span></div><div class="stat-value" id="comp-total">—</div><div class="stat-extra">depuis le lancement</div></div>
+        </div>
+
+        <section class="panel">
+          <div class="panel-head"><div class="panel-head-title"><span class="material-symbols-outlined">edit</span>Rédaction d'une nouvelle notification</div></div>
+          <div class="panel-body">
+            <div class="notice">
+              <span class="material-symbols-outlined">info</span>
+              <div class="notice-text"><strong>Vous êtes sur le point d'adresser un message officiel</strong> aux usagers ayant accepté de recevoir les communications de la commune. Toute notification est tracée et conservée pendant 12 mois conformément au RGPD.</div>
+            </div>
+            <div class="compose-grid">
+              <div>
+                <div class="field">
+                  <div class="field-label">Objet de la notification<span class="field-required">*</span><span class="field-counter" id="title-counter">0 / 50</span></div>
+                  <input type="text" class="field-input" id="notif-title" maxlength="50" placeholder="Exemple : Marché des producteurs ce samedi matin" oninput="updatePreview()"/>
+                  <div class="field-help">Soyez clair et factuel. Limite : 50 caractères.</div>
+                </div>
+                <div class="field">
+                  <div class="field-label">Contenu du message<span class="field-required">*</span><span class="field-counter" id="body-counter">0 / 150</span></div>
+                  <textarea class="field-textarea" id="notif-body" maxlength="150" rows="3" placeholder="Exemple : Retrouvez vos producteurs locaux Place Charles David, dès 8h. Maraîchers, fromagers, artisans." oninput="updatePreview()"></textarea>
+                  <div class="field-help">Texte affiché sous l'objet. Limite : 150 caractères.</div>
+                </div>
+                <div class="field">
+                  <div class="field-label">Catégorie<span class="field-required">*</span></div>
+                  <div class="cat-radio-grid">
+                    <button class="cat-radio active" data-icon="campaign" data-cat="Communication" onclick="pickIcon(this)"><span class="material-symbols-outlined">campaign</span><span class="cat-radio-name">Communication</span></button>
+                    <button class="cat-radio" data-icon="event_note" data-cat="Événement" onclick="pickIcon(this)"><span class="material-symbols-outlined">event_note</span><span class="cat-radio-name">Événement</span></button>
+                    <button class="cat-radio" data-icon="storefront" data-cat="Marché" onclick="pickIcon(this)"><span class="material-symbols-outlined">storefront</span><span class="cat-radio-name">Marché</span></button>
+                    <button class="cat-radio" data-icon="warning" data-cat="Alerte" onclick="pickIcon(this)"><span class="material-symbols-outlined">warning</span><span class="cat-radio-name">Alerte</span></button>
+                    <button class="cat-radio" data-icon="construction" data-cat="Travaux" onclick="pickIcon(this)"><span class="material-symbols-outlined">construction</span><span class="cat-radio-name">Travaux</span></button>
+                    <button class="cat-radio" data-icon="how_to_vote" data-cat="Vie civique" onclick="pickIcon(this)"><span class="material-symbols-outlined">how_to_vote</span><span class="cat-radio-name">Vie civique</span></button>
+                    <button class="cat-radio" data-icon="recycling" data-cat="Service" onclick="pickIcon(this)"><span class="material-symbols-outlined">recycling</span><span class="cat-radio-name">Service public</span></button>
+                    <button class="cat-radio" data-icon="info" data-cat="Information" onclick="pickIcon(this)"><span class="material-symbols-outlined">info</span><span class="cat-radio-name">Information</span></button>
+                  </div>
+                </div>
+                <div class="field">
+                  <div class="field-label">Public destinataire<span class="field-required">*</span></div>
+                  <div class="target-list">
+                    <div class="target-row active" data-target="all" onclick="pickTarget(this)"><div class="target-radio-dot"></div><div class="target-info"><div class="target-name">Tous les abonnés</div><div class="target-desc">Habitants et visiteurs ayant activé les notifications</div></div><div class="target-count" id="target-count-all">—</div></div>
+                    <div class="target-row" data-target="locals" onclick="pickTarget(this)"><div class="target-radio-dot"></div><div class="target-info"><div class="target-name">Habitants uniquement</div><div class="target-desc">Usagers déclarés résidents de la commune</div></div><div class="target-count">682</div></div>
+                    <div class="target-row" data-target="visitors" onclick="pickTarget(this)"><div class="target-radio-dot"></div><div class="target-info"><div class="target-name">Visiteurs uniquement</div><div class="target-desc">Touristes et personnes de passage</div></div><div class="target-count">565</div></div>
+                    <div class="target-row" data-target="active" onclick="pickTarget(this)"><div class="target-radio-dot"></div><div class="target-info"><div class="target-name">Présents aujourd'hui</div><div class="target-desc">Géolocalisation active sur la commune</div></div><div class="target-count">147</div></div>
+                  </div>
+                </div>
+                <div class="field">
+                  <div class="field-label">Lien associé (facultatif)</div>
+                  <input type="url" class="field-input" id="notif-url" placeholder="https://coeur-de-ville.vercel.app/villeneuve/agenda.html"/>
+                  <div class="field-help">Page ouverte au clic sur la notification.</div>
+                </div>
+              </div>
+              <div class="preview-section">
+                <div class="preview-label">Aperçu sur smartphone</div>
+                <div class="phone-frame">
+                  <div class="phone-screen">
+                    <div class="phone-status">
+                      <span id="phone-time">--:--</span>
+                      <div style="display:flex;gap:4px;"><span class="material-symbols-outlined">signal_cellular_alt</span><span class="material-symbols-outlined">wifi</span><span class="material-symbols-outlined">battery_full</span></div>
+                    </div>
+                    <div class="notif-prev">
+                      <div class="notif-prev-icon"><span class="material-symbols-outlined" id="prev-icon">campaign</span></div>
+                      <div class="notif-prev-content">
+                        <div class="notif-prev-meta"><span id="prev-cat">Communication</span><span class="notif-prev-meta-dot">•</span><span>Cœur de Ville</span><span class="notif-prev-meta-dot">•</span><span>maintenant</span></div>
+                        <div class="notif-prev-title" id="prev-title">Aperçu de votre notification</div>
+                        <div class="notif-prev-body" id="prev-body">Le message s'affichera ici à mesure de la saisie.</div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="preview-info">Cet aperçu reproduit l'apparence de la notification sur l'écran verrouillé d'un smartphone, hors variations propres à chaque système d'exploitation.</div>
+              </div>
+            </div>
+          </div>
+          <div class="actions">
+            <button class="btn btn-danger" onclick="resetForm()"><span class="material-symbols-outlined">close</span>Annuler</button>
+            <button class="btn btn-default"><span class="material-symbols-outlined">schedule</span>Programmer l'envoi</button>
+            <button class="btn btn-primary" onclick="sendNotification()"><span class="material-symbols-outlined">send</span>Envoyer immédiatement</button>
+          </div>
+        </section>
+      </div>
+
+      <!-- ════════════════════════════════════════════════════ -->
+      <!-- PROGRAMMÉES                                            -->
+      <!-- ════════════════════════════════════════════════════ -->
+      <div class="view" id="view-scheduled">
+        <nav class="breadcrumb">
+          <a onclick="goView('dashboard')">Accueil</a>
+          <span class="material-symbols-outlined">chevron_right</span>
+          <span>Communication</span>
+          <span class="material-symbols-outlined">chevron_right</span>
+          <span>Programmées</span>
+        </nav>
+
+        <div class="page-header-row">
+          <div>
+            <h1 class="page-title">Notifications programmées</h1>
+            <p class="page-sub">Liste des envois prévus à une date ultérieure. Vous pouvez les modifier ou les annuler avant diffusion.</p>
+          </div>
+          <button class="btn btn-primary" onclick="goView('notifications')"><span class="material-symbols-outlined">add</span>Programmer une notification</button>
+        </div>
+
+        <div class="notice info">
+          <span class="material-symbols-outlined">info</span>
+          <div class="notice-text"><strong>2 notifications</strong> sont prévues. Elles seront diffusées automatiquement à la date et à l'heure indiquées. Aucune action n'est requise de votre part.</div>
+        </div>
+
+        <section class="panel">
+          <div class="panel-head"><div class="panel-head-title"><span class="material-symbols-outlined">schedule</span>Calendrier des envois</div></div>
+          <div style="padding:20px;">
+
+            <div class="timeline-day">
+              <div class="timeline-day-head">Lundi 27 avril 2026 — Demain</div>
+              <div class="scheduled-item">
+                <div class="scheduled-time">
+                  <div class="scheduled-time-h">09:00</div>
+                  <div class="scheduled-time-d">Matin</div>
+                </div>
+                <div class="scheduled-info">
+                  <div class="scheduled-title">Conseil municipal du 28 avril</div>
+                  <div class="scheduled-body">Le prochain conseil municipal se tiendra mardi 28 avril à 18h30, salle d'honneur. Ordre du jour disponible en mairie.</div>
+                  <div class="scheduled-meta">
+                    <span class="pill cat"><span class="material-symbols-outlined">how_to_vote</span>Vie civique</span>
+                    <span><span class="material-symbols-outlined">groups</span> Tous les abonnés (<span id="preview-target-count">—</span>)</span>
+                    <span><span class="material-symbols-outlined">person</span> Programmé par Jean Martin</span>
+                  </div>
+                </div>
+                <div class="scheduled-actions">
+                  <button class="btn btn-default btn-sm"><span class="material-symbols-outlined">edit</span>Modifier</button>
+                  <button class="btn btn-danger btn-sm"><span class="material-symbols-outlined">close</span>Annuler</button>
+                </div>
+              </div>
+            </div>
+
+            <div class="timeline-day">
+              <div class="timeline-day-head">Vendredi 1ᵉʳ mai 2026</div>
+              <div class="scheduled-item">
+                <div class="scheduled-time">
+                  <div class="scheduled-time-h">07:30</div>
+                  <div class="scheduled-time-d">Matin</div>
+                </div>
+                <div class="scheduled-info">
+                  <div class="scheduled-title">Fermeture services municipaux — 1ᵉʳ mai</div>
+                  <div class="scheduled-body">En raison du jour férié, l'ensemble des services municipaux seront fermés ce vendredi 1ᵉʳ mai. Réouverture lundi 4 mai.</div>
+                  <div class="scheduled-meta">
+                    <span class="pill cat"><span class="material-symbols-outlined">recycling</span>Service public</span>
+                    <span><span class="material-symbols-outlined">groups</span> Habitants uniquement (682)</span>
+                    <span><span class="material-symbols-outlined">person</span> Programmé par Marie Lefèvre</span>
+                  </div>
+                </div>
+                <div class="scheduled-actions">
+                  <button class="btn btn-default btn-sm"><span class="material-symbols-outlined">edit</span>Modifier</button>
+                  <button class="btn btn-danger btn-sm"><span class="material-symbols-outlined">close</span>Annuler</button>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </section>
+      </div>
+
+      <!-- ════════════════════════════════════════════════════ -->
+      <!-- HISTORIQUE                                             -->
+      <!-- ════════════════════════════════════════════════════ -->
+      <div class="view" id="view-history">
+        <nav class="breadcrumb">
+          <a onclick="goView('dashboard')">Accueil</a>
+          <span class="material-symbols-outlined">chevron_right</span>
+          <span>Communication</span>
+          <span class="material-symbols-outlined">chevron_right</span>
+          <span>Historique</span>
+        </nav>
+
+        <div class="page-header-row">
+          <div>
+            <h1 class="page-title">Historique des notifications</h1>
+            <p class="page-sub">Consultez l'ensemble des messages diffusés ces 12 derniers mois. Conformément au RGPD, ces données sont conservées 12 mois.</p>
+          </div>
+          <button class="btn btn-default"><span class="material-symbols-outlined">download</span>Exporter (CSV)</button>
+        </div>
+
+        <section class="panel">
+          <div class="toolbar">
+            <div class="toolbar-search">
+              <span class="material-symbols-outlined">search</span>
+              <input type="text" placeholder="Rechercher par objet ou contenu..."/>
+            </div>
+            <button class="toolbar-filter"><span class="material-symbols-outlined">filter_list</span>Catégorie</button>
+            <button class="toolbar-filter"><span class="material-symbols-outlined">date_range</span>Période</button>
+            <button class="toolbar-filter"><span class="material-symbols-outlined">groups</span>Public</button>
+          </div>
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th style="width:130px;">Catégorie</th>
+                <th>Objet et contenu</th>
+                <th style="width:100px;text-align:right;">Reçus</th>
+                <th style="width:100px;text-align:right;">Ouverts</th>
+                <th style="width:100px;text-align:right;">Cliqués</th>
+                <th style="width:160px;">Date d'envoi</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><span class="pill cat"><span class="material-symbols-outlined">storefront</span>Marché</span></td>
+                <td><div style="font-weight:600;">Marché des producteurs ce samedi</div><div style="font-size:12px;color:#5a6068;margin-top:2px;">Retrouvez vos producteurs Place Charles David dès 8h.</div></td>
+                <td class="num" style="text-align:right;">1 247</td>
+                <td class="num" style="text-align:right;">847 <span style="color:#7a808a;font-size:11px;">(68%)</span></td>
+                <td class="num" style="text-align:right;">524</td>
+                <td style="font-size:12px;color:#5a6068;">26/04/2026 à 07:30</td>
+              </tr>
+              <tr>
+                <td><span class="pill cat"><span class="material-symbols-outlined">event_note</span>Événement</span></td>
+                <td><div style="font-weight:600;">Concert à la Chartreuse vendredi soir</div><div style="font-size:12px;color:#5a6068;margin-top:2px;">Quatuor Sirba — Église Notre-Dame, 20h30.</div></td>
+                <td class="num" style="text-align:right;">1 215</td>
+                <td class="num" style="text-align:right;">912 <span style="color:#7a808a;font-size:11px;">(75%)</span></td>
+                <td class="num" style="text-align:right;">488</td>
+                <td style="font-size:12px;color:#5a6068;">24/04/2026 à 14:00</td>
+              </tr>
+              <tr>
+                <td><span class="pill cat"><span class="material-symbols-outlined">construction</span>Travaux</span></td>
+                <td><div style="font-weight:600;">Travaux rue de la Foire</div><div style="font-size:12px;color:#5a6068;margin-top:2px;">Circulation perturbée du 22 au 26 avril. Itinéraires de déviation indiqués.</div></td>
+                <td class="num" style="text-align:right;">1 198</td>
+                <td class="num" style="text-align:right;">695 <span style="color:#7a808a;font-size:11px;">(58%)</span></td>
+                <td class="num" style="text-align:right;">312</td>
+                <td style="font-size:12px;color:#5a6068;">22/04/2026 à 08:15</td>
+              </tr>
+              <tr>
+                <td><span class="pill cat"><span class="material-symbols-outlined">how_to_vote</span>Vie civique</span></td>
+                <td><div style="font-weight:600;">Réunion publique sur le PLU</div><div style="font-size:12px;color:#5a6068;margin-top:2px;">Mairie, salle d'honneur, jeudi 21 avril à 19h00.</div></td>
+                <td class="num" style="text-align:right;">682</td>
+                <td class="num" style="text-align:right;">488 <span style="color:#7a808a;font-size:11px;">(72%)</span></td>
+                <td class="num" style="text-align:right;">203</td>
+                <td style="font-size:12px;color:#5a6068;">19/04/2026 à 10:30</td>
+              </tr>
+              <tr>
+                <td><span class="pill cat"><span class="material-symbols-outlined">warning</span>Alerte</span></td>
+                <td><div style="font-weight:600;">Vigilance orange — vents forts</div><div style="font-size:12px;color:#5a6068;margin-top:2px;">Mistral attendu jusqu'à 110 km/h. Restez prudents.</div></td>
+                <td class="num" style="text-align:right;">1 235</td>
+                <td class="num" style="text-align:right;">1 089 <span style="color:#7a808a;font-size:11px;">(88%)</span></td>
+                <td class="num" style="text-align:right;">412</td>
+                <td style="font-size:12px;color:#5a6068;">17/04/2026 à 16:45</td>
+              </tr>
+              <tr>
+                <td><span class="pill cat"><span class="material-symbols-outlined">recycling</span>Service public</span></td>
+                <td><div style="font-weight:600;">Collecte des encombrants</div><div style="font-size:12px;color:#5a6068;margin-top:2px;">Inscription en mairie ou en ligne avant lundi 22 avril.</div></td>
+                <td class="num" style="text-align:right;">682</td>
+                <td class="num" style="text-align:right;">395 <span style="color:#7a808a;font-size:11px;">(58%)</span></td>
+                <td class="num" style="text-align:right;">187</td>
+                <td style="font-size:12px;color:#5a6068;">15/04/2026 à 09:00</td>
+              </tr>
+              <tr>
+                <td><span class="pill cat"><span class="material-symbols-outlined">info</span>Information</span></td>
+                <td><div style="font-weight:600;">Bulletin municipal — avril</div><div style="font-size:12px;color:#5a6068;margin-top:2px;">Le bulletin du mois est désormais disponible sur l'application.</div></td>
+                <td class="num" style="text-align:right;">1 168</td>
+                <td class="num" style="text-align:right;">654 <span style="color:#7a808a;font-size:11px;">(56%)</span></td>
+                <td class="num" style="text-align:right;">289</td>
+                <td style="font-size:12px;color:#5a6068;">10/04/2026 à 11:00</td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="pagination">
+            <div class="pagination-info">7 résultats affichés sur 23 — Page 1 sur 4</div>
+            <div class="pagination-controls">
+              <button class="pagination-btn" disabled><span class="material-symbols-outlined">chevron_left</span></button>
+              <button class="pagination-btn active">1</button>
+              <button class="pagination-btn">2</button>
+              <button class="pagination-btn">3</button>
+              <button class="pagination-btn">4</button>
+              <button class="pagination-btn"><span class="material-symbols-outlined">chevron_right</span></button>
+            </div>
+          </div>
+        </section>
+      </div>
+
+      <!-- ════════════════════════════════════════════════════ -->
+      <!-- STATISTIQUES                                           -->
+      <!-- ════════════════════════════════════════════════════ -->
+      <div class="view" id="view-stats">
+        <nav class="breadcrumb">
+          <a onclick="goView('dashboard')">Accueil</a>
+          <span class="material-symbols-outlined">chevron_right</span>
+          <span>Données</span>
+          <span class="material-symbols-outlined">chevron_right</span>
+          <span>Statistiques</span>
+        </nav>
+
+        <div class="page-header-row">
+          <div>
+            <h1 class="page-title">Statistiques d'engagement</h1>
+            <p class="page-sub">Analyse détaillée de l'activité, des performances de notifications et du comportement des abonnés.</p>
+          </div>
+          <div style="display:flex;gap:8px;">
+            <select class="field-select" style="width:auto;padding:9px 14px;">
+              <option>Ces 30 derniers jours</option>
+              <option>Ce trimestre</option>
+              <option>Cette année</option>
+              <option>Période personnalisée…</option>
+            </select>
+            <button class="btn btn-default"><span class="material-symbols-outlined">picture_as_pdf</span>Rapport PDF</button>
+          </div>
+        </div>
+
+        <div class="stats-grid">
+          <div class="stat-card"><div class="stat-card-head"><span class="material-symbols-outlined">visibility</span><span class="stat-card-head-label">Vues totales</span></div><div class="stat-value">38 421</div><div class="stat-extra"><span class="up">+22 %</span> vs période précédente</div></div>
+          <div class="stat-card"><div class="stat-card-head"><span class="material-symbols-outlined">touch_app</span><span class="stat-card-head-label">Interactions</span></div><div class="stat-value">14 832</div><div class="stat-extra"><span class="up">+18 %</span> vs période précédente</div></div>
+          <div class="stat-card"><div class="stat-card-head"><span class="material-symbols-outlined">timer</span><span class="stat-card-head-label">Durée moyenne</span></div><div class="stat-value">3 min 42</div><div class="stat-extra">par session utilisateur</div></div>
+          <div class="stat-card"><div class="stat-card-head"><span class="material-symbols-outlined">repeat</span><span class="stat-card-head-label">Taux de retour</span></div><div class="stat-value">64 %</div><div class="stat-extra"><span class="up">+8 pts</span> vs période précédente</div></div>
+        </div>
+
+        <div class="two-col-grid">
+          <section class="panel">
+            <div class="panel-head"><div class="panel-head-title"><span class="material-symbols-outlined">stacked_line_chart</span>Évolution des abonnés</div></div>
+            <div class="line-chart-wrap">
+              <svg class="line-chart-svg" viewBox="0 0 600 200" preserveAspectRatio="none">
+                <defs><linearGradient id="grad2" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#1a3a6e" stop-opacity="0.18"/><stop offset="100%" stop-color="#1a3a6e" stop-opacity="0"/></linearGradient></defs>
+                <line x1="0" y1="40" x2="600" y2="40" stroke="#e5e7eb"/><line x1="0" y1="100" x2="600" y2="100" stroke="#e5e7eb"/><line x1="0" y1="160" x2="600" y2="160" stroke="#e5e7eb"/>
+                <path d="M0,170 L50,160 L100,150 L150,140 L200,128 L250,110 L300,95 L350,80 L400,68 L450,55 L500,45 L550,40 L600,35 L600,200 L0,200 Z" fill="url(#grad2)"/>
+                <path d="M0,170 L50,160 L100,150 L150,140 L200,128 L250,110 L300,95 L350,80 L400,68 L450,55 L500,45 L550,40 L600,35" fill="none" stroke="#1a3a6e" stroke-width="2"/>
+              </svg>
+            </div>
+          </section>
+
+          <section class="panel">
+            <div class="panel-head"><div class="panel-head-title"><span class="material-symbols-outlined">pie_chart</span>Répartition du public</div></div>
+            <div style="padding:20px;">
+              <div style="display:flex;align-items:center;justify-content:center;margin-bottom:18px;">
+                <svg viewBox="0 0 100 100" style="width:160px;height:160px;">
+                  <circle r="40" cx="50" cy="50" fill="transparent" stroke="#1a3a6e" stroke-width="20" stroke-dasharray="138 251" stroke-dashoffset="0" transform="rotate(-90 50 50)"/>
+                  <circle r="40" cx="50" cy="50" fill="transparent" stroke="#5a8dcb" stroke-width="20" stroke-dasharray="113 251" stroke-dashoffset="-138" transform="rotate(-90 50 50)"/>
+                </svg>
+              </div>
+              <div style="display:flex;flex-direction:column;gap:8px;">
+                <div style="display:flex;align-items:center;gap:8px;font-size:12px;"><span style="width:12px;height:12px;background:#1a3a6e;border-radius:2px;"></span><span style="flex:1;">Habitants</span><strong>682 (55 %)</strong></div>
+                <div style="display:flex;align-items:center;gap:8px;font-size:12px;"><span style="width:12px;height:12px;background:#5a8dcb;border-radius:2px;"></span><span style="flex:1;">Visiteurs</span><strong>565 (45 %)</strong></div>
+              </div>
+            </div>
+          </section>
+        </div>
+
+        <section class="panel">
+          <div class="panel-head"><div class="panel-head-title"><span class="material-symbols-outlined">leaderboard</span>Performance des notifications par catégorie</div></div>
+          <table class="data-table">
+            <thead><tr><th>Catégorie</th><th style="text-align:right;">Envoyées</th><th style="text-align:right;">Ouverture moy.</th><th style="text-align:right;">Clic moy.</th><th>Tendance</th></tr></thead>
+            <tbody>
+              <tr><td><span class="pill cat"><span class="material-symbols-outlined">warning</span>Alerte</span></td><td class="num" style="text-align:right;">3</td><td class="num" style="text-align:right;">88 %</td><td class="num" style="text-align:right;">52 %</td><td><span style="color:#15803d;font-weight:600;font-size:12px;">↑ +6 pts</span></td></tr>
+              <tr><td><span class="pill cat"><span class="material-symbols-outlined">event_note</span>Événement</span></td><td class="num" style="text-align:right;">8</td><td class="num" style="text-align:right;">75 %</td><td class="num" style="text-align:right;">48 %</td><td><span style="color:#15803d;font-weight:600;font-size:12px;">↑ +4 pts</span></td></tr>
+              <tr><td><span class="pill cat"><span class="material-symbols-outlined">how_to_vote</span>Vie civique</span></td><td class="num" style="text-align:right;">4</td><td class="num" style="text-align:right;">72 %</td><td class="num" style="text-align:right;">38 %</td><td><span style="color:#15803d;font-weight:600;font-size:12px;">↑ +2 pts</span></td></tr>
+              <tr><td><span class="pill cat"><span class="material-symbols-outlined">storefront</span>Marché</span></td><td class="num" style="text-align:right;">4</td><td class="num" style="text-align:right;">68 %</td><td class="num" style="text-align:right;">42 %</td><td><span style="color:#5a6068;font-weight:600;font-size:12px;">→ stable</span></td></tr>
+              <tr><td><span class="pill cat"><span class="material-symbols-outlined">construction</span>Travaux</span></td><td class="num" style="text-align:right;">2</td><td class="num" style="text-align:right;">58 %</td><td class="num" style="text-align:right;">26 %</td><td><span style="color:#c8102e;font-weight:600;font-size:12px;">↓ -3 pts</span></td></tr>
+              <tr><td><span class="pill cat"><span class="material-symbols-outlined">recycling</span>Service public</span></td><td class="num" style="text-align:right;">1</td><td class="num" style="text-align:right;">58 %</td><td class="num" style="text-align:right;">27 %</td><td><span style="color:#5a6068;font-weight:600;font-size:12px;">→ stable</span></td></tr>
+              <tr><td><span class="pill cat"><span class="material-symbols-outlined">info</span>Information</span></td><td class="num" style="text-align:right;">1</td><td class="num" style="text-align:right;">56 %</td><td class="num" style="text-align:right;">25 %</td><td><span style="color:#c8102e;font-weight:600;font-size:12px;">↓ -2 pts</span></td></tr>
+            </tbody>
+          </table>
+        </section>
+
+        <section class="panel">
+          <div class="panel-head"><div class="panel-head-title"><span class="material-symbols-outlined">schedule</span>Heures et jours d'engagement maximal</div></div>
+          <div style="padding:20px;">
+            <div class="chart-bar-row"><div class="chart-bar-label">Lundi</div><div class="chart-bar-track"><div class="chart-bar-fill" style="width:62%;">62 %</div></div></div>
+            <div class="chart-bar-row"><div class="chart-bar-label">Mardi</div><div class="chart-bar-track"><div class="chart-bar-fill" style="width:58%;">58 %</div></div></div>
+            <div class="chart-bar-row"><div class="chart-bar-label">Mercredi</div><div class="chart-bar-track"><div class="chart-bar-fill" style="width:65%;">65 %</div></div></div>
+            <div class="chart-bar-row"><div class="chart-bar-label">Jeudi</div><div class="chart-bar-track"><div class="chart-bar-fill" style="width:60%;">60 %</div></div></div>
+            <div class="chart-bar-row"><div class="chart-bar-label">Vendredi</div><div class="chart-bar-track"><div class="chart-bar-fill" style="width:78%;">78 %</div></div></div>
+            <div class="chart-bar-row"><div class="chart-bar-label">Samedi</div><div class="chart-bar-track"><div class="chart-bar-fill" style="width:92%;">92 %</div></div></div>
+            <div class="chart-bar-row"><div class="chart-bar-label">Dimanche</div><div class="chart-bar-track"><div class="chart-bar-fill" style="width:48%;">48 %</div></div></div>
+            <div style="margin-top:14px;padding:12px;background:#eef5fc;border-left:3px solid #1a3a6e;border-radius:3px;font-size:12px;color:#1a3a6e;">
+              <strong>Recommandation :</strong> diffusez de préférence vos notifications le <strong>samedi matin</strong> ou le <strong>vendredi en fin d'après-midi</strong> pour maximiser l'engagement.
+            </div>
+          </div>
+        </section>
+      </div>
+
+      <!-- ════════════════════════════════════════════════════ -->
+      <!-- PUBLIC                                                 -->
+      <!-- ════════════════════════════════════════════════════ -->
+      <div class="view" id="view-public">
+        <nav class="breadcrumb">
+          <a onclick="goView('dashboard')">Accueil</a>
+          <span class="material-symbols-outlined">chevron_right</span>
+          <span>Données</span>
+          <span class="material-symbols-outlined">chevron_right</span>
+          <span>Public</span>
+        </nav>
+
+        <div class="page-header-row">
+          <div>
+            <h1 class="page-title">Public abonné</h1>
+            <p class="page-sub">Visualisez et segmentez les usagers ayant activé les notifications de la commune.</p>
+          </div>
+          <button class="btn btn-default"><span class="material-symbols-outlined">download</span>Exporter (CSV anonymisé)</button>
+        </div>
+
+        <div class="notice info">
+          <span class="material-symbols-outlined">privacy_tip</span>
+          <div class="notice-text"><strong>Données personnelles protégées.</strong> Conformément au RGPD, les usagers sont identifiés par un code anonyme. Aucune donnée nominative n'est exposée. Vous ne pouvez consulter que des données agrégées et segmentées.</div>
+        </div>
+
+        <div class="stats-grid">
+          <div class="stat-card"><div class="stat-card-head"><span class="material-symbols-outlined">groups</span><span class="stat-card-head-label">Total abonnés</span></div><div class="stat-value">1 247</div><div class="stat-extra">dont <strong>1 198</strong> actifs ce mois</div></div>
+          <div class="stat-card"><div class="stat-card-head"><span class="material-symbols-outlined">home</span><span class="stat-card-head-label">Habitants</span></div><div class="stat-value">682</div><div class="stat-extra"><span class="up">+8 %</span> ce mois</div></div>
+          <div class="stat-card"><div class="stat-card-head"><span class="material-symbols-outlined">explore</span><span class="stat-card-head-label">Visiteurs</span></div><div class="stat-value">565</div><div class="stat-extra"><span class="up">+15 %</span> ce mois</div></div>
+          <div class="stat-card"><div class="stat-card-head"><span class="material-symbols-outlined">unsubscribe</span><span class="stat-card-head-label">Désabonnements</span></div><div class="stat-value">12</div><div class="stat-extra">soit 0,9 % (faible)</div></div>
+        </div>
+
+        <div class="two-col-grid">
+          <section class="panel">
+            <div class="panel-head"><div class="panel-head-title"><span class="material-symbols-outlined">person_pin</span>Répartition par tranche d'âge</div></div>
+            <div style="padding:20px;">
+              <div class="chart-bar-row"><div class="chart-bar-label">18 – 24 ans</div><div class="chart-bar-track"><div class="chart-bar-fill alt2" style="width:18%;">18 %</div></div></div>
+              <div class="chart-bar-row"><div class="chart-bar-label">25 – 34 ans</div><div class="chart-bar-track"><div class="chart-bar-fill alt" style="width:24%;">24 %</div></div></div>
+              <div class="chart-bar-row"><div class="chart-bar-label">35 – 49 ans</div><div class="chart-bar-track"><div class="chart-bar-fill" style="width:32%;">32 %</div></div></div>
+              <div class="chart-bar-row"><div class="chart-bar-label">50 – 64 ans</div><div class="chart-bar-track"><div class="chart-bar-fill alt" style="width:18%;">18 %</div></div></div>
+              <div class="chart-bar-row"><div class="chart-bar-label">65 ans et +</div><div class="chart-bar-track"><div class="chart-bar-fill alt2" style="width:8%;">8 %</div></div></div>
+              <div style="margin-top:10px;font-size:11px;color:#7a808a;">Donnée déclarative facultative — taux de complétion : 78 %</div>
+            </div>
+          </section>
+
+          <section class="panel">
+            <div class="panel-head"><div class="panel-head-title"><span class="material-symbols-outlined">phone_iphone</span>Appareil utilisé</div></div>
+            <div style="padding:20px;">
+              <div class="chart-bar-row"><div class="chart-bar-label">iOS</div><div class="chart-bar-track"><div class="chart-bar-fill" style="width:54%;">54 %</div></div></div>
+              <div class="chart-bar-row"><div class="chart-bar-label">Android</div><div class="chart-bar-track"><div class="chart-bar-fill alt" style="width:42%;">42 %</div></div></div>
+              <div class="chart-bar-row"><div class="chart-bar-label">Navigateur</div><div class="chart-bar-track"><div class="chart-bar-fill alt2" style="width:4%;">4 %</div></div></div>
+            </div>
+          </section>
+        </div>
+
+        <section class="panel">
+          <div class="panel-head"><div class="panel-head-title"><span class="material-symbols-outlined">segment</span>Segments d'abonnés disponibles pour vos notifications</div></div>
+          <table class="data-table">
+            <thead><tr><th>Segment</th><th>Description</th><th style="text-align:right;">Nombre d'abonnés</th><th>Statut</th></tr></thead>
+            <tbody>
+              <tr><td style="font-weight:600;">Tous les abonnés</td><td style="font-size:12px;color:#5a6068;">Habitants et visiteurs ayant activé les notifications</td><td class="num" style="text-align:right;">1 247</td><td><span class="pill status-active">Actif</span></td></tr>
+              <tr><td style="font-weight:600;">Habitants</td><td style="font-size:12px;color:#5a6068;">Usagers déclarés résidents de la commune</td><td class="num" style="text-align:right;">682</td><td><span class="pill status-active">Actif</span></td></tr>
+              <tr><td style="font-weight:600;">Visiteurs</td><td style="font-size:12px;color:#5a6068;">Touristes et personnes de passage</td><td class="num" style="text-align:right;">565</td><td><span class="pill status-active">Actif</span></td></tr>
+              <tr><td style="font-weight:600;">Présents aujourd'hui</td><td style="font-size:12px;color:#5a6068;">Géolocalisation active sur la commune dans les dernières 24h</td><td class="num" style="text-align:right;">147</td><td><span class="pill status-active">Actif</span></td></tr>
+              <tr><td style="font-weight:600;">Familles</td><td style="font-size:12px;color:#5a6068;">Centres d'intérêt déclarés liés à la jeunesse</td><td class="num" style="text-align:right;">214</td><td><span class="pill status-active">Actif</span></td></tr>
+              <tr><td style="font-weight:600;">Seniors (65+)</td><td style="font-size:12px;color:#5a6068;">Tranche d'âge déclarée</td><td class="num" style="text-align:right;">98</td><td><span class="pill status-active">Actif</span></td></tr>
+              <tr><td style="font-weight:600;">Quartier centre</td><td style="font-size:12px;color:#5a6068;">Code postal renseigné dans le centre historique</td><td class="num" style="text-align:right;">312</td><td><span class="pill status-pending">Bientôt</span></td></tr>
+            </tbody>
+          </table>
+        </section>
+      </div>
+
+      <!-- ════════════════════════════════════════════════════ -->
+      <!-- UTILISATEURS                                           -->
+      <!-- ════════════════════════════════════════════════════ -->
+      <div class="view" id="view-users">
+        <nav class="breadcrumb">
+          <a onclick="goView('dashboard')">Accueil</a>
+          <span class="material-symbols-outlined">chevron_right</span>
+          <span>Paramètres</span>
+          <span class="material-symbols-outlined">chevron_right</span>
+          <span>Utilisateurs</span>
+        </nav>
+
+        <div class="page-header-row">
+          <div>
+            <h1 class="page-title">Utilisateurs et autorisations</h1>
+            <p class="page-sub">Gérez les agents municipaux disposant d'un accès à l'espace administration de Cœur de Ville.</p>
+          </div>
+          <button class="btn btn-primary"><span class="material-symbols-outlined">person_add</span>Ajouter un utilisateur</button>
+        </div>
+
+        <div class="stats-grid">
+          <div class="stat-card"><div class="stat-card-head"><span class="material-symbols-outlined">supervisor_account</span><span class="stat-card-head-label">Utilisateurs actifs</span></div><div class="stat-value">5</div><div class="stat-extra">sur 10 places autorisées</div></div>
+          <div class="stat-card"><div class="stat-card-head"><span class="material-symbols-outlined">admin_panel_settings</span><span class="stat-card-head-label">Administrateurs</span></div><div class="stat-value">2</div><div class="stat-extra">accès complet</div></div>
+          <div class="stat-card"><div class="stat-card-head"><span class="material-symbols-outlined">edit_note</span><span class="stat-card-head-label">Rédacteurs</span></div><div class="stat-value">2</div><div class="stat-extra">peuvent envoyer des notifs</div></div>
+          <div class="stat-card"><div class="stat-card-head"><span class="material-symbols-outlined">visibility</span><span class="stat-card-head-label">Lecture seule</span></div><div class="stat-value">1</div><div class="stat-extra">consultation uniquement</div></div>
+        </div>
+
+        <section class="panel">
+          <div class="toolbar">
+            <div class="toolbar-search"><span class="material-symbols-outlined">search</span><input type="text" placeholder="Rechercher un utilisateur..."/></div>
+            <button class="toolbar-filter"><span class="material-symbols-outlined">filter_list</span>Rôle</button>
+            <button class="toolbar-filter"><span class="material-symbols-outlined">verified</span>Statut</button>
+          </div>
+          <table class="data-table">
+            <thead><tr><th>Utilisateur</th><th>Rôle</th><th>Service</th><th>Dernière connexion</th><th>Statut</th><th style="width:100px;text-align:right;">Actions</th></tr></thead>
+            <tbody>
+              <tr>
+                <td><div style="display:flex;align-items:center;gap:10px;"><div class="avatar">SR</div><div><div style="font-weight:600;">Sophie Rousseau</div><div style="font-size:11px;color:#7a808a;">sophie.rousseau@villeneuve-lez-avignon.fr</div></div></div></td>
+                <td><span class="pill cat">Administrateur</span></td>
+                <td style="font-size:12px;color:#5a6068;">Cabinet du Maire</td>
+                <td style="font-size:12px;color:#5a6068;">Aujourd'hui à 09:14</td>
+                <td><span class="pill status-active">Actif</span></td>
+                <td style="text-align:right;"><button class="btn btn-default btn-sm"><span class="material-symbols-outlined">more_horiz</span></button></td>
+              </tr>
+              <tr>
+                <td><div style="display:flex;align-items:center;gap:10px;"><div class="avatar">JM</div><div><div style="font-weight:600;">Jean Martin <span style="font-size:11px;color:#15803d;font-weight:500;">(vous)</span></div><div style="font-size:11px;color:#7a808a;">jean.martin@villeneuve-lez-avignon.fr</div></div></div></td>
+                <td><span class="pill cat">Administrateur</span></td>
+                <td style="font-size:12px;color:#5a6068;">Service communication</td>
+                <td style="font-size:12px;color:#5a6068;">À l'instant</td>
+                <td><span class="pill status-active">Actif</span></td>
+                <td style="text-align:right;"><button class="btn btn-default btn-sm"><span class="material-symbols-outlined">edit</span></button></td>
+              </tr>
+              <tr>
+                <td><div style="display:flex;align-items:center;gap:10px;"><div class="avatar">ML</div><div><div style="font-weight:600;">Marie Lefèvre</div><div style="font-size:11px;color:#7a808a;">marie.lefevre@villeneuve-lez-avignon.fr</div></div></div></td>
+                <td><span class="pill cat">Rédacteur</span></td>
+                <td style="font-size:12px;color:#5a6068;">Service communication</td>
+                <td style="font-size:12px;color:#5a6068;">Il y a 2 heures</td>
+                <td><span class="pill status-active">Actif</span></td>
+                <td style="text-align:right;"><button class="btn btn-default btn-sm"><span class="material-symbols-outlined">more_horiz</span></button></td>
+              </tr>
+              <tr>
+                <td><div style="display:flex;align-items:center;gap:10px;"><div class="avatar">PD</div><div><div style="font-weight:600;">Philippe Dumas</div><div style="font-size:11px;color:#7a808a;">philippe.dumas@villeneuve-lez-avignon.fr</div></div></div></td>
+                <td><span class="pill cat">Rédacteur</span></td>
+                <td style="font-size:12px;color:#5a6068;">Service événements</td>
+                <td style="font-size:12px;color:#5a6068;">Hier à 16:42</td>
+                <td><span class="pill status-active">Actif</span></td>
+                <td style="text-align:right;"><button class="btn btn-default btn-sm"><span class="material-symbols-outlined">more_horiz</span></button></td>
+              </tr>
+              <tr>
+                <td><div style="display:flex;align-items:center;gap:10px;"><div class="avatar">CB</div><div><div style="font-weight:600;">Camille Bertrand</div><div style="font-size:11px;color:#7a808a;">camille.bertrand@villeneuve-lez-avignon.fr</div></div></div></td>
+                <td><span class="pill cat">Lecture seule</span></td>
+                <td style="font-size:12px;color:#5a6068;">Cabinet du Maire</td>
+                <td style="font-size:12px;color:#5a6068;">Il y a 4 jours</td>
+                <td><span class="pill status-active">Actif</span></td>
+                <td style="text-align:right;"><button class="btn btn-default btn-sm"><span class="material-symbols-outlined">more_horiz</span></button></td>
+              </tr>
+              <tr>
+                <td><div style="display:flex;align-items:center;gap:10px;"><div class="avatar" style="background:#fef3c7;color:#92400e;">LP</div><div><div style="font-weight:600;">Léa Petit</div><div style="font-size:11px;color:#7a808a;">lea.petit@villeneuve-lez-avignon.fr</div></div></div></td>
+                <td><span class="pill cat">Rédacteur</span></td>
+                <td style="font-size:12px;color:#5a6068;">Service tourisme</td>
+                <td style="font-size:12px;color:#5a6068;">Jamais</td>
+                <td><span class="pill status-pending">Invitation envoyée</span></td>
+                <td style="text-align:right;"><button class="btn btn-default btn-sm"><span class="material-symbols-outlined">more_horiz</span></button></td>
+              </tr>
+            </tbody>
+          </table>
+        </section>
+
+        <section class="panel">
+          <div class="panel-head"><div class="panel-head-title"><span class="material-symbols-outlined">shield</span>Rôles et autorisations</div></div>
+          <table class="data-table">
+            <thead><tr><th>Rôle</th><th>Description</th><th style="text-align:center;">Envoyer notif.</th><th style="text-align:center;">Programmer</th><th style="text-align:center;">Voir stats</th><th style="text-align:center;">Gérer utilisateurs</th></tr></thead>
+            <tbody>
+              <tr>
+                <td style="font-weight:600;">Administrateur</td>
+                <td style="font-size:12px;color:#5a6068;">Accès complet à toutes les fonctionnalités</td>
+                <td style="text-align:center;color:#15803d;"><span class="material-symbols-outlined">check_circle</span></td>
+                <td style="text-align:center;color:#15803d;"><span class="material-symbols-outlined">check_circle</span></td>
+                <td style="text-align:center;color:#15803d;"><span class="material-symbols-outlined">check_circle</span></td>
+                <td style="text-align:center;color:#15803d;"><span class="material-symbols-outlined">check_circle</span></td>
+              </tr>
+              <tr>
+                <td style="font-weight:600;">Rédacteur</td>
+                <td style="font-size:12px;color:#5a6068;">Composer et diffuser des notifications</td>
+                <td style="text-align:center;color:#15803d;"><span class="material-symbols-outlined">check_circle</span></td>
+                <td style="text-align:center;color:#15803d;"><span class="material-symbols-outlined">check_circle</span></td>
+                <td style="text-align:center;color:#15803d;"><span class="material-symbols-outlined">check_circle</span></td>
+                <td style="text-align:center;color:#c0c5cc;"><span class="material-symbols-outlined">cancel</span></td>
+              </tr>
+              <tr>
+                <td style="font-weight:600;">Lecture seule</td>
+                <td style="font-size:12px;color:#5a6068;">Consultation des données et statistiques</td>
+                <td style="text-align:center;color:#c0c5cc;"><span class="material-symbols-outlined">cancel</span></td>
+                <td style="text-align:center;color:#c0c5cc;"><span class="material-symbols-outlined">cancel</span></td>
+                <td style="text-align:center;color:#15803d;"><span class="material-symbols-outlined">check_circle</span></td>
+                <td style="text-align:center;color:#c0c5cc;"><span class="material-symbols-outlined">cancel</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </section>
+      </div>
+
+      <!-- ════════════════════════════════════════════════════ -->
+      <!-- BOÎTE À IDÉES                                          -->
+      <!-- ════════════════════════════════════════════════════ -->
+      <div class="view" id="view-ideas">
+        <nav class="breadcrumb">
+          <a onclick="goView('dashboard')">Accueil</a>
+          <span class="material-symbols-outlined">chevron_right</span>
+          <span>Données</span>
+          <span class="material-symbols-outlined">chevron_right</span>
+          <span>Boîte à idées</span>
+        </nav>
+
+        <div class="page-header-row">
+          <div>
+            <h1 class="page-title">Boîte à idées citoyennes</h1>
+            <p class="page-sub">Suggestions et propositions soumises par les habitants de la commune. Modérez, étudiez et répondez en toute transparence.</p>
+          </div>
+          <button class="btn btn-default"><span class="material-symbols-outlined">download</span>Exporter (CSV)</button>
+        </div>
+
+        <div class="notice info">
+          <span class="material-symbols-outlined">info</span>
+          <div class="notice-text"><strong>Démocratie participative.</strong> Chaque idée reçue par la commune est rendue publique après validation. Les habitants peuvent voter et commenter pour faire émerger les sujets prioritaires.</div>
+        </div>
+
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div class="stat-card-head"><span class="material-symbols-outlined">lightbulb</span><span class="stat-card-head-label">Idées reçues</span></div>
+            <div class="stat-value" id="ideas-total">—</div>
+            <div class="stat-extra">depuis le lancement</div>
+            <div class="stat-context" id="ideas-total-context">en cours d'analyse</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-card-head"><span class="material-symbols-outlined">how_to_vote</span><span class="stat-card-head-label">Votes citoyens</span></div>
+            <div class="stat-value" id="ideas-votes">—</div>
+            <div class="stat-extra">soutiens cumulés</div>
+            <div class="stat-context"><span id="ideas-votes-detail">—</span></div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-card-head"><span class="material-symbols-outlined">task_alt</span><span class="stat-card-head-label">Idées réalisées</span></div>
+            <div class="stat-value" id="ideas-done-count">—</div>
+            <div class="stat-extra">menées à terme par la commune</div>
+            <div class="stat-context" id="ideas-done-context">tracking en cours</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-card-head"><span class="material-symbols-outlined">pending_actions</span><span class="stat-card-head-label">À modérer</span></div>
+            <div class="stat-value" id="ideas-pending-count">—</div>
+            <div class="stat-extra">en attente de décision</div>
+            <div class="stat-context"><strong>Action requise</strong> de votre part</div>
+          </div>
+        </div>
+
+        <section class="panel">
+          <div class="tabs">
+            <button class="tab active" onclick="filterIdeas(this,'all')">Toutes <span class="tab-count" id="ic-all">—</span></button>
+            <button class="tab" onclick="filterIdeas(this,'pending')">À examiner <span class="tab-count" id="ic-pending">—</span></button>
+            <button class="tab" onclick="filterIdeas(this,'approved')">Validées <span class="tab-count" id="ic-approved">—</span></button>
+            <button class="tab" onclick="filterIdeas(this,'in_progress')">En cours <span class="tab-count" id="ic-progress">—</span></button>
+            <button class="tab" onclick="filterIdeas(this,'done')">Réalisées <span class="tab-count" id="ic-done">—</span></button>
+            <button class="tab" onclick="filterIdeas(this,'rejected')">Refusées <span class="tab-count" id="ic-rejected">—</span></button>
+          </div>
+
+          <div class="toolbar">
+            <div class="toolbar-search"><span class="material-symbols-outlined">search</span><input type="text" placeholder="Rechercher une idée..."/></div>
+            <button class="toolbar-filter"><span class="material-symbols-outlined">filter_list</span>Catégorie</button>
+            <button class="toolbar-filter"><span class="material-symbols-outlined">sort</span>Plus récentes</button>
+          </div>
+
+          <div style="padding:18px 20px;" id="ideas-container">
+            <div style="text-align:center;padding:60px 20px;color:#7a808a;">
+              <span class="material-symbols-outlined" style="font-size:42px;color:#c0c4cc;animation:spin 1s linear infinite;display:block;margin-bottom:10px;">progress_activity</span>
+              <div style="font-size:14px;font-weight:600;color:#3a3f47;">Chargement des idées...</div>
+            </div>
+          </div>
+
+        </section>
+      </div>
+
+    </main>
+  </div>
+
+  <footer class="global-footer">
+    <div>© Mairie de Villeneuve-lès-Avignon — <a href="#">Mentions légales</a>·<a href="#">Politique de confidentialité</a>·<a href="#">Accessibilité</a>·<a href="#">CGU</a></div>
+    <div class="global-footer-version">Cœur de Ville · v2.4.1 · Conformité RGAA 4.1</div>
+  </footer>
+</div>
+
+<!-- MODAL ALERTE -->
+<div class="modal-overlay" id="alert-modal" onclick="if(event.target===this) closeAlertModal()">
+  <div class="modal">
+    <div class="modal-head">
+      <div class="modal-head-title">
+        <span class="material-symbols-outlined">crisis_alert</span>
+        Diffuser une alerte d'urgence
+      </div>
+      <button class="modal-close" onclick="closeAlertModal()"><span class="material-symbols-outlined">close</span></button>
+    </div>
+    <div class="modal-body">
+
+      <div class="notice">
+        <span class="material-symbols-outlined">priority_high</span>
+        <div class="notice-text">
+          <strong>Procédure d'urgence — usage exceptionnel.</strong> Les alertes sont diffusées immédiatement à <strong>tous les abonnés</strong> (1 247) et apparaissent en priorité avec son et vibration. Toute alerte est enregistrée dans le journal officiel et signée par votre identifiant.
+        </div>
+      </div>
+
+      <div class="field">
+        <div class="field-label">Modèles d'alertes pré-validés</div>
+        <div class="alert-templates">
+          <button class="alert-template" onclick="useTemplate('weather')">
+            <div class="alert-template-head"><span class="material-symbols-outlined">thunderstorm</span><span class="alert-template-name">Vigilance météo</span></div>
+            <div class="alert-template-desc">Tempête, canicule, neige, inondation</div>
+          </button>
+          <button class="alert-template" onclick="useTemplate('water')">
+            <div class="alert-template-head"><span class="material-symbols-outlined">water_drop</span><span class="alert-template-name">Coupure d'eau</span></div>
+            <div class="alert-template-desc">Interruption du réseau d'eau potable</div>
+          </button>
+          <button class="alert-template" onclick="useTemplate('power')">
+            <div class="alert-template-head"><span class="material-symbols-outlined">bolt</span><span class="alert-template-name">Coupure d'électricité</span></div>
+            <div class="alert-template-desc">Panne ou intervention sur le réseau</div>
+          </button>
+          <button class="alert-template" onclick="useTemplate('road')">
+            <div class="alert-template-head"><span class="material-symbols-outlined">no_crash</span><span class="alert-template-name">Route fermée / accident</span></div>
+            <div class="alert-template-desc">Circulation gravement perturbée</div>
+          </button>
+          <button class="alert-template" onclick="useTemplate('missing')">
+            <div class="alert-template-head"><span class="material-symbols-outlined">person_search</span><span class="alert-template-name">Disparition / Alerte enlèvement</span></div>
+            <div class="alert-template-desc">Recherche d'une personne (sur autorisation préfecture)</div>
+          </button>
+          <button class="alert-template" onclick="useTemplate('custom')">
+            <div class="alert-template-head"><span class="material-symbols-outlined">edit</span><span class="alert-template-name">Message personnalisé</span></div>
+            <div class="alert-template-desc">Rédiger un texte sur mesure</div>
+          </button>
+        </div>
+      </div>
+
+      <div class="field">
+        <div class="field-label">Niveau de gravité<span class="field-required">*</span></div>
+        <div class="target-list">
+          <div class="target-row" data-level="info" onclick="pickAlertLevel(this)">
+            <div class="target-radio-dot"></div>
+            <div class="target-info">
+              <div class="target-name" style="color:#1a3a6e;">Information importante</div>
+              <div class="target-desc">Notification visible sans son ni vibration prioritaire</div>
+            </div>
+            <div class="target-count" style="background:#eef5fc;color:#1a3a6e;">Niveau 1</div>
+          </div>
+          <div class="target-row active" data-level="warning" onclick="pickAlertLevel(this)">
+            <div class="target-radio-dot"></div>
+            <div class="target-info">
+              <div class="target-name" style="color:#92400e;">Vigilance / Alerte</div>
+              <div class="target-desc">Son + vibration courte. Affichage en bandeau orange.</div>
+            </div>
+            <div class="target-count" style="background:#fef3c7;color:#92400e;">Niveau 2</div>
+          </div>
+          <div class="target-row" data-level="emergency" onclick="pickAlertLevel(this)">
+            <div class="target-radio-dot"></div>
+            <div class="target-info">
+              <div class="target-name" style="color:#c8102e;">Urgence absolue</div>
+              <div class="target-desc">Son répété + vibration prolongée. Affichage plein écran.</div>
+            </div>
+            <div class="target-count" style="background:#fdf2f2;color:#c8102e;">Niveau 3</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="field">
+        <div class="field-label">Objet de l'alerte<span class="field-required">*</span></div>
+        <input type="text" class="field-input" id="alert-title" maxlength="60" placeholder="Sélectionnez un modèle ci-dessus ou rédigez votre message"/>
+      </div>
+
+      <div class="field">
+        <div class="field-label">Message complet<span class="field-required">*</span></div>
+        <textarea class="field-textarea" id="alert-body" maxlength="200" rows="3" placeholder="Décrivez la situation, donnez les consignes à suivre..."></textarea>
+        <div class="field-help">Soyez précis et concis. Indiquez les consignes à suivre.</div>
+      </div>
+
+      <div class="field">
+        <div class="field-label">Périmètre géographique</div>
+        <select class="field-select">
+          <option>Toute la commune (1 247 abonnés)</option>
+          <option>Centre historique uniquement (312 abonnés)</option>
+          <option>Quartier des Mourgues (215 abonnés)</option>
+          <option>Quartier de la Madone (180 abonnés)</option>
+          <option>Périmètre personnalisé sur la carte…</option>
+        </select>
+      </div>
+
+    </div>
+    <div class="modal-foot">
+      <button class="btn btn-default" onclick="closeAlertModal()"><span class="material-symbols-outlined">close</span>Annuler</button>
+      <button class="btn btn-primary" style="background:#c8102e;border-color:#c8102e;" onclick="sendAlert()">
+        <span class="material-symbols-outlined">crisis_alert</span>
+        Diffuser l'alerte maintenant
+      </button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast">
+  <span class="material-symbols-outlined">check_circle</span>
+  <span id="toast-msg">Notification diffusée avec succès</span>
+</div>
+
+<script>
+// ════════════════════════════════════════════════════
+// CONFIG API
+// ════════════════════════════════════════════════════
+const API_BASE = '';
+const VILLE = 'villeneuve';
+const ADMIN_TOKEN = 'cdv-mairie-2026-xK9pQzL3r7nM';
+
+const AUTH_KEY = 'cdv_admin_auth';
+const VALID_USER = 'mairie@villeneuve.fr';
+const VALID_PASS = 'demo2026';
+
+// ════════════════════════════════════════════════════
+// API CALLS
+// ════════════════════════════════════════════════════
+async function apiGetVilleStats() {
+  const res = await fetch(`${API_BASE}/api/admin-ville-stats?ville=${VILLE}`, {
+    headers: { 'x-admin-token': ADMIN_TOKEN }
+  });
+  if (!res.ok) throw new Error('Erreur stats');
+  return await res.json();
+}
+
+async function apiSendNotification(title, body, url, target) {
+  const res = await fetch(`${API_BASE}/api/send-notification`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', 'x-admin-token': ADMIN_TOKEN },
+    body: JSON.stringify({ title, body, url, ville: VILLE, target })
+  });
+  if (!res.ok) {
+    const err = await res.json().catch(() => ({}));
+    throw new Error(err.error || 'Erreur envoi');
+  }
+  return await res.json();
+}
+
+async function apiListIdeas() {
+  const res = await fetch(`${API_BASE}/api/admin-list-ideas?ville=${VILLE}`, {
+    headers: { 'x-admin-token': ADMIN_TOKEN }
+  });
+  if (!res.ok) throw new Error('Erreur idées');
+  const data = await res.json();
+  return data.ideas || [];
+}
+
+async function apiUpdateIdea(id, status, response = null) {
+  const res = await fetch(`${API_BASE}/api/admin-update-idea`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', 'x-admin-token': ADMIN_TOKEN },
+    body: JSON.stringify({ id, status, mairie_response: response })
+  });
+  if (!res.ok) {
+    const err = await res.json().catch(() => ({}));
+    throw new Error(err.error || 'Erreur update');
+  }
+  return await res.json();
+}
+
+// ════════════════════════════════════════════════════
+// AUTH
+// ════════════════════════════════════════════════════
+function checkAuth(){ if(localStorage.getItem(AUTH_KEY)==='1') showApp(); }
+
+function doLogin(){
+  const user=document.getElementById('login-user').value.trim().toLowerCase();
+  const pass=document.getElementById('login-pass').value;
+  const err=document.getElementById('login-error');
+  if(user===VALID_USER && pass===VALID_PASS){
+    localStorage.setItem(AUTH_KEY,'1');
+    err.style.display='none';
+    showApp();
+  } else {
+    err.style.display='flex';
+    setTimeout(()=>err.style.display='none',4000);
+  }
+}
+
+function doLogout(){
+  if(!confirm('Souhaitez-vous vous déconnecter ?')) return;
+  localStorage.removeItem(AUTH_KEY);
+  location.reload();
+}
+
+function showApp(){
+  document.getElementById('login-screen').classList.add('hidden');
+  document.getElementById('admin-app').style.display='block';
+  goView(location.hash.replace('#','') || 'dashboard');
+  updateClock();
+  setInterval(updateClock,60000);
+  // Charge les vraies données
+  loadAllData();
+}
+
+document.getElementById('login-pass').addEventListener('keypress',e=>{ if(e.key==='Enter') doLogin(); });
+
+// ROUTING
+function goView(name){
+  document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
+  const target=document.getElementById('view-'+name);
+  if(target) target.classList.add('active');
+  document.querySelectorAll('.sidebar-link').forEach(l=>l.classList.toggle('active',l.dataset.view===name));
+  location.hash=name;
+  window.scrollTo(0,0);
+  // Fermer la sidebar mobile après navigation
+  closeSidebar();
+}
+
+// SIDEBAR — gère desktop (replier) + mobile (drawer)
+function toggleSidebar(){
+  const isMobile = window.innerWidth <= 900;
+  if(isMobile){
+    document.getElementById('sidebar').classList.toggle('open');
+    document.getElementById('sidebar-overlay').classList.toggle('show');
+  } else {
+    document.querySelector('.admin-layout').classList.toggle('sidebar-collapsed');
+  }
+}
+function closeSidebar(){
+  document.getElementById('sidebar').classList.remove('open');
+  document.getElementById('sidebar-overlay').classList.remove('show');
+}
+document.querySelectorAll('.sidebar-link').forEach(l=>{
+  l.addEventListener('click',e=>{
+    e.preventDefault();
+    if(l.dataset.view) goView(l.dataset.view);
+  });
+});
+window.addEventListener('hashchange',()=>{
+  const h=location.hash.replace('#','');
+  if(h) goView(h);
+});
+
+// CLOCK
+function updateClock(){
+  const now=new Date();
+  const h=now.getHours().toString().padStart(2,'0');
+  const m=now.getMinutes().toString().padStart(2,'0');
+  const el=document.getElementById('phone-time');
+  if(el) el.textContent=`${h}:${m}`;
+}
+
+// NOTIF COMPOSER
+function updatePreview(){
+  const titleEl=document.getElementById('notif-title');
+  const bodyEl=document.getElementById('notif-body');
+  if(!titleEl) return;
+  const title=titleEl.value || 'Aperçu de votre notification';
+  const body=bodyEl.value || "Le message s'affichera ici à mesure de la saisie.";
+  document.getElementById('prev-title').textContent=title;
+  document.getElementById('prev-body').textContent=body;
+  const tC=document.getElementById('title-counter');
+  const bC=document.getElementById('body-counter');
+  tC.textContent=`${titleEl.value.length} / 50`;
+  bC.textContent=`${bodyEl.value.length} / 150`;
+  tC.classList.toggle('warn',titleEl.value.length>40);
+  bC.classList.toggle('warn',bodyEl.value.length>130);
+}
+
+function pickIcon(btn){
+  document.querySelectorAll('.cat-radio').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('prev-icon').textContent=btn.dataset.icon;
+  document.getElementById('prev-cat').textContent=btn.dataset.cat;
+}
+
+function pickTarget(btn){
+  document.querySelectorAll('.target-row').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+}
+
+async function sendNotification(){
+  const title=document.getElementById('notif-title').value.trim();
+  const body=document.getElementById('notif-body').value.trim();
+  const url=document.getElementById('notif-url').value.trim();
+  if(!title || !body){ showToast('Veuillez renseigner un objet et un contenu.','error'); return; }
+  const tBtn=document.querySelector('.target-row.active');
+  const target=tBtn?.dataset.target||'all';
+  const subsCount=window.__VILLE_DATA?.stats?.abonnes||0;
+  if(subsCount===0){
+    showToast("Aucun abonné — diffusion impossible pour l'instant.",'error');
+    return;
+  }
+  if(!confirm(`Confirmez-vous l'envoi de cette notification à ${subsCount} abonné${subsCount>1?'s':''} ?`)) return;
+
+  const sendBtn=document.querySelector('button[onclick="sendNotification()"]');
+  const original=sendBtn?.innerHTML;
+  if(sendBtn){ sendBtn.disabled=true; sendBtn.innerHTML='<span class="material-symbols-outlined">progress_activity</span>Envoi en cours...'; }
+
+  try {
+    const res=await apiSendNotification(title, body, url||null, target);
+    showToast(`Notification diffusée à ${res.delivered||0} destinataire${(res.delivered||0)>1?'s':''}.`);
+    resetForm();
+    await loadAllData();
+  } catch(err) {
+    showToast('Erreur : '+err.message,'error');
+  } finally {
+    if(sendBtn){ sendBtn.disabled=false; sendBtn.innerHTML=original; }
+  }
+}
+
+function resetForm(){
+  document.getElementById('notif-title').value='';
+  document.getElementById('notif-body').value='';
+  document.getElementById('notif-url').value='';
+  document.querySelectorAll('.cat-radio').forEach(b=>b.classList.remove('active'));
+  const first=document.querySelector('.cat-radio');
+  first.classList.add('active');
+  pickIcon(first);
+  document.querySelectorAll('.target-row').forEach(b=>b.classList.remove('active'));
+  document.querySelector('.target-row').classList.add('active');
+  updatePreview();
+}
+
+function showToast(msg,type){
+  const t=document.getElementById('toast');
+  document.getElementById('toast-msg').textContent=msg;
+  t.classList.toggle('error',type==='error');
+  t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'),3500);
+}
+
+// MODAL ALERTE
+const ALERT_TEMPLATES = {
+  weather: {
+    title: "Vigilance météo orange — vents forts",
+    body: "Mistral attendu jusqu'à 110 km/h jusqu'à demain matin. Mettez à l'abri tout objet pouvant s'envoler. Restez prudents lors de vos déplacements."
+  },
+  water: {
+    title: "Coupure d'eau programmée",
+    body: "L'alimentation en eau potable sera interrompue ce [date] de [h] à [h] dans le secteur [zone] pour travaux. Pensez à constituer une réserve."
+  },
+  power: {
+    title: "Coupure d'électricité ENEDIS",
+    body: "Une coupure de courant est prévue le [date] de [h] à [h] dans votre secteur pour intervention sur le réseau. Préparez vos appareils sensibles."
+  },
+  road: {
+    title: "Route fermée — circulation perturbée",
+    body: "Suite à un accident sur [route], la circulation est interrompue dans les deux sens. Évitez ce secteur. Déviation par [itinéraire]."
+  },
+  missing: {
+    title: "Alerte enlèvement — disparition d'enfant",
+    body: "Disparition signalée. Si vous apercevez l'enfant ou disposez d'une information, composez immédiatement le 17. Description : [description]."
+  },
+  custom: {
+    title: "",
+    body: ""
+  }
+};
+
+function openAlertModal(){
+  document.getElementById('alert-modal').classList.add('show');
+  document.body.style.overflow='hidden';
+}
+function closeAlertModal(){
+  document.getElementById('alert-modal').classList.remove('show');
+  document.body.style.overflow='';
+}
+function useTemplate(key){
+  const tpl = ALERT_TEMPLATES[key];
+  if(!tpl) return;
+  document.getElementById('alert-title').value = tpl.title;
+  document.getElementById('alert-body').value = tpl.body;
+  document.querySelectorAll('.alert-template').forEach(b=>b.style.background='');
+  event.currentTarget.style.background='#fdf2f2';
+}
+function pickAlertLevel(btn){
+  document.querySelectorAll('#alert-modal .target-row').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+}
+async function sendAlert(){
+  const title = document.getElementById('alert-title').value.trim();
+  const body = document.getElementById('alert-body').value.trim();
+  if(!title || !body){ showToast("Veuillez remplir l'objet et le message de l'alerte.",'error'); return; }
+  const subsCount=window.__VILLE_DATA?.stats?.abonnes||0;
+  if(subsCount===0){
+    showToast("Aucun abonné — diffusion impossible pour l'instant.",'error');
+    return;
+  }
+  if(!confirm(`ATTENTION : vous êtes sur le point de diffuser une ALERTE D'URGENCE à ${subsCount} abonné${subsCount>1?'s':''}.\n\nUne alerte sonore et une vibration prioritaire seront déclenchées sur leurs téléphones.\n\nConfirmez-vous la diffusion ?`)) return;
+
+  try {
+    const res=await apiSendNotification(title, body, null, 'alert');
+    closeAlertModal();
+    showToast(`Alerte diffusée à ${res.delivered||0} abonné${(res.delivered||0)>1?'s':''}.`);
+    document.getElementById('alert-title').value='';
+    document.getElementById('alert-body').value='';
+    await loadAllData();
+  } catch(err) {
+    showToast('Erreur : '+err.message,'error');
+  }
+}
+
+// FILTRES IDÉES
+function filterIdeas(btn, status){
+  document.querySelectorAll('#view-ideas .tab').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  __IDEAS_FILTER = status;
+  renderIdeasFromAPI();
+}
+
+// ════════════════════════════════════════════════════
+// CHARGEMENT DES DONNÉES RÉELLES
+// ════════════════════════════════════════════════════
+async function loadAllData() {
+  try {
+    const data = await apiGetVilleStats();
+    window.__VILLE_DATA = data;
+    renderDashboard(data);
+    renderComposer(data);
+    renderActivity(data);
+    loadIdeasView();
+  } catch (err) {
+    console.error('Load stats error:', err);
+    showToast('Erreur de chargement des données', 'error');
+  }
+}
+
+function setText(id, val) {
+  const el = document.getElementById(id);
+  if (el) el.textContent = val;
+}
+
+function renderDashboard(data) {
+  const s = data.stats;
+  setText('dash-abonnes', s.abonnes.toLocaleString('fr-FR'));
+  setText('dash-ideas', s.ideas_pending + s.ideas_approved);
+  setText('dash-ideas-pending', s.ideas_pending);
+  setText('dash-notifs', s.notifs_this_month);
+  setText('dash-notifs-total', s.notifs_total);
+  setText('dash-engagement', s.engagement > 0 ? s.engagement + ' %' : '—');
+
+  // Progress
+  const popPct = (s.abonnes / 12950 * 100).toFixed(1);
+  const progressEl = document.getElementById('dash-abonnes-progress');
+  if (progressEl) progressEl.style.width = Math.min(100, popPct) + '%';
+
+  const notifsPct = Math.min(100, (s.notifs_this_month / 50) * 100);
+  const notifsProgEl = document.getElementById('dash-notifs-progress');
+  if (notifsProgEl) notifsProgEl.style.width = notifsPct + '%';
+
+  // Context
+  const ctxEl = document.getElementById('dash-abonnes-context');
+  if (ctxEl) ctxEl.innerHTML = s.abonnes > 0
+    ? `<strong>${popPct} %</strong> de la population de Villeneuve (12 950 hab.) <span class="nat">· moyenne nationale : 6,4 %</span>`
+    : `<span class="nat">Aucun abonné pour l'instant — la fonction "Activer les notifications" doit être déployée sur l'app habitants.</span>`;
+}
+
+function renderComposer(data) {
+  const s = data.stats;
+  setText('comp-abonnes', s.abonnes.toLocaleString('fr-FR'));
+  setText('comp-notifs', s.notifs_this_month);
+  setText('comp-ouverture', s.engagement > 0 ? s.engagement + ' %' : '—');
+  setText('comp-total', s.notifs_total);
+  setText('target-count-all', s.abonnes.toLocaleString('fr-FR'));
+  setText('preview-target-count', s.abonnes.toLocaleString('fr-FR'));
+}
+
+function renderActivity(data) {
+  const list = document.getElementById('activity-list');
+  if (!list) return;
+  if (!data.activity || data.activity.length === 0) {
+    list.innerHTML = `
+      <div class="activity-item">
+        <div class="activity-icon"><span class="material-symbols-outlined">notifications_off</span></div>
+        <div class="activity-info">
+          <div class="activity-text">Aucune activité récente</div>
+          <div class="activity-meta">L'activité apparaîtra dès que la mairie commencera à utiliser la plateforme.</div>
+        </div>
+      </div>
+    `;
+    return;
+  }
+  list.innerHTML = data.activity.map(a => `
+    <div class="activity-item">
+      <div class="activity-icon"><span class="material-symbols-outlined">${a.icon}</span></div>
+      <div class="activity-info">
+        <div class="activity-text">${a.text}</div>
+        <div class="activity-meta">${a.meta}</div>
+      </div>
+    </div>
+  `).join('');
+}
+
+// ════════════════════════════════════════════════════
+// IDÉES — connectées à la vraie API
+// ════════════════════════════════════════════════════
+let __ALL_IDEAS = [];
+let __IDEAS_FILTER = 'all';
+
+const __STATUS_LABELS = {
+  pending: { label: 'À modérer', icon: 'pending_actions', cls: 'pending' },
+  approved: { label: 'Validée', icon: 'visibility', cls: 'approved' },
+  in_progress: { label: 'En cours', icon: 'build', cls: 'in_progress' },
+  done: { label: 'Réalisée', icon: 'check_circle', cls: 'done' },
+  rejected: { label: 'Rejetée', icon: 'block', cls: 'rejected' }
+};
+
+function escapeHtml(s) {
+  return (s || '').replace(/[&<>"']/g, c => ({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[c]));
+}
+
+function timeAgo(ts) {
+  if (!ts) return 'inconnu';
+  const d = new Date(ts);
+  const diff = (Date.now() - d.getTime()) / 1000;
+  if (diff < 60) return "à l'instant";
+  if (diff < 3600) return `il y a ${Math.floor(diff/60)} min`;
+  if (diff < 86400) return `il y a ${Math.floor(diff/3600)} h`;
+  if (diff < 86400 * 30) return `il y a ${Math.floor(diff/86400)} j`;
+  return d.toLocaleDateString('fr-FR', { day: 'numeric', month: 'short' });
+}
+
+async function loadIdeasView() {
+  try {
+    __ALL_IDEAS = await apiListIdeas();
+    renderIdeasFromAPI();
+  } catch (err) {
+    console.warn('Load ideas error:', err);
+  }
+}
+
+function renderIdeasFromAPI() {
+  // Compteurs
+  const pending = __ALL_IDEAS.filter(i => i.status === 'pending').length;
+  const approved = __ALL_IDEAS.filter(i => i.status === 'approved').length;
+  const inProgress = __ALL_IDEAS.filter(i => i.status === 'in_progress').length;
+  const done = __ALL_IDEAS.filter(i => i.status === 'done').length;
+  const rejected = __ALL_IDEAS.filter(i => i.status === 'rejected').length;
+  const total = __ALL_IDEAS.length;
+  const totalVotes = __ALL_IDEAS.reduce((s, i) => s + (i.votes_up || 0) + (i.votes_down || 0), 0);
+
+  // Stats grid
+  setText('ideas-total', total);
+  setText('ideas-votes', totalVotes.toLocaleString('fr-FR'));
+  setText('ideas-done-count', done);
+  setText('ideas-pending-count', pending);
+  setText('ideas-votes-detail', totalVotes > 0 ? `Sur ${total} idée${total>1?'s':''} publiée${total>1?'s':''}` : 'Aucun vote pour l\'instant');
+  setText('ideas-total-context', total > 0 ? `${approved + inProgress + done} validée${(approved+inProgress+done)>1?'s':''} · ${pending} en attente` : 'Aucune idée pour le moment');
+  setText('ideas-done-context', total > 0 ? `Soit ${Math.round(done / total * 100)} % du total` : 'tracking en cours');
+
+  // Compteurs tabs
+  setText('ic-all', total);
+  setText('ic-pending', pending);
+  setText('ic-approved', approved);
+  setText('ic-progress', inProgress);
+  setText('ic-done', done);
+  setText('ic-rejected', rejected);
+
+  // Badge sidebar
+  document.querySelectorAll('.sidebar-link[data-view="ideas"] .badge').forEach(badge => {
+    if (pending > 0) {
+      badge.textContent = pending;
+      badge.style.display = '';
+    } else {
+      badge.style.display = 'none';
+    }
+  });
+
+  // Container des cards
+  const container = document.getElementById('ideas-container');
+  if (!container) return;
+
+  const filtered = __IDEAS_FILTER === 'all'
+    ? __ALL_IDEAS
+    : __ALL_IDEAS.filter(i => i.status === __IDEAS_FILTER);
+
+  if (filtered.length === 0) {
+    container.innerHTML = `
+      <div style="text-align:center;padding:60px 20px;color:#7a808a;">
+        <span class="material-symbols-outlined" style="font-size:42px;color:#c0c4cc;display:block;margin-bottom:10px;">inbox</span>
+        <div style="font-size:14px;font-weight:600;color:#3a3f47;margin-bottom:4px;">Aucune idée ${__IDEAS_FILTER === 'pending' ? 'à modérer' : 'dans cette catégorie'}</div>
+        <div style="font-size:13px;">${__IDEAS_FILTER === 'pending' ? 'Tout est à jour ! 🎉' : 'Les idées soumises par les habitants apparaîtront ici.'}</div>
+      </div>`;
+    return;
+  }
+
+  container.innerHTML = filtered.map(idea => {
+    const status = __STATUS_LABELS[idea.status] || __STATUS_LABELS.approved;
+    const score = (idea.votes_up || 0) - (idea.votes_down || 0);
+    const sign = score >= 0 ? '+' : '';
+
+    const statusColors = {
+      pending: 'background:#fff7ed;color:#FF6B35',
+      approved: 'background:#dcfce7;color:#15803d',
+      in_progress: 'background:#dbeafe;color:#1e40af',
+      done: 'background:#dcfce7;color:#15803d',
+      rejected: 'background:#fef2f2;color:#dc2626'
+    };
+
+    let actions = '';
+    if (idea.status === 'pending') {
+      actions = `
+        <button onclick="moderateIdea(${idea.id},'approved')" style="background:#16a34a;color:#fff;border:none;padding:6px 12px;font-size:12px;font-weight:600;border-radius:6px;cursor:pointer;display:inline-flex;align-items:center;gap:4px;font-family:inherit;"><span class="material-symbols-outlined" style="font-size:14px;">check</span>Valider</button>
+        <button onclick="moderateIdea(${idea.id},'rejected')" style="background:#fff;color:#dc2626;border:1px solid #fecaca;padding:6px 12px;font-size:12px;font-weight:600;border-radius:6px;cursor:pointer;display:inline-flex;align-items:center;gap:4px;font-family:inherit;"><span class="material-symbols-outlined" style="font-size:14px;">close</span>Rejeter</button>
+      `;
+    } else if (idea.status === 'approved') {
+      actions = `
+        <button onclick="moderateIdea(${idea.id},'in_progress')" style="background:#000091;color:#fff;border:none;padding:6px 12px;font-size:12px;font-weight:600;border-radius:6px;cursor:pointer;display:inline-flex;align-items:center;gap:4px;font-family:inherit;"><span class="material-symbols-outlined" style="font-size:14px;">build</span>Marquer en cours</button>
+        <button onclick="moderateIdea(${idea.id},'done')" style="background:#16a34a;color:#fff;border:none;padding:6px 12px;font-size:12px;font-weight:600;border-radius:6px;cursor:pointer;display:inline-flex;align-items:center;gap:4px;font-family:inherit;"><span class="material-symbols-outlined" style="font-size:14px;">check_circle</span>Marquer réalisée</button>
+      `;
+    } else if (idea.status === 'in_progress') {
+      actions = `<button onclick="moderateIdea(${idea.id},'done')" style="background:#16a34a;color:#fff;border:none;padding:6px 12px;font-size:12px;font-weight:600;border-radius:6px;cursor:pointer;display:inline-flex;align-items:center;gap:4px;font-family:inherit;"><span class="material-symbols-outlined" style="font-size:14px;">check_circle</span>Marquer réalisée</button>`;
+    }
+
+    const responseBlock = idea.mairie_response
+      ? `<div style="margin-top:10px;padding:10px 12px;background:#f5f5fe;border-left:3px solid #000091;border-radius:6px;font-size:12px;color:#000091;"><strong>Réponse mairie : </strong>${escapeHtml(idea.mairie_response)}</div>`
+      : '';
+
+    return `
+      <article style="background:#fff;border:1px solid #e0e3e8;border-radius:10px;padding:18px 20px;margin-bottom:12px;${idea.status === 'pending' ? 'border-left:3px solid #FF6B35;' : ''}">
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px;flex-wrap:wrap;">
+          <span style="font-size:10px;font-weight:700;color:#FF6B35;background:#fff7ed;padding:3px 8px;border-radius:4px;letter-spacing:0.04em;text-transform:uppercase;">${escapeHtml(idea.category)}</span>
+          <span style="font-size:10px;font-weight:700;padding:3px 8px;border-radius:4px;letter-spacing:0.04em;text-transform:uppercase;display:inline-flex;align-items:center;gap:4px;${statusColors[idea.status] || statusColors.approved};"><span class="material-symbols-outlined" style="font-size:12px;">${status.icon}</span>${status.label}</span>
+          <span style="font-size:11px;color:#7a808a;font-weight:500;display:inline-flex;align-items:center;gap:5px;"><span class="material-symbols-outlined" style="font-size:13px;">person</span>${idea.author_name ? escapeHtml(idea.author_name) : 'Anonyme'}</span>
+          <span style="font-size:11px;color:#7a808a;font-weight:500;display:inline-flex;align-items:center;gap:5px;"><span class="material-symbols-outlined" style="font-size:13px;">schedule</span>${timeAgo(idea.created_at)}</span>
+        </div>
+        <h3 style="font-size:15px;font-weight:700;color:#1a1a1a;margin-bottom:6px;line-height:1.3;">${escapeHtml(idea.title)}</h3>
+        <p style="font-size:13px;color:#3a3f47;line-height:1.5;margin-bottom:10px;">${escapeHtml(idea.body)}</p>
+        ${responseBlock}
+        <div style="display:flex;align-items:center;gap:18px;margin-top:12px;padding-top:12px;border-top:1px solid #f1f5f9;font-size:12px;color:#7a808a;font-weight:600;flex-wrap:wrap;">
+          <span style="display:flex;align-items:center;gap:5px;"><span class="material-symbols-outlined" style="font-size:14px;">thumb_up</span><strong style="color:#1a1a1a;">${idea.votes_up || 0}</strong></span>
+          <span style="display:flex;align-items:center;gap:5px;"><span class="material-symbols-outlined" style="font-size:14px;">thumb_down</span><strong style="color:#1a1a1a;">${idea.votes_down || 0}</strong></span>
+          <span style="display:flex;align-items:center;gap:5px;"><span class="material-symbols-outlined" style="font-size:14px;">trending_up</span><strong style="color:#1a1a1a;">${sign}${score}</strong></span>
+          <div style="margin-left:auto;display:flex;gap:6px;flex-wrap:wrap;">${actions}</div>
+        </div>
+      </article>
+    `;
+  }).join('');
+}
+
+async function moderateIdea(id, status) {
+  let response = null;
+  if (status === 'in_progress') {
+    response = prompt('Message public pour les citoyens (étude en cours, travaux prévus...) :', '');
+    if (response === null) return;
+  } else if (status === 'done') {
+    response = prompt('Message public (réalisée le... / inauguration...) :', 'Idée réalisée');
+    if (response === null) return;
+  } else if (status === 'rejected') {
+    if (!confirm('Rejeter cette idée ? Elle ne sera plus visible.')) return;
+  }
+  try {
+    await apiUpdateIdea(id, status, response);
+    showToast(status === 'approved' ? 'Idée validée' : status === 'rejected' ? 'Idée rejetée' : status === 'done' ? 'Idée marquée réalisée' : 'Idée mise à jour');
+    await loadIdeasView();
+    await loadAllData();
+  } catch(err) {
+    showToast('Erreur : ' + err.message, 'error');
+  }
+}
+
+// ════════════════════════════════════════════════════
+checkAuth();
+</script>
+
+</body>
+</html>
