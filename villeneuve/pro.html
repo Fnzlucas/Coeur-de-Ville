@@ -300,7 +300,249 @@ body{padding-bottom:88px;min-height:100vh;}
 .brand-logo{width:22px;height:22px;object-fit:contain;display:inline-block;vertical-align:middle;}
 .login-logo-img{width:200px;max-width:60vw;height:auto;margin-bottom:8px;display:block;}
 
-/* Animation */
+/* ── NOTIFICATION SCREEN OVERLAY ── */
+#notif-overlay{
+  position:fixed;inset:0;z-index:4500;
+  background:#f4f6f9;
+  display:flex;flex-direction:column;
+  transform:translateY(100%);transition:transform 0.35s cubic-bezier(0.32,0.72,0,1);
+  overflow-y:auto;-webkit-overflow-scrolling:touch;
+}
+#notif-overlay.show{transform:translateY(0);}
+.notif-header{
+  position:sticky;top:0;z-index:10;
+  background:rgba(255,255,255,0.96);backdrop-filter:blur(24px);
+  padding:env(safe-area-inset-top,16px) 16px 14px;padding-top:calc(env(safe-area-inset-top,0px) + 16px);
+  display:flex;align-items:center;gap:10px;
+  border-bottom:1px solid rgba(0,0,0,0.05);
+  box-shadow:0 2px 12px rgba(15,25,35,0.05);
+}
+.notif-back{
+  background:rgba(0,0,0,0.06);border:none;
+  width:38px;height:38px;border-radius:12px;
+  display:flex;align-items:center;justify-content:center;
+  cursor:pointer;color:#0f1923;flex-shrink:0;
+}
+.notif-back:active{transform:scale(0.95);}
+.notif-header-title{font-size:15px;font-weight:900;letter-spacing:-0.01em;color:#0f1923;flex:1;}
+.notif-quota-pill{
+  font-size:11px;font-weight:800;letter-spacing:0.04em;
+  padding:5px 10px;border-radius:20px;
+  background:rgba(255,107,53,0.1);color:#FF6B35;
+}
+.notif-quota-pill.warning{background:rgba(245,158,11,0.12);color:#d97706;}
+.notif-quota-pill.full{background:rgba(239,68,68,0.12);color:#dc2626;}
+
+.notif-body{padding:18px 20px 60px;}
+
+/* ── COMPOSER CARD ── */
+.composer-card{
+  background:#fff;border-radius:22px;padding:18px;
+  box-shadow:0 1px 12px rgba(0,0,0,0.05);
+  margin-bottom:18px;
+}
+.composer-eyebrow{font-size:10px;font-weight:800;letter-spacing:0.18em;text-transform:uppercase;color:#FF6B35;margin-bottom:14px;display:flex;align-items:center;gap:8px;}
+.composer-eyebrow::before{content:'';width:18px;height:2px;background:#FF6B35;border-radius:2px;display:inline-block;}
+
+.input-group{margin-bottom:14px;}
+.input-label{
+  display:flex;align-items:center;justify-content:space-between;
+  font-size:11px;font-weight:800;letter-spacing:0.08em;text-transform:uppercase;
+  color:#64748b;margin-bottom:6px;
+}
+.input-counter{font-size:10px;color:#94a3b8;font-weight:700;font-feature-settings:'tnum';}
+.input-counter.warn{color:#d97706;}
+.input-counter.over{color:#dc2626;}
+
+.notif-input,.notif-textarea{
+  width:100%;background:#f4f6f9;border:1.5px solid transparent;
+  border-radius:14px;padding:13px 14px;
+  font-family:Manrope;font-size:14px;font-weight:600;color:#0f1923;
+  outline:none;transition:all 0.2s;
+  resize:none;
+}
+.notif-input::placeholder,.notif-textarea::placeholder{color:#94a3b8;font-weight:500;}
+.notif-input:focus,.notif-textarea:focus{
+  border-color:#FF6B35;background:#fff;
+  box-shadow:0 0 0 3px rgba(255,107,53,0.1);
+}
+.notif-textarea{min-height:80px;line-height:1.5;}
+
+/* ── PREVIEW BLOCK ── */
+.preview-section{margin-bottom:18px;}
+.preview-label{
+  font-size:10px;font-weight:800;letter-spacing:0.18em;text-transform:uppercase;
+  color:#94a3b8;margin-bottom:10px;
+  display:flex;align-items:center;gap:8px;
+}
+.preview-label::before{content:'';flex:1;height:1px;background:linear-gradient(to right,#e2e8f0,transparent);}
+.preview-label::after{content:'';flex:1;height:1px;background:linear-gradient(to left,#e2e8f0,transparent);}
+
+.phone-preview{
+  background:linear-gradient(160deg,#1a1a2e 0%,#16213e 50%,#0f3460 100%);
+  border-radius:24px;padding:30px 16px 18px;
+  position:relative;
+  box-shadow:0 8px 32px rgba(0,0,0,0.2),inset 0 0 0 1px rgba(255,255,255,0.06);
+}
+.phone-preview::before{
+  content:'9:41';position:absolute;top:8px;left:18px;
+  font-family:-apple-system,BlinkMacSystemFont,sans-serif;
+  font-size:13px;font-weight:600;color:#fff;letter-spacing:-0.01em;
+}
+.phone-preview::after{
+  content:'';position:absolute;top:6px;right:18px;
+  width:30px;height:14px;background:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 14'><rect x='0' y='2' width='22' height='10' rx='2' fill='none' stroke='white' stroke-opacity='0.6'/><rect x='2' y='4' width='14' height='6' rx='1' fill='white'/><rect x='24' y='5' width='2' height='4' rx='1' fill='white' opacity='0.6'/></svg>") no-repeat center/contain;
+}
+
+.notif-bubble{
+  background:rgba(255,255,255,0.92);backdrop-filter:blur(20px);
+  border-radius:14px;padding:12px;
+  display:flex;gap:10px;align-items:flex-start;
+  box-shadow:0 8px 24px rgba(0,0,0,0.3);
+  animation:notifSlideIn 0.4s cubic-bezier(0.32,0.72,0,1);
+}
+.notif-bubble-icon{
+  width:32px;height:32px;border-radius:8px;
+  background:linear-gradient(135deg,#FF6B35,#E85D2C);
+  display:flex;align-items:center;justify-content:center;flex-shrink:0;
+  box-shadow:0 2px 8px rgba(255,107,53,0.4);
+}
+.notif-bubble-icon .heart{font-size:18px;color:#fff;font-variation-settings:'FILL' 1;}
+.notif-bubble-content{flex:1;min-width:0;}
+.notif-bubble-row{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:1px;gap:8px;}
+.notif-bubble-app{
+  font-family:-apple-system,BlinkMacSystemFont,sans-serif;
+  font-size:11px;font-weight:600;color:#3c3c43;letter-spacing:-0.01em;
+  text-transform:uppercase;letter-spacing:0.04em;
+}
+.notif-bubble-time{
+  font-family:-apple-system,BlinkMacSystemFont,sans-serif;
+  font-size:11px;color:#3c3c4360;font-weight:500;flex-shrink:0;
+}
+.notif-bubble-title{
+  font-family:-apple-system,BlinkMacSystemFont,sans-serif;
+  font-size:13px;font-weight:600;color:#000;
+  margin-bottom:1px;line-height:1.3;
+  word-break:break-word;
+}
+.notif-bubble-msg{
+  font-family:-apple-system,BlinkMacSystemFont,sans-serif;
+  font-size:13px;color:#3c3c43;line-height:1.35;font-weight:400;
+  word-break:break-word;
+}
+@keyframes notifSlideIn{
+  from{opacity:0;transform:translateY(-8px);}
+  to{opacity:1;transform:translateY(0);}
+}
+
+/* ── SCHEDULE TOGGLE ── */
+.schedule-section{
+  background:#fff;border-radius:18px;padding:16px;
+  box-shadow:0 1px 8px rgba(0,0,0,0.04);
+  margin-bottom:14px;
+}
+.schedule-toggle{
+  display:flex;background:#f4f6f9;border-radius:12px;padding:3px;gap:3px;
+}
+.schedule-tab{
+  flex:1;background:none;border:none;
+  padding:10px 14px;border-radius:10px;
+  font-family:Manrope;font-size:12px;font-weight:800;letter-spacing:-0.01em;
+  color:#94a3b8;cursor:pointer;transition:all 0.2s;
+  display:flex;align-items:center;justify-content:center;gap:6px;
+}
+.schedule-tab.active{
+  background:#fff;color:#0f1923;
+  box-shadow:0 2px 6px rgba(15,25,35,0.08);
+}
+.schedule-tab .material-symbols-outlined{font-size:16px;}
+
+.schedule-pickers{
+  display:none;gap:10px;margin-top:14px;
+}
+.schedule-pickers.show{display:flex;}
+.schedule-pickers input{
+  flex:1;background:#f4f6f9;border:1.5px solid transparent;
+  border-radius:12px;padding:12px;font-family:Manrope;
+  font-size:13px;font-weight:700;color:#0f1923;outline:none;
+}
+.schedule-pickers input:focus{border-color:#FF6B35;background:#fff;}
+
+/* ── SEND BUTTON ── */
+.btn-send{
+  width:100%;background:#FF6B35;color:#fff;
+  border:none;border-radius:18px;padding:18px;
+  display:flex;align-items:center;justify-content:center;gap:10px;
+  font-family:Manrope;font-size:14px;font-weight:900;letter-spacing:0.01em;
+  cursor:pointer;
+  box-shadow:0 8px 24px rgba(255,107,53,0.35);
+  transition:transform 0.15s,box-shadow 0.2s;
+  margin-top:6px;
+}
+.btn-send:active:not(:disabled){transform:scale(0.98);}
+.btn-send:disabled{
+  background:#cbd5e1;color:#94a3b8;
+  box-shadow:none;cursor:not-allowed;
+}
+.btn-send .material-symbols-outlined{font-size:20px;}
+
+/* ── HISTORY SECTION ── */
+.history-section{margin-top:24px;}
+.history-tabs{
+  display:flex;gap:6px;margin-bottom:14px;background:#fff;
+  padding:4px;border-radius:12px;
+  box-shadow:0 1px 8px rgba(0,0,0,0.04);
+}
+.history-tab{
+  flex:1;background:none;border:none;
+  padding:10px;border-radius:9px;
+  font-family:Manrope;font-size:12px;font-weight:800;letter-spacing:-0.01em;
+  color:#94a3b8;cursor:pointer;transition:all 0.2s;
+}
+.history-tab.active{background:#0f1923;color:#fff;}
+
+.notif-history-card{
+  background:#fff;border-radius:16px;padding:14px;margin-bottom:8px;
+  box-shadow:0 1px 6px rgba(0,0,0,0.04);
+  position:relative;overflow:hidden;
+}
+.nhc-status{
+  position:absolute;top:14px;right:14px;
+  font-size:9px;font-weight:800;letter-spacing:0.1em;
+  padding:3px 8px;border-radius:20px;
+  text-transform:uppercase;
+}
+.nhc-status.sent{background:#dcfce7;color:#16a34a;}
+.nhc-status.scheduled{background:#fef3c7;color:#d97706;}
+.nhc-title{font-size:13px;font-weight:900;color:#0f1923;letter-spacing:-0.01em;padding-right:80px;margin-bottom:3px;}
+.nhc-msg{font-size:12px;color:#475569;font-weight:500;line-height:1.4;margin-bottom:10px;padding-right:60px;}
+.nhc-meta{
+  display:flex;align-items:center;gap:14px;font-size:11px;color:#94a3b8;font-weight:700;
+  padding-top:8px;border-top:1px solid #f4f6f9;
+}
+.nhc-meta-item{display:flex;align-items:center;gap:4px;}
+.nhc-meta-item .material-symbols-outlined{font-size:13px;}
+.nhc-rate{
+  font-size:11px;font-weight:900;color:#16a34a;font-feature-settings:'tnum';
+  display:flex;align-items:center;gap:3px;margin-left:auto;
+}
+.nhc-bar{
+  position:absolute;left:0;right:0;bottom:0;height:3px;
+  background:#f4f6f9;
+}
+.nhc-bar-fill{
+  height:100%;background:linear-gradient(to right,#16a34a,#22c55e);
+  transition:width 0.5s;
+}
+
+/* ── EMPTY STATE ── */
+.history-empty{
+  text-align:center;padding:40px 20px;color:#94a3b8;
+}
+.history-empty .material-symbols-outlined{font-size:42px;color:#cbd5e1;margin-bottom:8px;}
+.history-empty-text{font-size:13px;font-weight:600;}
+
+
 @keyframes slideUp{from{transform:translateY(20px);opacity:0;}to{transform:translateY(0);opacity:1;}}
 .merchant-card,.actions-grid,.history-list{animation:slideUp 0.4s ease-out backwards;}
 .merchant-card{animation-delay:0.05s;}
@@ -412,8 +654,93 @@ body{padding-bottom:88px;min-height:100vh;}
   </div>
 </div>
 
-<!-- ─────────── ACTION SHEET (after scan) ─────────── -->
-<div id="action-sheet">
+<!-- ─────────── NOTIFICATION OVERLAY ─────────── -->
+<div id="notif-overlay">
+  <div class="notif-header">
+    <button class="notif-back" onclick="closeNotif()" aria-label="Retour"><span class="material-symbols-outlined">arrow_back</span></button>
+    <div class="notif-header-title">Notifications push</div>
+    <div class="notif-quota-pill" id="notif-quota">3 / 5 ce mois</div>
+  </div>
+
+  <div class="notif-body">
+
+    <!-- COMPOSER -->
+    <div class="composer-card">
+      <div class="composer-eyebrow">Nouveau message</div>
+
+      <div class="input-group">
+        <div class="input-label">
+          <span>Titre</span>
+          <span class="input-counter" id="title-counter">0 / 50</span>
+        </div>
+        <input type="text" class="notif-input" id="notif-title" maxlength="50"
+          placeholder="Ex: Pain au levain"
+          oninput="updatePreview()" />
+      </div>
+
+      <div class="input-group">
+        <div class="input-label">
+          <span>Message</span>
+          <span class="input-counter" id="msg-counter">0 / 140</span>
+        </div>
+        <textarea class="notif-textarea" id="notif-message" maxlength="140"
+          placeholder="Ex: Pain au levain dispo jusqu'à 19h ce soir !"
+          oninput="updatePreview()"></textarea>
+      </div>
+
+      <!-- Phone preview -->
+      <div class="preview-section">
+        <div class="preview-label">Aperçu</div>
+        <div class="phone-preview">
+          <div class="notif-bubble">
+            <div class="notif-bubble-icon"><span class="material-symbols-outlined heart">favorite</span></div>
+            <div class="notif-bubble-content">
+              <div class="notif-bubble-row">
+                <span class="notif-bubble-app">Cœur de Ville</span>
+                <span class="notif-bubble-time">maintenant</span>
+              </div>
+              <div class="notif-bubble-title" id="preview-title">Votre titre apparaîtra ici</div>
+              <div class="notif-bubble-msg" id="preview-msg">Et votre message ici…</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SCHEDULE -->
+    <div class="schedule-section">
+      <div class="schedule-toggle">
+        <button class="schedule-tab active" id="tab-now" onclick="setScheduleMode('now')">
+          <span class="material-symbols-outlined">bolt</span> Envoyer maintenant
+        </button>
+        <button class="schedule-tab" id="tab-later" onclick="setScheduleMode('later')">
+          <span class="material-symbols-outlined">schedule</span> Programmer
+        </button>
+      </div>
+      <div class="schedule-pickers" id="schedule-pickers">
+        <input type="date" id="notif-date" />
+        <input type="time" id="notif-time" />
+      </div>
+    </div>
+
+    <!-- SEND BUTTON -->
+    <button class="btn-send" id="btn-send" onclick="sendNotif()" disabled>
+      <span class="material-symbols-outlined" id="send-icon">send</span>
+      <span id="send-label">Envoyer maintenant</span>
+    </button>
+
+    <!-- HISTORY -->
+    <div class="history-section">
+      <div class="history-tabs">
+        <button class="history-tab active" onclick="switchHistoryTab('sent', this)">Envoyées</button>
+        <button class="history-tab" onclick="switchHistoryTab('scheduled', this)">Programmées</button>
+      </div>
+      <div id="history-content"><!-- rempli en JS --></div>
+    </div>
+  </div>
+</div>
+
+
   <div class="sheet">
     <div class="sheet-grip"></div>
 
@@ -476,10 +803,30 @@ const CDV_CONFIG = {
     { id:'r200', threshold:200, cost:200, name:'-15 % sur le total',    icon:'percent',     type:'discount' },
     { id:'r500', threshold:500, cost:500, name:'-20 % sur le total',    icon:'workspace_premium', type:'discount' },
   ],
+  notifs: {
+    monthlyQuota: 5,
+    titleMaxLength: 50,
+    messageMaxLength: 140,
+  },
   // Code démo (en prod : auth Supabase)
   validCode: '1234',
   merchant: { name:'La Mie de Villeneuve', firstname:'Lucas' }
 };
+
+// ═══════════════════════════════════════════════════
+// MOCK DATA — Notifications historique
+// ═══════════════════════════════════════════════════
+let notifsHistory = [
+  { id:1, title:'Pain au levain', message:'Pain au levain dispo jusqu\'à 19h ce soir !', sentAt:'Hier, 14:32', recipients:1247, opened:892, status:'sent' },
+  { id:2, title:'Nouvelle viennoiserie', message:'Découvrez nos nouveaux pains aux raisins, dispo dès demain.', sentAt:'Il y a 4 jours', recipients:1180, opened:743, status:'sent' },
+  { id:3, title:'Fermeture exceptionnelle', message:'La boulangerie sera fermée mardi 30 avril.', sentAt:'Il y a 12 jours', recipients:1052, opened:921, status:'sent' },
+];
+
+let notifsScheduled = [
+  { id:101, title:'Brunch du dimanche', message:'Réservez votre brunch dimanche dès 10h - places limitées !', scheduledFor:'Dim. 4 mai · 08:00', status:'scheduled' },
+];
+
+let notifsThisMonth = 3; // pour le quota
 
 // ═══════════════════════════════════════════════════
 // MOCK DATA — Démo (en prod : Supabase)
@@ -550,6 +897,9 @@ function logout(){
 function initApp(){
   document.getElementById('merchant-name').textContent = CDV_CONFIG.merchant.name;
   document.getElementById('merchant-firstname').textContent = CDV_CONFIG.merchant.firstname;
+  // Update notif tile counter
+  const notifTileSub = document.querySelector('.action-tile.notif .sub');
+  if (notifTileSub) notifTileSub.textContent = `${notifsThisMonth} / ${CDV_CONFIG.notifs.monthlyQuota} ce mois`;
   renderHistory();
 }
 
@@ -714,8 +1064,215 @@ function redeemReward(rewardId){
 // ═══════════════════════════════════════════════════
 // OTHER
 // ═══════════════════════════════════════════════════
+// ═══════════════════════════════════════════════════
+// NOTIFICATIONS PUSH
+// ═══════════════════════════════════════════════════
+let scheduleMode = 'now';
+let currentHistoryTab = 'sent';
+
 function openNotif(){
-  showToast('Module notifications — bientôt','');
+  // Vérifier le quota
+  const remaining = CDV_CONFIG.notifs.monthlyQuota - notifsThisMonth;
+  if (remaining <= 0) {
+    showToast('Quota atteint pour ce mois', 'error');
+    return;
+  }
+  document.getElementById('notif-overlay').classList.add('show');
+  updateQuotaPill();
+  renderHistoryNotifs();
+  updatePreview();
+}
+
+function closeNotif(){
+  document.getElementById('notif-overlay').classList.remove('show');
+}
+
+function updateQuotaPill(){
+  const used = notifsThisMonth;
+  const max = CDV_CONFIG.notifs.monthlyQuota;
+  const remaining = max - used;
+  const pill = document.getElementById('notif-quota');
+  pill.textContent = `${used} / ${max} ce mois`;
+  pill.classList.remove('warning','full');
+  if (remaining === 0) pill.classList.add('full');
+  else if (remaining <= 1) pill.classList.add('warning');
+}
+
+function updatePreview(){
+  const titleVal = document.getElementById('notif-title').value;
+  const msgVal = document.getElementById('notif-message').value;
+
+  // Update counters
+  const tc = document.getElementById('title-counter');
+  const mc = document.getElementById('msg-counter');
+  tc.textContent = `${titleVal.length} / 50`;
+  mc.textContent = `${msgVal.length} / 140`;
+  tc.classList.toggle('warn', titleVal.length > 40);
+  mc.classList.toggle('warn', msgVal.length > 120);
+
+  // Update preview
+  const previewTitle = document.getElementById('preview-title');
+  const previewMsg = document.getElementById('preview-msg');
+  previewTitle.textContent = titleVal || 'Votre titre apparaîtra ici';
+  previewTitle.style.color = titleVal ? '#000' : '#94a3b8';
+  previewMsg.textContent = msgVal || 'Et votre message ici…';
+  previewMsg.style.color = msgVal ? '#3c3c43' : '#94a3b8';
+
+  // Enable/disable send button
+  const canSend = titleVal.trim().length > 0 && msgVal.trim().length > 0;
+  document.getElementById('btn-send').disabled = !canSend;
+}
+
+function setScheduleMode(mode){
+  scheduleMode = mode;
+  document.getElementById('tab-now').classList.toggle('active', mode === 'now');
+  document.getElementById('tab-later').classList.toggle('active', mode === 'later');
+  document.getElementById('schedule-pickers').classList.toggle('show', mode === 'later');
+
+  const sendIcon = document.getElementById('send-icon');
+  const sendLabel = document.getElementById('send-label');
+  if (mode === 'now') {
+    sendIcon.textContent = 'send';
+    sendLabel.textContent = 'Envoyer maintenant';
+  } else {
+    sendIcon.textContent = 'schedule_send';
+    sendLabel.textContent = 'Programmer l\'envoi';
+
+    // Default to tomorrow 10:00
+    const t = new Date();
+    t.setDate(t.getDate() + 1);
+    document.getElementById('notif-date').valueAsDate = t;
+    document.getElementById('notif-time').value = '10:00';
+  }
+}
+
+function sendNotif(){
+  const title = document.getElementById('notif-title').value.trim();
+  const message = document.getElementById('notif-message').value.trim();
+  if (!title || !message) return;
+
+  let scheduledFor = null;
+  if (scheduleMode === 'later') {
+    const date = document.getElementById('notif-date').value;
+    const time = document.getElementById('notif-time').value;
+    if (!date || !time) {
+      showToast('Choisissez une date et une heure', 'error');
+      return;
+    }
+    const dt = new Date(`${date}T${time}`);
+    if (dt <= new Date()) {
+      showToast('La date doit être dans le futur', 'error');
+      return;
+    }
+    scheduledFor = dt.toLocaleDateString('fr-FR', { weekday:'short', day:'numeric', month:'short' }) + ' · ' + time;
+  }
+
+  // Confirm
+  const confirmMsg = scheduleMode === 'now'
+    ? `Envoyer cette notification à tous les utilisateurs ?\n\nQuota : ${notifsThisMonth + 1} / ${CDV_CONFIG.notifs.monthlyQuota}`
+    : `Programmer cette notification pour ${scheduledFor} ?\n\nQuota utilisé : ${notifsThisMonth + 1} / ${CDV_CONFIG.notifs.monthlyQuota}`;
+  if (!confirm(confirmMsg)) return;
+
+  // En prod : POST /api/notifications/send
+  if (scheduleMode === 'now') {
+    notifsHistory.unshift({
+      id: Date.now(),
+      title, message,
+      sentAt: 'À l\'instant',
+      recipients: 1247,
+      opened: 0,
+      status: 'sent'
+    });
+    showToast('Notification envoyée à 1 247 utilisateurs', 'success');
+  } else {
+    notifsScheduled.unshift({
+      id: Date.now(),
+      title, message,
+      scheduledFor,
+      status: 'scheduled'
+    });
+    showToast(`Programmée pour ${scheduledFor}`, 'success');
+  }
+
+  notifsThisMonth++;
+
+  // Reset form
+  document.getElementById('notif-title').value = '';
+  document.getElementById('notif-message').value = '';
+  setScheduleMode('now');
+  updatePreview();
+  updateQuotaPill();
+  renderHistoryNotifs();
+
+  // MAJ stat dashboard tile
+  const t = document.querySelector('.action-tile.notif .sub');
+  if (t) t.textContent = `${notifsThisMonth} / 5 ce mois`;
+}
+
+function switchHistoryTab(tab, btn){
+  currentHistoryTab = tab;
+  document.querySelectorAll('.history-tab').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  renderHistoryNotifs();
+}
+
+function renderHistoryNotifs(){
+  const container = document.getElementById('history-content');
+  const list = currentHistoryTab === 'sent' ? notifsHistory : notifsScheduled;
+
+  if (list.length === 0) {
+    container.innerHTML = `
+      <div class="history-empty">
+        <span class="material-symbols-outlined">${currentHistoryTab === 'sent' ? 'inbox' : 'schedule'}</span>
+        <div class="history-empty-text">${currentHistoryTab === 'sent' ? 'Aucune notification envoyée' : 'Aucune notification programmée'}</div>
+      </div>`;
+    return;
+  }
+
+  container.innerHTML = list.map(n => {
+    if (n.status === 'sent') {
+      const rate = n.recipients ? Math.round((n.opened / n.recipients) * 100) : 0;
+      return `
+        <div class="notif-history-card">
+          <span class="nhc-status sent">Envoyée</span>
+          <div class="nhc-title">${escapeHtml(n.title)}</div>
+          <div class="nhc-msg">${escapeHtml(n.message)}</div>
+          <div class="nhc-meta">
+            <div class="nhc-meta-item"><span class="material-symbols-outlined">schedule</span> ${n.sentAt}</div>
+            <div class="nhc-meta-item"><span class="material-symbols-outlined">group</span> ${n.recipients.toLocaleString('fr-FR')}</div>
+            <div class="nhc-meta-item"><span class="material-symbols-outlined">visibility</span> ${n.opened.toLocaleString('fr-FR')}</div>
+            <div class="nhc-rate">${rate}%</div>
+          </div>
+          <div class="nhc-bar"><div class="nhc-bar-fill" style="width:${rate}%"></div></div>
+        </div>`;
+    } else {
+      return `
+        <div class="notif-history-card">
+          <span class="nhc-status scheduled">Programmée</span>
+          <div class="nhc-title">${escapeHtml(n.title)}</div>
+          <div class="nhc-msg">${escapeHtml(n.message)}</div>
+          <div class="nhc-meta">
+            <div class="nhc-meta-item"><span class="material-symbols-outlined">schedule_send</span> ${n.scheduledFor}</div>
+            <button onclick="cancelScheduled(${n.id})" style="background:none;border:none;color:#dc2626;font-size:11px;font-weight:800;cursor:pointer;margin-left:auto;padding:4px 8px;border-radius:6px;">Annuler</button>
+          </div>
+        </div>`;
+    }
+  }).join('');
+}
+
+function cancelScheduled(id){
+  if (!confirm('Annuler cette notification programmée ?')) return;
+  notifsScheduled = notifsScheduled.filter(n => n.id !== id);
+  notifsThisMonth = Math.max(0, notifsThisMonth - 1);
+  renderHistoryNotifs();
+  updateQuotaPill();
+  const t = document.querySelector('.action-tile.notif .sub');
+  if (t) t.textContent = `${notifsThisMonth} / 5 ce mois`;
+  showToast('Notification annulée', '');
+}
+
+function escapeHtml(str){
+  return String(str).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 }
 
 function openProfile(){
