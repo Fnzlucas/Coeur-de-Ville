@@ -14,6 +14,7 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800;900&family=Inter:wght@300;400;500;600&display=swap"/>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"/>
 <script src="https://unpkg.com/html5-qrcode@2.3.8/html5-qrcode.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
 html,body{font-family:'Manrope',sans-serif;background:#f4f6f9;color:#0f1923;-webkit-overflow-scrolling:touch;-webkit-tap-highlight-color:transparent;overflow-x:hidden;}
@@ -592,15 +593,15 @@ body{padding-bottom:88px;min-height:100vh;}
   <div class="mc-name" id="merchant-name">La Mie de Villeneuve</div>
   <div class="mc-stats">
     <div class="mc-stat">
-      <div class="v" id="stat-clients">47</div>
+      <div class="v" id="stat-clients">0</div>
       <div class="l">Clients</div>
     </div>
     <div class="mc-stat">
-      <div class="v" id="stat-points">+470</div>
+      <div class="v" id="stat-points">0</div>
       <div class="l">Points donnés</div>
     </div>
     <div class="mc-stat">
-      <div class="v" id="stat-rewards">12</div>
+      <div class="v" id="stat-rewards">0</div>
       <div class="l">Récompenses</div>
     </div>
   </div>
@@ -808,50 +809,30 @@ const CDV_CONFIG = {
     titleMaxLength: 50,
     messageMaxLength: 140,
   },
-  // Code démo (en prod : auth Supabase)
-  validCode: '1234',
-  merchant: { name:'La Mie de Villeneuve', firstname:'Lucas' }
+  // Ville par défaut (à terme : détectée selon le sous-domaine ou paramètre URL)
+  villeSlug: 'villeneuve-les-avignon',
 };
 
 // ═══════════════════════════════════════════════════
-// MOCK DATA — Notifications historique
+// SUPABASE CLIENT
 // ═══════════════════════════════════════════════════
-let notifsHistory = [
-  { id:1, title:'Pain au levain', message:'Pain au levain dispo jusqu\'à 19h ce soir !', sentAt:'Hier, 14:32', recipients:1247, opened:892, status:'sent' },
-  { id:2, title:'Nouvelle viennoiserie', message:'Découvrez nos nouveaux pains aux raisins, dispo dès demain.', sentAt:'Il y a 4 jours', recipients:1180, opened:743, status:'sent' },
-  { id:3, title:'Fermeture exceptionnelle', message:'La boulangerie sera fermée mardi 30 avril.', sentAt:'Il y a 12 jours', recipients:1052, opened:921, status:'sent' },
-];
-
-let notifsScheduled = [
-  { id:101, title:'Brunch du dimanche', message:'Réservez votre brunch dimanche dès 10h - places limitées !', scheduledFor:'Dim. 4 mai · 08:00', status:'scheduled' },
-];
-
-let notifsThisMonth = 3; // pour le quota
+const SUPABASE_URL = 'https://bopeecfejyrezrigdhex.supabase.co';
+const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJvcGVlY2ZlanlyZXpyaWdkaGV4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzcyMTQxNTYsImV4cCI6MjA5Mjc5MDE1Nn0.F5AB9XfuXmLlnPUrYNxF1ArOwaaAP-A2iEcc6qRCNiE';
+const sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
 // ═══════════════════════════════════════════════════
-// MOCK DATA — Démo (en prod : Supabase)
+// MOCK DATA — uniquement pour fallback démo si pas de connexion
 // ═══════════════════════════════════════════════════
-const MOCK_CUSTOMERS = {
-  'CDV-USR-001': { name:'Marie Dubois',  points:240 },
-  'CDV-USR-002': { name:'Jean Moreau',   points:35  },
-  'CDV-USR-003': { name:'Sophie Lambert',points:520 },
-  'CDV-USR-004': { name:'Paul Garnier',  points:90  },
-  'CDV-USR-005': { name:'Emma Rousseau', points:160 },
-};
-
-let activityHistory = [
-  { type:'add',    name:'Marie D.',   meta:'Il y a 12 min',  points:10 },
-  { type:'reward', name:'Jean M.',    meta:'Il y a 45 min',  reward:'-10%' },
-  { type:'add',    name:'Sophie L.',  meta:'Il y a 1h',      points:10 },
-  { type:'add',    name:'Paul G.',    meta:'Il y a 2h',      points:10 },
-  { type:'reward', name:'Emma R.',    meta:'Il y a 3h',      reward:'Petit cadeau' },
-  { type:'add',    name:'Lucas T.',   meta:'Hier, 17:42',    points:10 },
-];
+let activityHistory = [];
+let notifsHistory = [];
+let notifsScheduled = [];
+let notifsThisMonth = 0;
 
 // ═══════════════════════════════════════════════════
 // STATE
 // ═══════════════════════════════════════════════════
-let currentCustomer = null;
+let currentMerchant = null; // { id, business_name, ville_slug, ... }
+let currentCustomer = null; // { user_id, first_name, last_name, points, qr_code }
 let html5QrCode = null;
 
 // ═══════════════════════════════════════════════════
@@ -869,23 +850,39 @@ inputs.forEach((inp,i)=>{
   });
 });
 
-function checkCode(){
+async function checkCode(){
   const code = inputs.map(i=>i.value).join('');
   const errEl = document.getElementById('login-error');
-  if(code === CDV_CONFIG.validCode){
-    errEl.textContent = '';
-    document.getElementById('login-overlay').classList.add('hidden');
-    initApp();
-  } else {
+  if (code.length !== 4) return;
+
+  errEl.textContent = '';
+  errEl.style.color = '';
+
+  // Récupère le commerçant en BDD avec ce code, dans cette ville
+  const { data, error } = await sb
+    .from('merchants')
+    .select('id, business_name, ville_slug, user_id, is_active, is_partner, category, address')
+    .eq('ville_slug', CDV_CONFIG.villeSlug)
+    .eq('code_4_chiffres', code)
+    .eq('is_active', true)
+    .single();
+
+  if (error || !data) {
     errEl.textContent = 'Code incorrect, réessayez';
     inputs.forEach(i=>i.value='');
     inputs[0].focus();
+    return;
   }
+
+  currentMerchant = data;
+  document.getElementById('login-overlay').classList.add('hidden');
+  initApp();
 }
 
 function logout(){
   if(confirm('Se déconnecter ?')){
     inputs.forEach(i=>i.value='');
+    currentMerchant = null;
     document.getElementById('login-overlay').classList.remove('hidden');
     inputs[0].focus();
   }
@@ -894,17 +891,106 @@ function logout(){
 // ═══════════════════════════════════════════════════
 // INIT
 // ═══════════════════════════════════════════════════
-function initApp(){
-  document.getElementById('merchant-name').textContent = CDV_CONFIG.merchant.name;
-  document.getElementById('merchant-firstname').textContent = CDV_CONFIG.merchant.firstname;
-  // Update notif tile counter
-  const notifTileSub = document.querySelector('.action-tile.notif .sub');
-  if (notifTileSub) notifTileSub.textContent = `${notifsThisMonth} / ${CDV_CONFIG.notifs.monthlyQuota} ce mois`;
+async function initApp(){
+  // Affiche le nom du commerçant
+  document.getElementById('merchant-name').textContent = currentMerchant.business_name;
+  // Premier mot du nom comme "prénom" d'accueil (fallback)
+  document.getElementById('merchant-firstname').textContent = currentMerchant.business_name.split(' ')[0];
+
+  // Charge les stats du mois en parallèle
+  await Promise.all([
+    loadMonthStats(),
+    loadActivityHistory(),
+    loadNotifQuota()
+  ]);
+}
+
+// ═══════════════════════════════════════════════════
+// STATS DU MOIS (clients uniques, points donnés, récompenses)
+// ═══════════════════════════════════════════════════
+async function loadMonthStats(){
+  const startOfMonth = new Date();
+  startOfMonth.setDate(1);
+  startOfMonth.setHours(0, 0, 0, 0);
+
+  const { data, error } = await sb
+    .from('loyalty_transactions')
+    .select('user_id, points, transaction_type')
+    .eq('merchant_id', currentMerchant.id)
+    .gte('created_at', startOfMonth.toISOString());
+
+  if (error) { console.error(error); return; }
+
+  const uniqueClients = new Set(data.map(t => t.user_id));
+  const pointsGiven = data
+    .filter(t => t.transaction_type === 'earn')
+    .reduce((sum, t) => sum + t.points, 0);
+  const rewardsRedeemed = data.filter(t => t.transaction_type === 'redeem').length;
+
+  document.getElementById('stat-clients').textContent = uniqueClients.size;
+  document.getElementById('stat-points').textContent = '+' + pointsGiven;
+  document.getElementById('stat-rewards').textContent = rewardsRedeemed;
+}
+
+// ═══════════════════════════════════════════════════
+// HISTORIQUE D'ACTIVITÉ (6 dernières transactions du commerçant)
+// ═══════════════════════════════════════════════════
+async function loadActivityHistory(){
+  const { data, error } = await sb
+    .from('loyalty_transactions')
+    .select('id, points, transaction_type, reward_label, created_at, user_id')
+    .eq('merchant_id', currentMerchant.id)
+    .order('created_at', { ascending: false })
+    .limit(6);
+
+  if (error) { console.error(error); return; }
+
+  // Récupère les noms des users en une seule requête
+  const userIds = [...new Set(data.map(t => t.user_id))];
+  let usersMap = {};
+  if (userIds.length > 0) {
+    const { data: users } = await sb
+      .from('user_profiles')
+      .select('id, first_name, last_name')
+      .in('id', userIds);
+    if (users) users.forEach(u => { usersMap[u.id] = u; });
+  }
+
+  activityHistory = data.map(t => {
+    const u = usersMap[t.user_id] || {};
+    const fullName = ((u.first_name || '') + ' ' + (u.last_name || '')).trim() || 'Client';
+    const shortName = fullName.split(' ').map((n,i) => i===0 ? n : (n[0] || '') + '.').join(' ');
+    return {
+      type: t.transaction_type === 'earn' ? 'add' : 'reward',
+      name: shortName,
+      meta: timeAgo(t.created_at),
+      points: t.transaction_type === 'earn' ? t.points : null,
+      reward: t.reward_label || null
+    };
+  });
   renderHistory();
+}
+
+function timeAgo(dateStr){
+  const diff = Math.floor((Date.now() - new Date(dateStr).getTime()) / 1000);
+  if (diff < 60) return 'À l\'instant';
+  if (diff < 3600) return `Il y a ${Math.floor(diff/60)} min`;
+  if (diff < 86400) return `Il y a ${Math.floor(diff/3600)}h`;
+  if (diff < 172800) return 'Hier';
+  return `Il y a ${Math.floor(diff/86400)} jours`;
 }
 
 function renderHistory(){
   const list = document.getElementById('history-list');
+  if (activityHistory.length === 0) {
+    list.innerHTML = `
+      <div style="background:#fff;border-radius:16px;padding:28px 20px;text-align:center;box-shadow:0 1px 6px rgba(0,0,0,0.04);">
+        <span class="material-symbols-outlined" style="font-size:36px;color:#cbd5e1;display:block;margin-bottom:6px;">timeline</span>
+        <div style="font-size:13px;color:#94a3b8;font-weight:600;">Aucune activité pour l'instant</div>
+        <div style="font-size:11px;color:#cbd5e1;margin-top:3px;">Les achats et récompenses apparaîtront ici</div>
+      </div>`;
+    return;
+  }
   list.innerHTML = activityHistory.slice(0,6).map(a=>{
     if(a.type === 'add'){
       return `
@@ -964,20 +1050,37 @@ function startQrScanner(){
   });
 }
 
-function onScanSuccess(decodedText){
-  // En prod : décoder JWT signé, vérifier expiration
-  // Démo : on accepte tout ID qui commence par CDV-USR-
-  let customerId = decodedText.trim();
-  let customer = MOCK_CUSTOMERS[customerId];
-  if(!customer){
-    // Démo : on prend un client au hasard si l'ID ne matche pas
-    const keys = Object.keys(MOCK_CUSTOMERS);
-    customerId = keys[Math.floor(Math.random()*keys.length)];
-    customer = MOCK_CUSTOMERS[customerId];
+async function onScanSuccess(decodedText){
+  const qrCode = decodedText.trim();
+
+  // Vérifier que c'est bien un UUID (format QR Cœur de Ville)
+  const uuidPattern = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+  if (!uuidPattern.test(qrCode)) {
+    closeScan();
+    showToast('QR code invalide — pas un QR Cœur de Ville', 'error');
+    return;
   }
-  currentCustomer = { id:customerId, ...customer };
+
   closeScan();
-  setTimeout(()=>showCustomerSheet(),200);
+
+  // Appel RPC : récupérer les infos du client + son solde de points pour cette ville
+  const { data, error } = await sb.rpc('get_customer_by_qr', {
+    p_qr_code: qrCode,
+    p_ville_slug: currentMerchant.ville_slug
+  });
+
+  if (error || !data?.success) {
+    showToast(data?.error || 'QR code invalide', 'error');
+    return;
+  }
+
+  currentCustomer = {
+    qr_code: qrCode,
+    user_id: data.user_id,
+    name: ((data.first_name || '') + ' ' + (data.last_name || '')).trim() || 'Client',
+    points: data.points || 0
+  };
+  setTimeout(() => showCustomerSheet(), 200);
 }
 
 // ═══════════════════════════════════════════════════
@@ -1016,49 +1119,53 @@ function closeSheet(){
 // ═══════════════════════════════════════════════════
 // ACTIONS
 // ═══════════════════════════════════════════════════
-function addPoints(){
+async function addPoints(){
   const c = currentCustomer;
   if(!c) return;
-  // En prod : POST /api/loyalty/add-points avec JWT
-  c.points += CDV_CONFIG.pointsPerPurchase;
-  MOCK_CUSTOMERS[c.id].points = c.points;
-  activityHistory.unshift({
-    type:'add',
-    name:c.name.split(' ').map((n,i)=>i===0?n:n[0]+'.').join(' '),
-    meta:'À l\'instant',
-    points:CDV_CONFIG.pointsPerPurchase
-  });
-  // MAJ stat clients & points
-  const sp = document.getElementById('stat-points');
-  sp.textContent = '+' + (parseInt(sp.textContent.replace(/\D/g,''))+10);
-  closeSheet();
-  renderHistory();
-  showToast(`+${CDV_CONFIG.pointsPerPurchase} points pour ${c.name.split(' ')[0]}`,'success');
-}
 
-function redeemReward(rewardId){
-  const c = currentCustomer;
-  const r = CDV_CONFIG.rewards.find(x=>x.id===rewardId);
-  if(!c || !r) return;
-  if(c.points < r.cost){
-    showToast('Points insuffisants','error');
+  const { data, error } = await sb.rpc('credit_loyalty_points', {
+    p_qr_code: c.qr_code,
+    p_merchant_id: currentMerchant.id,
+    p_points: CDV_CONFIG.pointsPerPurchase
+  });
+
+  if (error || !data?.success) {
+    showToast(data?.error || error?.message || 'Erreur, réessayez', 'error');
     return;
   }
-  if(!confirm(`Confirmer la récompense « ${r.name} » pour ${c.points} → ${c.points - r.cost} points ?`)) return;
-  c.points -= r.cost;
-  MOCK_CUSTOMERS[c.id].points = c.points;
-  activityHistory.unshift({
-    type:'reward',
-    name:c.name.split(' ').map((n,i)=>i===0?n:n[0]+'.').join(' '),
-    meta:'À l\'instant',
-    reward:r.name.replace('sur le total','').trim()
-  });
-  // MAJ stat récompenses
-  const sr = document.getElementById('stat-rewards');
-  sr.textContent = parseInt(sr.textContent)+1;
+
   closeSheet();
-  renderHistory();
-  showToast(`Récompense validée : ${r.name}`,'success');
+  await Promise.all([loadMonthStats(), loadActivityHistory()]);
+  showToast(`+${data.points_credited} points pour ${c.name.split(' ')[0]}`, 'success');
+}
+
+async function redeemReward(rewardId){
+  const c = currentCustomer;
+  const r = CDV_CONFIG.rewards.find(x => x.id === rewardId);
+  if (!c || !r) return;
+
+  if (c.points < r.cost) {
+    showToast('Points insuffisants', 'error');
+    return;
+  }
+
+  if (!confirm(`Confirmer la récompense « ${r.name} » pour ${c.points} → ${c.points - r.cost} points ?`)) return;
+
+  const { data, error } = await sb.rpc('redeem_loyalty_points', {
+    p_qr_code: c.qr_code,
+    p_merchant_id: currentMerchant.id,
+    p_points: r.cost,
+    p_reward_label: r.name
+  });
+
+  if (error || !data?.success) {
+    showToast(data?.error || error?.message || 'Erreur, réessayez', 'error');
+    return;
+  }
+
+  closeSheet();
+  await Promise.all([loadMonthStats(), loadActivityHistory()]);
+  showToast(`Récompense validée : ${r.name}`, 'success');
 }
 
 // ═══════════════════════════════════════════════════
@@ -1070,8 +1177,9 @@ function redeemReward(rewardId){
 let scheduleMode = 'now';
 let currentHistoryTab = 'sent';
 
-function openNotif(){
+async function openNotif(){
   // Vérifier le quota
+  await loadNotifQuota();
   const remaining = CDV_CONFIG.notifs.monthlyQuota - notifsThisMonth;
   if (remaining <= 0) {
     showToast('Quota atteint pour ce mois', 'error');
@@ -1079,8 +1187,56 @@ function openNotif(){
   }
   document.getElementById('notif-overlay').classList.add('show');
   updateQuotaPill();
+  await loadNotifsHistory();
   renderHistoryNotifs();
   updatePreview();
+}
+
+async function loadNotifQuota(){
+  const { data, error } = await sb.rpc('get_merchant_notif_count_this_month', {
+    p_merchant_id: currentMerchant.id
+  });
+  if (!error) notifsThisMonth = data || 0;
+
+  // MAJ tile dashboard
+  const notifTileSub = document.querySelector('.action-tile.notif .sub');
+  if (notifTileSub) notifTileSub.textContent = `${notifsThisMonth} / ${CDV_CONFIG.notifs.monthlyQuota} ce mois`;
+}
+
+async function loadNotifsHistory(){
+  const { data, error } = await sb
+    .from('notifications')
+    .select('*')
+    .eq('merchant_id', currentMerchant.id)
+    .order('created_at', { ascending: false })
+    .limit(20);
+
+  if (error) { console.error(error); return; }
+
+  notifsHistory = data
+    .filter(n => n.status === 'sent')
+    .map(n => ({
+      id: n.id,
+      title: n.title,
+      message: n.message,
+      sentAt: timeAgo(n.sent_at || n.created_at),
+      recipients: n.recipients_count || 0,
+      opened: n.opened_count || 0,
+      status: 'sent'
+    }));
+
+  notifsScheduled = data
+    .filter(n => n.status === 'scheduled')
+    .map(n => {
+      const dt = new Date(n.scheduled_for);
+      return {
+        id: n.id,
+        title: n.title,
+        message: n.message,
+        scheduledFor: dt.toLocaleDateString('fr-FR', { weekday:'short', day:'numeric', month:'short' }) + ' · ' + dt.toLocaleTimeString('fr-FR', { hour:'2-digit', minute:'2-digit' }),
+        status: 'scheduled'
+      };
+    });
 }
 
 function closeNotif(){
@@ -1146,12 +1302,13 @@ function setScheduleMode(mode){
   }
 }
 
-function sendNotif(){
+async function sendNotif(){
   const title = document.getElementById('notif-title').value.trim();
   const message = document.getElementById('notif-message').value.trim();
   if (!title || !message) return;
 
   let scheduledFor = null;
+  let scheduledLabel = null;
   if (scheduleMode === 'later') {
     const date = document.getElementById('notif-date').value;
     const time = document.getElementById('notif-time').value;
@@ -1164,49 +1321,76 @@ function sendNotif(){
       showToast('La date doit être dans le futur', 'error');
       return;
     }
-    scheduledFor = dt.toLocaleDateString('fr-FR', { weekday:'short', day:'numeric', month:'short' }) + ' · ' + time;
+    scheduledFor = dt.toISOString();
+    scheduledLabel = dt.toLocaleDateString('fr-FR', { weekday:'short', day:'numeric', month:'short' }) + ' · ' + time;
   }
 
   // Confirm
   const confirmMsg = scheduleMode === 'now'
     ? `Envoyer cette notification à tous les utilisateurs ?\n\nQuota : ${notifsThisMonth + 1} / ${CDV_CONFIG.notifs.monthlyQuota}`
-    : `Programmer cette notification pour ${scheduledFor} ?\n\nQuota utilisé : ${notifsThisMonth + 1} / ${CDV_CONFIG.notifs.monthlyQuota}`;
+    : `Programmer cette notification pour ${scheduledLabel} ?\n\nQuota utilisé : ${notifsThisMonth + 1} / ${CDV_CONFIG.notifs.monthlyQuota}`;
   if (!confirm(confirmMsg)) return;
 
-  // En prod : POST /api/notifications/send
-  if (scheduleMode === 'now') {
-    notifsHistory.unshift({
-      id: Date.now(),
-      title, message,
-      sentAt: 'À l\'instant',
-      recipients: 1247,
-      opened: 0,
-      status: 'sent'
-    });
-    showToast('Notification envoyée à 1 247 utilisateurs', 'success');
-  } else {
-    notifsScheduled.unshift({
-      id: Date.now(),
-      title, message,
-      scheduledFor,
-      status: 'scheduled'
-    });
-    showToast(`Programmée pour ${scheduledFor}`, 'success');
+  // Insert dans Supabase
+  const payload = {
+    merchant_id: currentMerchant.id,
+    ville_slug: currentMerchant.ville_slug,
+    title,
+    message,
+    status: scheduleMode === 'now' ? 'sent' : 'scheduled',
+    scheduled_for: scheduledFor,
+    sent_at: scheduleMode === 'now' ? new Date().toISOString() : null,
+    recipients_count: 0,
+    opened_count: 0,
+  };
+
+  const { data, error } = await sb.from('notifications').insert(payload).select().single();
+
+  if (error) {
+    showToast(error.message || 'Erreur lors de l\'envoi', 'error');
+    return;
   }
 
-  notifsThisMonth++;
+  // ⚠️ Note : l'envoi push réel via web-push (Edge Function) n'est pas encore fait.
+  // Pour l'instant, "sent" signifie juste enregistré en BDD.
+
+  if (scheduleMode === 'now') {
+    showToast('Notification enregistrée', 'success');
+  } else {
+    showToast(`Programmée pour ${scheduledLabel}`, 'success');
+  }
 
   // Reset form
   document.getElementById('notif-title').value = '';
   document.getElementById('notif-message').value = '';
   setScheduleMode('now');
   updatePreview();
+
+  // Refresh
+  await loadNotifQuota();
+  await loadNotifsHistory();
   updateQuotaPill();
   renderHistoryNotifs();
+}
 
-  // MAJ stat dashboard tile
-  const t = document.querySelector('.action-tile.notif .sub');
-  if (t) t.textContent = `${notifsThisMonth} / 5 ce mois`;
+async function cancelScheduled(id){
+  if (!confirm('Annuler cette notification programmée ?')) return;
+
+  const { error } = await sb
+    .from('notifications')
+    .update({ status: 'cancelled' })
+    .eq('id', id);
+
+  if (error) {
+    showToast(error.message || 'Erreur', 'error');
+    return;
+  }
+
+  await loadNotifQuota();
+  await loadNotifsHistory();
+  updateQuotaPill();
+  renderHistoryNotifs();
+  showToast('Notification annulée', '');
 }
 
 function switchHistoryTab(tab, btn){
@@ -1260,15 +1444,8 @@ function renderHistoryNotifs(){
   }).join('');
 }
 
-function cancelScheduled(id){
-  if (!confirm('Annuler cette notification programmée ?')) return;
-  notifsScheduled = notifsScheduled.filter(n => n.id !== id);
-  notifsThisMonth = Math.max(0, notifsThisMonth - 1);
-  renderHistoryNotifs();
-  updateQuotaPill();
-  const t = document.querySelector('.action-tile.notif .sub');
-  if (t) t.textContent = `${notifsThisMonth} / 5 ce mois`;
-  showToast('Notification annulée', '');
+function cancelScheduled_OLD_REMOVED(id){
+  // Replaced by async version using Supabase
 }
 
 function escapeHtml(str){
