@@ -617,7 +617,7 @@ body{padding-bottom:88px;min-height:100vh;}
   <button class="action-tile notif" onclick="openNotif()">
     <div class="ic"><span class="material-symbols-outlined">campaign</span></div>
     <div class="lbl">Envoyer une notif</div>
-    <div class="sub">3 / 5 ce mois</div>
+    <div class="sub">0 / 5 ce mois</div>
   </button>
   <button class="action-tile history" onclick="scrollHistory()">
     <div class="ic"><span class="material-symbols-outlined">timeline</span></div>
@@ -660,7 +660,7 @@ body{padding-bottom:88px;min-height:100vh;}
   <div class="notif-header">
     <button class="notif-back" onclick="closeNotif()" aria-label="Retour"><span class="material-symbols-outlined">arrow_back</span></button>
     <div class="notif-header-title">Notifications push</div>
-    <div class="notif-quota-pill" id="notif-quota">3 / 5 ce mois</div>
+    <div class="notif-quota-pill" id="notif-quota">0 / 5 ce mois</div>
   </div>
 
   <div class="notif-body">
@@ -741,7 +741,8 @@ body{padding-bottom:88px;min-height:100vh;}
   </div>
 </div>
 
-
+<!-- ─────────── ACTION SHEET (after scan) ─────────── -->
+<div id="action-sheet">
   <div class="sheet">
     <div class="sheet-grip"></div>
 
@@ -1442,10 +1443,6 @@ function renderHistoryNotifs(){
         </div>`;
     }
   }).join('');
-}
-
-function cancelScheduled_OLD_REMOVED(id){
-  // Replaced by async version using Supabase
 }
 
 function escapeHtml(str){
