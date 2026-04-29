@@ -54,5 +54,13 @@
     "couleur": "#4a3520",
     "photo": "assets/uzes/hero.jpg",
     "expire": null
+  },
+  "saint-remy": {
+    "actif": true,
+    "nom": "Saint remy de Provence",
+    "departement": "Bouches du Rhones (13)",
+    "couleur": "#4a3520",
+    "photo": "assets/saint-remy/hero.jpg",
+    "expire": "2027-01-01"
   }
 }
