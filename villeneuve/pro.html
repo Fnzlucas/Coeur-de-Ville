@@ -543,7 +543,141 @@ body{padding-bottom:88px;min-height:100vh;}
 .history-empty .material-symbols-outlined{font-size:42px;color:#cbd5e1;margin-bottom:8px;}
 .history-empty-text{font-size:13px;font-weight:600;}
 
-/* ── PROFILE OVERLAY ── */
+/* ── PROFILE TABS + PREVIEW ── */
+.profile-tabs{
+  display:flex;background:#fff;
+  padding:4px;border-radius:14px;gap:4px;
+  margin:0 0 16px;
+  box-shadow:0 1px 8px rgba(0,0,0,0.04);
+}
+.profile-tab{
+  flex:1;background:none;border:none;
+  padding:11px;border-radius:11px;
+  font-family:Manrope;font-size:13px;font-weight:800;letter-spacing:-0.01em;
+  color:#94a3b8;cursor:pointer;transition:all 0.2s;
+  display:flex;align-items:center;justify-content:center;gap:6px;
+}
+.profile-tab.active{background:#0f1923;color:#fff;}
+.profile-tab .material-symbols-outlined{font-size:17px;}
+
+.profile-edit-pane{display:block;}
+.profile-edit-pane.hidden{display:none;}
+.profile-preview-pane{display:none;}
+.profile-preview-pane.show{display:block;}
+
+/* Phone mockup */
+.phone-mockup-wrap{
+  display:flex;justify-content:center;align-items:flex-start;
+  padding:8px 0 30px;
+}
+.phone-mockup{
+  width:300px;max-width:90%;
+  background:#0f1923;border-radius:38px;padding:12px;
+  box-shadow:0 24px 60px rgba(15,25,35,0.35),0 6px 16px rgba(15,25,35,0.18);
+  position:relative;
+}
+.phone-mockup::before{
+  content:'';position:absolute;top:18px;left:50%;transform:translateX(-50%);
+  width:90px;height:24px;background:#0f1923;border-radius:14px;z-index:5;
+}
+.phone-mockup::after{
+  content:'';position:absolute;top:24px;left:50%;transform:translateX(46px);
+  width:8px;height:8px;background:#1e293b;border-radius:50%;z-index:6;
+}
+.phone-screen{
+  background:#f4f6f9;border-radius:28px;overflow:hidden;
+  position:relative;height:560px;
+}
+.phone-screen-content{
+  height:100%;overflow-y:auto;-webkit-overflow-scrolling:touch;
+  padding-top:34px;
+}
+
+/* Preview content (what visitor sees) */
+.pv-hero{
+  height:170px;width:100%;background:#e2e8f0;
+  position:relative;overflow:hidden;
+}
+.pv-hero img{width:100%;height:100%;object-fit:cover;display:block;}
+.pv-hero-empty{
+  width:100%;height:100%;display:flex;align-items:center;justify-content:center;
+  flex-direction:column;color:#94a3b8;
+  background:linear-gradient(135deg,#e2e8f0,#cbd5e1);
+}
+.pv-hero-empty .material-symbols-outlined{font-size:36px;margin-bottom:4px;}
+.pv-hero-empty-text{font-size:11px;font-weight:600;}
+.pv-hero-grad{
+  position:absolute;left:0;right:0;bottom:0;height:60%;
+  background:linear-gradient(to top,rgba(0,0,0,0.55),transparent);
+}
+.pv-hero-cat{
+  position:absolute;top:14px;left:14px;
+  background:rgba(255,255,255,0.95);backdrop-filter:blur(12px);
+  font-size:9px;font-weight:800;letter-spacing:0.14em;text-transform:uppercase;
+  color:#0f1923;padding:5px 10px;border-radius:20px;
+}
+.pv-hero-name{
+  position:absolute;left:14px;right:14px;bottom:12px;
+  color:#fff;font-size:18px;font-weight:900;letter-spacing:-0.02em;line-height:1.15;
+  text-shadow:0 2px 8px rgba(0,0,0,0.3);
+}
+.pv-hero-name .pv-name-empty{color:rgba(255,255,255,0.6);font-style:italic;font-weight:600;}
+
+.pv-body{padding:14px;}
+
+.pv-section{
+  background:#fff;border-radius:14px;padding:13px;margin-bottom:10px;
+  box-shadow:0 1px 4px rgba(0,0,0,0.04);
+}
+.pv-section-title{
+  font-size:9px;font-weight:800;letter-spacing:0.16em;text-transform:uppercase;
+  color:#FF6B35;margin-bottom:7px;
+  display:flex;align-items:center;gap:6px;
+}
+.pv-section-title::before{
+  content:'';width:14px;height:2px;background:#FF6B35;border-radius:2px;display:inline-block;
+}
+.pv-desc{font-size:12px;color:#475569;line-height:1.45;font-weight:500;}
+.pv-desc-empty{color:#cbd5e1;font-style:italic;}
+
+.pv-info-row{
+  display:flex;align-items:center;gap:10px;
+  padding:8px 0;border-bottom:1px solid #f4f6f9;
+}
+.pv-info-row:last-child{border-bottom:none;}
+.pv-info-icon{
+  width:30px;height:30px;border-radius:9px;background:rgba(255,107,53,0.1);
+  display:flex;align-items:center;justify-content:center;flex-shrink:0;
+}
+.pv-info-icon .material-symbols-outlined{font-size:16px;color:#FF6B35;}
+.pv-info-body{flex:1;min-width:0;overflow:hidden;}
+.pv-info-label{font-size:9px;font-weight:800;letter-spacing:0.1em;color:#94a3b8;text-transform:uppercase;}
+.pv-info-value{font-size:12px;font-weight:700;color:#0f1923;line-height:1.3;
+  overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.pv-info-value.empty{color:#cbd5e1;font-weight:500;font-style:italic;}
+
+.pv-hours{display:flex;flex-direction:column;gap:5px;}
+.pv-hour-row{
+  display:flex;justify-content:space-between;align-items:center;
+  font-size:11px;padding:5px 0;
+  border-bottom:1px solid #f4f6f9;
+}
+.pv-hour-row:last-child{border-bottom:none;}
+.pv-hour-row.today{background:rgba(255,107,53,0.06);margin:0 -8px;padding:5px 8px;border-radius:7px;border-bottom:none;}
+.pv-hour-day{font-weight:700;color:#0f1923;letter-spacing:-0.01em;}
+.pv-hour-day.today{color:#FF6B35;font-weight:900;}
+.pv-hour-time{font-weight:600;color:#475569;font-feature-settings:'tnum';}
+.pv-hour-time.closed{color:#94a3b8;font-style:italic;}
+
+.pv-cta{
+  background:#FF6B35;color:#fff;
+  border:none;border-radius:14px;padding:12px;width:100%;
+  font-family:Manrope;font-size:12px;font-weight:900;
+  display:flex;align-items:center;justify-content:center;gap:6px;
+  margin-top:6px;
+  box-shadow:0 4px 12px rgba(255,107,53,0.3);
+}
+.pv-cta .material-symbols-outlined{font-size:15px;font-variation-settings:'FILL' 1;}
 #profile-overlay{
   position:fixed;inset:0;z-index:4500;
   background:#f4f6f9;
@@ -869,6 +1003,19 @@ body{padding-bottom:88px;min-height:100vh;}
 
   <div class="profile-body">
 
+    <!-- TABS -->
+    <div class="profile-tabs">
+      <button class="profile-tab active" id="tab-edit" onclick="switchProfileTab('edit')">
+        <span class="material-symbols-outlined">edit</span> Édition
+      </button>
+      <button class="profile-tab" id="tab-preview" onclick="switchProfileTab('preview')">
+        <span class="material-symbols-outlined">visibility</span> Aperçu
+      </button>
+    </div>
+
+    <!-- ──── ÉDITION PANE ──── -->
+    <div class="profile-edit-pane" id="edit-pane">
+
     <!-- PHOTO -->
     <div class="profile-card">
       <div class="profile-eyebrow">Vitrine</div>
@@ -976,9 +1123,97 @@ body{padding-bottom:88px;min-height:100vh;}
       <div class="field-hint" style="margin-top:10px;">Touchez le bouton à droite pour marquer un jour fermé</div>
     </div>
 
+    </div>
+    <!-- ──── FIN ÉDITION PANE ──── -->
+
+    <!-- ──── APERÇU PANE ──── -->
+    <div class="profile-preview-pane" id="preview-pane">
+      <div class="phone-mockup-wrap">
+        <div class="phone-mockup">
+          <div class="phone-screen">
+            <div class="phone-screen-content">
+
+              <!-- HERO PHOTO + NOM -->
+              <div class="pv-hero">
+                <img id="pv-hero-img" src="" alt="" style="display:none"/>
+                <div class="pv-hero-empty" id="pv-hero-empty">
+                  <span class="material-symbols-outlined">photo_camera</span>
+                  <div class="pv-hero-empty-text">Photo en attente</div>
+                </div>
+                <div class="pv-hero-grad"></div>
+                <div class="pv-hero-cat" id="pv-cat" style="display:none"></div>
+                <div class="pv-hero-name">
+                  <span id="pv-name"><span class="pv-name-empty">Nom du commerce</span></span>
+                </div>
+              </div>
+
+              <div class="pv-body">
+
+                <!-- DESCRIPTION -->
+                <div class="pv-section">
+                  <div class="pv-section-title">À propos</div>
+                  <div class="pv-desc" id="pv-desc"><span class="pv-desc-empty">Aucune description renseignée.</span></div>
+                </div>
+
+                <!-- CONTACT -->
+                <div class="pv-section">
+                  <div class="pv-section-title">Informations</div>
+                  <div class="pv-info-row">
+                    <div class="pv-info-icon"><span class="material-symbols-outlined">location_on</span></div>
+                    <div class="pv-info-body">
+                      <div class="pv-info-label">Adresse</div>
+                      <div class="pv-info-value" id="pv-address"><span class="empty">Non renseignée</span></div>
+                    </div>
+                  </div>
+                  <div class="pv-info-row" id="pv-phone-row">
+                    <div class="pv-info-icon"><span class="material-symbols-outlined">call</span></div>
+                    <div class="pv-info-body">
+                      <div class="pv-info-label">Téléphone</div>
+                      <div class="pv-info-value" id="pv-phone"></div>
+                    </div>
+                  </div>
+                  <div class="pv-info-row" id="pv-email-row">
+                    <div class="pv-info-icon"><span class="material-symbols-outlined">mail</span></div>
+                    <div class="pv-info-body">
+                      <div class="pv-info-label">Email</div>
+                      <div class="pv-info-value" id="pv-email"></div>
+                    </div>
+                  </div>
+                  <div class="pv-info-row" id="pv-website-row">
+                    <div class="pv-info-icon"><span class="material-symbols-outlined">language</span></div>
+                    <div class="pv-info-body">
+                      <div class="pv-info-label">Site web</div>
+                      <div class="pv-info-value" id="pv-website"></div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- HORAIRES -->
+                <div class="pv-section">
+                  <div class="pv-section-title">Horaires</div>
+                  <div class="pv-hours" id="pv-hours">
+                    <!-- Rempli en JS -->
+                  </div>
+                </div>
+
+                <!-- CTA -->
+                <button class="pv-cta">
+                  <span class="material-symbols-outlined">add_circle</span>
+                  Ajouter à ma carte fidélité
+                </button>
+
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- ──── FIN APERÇU PANE ──── -->
+
   </div>
 
-  <div class="profile-save-bar">
+  <div class="profile-save-bar" id="profile-save-bar">
     <button class="btn-save" id="btn-save-profile" onclick="saveProfile()">
       <span class="material-symbols-outlined">check_circle</span>
       <span>Enregistrer les modifications</span>
@@ -1751,6 +1986,9 @@ async function openProfile(){
   currentHours = currentMerchant.hours || {};
   renderHours();
 
+  // Toujours commencer sur l'onglet Édition
+  switchProfileTab('edit');
+
   document.getElementById('profile-overlay').classList.add('show');
 }
 
@@ -1790,6 +2028,100 @@ function toggleDayClosed(dayKey){
   if (!currentHours[dayKey]) currentHours[dayKey] = { open:'09:00', close:'19:00', closed:false };
   currentHours[dayKey].closed = !currentHours[dayKey].closed;
   renderHours();
+}
+
+function switchProfileTab(tab){
+  document.getElementById('tab-edit').classList.toggle('active', tab === 'edit');
+  document.getElementById('tab-preview').classList.toggle('active', tab === 'preview');
+  document.getElementById('edit-pane').classList.toggle('hidden', tab !== 'edit');
+  document.getElementById('preview-pane').classList.toggle('show', tab === 'preview');
+  // Cache le bouton enregistrer en mode aperçu
+  document.getElementById('profile-save-bar').style.display = tab === 'edit' ? 'block' : 'none';
+
+  if (tab === 'preview') renderPreview();
+}
+
+function renderPreview(){
+  // Lit les valeurs actuelles des champs en cours d'édition
+  const name = document.getElementById('pf-name').value.trim();
+  const cat = document.getElementById('pf-category').value;
+  const desc = document.getElementById('pf-description').value.trim();
+  const addr = document.getElementById('pf-address').value.trim();
+  const phone = document.getElementById('pf-phone').value.trim();
+  const email = document.getElementById('pf-email').value.trim();
+  const website = document.getElementById('pf-website').value.trim();
+  const photoUrl = currentMerchant.logo_url;
+
+  // Hero
+  const heroImg = document.getElementById('pv-hero-img');
+  const heroEmpty = document.getElementById('pv-hero-empty');
+  if (photoUrl) {
+    heroImg.src = photoUrl;
+    heroImg.style.display = 'block';
+    heroEmpty.style.display = 'none';
+  } else {
+    heroImg.style.display = 'none';
+    heroEmpty.style.display = 'flex';
+  }
+
+  // Catégorie pill
+  const catEl = document.getElementById('pv-cat');
+  if (cat) {
+    catEl.textContent = cat;
+    catEl.style.display = 'inline-block';
+  } else {
+    catEl.style.display = 'none';
+  }
+
+  // Nom
+  const nameEl = document.getElementById('pv-name');
+  nameEl.innerHTML = name ? escapeHtml(name) : '<span class="pv-name-empty">Nom du commerce</span>';
+
+  // Description
+  const descEl = document.getElementById('pv-desc');
+  descEl.innerHTML = desc ? escapeHtml(desc) : '<span class="pv-desc-empty">Aucune description renseignée.</span>';
+
+  // Infos
+  setPreviewInfo('pv-address', addr);
+  setPreviewInfo('pv-phone', phone);
+  setPreviewInfo('pv-email', email);
+  setPreviewInfo('pv-website', website ? website.replace(/^https?:\/\//, '') : '');
+
+  // Cache les rangées vides (sauf adresse qui reste toujours visible)
+  document.getElementById('pv-phone-row').style.display = phone ? 'flex' : 'none';
+  document.getElementById('pv-email-row').style.display = email ? 'flex' : 'none';
+  document.getElementById('pv-website-row').style.display = website ? 'flex' : 'none';
+
+  // Horaires
+  renderPreviewHours();
+}
+
+function setPreviewInfo(id, value){
+  const el = document.getElementById(id);
+  if (value) {
+    el.textContent = value;
+    el.classList.remove('empty');
+  } else {
+    el.innerHTML = '<span class="empty">Non renseignée</span>';
+  }
+}
+
+function renderPreviewHours(){
+  const container = document.getElementById('pv-hours');
+  // Index of today in DAYS array (lundi=0, ..., dimanche=6)
+  const jsDay = new Date().getDay(); // 0=dim, 1=lun
+  const todayIdx = jsDay === 0 ? 6 : jsDay - 1;
+
+  container.innerHTML = DAYS.map((d, i) => {
+    const h = currentHours[d.key] || { open:'', close:'', closed:true };
+    const isToday = i === todayIdx;
+    const closed = !!h.closed;
+    return `
+      <div class="pv-hour-row ${isToday?'today':''}">
+        <span class="pv-hour-day ${isToday?'today':''}">${d.label}${isToday?' · Aujourd\\'hui':''}</span>
+        <span class="pv-hour-time ${closed?'closed':''}">${closed ? 'Fermé' : (h.open + ' – ' + h.close)}</span>
+      </div>`;
+  }).join('');
 }
 
 async function saveProfile(){
