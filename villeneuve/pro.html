@@ -862,7 +862,7 @@ async function checkCode(){
   // Récupère le commerçant en BDD avec ce code, dans cette ville
   const { data, error } = await sb
     .from('merchants')
-    .select('id, business_name, ville_slug, user_id, is_active, is_partner, category, address')
+    .select('id, business_name, ville_slug, user_id, is_active, is_partner, category, address, owner_first_name')
     .eq('ville_slug', CDV_CONFIG.villeSlug)
     .eq('code_4_chiffres', code)
     .eq('is_active', true)
@@ -893,10 +893,11 @@ function logout(){
 // INIT
 // ═══════════════════════════════════════════════════
 async function initApp(){
-  // Affiche le nom du commerçant
+  // Affiche le nom du commerce
   document.getElementById('merchant-name').textContent = currentMerchant.business_name;
-  // Premier mot du nom comme "prénom" d'accueil (fallback)
-  document.getElementById('merchant-firstname').textContent = currentMerchant.business_name.split(' ')[0];
+  // Affiche le prénom du gérant en accueil — fallback sur le nom du commerce si pas renseigné
+  const greeting = currentMerchant.owner_first_name || currentMerchant.business_name;
+  document.getElementById('merchant-firstname').textContent = greeting;
 
   // Charge les stats du mois en parallèle
   await Promise.all([
