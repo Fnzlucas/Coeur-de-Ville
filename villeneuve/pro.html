@@ -543,6 +543,125 @@ body{padding-bottom:88px;min-height:100vh;}
 .history-empty .material-symbols-outlined{font-size:42px;color:#cbd5e1;margin-bottom:8px;}
 .history-empty-text{font-size:13px;font-weight:600;}
 
+/* ── PROFILE OVERLAY ── */
+#profile-overlay{
+  position:fixed;inset:0;z-index:4500;
+  background:#f4f6f9;
+  display:flex;flex-direction:column;
+  transform:translateY(100%);transition:transform 0.35s cubic-bezier(0.32,0.72,0,1);
+  overflow-y:auto;-webkit-overflow-scrolling:touch;
+}
+#profile-overlay.show{transform:translateY(0);}
+
+.profile-body{padding:18px 20px 60px;}
+
+.profile-card{
+  background:#fff;border-radius:22px;padding:18px;
+  box-shadow:0 1px 12px rgba(0,0,0,0.05);
+  margin-bottom:14px;
+}
+.profile-eyebrow{
+  font-size:10px;font-weight:800;letter-spacing:0.18em;text-transform:uppercase;
+  color:#FF6B35;margin-bottom:14px;
+  display:flex;align-items:center;gap:8px;
+}
+.profile-eyebrow::before{
+  content:'';width:18px;height:2px;background:#FF6B35;border-radius:2px;display:inline-block;
+}
+
+.profile-photo-block{
+  position:relative;height:160px;border-radius:18px;overflow:hidden;
+  margin-bottom:14px;background:#e2e8f0;
+}
+.profile-photo-block img{
+  width:100%;height:100%;object-fit:cover;display:block;
+}
+.profile-photo-empty{
+  width:100%;height:100%;display:flex;align-items:center;justify-content:center;
+  flex-direction:column;color:#94a3b8;background:linear-gradient(135deg,#e2e8f0,#cbd5e1);
+}
+.profile-photo-empty .material-symbols-outlined{font-size:42px;margin-bottom:6px;}
+.profile-photo-info{
+  position:absolute;left:0;right:0;bottom:0;
+  background:linear-gradient(to top,rgba(0,0,0,0.65),transparent);
+  padding:24px 14px 12px;color:#fff;
+  font-size:11px;font-weight:600;line-height:1.4;
+  display:flex;align-items:center;gap:6px;
+}
+.profile-photo-info .material-symbols-outlined{font-size:14px;font-variation-settings:'FILL' 1;}
+
+.field-group{margin-bottom:14px;}
+.field-label{
+  font-size:11px;font-weight:800;letter-spacing:0.08em;text-transform:uppercase;
+  color:#64748b;margin-bottom:6px;
+  display:flex;align-items:center;justify-content:space-between;
+}
+.field-input,.field-textarea,.field-select{
+  width:100%;background:#f4f6f9;border:1.5px solid transparent;
+  border-radius:14px;padding:13px 14px;
+  font-family:Manrope;font-size:14px;font-weight:600;color:#0f1923;
+  outline:none;transition:all 0.2s;
+}
+.field-input::placeholder,.field-textarea::placeholder{color:#94a3b8;font-weight:500;}
+.field-input:focus,.field-textarea:focus,.field-select:focus{
+  border-color:#FF6B35;background:#fff;
+  box-shadow:0 0 0 3px rgba(255,107,53,0.1);
+}
+.field-textarea{min-height:80px;resize:none;line-height:1.5;}
+.field-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+@media(max-width:480px){.field-row{grid-template-columns:1fr;}}
+.field-hint{font-size:10px;color:#94a3b8;font-weight:500;margin-top:5px;letter-spacing:-0.01em;}
+
+/* Hours editor */
+.hours-grid{display:flex;flex-direction:column;gap:8px;}
+.hour-row{
+  display:grid;grid-template-columns:75px 1fr 8px 1fr 32px;gap:8px;align-items:center;
+}
+.hour-day{font-size:12px;font-weight:800;color:#0f1923;letter-spacing:-0.01em;text-transform:capitalize;}
+.hour-row input[type="time"]{
+  background:#f4f6f9;border:1.5px solid transparent;border-radius:10px;
+  padding:9px 8px;font-family:Manrope;font-size:12px;font-weight:700;
+  color:#0f1923;outline:none;transition:all 0.2s;
+}
+.hour-row input[type="time"]:focus{border-color:#FF6B35;background:#fff;}
+.hour-row input[type="time"]:disabled{opacity:0.3;}
+.hour-sep{text-align:center;font-size:11px;color:#94a3b8;font-weight:700;}
+.hour-toggle{
+  width:32px;height:18px;background:#cbd5e1;border-radius:10px;position:relative;
+  cursor:pointer;transition:background 0.2s;border:none;padding:0;
+}
+.hour-toggle::after{
+  content:'';position:absolute;left:2px;top:2px;width:14px;height:14px;
+  background:#fff;border-radius:50%;transition:transform 0.2s;
+  box-shadow:0 1px 3px rgba(0,0,0,0.2);
+}
+.hour-toggle.on{background:#16a34a;}
+.hour-toggle.on::after{transform:translateX(14px);}
+.hour-row.closed .hour-day{color:#cbd5e1;}
+
+/* Save button (sticky bottom) */
+.profile-save-bar{
+  position:sticky;bottom:0;left:0;right:0;
+  padding:12px 20px calc(env(safe-area-inset-bottom,0px) + 12px);
+  background:linear-gradient(to top,#f4f6f9,#f4f6f9 70%,transparent);
+  margin-top:14px;
+}
+.btn-save{
+  width:100%;background:#FF6B35;color:#fff;
+  border:none;border-radius:18px;padding:18px;
+  display:flex;align-items:center;justify-content:center;gap:10px;
+  font-family:Manrope;font-size:14px;font-weight:900;letter-spacing:0.01em;
+  cursor:pointer;
+  box-shadow:0 8px 24px rgba(255,107,53,0.35);
+  transition:transform 0.15s,box-shadow 0.2s;
+}
+.btn-save:active:not(:disabled){transform:scale(0.98);}
+.btn-save:disabled{
+  background:#cbd5e1;color:#94a3b8;
+  box-shadow:none;cursor:not-allowed;
+}
+.btn-save .material-symbols-outlined{font-size:20px;}
+
 
 @keyframes slideUp{from{transform:translateY(20px);opacity:0;}to{transform:translateY(0);opacity:1;}}
 .merchant-card,.actions-grid,.history-list{animation:slideUp 0.4s ease-out backwards;}
@@ -741,7 +860,133 @@ body{padding-bottom:88px;min-height:100vh;}
   </div>
 </div>
 
-<!-- ─────────── ACTION SHEET (after scan) ─────────── -->
+<!-- ─────────── PROFILE OVERLAY ─────────── -->
+<div id="profile-overlay">
+  <div class="notif-header">
+    <button class="notif-back" onclick="closeProfile()" aria-label="Retour"><span class="material-symbols-outlined">arrow_back</span></button>
+    <div class="notif-header-title">Ma fiche commerçant</div>
+  </div>
+
+  <div class="profile-body">
+
+    <!-- PHOTO -->
+    <div class="profile-card">
+      <div class="profile-eyebrow">Vitrine</div>
+      <div class="profile-photo-block">
+        <img id="profile-photo" src="" alt="" style="display:none"/>
+        <div class="profile-photo-empty" id="profile-photo-empty">
+          <span class="material-symbols-outlined">photo_camera</span>
+          <div style="font-size:12px;font-weight:700;">Photo en attente</div>
+        </div>
+        <div class="profile-photo-info">
+          <span class="material-symbols-outlined">info</span>
+          Les photos sont prises et fournies par Cœur de Ville pour garantir la qualité de l'app.
+        </div>
+      </div>
+    </div>
+
+    <!-- INFOS GÉRANT -->
+    <div class="profile-card">
+      <div class="profile-eyebrow">Vous</div>
+      <div class="field-group">
+        <div class="field-label">Prénom du gérant</div>
+        <input type="text" class="field-input" id="pf-firstname" placeholder="Ex: Lucas" maxlength="50"/>
+        <div class="field-hint">Utilisé pour vous accueillir dans l'app — non visible publiquement</div>
+      </div>
+    </div>
+
+    <!-- INFOS COMMERCE -->
+    <div class="profile-card">
+      <div class="profile-eyebrow">Votre commerce</div>
+
+      <div class="field-group">
+        <div class="field-label">Nom du commerce</div>
+        <input type="text" class="field-input" id="pf-name" placeholder="Ex: La Mie de Villeneuve" maxlength="80"/>
+      </div>
+
+      <div class="field-group">
+        <div class="field-label">Catégorie</div>
+        <select class="field-select" id="pf-category">
+          <option value="">— Choisissez —</option>
+          <option>Boulangerie</option>
+          <option>Pâtisserie</option>
+          <option>Restaurant</option>
+          <option>Bar / Café</option>
+          <option>Glacier</option>
+          <option>Épicerie fine</option>
+          <option>Cave à vins</option>
+          <option>Fromagerie</option>
+          <option>Boucherie</option>
+          <option>Mode &amp; vêtements</option>
+          <option>Bijouterie</option>
+          <option>Décoration</option>
+          <option>Antiquités</option>
+          <option>Librairie</option>
+          <option>Beauté / Coiffure</option>
+          <option>Bien-être / Spa</option>
+          <option>Hôtel</option>
+          <option>Chambres d'hôtes</option>
+          <option>Activité / Loisirs</option>
+          <option>Autre</option>
+        </select>
+      </div>
+
+      <div class="field-group">
+        <div class="field-label">
+          <span>Description</span>
+          <span class="input-counter" id="pf-desc-counter">0 / 200</span>
+        </div>
+        <textarea class="field-textarea" id="pf-description" maxlength="200" placeholder="Présentez votre commerce en quelques mots…" oninput="updateDescCounter()"></textarea>
+        <div class="field-hint">Affichée sur la vitrine publique de l'app visiteur</div>
+      </div>
+    </div>
+
+    <!-- CONTACT -->
+    <div class="profile-card">
+      <div class="profile-eyebrow">Contact</div>
+
+      <div class="field-group">
+        <div class="field-label">Adresse</div>
+        <input type="text" class="field-input" id="pf-address" placeholder="Ex: Place Charles-David" maxlength="150"/>
+      </div>
+
+      <div class="field-row">
+        <div class="field-group">
+          <div class="field-label">Téléphone</div>
+          <input type="tel" class="field-input" id="pf-phone" placeholder="04 90 25 00 00" maxlength="20"/>
+        </div>
+        <div class="field-group">
+          <div class="field-label">Email</div>
+          <input type="email" class="field-input" id="pf-email" placeholder="contact@…" maxlength="100"/>
+        </div>
+      </div>
+
+      <div class="field-group">
+        <div class="field-label">Site web</div>
+        <input type="url" class="field-input" id="pf-website" placeholder="https://…" maxlength="200"/>
+      </div>
+    </div>
+
+    <!-- HORAIRES -->
+    <div class="profile-card">
+      <div class="profile-eyebrow">Horaires d'ouverture</div>
+      <div class="hours-grid" id="hours-grid">
+        <!-- Rempli en JS -->
+      </div>
+      <div class="field-hint" style="margin-top:10px;">Touchez le bouton à droite pour marquer un jour fermé</div>
+    </div>
+
+  </div>
+
+  <div class="profile-save-bar">
+    <button class="btn-save" id="btn-save-profile" onclick="saveProfile()">
+      <span class="material-symbols-outlined">check_circle</span>
+      <span>Enregistrer les modifications</span>
+    </button>
+  </div>
+</div>
+
+
 <div id="action-sheet">
   <div class="sheet">
     <div class="sheet-grip"></div>
@@ -1450,8 +1695,148 @@ function escapeHtml(str){
   return String(str).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 }
 
-function openProfile(){
-  showToast('Édition de fiche — bientôt','');
+// ═══════════════════════════════════════════════════
+// PROFIL COMMERÇANT
+// ═══════════════════════════════════════════════════
+const DAYS = [
+  { key:'mon', label:'Lundi' },
+  { key:'tue', label:'Mardi' },
+  { key:'wed', label:'Mercredi' },
+  { key:'thu', label:'Jeudi' },
+  { key:'fri', label:'Vendredi' },
+  { key:'sat', label:'Samedi' },
+  { key:'sun', label:'Dimanche' },
+];
+
+let currentHours = {};
+
+async function openProfile(){
+  // Recharge les données fraîches
+  const { data, error } = await sb
+    .from('merchants')
+    .select('*')
+    .eq('id', currentMerchant.id)
+    .single();
+
+  if (error || !data) {
+    showToast('Erreur de chargement', 'error');
+    return;
+  }
+  currentMerchant = { ...currentMerchant, ...data };
+
+  // Photo
+  const photoEl = document.getElementById('profile-photo');
+  const photoEmpty = document.getElementById('profile-photo-empty');
+  if (currentMerchant.logo_url) {
+    photoEl.src = currentMerchant.logo_url;
+    photoEl.style.display = 'block';
+    photoEmpty.style.display = 'none';
+  } else {
+    photoEl.style.display = 'none';
+    photoEmpty.style.display = 'flex';
+  }
+
+  // Champs
+  document.getElementById('pf-firstname').value = currentMerchant.owner_first_name || '';
+  document.getElementById('pf-name').value = currentMerchant.business_name || '';
+  document.getElementById('pf-category').value = currentMerchant.category || '';
+  document.getElementById('pf-description').value = currentMerchant.description || '';
+  document.getElementById('pf-address').value = currentMerchant.address || '';
+  document.getElementById('pf-phone').value = currentMerchant.phone || '';
+  document.getElementById('pf-email').value = currentMerchant.email || '';
+  document.getElementById('pf-website').value = currentMerchant.website || '';
+  updateDescCounter();
+
+  // Horaires
+  currentHours = currentMerchant.hours || {};
+  renderHours();
+
+  document.getElementById('profile-overlay').classList.add('show');
+}
+
+function closeProfile(){
+  document.getElementById('profile-overlay').classList.remove('show');
+}
+
+function updateDescCounter(){
+  const v = document.getElementById('pf-description').value;
+  const c = document.getElementById('pf-desc-counter');
+  c.textContent = `${v.length} / 200`;
+  c.classList.toggle('warn', v.length > 180);
+}
+
+function renderHours(){
+  const grid = document.getElementById('hours-grid');
+  grid.innerHTML = DAYS.map(d => {
+    const h = currentHours[d.key] || { open: '09:00', close: '19:00', closed: false };
+    const closed = !!h.closed;
+    return `
+      <div class="hour-row ${closed?'closed':''}" data-day="${d.key}">
+        <div class="hour-day">${d.label}</div>
+        <input type="time" value="${h.open}" ${closed?'disabled':''} onchange="updateHour('${d.key}','open',this.value)"/>
+        <div class="hour-sep">→</div>
+        <input type="time" value="${h.close}" ${closed?'disabled':''} onchange="updateHour('${d.key}','close',this.value)"/>
+        <button class="hour-toggle ${!closed?'on':''}" onclick="toggleDayClosed('${d.key}')" aria-label="Ouvert/Fermé"></button>
+      </div>`;
+  }).join('');
+}
+
+function updateHour(dayKey, field, value){
+  if (!currentHours[dayKey]) currentHours[dayKey] = { open:'09:00', close:'19:00', closed:false };
+  currentHours[dayKey][field] = value;
+}
+
+function toggleDayClosed(dayKey){
+  if (!currentHours[dayKey]) currentHours[dayKey] = { open:'09:00', close:'19:00', closed:false };
+  currentHours[dayKey].closed = !currentHours[dayKey].closed;
+  renderHours();
+}
+
+async function saveProfile(){
+  const btn = document.getElementById('btn-save-profile');
+  btn.disabled = true;
+  btn.querySelector('span:last-child').textContent = 'Enregistrement…';
+
+  const updates = {
+    owner_first_name: document.getElementById('pf-firstname').value.trim() || null,
+    business_name: document.getElementById('pf-name').value.trim(),
+    category: document.getElementById('pf-category').value || null,
+    description: document.getElementById('pf-description').value.trim() || null,
+    address: document.getElementById('pf-address').value.trim() || null,
+    phone: document.getElementById('pf-phone').value.trim() || null,
+    email: document.getElementById('pf-email').value.trim() || null,
+    website: document.getElementById('pf-website').value.trim() || null,
+    hours: currentHours,
+  };
+
+  if (!updates.business_name) {
+    showToast('Le nom du commerce est obligatoire', 'error');
+    btn.disabled = false;
+    btn.querySelector('span:last-child').textContent = 'Enregistrer les modifications';
+    return;
+  }
+
+  const { error } = await sb
+    .from('merchants')
+    .update(updates)
+    .eq('id', currentMerchant.id);
+
+  btn.disabled = false;
+  btn.querySelector('span:last-child').textContent = 'Enregistrer les modifications';
+
+  if (error) {
+    showToast(error.message || 'Erreur lors de la sauvegarde', 'error');
+    return;
+  }
+
+  // MAJ du state local + dashboard
+  Object.assign(currentMerchant, updates);
+  document.getElementById('merchant-name').textContent = updates.business_name;
+  const greeting = updates.owner_first_name || updates.business_name;
+  document.getElementById('merchant-firstname').textContent = greeting;
+
+  showToast('Fiche enregistrée', 'success');
+  setTimeout(() => closeProfile(), 600);
 }
 
 function scrollHistory(){
