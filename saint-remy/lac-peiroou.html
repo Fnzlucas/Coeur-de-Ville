@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1"/>
+<title>Lac du Peiroou — Coeur de Ville</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800;900&display=swap"/>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html,body{font-family:'Manrope',sans-serif;background:#f8f9fa;color:#0f1923;-webkit-overflow-scrolling:touch;}
+body{padding-bottom:90px;}
+.hero{position:relative;height:300px;overflow:hidden;}
+.hero-img{width:100%;height:100%;object-fit:cover;display:block;}
+.hero-ph{width:100%;height:100%;background:linear-gradient(135deg,#1a4a6e,#2d6a4f,#0a2030);display:flex;align-items:center;justify-content:center;}
+.hero-ph .material-symbols-outlined{font-size:90px;color:rgba(255,255,255,0.18);font-variation-settings:'FILL' 1;}
+.hero-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,0.82) 0%,rgba(0,0,0,0.15) 55%,transparent 100%);}
+.hero-back{position:absolute;top:16px;left:16px;width:40px;height:40px;border-radius:50%;background:rgba(255,255,255,0.15);backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,0.25);display:flex;align-items:center;justify-content:center;z-index:10;text-decoration:none;}
+.hero-back .material-symbols-outlined{color:#fff;font-size:20px;}
+.hero-content{position:absolute;bottom:0;left:0;right:0;padding:20px 20px 24px;}
+.hero-badge{display:inline-flex;align-items:center;gap:5px;background:rgba(26,74,110,0.92);color:#fff;font-size:9px;font-weight:800;letter-spacing:0.12em;text-transform:uppercase;padding:5px 12px;border-radius:20px;margin-bottom:10px;}
+.hero-badge::before{content:'';width:5px;height:5px;background:#fff;border-radius:50%;}
+.hero-name{font-size:26px;font-weight:900;color:#fff;line-height:1.05;letter-spacing:-0.02em;margin-bottom:8px;}
+.hero-pill{display:inline-block;background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.25);color:#fff;font-size:10px;font-weight:700;padding:4px 10px;border-radius:20px;margin-right:6px;margin-bottom:4px;}
+.btn-yaller{display:flex;align-items:center;justify-content:center;gap:8px;margin:16px 16px 0;padding:15px;background:#0f1923;color:#fff;border:none;border-radius:14px;font-family:Manrope;font-size:15px;font-weight:800;text-decoration:none;}
+.btn-yaller .material-symbols-outlined{font-size:20px;font-variation-settings:'FILL' 1;}
+.actions-bar{display:flex;gap:8px;padding:16px 16px 0;}
+.action-btn{flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;padding:12px 6px;background:#fff;border-radius:14px;box-shadow:0 2px 10px rgba(0,0,0,0.06);text-decoration:none;}
+.action-btn .material-symbols-outlined{font-size:22px;color:#1a4a6e;}
+.action-btn .lbl{font-size:10px;font-weight:700;color:#0f1923;}
+.section{padding:24px 16px 0;}
+.section-title{font-size:17px;font-weight:900;color:#0f1923;letter-spacing:-0.02em;margin-bottom:12px;}
+.desc-card{background:#fff;border-radius:16px;padding:16px;box-shadow:0 2px 10px rgba(0,0,0,0.06);}
+.desc-text{font-size:14px;line-height:1.7;color:#374151;}
+.stat-row{display:flex;gap:10px;}
+.stat-box{flex:1;background:#fff;border-radius:16px;padding:14px;box-shadow:0 2px 10px rgba(0,0,0,0.06);text-align:center;}
+.stat-num{font-size:24px;font-weight:900;color:#0f1923;letter-spacing:-0.04em;}
+.stat-label{font-size:10px;color:#94a3b8;font-weight:600;margin-top:3px;line-height:1.4;}
+.anecdote-card{background:linear-gradient(135deg,#1a4a6e,#0f1923);border-radius:16px;padding:18px;display:flex;gap:14px;align-items:flex-start;}
+.anecdote-card .material-symbols-outlined{font-size:28px;color:rgba(100,200,255,0.9);flex-shrink:0;margin-top:2px;}
+.anecdote-title{font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:0.1em;color:rgba(100,200,255,0.8);margin-bottom:6px;}
+.anecdote-text{font-size:13px;color:rgba(255,255,255,0.88);line-height:1.65;}
+.activite-grid{display:flex;flex-direction:column;gap:1px;background:#f1f5f9;border-radius:16px;overflow:hidden;box-shadow:0 2px 10px rgba(0,0,0,0.06);}
+.activite-row{background:#fff;padding:13px 16px;display:flex;align-items:center;gap:12px;}
+.activite-icon{width:40px;height:40px;border-radius:12px;background:#eff6ff;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.activite-icon .material-symbols-outlined{font-size:20px;color:#1a4a6e;}
+.activite-content{flex:1;}
+.activite-name{font-size:14px;font-weight:800;color:#0f1923;}
+.activite-desc{font-size:12px;color:#64748b;margin-top:2px;}
+.activite-saison{font-size:10px;font-weight:700;background:#eff6ff;color:#1a4a6e;padding:3px 8px;border-radius:20px;white-space:nowrap;}
+.faune-card{background:linear-gradient(135deg,#1a4a6e,#2d6a4f);border-radius:16px;padding:18px;}
+.faune-item{display:flex;align-items:flex-start;gap:10px;margin-bottom:12px;}
+.faune-item:last-child{margin-bottom:0;}
+.faune-item .material-symbols-outlined{font-size:18px;color:rgba(255,255,255,0.7);flex-shrink:0;margin-top:1px;}
+.faune-text{font-size:13px;color:rgba(255,255,255,0.9);line-height:1.6;}
+.faune-text strong{color:#fff;}
+.tags-wrap{display:flex;flex-wrap:wrap;gap:8px;}
+.tag{display:inline-flex;align-items:center;gap:5px;background:#fff;border-radius:100px;padding:7px 12px;font-size:11px;font-weight:700;color:#374151;box-shadow:0 1px 6px rgba(0,0,0,0.07);}
+.tag .material-symbols-outlined{font-size:14px;color:#1a4a6e;}
+.timeline{display:flex;flex-direction:column;}
+.tl-item{display:flex;gap:14px;align-items:flex-start;padding-bottom:20px;position:relative;}
+.tl-item:last-child{padding-bottom:0;}
+.tl-item::before{content:'';position:absolute;left:19px;top:32px;bottom:0;width:2px;background:#e2e8f0;}
+.tl-item:last-child::before{display:none;}
+.tl-dot{width:40px;height:40px;border-radius:50%;background:#1a4a6e;display:flex;align-items:center;justify-content:center;flex-shrink:0;z-index:1;}
+.tl-dot .material-symbols-outlined{font-size:18px;color:#fff;}
+.tl-year{font-size:12px;font-weight:800;color:#1a4a6e;margin-bottom:3px;}
+.tl-text{font-size:13px;color:#374151;line-height:1.6;margin-top:8px;}
+.infos-grid{display:flex;flex-direction:column;gap:1px;background:#f1f5f9;border-radius:16px;overflow:hidden;box-shadow:0 2px 10px rgba(0,0,0,0.06);}
+.info-row{background:#fff;padding:13px 16px;display:flex;align-items:center;gap:12px;}
+.info-row .material-symbols-outlined{font-size:20px;color:#1a4a6e;flex-shrink:0;}
+.info-row-content{flex:1;}
+.info-row-label{font-size:11px;font-weight:600;color:#94a3b8;margin-bottom:2px;}
+.info-row-val{font-size:14px;font-weight:700;color:#0f1923;}
+.info-row-action{width:32px;height:32px;border-radius:50%;background:#fef3c7;display:flex;align-items:center;justify-content:center;flex-shrink:0;text-decoration:none;}
+.info-row-action .material-symbols-outlined{font-size:16px;color:#f59e0b;}
+.cta-bottom{position:fixed;bottom:0;left:0;right:0;padding:12px 16px 20px;background:rgba(255,255,255,0.95);backdrop-filter:blur(20px);border-top:1px solid rgba(0,0,0,0.06);display:flex;gap:10px;z-index:100;}
+.cta-main{flex:1;display:flex;align-items:center;justify-content:center;gap:8px;background:#0f1923;color:#fff;border:none;border-radius:14px;padding:15px;font-family:Manrope;font-size:15px;font-weight:800;text-decoration:none;}
+.cta-main .material-symbols-outlined{font-size:19px;font-variation-settings:'FILL' 1;}
+.cta-map{width:52px;height:52px;border-radius:14px;background:#fff;border:1.5px solid #e2e8f0;display:flex;align-items:center;justify-content:center;text-decoration:none;flex-shrink:0;}
+.cta-map .material-symbols-outlined{font-size:22px;color:#0f1923;}
+</style>
+</head>
+<body>
+<div class="hero">
+  <img src="../assets/saint-remy/poi_004.jpg" class="hero-img" alt="Lac du Peiroou" onerror="this.style.display='none';document.getElementById('ph').style.display='flex'">
+  <div class="hero-ph" id="ph" style="display:none;"><span class="material-symbols-outlined">water</span></div>
+  <div class="hero-overlay"></div>
+  <a class="hero-back" href="javascript:history.back()"><span class="material-symbols-outlined">arrow_back</span></a>
+  <div class="hero-content">
+    <div class="hero-badge">Nature · Baignade</div>
+    <div class="hero-name">Lac du Peiroou</div>
+    <span class="hero-pill">Spot secret des Saint-Remois</span>
+    <span class="hero-pill">Acces libre</span>
+    <span class="hero-pill">GR6</span>
+  </div>
+</div>
+
+<a class="btn-yaller" href="carte.html?poi=5">
+  <span class="material-symbols-outlined">navigation</span>
+  Y aller · Lancer la navigation
+</a>
+
+<div class="actions-bar">
+  <a href="carte.html?poi=5" class="action-btn">
+    <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">map</span>
+    <span class="lbl">Sur la carte</span>
+  </a>
+  <a href="https://maps.google.com/?q=Lac+du+Peiroou+Saint-Remy-de-Provence" target="_blank" class="action-btn">
+    <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">near_me</span>
+    <span class="lbl">Itineraire</span>
+  </a>
+</div>
+
+<div class="section">
+  <div class="section-title">Le spot cache des Saint-Remois</div>
+  <div class="desc-card">
+    <p class="desc-text">Aucune indication touristique ne mene ici. C'est pourtant <strong>le spot prefere des habitants</strong> pour echapper a la foule de Glanum en ete. Un lac de retenue de 4 hectares, niché dans les Alpilles, cerne par la garrigue et le calcaire blanc.</p>
+    <p class="desc-text" style="margin-top:10px;">Son nom vient du provencal <em>peirou</em> — "marmite" — en reference a sa forme creusee dans la roche par l'erosion. Construit en <strong>1854</strong> pour alimenter la ville en eau, il est aujourd'hui espace naturel sensible et terrain de jeu des familles saint-remoises.</p>
+    <p class="desc-text" style="margin-top:10px;">Les sentiers qui le traversent rejoignent le <strong>GR6</strong> et offrent une des plus belles vues sur la chaine des Alpilles — pinede odorante, eau turquoise, silence... a 2 km du centre-ville.</p>
+  </div>
+</div>
+
+<div class="section">
+  <div class="section-title">En chiffres</div>
+  <div class="stat-row">
+    <div class="stat-box"><div class="stat-num">4 ha</div><div class="stat-label">Surface du lac</div></div>
+    <div class="stat-box"><div class="stat-num">1854</div><div class="stat-label">Annee de construction</div></div>
+    <div class="stat-box"><div class="stat-num">2 km</div><div class="stat-label">Du centre-ville</div></div>
+  </div>
+</div>
+
+<div class="section">
+  <div class="section-title">Le saviez-vous ?</div>
+  <div class="anecdote-card">
+    <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">tips_and_updates</span>
+    <div>
+      <div class="anecdote-title">Le spot secret</div>
+      <div class="anecdote-text">Les habitants l'appellent simplement "le Peiroou" — du provencal pour "marmite", en reference a sa forme creusee dans la roche. Aucune indication touristique ne mene ici. C'est pourtant LE spot cache des Saint-Remois pour echapper a la foule de Glanum en ete.</div>
+    </div>
+  </div>
+</div>
+
+<div class="section">
+  <div class="section-title">Activites</div>
+  <div class="activite-grid">
+    <div class="activite-row">
+      <div class="activite-icon"><span class="material-symbols-outlined">pool</span></div>
+      <div class="activite-content">
+        <div class="activite-name">Baignade</div>
+        <div class="activite-desc">Eau fraiche et claire, berges amenagees, familiale</div>
+      </div>
+      <div class="activite-saison">Juin – Sept</div>
+    </div>
+    <div class="activite-row">
+      <div class="activite-icon"><span class="material-symbols-outlined">directions_walk</span></div>
+      <div class="activite-content">
+        <div class="activite-name">Randonnee GR6</div>
+        <div class="activite-desc">Tour du lac 45 min · Liaison GR6 vers les Baux-de-Provence</div>
+      </div>
+      <div class="activite-saison">Toute l'annee</div>
+    </div>
+    <div class="activite-row">
+      <div class="activite-icon"><span class="material-symbols-outlined">camera_alt</span></div>
+      <div class="activite-content">
+        <div class="activite-name">Photographie & nature</div>
+        <div class="activite-desc">Vue panoramique sur les Alpilles, couchers de soleil exceptionnels</div>
+      </div>
+      <div class="activite-saison">Toute l'annee</div>
+    </div>
+    <div class="activite-row">
+      <div class="activite-icon"><span class="material-symbols-outlined">lunch_dining</span></div>
+      <div class="activite-content">
+        <div class="activite-name">Pique-nique</div>
+        <div class="activite-desc">Tables et espaces herbes au bord de l'eau</div>
+      </div>
+      <div class="activite-saison">Printemps – Ete</div>
+    </div>
+    <div class="activite-row">
+      <div class="activite-icon"><span class="material-symbols-outlined">nordic_walking</span></div>
+      <div class="activite-content">
+        <div class="activite-name">Running & trail</div>
+        <div class="activite-desc">Sentiers varies, depart ideal pour le tour des Alpilles</div>
+      </div>
+      <div class="activite-saison">Toute l'annee</div>
+    </div>
+  </div>
+</div>
+
+<div class="section">
+  <div class="section-title">Faune & nature</div>
+  <div class="faune-card">
+    <div class="faune-item">
+      <span class="material-symbols-outlined">flutter_dash</span>
+      <div class="faune-text"><strong>Aigle de Bonelli</strong> — nicheur rare des Alpilles, visible en vol thermique au-dessus du lac en matinee.</div>
+    </div>
+    <div class="faune-item">
+      <span class="material-symbols-outlined">grass</span>
+      <div class="faune-text"><strong>Couleuvre de Montpellier</strong> — la plus grande couleuvre d'Europe, inoffensive, frequente les berges rocailleuses ensoleillees.</div>
+    </div>
+    <div class="faune-item">
+      <span class="material-symbols-outlined">park</span>
+      <div class="faune-text"><strong>Chevreuils des Alpilles</strong> — visibles a l'aube et au crepuscule en bordure de foret. Approche silencieuse recommandee.</div>
+    </div>
+    <div class="faune-item">
+      <span class="material-symbols-outlined">water</span>
+      <div class="faune-text"><strong>Espece naturelle sensible</strong> — classe ENS par le Parc Naturel Regional des Alpilles. Respect de la faune et de la flore obligatoire.</div>
+    </div>
+  </div>
+</div>
+
+<div class="section">
+  <div class="section-title">A savoir</div>
+  <div class="tags-wrap">
+    <div class="tag"><span class="material-symbols-outlined">lock_open</span>Acces libre & gratuit</div>
+    <div class="tag"><span class="material-symbols-outlined">pool</span>Baignade autorisee</div>
+    <div class="tag"><span class="material-symbols-outlined">directions_walk</span>GR6 depart sur place</div>
+    <div class="tag"><span class="material-symbols-outlined">camera_alt</span>Vue panoramique</div>
+    <div class="tag"><span class="material-symbols-outlined">no_food</span>Barbecue interdit</div>
+    <div class="tag"><span class="material-symbols-outlined">pets</span>Chiens en laisse</div>
+    <div class="tag"><span class="material-symbols-outlined">local_parking</span>Parking limite</div>
+    <div class="tag"><span class="material-symbols-outlined">wb_sunny</span>Couchers de soleil</div>
+  </div>
+</div>
+
+<div class="section">
+  <div class="section-title">Chronologie</div>
+  <div class="timeline">
+    <div class="tl-item">
+      <div class="tl-dot"><span class="material-symbols-outlined">water</span></div>
+      <div><div class="tl-year">1854</div><div class="tl-text">Construction du barrage pour alimenter Saint-Remy en eau potable</div></div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-dot"><span class="material-symbols-outlined">park</span></div>
+      <div><div class="tl-year">1965</div><div class="tl-text">Classement Site Inscrit des Alpilles — protection du paysage</div></div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-dot"><span class="material-symbols-outlined">eco</span></div>
+      <div><div class="tl-year">2007</div><div class="tl-text">Creation du Parc Naturel Regional des Alpilles — le lac integre l'espace naturel sensible</div></div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-dot"><span class="material-symbols-outlined">directions_walk</span></div>
+      <div><div class="tl-year">2020s</div><div class="tl-text">Amenagement des sentiers de randonnee et balisage GR6</div></div>
+    </div>
+  </div>
+</div>
+
+<div class="section" style="padding-bottom:16px;">
+  <div class="section-title">Infos pratiques</div>
+  <div class="infos-grid">
+    <div class="info-row">
+      <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">location_on</span>
+      <div class="info-row-content"><div class="info-row-label">Acces</div><div class="info-row-val">Chemin du Peiroou · 2 km du centre par la D5</div></div>
+      <a href="carte.html?poi=5" class="info-row-action"><span class="material-symbols-outlined">map</span></a>
+    </div>
+    <div class="info-row">
+      <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">euro</span>
+      <div class="info-row-content"><div class="info-row-label">Tarif</div><div class="info-row-val">Gratuit · Acces libre toute l'annee</div></div>
+    </div>
+    <div class="info-row">
+      <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">directions_car</span>
+      <div class="info-row-content"><div class="info-row-label">En voiture</div><div class="info-row-val">Parking limite au depart du sentier · Arriver tot en ete</div></div>
+    </div>
+    <div class="info-row">
+      <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">wb_sunny</span>
+      <div class="info-row-content"><div class="info-row-label">Meilleure periode</div><div class="info-row-val">Mai – Oct · Eviter la canicule 12h-15h en juillet-aout</div></div>
+    </div>
+  </div>
+</div>
+
+<div class="cta-bottom">
+  <a href="carte.html?poi=5" class="cta-main">
+    <span class="material-symbols-outlined">navigation</span>
+    Y aller · Acces libre & gratuit
+  </a>
+  <a href="https://maps.google.com/?q=Lac+du+Peiroou+Saint-Remy-de-Provence" target="_blank" class="cta-map">
+    <span class="material-symbols-outlined">near_me</span>
+  </a>
+</div>
+</body>
+</html>
