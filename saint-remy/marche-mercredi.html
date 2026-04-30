@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1"/>
+<title>Marche du Mercredi — Coeur de Ville</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800;900&display=swap"/>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html,body{font-family:'Manrope',sans-serif;background:#f8f9fa;color:#0f1923;-webkit-overflow-scrolling:touch;}
+body{padding-bottom:90px;}
+.hero{position:relative;height:300px;overflow:hidden;}
+.hero-img{width:100%;height:100%;object-fit:cover;display:block;}
+.hero-ph{width:100%;height:100%;background:linear-gradient(135deg,#e67e22,#d35400,#8b2500);display:flex;align-items:center;justify-content:center;}
+.hero-ph .material-symbols-outlined{font-size:90px;color:rgba(255,255,255,0.18);font-variation-settings:'FILL' 1;}
+.hero-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,0.82) 0%,rgba(0,0,0,0.15) 55%,transparent 100%);}
+.hero-back{position:absolute;top:16px;left:16px;width:40px;height:40px;border-radius:50%;background:rgba(255,255,255,0.15);backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,0.25);display:flex;align-items:center;justify-content:center;z-index:10;text-decoration:none;}
+.hero-back .material-symbols-outlined{color:#fff;font-size:20px;}
+.hero-content{position:absolute;bottom:0;left:0;right:0;padding:20px 20px 24px;}
+.hero-badge{display:inline-flex;align-items:center;gap:5px;background:rgba(230,126,34,0.92);color:#fff;font-size:9px;font-weight:800;letter-spacing:0.12em;text-transform:uppercase;padding:5px 12px;border-radius:20px;margin-bottom:10px;}
+.hero-badge::before{content:'';width:5px;height:5px;background:#fff;border-radius:50%;}
+.hero-name{font-size:28px;font-weight:900;color:#fff;line-height:1.05;letter-spacing:-0.02em;margin-bottom:8px;}
+.hero-pill{display:inline-block;background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.25);color:#fff;font-size:10px;font-weight:700;padding:4px 10px;border-radius:20px;margin-right:6px;margin-bottom:4px;}
+.banner{margin:16px 16px 0;border-radius:14px;padding:12px 16px;display:flex;align-items:center;gap:10px;}
+.btn-yaller{display:flex;align-items:center;justify-content:center;gap:8px;margin:16px 16px 0;padding:15px;background:#0f1923;color:#fff;border:none;border-radius:14px;font-family:Manrope;font-size:15px;font-weight:800;text-decoration:none;}
+.btn-yaller .material-symbols-outlined{font-size:20px;font-variation-settings:'FILL' 1;}
+.actions-bar{display:flex;gap:8px;padding:16px 16px 0;}
+.action-btn{flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;padding:12px 6px;background:#fff;border-radius:14px;box-shadow:0 2px 10px rgba(0,0,0,0.06);text-decoration:none;}
+.action-btn .material-symbols-outlined{font-size:22px;color:#e67e22;}
+.action-btn .lbl{font-size:10px;font-weight:700;color:#0f1923;}
+.section{padding:24px 16px 0;}
+.section-title{font-size:17px;font-weight:900;color:#0f1923;letter-spacing:-0.02em;margin-bottom:12px;}
+.desc-card{background:#fff;border-radius:16px;padding:16px;box-shadow:0 2px 10px rgba(0,0,0,0.06);}
+.desc-text{font-size:14px;line-height:1.7;color:#374151;}
+.tags-wrap{display:flex;flex-wrap:wrap;gap:8px;}
+.tag{display:inline-flex;align-items:center;gap:5px;background:#fff;border-radius:100px;padding:7px 12px;font-size:11px;font-weight:700;color:#374151;box-shadow:0 1px 6px rgba(0,0,0,0.07);}
+.tag .material-symbols-outlined{font-size:14px;color:#e67e22;}
+.stat-row{display:flex;gap:10px;}
+.stat-box{flex:1;background:#fff;border-radius:16px;padding:14px;box-shadow:0 2px 10px rgba(0,0,0,0.06);text-align:center;}
+.stat-num{font-size:26px;font-weight:900;color:#0f1923;letter-spacing:-0.04em;}
+.stat-label{font-size:10px;color:#94a3b8;font-weight:600;margin-top:3px;line-height:1.4;}
+.secteur-grid{display:flex;flex-direction:column;gap:1px;background:#f1f5f9;border-radius:16px;overflow:hidden;box-shadow:0 2px 10px rgba(0,0,0,0.06);}
+.secteur-row{background:#fff;padding:13px 16px;display:flex;align-items:center;gap:12px;}
+.secteur-icon{width:38px;height:38px;border-radius:12px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.secteur-icon .material-symbols-outlined{font-size:20px;}
+.secteur-content{flex:1;}
+.secteur-name{font-size:14px;font-weight:800;color:#0f1923;}
+.secteur-desc{font-size:12px;color:#64748b;margin-top:2px;}
+.secteur-zone{font-size:11px;font-weight:700;color:#e67e22;background:#fff7ed;padding:3px 8px;border-radius:20px;white-space:nowrap;}
+.saison-grid{display:flex;flex-direction:column;gap:10px;}
+.saison-row{display:flex;align-items:center;gap:12px;background:#fff;border-radius:14px;padding:13px 16px;box-shadow:0 1px 6px rgba(0,0,0,0.06);}
+.saison-mois{font-size:12px;font-weight:800;color:#e67e22;width:80px;flex-shrink:0;}
+.saison-prod{font-size:13px;color:#374151;line-height:1.5;}
+.conseil-card{background:linear-gradient(135deg,#e67e22,#8b2500);border-radius:16px;padding:18px;}
+.conseil-item{display:flex;align-items:flex-start;gap:10px;margin-bottom:14px;}
+.conseil-item:last-child{margin-bottom:0;}
+.conseil-item .material-symbols-outlined{font-size:18px;color:rgba(255,255,255,0.8);flex-shrink:0;margin-top:1px;}
+.conseil-text{font-size:13px;color:rgba(255,255,255,0.9);line-height:1.6;}
+.conseil-text strong{color:#fff;}
+.infos-grid{display:flex;flex-direction:column;gap:1px;background:#f1f5f9;border-radius:16px;overflow:hidden;box-shadow:0 2px 10px rgba(0,0,0,0.06);}
+.info-row{background:#fff;padding:13px 16px;display:flex;align-items:center;gap:12px;}
+.info-row .material-symbols-outlined{font-size:20px;color:#e67e22;flex-shrink:0;}
+.info-row-content{flex:1;}
+.info-row-label{font-size:11px;font-weight:600;color:#94a3b8;margin-bottom:2px;}
+.info-row-val{font-size:14px;font-weight:700;color:#0f1923;}
+.info-row-action{width:32px;height:32px;border-radius:50%;background:#fef3c7;display:flex;align-items:center;justify-content:center;flex-shrink:0;text-decoration:none;}
+.info-row-action .material-symbols-outlined{font-size:16px;color:#f59e0b;}
+.cta-bottom{position:fixed;bottom:0;left:0;right:0;padding:12px 16px 20px;background:rgba(255,255,255,0.95);backdrop-filter:blur(20px);border-top:1px solid rgba(0,0,0,0.06);display:flex;gap:10px;z-index:100;}
+.cta-main{flex:1;display:flex;align-items:center;justify-content:center;gap:8px;background:#0f1923;color:#fff;border:none;border-radius:14px;padding:15px;font-family:Manrope;font-size:15px;font-weight:800;text-decoration:none;}
+.cta-main .material-symbols-outlined{font-size:19px;font-variation-settings:'FILL' 1;}
+.cta-map{width:52px;height:52px;border-radius:14px;background:#fff;border:1.5px solid #e2e8f0;display:flex;align-items:center;justify-content:center;text-decoration:none;flex-shrink:0;}
+.cta-map .material-symbols-outlined{font-size:22px;color:#0f1923;}
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <img src="../assets/saint-remy/marche-mercredi.jpg" class="hero-img" alt="Marche du Mercredi" onerror="this.style.display='none';document.getElementById('ph').style.display='flex'">
+  <div class="hero-ph" id="ph" style="display:none;"><span class="material-symbols-outlined">storefront</span></div>
+  <div class="hero-overlay"></div>
+  <a class="hero-back" href="javascript:history.back()"><span class="material-symbols-outlined">arrow_back</span></a>
+  <div class="hero-content">
+    <div class="hero-badge">Grand marche provencal</div>
+    <div class="hero-name">Marche du Mercredi</div>
+    <span class="hero-pill">+150 exposants</span>
+    <span class="hero-pill">Toute l'annee</span>
+    <span class="hero-pill">Depuis 1890</span>
+  </div>
+</div>
+
+<div class="banner" id="banner" style="background:#fff7ed;border:1px solid #fed7aa;">
+  <div id="dot" style="width:8px;height:8px;border-radius:50%;background:#f97316;flex-shrink:0;"></div>
+  <div>
+    <div id="btext" style="font-size:13px;font-weight:700;"></div>
+    <div id="bsub" style="font-size:12px;font-weight:500;margin-top:1px;"></div>
+  </div>
+</div>
+
+<a class="btn-yaller" href="carte.html?poi=103">
+  <span class="material-symbols-outlined">navigation</span>
+  Y aller · Lancer la navigation
+</a>
+
+<div class="actions-bar">
+  <a href="carte.html?poi=103" class="action-btn">
+    <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">map</span>
+    <span class="lbl">Sur la carte</span>
+  </a>
+  <a href="https://maps.google.com/?q=Place+de+la+Republique+13210+Saint-Remy-de-Provence" target="_blank" class="action-btn">
+    <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">near_me</span>
+    <span class="lbl">Itineraire</span>
+  </a>
+</div>
+
+<!-- A PROPOS -->
+<div class="section">
+  <div class="section-title">Le plus grand marche des Alpilles</div>
+  <div class="desc-card">
+    <p class="desc-text">Chaque mercredi matin depuis plus d'un siecle, <strong>Saint-Remy-de-Provence</strong> se transforme. La Place de la Republique et toutes les rues adjacentes du centre ancien se couvrent de stands colorés — c'est l'un des marches les plus vivants et les plus authentiques de toute la Provence.</p>
+    <p class="desc-text" style="margin-top:10px;">En haute saison (juillet-aout), jusqu'a <strong>300 exposants</strong> envahissent la ville. Producteurs locaux, artisans, revendeurs de produits regionaux, fleuristes, createurs... tout le monde se retrouve ici.</p>
+    <p class="desc-text" style="margin-top:10px;">Le marche du mercredi est aussi un evenement social : les habitants s'y retrouvent, les terrasses des cafes de la place se remplissent, et l'ambiance provencale bat son plein jusqu'a 13h.</p>
+  </div>
+</div>
+
+<!-- CHIFFRES -->
+<div class="section">
+  <div class="section-title">En chiffres</div>
+  <div class="stat-row">
+    <div class="stat-box"><div class="stat-num">150+</div><div class="stat-label">Exposants toute l'annee</div></div>
+    <div class="stat-box"><div class="stat-num">300</div><div class="stat-label">Exposants en ete</div></div>
+    <div class="stat-box"><div class="stat-num">130+</div><div class="stat-label">Ans d'histoire</div></div>
+  </div>
+</div>
+
+<!-- PLAN PAR SECTEURS -->
+<div class="section">
+  <div class="section-title">Le marche par secteurs</div>
+  <div class="secteur-grid">
+    <div class="secteur-row">
+      <div class="secteur-icon" style="background:#fff7ed;"><span class="material-symbols-outlined" style="color:#e67e22;">nutrition</span></div>
+      <div class="secteur-content">
+        <div class="secteur-name">Fruits, legumes & olives</div>
+        <div class="secteur-desc">Producteurs locaux, primeurs, cueillette du jour</div>
+      </div>
+      <div class="secteur-zone">Place centrale</div>
+    </div>
+    <div class="secteur-row">
+      <div class="secteur-icon" style="background:#fdf4ff;"><span class="material-symbols-outlined" style="color:#9333ea;">set_meal</span></div>
+      <div class="secteur-content">
+        <div class="secteur-name">Fromages & charcuterie</div>
+        <div class="secteur-desc">Chevres des Alpilles, saucissons, terrines maison</div>
+      </div>
+      <div class="secteur-zone">Rue Carnot</div>
+    </div>
+    <div class="secteur-row">
+      <div class="secteur-icon" style="background:#f0fdf4;"><span class="material-symbols-outlined" style="color:#22c55e;">local_florist</span></div>
+      <div class="secteur-content">
+        <div class="secteur-name">Fleurs & plantes</div>
+        <div class="secteur-desc">Fleurs coupees, plantes aromatiques, lavande</div>
+      </div>
+      <div class="secteur-zone">Bd Mirabeau</div>
+    </div>
+    <div class="secteur-row">
+      <div class="secteur-icon" style="background:#eff6ff;"><span class="material-symbols-outlined" style="color:#3b82f6;">checkroom</span></div>
+      <div class="secteur-content">
+        <div class="secteur-name">Vetements & linge</div>
+        <div class="secteur-desc">Tissus provencaux, nappes, robes ete, chapeaux</div>
+      </div>
+      <div class="secteur-zone">Rue de la Republique</div>
+    </div>
+    <div class="secteur-row">
+      <div class="secteur-icon" style="background:#fef3c7;"><span class="material-symbols-outlined" style="color:#f59e0b;">palette</span></div>
+      <div class="secteur-content">
+        <div class="secteur-name">Artisanat & souvenirs</div>
+        <div class="secteur-desc">Savons, poteries, santons, huiles d'olive, epices</div>
+      </div>
+      <div class="secteur-zone">Rue Hoche</div>
+    </div>
+  </div>
+</div>
+
+<!-- PRODUITS DE SAISON -->
+<div class="section">
+  <div class="section-title">Produits phares par saison</div>
+  <div class="saison-grid">
+    <div class="saison-row">
+      <div class="saison-mois">Printemps</div>
+      <div class="saison-prod">Asperges sauvages, fraises de plein champ, fleurs de courgette, artichauts violets</div>
+    </div>
+    <div class="saison-row">
+      <div class="saison-mois">Ete</div>
+      <div class="saison-prod">Tomates coeur de boeuf, melons de Cavaillon, poivrons, figues, lavande fraiche</div>
+    </div>
+    <div class="saison-row">
+      <div class="saison-mois">Automne</div>
+      <div class="saison-prod">Truffes noires (debut), raisins, courges, champignons sauvages, pommes des Alpilles</div>
+    </div>
+    <div class="saison-row">
+      <div class="saison-mois">Hiver</div>
+      <div class="saison-prod">Truffes noires (pleine saison), huile d'olive nouvelle, agrumes, cardes</div>
+    </div>
+  </div>
+</div>
+
+<!-- CONSEILS -->
+<div class="section">
+  <div class="section-title">Conseils pour en profiter</div>
+  <div class="conseil-card">
+    <div class="conseil-item">
+      <span class="material-symbols-outlined">alarm</span>
+      <div class="conseil-text"><strong>Arriver tot :</strong> entre 8h et 9h30 pour le meilleur choix et le moins de monde. Apres 11h c'est plein et certains producteurs sont deja epuises.</div>
+    </div>
+    <div class="conseil-item">
+      <span class="material-symbols-outlined">directions_car</span>
+      <div class="conseil-text"><strong>Stationnement :</strong> le centre-ville est pieton le mercredi matin. Parkings gratuits avenue de la Liberation et route d'Avignon, puis 10 min a pied.</div>
+    </div>
+    <div class="conseil-item">
+      <span class="material-symbols-outlined">local_cafe</span>
+      <div class="conseil-text"><strong>La pause cafe :</strong> Toute une Epoque et les cafes de la Place de la Republique ouvrent des 7h — parfaits pour commencer avant le marche.</div>
+    </div>
+    <div class="conseil-item">
+      <span class="material-symbols-outlined">payments</span>
+      <div class="conseil-text"><strong>Paiement :</strong> privilegier les especes — beaucoup de petits producteurs n'ont pas de TPE. Un distributeur se trouve Place de la Republique.</div>
+    </div>
+  </div>
+</div>
+
+<!-- TAGS -->
+<div class="section">
+  <div class="section-title">Ce qu'on y trouve</div>
+  <div class="tags-wrap">
+    <div class="tag"><span class="material-symbols-outlined">nutrition</span>Fruits & legumes</div>
+    <div class="tag"><span class="material-symbols-outlined">local_florist</span>Fleurs & plantes</div>
+    <div class="tag"><span class="material-symbols-outlined">set_meal</span>Fromages & charcuterie</div>
+    <div class="tag"><span class="material-symbols-outlined">spa</span>Savons & cosmetiques</div>
+    <div class="tag"><span class="material-symbols-outlined">checkroom</span>Vetements provencaux</div>
+    <div class="tag"><span class="material-symbols-outlined">palette</span>Artisanat local</div>
+    <div class="tag"><span class="material-symbols-outlined">lunch_dining</span>Olives & tapenades</div>
+    <div class="tag"><span class="material-symbols-outlined">bakery_dining</span>Pain & patisseries</div>
+    <div class="tag"><span class="material-symbols-outlined">diamond</span>Bijoux & createurs</div>
+    <div class="tag"><span class="material-symbols-outlined">volunteer_activism</span>Epices & condiments</div>
+  </div>
+</div>
+
+<!-- INFOS -->
+<div class="section" style="padding-bottom:16px;">
+  <div class="section-title">Infos pratiques</div>
+  <div class="infos-grid">
+    <div class="info-row">
+      <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">location_on</span>
+      <div class="info-row-content"><div class="info-row-label">Lieu</div><div class="info-row-val">Place de la Republique & centre-ville</div></div>
+      <a href="carte.html?poi=103" class="info-row-action"><span class="material-symbols-outlined">map</span></a>
+    </div>
+    <div class="info-row">
+      <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">schedule</span>
+      <div class="info-row-content"><div class="info-row-label">Horaires</div><div class="info-row-val">Mercredi 8h00 – 13h00</div></div>
+    </div>
+    <div class="info-row">
+      <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">event_repeat</span>
+      <div class="info-row-content"><div class="info-row-label">Frequence</div><div class="info-row-val">Toutes les semaines · Toute l'annee</div></div>
+    </div>
+    <div class="info-row">
+      <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">local_parking</span>
+      <div class="info-row-content"><div class="info-row-label">Parking</div><div class="info-row-val">Avenue de la Liberation · Route d'Avignon · Gratuit</div></div>
+    </div>
+  </div>
+</div>
+
+<div class="cta-bottom">
+  <a href="carte.html?poi=103" class="cta-main">
+    <span class="material-symbols-outlined">navigation</span>
+    Y aller sur la carte
+  </a>
+  <a href="https://maps.google.com/?q=Place+de+la+Republique+13210+Saint-Remy" target="_blank" class="cta-map">
+    <span class="material-symbols-outlined">near_me</span>
+  </a>
+</div>
+
+<script>
+(function(){
+  var now = new Date(), day = now.getDay(), h = now.getHours();
+  var banner = document.getElementById('banner');
+  var dot = document.getElementById('dot');
+  var btext = document.getElementById('btext');
+  var bsub = document.getElementById('bsub');
+  if(day === 3 && h >= 8 && h < 13){
+    banner.style.background = '#f0fdf4'; banner.style.border = '1px solid #bbf7d0';
+    dot.style.background = '#22c55e'; dot.style.boxShadow = '0 0 0 3px rgba(34,197,94,0.2)';
+    btext.style.color = '#166534'; btext.textContent = "Marche en cours · Jusqu'a 13h00";
+    bsub.style.color = '#4ade80'; bsub.textContent = 'Place de la Republique · Centre-ville';
+  } else {
+    var d = (3 - day + 7) % 7 || 7;
+    btext.style.color = '#9a3412'; btext.textContent = d === 7 ? 'Prochain marche mercredi prochain' : 'Prochain marche dans ' + d + ' jour' + (d > 1 ? 's' : '');
+    bsub.style.color = '#fb923c'; bsub.textContent = 'Tous les mercredis 8h00 – 13h00';
+  }
+})();
+</script>
+</body>
+</html>
