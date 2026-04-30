@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1"/>
+<title>Marche du Samedi — Coeur de Ville</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800;900&display=swap"/>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html,body{font-family:'Manrope',sans-serif;background:#f8f9fa;color:#0f1923;-webkit-overflow-scrolling:touch;}
+body{padding-bottom:90px;}
+.hero{position:relative;height:300px;overflow:hidden;}
+.hero-img{width:100%;height:100%;object-fit:cover;display:block;}
+.hero-ph{width:100%;height:100%;background:linear-gradient(135deg,#27ae60,#1a6b35,#0a2e18);display:flex;align-items:center;justify-content:center;}
+.hero-ph .material-symbols-outlined{font-size:90px;color:rgba(255,255,255,0.18);font-variation-settings:'FILL' 1;}
+.hero-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,0.82) 0%,rgba(0,0,0,0.15) 55%,transparent 100%);}
+.hero-back{position:absolute;top:16px;left:16px;width:40px;height:40px;border-radius:50%;background:rgba(255,255,255,0.15);backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,0.25);display:flex;align-items:center;justify-content:center;z-index:10;text-decoration:none;}
+.hero-back .material-symbols-outlined{color:#fff;font-size:20px;}
+.hero-content{position:absolute;bottom:0;left:0;right:0;padding:20px 20px 24px;}
+.hero-badge{display:inline-flex;align-items:center;gap:5px;background:rgba(39,174,96,0.92);color:#fff;font-size:9px;font-weight:800;letter-spacing:0.12em;text-transform:uppercase;padding:5px 12px;border-radius:20px;margin-bottom:10px;}
+.hero-badge::before{content:'';width:5px;height:5px;background:#fff;border-radius:50%;}
+.hero-name{font-size:28px;font-weight:900;color:#fff;line-height:1.05;letter-spacing:-0.02em;margin-bottom:8px;}
+.hero-pill{display:inline-block;background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.25);color:#fff;font-size:10px;font-weight:700;padding:4px 10px;border-radius:20px;margin-right:6px;margin-bottom:4px;}
+.banner{margin:16px 16px 0;border-radius:14px;padding:12px 16px;display:flex;align-items:center;gap:10px;}
+.btn-yaller{display:flex;align-items:center;justify-content:center;gap:8px;margin:16px 16px 0;padding:15px;background:#0f1923;color:#fff;border:none;border-radius:14px;font-family:Manrope;font-size:15px;font-weight:800;text-decoration:none;}
+.btn-yaller .material-symbols-outlined{font-size:20px;font-variation-settings:'FILL' 1;}
+.actions-bar{display:flex;gap:8px;padding:16px 16px 0;}
+.action-btn{flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;padding:12px 6px;background:#fff;border-radius:14px;box-shadow:0 2px 10px rgba(0,0,0,0.06);text-decoration:none;}
+.action-btn .material-symbols-outlined{font-size:22px;color:#27ae60;}
+.action-btn .lbl{font-size:10px;font-weight:700;color:#0f1923;}
+.section{padding:24px 16px 0;}
+.section-title{font-size:17px;font-weight:900;color:#0f1923;letter-spacing:-0.02em;margin-bottom:12px;}
+.desc-card{background:#fff;border-radius:16px;padding:16px;box-shadow:0 2px 10px rgba(0,0,0,0.06);}
+.desc-text{font-size:14px;line-height:1.7;color:#374151;}
+.highlight-banner{background:linear-gradient(135deg,#27ae60,#1a6b35);border-radius:16px;padding:18px;display:flex;align-items:center;gap:14px;}
+.tags-wrap{display:flex;flex-wrap:wrap;gap:8px;}
+.tag{display:inline-flex;align-items:center;gap:5px;background:#fff;border-radius:100px;padding:7px 12px;font-size:11px;font-weight:700;color:#374151;box-shadow:0 1px 6px rgba(0,0,0,0.07);}
+.tag .material-symbols-outlined{font-size:14px;color:#27ae60;}
+.producteur-grid{display:flex;flex-direction:column;gap:1px;background:#f1f5f9;border-radius:16px;overflow:hidden;box-shadow:0 2px 10px rgba(0,0,0,0.06);}
+.producteur-row{background:#fff;padding:13px 16px;display:flex;align-items:center;gap:12px;}
+.producteur-icon{width:38px;height:38px;border-radius:12px;background:#f0fdf4;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.producteur-icon .material-symbols-outlined{font-size:20px;color:#27ae60;}
+.producteur-content{flex:1;}
+.producteur-name{font-size:14px;font-weight:800;color:#0f1923;}
+.producteur-desc{font-size:12px;color:#64748b;margin-top:2px;}
+.producteur-badge{font-size:10px;font-weight:700;background:#f0fdf4;color:#166534;padding:3px 8px;border-radius:20px;white-space:nowrap;}
+.diff-grid{display:flex;gap:10px;}
+.diff-box{flex:1;border-radius:16px;padding:14px;box-shadow:0 2px 10px rgba(0,0,0,0.06);}
+.diff-title{font-size:12px;font-weight:900;color:#0f1923;margin-bottom:8px;letter-spacing:-0.01em;}
+.diff-item{font-size:11px;color:#64748b;margin-bottom:5px;display:flex;align-items:flex-start;gap:5px;line-height:1.4;}
+.diff-item::before{content:'•';color:#27ae60;font-weight:900;flex-shrink:0;}
+.conseil-card{background:linear-gradient(135deg,#27ae60,#0a2e18);border-radius:16px;padding:18px;}
+.conseil-item{display:flex;align-items:flex-start;gap:10px;margin-bottom:14px;}
+.conseil-item:last-child{margin-bottom:0;}
+.conseil-item .material-symbols-outlined{font-size:18px;color:rgba(255,255,255,0.8);flex-shrink:0;margin-top:1px;}
+.conseil-text{font-size:13px;color:rgba(255,255,255,0.9);line-height:1.6;}
+.conseil-text strong{color:#fff;}
+.infos-grid{display:flex;flex-direction:column;gap:1px;background:#f1f5f9;border-radius:16px;overflow:hidden;box-shadow:0 2px 10px rgba(0,0,0,0.06);}
+.info-row{background:#fff;padding:13px 16px;display:flex;align-items:center;gap:12px;}
+.info-row .material-symbols-outlined{font-size:20px;color:#27ae60;flex-shrink:0;}
+.info-row-content{flex:1;}
+.info-row-label{font-size:11px;font-weight:600;color:#94a3b8;margin-bottom:2px;}
+.info-row-val{font-size:14px;font-weight:700;color:#0f1923;}
+.info-row-action{width:32px;height:32px;border-radius:50%;background:#fef3c7;display:flex;align-items:center;justify-content:center;flex-shrink:0;text-decoration:none;}
+.info-row-action .material-symbols-outlined{font-size:16px;color:#f59e0b;}
+.cta-bottom{position:fixed;bottom:0;left:0;right:0;padding:12px 16px 20px;background:rgba(255,255,255,0.95);backdrop-filter:blur(20px);border-top:1px solid rgba(0,0,0,0.06);display:flex;gap:10px;z-index:100;}
+.cta-main{flex:1;display:flex;align-items:center;justify-content:center;gap:8px;background:#0f1923;color:#fff;border:none;border-radius:14px;padding:15px;font-family:Manrope;font-size:15px;font-weight:800;text-decoration:none;}
+.cta-main .material-symbols-outlined{font-size:19px;font-variation-settings:'FILL' 1;}
+.cta-map{width:52px;height:52px;border-radius:14px;background:#fff;border:1.5px solid #e2e8f0;display:flex;align-items:center;justify-content:center;text-decoration:none;flex-shrink:0;}
+.cta-map .material-symbols-outlined{font-size:22px;color:#0f1923;}
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <img src="../assets/saint-remy/marche-samedi.jpg" class="hero-img" alt="Marche du Samedi" onerror="this.style.display='none';document.getElementById('ph').style.display='flex'">
+  <div class="hero-ph" id="ph" style="display:none;"><span class="material-symbols-outlined">eco</span></div>
+  <div class="hero-overlay"></div>
+  <a class="hero-back" href="javascript:history.back()"><span class="material-symbols-outlined">arrow_back</span></a>
+  <div class="hero-content">
+    <div class="hero-badge">Marche Bio · Producteurs</div>
+    <div class="hero-name">Marche du Samedi</div>
+    <span class="hero-pill">100% producteurs</span>
+    <span class="hero-pill">Bio & local</span>
+    <span class="hero-pill">Circuit court</span>
+  </div>
+</div>
+
+<div class="banner" id="banner" style="background:#fff7ed;border:1px solid #fed7aa;">
+  <div id="dot" style="width:8px;height:8px;border-radius:50%;background:#f97316;flex-shrink:0;"></div>
+  <div>
+    <div id="btext" style="font-size:13px;font-weight:700;"></div>
+    <div id="bsub" style="font-size:12px;font-weight:500;margin-top:1px;"></div>
+  </div>
+</div>
+
+<a class="btn-yaller" href="carte.html?poi=104">
+  <span class="material-symbols-outlined">navigation</span>
+  Y aller · Lancer la navigation
+</a>
+
+<div class="actions-bar">
+  <a href="carte.html?poi=104" class="action-btn">
+    <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">map</span>
+    <span class="lbl">Sur la carte</span>
+  </a>
+  <a href="https://maps.google.com/?q=Avenue+de+la+Resistance+13210+Saint-Remy" target="_blank" class="action-btn">
+    <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">near_me</span>
+    <span class="lbl">Itineraire</span>
+  </a>
+</div>
+
+<!-- HIGHLIGHT -->
+<div class="section">
+  <div class="highlight-banner">
+    <span class="material-symbols-outlined" style="font-size:36px;color:#fff;font-variation-settings:'FILL' 1;flex-shrink:0;">eco</span>
+    <div>
+      <div style="font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:0.1em;color:rgba(255,255,255,0.7);margin-bottom:4px;">Le marche des vrais producteurs</div>
+      <div style="font-size:17px;font-weight:900;color:#fff;letter-spacing:-0.02em;">Exclusivement local & alimentaire</div>
+      <div style="font-size:12px;color:rgba(255,255,255,0.75);margin-top:3px;">Pas de revendeurs · Chaque etale vend sa propre recolte</div>
+    </div>
+  </div>
+</div>
+
+<!-- A PROPOS -->
+<div class="section">
+  <div class="section-title">Un marche pas comme les autres</div>
+  <div class="desc-card">
+    <p class="desc-text">Le marche du samedi est le <strong>petit frere authentique</strong> du grand marche du mercredi. Une quinzaine d'etals seulement — mais chaque exposant est le producteur lui-meme. Ici, la personne qui vous vend les fromages les fabrique, celle qui vend les legumes les a cueillis ce matin.</p>
+    <p class="desc-text" style="margin-top:10px;">Pas de revendeurs, pas d'intermediaires : c'est le <strong>circuit court dans sa forme la plus pure</strong>. On y trouve des produits impossibles a trouver en grande surface — varietes anciennes, produits a tres petite echelle, recoltes du jour.</p>
+    <p class="desc-text" style="margin-top:10px;">L'ambiance est apaisee, chaleureuse, familiale. On prend le temps de discuter avec les producteurs, d'apprendre l'origine de chaque produit. Un vrai moment de Provence authentique.</p>
+  </div>
+</div>
+
+<!-- PRODUCTEURS -->
+<div class="section">
+  <div class="section-title">Ce qu'on y trouve</div>
+  <div class="producteur-grid">
+    <div class="producteur-row">
+      <div class="producteur-icon"><span class="material-symbols-outlined">set_meal</span></div>
+      <div class="producteur-content">
+        <div class="producteur-name">Fromages de chevre des Alpilles</div>
+        <div class="producteur-desc">Frais, secs, cendrés, au thym — production fermiere a moins de 20km</div>
+      </div>
+      <div class="producteur-badge">Fermier</div>
+    </div>
+    <div class="producteur-row">
+      <div class="producteur-icon"><span class="material-symbols-outlined">local_florist</span></div>
+      <div class="producteur-content">
+        <div class="producteur-name">Miels des garrigues</div>
+        <div class="producteur-desc">Lavande, thym, garrigue, polyfloral — apiculteurs locaux certifies</div>
+      </div>
+      <div class="producteur-badge">Bio</div>
+    </div>
+    <div class="producteur-row">
+      <div class="producteur-icon"><span class="material-symbols-outlined">nutrition</span></div>
+      <div class="producteur-content">
+        <div class="producteur-name">Legumes bio de plein champ</div>
+        <div class="producteur-desc">Varietes anciennes, cueillette du matin, sans pesticides</div>
+      </div>
+      <div class="producteur-badge">Bio</div>
+    </div>
+    <div class="producteur-row">
+      <div class="producteur-icon"><span class="material-symbols-outlined">bakery_dining</span></div>
+      <div class="producteur-content">
+        <div class="producteur-name">Pain artisanal au levain</div>
+        <div class="producteur-desc">Cuisson au feu de bois, farines anciennes, epeautre, seigle</div>
+      </div>
+      <div class="producteur-badge">Artisan</div>
+    </div>
+    <div class="producteur-row">
+      <div class="producteur-icon"><span class="material-symbols-outlined">grass</span></div>
+      <div class="producteur-content">
+        <div class="producteur-name">Herbes aromatiques fraiches</div>
+        <div class="producteur-desc">Thym, romarin, basilic, sarriette, estragon — cueillis la veille</div>
+      </div>
+      <div class="producteur-badge">Local</div>
+    </div>
+    <div class="producteur-row">
+      <div class="producteur-icon"><span class="material-symbols-outlined">water_drop</span></div>
+      <div class="producteur-content">
+        <div class="producteur-name">Huiles d'olive AOP</div>
+        <div class="producteur-desc">Vallee des Baux — petits producteurs independants, stock limite</div>
+      </div>
+      <div class="producteur-badge">AOP</div>
+    </div>
+  </div>
+</div>
+
+<!-- DIFFERENCES MERCREDI VS SAMEDI -->
+<div class="section">
+  <div class="section-title">Mercredi ou Samedi ?</div>
+  <div class="diff-grid">
+    <div class="diff-box" style="background:#fff7ed;border:1.5px solid #fed7aa;">
+      <div class="diff-title" style="color:#9a3412;">Mercredi</div>
+      <div class="diff-item">+150 exposants</div>
+      <div class="diff-item">Toute la ville</div>
+      <div class="diff-item">Producteurs & revendeurs</div>
+      <div class="diff-item">Vetements & artisanat</div>
+      <div class="diff-item">Ambiance festive</div>
+    </div>
+    <div class="diff-box" style="background:#f0fdf4;border:1.5px solid #bbf7d0;">
+      <div class="diff-title" style="color:#166534;">Samedi</div>
+      <div class="diff-item" style="--c:#27ae60">15 etals seulement</div>
+      <div class="diff-item">Avenue de la Resistance</div>
+      <div class="diff-item">100% producteurs</div>
+      <div class="diff-item">Uniquement alimentaire</div>
+      <div class="diff-item">Ambiance intime</div>
+    </div>
+  </div>
+</div>
+
+<!-- CONSEILS -->
+<div class="section">
+  <div class="section-title">Conseils pour en profiter</div>
+  <div class="conseil-card">
+    <div class="conseil-item">
+      <span class="material-symbols-outlined">alarm</span>
+      <div class="conseil-text"><strong>Arriver a 8h :</strong> le marche est petit — les meilleures pieces (fromages affines, miels rares) partent vite. Apres 10h certains etals sont deja vides.</div>
+    </div>
+    <div class="conseil-item">
+      <span class="material-symbols-outlined">payments</span>
+      <div class="conseil-text"><strong>Especes obligatoires :</strong> les petits producteurs n'ont generalement pas de TPE. Prevoir du liquide — distributeur Place de la Republique a 5 min a pied.</div>
+    </div>
+    <div class="conseil-item">
+      <span class="material-symbols-outlined">chat</span>
+      <div class="conseil-text"><strong>Prendre le temps :</strong> les producteurs sont bavards et passionnes. Demandez-leur des conseils de cuisine — ils adorent partager leurs recettes provencales.</div>
+    </div>
+    <div class="conseil-item">
+      <span class="material-symbols-outlined">shopping_bag</span>
+      <div class="conseil-text"><strong>Apporter son sac :</strong> pas de sacs plastique ici — cabas ou sac isotherme pour les fromages et produits frais conseilles.</div>
+    </div>
+  </div>
+</div>
+
+<!-- INFOS -->
+<div class="section" style="padding-bottom:16px;">
+  <div class="section-title">Infos pratiques</div>
+  <div class="infos-grid">
+    <div class="info-row">
+      <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">location_on</span>
+      <div class="info-row-content"><div class="info-row-label">Lieu</div><div class="info-row-val">Avenue de la Resistance<br>13210 Saint-Remy-de-Provence</div></div>
+      <a href="carte.html?poi=104" class="info-row-action"><span class="material-symbols-outlined">map</span></a>
+    </div>
+    <div class="info-row">
+      <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">schedule</span>
+      <div class="info-row-content"><div class="info-row-label">Horaires</div><div class="info-row-val">Samedi 8h00 – 13h00</div></div>
+    </div>
+    <div class="info-row">
+      <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">storefront</span>
+      <div class="info-row-content"><div class="info-row-label">Etals</div><div class="info-row-val">Une quinzaine · 100% producteurs locaux</div></div>
+    </div>
+    <div class="info-row">
+      <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">payments</span>
+      <div class="info-row-content"><div class="info-row-label">Paiement</div><div class="info-row-val">Especes recommandees · CB rare</div></div>
+    </div>
+  </div>
+</div>
+
+<div class="cta-bottom">
+  <a href="carte.html?poi=104" class="cta-main">
+    <span class="material-symbols-outlined">navigation</span>
+    Y aller sur la carte
+  </a>
+  <a href="https://maps.google.com/?q=Avenue+de+la+Resistance+13210+Saint-Remy" target="_blank" class="cta-map">
+    <span class="material-symbols-outlined">near_me</span>
+  </a>
+</div>
+
+<script>
+(function(){
+  var now = new Date(), day = now.getDay(), h = now.getHours();
+  var banner = document.getElementById('banner');
+  var dot = document.getElementById('dot');
+  var btext = document.getElementById('btext');
+  var bsub = document.getElementById('bsub');
+  if(day === 6 && h >= 8 && h < 13){
+    banner.style.background = '#f0fdf4'; banner.style.border = '1px solid #bbf7d0';
+    dot.style.background = '#22c55e'; dot.style.boxShadow = '0 0 0 3px rgba(34,197,94,0.2)';
+    btext.style.color = '#166534'; btext.textContent = "Marche en cours · Jusqu'a 13h00";
+    bsub.style.color = '#4ade80'; bsub.textContent = 'Avenue de la Resistance';
+  } else {
+    var d = (6 - day + 7) % 7 || 7;
+    btext.style.color = '#9a3412'; btext.textContent = d === 7 ? 'Prochain marche samedi prochain' : 'Prochain marche dans ' + d + ' jour' + (d > 1 ? 's' : '');
+    bsub.style.color = '#fb923c'; bsub.textContent = 'Tous les samedis 8h00 – 13h00';
+  }
+})();
+</script>
+</body>
+</html>
