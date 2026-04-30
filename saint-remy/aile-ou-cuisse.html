@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1"/>
+<title>L'Aile ou la Cuisse — Coeur de Ville</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800;900&display=swap"/>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html,body{font-family:'Manrope',sans-serif;background:#f8f9fa;color:#0f1923;-webkit-overflow-scrolling:touch;}
+body{padding-bottom:90px;}
+.hero{position:relative;height:300px;overflow:hidden;}
+.hero-img{width:100%;height:100%;object-fit:cover;display:block;}
+.hero-ph{width:100%;height:100%;background:linear-gradient(135deg,#7c3238,#c0392b,#4a1020);display:flex;align-items:center;justify-content:center;}
+.hero-ph .material-symbols-outlined{font-size:90px;color:rgba(255,255,255,0.18);font-variation-settings:'FILL' 1;}
+.hero-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,0.82) 0%,rgba(0,0,0,0.15) 55%,transparent 100%);}
+.hero-back{position:absolute;top:16px;left:16px;width:40px;height:40px;border-radius:50%;background:rgba(255,255,255,0.15);backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,0.25);display:flex;align-items:center;justify-content:center;z-index:10;text-decoration:none;}
+.hero-back .material-symbols-outlined{color:#fff;font-size:20px;}
+.hero-content{position:absolute;bottom:0;left:0;right:0;padding:20px 20px 24px;}
+.hero-badge{display:inline-flex;align-items:center;gap:5px;background:rgba(124,50,56,0.92);color:#fff;font-size:9px;font-weight:800;letter-spacing:0.12em;text-transform:uppercase;padding:5px 12px;border-radius:20px;margin-bottom:10px;}
+.hero-badge::before{content:'';width:5px;height:5px;background:#fff;border-radius:50%;}
+.hero-name{font-size:28px;font-weight:900;color:#fff;line-height:1.05;letter-spacing:-0.02em;margin-bottom:8px;}
+.hero-pill{display:inline-block;background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.25);color:#fff;font-size:10px;font-weight:700;padding:4px 10px;border-radius:20px;margin-right:6px;margin-bottom:4px;}
+.banner{margin:16px 16px 0;border-radius:14px;padding:12px 16px;display:flex;align-items:center;gap:10px;}
+.btn-yaller{display:flex;align-items:center;justify-content:center;gap:8px;margin:16px 16px 0;padding:15px;background:#0f1923;color:#fff;border:none;border-radius:14px;font-family:Manrope;font-size:15px;font-weight:800;text-decoration:none;}
+.btn-yaller .material-symbols-outlined{font-size:20px;font-variation-settings:'FILL' 1;}
+.actions-bar{display:flex;gap:8px;padding:16px 16px 0;}
+.action-btn{flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;padding:12px 6px;background:#fff;border-radius:14px;box-shadow:0 2px 10px rgba(0,0,0,0.06);text-decoration:none;}
+.action-btn .material-symbols-outlined{font-size:22px;color:#7c3238;}
+.action-btn .lbl{font-size:10px;font-weight:700;color:#0f1923;}
+.section{padding:24px 16px 0;}
+.section-title{font-size:17px;font-weight:900;color:#0f1923;letter-spacing:-0.02em;margin-bottom:12px;}
+.desc-card{background:#fff;border-radius:16px;padding:16px;box-shadow:0 2px 10px rgba(0,0,0,0.06);}
+.desc-text{font-size:14px;line-height:1.7;color:#374151;}
+.tags-wrap{display:flex;flex-wrap:wrap;gap:8px;}
+.tag{display:inline-flex;align-items:center;gap:5px;background:#fff;border-radius:100px;padding:7px 12px;font-size:11px;font-weight:700;color:#374151;box-shadow:0 1px 6px rgba(0,0,0,0.07);}
+.tag .material-symbols-outlined{font-size:14px;color:#7c3238;}
+.menu-grid{display:flex;flex-direction:column;gap:1px;background:#f1f5f9;border-radius:16px;overflow:hidden;box-shadow:0 2px 10px rgba(0,0,0,0.06);}
+.menu-row{background:#fff;padding:14px 16px;display:flex;align-items:center;gap:12px;}
+.menu-icon{width:40px;height:40px;border-radius:12px;background:#fdf2f2;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.menu-icon .material-symbols-outlined{font-size:20px;color:#7c3238;}
+.menu-content{flex:1;}
+.menu-name{font-size:14px;font-weight:800;color:#0f1923;}
+.menu-desc{font-size:12px;color:#64748b;margin-top:2px;}
+.menu-prix{font-size:13px;font-weight:800;color:#7c3238;}
+.ambiance-card{background:linear-gradient(135deg,#7c3238,#0f1923);border-radius:16px;padding:18px;}
+.ambiance-item{display:flex;align-items:flex-start;gap:10px;margin-bottom:14px;}
+.ambiance-item:last-child{margin-bottom:0;}
+.ambiance-item .material-symbols-outlined{font-size:18px;color:rgba(255,255,255,0.7);flex-shrink:0;margin-top:1px;}
+.ambiance-text{font-size:13px;color:rgba(255,255,255,0.9);line-height:1.6;}
+.ambiance-text strong{color:#fff;}
+.score-card{background:linear-gradient(135deg,#0f1923,#1e3a5f);border-radius:18px;padding:20px;display:flex;align-items:center;gap:16px;}
+.score-big{font-size:48px;font-weight:900;color:#fff;line-height:1;letter-spacing:-0.04em;}
+.score-stars{display:flex;gap:3px;color:#FBBF24;font-size:18px;margin-bottom:4px;}
+.score-cnt{font-size:12px;color:rgba(255,255,255,0.5);font-weight:500;}
+.score-bars{flex:1;}
+.score-bar-row{display:flex;align-items:center;gap:8px;margin-bottom:5px;}
+.score-bar-label{font-size:10px;color:rgba(255,255,255,0.6);font-weight:600;width:10px;text-align:right;}
+.score-bar-track{flex:1;height:4px;background:rgba(255,255,255,0.1);border-radius:2px;overflow:hidden;}
+.score-bar-fill{height:100%;background:#FBBF24;border-radius:2px;}
+.horaires-card{background:#fff;border-radius:16px;padding:4px 0;box-shadow:0 2px 10px rgba(0,0,0,0.06);}
+.hrow{display:flex;justify-content:space-between;align-items:center;padding:10px 16px;border-bottom:1px solid #f8f9fa;}
+.hrow:last-child{border-bottom:none;}
+.hrow-day{font-size:13px;font-weight:600;color:#374151;}
+.hrow-time{font-size:13px;font-weight:700;color:#0f1923;}
+.hrow-time.closed{color:#dc2626;}
+.infos-grid{display:flex;flex-direction:column;gap:1px;background:#f1f5f9;border-radius:16px;overflow:hidden;box-shadow:0 2px 10px rgba(0,0,0,0.06);}
+.info-row{background:#fff;padding:13px 16px;display:flex;align-items:center;gap:12px;}
+.info-row .material-symbols-outlined{font-size:20px;color:#7c3238;flex-shrink:0;}
+.info-row-content{flex:1;}
+.info-row-label{font-size:11px;font-weight:600;color:#94a3b8;margin-bottom:2px;}
+.info-row-val{font-size:14px;font-weight:700;color:#0f1923;}
+.info-row-action{width:32px;height:32px;border-radius:50%;background:#fef3c7;display:flex;align-items:center;justify-content:center;flex-shrink:0;text-decoration:none;}
+.info-row-action .material-symbols-outlined{font-size:16px;color:#f59e0b;}
+.cta-bottom{position:fixed;bottom:0;left:0;right:0;padding:12px 16px 20px;background:rgba(255,255,255,0.95);backdrop-filter:blur(20px);border-top:1px solid rgba(0,0,0,0.06);display:flex;gap:10px;z-index:100;}
+.cta-call{flex:1;display:flex;align-items:center;justify-content:center;gap:8px;background:#0f1923;color:#fff;border:none;border-radius:14px;padding:15px;font-family:Manrope;font-size:15px;font-weight:800;text-decoration:none;}
+.cta-call .material-symbols-outlined{font-size:19px;font-variation-settings:'FILL' 1;}
+.cta-map{width:52px;height:52px;border-radius:14px;background:#fff;border:1.5px solid #e2e8f0;display:flex;align-items:center;justify-content:center;text-decoration:none;flex-shrink:0;}
+.cta-map .material-symbols-outlined{font-size:22px;color:#0f1923;}
+</style>
+</head>
+<body>
+<div class="hero">
+  <img src="../assets/saint-remy/poi_008.jpg" class="hero-img" alt="L'Aile ou la Cuisse" onerror="this.style.display='none';document.getElementById('ph').style.display='flex'">
+  <div class="hero-ph" id="ph" style="display:none;"><span class="material-symbols-outlined">restaurant</span></div>
+  <div class="hero-overlay"></div>
+  <a class="hero-back" href="javascript:history.back()"><span class="material-symbols-outlined">arrow_back</span></a>
+  <div class="hero-content">
+    <div class="hero-badge">Restaurant · Cuisine provencale</div>
+    <div class="hero-name">L'Aile ou la Cuisse</div>
+    <span class="hero-pill">4.5 / 5</span>
+    <span class="hero-pill">Cour interieure</span>
+    <span class="hero-pill">Vins des Alpilles</span>
+  </div>
+</div>
+
+<div class="banner" id="banner" style="background:#fff7ed;border:1px solid #fed7aa;">
+  <div id="dot" style="width:8px;height:8px;border-radius:50%;background:#f97316;flex-shrink:0;"></div>
+  <div>
+    <div id="btext" style="font-size:13px;font-weight:700;"></div>
+    <div id="bsub" style="font-size:12px;font-weight:500;margin-top:1px;"></div>
+  </div>
+</div>
+
+<a class="btn-yaller" href="carte.html?poi=151">
+  <span class="material-symbols-outlined">navigation</span>
+  Y aller · Lancer la navigation
+</a>
+
+<div class="actions-bar">
+  <a href="carte.html?poi=151" class="action-btn">
+    <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">map</span>
+    <span class="lbl">Sur la carte</span>
+  </a>
+  <a href="https://maps.google.com/?q=5+rue+de+la+Commune+13210+Saint-Remy" target="_blank" class="action-btn">
+    <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">near_me</span>
+    <span class="lbl">Itineraire</span>
+  </a>
+</div>
+
+<div class="section">
+  <div class="section-title">Cuisine creative au coeur du vieux Saint-Remy</div>
+  <div class="desc-card">
+    <p class="desc-text">Cache dans une <strong>cour interieure du centre ancien</strong>, loin de l'agitation touristique, l'Aile ou la Cuisse est l'adresse que les connaisseurs se chuchotent. Une cuisine provencale creatrice, dans un cadre intimiste et preserye.</p>
+    <p class="desc-text" style="margin-top:10px;">Le chef travaille exclusivement les produits du <strong>marche du mercredi</strong> — ce qui arrive dans la cuisine le matin determine la carte du midi. Fraicheur absolue garantie, plats qui changent chaque semaine selon la saison.</p>
+    <p class="desc-text" style="margin-top:10px;">La carte des vins est axee sur les <strong>Alpilles et les Baux-de-Provence</strong> — une selection pointue de petits domaines locaux, naturels et bio, en accord parfait avec la cuisine.</p>
+  </div>
+</div>
+
+<div class="section">
+  <div class="section-title">La carte</div>
+  <div class="menu-grid">
+    <div class="menu-row">
+      <div class="menu-icon"><span class="material-symbols-outlined">lunch_dining</span></div>
+      <div class="menu-content">
+        <div class="menu-name">Menu decouverte</div>
+        <div class="menu-desc">3 plats selon le marche du jour — entree, plat, dessert</div>
+      </div>
+      <div class="menu-prix">28€</div>
+    </div>
+    <div class="menu-row">
+      <div class="menu-icon"><span class="material-symbols-outlined">set_meal</span></div>
+      <div class="menu-content">
+        <div class="menu-name">Volailles fermières des Alpilles</div>
+        <div class="menu-desc">Cuisson lente, jus reduit, legumes de saison rotis</div>
+      </div>
+      <div class="menu-prix">~22€</div>
+    </div>
+    <div class="menu-row">
+      <div class="menu-icon"><span class="material-symbols-outlined">eco</span></div>
+      <div class="menu-content">
+        <div class="menu-name">Risotto aux herbes du jardin</div>
+        <div class="menu-desc">Riz de Camargue, parmesan, basilic, tomate confite — vegetarien</div>
+      </div>
+      <div class="menu-prix">~19€</div>
+    </div>
+    <div class="menu-row">
+      <div class="menu-icon"><span class="material-symbols-outlined">water</span></div>
+      <div class="menu-content">
+        <div class="menu-name">Poisson du jour</div>
+        <div class="menu-desc">Pecheur local, cuisson minute, sauce vierge aux herbes</div>
+      </div>
+      <div class="menu-prix">~24€</div>
+    </div>
+    <div class="menu-row">
+      <div class="menu-icon"><span class="material-symbols-outlined">cake</span></div>
+      <div class="menu-content">
+        <div class="menu-name">Desserts du patissier</div>
+        <div class="menu-desc">Tarte aux fruits de saison, panna cotta lavande, glace maison</div>
+      </div>
+      <div class="menu-prix">~8€</div>
+    </div>
+  </div>
+</div>
+
+<div class="section">
+  <div class="section-title">L'experience</div>
+  <div class="ambiance-card">
+    <div class="ambiance-item">
+      <span class="material-symbols-outlined">deck</span>
+      <div class="ambiance-text"><strong>La cour interieure</strong> — installee dans un ancien hotel particulier du XVIIe siecle, la terrasse ombragee est l'un des endroits les plus secrets et les plus agreable de Saint-Remy.</div>
+    </div>
+    <div class="ambiance-item">
+      <span class="material-symbols-outlined">storefront</span>
+      <div class="ambiance-text"><strong>Produits du marche</strong> — le chef fait ses courses le mercredi matin avec les habitants. La carte change chaque semaine selon les arrivages et la saison.</div>
+    </div>
+    <div class="ambiance-item">
+      <span class="material-symbols-outlined">wine_bar</span>
+      <div class="ambiance-text"><strong>Vins naturels des Alpilles</strong> — une selection de domaines bio confidentiels : Hauvette, Terre de Mistral, les Terres de Perdry — introuvables en grande surface.</div>
+    </div>
+    <div class="ambiance-item">
+      <span class="material-symbols-outlined">groups</span>
+      <div class="ambiance-text"><strong>Ambiance conviviale</strong> — petite salle de 25 couverts, service attentif et decontracte. On se sent comme chez des amis qui cuisinent bien.</div>
+    </div>
+  </div>
+</div>
+
+<div class="section">
+  <div class="section-title">A savoir</div>
+  <div class="tags-wrap">
+    <div class="tag"><span class="material-symbols-outlined">deck</span>Cour interieure ombragee</div>
+    <div class="tag"><span class="material-symbols-outlined">storefront</span>Produits du marche</div>
+    <div class="tag"><span class="material-symbols-outlined">wine_bar</span>Vins naturels Alpilles</div>
+    <div class="tag"><span class="material-symbols-outlined">eco</span>Cuisine de saison</div>
+    <div class="tag"><span class="material-symbols-outlined">book_online</span>Reservation conseillée</div>
+    <div class="tag"><span class="material-symbols-outlined">child_care</span>Menu enfant possible</div>
+    <div class="tag"><span class="material-symbols-outlined">credit_card</span>CB acceptee</div>
+  </div>
+</div>
+
+<div class="section">
+  <div class="section-title">Note clients</div>
+  <div class="score-card">
+    <div style="text-align:center;">
+      <div class="score-big">4,5</div>
+      <div class="score-stars">★★★★★</div>
+      <div class="score-cnt">Tres bien note</div>
+    </div>
+    <div class="score-bars">
+      <div class="score-bar-row"><span class="score-bar-label">5</span><div class="score-bar-track"><div class="score-bar-fill" style="width:68%"></div></div></div>
+      <div class="score-bar-row"><span class="score-bar-label">4</span><div class="score-bar-track"><div class="score-bar-fill" style="width:20%"></div></div></div>
+      <div class="score-bar-row"><span class="score-bar-label">3</span><div class="score-bar-track"><div class="score-bar-fill" style="width:8%"></div></div></div>
+      <div class="score-bar-row"><span class="score-bar-label">2</span><div class="score-bar-track"><div class="score-bar-fill" style="width:2%"></div></div></div>
+      <div class="score-bar-row" style="margin-bottom:0;"><span class="score-bar-label">1</span><div class="score-bar-track"><div class="score-bar-fill" style="width:2%"></div></div></div>
+    </div>
+  </div>
+</div>
+
+<div class="section">
+  <div class="section-title">Horaires</div>
+  <div class="horaires-card">
+    <div class="hrow"><span class="hrow-day">Lundi</span><span class="hrow-time closed">Ferme</span></div>
+    <div class="hrow"><span class="hrow-day">Mardi</span><span class="hrow-time">12h – 14h · 19h – 22h30</span></div>
+    <div class="hrow"><span class="hrow-day">Mercredi</span><span class="hrow-time">12h – 14h · 19h – 22h30</span></div>
+    <div class="hrow"><span class="hrow-day">Jeudi</span><span class="hrow-time">12h – 14h · 19h – 22h30</span></div>
+    <div class="hrow"><span class="hrow-day">Vendredi</span><span class="hrow-time">12h – 14h · 19h – 22h30</span></div>
+    <div class="hrow"><span class="hrow-day">Samedi</span><span class="hrow-time">12h – 14h · 19h – 22h30</span></div>
+    <div class="hrow"><span class="hrow-day">Dimanche</span><span class="hrow-time closed">Ferme</span></div>
+    <div style="padding:10px 16px;font-size:11px;color:#94a3b8;font-weight:500;">25 couverts · Reservation fortement conseillee</div>
+  </div>
+</div>
+
+<div class="section" style="padding-bottom:16px;">
+  <div class="section-title">Infos pratiques</div>
+  <div class="infos-grid">
+    <div class="info-row">
+      <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">location_on</span>
+      <div class="info-row-content"><div class="info-row-label">Adresse</div><div class="info-row-val">5 rue de la Commune<br>13210 Saint-Remy-de-Provence</div></div>
+      <a href="carte.html?poi=151" class="info-row-action"><span class="material-symbols-outlined">map</span></a>
+    </div>
+    <div class="info-row">
+      <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">people</span>
+      <div class="info-row-content"><div class="info-row-label">Capacite</div><div class="info-row-val">25 couverts · 20 en cour exterieure</div></div>
+    </div>
+    <div class="info-row">
+      <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">euro</span>
+      <div class="info-row-content"><div class="info-row-label">Budget moyen</div><div class="info-row-val">25 – 38€ par personne · Vins en sus</div></div>
+    </div>
+  </div>
+</div>
+
+<div class="cta-bottom">
+  <a href="carte.html?poi=151" class="cta-call">
+    <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">navigation</span>
+    Y aller · Rue de la Commune
+  </a>
+  <a href="https://maps.google.com/?q=5+rue+de+la+Commune+13210+Saint-Remy" target="_blank" class="cta-map">
+    <span class="material-symbols-outlined">near_me</span>
+  </a>
+</div>
+
+<script>
+(function(){
+  var now = new Date(), day = now.getDay(), h = now.getHours(), min = now.getMinutes();
+  var banner = document.getElementById('banner');
+  var dot = document.getElementById('dot');
+  var btext = document.getElementById('btext');
+  var bsub = document.getElementById('bsub');
+  var ouvert = day >= 2 && day <= 6 && ((h === 12 && min >= 0) || (h === 13) || (h >= 19 && h < 22));
+  if(ouvert){
+    banner.style.background='#f0fdf4';banner.style.border='1px solid #bbf7d0';
+    dot.style.background='#22c55e';dot.style.boxShadow='0 0 0 3px rgba(34,197,94,0.2)';
+    btext.style.color='#166534';btext.textContent='Ouvert maintenant';
+    bsub.style.color='#4ade80';bsub.textContent='5 rue de la Commune · Centre ancien';
+  } else {
+    btext.style.color='#9a3412';
+    btext.textContent=(day===0||day===1)?'Ferme aujourd\'hui · Ouvert mar – sam':'Ferme pour l\'instant';
+    bsub.style.color='#fb923c';bsub.textContent='Mar – Sam · 12h-14h · 19h-22h30 · Reservation conseillee';
+  }
+})();
+</script>
+</body>
+</html>
