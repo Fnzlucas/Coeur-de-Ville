@@ -2680,7 +2680,16 @@ function buildAnecdotes() {
     a.style.cssText = 'text-decoration:none;flex-shrink:0;display:block;min-width:220px;max-width:220px;border-radius:16px;overflow:hidden;position:relative;height:160px;';
 
     const bg = document.createElement('div');
-    bg.style.cssText = 'position:absolute;inset:0;' + (place.bg ? 'background:url(' + place.bg + ') center/cover no-repeat;' : 'background:linear-gradient(135deg,' + col + ',' + col + 'bb);');
+    bg.style.cssText = 'position:absolute;inset:0;overflow:hidden;';
+    if (place.bg) {
+      const bimg = document.createElement('img');
+      bimg.src = place.bg;
+      bimg.style.cssText = 'width:100%;height:100%;object-fit:cover;display:block;';
+      bimg.onerror = function(){ bimg.style.display='none'; bg.style.background='linear-gradient(135deg,'+col+','+col+'bb)'; };
+      bg.appendChild(bimg);
+    } else {
+      bg.style.background = 'linear-gradient(135deg,' + col + ',' + col + 'bb)';
+    }
     a.appendChild(bg);
 
     const overlay = document.createElement('div');
