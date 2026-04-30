@@ -2680,11 +2680,11 @@ function buildAnecdotes() {
     a.style.cssText = 'text-decoration:none;flex-shrink:0;display:block;min-width:220px;max-width:220px;border-radius:16px;overflow:hidden;position:relative;height:160px;';
 
     const bg = document.createElement('div');
-    bg.style.cssText = 'position:absolute;inset:0;overflow:hidden;';
+    bg.style.cssText = 'position:absolute;inset:0;overflow:hidden;width:100%;height:100%;';
     if (place.bg) {
       const bimg = document.createElement('img');
       bimg.src = place.bg;
-      bimg.style.cssText = 'width:100%;height:100%;object-fit:cover;display:block;';
+      bimg.style.cssText = 'width:100%;height:100%;object-fit:cover;display:block;min-height:160px;';
       bimg.onerror = function(){ bimg.style.display='none'; bg.style.background='linear-gradient(135deg,'+col+','+col+'bb)'; };
       bg.appendChild(bimg);
     } else {
