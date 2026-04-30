@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1"/>
+<title>La Source Guerisseuse de Glan — Coeur de Ville</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800;900&display=swap"/>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html,body{font-family:'Manrope',sans-serif;background:#f8f9fa;color:#0f1923;-webkit-overflow-scrolling:touch;}
+body{padding-bottom:90px;}
+.hero{position:relative;height:300px;overflow:hidden;}
+.hero-img{width:100%;height:100%;object-fit:cover;display:block;}
+.hero-ph{width:100%;height:100%;background:linear-gradient(135deg,#1a3a5c,#2d6a4f,#0f1923);display:flex;align-items:center;justify-content:center;}
+.hero-ph .material-symbols-outlined{font-size:90px;color:rgba(255,255,255,0.18);font-variation-settings:'FILL' 1;}
+.hero-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,0.85) 0%,rgba(0,0,0,0.15) 55%,transparent 100%);}
+.hero-back{position:absolute;top:16px;left:16px;width:40px;height:40px;border-radius:50%;background:rgba(255,255,255,0.15);backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,0.25);display:flex;align-items:center;justify-content:center;z-index:10;text-decoration:none;}
+.hero-back .material-symbols-outlined{color:#fff;font-size:20px;}
+.hero-content{position:absolute;bottom:0;left:0;right:0;padding:20px 20px 24px;}
+.hero-badge{display:inline-flex;align-items:center;gap:5px;background:rgba(26,58,92,0.92);color:#fff;font-size:9px;font-weight:800;letter-spacing:0.12em;text-transform:uppercase;padding:5px 12px;border-radius:20px;margin-bottom:10px;}
+.hero-badge::before{content:'';width:5px;height:5px;background:#fff;border-radius:50%;}
+.hero-name{font-size:24px;font-weight:900;color:#fff;line-height:1.05;letter-spacing:-0.02em;margin-bottom:8px;}
+.hero-pill{display:inline-block;background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.25);color:#fff;font-size:10px;font-weight:700;padding:4px 10px;border-radius:20px;margin-right:6px;margin-bottom:4px;}
+.btn-yaller{display:flex;align-items:center;justify-content:center;gap:8px;margin:16px 16px 0;padding:15px;background:#0f1923;color:#fff;border:none;border-radius:14px;font-family:Manrope;font-size:15px;font-weight:800;text-decoration:none;}
+.btn-yaller .material-symbols-outlined{font-size:20px;font-variation-settings:'FILL' 1;}
+.actions-bar{display:flex;gap:8px;padding:16px 16px 0;}
+.action-btn{flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;padding:12px 6px;background:#fff;border-radius:14px;box-shadow:0 2px 10px rgba(0,0,0,0.06);text-decoration:none;}
+.action-btn .material-symbols-outlined{font-size:22px;color:#1a3a5c;}
+.action-btn .lbl{font-size:10px;font-weight:700;color:#0f1923;}
+.section{padding:24px 16px 0;}
+.section-title{font-size:17px;font-weight:900;color:#0f1923;letter-spacing:-0.02em;margin-bottom:12px;}
+.desc-card{background:#fff;border-radius:16px;padding:16px;box-shadow:0 2px 10px rgba(0,0,0,0.06);}
+.desc-text{font-size:14px;line-height:1.7;color:#374151;}
+.mystere-card{background:linear-gradient(135deg,#1a3a5c,#0a2030);border-radius:16px;padding:20px;}
+.mystere-item{display:flex;align-items:flex-start;gap:12px;margin-bottom:16px;}
+.mystere-item:last-child{margin-bottom:0;}
+.mystere-item .material-symbols-outlined{font-size:22px;color:rgba(100,180,255,0.85);flex-shrink:0;margin-top:2px;}
+.mystere-title{font-size:13px;font-weight:800;color:#fff;margin-bottom:4px;}
+.mystere-text{font-size:12px;color:rgba(255,255,255,0.75);line-height:1.6;}
+.anecdote-card{background:linear-gradient(135deg,#2d6a4f,#0f1923);border-radius:16px;padding:18px;display:flex;gap:14px;align-items:flex-start;}
+.anecdote-card .material-symbols-outlined{font-size:28px;color:rgba(100,255,200,0.85);flex-shrink:0;margin-top:2px;}
+.anecdote-title{font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:0.1em;color:rgba(100,255,200,0.75);margin-bottom:6px;}
+.anecdote-text{font-size:13px;color:rgba(255,255,255,0.88);line-height:1.65;}
+.timeline{display:flex;flex-direction:column;}
+.tl-item{display:flex;gap:14px;align-items:flex-start;padding-bottom:20px;position:relative;}
+.tl-item:last-child{padding-bottom:0;}
+.tl-item::before{content:'';position:absolute;left:19px;top:32px;bottom:0;width:2px;background:#e2e8f0;}
+.tl-item:last-child::before{display:none;}
+.tl-dot{width:40px;height:40px;border-radius:50%;background:#1a3a5c;display:flex;align-items:center;justify-content:center;flex-shrink:0;z-index:1;}
+.tl-dot .material-symbols-outlined{font-size:18px;color:#fff;}
+.tl-year{font-size:12px;font-weight:800;color:#1a3a5c;margin-bottom:3px;}
+.tl-text{font-size:13px;color:#374151;line-height:1.6;margin-top:8px;}
+.tags-wrap{display:flex;flex-wrap:wrap;gap:8px;}
+.tag{display:inline-flex;align-items:center;gap:5px;background:#fff;border-radius:100px;padding:7px 12px;font-size:11px;font-weight:700;color:#374151;box-shadow:0 1px 6px rgba(0,0,0,0.07);}
+.tag .material-symbols-outlined{font-size:14px;color:#1a3a5c;}
+.infos-grid{display:flex;flex-direction:column;gap:1px;background:#f1f5f9;border-radius:16px;overflow:hidden;box-shadow:0 2px 10px rgba(0,0,0,0.06);}
+.info-row{background:#fff;padding:13px 16px;display:flex;align-items:center;gap:12px;}
+.info-row .material-symbols-outlined{font-size:20px;color:#1a3a5c;flex-shrink:0;}
+.info-row-content{flex:1;}
+.info-row-label{font-size:11px;font-weight:600;color:#94a3b8;margin-bottom:2px;}
+.info-row-val{font-size:14px;font-weight:700;color:#0f1923;}
+.info-row-action{width:32px;height:32px;border-radius:50%;background:#fef3c7;display:flex;align-items:center;justify-content:center;flex-shrink:0;text-decoration:none;}
+.info-row-action .material-symbols-outlined{font-size:16px;color:#f59e0b;}
+.cta-bottom{position:fixed;bottom:0;left:0;right:0;padding:12px 16px 20px;background:rgba(255,255,255,0.95);backdrop-filter:blur(20px);border-top:1px solid rgba(0,0,0,0.06);display:flex;gap:10px;z-index:100;}
+.cta-main{flex:1;display:flex;align-items:center;justify-content:center;gap:8px;background:#0f1923;color:#fff;border:none;border-radius:14px;padding:15px;font-family:Manrope;font-size:15px;font-weight:800;text-decoration:none;}
+.cta-main .material-symbols-outlined{font-size:19px;font-variation-settings:'FILL' 1;}
+.cta-map{width:52px;height:52px;border-radius:14px;background:#fff;border:1.5px solid #e2e8f0;display:flex;align-items:center;justify-content:center;text-decoration:none;flex-shrink:0;}
+.cta-map .material-symbols-outlined{font-size:22px;color:#0f1923;}
+</style>
+</head>
+<body>
+<div class="hero">
+  <img src="../assets/saint-remy/poi_006.jpg" class="hero-img" alt="La Source Guerisseuse de Glan" onerror="this.style.display='none';document.getElementById('ph').style.display='flex'">
+  <div class="hero-ph" id="ph" style="display:none;"><span class="material-symbols-outlined">water_drop</span></div>
+  <div class="hero-overlay"></div>
+  <a class="hero-back" href="javascript:history.back()"><span class="material-symbols-outlined">arrow_back</span></a>
+  <div class="hero-content">
+    <div class="hero-badge">Insolite · Secret de Glanum</div>
+    <div class="hero-name">La Source Guerisseuse de Glan</div>
+    <span class="hero-pill">VIe siecle av. J.-C.</span>
+    <span class="hero-pill">50m sous le forum</span>
+    <span class="hero-pill">Coule encore</span>
+  </div>
+</div>
+
+<a class="btn-yaller" href="carte.html?poi=301">
+  <span class="material-symbols-outlined">navigation</span>
+  Y aller · Lancer la navigation
+</a>
+
+<div class="actions-bar">
+  <a href="carte.html?poi=301" class="action-btn">
+    <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">map</span>
+    <span class="lbl">Sur la carte</span>
+  </a>
+  <a href="https://maps.google.com/?q=Site+de+Glanum+Saint-Remy-de-Provence" target="_blank" class="action-btn">
+    <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">near_me</span>
+    <span class="lbl">Itineraire</span>
+  </a>
+  <a href="glanum.html" class="action-btn">
+    <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">account_balance</span>
+    <span class="lbl">Site Glanum</span>
+  </a>
+</div>
+
+<div class="section">
+  <div class="section-title">Le secret oublie de Saint-Remy</div>
+  <div class="desc-card">
+    <p class="desc-text">Avant les Romains, avant les Grecs — les Salyens, peuple celto-ligure, venaient ici soigner leurs maux. La <strong>source sacree du dieu guerisseur Glan</strong> est le point de depart de toute l'histoire de Saint-Remy.</p>
+    <p class="desc-text" style="margin-top:10px;">C'est autour de cette source que naquit la cite de <strong>Glanum</strong> au VIe siecle avant notre ere. L'eau y etait consideree comme divine, chargee de pouvoirs guerisseurs. On venait de tout le bassin mediterraneen pour boire a cette source et invoquer Glan.</p>
+    <p class="desc-text" style="margin-top:10px;">Enouie lors de la destruction de la cite en 260, la source coule pourtant encore aujourd'hui, <strong>a 50 metres sous le forum antique</strong>. On peut l'entendre dans les parties basses du site de Glanum lors des visites — un murmure de 2600 ans d'histoire.</p>
+  </div>
+</div>
+
+<div class="section">
+  <div class="section-title">Les mysteres de la source</div>
+  <div class="mystere-card">
+    <div class="mystere-item">
+      <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">water_drop</span>
+      <div>
+        <div class="mystere-title">Elle coule encore</div>
+        <div class="mystere-text">La source de Glan est toujours active apres 2600 ans. Son eau alimente encore partiellement la nappe phreatique sous le site de Glanum — visible lors des fouilles profondes.</div>
+      </div>
+    </div>
+    <div class="mystere-item">
+      <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">healing</span>
+      <div>
+        <div class="mystere-title">Eau guerisseuse</div>
+        <div class="mystere-text">Des analyses modernes ont montre que l'eau de la source contenait des mineraux rares. Les anciens n'avaient pas tort — elle avait bien des proprietes therapeutiques exceptionnelles.</div>
+      </div>
+    </div>
+    <div class="mystere-item">
+      <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">auto_stories</span>
+      <div>
+        <div class="mystere-title">Trois civilisations, un meme lieu sacre</div>
+        <div class="mystere-text">Gaulois, Grecs, Romains — chaque civilisation a adopte la source, y a bati un temple, y a depose des offrandes. Les archelogues ont retrouve des milliers d'ex-voto de toutes epoques dans ses abords.</div>
+      </div>
+    </div>
+    <div class="mystere-item">
+      <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">location_searching</span>
+      <div>
+        <div class="mystere-title">Localisation precise inconnue</div>
+        <div class="mystere-text">Les fouilles n'ont jamais atteint la source elle-meme. Sa localisation exacte reste un mystere scientifique — les archeologues l'entendent mais ne l'ont jamais vue depuis 260 ap. J.-C.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="section">
+  <div class="section-title">Le saviez-vous ?</div>
+  <div class="anecdote-card">
+    <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">tips_and_updates</span>
+    <div>
+      <div class="anecdote-title">Le secret de Glanum</div>
+      <div class="anecdote-text">Avant les Romains, avant les Grecs, les Salyens y venaient soigner leurs maux. La source sacree coule encore aujourd'hui, a 50 metres sous le forum de Glanum. On peut l'entendre lors de la visite du site — un murmure de 2600 ans qui remonte du sous-sol.</div>
+    </div>
+  </div>
+</div>
+
+<div class="section">
+  <div class="section-title">Chronologie</div>
+  <div class="timeline">
+    <div class="tl-item">
+      <div class="tl-dot"><span class="material-symbols-outlined">water_drop</span></div>
+      <div><div class="tl-year">VIe siecle av. J.-C.</div><div class="tl-text">Les Salyens decouvrent la source et fondent un sanctuaire autour du dieu guerisseur Glan</div></div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-dot"><span class="material-symbols-outlined">history_edu</span></div>
+      <div><div class="tl-year">IIe siecle av. J.-C.</div><div class="tl-text">Les Grecs construisent un bouleuterion et un temple dedie a Glan et Hercule autour de la source</div></div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-dot"><span class="material-symbols-outlined">history_edu</span></div>
+      <div><div class="tl-year">Ier siecle av. J.-C.</div><div class="tl-text">Les Romains amenagent un nymphe et integrent la source au complexe thermal de Glanum</div></div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-dot"><span class="material-symbols-outlined">history_edu</span></div>
+      <div><div class="tl-year">260 ap. J.-C.</div><div class="tl-text">Destruction de Glanum — la source est ensevelie sous les decombres et disparait pour 1700 ans</div></div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-dot"><span class="material-symbols-outlined">search</span></div>
+      <div><div class="tl-year">1921 – Auj.</div><div class="tl-text">Les fouilles revelent l'existence de la source — toujours active mais jamais retrouvee</div></div>
+    </div>
+  </div>
+</div>
+
+<div class="section">
+  <div class="section-title">Comment la decouvrir</div>
+  <div class="tags-wrap">
+    <div class="tag"><span class="material-symbols-outlined">account_balance</span>Via le site de Glanum</div>
+    <div class="tag"><span class="material-symbols-outlined">hearing</span>Audible dans les parties basses</div>
+    <div class="tag"><span class="material-symbols-outlined">groups</span>Visites guidees thematiques</div>
+    <div class="tag"><span class="material-symbols-outlined">euro</span>Inclus dans le billet Glanum</div>
+    <div class="tag"><span class="material-symbols-outlined">museum</span>Panneaux explicatifs sur place</div>
+  </div>
+</div>
+
+<div class="section" style="padding-bottom:16px;">
+  <div class="section-title">Infos pratiques</div>
+  <div class="infos-grid">
+    <div class="info-row">
+      <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">location_on</span>
+      <div class="info-row-content"><div class="info-row-label">Acces</div><div class="info-row-val">Via le site archeologique de Glanum<br>Route des Baux, Saint-Remy</div></div>
+      <a href="carte.html?poi=301" class="info-row-action"><span class="material-symbols-outlined">map</span></a>
+    </div>
+    <div class="info-row">
+      <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">euro</span>
+      <div class="info-row-content"><div class="info-row-label">Tarif</div><div class="info-row-val">Inclus dans le billet Glanum · 8€ / 5€ reduit</div></div>
+    </div>
+    <div class="info-row">
+      <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">tips_and_updates</span>
+      <div class="info-row-content"><div class="info-row-label">Conseil</div><div class="info-row-val">Descendre au niveau du nymphe romain pour l'entendre</div></div>
+    </div>
+  </div>
+</div>
+
+<div class="cta-bottom">
+  <a href="glanum.html" class="cta-main">
+    <span class="material-symbols-outlined">account_balance</span>
+    Visiter le site de Glanum
+  </a>
+  <a href="carte.html?poi=301" class="cta-map">
+    <span class="material-symbols-outlined">navigation</span>
+  </a>
+</div>
+</body>
+</html>
