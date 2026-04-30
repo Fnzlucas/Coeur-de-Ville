@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1"/>
+<title>Confiserie Lilamand — Coeur de Ville</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800;900&display=swap"/>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html,body{font-family:'Manrope',sans-serif;background:#f8f9fa;color:#0f1923;-webkit-overflow-scrolling:touch;}
+body{padding-bottom:90px;}
+.hero{position:relative;height:300px;overflow:hidden;}
+.hero-img{width:100%;height:100%;object-fit:cover;display:block;}
+.hero-ph{width:100%;height:100%;background:linear-gradient(135deg,#8B2252,#C0392B,#6d1a3e);display:flex;align-items:center;justify-content:center;}
+.hero-ph .material-symbols-outlined{font-size:90px;color:rgba(255,255,255,0.18);font-variation-settings:'FILL' 1;}
+.hero-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,0.82) 0%,rgba(0,0,0,0.15) 55%,transparent 100%);}
+.hero-back{position:absolute;top:16px;left:16px;width:40px;height:40px;border-radius:50%;background:rgba(255,255,255,0.15);backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,0.25);display:flex;align-items:center;justify-content:center;z-index:10;text-decoration:none;}
+.hero-back .material-symbols-outlined{color:#fff;font-size:20px;}
+.hero-content{position:absolute;bottom:0;left:0;right:0;padding:20px 20px 24px;}
+.hero-badge{display:inline-flex;align-items:center;gap:5px;background:rgba(139,34,82,0.92);color:#fff;font-size:9px;font-weight:800;letter-spacing:0.12em;text-transform:uppercase;padding:5px 12px;border-radius:20px;margin-bottom:10px;}
+.hero-badge::before{content:'';width:5px;height:5px;background:#fff;border-radius:50%;}
+.hero-name{font-size:28px;font-weight:900;color:#fff;line-height:1.05;letter-spacing:-0.02em;margin-bottom:8px;}
+.hero-pill{display:inline-block;background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.25);color:#fff;font-size:10px;font-weight:700;padding:4px 10px;border-radius:20px;margin-right:6px;margin-bottom:4px;}
+.banner{margin:16px 16px 0;border-radius:14px;padding:12px 16px;display:flex;align-items:center;gap:10px;background:#f0fdf4;border:1px solid #bbf7d0;}
+.banner-dot{width:8px;height:8px;border-radius:50%;background:#22c55e;flex-shrink:0;box-shadow:0 0 0 3px rgba(34,197,94,0.2);}
+.btn-yaller{display:flex;align-items:center;justify-content:center;gap:8px;margin:16px 16px 0;padding:15px;background:#0f1923;color:#fff;border:none;border-radius:14px;font-family:Manrope;font-size:15px;font-weight:800;text-decoration:none;}
+.btn-yaller .material-symbols-outlined{font-size:20px;font-variation-settings:'FILL' 1;}
+.actions-bar{display:flex;gap:8px;padding:16px 16px 0;}
+.action-btn{flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;padding:12px 6px;background:#fff;border-radius:14px;box-shadow:0 2px 10px rgba(0,0,0,0.06);text-decoration:none;}
+.action-btn .material-symbols-outlined{font-size:22px;color:#8B2252;}
+.action-btn .lbl{font-size:10px;font-weight:700;color:#0f1923;}
+.section{padding:24px 16px 0;}
+.section-title{font-size:17px;font-weight:900;color:#0f1923;letter-spacing:-0.02em;margin-bottom:12px;}
+.desc-card{background:#fff;border-radius:16px;padding:16px;box-shadow:0 2px 10px rgba(0,0,0,0.06);}
+.desc-text{font-size:14px;line-height:1.7;color:#374151;}
+.tags-wrap{display:flex;flex-wrap:wrap;gap:8px;}
+.tag{display:inline-flex;align-items:center;gap:5px;background:#fff;border-radius:100px;padding:7px 12px;font-size:11px;font-weight:700;color:#374151;box-shadow:0 1px 6px rgba(0,0,0,0.07);}
+.tag .material-symbols-outlined{font-size:14px;color:#8B2252;}
+.produit-grid{display:flex;flex-direction:column;gap:1px;background:#f1f5f9;border-radius:16px;overflow:hidden;box-shadow:0 2px 10px rgba(0,0,0,0.06);}
+.produit-row{background:#fff;padding:14px 16px;display:flex;align-items:center;gap:12px;}
+.produit-icon{width:40px;height:40px;border-radius:12px;background:#fdf2f8;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.produit-icon .material-symbols-outlined{font-size:20px;color:#8B2252;}
+.produit-content{flex:1;}
+.produit-name{font-size:14px;font-weight:800;color:#0f1923;}
+.produit-desc{font-size:12px;color:#64748b;margin-top:2px;}
+.produit-prix{font-size:13px;font-weight:800;color:#8B2252;}
+.heritage-card{background:linear-gradient(135deg,#6d1a3e,#0f1923);border-radius:16px;padding:20px;}
+.heritage-item{display:flex;align-items:flex-start;gap:12px;margin-bottom:16px;}
+.heritage-item:last-child{margin-bottom:0;}
+.heritage-year{font-size:18px;font-weight:900;color:#fff;width:48px;flex-shrink:0;letter-spacing:-0.02em;}
+.heritage-text{font-size:13px;color:rgba(255,255,255,0.85);line-height:1.6;}
+.heritage-text strong{color:#fff;}
+.score-card{background:linear-gradient(135deg,#0f1923,#1e3a5f);border-radius:18px;padding:20px;display:flex;align-items:center;gap:16px;}
+.score-big{font-size:48px;font-weight:900;color:#fff;line-height:1;letter-spacing:-0.04em;}
+.score-stars{display:flex;gap:3px;color:#FBBF24;font-size:18px;margin-bottom:4px;}
+.score-cnt{font-size:12px;color:rgba(255,255,255,0.5);font-weight:500;}
+.score-bars{flex:1;}
+.score-bar-row{display:flex;align-items:center;gap:8px;margin-bottom:5px;}
+.score-bar-label{font-size:10px;color:rgba(255,255,255,0.6);font-weight:600;width:10px;text-align:right;}
+.score-bar-track{flex:1;height:4px;background:rgba(255,255,255,0.1);border-radius:2px;overflow:hidden;}
+.score-bar-fill{height:100%;background:#FBBF24;border-radius:2px;}
+.horaires-card{background:#fff;border-radius:16px;padding:4px 0;box-shadow:0 2px 10px rgba(0,0,0,0.06);}
+.hrow{display:flex;justify-content:space-between;align-items:center;padding:10px 16px;border-bottom:1px solid #f8f9fa;}
+.hrow:last-child{border-bottom:none;}
+.hrow-day{font-size:13px;font-weight:600;color:#374151;}
+.hrow-time{font-size:13px;font-weight:700;color:#0f1923;}
+.hrow-time.closed{color:#dc2626;}
+.infos-grid{display:flex;flex-direction:column;gap:1px;background:#f1f5f9;border-radius:16px;overflow:hidden;box-shadow:0 2px 10px rgba(0,0,0,0.06);}
+.info-row{background:#fff;padding:13px 16px;display:flex;align-items:center;gap:12px;}
+.info-row .material-symbols-outlined{font-size:20px;color:#8B2252;flex-shrink:0;}
+.info-row-content{flex:1;}
+.info-row-label{font-size:11px;font-weight:600;color:#94a3b8;margin-bottom:2px;}
+.info-row-val{font-size:14px;font-weight:700;color:#0f1923;}
+.info-row-action{width:32px;height:32px;border-radius:50%;background:#fef3c7;display:flex;align-items:center;justify-content:center;flex-shrink:0;text-decoration:none;}
+.info-row-action .material-symbols-outlined{font-size:16px;color:#f59e0b;}
+.cta-bottom{position:fixed;bottom:0;left:0;right:0;padding:12px 16px 20px;background:rgba(255,255,255,0.95);backdrop-filter:blur(20px);border-top:1px solid rgba(0,0,0,0.06);display:flex;gap:10px;z-index:100;}
+.cta-call{flex:1;display:flex;align-items:center;justify-content:center;gap:8px;background:#0f1923;color:#fff;border:none;border-radius:14px;padding:15px;font-family:Manrope;font-size:15px;font-weight:800;text-decoration:none;}
+.cta-call .material-symbols-outlined{font-size:19px;font-variation-settings:'FILL' 1;}
+.cta-map{width:52px;height:52px;border-radius:14px;background:#fff;border:1.5px solid #e2e8f0;display:flex;align-items:center;justify-content:center;text-decoration:none;flex-shrink:0;}
+.cta-map .material-symbols-outlined{font-size:22px;color:#0f1923;}
+</style>
+</head>
+<body>
+<div class="hero">
+  <img src="../assets/saint-remy/lilamand.jpg" class="hero-img" alt="Confiserie Lilamand" onerror="this.style.display='none';document.getElementById('ph').style.display='flex'">
+  <div class="hero-ph" id="ph" style="display:none;"><span class="material-symbols-outlined">cake</span></div>
+  <div class="hero-overlay"></div>
+  <a class="hero-back" href="javascript:history.back()"><span class="material-symbols-outlined">arrow_back</span></a>
+  <div class="hero-content">
+    <div class="hero-badge">Confiserie · Artisan</div>
+    <div class="hero-name">Confiserie Lilamand</div>
+    <span class="hero-pill">Depuis 1866</span>
+    <span class="hero-pill">Maison historique</span>
+    <span class="hero-pill">4.8 / 5</span>
+  </div>
+</div>
+
+<div class="banner">
+  <div class="banner-dot"></div>
+  <div>
+    <div style="font-size:13px;font-weight:700;color:#166534;">Ouvert maintenant · Lun – Sam 9h – 19h</div>
+    <div style="font-size:12px;color:#4ade80;margin-top:1px;">Ferme le dimanche · 5 avenue Albert Schweitzer</div>
+  </div>
+</div>
+
+<a class="btn-yaller" href="carte.html?poi=153">
+  <span class="material-symbols-outlined">navigation</span>
+  Y aller · Lancer la navigation
+</a>
+
+<div class="actions-bar">
+  <a href="tel:0490921108" class="action-btn">
+    <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">call</span>
+    <span class="lbl">Appeler</span>
+  </a>
+  <a href="carte.html?poi=153" class="action-btn">
+    <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">map</span>
+    <span class="lbl">Sur la carte</span>
+  </a>
+  <a href="https://maps.google.com/?q=5+avenue+Albert+Schweitzer+13210+Saint-Remy" target="_blank" class="action-btn">
+    <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">near_me</span>
+    <span class="lbl">Itineraire</span>
+  </a>
+  <a href="https://www.lilamand.com" target="_blank" class="action-btn">
+    <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">language</span>
+    <span class="lbl">Site web</span>
+  </a>
+</div>
+
+<div class="section">
+  <div class="section-title">La plus ancienne maison de Saint-Remy</div>
+  <div class="desc-card">
+    <p class="desc-text">Fondee en <strong>1866</strong>, la Confiserie Lilamand est la plus ancienne maison de Saint-Remy-de-Provence. Depuis cinq generations, la famille perpétue un savoir-faire confiseur d'exception, herite d'une tradition qui remonte a l'epoque de Nostradamus.</p>
+    <p class="desc-text" style="margin-top:10px;">Calissons, fruits confits, pates d'amande, nougats, berlingots... chaque confiserie est fabriquee a la main selon des recettes transmises de generation en generation, avec des fruits locaux soigneusement selectionnes.</p>
+    <p class="desc-text" style="margin-top:10px;">La boutique, installee dans un hotel particulier du XVIIe siecle, est elle-meme un lieu de visite — ses boiseries, ses vitrines d'epoque et ses effluves de sucre cuit en font une escale unique en Provence.</p>
+  </div>
+</div>
+
+<div class="section">
+  <div class="section-title">Chronique d'une maison d'exception</div>
+  <div class="heritage-card">
+    <div class="heritage-item">
+      <div class="heritage-year">1866</div>
+      <div class="heritage-text"><strong>Fondation</strong> — La famille Lilamand ouvre sa confiserie dans le centre ancien de Saint-Remy, specialisee dans les fruits confits provencaux.</div>
+    </div>
+    <div class="heritage-item">
+      <div class="heritage-year">1900s</div>
+      <div class="heritage-text"><strong>Reconnaissance</strong> — La maison commence a exporter ses calissons et fruits confits vers Paris et les grandes tables europeennes.</div>
+    </div>
+    <div class="heritage-item">
+      <div class="heritage-year">1950s</div>
+      <div class="heritage-text"><strong>Extension</strong> — Developpement de la gamme nougats et pates d'amande. Installation dans l'hotel particulier actuel, avenue Albert Schweitzer.</div>
+    </div>
+    <div class="heritage-item">
+      <div class="heritage-year">Auj.</div>
+      <div class="heritage-text"><strong>5e generation</strong> — La famille Lilamand continue de produire artisanalement, avec les memes recettes et la meme exigence qu'en 1866.</div>
+    </div>
+  </div>
+</div>
+
+<div class="section">
+  <div class="section-title">La gamme</div>
+  <div class="produit-grid">
+    <div class="produit-row">
+      <div class="produit-icon"><span class="material-symbols-outlined">cake</span></div>
+      <div class="produit-content">
+        <div class="produit-name">Calissons de Provence</div>
+        <div class="produit-desc">Amandes, melon confit, orange — recette d'origine, glaçage royal main</div>
+      </div>
+      <div class="produit-prix">~20€/boite</div>
+    </div>
+    <div class="produit-row">
+      <div class="produit-icon"><span class="material-symbols-outlined">local_florist</span></div>
+      <div class="produit-content">
+        <div class="produit-name">Fruits confits entiers</div>
+        <div class="produit-desc">Abricots, figues, cerises, cederats, oranges — confisage lent en plusieurs bains</div>
+      </div>
+      <div class="produit-prix">~35€/kg</div>
+    </div>
+    <div class="produit-row">
+      <div class="produit-icon"><span class="material-symbols-outlined">texture</span></div>
+      <div class="produit-content">
+        <div class="produit-name">Pate d'amande</div>
+        <div class="produit-desc">Amandes de Provence, sucre, fleur d'oranger — pure et aromatisee</div>
+      </div>
+      <div class="produit-prix">~18€/250g</div>
+    </div>
+    <div class="produit-row">
+      <div class="produit-icon"><span class="material-symbols-outlined">diamond</span></div>
+      <div class="produit-content">
+        <div class="produit-name">Nougat de Provence</div>
+        <div class="produit-desc">Miel de lavande, amandes grillees, blanc d'oeuf — tendre ou dur</div>
+      </div>
+      <div class="produit-prix">~22€/400g</div>
+    </div>
+    <div class="produit-row">
+      <div class="produit-icon"><span class="material-symbols-outlined">circle</span></div>
+      <div class="produit-content">
+        <div class="produit-name">Berlingots provencaux</div>
+        <div class="produit-desc">Bonbons artisanaux aux parfums de Provence — anise, lavande, citron</div>
+      </div>
+      <div class="produit-prix">~8€/sachet</div>
+    </div>
+    <div class="produit-row">
+      <div class="produit-icon"><span class="material-symbols-outlined">card_giftcard</span></div>
+      <div class="produit-content">
+        <div class="produit-name">Coffrets cadeaux</div>
+        <div class="produit-desc">Assortiments prestige — ideal souvenir ou cadeau d'entreprise</div>
+      </div>
+      <div class="produit-prix">25 – 120€</div>
+    </div>
+  </div>
+</div>
+
+<div class="section">
+  <div class="section-title">A savoir</div>
+  <div class="tags-wrap">
+    <div class="tag"><span class="material-symbols-outlined">history</span>Maison fondee en 1866</div>
+    <div class="tag"><span class="material-symbols-outlined">handyman</span>Fabrication artisanale</div>
+    <div class="tag"><span class="material-symbols-outlined">eco</span>Fruits locaux selectionnes</div>
+    <div class="tag"><span class="material-symbols-outlined">local_shipping</span>Expedition possible</div>
+    <div class="tag"><span class="material-symbols-outlined">card_giftcard</span>Coffrets entreprises</div>
+    <div class="tag"><span class="material-symbols-outlined">visibility</span>Visite boutique historique</div>
+    <div class="tag"><span class="material-symbols-outlined">credit_card</span>CB acceptee</div>
+    <div class="tag"><span class="material-symbols-outlined">translate</span>Anglais parle</div>
+  </div>
+</div>
+
+<div class="section">
+  <div class="section-title">Note clients</div>
+  <div class="score-card">
+    <div style="text-align:center;">
+      <div class="score-big">4,8</div>
+      <div class="score-stars">★★★★★</div>
+      <div class="score-cnt">Tres bien note</div>
+    </div>
+    <div class="score-bars">
+      <div class="score-bar-row"><span class="score-bar-label">5</span><div class="score-bar-track"><div class="score-bar-fill" style="width:80%"></div></div></div>
+      <div class="score-bar-row"><span class="score-bar-label">4</span><div class="score-bar-track"><div class="score-bar-fill" style="width:15%"></div></div></div>
+      <div class="score-bar-row"><span class="score-bar-label">3</span><div class="score-bar-track"><div class="score-bar-fill" style="width:3%"></div></div></div>
+      <div class="score-bar-row"><span class="score-bar-label">2</span><div class="score-bar-track"><div class="score-bar-fill" style="width:1%"></div></div></div>
+      <div class="score-bar-row" style="margin-bottom:0;"><span class="score-bar-label">1</span><div class="score-bar-track"><div class="score-bar-fill" style="width:1%"></div></div></div>
+    </div>
+  </div>
+</div>
+
+<div class="section">
+  <div class="section-title">Horaires</div>
+  <div class="horaires-card">
+    <div class="hrow"><span class="hrow-day">Lundi</span><span class="hrow-time">9h00 – 19h00</span></div>
+    <div class="hrow"><span class="hrow-day">Mardi</span><span class="hrow-time">9h00 – 19h00</span></div>
+    <div class="hrow"><span class="hrow-day">Mercredi</span><span class="hrow-time">9h00 – 19h00</span></div>
+    <div class="hrow"><span class="hrow-day">Jeudi</span><span class="hrow-time">9h00 – 19h00</span></div>
+    <div class="hrow"><span class="hrow-day">Vendredi</span><span class="hrow-time">9h00 – 19h00</span></div>
+    <div class="hrow"><span class="hrow-day">Samedi</span><span class="hrow-time">9h00 – 19h00</span></div>
+    <div class="hrow"><span class="hrow-day">Dimanche</span><span class="hrow-time closed">Ferme</span></div>
+  </div>
+</div>
+
+<div class="section" style="padding-bottom:16px;">
+  <div class="section-title">Infos pratiques</div>
+  <div class="infos-grid">
+    <div class="info-row">
+      <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">location_on</span>
+      <div class="info-row-content"><div class="info-row-label">Adresse</div><div class="info-row-val">5 avenue Albert Schweitzer<br>13210 Saint-Remy-de-Provence</div></div>
+      <a href="carte.html?poi=153" class="info-row-action"><span class="material-symbols-outlined">map</span></a>
+    </div>
+    <div class="info-row">
+      <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">call</span>
+      <div class="info-row-content"><div class="info-row-label">Telephone</div><div class="info-row-val">04 90 92 11 08</div></div>
+      <a href="tel:0490921108" class="info-row-action"><span class="material-symbols-outlined">call</span></a>
+    </div>
+    <div class="info-row">
+      <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">language</span>
+      <div class="info-row-content"><div class="info-row-label">Site web</div><div class="info-row-val">lilamand.com</div></div>
+      <a href="https://www.lilamand.com" target="_blank" class="info-row-action"><span class="material-symbols-outlined">open_in_new</span></a>
+    </div>
+  </div>
+</div>
+
+<div class="cta-bottom">
+  <a href="tel:0490921108" class="cta-call">
+    <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">call</span>
+    04 90 92 11 08
+  </a>
+  <a href="carte.html?poi=153" class="cta-map">
+    <span class="material-symbols-outlined">navigation</span>
+  </a>
+</div>
+</body>
+</html>
