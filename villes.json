@@ -24,12 +24,12 @@
     "expire": null
   },
   "avignon": {
-    "actif": false,
+    "actif": true,
     "nom": "Avignon",
     "departement": "Vaucluse (84)",
     "couleur": "#7c2d12",
     "photo": "assets/avignon/hero.jpg",
-    "expire": null
+    "expire": "2027-01-01"
   },
   "bagnols-sur-ceze": {
     "actif": false,
