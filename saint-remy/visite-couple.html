@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1"/>
+<title>En couple — Cœur de Ville Saint-Rémy</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800;900&display=swap"/>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html,body{font-family:'Manrope',sans-serif;background:#f8f9fa;color:#0f1923;-webkit-overflow-scrolling:touch;}
+body{padding-bottom:90px;}
+.hero{position:relative;height:260px;overflow:hidden;}
+.hero-bg{width:100%;height:100%;background:linear-gradient(135deg,#6d1a3e,#e11d48,#0f1923);display:flex;align-items:center;justify-content:center;}
+.hero-bg .material-symbols-outlined{font-size:100px;color:rgba(255,255,255,0.1);font-variation-settings:'FILL' 1;}
+.hero-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,0.82) 0%,rgba(0,0,0,0.1) 60%,transparent 100%);}
+.hero-back{position:absolute;top:16px;left:16px;width:40px;height:40px;border-radius:50%;background:rgba(255,255,255,0.15);backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,0.25);display:flex;align-items:center;justify-content:center;z-index:10;text-decoration:none;}
+.hero-back .material-symbols-outlined{color:#fff;font-size:20px;}
+.hero-content{position:absolute;bottom:0;left:0;right:0;padding:20px 20px 24px;}
+.hero-badge{display:inline-flex;align-items:center;gap:5px;background:rgba(225,29,72,0.85);color:#fff;font-size:9px;font-weight:800;letter-spacing:0.12em;text-transform:uppercase;padding:5px 12px;border-radius:20px;margin-bottom:10px;}
+.hero-badge::before{content:'';width:5px;height:5px;background:#fff;border-radius:50%;}
+.hero-name{font-size:28px;font-weight:900;color:#fff;line-height:1.05;letter-spacing:-0.02em;margin-bottom:6px;}
+.hero-sub{font-size:13px;color:rgba(255,255,255,0.7);}
+.section{padding:24px 16px 0;}
+.section-title{font-size:17px;font-weight:900;color:#0f1923;letter-spacing:-0.02em;margin-bottom:12px;}
+.duree-card{background:#fff;border-radius:16px;padding:16px;box-shadow:0 2px 10px rgba(0,0,0,0.06);display:flex;gap:16px;align-items:center;}
+.duree-num{font-size:42px;font-weight:900;color:#e11d48;letter-spacing:-0.04em;line-height:1;}
+.duree-label{font-size:12px;color:#64748b;font-weight:600;margin-top:4px;}
+.duree-sep{width:1px;background:#e2e8f0;align-self:stretch;}
+.duree-details{flex:1;}
+.duree-row{display:flex;align-items:center;gap:6px;margin-bottom:6px;font-size:12px;color:#374151;}
+.duree-row:last-child{margin-bottom:0;}
+.duree-row .material-symbols-outlined{font-size:14px;color:#e11d48;}
+.etape-card{background:#fff;border-radius:18px;box-shadow:0 3px 16px rgba(0,0,0,0.08);overflow:hidden;margin-bottom:12px;}
+.etape-img-ph{width:100%;height:160px;display:flex;align-items:center;justify-content:center;}
+.etape-img-ph .material-symbols-outlined{font-size:60px;color:rgba(255,255,255,0.3);font-variation-settings:'FILL' 1;}
+.etape-body{padding:14px 16px 16px;}
+.etape-num{display:inline-flex;align-items:center;justify-content:center;width:26px;height:26px;border-radius:50%;background:#e11d48;color:#fff;font-size:12px;font-weight:900;margin-bottom:8px;}
+.etape-name{font-size:16px;font-weight:900;color:#0f1923;margin-bottom:5px;letter-spacing:-0.01em;}
+.etape-why{background:#fff1f3;border-radius:10px;padding:10px 12px;margin-bottom:10px;}
+.etape-why-label{font-size:9px;font-weight:800;text-transform:uppercase;letter-spacing:0.1em;color:#e11d48;margin-bottom:3px;}
+.etape-why-text{font-size:13px;color:#9f1239;line-height:1.5;}
+.etape-tags{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px;}
+.etag{font-size:10px;font-weight:700;padding:4px 9px;border-radius:20px;background:#f1f5f9;color:#374151;display:inline-flex;align-items:center;gap:3px;}
+.etag .material-symbols-outlined{font-size:11px;color:#e11d48;}
+.etape-btn{display:flex;align-items:center;justify-content:center;gap:6px;background:#0f1923;color:#fff;border:none;border-radius:12px;padding:11px;font-family:Manrope;font-size:13px;font-weight:800;text-decoration:none;width:100%;}
+.etape-btn .material-symbols-outlined{font-size:16px;}
+.conseil-card{background:linear-gradient(135deg,#6d1a3e,#0f1923);border-radius:16px;padding:18px;}
+.conseil-item{display:flex;align-items:flex-start;gap:10px;margin-bottom:12px;}
+.conseil-item:last-child{margin-bottom:0;}
+.conseil-item .material-symbols-outlined{font-size:18px;color:rgba(255,255,255,0.7);flex-shrink:0;margin-top:1px;}
+.conseil-text{font-size:13px;color:rgba(255,255,255,0.9);line-height:1.6;}
+.conseil-text strong{color:#fff;}
+.cta-bottom{position:fixed;bottom:0;left:0;right:0;padding:12px 16px 20px;background:rgba(255,255,255,0.95);backdrop-filter:blur(20px);border-top:1px solid rgba(0,0,0,0.06);display:flex;gap:10px;z-index:100;}
+.cta-main{flex:1;display:flex;align-items:center;justify-content:center;gap:8px;background:#e11d48;color:#fff;border:none;border-radius:14px;padding:15px;font-family:Manrope;font-size:15px;font-weight:800;text-decoration:none;}
+.cta-main .material-symbols-outlined{font-size:19px;font-variation-settings:'FILL' 1;}
+.cta-sec{width:52px;height:52px;border-radius:14px;background:#fff;border:1.5px solid #e2e8f0;display:flex;align-items:center;justify-content:center;text-decoration:none;flex-shrink:0;}
+.cta-sec .material-symbols-outlined{font-size:22px;color:#0f1923;}
+</style>
+</head>
+<body>
+<div class="hero">
+  <div class="hero-bg"><span class="material-symbols-outlined">favorite</span></div>
+  <div class="hero-overlay"></div>
+  <a class="hero-back" href="javascript:history.back()"><span class="material-symbols-outlined">arrow_back</span></a>
+  <div class="hero-content">
+    <div class="hero-badge">Idée de visite · 4 étapes</div>
+    <div class="hero-name">Saint-Rémy en couple</div>
+    <div class="hero-sub">Une journée romantique entre art, gastronomie et coucher de soleil sur les Alpilles</div>
+  </div>
+</div>
+
+<div class="section">
+  <div class="duree-card">
+    <div><div class="duree-num">1j</div><div class="duree-label">Journée complète</div></div>
+    <div class="duree-sep"></div>
+    <div class="duree-details">
+      <div class="duree-row"><span class="material-symbols-outlined">schedule</span>Départ conseillé 10h00</div>
+      <div class="duree-row"><span class="material-symbols-outlined">wine_bar</span>Cave d'exception incluse</div>
+      <div class="duree-row"><span class="material-symbols-outlined">euro</span>Budget ~70€ / couple repas + visites</div>
+    </div>
+  </div>
+</div>
+
+<div class="section">
+  <div class="section-title">Le parcours</div>
+
+  <div class="etape-card">
+    <div class="etape-img-ph" style="background:linear-gradient(135deg,#2c1a4e,#4a2c7a);">
+      <span class="material-symbols-outlined">palette</span>
+    </div>
+    <div class="etape-body">
+      <div class="etape-num">1</div>
+      <div class="etape-name">Monastère Saint-Paul-de-Mausole — 10h00</div>
+      <div class="etape-why">
+        <div class="etape-why-label">Pourquoi en couple ?</div>
+        <div class="etape-why-text">Se tenir la main dans la chambre de Van Gogh et regarder par la même fenêtre que lui, la nuit où il peignit La Nuit étoilée. Les jardins d'iris en fleurs sont l'un des cadres les plus poétiques de Provence.</div>
+      </div>
+      <div class="etape-tags">
+        <span class="etag"><span class="material-symbols-outlined">local_florist</span>Jardins d'iris</span>
+        <span class="etag"><span class="material-symbols-outlined">palette</span>Chambre Van Gogh</span>
+        <span class="etag"><span class="material-symbols-outlined">schedule</span>1h30</span>
+      </div>
+      <a href="saint-paul-de-mausole.html" class="etape-btn"><span class="material-symbols-outlined">arrow_forward</span>Voir le monastère</a>
+    </div>
+  </div>
+
+  <div class="etape-card">
+    <div class="etape-img-ph" style="background:linear-gradient(135deg,#5c4a1e,#8B6F2C);">
+      <span class="material-symbols-outlined">holiday_village</span>
+    </div>
+    <div class="etape-body">
+      <div class="etape-num">2</div>
+      <div class="etape-name">Les Antiques — 11h30</div>
+      <div class="etape-why">
+        <div class="etape-why-label">Pourquoi en couple ?</div>
+        <div class="etape-why-text">Deux monuments romains debout depuis 2000 ans, face aux Alpilles. Le matin, la lumière rasante sur le calcaire blanc est photographique. Un des lieux les plus silencieux et les plus beaux de Saint-Rémy.</div>
+      </div>
+      <div class="etape-tags">
+        <span class="etag"><span class="material-symbols-outlined">camera_alt</span>Photos exceptionnelles</span>
+        <span class="etag"><span class="material-symbols-outlined">lock_open</span>Gratuit</span>
+        <span class="etag"><span class="material-symbols-outlined">schedule</span>30 min</span>
+      </div>
+      <a href="les-antiques.html" class="etape-btn"><span class="material-symbols-outlined">arrow_forward</span>Voir les Antiques</a>
+    </div>
+  </div>
+
+  <div class="etape-card">
+    <div class="etape-img-ph" style="background:linear-gradient(135deg,#1a3a5c,#2d6a4f);">
+      <span class="material-symbols-outlined">wine_bar</span>
+    </div>
+    <div class="etape-body">
+      <div class="etape-num">3</div>
+      <div class="etape-name">Déjeuner — Le Bistrot Découverte — 13h00</div>
+      <div class="etape-why">
+        <div class="etape-why-label">Pourquoi en couple ?</div>
+        <div class="etape-why-text">La cave d'exception de Claude Douard, la terrasse à l'ombre des platanes, la cuisine du marché du matin. Une des tables les plus romantiques de Saint-Rémy — réserver absolument la veille.</div>
+      </div>
+      <div class="etape-tags">
+        <span class="etag"><span class="material-symbols-outlined">wine_bar</span>Cave d'exception</span>
+        <span class="etag"><span class="material-symbols-outlined">deck</span>Terrasse platanes</span>
+        <span class="etag"><span class="material-symbols-outlined">book_online</span>Réservation obligatoire</span>
+      </div>
+      <a href="bistrot-decouverte.html" class="etape-btn"><span class="material-symbols-outlined">arrow_forward</span>Voir le bistrot</a>
+    </div>
+  </div>
+
+  <div class="etape-card">
+    <div class="etape-img-ph" style="background:linear-gradient(135deg,#1a4a6e,#2d6a4f);">
+      <span class="material-symbols-outlined">water</span>
+    </div>
+    <div class="etape-body">
+      <div class="etape-num">4</div>
+      <div class="etape-name">Coucher de soleil au Lac du Peiroou — 18h00</div>
+      <div class="etape-why">
+        <div class="etape-why-label">Pourquoi en couple ?</div>
+        <div class="etape-why-text">Le lac secret des Saint-Rémois au coucher du soleil, avec la chaîne des Alpilles en toile de fond. L'eau prend des reflets dorés, les pins sentent la résine chaude. L'un des moments les plus beaux de la journée.</div>
+      </div>
+      <div class="etape-tags">
+        <span class="etag"><span class="material-symbols-outlined">wb_sunny</span>Coucher de soleil</span>
+        <span class="etag"><span class="material-symbols-outlined">camera_alt</span>Vue panoramique</span>
+        <span class="etag"><span class="material-symbols-outlined">lock_open</span>Gratuit</span>
+      </div>
+      <a href="lac-peiroou.html" class="etape-btn"><span class="material-symbols-outlined">arrow_forward</span>Voir le lac</a>
+    </div>
+  </div>
+</div>
+
+<div class="section">
+  <div class="section-title">Conseils romantiques</div>
+  <div class="conseil-card">
+    <div class="conseil-item"><span class="material-symbols-outlined">wine_bar</span><div class="conseil-text"><strong>La cave :</strong> au Bistrot Découverte, demandez à Claude Douard de choisir le vin pour vous — ses recommandations de domaines confidentiels des Alpilles sont inoubliables.</div></div>
+    <div class="conseil-item"><span class="material-symbols-outlined">local_florist</span><div class="conseil-text"><strong>Les iris :</strong> la meilleure période pour les jardins de Saint-Paul est mai-juin. Hors saison, le cloître roman reste magnifique et bien plus calme.</div></div>
+    <div class="conseil-item"><span class="material-symbols-outlined">wb_sunny</span><div class="conseil-text"><strong>Le Peiroou :</strong> arriver au moins 45 min avant le coucher du soleil pour avoir le temps de trouver le bon angle. Apporter une couverture — les soirées fraîchissent vite dans les Alpilles.</div></div>
+    <div class="conseil-item"><span class="material-symbols-outlined">restaurant</span><div class="conseil-text"><strong>Le soir :</strong> l'Aile ou la Cuisse dans sa cour intérieure est parfaite pour un dîner romantique après le coucher de soleil.</div></div>
+  </div>
+</div>
+
+<div class="section" style="padding-bottom:16px;">
+  <div class="section-title">Autres parcours</div>
+  <div style="display:flex;gap:10px;flex-wrap:wrap;">
+    <a href="visite-famille.html" style="flex:1;min-width:130px;background:#fff;border-radius:14px;padding:14px;box-shadow:0 2px 10px rgba(0,0,0,0.06);text-decoration:none;display:flex;align-items:center;gap:10px;">
+      <span class="material-symbols-outlined" style="font-size:22px;color:#2563eb;font-variation-settings:'FILL' 1;">family_restroom</span>
+      <div><div style="font-size:13px;font-weight:800;color:#0f1923;">En famille</div><div style="font-size:11px;color:#94a3b8;">5 lieux incontournables</div></div>
+    </a>
+    <a href="visite-solo.html" style="flex:1;min-width:130px;background:#fff;border-radius:14px;padding:14px;box-shadow:0 2px 10px rgba(0,0,0,0.06);text-decoration:none;display:flex;align-items:center;gap:10px;">
+      <span class="material-symbols-outlined" style="font-size:22px;color:#f97316;font-variation-settings:'FILL' 1;">luggage</span>
+      <div><div style="font-size:13px;font-weight:800;color:#0f1923;">En solo</div><div style="font-size:11px;color:#94a3b8;">7 lieux à votre rythme</div></div>
+    </a>
+  </div>
+</div>
+
+<div class="cta-bottom">
+  <a href="carte.html" class="cta-main"><span class="material-symbols-outlined">map</span>Voir tous les lieux sur la carte</a>
+  <a href="javascript:history.back()" class="cta-sec"><span class="material-symbols-outlined">arrow_back</span></a>
+</div>
+</body>
+</html>
