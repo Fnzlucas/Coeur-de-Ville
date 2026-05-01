@@ -250,130 +250,6 @@ const KB = [
     qr:['Restaurants ouverts','Marché cette semaine','Que faire ce soir']
   },
 ];
-  {
-    keys:['antiques','mausolee','arc de triomphe','monument romain'],
-    ans:"🏺 **Les Antiques** — arc et mausolée romains du Ier s. av. J.-C.\n\nAccès **libre et gratuit** 24h/24 toute l'année. À 300m de Glanum — on visite les deux facilement.\n\n📍 Avenue Vincent Van Gogh\n⏱️ 20-45 min · Parking nearby",
-    qr:['Voir Glanum aussi','Parcours en couple','Monastère Van Gogh']
-  },
-  {
-    keys:['van gogh','nuit etoilee','saint-paul','mausole','monastere','iris','chambre','peinture'],
-    ans:"🎨 **Monastère Saint-Paul-de-Mausole** — où Van Gogh créa La Nuit étoilée.\n\nEn 53 semaines, il peignit 143 toiles. Sa chambre est reconstituée à l'identique.\n\nHoraires :\n• Avr – Oct : 9h30 – 19h00\n• Nov – Mar : 10h15 – 17h00\n\n💰 5,50€ · 3,50€ réduit · Gratuit -12 ans\n📍 Chemin Saint-Paul · 04 90 92 20 77",
-    qr:['Les Antiques à côté','Jardins d\'iris','Parcours romantique']
-  },
-  {
-    keys:['nostradamus','propheti','astrologue','centuries'],
-    ans:"🔮 **Maison natale de Nostradamus** — né ici le 14 décembre 1503.\n\nAnecdote : avant ses prophéties, il publia en 1555 le **premier traité de confitures** en français ! Visible rue Hoche.\n\n📍 6 rue Hoche, centre-ville",
-    qr:['Confiserie Lilamand','Autres lieux insolites','Parcours solo']
-  },
-  {
-    keys:['peiroou','lac','baignade','baigner','nager','randonnee','gr6','alpilles','nature'],
-    ans:"🏊 **Lac du Peiroou** — le spot secret des Saint-Rémois !\n\nLac de 4 ha dans les Alpilles, eau fraîche, baignade gratuite. Sentiers GR6, pique-nique, vue panoramique.\n\n📍 Chemin du Peiroou — 2 km du centre\n🅿️ Parking limité — arriver avant 16h en été\n💰 Gratuit",
-    qr:['Y aller en voiture','Coucher de soleil','Randonnée GR6']
-  },
-  {
-    keys:['marche','marché','mercredi','samedi','producteur','exposant','brocante'],
-    ans:function(){
-      var d=new Date().getDay(),h=new Date().getHours(),s='';
-      if(d===3&&h>=8&&h<13)s='🟢 **Marché du mercredi en cours !** Dépêchez-vous, ferme à 13h.\n\n';
-      else if(d===6&&h>=8&&h<13)s='🟢 **Marché du samedi en cours !** Avenue de la Résistance, ferme à 13h.\n\n';
-      else if(d===3)s='📅 Le marché du mercredi c\'est aujourd\'hui 8h-13h !\n\n';
-      else if(d===6)s='📅 Le marché du samedi c\'est aujourd\'hui 8h-13h !\n\n';
-      return s+'🛒 **Marché du Mercredi** · Place de la République\nTous les mercredis 8h-13h · 150+ exposants (300 en été)\n\n🌿 **Marché du Samedi** · Avenue de la Résistance\nTous les samedis 8h-13h · 100% producteurs locaux\nFromages chèvre, miels, légumes bio, pain artisanal';
-    },
-    qr:['Restaurants après','Moulin du Calanquet','Confiserie Lilamand']
-  },
-  {
-    keys:['manger','restaurant','diner','dejeuner','table','bonne adresse','ou manger','resto'],
-    ans:"🍽️ **Les meilleures adresses :**\n\n⭐ **Toute une Époque** · Place de la République\n7h-22h tous les jours · Aïoli vendredi midi\n📞 04 90 92 30 21\n\n🍷 **Le Bistrot Découverte** · Bvd Victor Hugo\nCave d'exception · Terrasse · Mar-Sam\n📞 04 90 92 34 49 (réservation conseillée)\n\n🌿 **L'Aile ou la Cuisse** · 5 rue de la Commune\nCour intérieure · Vins naturels · Mar-Sam",
-    qr:['Dîner en couple','Avec les enfants','Aïoli du vendredi']
-  },
-  {
-    keys:['couple','amoureux','romantique','intime','saint-valentin'],
-    ans:"💕 **Saint-Rémy en amoureux :**\n\n🎨 Monastère Van Gogh — jardins d'iris\n🏺 Les Antiques — lumière dorée le matin\n🍷 Bistrot Découverte — cave d'exception, terrasse platanes\n🌅 Lac du Peiroou — coucher de soleil\n\nVoir le parcours complet : visite-couple.html",
-    qr:['Bistrot Découverte','Lac du Peiroou','Monastère Van Gogh']
-  },
-  {
-    keys:['famille','enfant','kids','gamin','petit','bebe'],
-    ans:"👨‍👩‍👧 **Saint-Rémy en famille :**\n\n🏛️ Glanum — archéologues en herbe, gratuit -18 ans\n🏺 Les Antiques — accès libre gratuit\n🍬 Confiserie Lilamand — dégustation gratuite\n🏊 Lac du Peiroou — baignade, sentiers faciles\n\n💡 Commencer Glanum dès 9h30 avant la chaleur !",
-    qr:['Horaires Glanum','Confiserie Lilamand','Lac du Peiroou']
-  },
-  {
-    keys:['amis','copains','groupe','bande','entre amis'],
-    ans:"🎉 **Saint-Rémy entre amis :**\n\n🛒 Marché du mercredi — chacun son stand !\n🫒 Moulin du Calanquet — dégustation d'huiles (hilarant en groupe)\n🍽️ Toute une Époque — grande terrasse\n🏛️ Glanum — le jeu des théories sur les Romains\n🏊 Lac du Peiroou — baignade + pétanque\n\nVoir le parcours : visite-amis.html",
-    qr:['Marché mercredi','Moulin du Calanquet','Lac du Peiroou']
-  },
-  {
-    keys:['huile','olive','moulin','calanquet','aop','tapenade'],
-    ans:"🫒 **Moulin du Calanquet** — huile d'olive AOP Vallée des Baux\n\nVisite et dégustation gratuites. Huile fruitée exceptionnelle, tapenades, olives marinées.\n\n📍 Périphérie Saint-Rémy · Parking gratuit\n🕐 Lun-Sam 9h-19h\n📞 04 32 60 09 50",
-    qr:['Confiserie Lilamand','Marché du mercredi','Y aller en voiture']
-  },
-  {
-    keys:['lilamand','confiserie','calisson','nougat','fruit confit','douceur','sucrerie'],
-    ans:"🍬 **Confiserie Lilamand** — depuis 1866 !\n\nCalissons, fruits confits, pâtes d'amande, nougats. Dégustation gratuite dans une boutique historique du XVIIe s.\n\n📍 5 avenue Albert Schweitzer\n🕐 Lun-Sam 9h-19h\n📞 04 90 92 11 08",
-    qr:['Moulin du Calanquet','Marché du samedi','Souvenir à ramener']
-  },
-  {
-    keys:['taxi','vtc','transport','uber'],
-    ans:"🚕 **Taxi & VTC Saint-Rémy :**\n\n📞 Taxi local : **04 90 92 00 00**\n\nTrajets :\n• Avignon TGV : ~25 min · ~25€\n• Avignon Courtine : ~30 min · ~32€\n• Marseille ✈️ : ~1h05 · ~90€\n• Aéroport Nîmes : ~55 min · ~80€\n• Les Baux : ~15 min · ~18€\n\n🚨 Urgence centrale : 04 90 82 20 20",
-    qr:['Aller à Avignon','Aéroport Marseille','Numéros utiles']
-  },
-  {
-    keys:['avignon','tgv','gare','train','bus'],
-    ans:"🚂 **Saint-Rémy → Avignon :**\n\n🚕 Taxi : 25 min · ~25€ (Gare Centre)\n📞 04 90 92 00 00\n\n🚌 Bus ligne 57 : Place de la République · ~45 min · ~2€\nHoraires : zou.maregionsud.fr\n\n🚗 Voiture : 25 km · 25 min par la D571",
-    qr:['Taxi Avignon','Aéroport Marseille','Autres transports']
-  },
-  {
-    keys:['aeroport','avion','marseille','nimes','vol'],
-    ans:"✈️ **Aéroports depuis Saint-Rémy :**\n\n🛫 **Marseille-Provence** : 75 km · 1h05 · ~90€ taxi\n🛫 **Nîmes-Alès** : 65 km · 55 min · ~80€ taxi\n🛫 **Avignon-Provence** : 30 km · 30 min · ~35€ taxi\n\n📞 Taxi : 04 90 92 00 00\n💡 Réserver la veille pour les départs matinaux",
-    qr:['Réserver taxi','Gare TGV Avignon','Parking aéroport']
-  },
-  {
-    keys:['mairie','mairie saint','administratif','etat civil'],
-    ans:"🏛️ **Mairie de Saint-Rémy-de-Provence**\n\n📍 Place Jules Pelissier, 13210\n📞 04 90 92 22 10\n\n• Lun, Mar, Jeu : 8h30-12h · 13h30-17h\n• Mercredi : 8h30-12h\n• Vendredi : 8h30-12h · 13h30-16h\n• Sam & Dim : Fermé",
-    qr:['Office de Tourisme','Numéros utiles']
-  },
-  {
-    keys:['office de tourisme','office tourisme','tourisme','renseignement','information'],
-    ans:"ℹ️ **Office de Tourisme**\n\n📍 Place Jean Jaurès, 13210\n📞 04 90 92 28 70\n\n• Lun-Sam : 9h-12h30 · 14h-18h\n• Dimanche : 10h-13h\n\nParcours personnalisés et guides gratuits disponibles !",
-    qr:['Mairie','Taxi local','Que faire']
-  },
-  {
-    keys:['urgence','pompier','samu','police','secours','danger','accident'],
-    ans:"🚨 **Numéros d'urgence :**\n\n• SAMU : **15**\n• Police / Gendarmerie : **17**\n• Pompiers : **18**\n• Numéro européen : **112**\n• Prévention suicide 24h/24 : **3114**\n\nGendarmerie Saint-Rémy : 04 90 92 00 17",
-    qr:['Mairie','Office de Tourisme']
-  },
-  {
-    keys:['parking','stationner','garer','stationnement'],
-    ans:"🅿️ **Parkings Saint-Rémy :**\n\n• **Place de la République** — centre, PMR, gratuit 2h\n• **Avenue de la Libération** — gratuit, 10 min à pied\n• **Route d'Avignon** — grand parking gratuit\n• **Glanum** — parking gratuit sur place\n\n💡 Mercredi matin (marché) : centre piéton — parkings périphériques",
-    qr:['Accès PMR','Marché mercredi','Centre-ville']
-  },
-  {
-    keys:['source','glan','sacree','mystere','insolite','secret','enfouie'],
-    ans:"💧 **La Source Secrète de Glan** !\n\nLa source sacrée du dieu guérisseur Glan coule encore sous le forum de Glanum depuis **2600 ans**. Les archéologues l'entendent mais ne l'ont jamais vue.\n\nVisitez Glanum et descendez au nymphe romain — tendez l'oreille et vous l'entendrez murmurer sous vos pieds. Inclus dans le billet Glanum (8€).",
-    qr:['Horaires Glanum','Chambre Van Gogh','Autres secrets']
-  },
-  {
-    keys:['que faire','quoi faire','idee','programme','journee','aujourd','activite','visiter'],
-    ans:function(){
-      var d=new Date().getDay(),h=new Date().getHours(),s='';
-      if(d===3&&h>=8&&h<13)s='🟢 **Marché du mercredi en cours !** Place de la République jusqu\'à 13h.\n\n';
-      else if(d===6&&h>=8&&h<13)s='🟢 **Marché du samedi en cours !** Avenue de la Résistance jusqu\'à 13h.\n\n';
-      else if(d===5&&h>=12&&h<14)s='🥗 **Vendredi midi — l\'aïoli est servi chez Toute une Époque !**\n\n';
-      return s+'✨ **Incontournables de Saint-Rémy :**\n\n🏛️ Glanum · Les Antiques (gratuit)\n🎨 Monastère Van Gogh\n🏊 Lac du Peiroou · Baignade gratuite\n🛒 Marchés mer & sam · 8h-13h\n🍬 Confiserie Lilamand 1866\n🫒 Moulin du Calanquet AOP\n\nChoisissez votre profil 👇';
-    },
-    qr:['En famille','En couple','Entre amis','En solo']
-  },
-  {
-    keys:['solo','seul','voyageur','backpacker'],
-    ans:"🎒 **Saint-Rémy en solo :**\n\n☕ Café terrasse Place de la République (7h)\n🍬 Confiserie Lilamand — prendre son temps\n🎨 Monastère Van Gogh — la chambre seul\n🏺 Les Antiques — lumière de midi\n🏛️ Glanum — audio-guide\n🌅 Lac du Peiroou — coucher de soleil\n\nVoir le parcours complet : visite-solo.html",
-    qr:['Monastère Van Gogh','Glanum','Lac du Peiroou']
-  },
-  {
-    keys:['ouvert','ferme','horaire','heure','maintenant','ce soir','fermeture'],
-    ans:"🕐 **Horaires principaux :**\n\n🏛️ Glanum : 9h30-18h30 (été) · 9h30-17h (hiver)\n⛪ Saint-Paul-de-Mausole : 9h30-19h (été)\n🍽️ Toute une Époque : 7h-22h tous les jours\n🍷 Bistrot Découverte : 12h-14h · 19h-22h (Mar-Sam)\n🌿 L'Aile ou la Cuisse : 12h-14h · 19h30-22h30 (Mar-Sam)\n🍬 Lilamand : 9h-19h (Lun-Sam)\n🫒 Moulin Calanquet : 9h-19h (Lun-Sam)\nℹ️ Office Tourisme : 9h-18h (Lun-Sam) · 10h-13h (Dim)",
-    qr:['Restaurants ouverts','Marché cette semaine','Que faire ce soir']
-  },
-];
 
 function norm(s){return s.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-z0-9\s]/g,' ');}
 
@@ -449,8 +325,8 @@ function ask(q){
 
     var qrHtml='';
     if(res.poi){
-      qrHtml+='<a href="'+res.poi+'" style="display:inline-flex;align-items:center;gap:6px;background:#0f1923;color:#fff;border:none;border-radius:20px;padding:8px 16px;font-family:Manrope;font-size:12px;font-weight:800;text-decoration:none;margin-top:8px;">'
-        +'<span class="material-symbols-outlined" style="font-size:15px;font-variation-settings:\'FILL\' 1;">navigation</span>Y aller</a>';
+      qrHtml+='<a href="'+res.poi+'" style="display:inline-flex;align-items:center;gap:6px;background:#0f1923;color:#fff;border-radius:20px;padding:8px 16px;font-family:Manrope;font-size:12px;font-weight:800;text-decoration:none;margin-top:8px;">'
+        +'<span class="material-symbols-outlined" style="font-size:15px;">navigation</span>Y aller</a>';
     }
     if(res.qr&&res.qr.length){
       qrHtml+='<div class="quick-replies">';
