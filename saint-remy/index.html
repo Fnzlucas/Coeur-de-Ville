@@ -1911,14 +1911,14 @@ setTimeout(function(){
   <div class="visites-grid">
     <!-- Col gauche : grande en haut, petite en bas -->
     <div style="display:flex;flex-direction:column;gap:10px;">
-      <div class="visite-card famille v-tall" onclick="filterByVisit('famille')">
+      <div class="visite-card famille v-tall" onclick="window.location.href='visite-famille.html'">
         <div class="visite-card-bg"><span class="material-symbols-outlined">family_restroom</span></div>
         <div class="visite-card-body">
           <div class="visite-card-title" id="t-visite-famille">En famille</div>
           <div class="visite-card-sub">5 lieux · incontournables</div>
         </div>
       </div>
-      <div class="visite-card amis v-short" onclick="filterByVisit('amis')">
+      <div class="visite-card amis v-short" onclick="window.location.href='visite-amis.html'">
         <div class="visite-card-bg"><span class="material-symbols-outlined">groups</span></div>
         <div class="visite-card-body">
           <div class="visite-card-title" id="t-visite-amis">Entre amis</div>
@@ -1928,14 +1928,14 @@ setTimeout(function(){
     </div>
     <!-- Col droite : petite en haut, grande en bas -->
     <div style="display:flex;flex-direction:column;gap:10px;">
-      <div class="visite-card couple v-short" onclick="filterByVisit('couple')">
+      <div class="visite-card couple v-short" onclick="window.location.href='visite-couple.html'">
         <div class="visite-card-bg"><span class="material-symbols-outlined">favorite</span></div>
         <div class="visite-card-body">
           <div class="visite-card-title" id="t-visite-couple">En couple</div>
           <div class="visite-card-sub">4 lieux · romantiques</div>
         </div>
       </div>
-      <div class="visite-card solo v-tall" onclick="filterByVisit('solo')">
+      <div class="visite-card solo v-tall" onclick="window.location.href='visite-solo.html'">
         <div class="visite-card-bg"><span class="material-symbols-outlined">luggage</span></div>
         <div class="visite-card-body">
           <div class="visite-card-title" id="t-visite-solo">En solo</div>
