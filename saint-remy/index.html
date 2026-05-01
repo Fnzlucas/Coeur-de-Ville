@@ -1498,17 +1498,17 @@ setTimeout(function(){
 <!-- PILLS -->
 <div class="home-pills-wrap">
   <div class="home-pills">
-    <button class="home-pill" onclick="window.location.href='carte.html'">
-      <span class="material-symbols-outlined">account_balance</span><span id="t-pill-patrimoine"></span>
+    <button class="home-pill" onclick="document.getElementById('section-patrimoine').scrollIntoView({behavior:'smooth'})">
+      <span class="material-symbols-outlined">account_balance</span><span>Patrimoine</span>
     </button>
-    <button class="home-pill" onclick="window.location.href='carte.html'">
-      <span class="material-symbols-outlined">restaurant</span><span id="t-pill-gastro"></span>
+    <button class="home-pill" onclick="document.getElementById('section-commerces').scrollIntoView({behavior:'smooth'})">
+      <span class="material-symbols-outlined">restaurant</span><span>Restaurants</span>
     </button>
-    <button class="home-pill" onclick="window.location.href='carte.html'">
-      <span class="material-symbols-outlined">handyman</span><span id="t-pill-artisanat"></span>
+    <button class="home-pill" onclick="document.getElementById('section-commerces').scrollIntoView({behavior:'smooth'})">
+      <span class="material-symbols-outlined">handyman</span><span>Artisans</span>
     </button>
-    <button class="home-pill" onclick="window.location.href='carte.html'">
-      <span class="material-symbols-outlined">event</span><span id="t-pill-agenda"></span>
+    <button class="home-pill" onclick="document.getElementById('section-agenda').scrollIntoView({behavior:'smooth'})">
+      <span class="material-symbols-outlined">event</span><span>Agenda</span>
     </button>
   </div>
 </div>
@@ -1552,7 +1552,7 @@ setTimeout(function(){
 <div class="home-aujourdhui" id="aujourdhui-container"></div>
 
 <!-- SITES PATRIMONIAUX — zone immersive sombre avec bento -->
-<div class="patrimoine-zone">
+<div class="patrimoine-zone" id="section-patrimoine">
   <div class="patrimoine-zone-bg"></div>
   <div class="patrimoine-zone-inner">
 
@@ -1743,7 +1743,7 @@ setTimeout(function(){
 <div style="height:8px;"></div>
 
 <!-- COMMERCES -->
-<div class="home-section">
+<div class="home-section" id="section-commerces">
   <div class="home-section-header">
     <div>
       <div class="home-section-title" style="display:flex;align-items:center;gap:8px;">
@@ -1866,7 +1866,7 @@ setTimeout(function(){
 
 
 <!-- ÉVÉNEMENTS pleine largeur -->
-<div style="padding:52px 20px 0;">
+<div style="padding:52px 20px 0;" id="section-agenda">
   <div class="home-section-header" style="margin-bottom:18px;">
     <div>
       <div class="home-section-title" id="t-sec-agenda">Agenda</div>
