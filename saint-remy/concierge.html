@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1"/>
+<title>Concierge — Cœur de Ville Saint-Rémy</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800;900&display=swap"/>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html,body{font-family:'Manrope',sans-serif;background:#f8f9fa;color:#0f1923;height:100%;-webkit-overflow-scrolling:touch;}
+
+/* HEADER */
+#app-header{position:fixed;top:0;left:0;right:0;height:56px;z-index:100;background:rgba(255,255,255,0.95);backdrop-filter:blur(20px);border-bottom:1px solid rgba(0,0,0,0.06);display:flex;align-items:center;padding:0 16px;gap:12px;}
+#app-header a{text-decoration:none;width:36px;height:36px;border-radius:50%;background:#f1f5f9;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+#app-header a .material-symbols-outlined{font-size:20px;color:#0f1923;}
+#app-header .h-title{flex:1;text-align:center;}
+#app-header .h-name{font-size:14px;font-weight:900;color:#0f1923;letter-spacing:-0.01em;}
+#app-header .h-sub{font-size:10px;color:#94a3b8;font-weight:600;}
+.h-badge{width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,#0f1923,#1a3a5c);display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.h-badge .material-symbols-outlined{font-size:16px;color:#fff;font-variation-settings:'FILL' 1;}
+
+/* SUGGESTIONS */
+#suggestions-wrap{padding:72px 16px 16px;}
+.suggestions-title{font-size:12px;font-weight:700;color:#94a3b8;letter-spacing:0.08em;text-transform:uppercase;margin-bottom:12px;}
+.suggestions{display:flex;flex-direction:column;gap:8px;}
+.suggestion-btn{background:#fff;border:1.5px solid #e2e8f0;border-radius:14px;padding:12px 14px;text-align:left;font-family:Manrope;font-size:13px;font-weight:600;color:#0f1923;cursor:pointer;display:flex;align-items:center;gap:10px;transition:all 0.15s;-webkit-tap-highlight-color:transparent;}
+.suggestion-btn:active{transform:scale(0.98);background:#f8f9fa;}
+.suggestion-btn .material-symbols-outlined{font-size:18px;color:#3B5BDB;flex-shrink:0;}
+
+/* CHAT */
+#chat-wrap{padding:72px 16px 100px;display:none;flex-direction:column;gap:12px;}
+.msg{display:flex;flex-direction:column;gap:4px;max-width:85%;}
+.msg.user{align-self:flex-end;align-items:flex-end;}
+.msg.assistant{align-self:flex-start;align-items:flex-start;}
+.msg-bubble{padding:12px 14px;border-radius:18px;font-size:14px;line-height:1.6;}
+.msg.user .msg-bubble{background:#0f1923;color:#fff;border-bottom-right-radius:4px;}
+.msg.assistant .msg-bubble{background:#fff;color:#0f1923;border-bottom-left-radius:4px;box-shadow:0 2px 10px rgba(0,0,0,0.07);}
+.msg-time{font-size:10px;color:#94a3b8;font-weight:500;padding:0 4px;}
+
+/* TYPING */
+.typing-bubble{background:#fff;border-radius:18px;border-bottom-left-radius:4px;padding:14px 16px;box-shadow:0 2px 10px rgba(0,0,0,0.07);display:flex;gap:5px;align-items:center;}
+.typing-dot{width:7px;height:7px;border-radius:50%;background:#94a3b8;animation:bounce 1.2s infinite;}
+.typing-dot:nth-child(2){animation-delay:0.2s;}
+.typing-dot:nth-child(3){animation-delay:0.4s;}
+@keyframes bounce{0%,60%,100%{transform:translateY(0);}30%{transform:translateY(-6px);}}
+
+/* INPUT BAR */
+#input-bar{position:fixed;bottom:0;left:0;right:0;padding:10px 16px 24px;background:rgba(255,255,255,0.97);backdrop-filter:blur(20px);border-top:1px solid rgba(0,0,0,0.06);z-index:100;}
+#input-form{display:flex;gap:8px;align-items:flex-end;}
+#input-field{flex:1;background:#f1f5f9;border:1.5px solid transparent;border-radius:20px;padding:11px 16px;font-family:Manrope;font-size:14px;color:#0f1923;outline:none;resize:none;max-height:120px;line-height:1.5;transition:border-color 0.2s;}
+#input-field:focus{border-color:#3B5BDB;background:#fff;}
+#input-field::placeholder{color:#94a3b8;}
+#send-btn{width:44px;height:44px;border-radius:50%;background:#0f1923;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all 0.15s;}
+#send-btn:active{transform:scale(0.93);}
+#send-btn:disabled{background:#e2e8f0;cursor:not-allowed;}
+#send-btn .material-symbols-outlined{font-size:20px;color:#fff;font-variation-settings:'FILL' 1;}
+
+/* QUICK ACTIONS AT TOP */
+.quick-actions{display:flex;gap:8px;overflow-x:auto;padding:0 16px 0;scrollbar-width:none;margin-top:8px;}
+.quick-actions::-webkit-scrollbar{display:none;}
+.qa-btn{display:inline-flex;align-items:center;gap:5px;background:#fff;border:1.5px solid #e2e8f0;border-radius:100px;padding:6px 12px;font-family:Manrope;font-size:11px;font-weight:700;color:#0f1923;white-space:nowrap;cursor:pointer;flex-shrink:0;transition:all 0.15s;}
+.qa-btn:active{background:#f1f5f9;transform:scale(0.97);}
+.qa-btn .material-symbols-outlined{font-size:13px;color:#3B5BDB;}
+
+/* ERROR */
+.msg-error{background:#fff1f3;color:#9f1239;border:1px solid #fecdd3;}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header id="app-header">
+  <a href="javascript:history.back()"><span class="material-symbols-outlined">arrow_back</span></a>
+  <div class="h-title">
+    <div class="h-name">Assistant Saint-Rémy</div>
+    <div class="h-sub">Powered by IA · Cœur de Ville</div>
+  </div>
+  <div class="h-badge"><span class="material-symbols-outlined">auto_awesome</span></div>
+</header>
+
+<!-- QUICK PILLS -->
+<div class="quick-actions" id="quick-actions">
+  <button class="qa-btn" onclick="sendQuestion('Que faire aujourd\'hui à Saint-Rémy ?')"><span class="material-symbols-outlined">wb_sunny</span>Aujourd'hui</button>
+  <button class="qa-btn" onclick="sendQuestion('Quels restaurants sont ouverts maintenant ?')"><span class="material-symbols-outlined">restaurant</span>Restaurants</button>
+  <button class="qa-btn" onclick="sendQuestion('Comment aller à Glanum ?')"><span class="material-symbols-outlined">map</span>Glanum</button>
+  <button class="qa-btn" onclick="sendQuestion('Y a-t-il un marché cette semaine ?')"><span class="material-symbols-outlined">storefront</span>Marchés</button>
+  <button class="qa-btn" onclick="sendQuestion('Que voir avec des enfants ?')"><span class="material-symbols-outlined">family_restroom</span>Famille</button>
+  <button class="qa-btn" onclick="sendQuestion('Où se baigner près de Saint-Rémy ?')"><span class="material-symbols-outlined">pool</span>Baignade</button>
+</div>
+
+<!-- SUGGESTIONS (état vide) -->
+<div id="suggestions-wrap">
+  <div class="suggestions-title">Questions fréquentes</div>
+  <div class="suggestions">
+    <button class="suggestion-btn" onclick="sendQuestion('Que faire aujourd\'hui à Saint-Rémy ?')">
+      <span class="material-symbols-outlined">wb_sunny</span>
+      Que faire aujourd'hui à Saint-Rémy ?
+    </button>
+    <button class="suggestion-btn" onclick="sendQuestion('Quels sont les horaires du site de Glanum ?')">
+      <span class="material-symbols-outlined">account_balance</span>
+      Quels sont les horaires du site de Glanum ?
+    </button>
+    <button class="suggestion-btn" onclick="sendQuestion('Y a-t-il un marché cette semaine ?')">
+      <span class="material-symbols-outlined">storefront</span>
+      Y a-t-il un marché cette semaine ?
+    </button>
+    <button class="suggestion-btn" onclick="sendQuestion('Où manger ce soir en amoureux ?')">
+      <span class="material-symbols-outlined">favorite</span>
+      Où manger ce soir en amoureux ?
+    </button>
+    <button class="suggestion-btn" onclick="sendQuestion('Comment aller de Saint-Rémy à Avignon ?')">
+      <span class="material-symbols-outlined">directions_car</span>
+      Comment aller de Saint-Rémy à Avignon ?
+    </button>
+    <button class="suggestion-btn" onclick="sendQuestion('Où se baigner près de Saint-Rémy ?')">
+      <span class="material-symbols-outlined">pool</span>
+      Où se baigner près de Saint-Rémy ?
+    </button>
+    <button class="suggestion-btn" onclick="sendQuestion('Quelles activités pour les enfants ?')">
+      <span class="material-symbols-outlined">child_care</span>
+      Quelles activités pour les enfants ?
+    </button>
+    <button class="suggestion-btn" onclick="sendQuestion('Quel est le meilleur moment pour visiter Glanum ?')">
+      <span class="material-symbols-outlined">schedule</span>
+      Quel est le meilleur moment pour visiter Glanum ?
+    </button>
+  </div>
+</div>
+
+<!-- CHAT -->
+<div id="chat-wrap"></div>
+
+<!-- INPUT -->
+<div id="input-bar">
+  <div id="input-form">
+    <textarea id="input-field" placeholder="Posez votre question…" rows="1"></textarea>
+    <button id="send-btn" onclick="sendFromInput()" disabled>
+      <span class="material-symbols-outlined">send</span>
+    </button>
+  </div>
+</div>
+
+<script>
