@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1"/>
+<title>Lieux Accessibles PMR — Cœur de Ville</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800;900&display=swap"/>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html,body{font-family:'Manrope',sans-serif;background:#f8f9fa;color:#0f1923;-webkit-overflow-scrolling:touch;}
+body{padding-bottom:90px;}
+.hero{position:relative;height:260px;overflow:hidden;}
+.hero-bg{width:100%;height:100%;background:linear-gradient(135deg,#1a4a6e,#0d7c66,#0f1923);display:flex;align-items:center;justify-content:center;}
+.hero-icon{font-size:80px;color:rgba(255,255,255,0.15);font-variation-settings:'FILL' 1;}
+.hero-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,0.82) 0%,rgba(0,0,0,0.1) 55%,transparent 100%);}
+.hero-back{position:absolute;top:16px;left:16px;width:40px;height:40px;border-radius:50%;background:rgba(255,255,255,0.15);backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,0.25);display:flex;align-items:center;justify-content:center;z-index:10;text-decoration:none;}
+.hero-back .material-symbols-outlined{color:#fff;font-size:20px;}
+.hero-content{position:absolute;bottom:0;left:0;right:0;padding:20px 20px 24px;}
+.hero-badge{display:inline-flex;align-items:center;gap:5px;background:rgba(13,124,102,0.92);color:#fff;font-size:9px;font-weight:800;letter-spacing:0.12em;text-transform:uppercase;padding:5px 12px;border-radius:20px;margin-bottom:10px;}
+.hero-badge::before{content:'';width:5px;height:5px;background:#fff;border-radius:50%;}
+.hero-name{font-size:26px;font-weight:900;color:#fff;line-height:1.05;letter-spacing:-0.02em;margin-bottom:6px;}
+.hero-sub{font-size:13px;color:rgba(255,255,255,0.7);font-weight:500;}
+.section{padding:24px 16px 0;}
+.section-title{font-size:17px;font-weight:900;color:#0f1923;letter-spacing:-0.02em;margin-bottom:12px;}
+.desc-card{background:#fff;border-radius:16px;padding:16px;box-shadow:0 2px 10px rgba(0,0,0,0.06);}
+.desc-text{font-size:14px;line-height:1.7;color:#374151;}
+.stat-row{display:flex;gap:10px;margin-bottom:0;}
+.stat-box{flex:1;background:#fff;border-radius:16px;padding:16px;box-shadow:0 2px 10px rgba(0,0,0,0.06);text-align:center;}
+.stat-num{font-size:26px;font-weight:900;color:#0d7c66;letter-spacing:-0.04em;}
+.stat-label{font-size:10px;color:#94a3b8;font-weight:600;margin-top:3px;line-height:1.4;}
+.lieu-grid{display:flex;flex-direction:column;gap:1px;background:#f1f5f9;border-radius:16px;overflow:hidden;box-shadow:0 2px 10px rgba(0,0,0,0.06);}
+.lieu-row{background:#fff;padding:14px 16px;display:flex;align-items:center;gap:12px;}
+.lieu-icon{width:42px;height:42px;border-radius:12px;background:#f0fdf4;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.lieu-icon .material-symbols-outlined{font-size:22px;color:#0d7c66;}
+.lieu-content{flex:1;}
+.lieu-name{font-size:14px;font-weight:800;color:#0f1923;}
+.lieu-cat{font-size:11px;color:#64748b;margin-top:2px;}
+.lieu-badges{display:flex;gap:5px;flex-wrap:wrap;margin-top:5px;}
+.badge{font-size:9px;font-weight:700;padding:2px 7px;border-radius:20px;display:inline-flex;align-items:center;gap:3px;}
+.badge .material-symbols-outlined{font-size:10px;}
+.badge-pmr{background:#dcfce7;color:#166534;}
+.badge-parking{background:#dbeafe;color:#1e40af;}
+.badge-ascenseur{background:#fef3c7;color:#92400e;}
+.badge-wc{background:#fce7f3;color:#9d174d;}
+.lieu-action{text-decoration:none;}
+.lieu-action .material-symbols-outlined{font-size:18px;color:#0d7c66;}
+.legende-card{background:#fff;border-radius:16px;padding:16px;box-shadow:0 2px 10px rgba(0,0,0,0.06);}
+.leg-row{display:flex;align-items:center;gap:10px;margin-bottom:10px;}
+.leg-row:last-child{margin-bottom:0;}
+.leg-icon{width:32px;height:32px;border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.leg-icon .material-symbols-outlined{font-size:16px;}
+.leg-text{font-size:13px;color:#374151;font-weight:500;line-height:1.4;}
+.conseil-card{background:linear-gradient(135deg,#0d7c66,#1a4a6e);border-radius:16px;padding:18px;}
+.conseil-item{display:flex;align-items:flex-start;gap:10px;margin-bottom:14px;}
+.conseil-item:last-child{margin-bottom:0;}
+.conseil-item .material-symbols-outlined{font-size:18px;color:rgba(255,255,255,0.75);flex-shrink:0;margin-top:1px;}
+.conseil-text{font-size:13px;color:rgba(255,255,255,0.9);line-height:1.6;}
+.conseil-text strong{color:#fff;}
+.tags-wrap{display:flex;flex-wrap:wrap;gap:8px;}
+.tag{display:inline-flex;align-items:center;gap:5px;background:#fff;border-radius:100px;padding:7px 12px;font-size:11px;font-weight:700;color:#374151;box-shadow:0 1px 6px rgba(0,0,0,0.07);}
+.tag .material-symbols-outlined{font-size:14px;color:#0d7c66;}
+.cta-bottom{position:fixed;bottom:0;left:0;right:0;padding:12px 16px 20px;background:rgba(255,255,255,0.95);backdrop-filter:blur(20px);border-top:1px solid rgba(0,0,0,0.06);display:flex;gap:10px;z-index:100;}
+.cta-main{flex:1;display:flex;align-items:center;justify-content:center;gap:8px;background:#0f1923;color:#fff;border:none;border-radius:14px;padding:15px;font-family:Manrope;font-size:15px;font-weight:800;text-decoration:none;}
+.cta-main .material-symbols-outlined{font-size:19px;font-variation-settings:'FILL' 1;}
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="hero-bg">
+    <span class="material-symbols-outlined hero-icon" style="font-variation-settings:'FILL' 1;">accessible</span>
+  </div>
+  <div class="hero-overlay"></div>
+  <a class="hero-back" href="javascript:history.back()"><span class="material-symbols-outlined">arrow_back</span></a>
+  <div class="hero-content">
+    <div class="hero-badge">Accessibilite PMR</div>
+    <div class="hero-name">Lieux Accessibles</div>
+    <div class="hero-sub">Sites, restaurants et commerces accessibles aux personnes a mobilite reduite</div>
+  </div>
+</div>
+
+<div class="section">
+  <div class="stat-row">
+    <div class="stat-box"><div class="stat-num">12</div><div class="stat-label">Lieux entierement accessibles</div></div>
+    <div class="stat-box"><div class="stat-num">6</div><div class="stat-label">Parkings PMR identifies</div></div>
+    <div class="stat-box"><div class="stat-num">100%</div><div class="stat-label">Du centre pieton accessible</div></div>
+  </div>
+</div>
+
+<div class="section">
+  <div class="section-title">Sites patrimoniaux</div>
+  <div class="lieu-grid">
+    <div class="lieu-row">
+      <div class="lieu-icon"><span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">account_balance</span></div>
+      <div class="lieu-content">
+        <div class="lieu-name">Site de Glanum</div>
+        <div class="lieu-cat">Site archeologique · Route des Baux</div>
+        <div class="lieu-badges">
+          <span class="badge badge-pmr"><span class="material-symbols-outlined">accessible</span>Entree PMR</span>
+          <span class="badge badge-parking"><span class="material-symbols-outlined">local_parking</span>Parking PMR</span>
+        </div>
+      </div>
+      <a href="glanum.html" class="lieu-action"><span class="material-symbols-outlined">chevron_right</span></a>
+    </div>
+    <div class="lieu-row">
+      <div class="lieu-icon"><span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">holiday_village</span></div>
+      <div class="lieu-content">
+        <div class="lieu-name">Les Antiques</div>
+        <div class="lieu-cat">Monument romain · Avenue Van Gogh</div>
+        <div class="lieu-badges">
+          <span class="badge badge-pmr"><span class="material-symbols-outlined">accessible</span>Acces plain-pied</span>
+          <span class="badge badge-parking"><span class="material-symbols-outlined">local_parking</span>Parking PMR</span>
+        </div>
+      </div>
+      <a href="les-antiques.html" class="lieu-action"><span class="material-symbols-outlined">chevron_right</span></a>
+    </div>
+    <div class="lieu-row">
+      <div class="lieu-icon"><span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">museum</span></div>
+      <div class="lieu-content">
+        <div class="lieu-name">Maison de Nostradamus</div>
+        <div class="lieu-cat">Musee · Rue Hoche</div>
+        <div class="lieu-badges">
+          <span class="badge badge-pmr"><span class="material-symbols-outlined">accessible</span>Accessible</span>
+          <span class="badge badge-ascenseur"><span class="material-symbols-outlined">elevator</span>Ascenseur</span>
+        </div>
+      </div>
+      <a href="maison-nostradamus.html" class="lieu-action"><span class="material-symbols-outlined">chevron_right</span></a>
+    </div>
+    <div class="lieu-row">
+      <div class="lieu-icon"><span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">church</span></div>
+      <div class="lieu-content">
+        <div class="lieu-name">Saint-Paul-de-Mausole</div>
+        <div class="lieu-cat">Monastere · Chemin Saint-Paul</div>
+        <div class="lieu-badges">
+          <span class="badge badge-pmr"><span class="material-symbols-outlined">accessible</span>Partiel</span>
+          <span class="badge badge-wc"><span class="material-symbols-outlined">wc</span>WC adaptes</span>
+        </div>
+      </div>
+      <a href="saint-paul-de-mausole.html" class="lieu-action"><span class="material-symbols-outlined">chevron_right</span></a>
+    </div>
+  </div>
+</div>
+
+<div class="section">
+  <div class="section-title">Restaurants & commerces</div>
+  <div class="lieu-grid">
+    <div class="lieu-row">
+      <div class="lieu-icon"><span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">restaurant</span></div>
+      <div class="lieu-content">
+        <div class="lieu-name">Toute une Epoque</div>
+        <div class="lieu-cat">Brasserie · Place de la Republique</div>
+        <div class="lieu-badges">
+          <span class="badge badge-pmr"><span class="material-symbols-outlined">accessible</span>Entree PMR</span>
+          <span class="badge badge-wc"><span class="material-symbols-outlined">wc</span>WC adaptes</span>
+        </div>
+      </div>
+      <a href="toute-une-epoque.html" class="lieu-action"><span class="material-symbols-outlined">chevron_right</span></a>
+    </div>
+    <div class="lieu-row">
+      <div class="lieu-icon"><span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">restaurant</span></div>
+      <div class="lieu-content">
+        <div class="lieu-name">Le Bistrot Decouverte</div>
+        <div class="lieu-cat">Bistrot · Boulevard Victor Hugo</div>
+        <div class="lieu-badges">
+          <span class="badge badge-pmr"><span class="material-symbols-outlined">accessible</span>Terrasse accessible</span>
+        </div>
+      </div>
+      <a href="bistrot-decouverte.html" class="lieu-action"><span class="material-symbols-outlined">chevron_right</span></a>
+    </div>
+    <div class="lieu-row">
+      <div class="lieu-icon"><span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">storefront</span></div>
+      <div class="lieu-content">
+        <div class="lieu-name">Confiserie Lilamand</div>
+        <div class="lieu-cat">Artisan confiseur · Avenue Albert Schweitzer</div>
+        <div class="lieu-badges">
+          <span class="badge badge-pmr"><span class="material-symbols-outlined">accessible</span>Plain-pied</span>
+        </div>
+      </div>
+      <a href="lilamand.html" class="lieu-action"><span class="material-symbols-outlined">chevron_right</span></a>
+    </div>
+    <div class="lieu-row">
+      <div class="lieu-icon"><span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">oil_barrel</span></div>
+      <div class="lieu-content">
+        <div class="lieu-name">Moulin du Calanquet</div>
+        <div class="lieu-cat">Huilerie · Alpilles</div>
+        <div class="lieu-badges">
+          <span class="badge badge-pmr"><span class="material-symbols-outlined">accessible</span>Entree PMR</span>
+          <span class="badge badge-parking"><span class="material-symbols-outlined">local_parking</span>Parking gratuit</span>
+        </div>
+      </div>
+      <a href="moulin-calanquet.html" class="lieu-action"><span class="material-symbols-outlined">chevron_right</span></a>
+    </div>
+    <div class="lieu-row">
+      <div class="lieu-icon"><span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">storefront</span></div>
+      <div class="lieu-content">
+        <div class="lieu-name">Marche du Mercredi</div>
+        <div class="lieu-cat">Marche · Place de la Republique</div>
+        <div class="lieu-badges">
+          <span class="badge badge-pmr"><span class="material-symbols-outlined">accessible</span>Entierement accessible</span>
+        </div>
+      </div>
+      <a href="marche-mercredi.html" class="lieu-action"><span class="material-symbols-outlined">chevron_right</span></a>
+    </div>
+  </div>
+</div>
+
+<div class="section">
+  <div class="section-title">Parkings PMR</div>
+  <div class="lieu-grid">
+    <div class="lieu-row">
+      <div class="lieu-icon"><span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">local_parking</span></div>
+      <div class="lieu-content">
+        <div class="lieu-name">Parking Place de la Republique</div>
+        <div class="lieu-cat">Centre-ville · 4 places PMR</div>
+        <div class="lieu-badges">
+          <span class="badge badge-parking"><span class="material-symbols-outlined">local_parking</span>Gratuit 2h</span>
+        </div>
+      </div>
+    </div>
+    <div class="lieu-row">
+      <div class="lieu-icon"><span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">local_parking</span></div>
+      <div class="lieu-content">
+        <div class="lieu-name">Parking Avenue de la Liberation</div>
+        <div class="lieu-cat">Peripherie centre · 6 places PMR · Gratuit</div>
+        <div class="lieu-badges">
+          <span class="badge badge-parking"><span class="material-symbols-outlined">local_parking</span>Gratuit</span>
+        </div>
+      </div>
+    </div>
+    <div class="lieu-row">
+      <div class="lieu-icon"><span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">local_parking</span></div>
+      <div class="lieu-content">
+        <div class="lieu-name">Parking Glanum</div>
+        <div class="lieu-cat">Route des Baux · 3 places PMR · Gratuit</div>
+        <div class="lieu-badges">
+          <span class="badge badge-parking"><span class="material-symbols-outlined">local_parking</span>Gratuit</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="section">
+  <div class="section-title">Legende</div>
+  <div class="legende-card">
+    <div class="leg-row">
+      <div class="leg-icon" style="background:#dcfce7;"><span class="material-symbols-outlined" style="font-size:16px;color:#166534;">accessible</span></div>
+      <div class="leg-text"><strong>Acces PMR</strong> — entree de plain-pied ou rampe d'acces disponible sur place</div>
+    </div>
+    <div class="leg-row">
+      <div class="leg-icon" style="background:#dbeafe;"><span class="material-symbols-outlined" style="font-size:16px;color:#1e40af;">local_parking</span></div>
+      <div class="leg-text"><strong>Parking PMR</strong> — places reservees aux personnes en situation de handicap</div>
+    </div>
+    <div class="leg-row">
+      <div class="leg-icon" style="background:#fef3c7;"><span class="material-symbols-outlined" style="font-size:16px;color:#92400e;">elevator</span></div>
+      <div class="leg-text"><strong>Ascenseur</strong> — acces aux etages pour les personnes en fauteuil roulant</div>
+    </div>
+    <div class="leg-row">
+      <div class="leg-icon" style="background:#fce7f3;"><span class="material-symbols-outlined" style="font-size:16px;color:#9d174d;">wc</span></div>
+      <div class="leg-text"><strong>WC adaptes</strong> — sanitaires conformes aux normes d'accessibilite</div>
+    </div>
+  </div>
+</div>
+
+<div class="section">
+  <div class="section-title">Conseils pratiques</div>
+  <div class="conseil-card">
+    <div class="conseil-item">
+      <span class="material-symbols-outlined">directions_car</span>
+      <div class="conseil-text"><strong>Stationnement :</strong> la carte PMR est obligatoire pour les places reservees. Les parkings periferiques sont gratuits et mieux desservis que le centre.</div>
+    </div>
+    <div class="conseil-item">
+      <span class="material-symbols-outlined">map</span>
+      <div class="conseil-text"><strong>Centre pieton :</strong> entierement plat et accessible. Le sol pave peut etre difficile — privilégier la rue de la Republique et le boulevard Victor Hugo.</div>
+    </div>
+    <div class="conseil-item">
+      <span class="material-symbols-outlined">call</span>
+      <div class="conseil-text"><strong>Office de tourisme :</strong> l'equipe peut vous accompagner et preparer un parcours accessible personnalise. Contactez-les avant votre venue.</div>
+    </div>
+    <div class="conseil-item">
+      <span class="material-symbols-outlined">local_taxi</span>
+      <div class="conseil-text"><strong>Transport adapte :</strong> des taxis VTC equipes de vehicules adaptes sont disponibles depuis Saint-Remy. Voir la fiche Taxi VTC.</div>
+    </div>
+  </div>
+</div>
+
+<div class="section">
+  <div class="section-title">Services disponibles</div>
+  <div class="tags-wrap">
+    <div class="tag"><span class="material-symbols-outlined">accessible</span>Fauteuils roulants</div>
+    <div class="tag"><span class="material-symbols-outlined">hearing</span>Boucle magnetique</div>
+    <div class="tag"><span class="material-symbols-outlined">visibility</span>Malvoyants</div>
+    <div class="tag"><span class="material-symbols-outlined">local_taxi</span>Transport adapte</div>
+    <div class="tag"><span class="material-symbols-outlined">wc</span>WC adaptes centre</div>
+    <div class="tag"><span class="material-symbols-outlined">map</span>Parcours identifies</div>
+  </div>
+</div>
+
+<div class="section" style="padding-bottom:16px;">
+  <div class="section-title">Contact Office de Tourisme</div>
+  <div class="lieu-grid">
+    <div class="lieu-row">
+      <div class="lieu-icon"><span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">info</span></div>
+      <div class="lieu-content">
+        <div class="lieu-name">Office de Tourisme</div>
+        <div class="lieu-cat">Place Jean Jaures, Saint-Remy-de-Provence</div>
+      </div>
+      <a href="tel:0490922870" class="lieu-action"><span class="material-symbols-outlined">call</span></a>
+    </div>
+    <div class="lieu-row">
+      <div class="lieu-icon"><span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">schedule</span></div>
+      <div class="lieu-content">
+        <div class="lieu-name">Horaires</div>
+        <div class="lieu-cat">Lun – Sam 9h – 12h30 · 14h – 18h</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="cta-bottom">
+  <a href="carte.html" class="cta-main">
+    <span class="material-symbols-outlined">map</span>
+    Voir tous les lieux sur la carte
+  </a>
+</div>
+
+</body>
+</html>
