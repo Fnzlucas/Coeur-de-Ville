@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1"/>
+<title>En solo — Cœur de Ville Saint-Rémy</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800;900&display=swap"/>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html,body{font-family:'Manrope',sans-serif;background:#f8f9fa;color:#0f1923;-webkit-overflow-scrolling:touch;}
+body{padding-bottom:90px;}
+.hero{position:relative;height:260px;overflow:hidden;}
+.hero-bg{width:100%;height:100%;background:linear-gradient(135deg,#b45309,#f97316,#0f1923);display:flex;align-items:center;justify-content:center;}
+.hero-bg .material-symbols-outlined{font-size:100px;color:rgba(255,255,255,0.1);font-variation-settings:'FILL' 1;}
+.hero-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,0.82) 0%,rgba(0,0,0,0.1) 60%,transparent 100%);}
+.hero-back{position:absolute;top:16px;left:16px;width:40px;height:40px;border-radius:50%;background:rgba(255,255,255,0.15);backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,0.25);display:flex;align-items:center;justify-content:center;z-index:10;text-decoration:none;}
+.hero-back .material-symbols-outlined{color:#fff;font-size:20px;}
+.hero-content{position:absolute;bottom:0;left:0;right:0;padding:20px 20px 24px;}
+.hero-badge{display:inline-flex;align-items:center;gap:5px;background:rgba(180,83,9,0.85);color:#fff;font-size:9px;font-weight:800;letter-spacing:0.12em;text-transform:uppercase;padding:5px 12px;border-radius:20px;margin-bottom:10px;}
+.hero-badge::before{content:'';width:5px;height:5px;background:#fff;border-radius:50%;}
+.hero-name{font-size:28px;font-weight:900;color:#fff;line-height:1.05;letter-spacing:-0.02em;margin-bottom:6px;}
+.hero-sub{font-size:13px;color:rgba(255,255,255,0.7);}
+.section{padding:24px 16px 0;}
+.section-title{font-size:17px;font-weight:900;color:#0f1923;letter-spacing:-0.02em;margin-bottom:12px;}
+.duree-card{background:#fff;border-radius:16px;padding:16px;box-shadow:0 2px 10px rgba(0,0,0,0.06);display:flex;gap:16px;align-items:center;}
+.duree-num{font-size:42px;font-weight:900;color:#f97316;letter-spacing:-0.04em;line-height:1;}
+.duree-label{font-size:12px;color:#64748b;font-weight:600;margin-top:4px;}
+.duree-sep{width:1px;background:#e2e8f0;align-self:stretch;}
+.duree-details{flex:1;}
+.duree-row{display:flex;align-items:center;gap:6px;margin-bottom:6px;font-size:12px;color:#374151;}
+.duree-row:last-child{margin-bottom:0;}
+.duree-row .material-symbols-outlined{font-size:14px;color:#f97316;}
+.etape-card{background:#fff;border-radius:18px;box-shadow:0 3px 16px rgba(0,0,0,0.08);overflow:hidden;margin-bottom:12px;}
+.etape-img-ph{width:100%;height:160px;display:flex;align-items:center;justify-content:center;}
+.etape-img-ph .material-symbols-outlined{font-size:60px;color:rgba(255,255,255,0.3);font-variation-settings:'FILL' 1;}
+.etape-body{padding:14px 16px 16px;}
+.etape-num{display:inline-flex;align-items:center;justify-content:center;width:26px;height:26px;border-radius:50%;background:#f97316;color:#fff;font-size:12px;font-weight:900;margin-bottom:8px;}
+.etape-name{font-size:16px;font-weight:900;color:#0f1923;margin-bottom:5px;letter-spacing:-0.01em;}
+.etape-why{background:#fff7ed;border-radius:10px;padding:10px 12px;margin-bottom:10px;}
+.etape-why-label{font-size:9px;font-weight:800;text-transform:uppercase;letter-spacing:0.1em;color:#f97316;margin-bottom:3px;}
+.etape-why-text{font-size:13px;color:#9a3412;line-height:1.5;}
+.etape-tags{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px;}
+.etag{font-size:10px;font-weight:700;padding:4px 9px;border-radius:20px;background:#f1f5f9;color:#374151;display:inline-flex;align-items:center;gap:3px;}
+.etag .material-symbols-outlined{font-size:11px;color:#f97316;}
+.etape-btn{display:flex;align-items:center;justify-content:center;gap:6px;background:#0f1923;color:#fff;border:none;border-radius:12px;padding:11px;font-family:Manrope;font-size:13px;font-weight:800;text-decoration:none;width:100%;}
+.conseil-card{background:linear-gradient(135deg,#b45309,#0f1923);border-radius:16px;padding:18px;}
+.conseil-item{display:flex;align-items:flex-start;gap:10px;margin-bottom:12px;}
+.conseil-item:last-child{margin-bottom:0;}
+.conseil-item .material-symbols-outlined{font-size:18px;color:rgba(255,255,255,0.7);flex-shrink:0;margin-top:1px;}
+.conseil-text{font-size:13px;color:rgba(255,255,255,0.9);line-height:1.6;}
+.conseil-text strong{color:#fff;}
+.cta-bottom{position:fixed;bottom:0;left:0;right:0;padding:12px 16px 20px;background:rgba(255,255,255,0.95);backdrop-filter:blur(20px);border-top:1px solid rgba(0,0,0,0.06);display:flex;gap:10px;z-index:100;}
+.cta-main{flex:1;display:flex;align-items:center;justify-content:center;gap:8px;background:#f97316;color:#fff;border:none;border-radius:14px;padding:15px;font-family:Manrope;font-size:15px;font-weight:800;text-decoration:none;}
+.cta-main .material-symbols-outlined{font-size:19px;font-variation-settings:'FILL' 1;}
+.cta-sec{width:52px;height:52px;border-radius:14px;background:#fff;border:1.5px solid #e2e8f0;display:flex;align-items:center;justify-content:center;text-decoration:none;flex-shrink:0;}
+.cta-sec .material-symbols-outlined{font-size:22px;color:#0f1923;}
+</style>
+</head>
+<body>
+<div class="hero">
+  <div class="hero-bg"><span class="material-symbols-outlined">luggage</span></div>
+  <div class="hero-overlay"></div>
+  <a class="hero-back" href="javascript:history.back()"><span class="material-symbols-outlined">arrow_back</span></a>
+  <div class="hero-content">
+    <div class="hero-badge">Idée de visite · 7 étapes</div>
+    <div class="hero-name">Saint-Rémy en solo</div>
+    <div class="hero-sub">À votre rythme — histoire, silence, nature et gastronomie sans compromis</div>
+  </div>
+</div>
+
+<div class="section">
+  <div class="duree-card">
+    <div><div class="duree-num">1j</div><div class="duree-label">Journée complète</div></div>
+    <div class="duree-sep"></div>
+    <div class="duree-details">
+      <div class="duree-row"><span class="material-symbols-outlined">schedule</span>Départ conseillé 9h00</div>
+      <div class="duree-row"><span class="material-symbols-outlined">directions_walk</span>Tout à pied depuis le centre</div>
+      <div class="duree-row"><span class="material-symbols-outlined">euro</span>Budget ~30€ / personne tout compris</div>
+    </div>
+  </div>
+</div>
+
+<div class="section">
+  <div class="section-title">Le parcours</div>
+
+  <div class="etape-card">
+    <div class="etape-img-ph" style="background:linear-gradient(135deg,#1a3a5c,#0f1923);">
+      <span class="material-symbols-outlined">local_cafe</span>
+    </div>
+    <div class="etape-body">
+      <div class="etape-num">1</div>
+      <div class="etape-name">Café en terrasse — Place de la République — 9h00</div>
+      <div class="etape-why">
+        <div class="etape-why-label">Pourquoi en solo ?</div>
+        <div class="etape-why-text">Commencer seul, un café à la main, à observer les Saint-Rémois qui installent leurs étals ou partent au travail. Le meilleur moment pour sentir la vie d'une ville provençale authentique.</div>
+      </div>
+      <div class="etape-tags">
+        <span class="etag"><span class="material-symbols-outlined">deck</span>Terrasse plein soleil</span>
+        <span class="etag"><span class="material-symbols-outlined">schedule</span>Dès 7h</span>
+      </div>
+      <a href="toute-une-epoque.html" class="etape-btn"><span class="material-symbols-outlined">arrow_forward</span>Toute une Époque — café</a>
+    </div>
+  </div>
+
+  <div class="etape-card">
+    <div class="etape-img-ph" style="background:linear-gradient(135deg,#8B2252,#6d1a3e);">
+      <span class="material-symbols-outlined">cake</span>
+    </div>
+    <div class="etape-body">
+      <div class="etape-num">2</div>
+      <div class="etape-name">Confiserie Lilamand — 9h30</div>
+      <div class="etape-why">
+        <div class="etape-why-label">Pourquoi en solo ?</div>
+        <div class="etape-why-text">En solo, on prend le temps de tout regarder, de discuter avec le confiseur, d'apprendre l'histoire de chaque produit. La boutique historique se savoure en prenant son temps — ce que le groupe ne permet pas toujours.</div>
+      </div>
+      <div class="etape-tags">
+        <span class="etag"><span class="material-symbols-outlined">history</span>1866</span>
+        <span class="etag"><span class="material-symbols-outlined">restaurant</span>Dégustation</span>
+      </div>
+      <a href="lilamand.html" class="etape-btn"><span class="material-symbols-outlined">arrow_forward</span>Voir la confiserie</a>
+    </div>
+  </div>
+
+  <div class="etape-card">
+    <div class="etape-img-ph" style="background:linear-gradient(135deg,#2c1a4e,#4a2c7a);">
+      <span class="material-symbols-outlined">palette</span>
+    </div>
+    <div class="etape-body">
+      <div class="etape-num">3</div>
+      <div class="etape-name">Monastère Saint-Paul-de-Mausole — 10h30</div>
+      <div class="etape-why">
+        <div class="etape-why-label">Pourquoi en solo ?</div>
+        <div class="etape-why-text">Se retrouver seul dans la chambre de Van Gogh, regarder par la même fenêtre que lui. Pas de groupe à attendre, pas de bruit. Juste le silence du cloître roman et 135 ans d'histoire qui se rejoignent.</div>
+      </div>
+      <div class="etape-tags">
+        <span class="etag"><span class="material-symbols-outlined">palette</span>Van Gogh</span>
+        <span class="etag"><span class="material-symbols-outlined">church</span>Cloître roman</span>
+        <span class="etag"><span class="material-symbols-outlined">schedule</span>1h30</span>
+      </div>
+      <a href="saint-paul-de-mausole.html" class="etape-btn"><span class="material-symbols-outlined">arrow_forward</span>Voir le monastère</a>
+    </div>
+  </div>
+
+  <div class="etape-card">
+    <div class="etape-img-ph" style="background:linear-gradient(135deg,#5c4a1e,#8B6F2C);">
+      <span class="material-symbols-outlined">holiday_village</span>
+    </div>
+    <div class="etape-body">
+      <div class="etape-num">4</div>
+      <div class="etape-name">Les Antiques — 12h00</div>
+      <div class="etape-why">
+        <div class="etape-why-label">Pourquoi en solo ?</div>
+        <div class="etape-why-text">La lumière de midi sur les Antiques est étrange et belle. En solo, on peut rester aussi longtemps qu'on veut à contempler le Mausolée sous tous les angles. L'endroit est souvent désert à cette heure.</div>
+      </div>
+      <div class="etape-tags">
+        <span class="etag"><span class="material-symbols-outlined">lock_open</span>Gratuit</span>
+        <span class="etag"><span class="material-symbols-outlined">camera_alt</span>Photos</span>
+        <span class="etag"><span class="material-symbols-outlined">schedule</span>30 min</span>
+      </div>
+      <a href="les-antiques.html" class="etape-btn"><span class="material-symbols-outlined">arrow_forward</span>Voir les Antiques</a>
+    </div>
+  </div>
+
+  <div class="etape-card">
+    <div class="etape-img-ph" style="background:linear-gradient(135deg,#3d2b1f,#6b4c2a);">
+      <span class="material-symbols-outlined">account_balance</span>
+    </div>
+    <div class="etape-body">
+      <div class="etape-num">5</div>
+      <div class="etape-name">Glanum — 13h30</div>
+      <div class="etape-why">
+        <div class="etape-why-label">Pourquoi en solo ?</div>
+        <div class="etape-why-text">En solo, on se laisse porter par l'audio-guide et on s'arrête sur les détails — une inscription latine, une mosaïque, une colonne. Et on essaie d'entendre la source enfouie sous le forum. Expérience unique.</div>
+      </div>
+      <div class="etape-tags">
+        <span class="etag"><span class="material-symbols-outlined">headphones</span>Audio-guide</span>
+        <span class="etag"><span class="material-symbols-outlined">hearing</span>Source enfouie</span>
+        <span class="etag"><span class="material-symbols-outlined">schedule</span>1h30</span>
+      </div>
+      <a href="glanum.html" class="etape-btn"><span class="material-symbols-outlined">arrow_forward</span>Voir Glanum</a>
+    </div>
+  </div>
+
+  <div class="etape-card">
+    <div class="etape-img-ph" style="background:linear-gradient(135deg,#7c3238,#0f1923);">
+      <span class="material-symbols-outlined">restaurant</span>
+    </div>
+    <div class="etape-body">
+      <div class="etape-num">6</div>
+      <div class="etape-name">Dîner — L'Aile ou la Cuisse — 19h00</div>
+      <div class="etape-why">
+        <div class="etape-why-label">Pourquoi en solo ?</div>
+        <div class="etape-why-text">En solo, on s'installe au comptoir ou en salle, on discute avec le chef ou le sommelier, on se laisse conseiller sur les vins naturels des Alpilles. Les meilleures rencontres se font souvent à table seul.</div>
+      </div>
+      <div class="etape-tags">
+        <span class="etag"><span class="material-symbols-outlined">wine_bar</span>Vins naturels</span>
+        <span class="etag"><span class="material-symbols-outlined">deck</span>Cour intérieure</span>
+        <span class="etag"><span class="material-symbols-outlined">book_online</span>Réservation</span>
+      </div>
+      <a href="aile-ou-cuisse.html" class="etape-btn"><span class="material-symbols-outlined">arrow_forward</span>Voir le restaurant</a>
+    </div>
+  </div>
+
+  <div class="etape-card">
+    <div class="etape-img-ph" style="background:linear-gradient(135deg,#1a4a6e,#2d6a4f);">
+      <span class="material-symbols-outlined">water</span>
+    </div>
+    <div class="etape-body">
+      <div class="etape-num">7</div>
+      <div class="etape-name">Coucher de soleil — Lac du Peiroou — 20h00</div>
+      <div class="etape-why">
+        <div class="etape-why-label">Pourquoi en solo ?</div>
+        <div class="etape-why-text">Le moment le plus beau de la journée, seul face aux Alpilles. L'eau dorée, le silence des pins, les oiseaux. Pas besoin de partager ce moment — certaines beautés se vivent mieux en silence.</div>
+      </div>
+      <div class="etape-tags">
+        <span class="etag"><span class="material-symbols-outlined">wb_sunny</span>Coucher de soleil</span>
+        <span class="etag"><span class="material-symbols-outlined">lock_open</span>Gratuit</span>
+        <span class="etag"><span class="material-symbols-outlined">camera_alt</span>Panorama</span>
+      </div>
+      <a href="lac-peiroou.html" class="etape-btn"><span class="material-symbols-outlined">arrow_forward</span>Voir le lac</a>
+    </div>
+  </div>
+</div>
+
+<div class="section">
+  <div class="section-title">Conseils pour le voyageur solo</div>
+  <div class="conseil-card">
+    <div class="conseil-item"><span class="material-symbols-outlined">directions_walk</span><div class="conseil-text"><strong>Tout à pied :</strong> ce parcours se fait entièrement à pied depuis le centre. Prévoir de bonnes chaussures — Glanum et le Peiroou sont à 2 km du centre.</div></div>
+    <div class="conseil-item"><span class="material-symbols-outlined">restaurant</span><div class="conseil-text"><strong>Seul au restaurant :</strong> l'Aile ou la Cuisse est particulièrement solo-friendly — petite salle intime, personnel attentif. Dire en réservant que vous venez seul.</div></div>
+    <div class="conseil-item"><span class="material-symbols-outlined">camera_alt</span><div class="conseil-text"><strong>Photographier :</strong> le matin aux Antiques et le soir au Peiroou sont les deux meilleurs moments lumière. Prévoir une batterie de rechange.</div></div>
+    <div class="conseil-item"><span class="material-symbols-outlined">auto_stories</span><div class="conseil-text"><strong>Lire :</strong> emporter un livre sur Van Gogh ou Nostradamus pour les pauses — les cafés de la Place de la République sont parfaits pour ça.</div></div>
+  </div>
+</div>
+
+<div class="section" style="padding-bottom:16px;">
+  <div class="section-title">Autres parcours</div>
+  <div style="display:flex;gap:10px;flex-wrap:wrap;">
+    <a href="visite-couple.html" style="flex:1;min-width:130px;background:#fff;border-radius:14px;padding:14px;box-shadow:0 2px 10px rgba(0,0,0,0.06);text-decoration:none;display:flex;align-items:center;gap:10px;">
+      <span class="material-symbols-outlined" style="font-size:22px;color:#e11d48;font-variation-settings:'FILL' 1;">favorite</span>
+      <div><div style="font-size:13px;font-weight:800;color:#0f1923;">En couple</div><div style="font-size:11px;color:#94a3b8;">4 lieux romantiques</div></div>
+    </a>
+    <a href="visite-amis.html" style="flex:1;min-width:130px;background:#fff;border-radius:14px;padding:14px;box-shadow:0 2px 10px rgba(0,0,0,0.06);text-decoration:none;display:flex;align-items:center;gap:10px;">
+      <span class="material-symbols-outlined" style="font-size:22px;color:#0d7c66;font-variation-settings:'FILL' 1;">groups</span>
+      <div><div style="font-size:13px;font-weight:800;color:#0f1923;">Entre amis</div><div style="font-size:11px;color:#94a3b8;">6 lieux bonne humeur</div></div>
+    </a>
+  </div>
+</div>
+
+<div class="cta-bottom">
+  <a href="carte.html" class="cta-main"><span class="material-symbols-outlined">map</span>Voir tous les lieux sur la carte</a>
+  <a href="javascript:history.back()" class="cta-sec"><span class="material-symbols-outlined">arrow_back</span></a>
+</div>
+</body>
+</html>
