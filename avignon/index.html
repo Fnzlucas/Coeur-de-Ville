@@ -5,7 +5,7 @@
 <script>
 function getVilleParam() {
   var params = new URLSearchParams(window.location.search);
-  return params.get('ville') || localStorage.getItem('cdv_ville') || 'saint-remy';
+  return params.get('ville') || localStorage.getItem('cdv_ville') || 'Avignon';
 }
 var VILLE_ID = getVilleParam();
 var ASSETS_PREFIX = '../assets/' + VILLE_ID + '/';
@@ -1464,7 +1464,7 @@ setTimeout(function(){
 
 <!-- HERO -->
 <div class="home-hero">
-  <img src="saint-remy.jpg" class="home-hero-img" alt="Saint-Rémy-de-Provence" style="width:100%;height:100%;object-fit:cover;object-position:center 60%;display:block;">
+  <img src="avignon.jpg" class="home-hero-img" alt="Avignon" style="width:100%;height:100%;object-fit:cover;object-position:center 60%;display:block;">
   <div class="home-hero-overlay"></div>
   <div class="home-hero-content">
     <span class="home-hero-label" id="hero-label">Bienvenue à Cœur de Ville</span>
