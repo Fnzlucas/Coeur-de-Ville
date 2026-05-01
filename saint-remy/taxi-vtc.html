@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1"/>
+<title>Taxi & VTC — Cœur de Ville</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800;900&display=swap"/>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html,body{font-family:'Manrope',sans-serif;background:#f8f9fa;color:#0f1923;-webkit-overflow-scrolling:touch;}
+body{padding-bottom:90px;}
+.hero{position:relative;height:260px;overflow:hidden;}
+.hero-bg{width:100%;height:100%;background:linear-gradient(135deg,#0f1923,#1a3a5c,#2d2d2d);display:flex;align-items:center;justify-content:center;}
+.hero-icon{font-size:80px;color:rgba(255,255,255,0.12);font-variation-settings:'FILL' 1;}
+.hero-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,0.85) 0%,rgba(0,0,0,0.1) 55%,transparent 100%);}
+.hero-back{position:absolute;top:16px;left:16px;width:40px;height:40px;border-radius:50%;background:rgba(255,255,255,0.15);backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,0.25);display:flex;align-items:center;justify-content:center;z-index:10;text-decoration:none;}
+.hero-back .material-symbols-outlined{color:#fff;font-size:20px;}
+.hero-content{position:absolute;bottom:0;left:0;right:0;padding:20px 20px 24px;}
+.hero-badge{display:inline-flex;align-items:center;gap:5px;background:rgba(255,255,255,0.15);backdrop-filter:blur(6px);color:#fff;font-size:9px;font-weight:800;letter-spacing:0.12em;text-transform:uppercase;padding:5px 12px;border-radius:20px;margin-bottom:10px;}
+.hero-badge::before{content:'';width:5px;height:5px;background:#FBBF24;border-radius:50%;}
+.hero-name{font-size:28px;font-weight:900;color:#fff;line-height:1.05;letter-spacing:-0.02em;margin-bottom:6px;}
+.hero-sub{font-size:13px;color:rgba(255,255,255,0.65);font-weight:500;}
+.section{padding:24px 16px 0;}
+.section-title{font-size:17px;font-weight:900;color:#0f1923;letter-spacing:-0.02em;margin-bottom:12px;}
+.desc-card{background:#fff;border-radius:16px;padding:16px;box-shadow:0 2px 10px rgba(0,0,0,0.06);}
+.desc-text{font-size:14px;line-height:1.7;color:#374151;}
+.chauffeur-card{background:#fff;border-radius:18px;box-shadow:0 4px 20px rgba(0,0,0,0.08);overflow:hidden;margin-bottom:12px;}
+.chauffeur-header{padding:16px 16px 12px;display:flex;align-items:center;gap:14px;border-bottom:1px solid #f1f5f9;}
+.chauffeur-avatar{width:52px;height:52px;border-radius:16px;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:22px;font-weight:900;color:#fff;}
+.chauffeur-info{flex:1;}
+.chauffeur-name{font-size:16px;font-weight:900;color:#0f1923;letter-spacing:-0.01em;}
+.chauffeur-sub{font-size:12px;color:#64748b;margin-top:2px;}
+.chauffeur-note{display:flex;align-items:center;gap:4px;color:#FBBF24;font-size:12px;font-weight:800;margin-top:4px;}
+.chauffeur-note span.cnt{color:#94a3b8;font-weight:500;}
+.chauffeur-body{padding:12px 16px;}
+.chauffeur-tags{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px;}
+.ctag{font-size:10px;font-weight:700;padding:4px 9px;border-radius:20px;display:inline-flex;align-items:center;gap:3px;}
+.ctag .material-symbols-outlined{font-size:11px;}
+.ctag-green{background:#dcfce7;color:#166534;}
+.ctag-blue{background:#dbeafe;color:#1e40af;}
+.ctag-yellow{background:#fef3c7;color:#92400e;}
+.ctag-purple{background:#f5f0ff;color:#4a2c7a;}
+.chauffeur-tarifs{display:flex;gap:8px;margin-bottom:14px;}
+.tarif-box{flex:1;background:#f8f9fa;border-radius:12px;padding:10px;text-align:center;}
+.tarif-val{font-size:16px;font-weight:900;color:#0f1923;letter-spacing:-0.02em;}
+.tarif-label{font-size:9px;color:#94a3b8;font-weight:600;margin-top:2px;text-transform:uppercase;letter-spacing:0.05em;}
+.chauffeur-actions{display:flex;gap:8px;}
+.btn-call{flex:1;display:flex;align-items:center;justify-content:center;gap:6px;background:#0f1923;color:#fff;border:none;border-radius:12px;padding:12px;font-family:Manrope;font-size:13px;font-weight:800;text-decoration:none;}
+.btn-call .material-symbols-outlined{font-size:17px;font-variation-settings:'FILL' 1;}
+.btn-sms{width:44px;height:44px;border-radius:12px;background:#f1f5f9;display:flex;align-items:center;justify-content:center;text-decoration:none;flex-shrink:0;}
+.btn-sms .material-symbols-outlined{font-size:20px;color:#0f1923;}
+.trajet-grid{display:flex;flex-direction:column;gap:1px;background:#f1f5f9;border-radius:16px;overflow:hidden;box-shadow:0 2px 10px rgba(0,0,0,0.06);}
+.trajet-row{background:#fff;padding:13px 16px;display:flex;align-items:center;gap:12px;}
+.trajet-icon{width:38px;height:38px;border-radius:12px;background:#f8f9fa;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.trajet-icon .material-symbols-outlined{font-size:20px;color:#0f1923;}
+.trajet-content{flex:1;}
+.trajet-dest{font-size:14px;font-weight:800;color:#0f1923;}
+.trajet-detail{font-size:12px;color:#64748b;margin-top:2px;}
+.trajet-prix{font-size:14px;font-weight:900;color:#0f1923;}
+.conseil-card{background:linear-gradient(135deg,#0f1923,#1a3a5c);border-radius:16px;padding:18px;}
+.conseil-item{display:flex;align-items:flex-start;gap:10px;margin-bottom:14px;}
+.conseil-item:last-child{margin-bottom:0;}
+.conseil-item .material-symbols-outlined{font-size:18px;color:rgba(255,255,255,0.7);flex-shrink:0;margin-top:1px;}
+.conseil-text{font-size:13px;color:rgba(255,255,255,0.9);line-height:1.6;}
+.conseil-text strong{color:#fff;}
+.tags-wrap{display:flex;flex-wrap:wrap;gap:8px;}
+.tag{display:inline-flex;align-items:center;gap:5px;background:#fff;border-radius:100px;padding:7px 12px;font-size:11px;font-weight:700;color:#374151;box-shadow:0 1px 6px rgba(0,0,0,0.07);}
+.tag .material-symbols-outlined{font-size:14px;color:#0f1923;}
+.urgence-card{background:linear-gradient(135deg,#dc2626,#7f1d1d);border-radius:16px;padding:18px;display:flex;align-items:center;gap:14px;}
+.urgence-card .material-symbols-outlined{font-size:36px;color:#fff;flex-shrink:0;font-variation-settings:'FILL' 1;}
+.urgence-title{font-size:15px;font-weight:900;color:#fff;margin-bottom:4px;}
+.urgence-sub{font-size:12px;color:rgba(255,255,255,0.75);}
+.urgence-num{font-size:20px;font-weight:900;color:#fff;margin-top:6px;letter-spacing:0.02em;}
+.cta-bottom{position:fixed;bottom:0;left:0;right:0;padding:12px 16px 20px;background:rgba(255,255,255,0.95);backdrop-filter:blur(20px);border-top:1px solid rgba(0,0,0,0.06);display:flex;gap:10px;z-index:100;}
+.cta-main{flex:1;display:flex;align-items:center;justify-content:center;gap:8px;background:#0f1923;color:#fff;border:none;border-radius:14px;padding:15px;font-family:Manrope;font-size:15px;font-weight:800;text-decoration:none;}
+.cta-main .material-symbols-outlined{font-size:19px;font-variation-settings:'FILL' 1;}
+.cta-sec{width:52px;height:52px;border-radius:14px;background:#fff;border:1.5px solid #e2e8f0;display:flex;align-items:center;justify-content:center;text-decoration:none;flex-shrink:0;}
+.cta-sec .material-symbols-outlined{font-size:22px;color:#0f1923;}
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="hero-bg">
+    <span class="material-symbols-outlined hero-icon">local_taxi</span>
+  </div>
+  <div class="hero-overlay"></div>
+  <a class="hero-back" href="javascript:history.back()"><span class="material-symbols-outlined">arrow_back</span></a>
+  <div class="hero-content">
+    <div class="hero-badge">Transport local</div>
+    <div class="hero-name">Taxi & VTC</div>
+    <div class="hero-sub">Chauffeurs locaux agrees · Disponibles 7j/7 · PMR sur demande</div>
+  </div>
+</div>
+
+<!-- CHAUFFEUR 1 -->
+<div class="section">
+  <div class="section-title">Chauffeurs agrees Saint-Remy</div>
+
+  <div class="chauffeur-card">
+    <div class="chauffeur-header">
+      <div class="chauffeur-avatar" style="background:linear-gradient(135deg,#1a3a5c,#0f1923);">JM</div>
+      <div class="chauffeur-info">
+        <div class="chauffeur-name">Jean-Marc Taxi</div>
+        <div class="chauffeur-sub">Agree prefecture · Saint-Remy depuis 2008</div>
+        <div class="chauffeur-note">★★★★★ <span class="cnt">4.9 · Tres recommande</span></div>
+      </div>
+    </div>
+    <div class="chauffeur-body">
+      <div class="chauffeur-tags">
+        <span class="ctag ctag-green"><span class="material-symbols-outlined">accessible</span>Vehicule PMR</span>
+        <span class="ctag ctag-blue"><span class="material-symbols-outlined">airport_shuttle</span>Aeroport</span>
+        <span class="ctag ctag-yellow"><span class="material-symbols-outlined">schedule</span>24h/24</span>
+        <span class="ctag ctag-purple"><span class="material-symbols-outlined">translate</span>Anglais</span>
+      </div>
+      <div class="chauffeur-tarifs">
+        <div class="tarif-box"><div class="tarif-val">2€</div><div class="tarif-label">Prise en charge</div></div>
+        <div class="tarif-box"><div class="tarif-val">1.80€</div><div class="tarif-label">Par km</div></div>
+        <div class="tarif-box"><div class="tarif-val">25€</div><div class="tarif-label">Avignon gare</div></div>
+      </div>
+      <div class="chauffeur-actions">
+        <a href="tel:0490920000" class="btn-call">
+          <span class="material-symbols-outlined">call</span>
+          Appeler · 04 90 92 00 00
+        </a>
+        <a href="sms:0490920000" class="btn-sms">
+          <span class="material-symbols-outlined">sms</span>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <div class="chauffeur-card">
+    <div class="chauffeur-header">
+      <div class="chauffeur-avatar" style="background:linear-gradient(135deg,#7c3238,#4a1020);">AP</div>
+      <div class="chauffeur-info">
+        <div class="chauffeur-name">Alpilles Premium VTC</div>
+        <div class="chauffeur-sub">VTC agree · Berline & minivan disponibles</div>
+        <div class="chauffeur-note">★★★★★ <span class="cnt">4.8 · VTC haut de gamme</span></div>
+      </div>
+    </div>
+    <div class="chauffeur-body">
+      <div class="chauffeur-tags">
+        <span class="ctag ctag-purple"><span class="material-symbols-outlined">star</span>Premium</span>
+        <span class="ctag ctag-blue"><span class="material-symbols-outlined">airport_shuttle</span>Marseille MRS</span>
+        <span class="ctag ctag-green"><span class="material-symbols-outlined">groups</span>Minivan 7 places</span>
+        <span class="ctag ctag-yellow"><span class="material-symbols-outlined">wine_bar</span>Oenotourisme</span>
+      </div>
+      <div class="chauffeur-tarifs">
+        <div class="tarif-box"><div class="tarif-val">35€</div><div class="tarif-label">Avignon TGV</div></div>
+        <div class="tarif-box"><div class="tarif-val">95€</div><div class="tarif-label">Marseille MRS</div></div>
+        <div class="tarif-box"><div class="tarif-val">Sur devis</div><div class="tarif-label">Journee/demi</div></div>
+      </div>
+      <div class="chauffeur-actions">
+        <a href="tel:0612345678" class="btn-call">
+          <span class="material-symbols-outlined">call</span>
+          Appeler · 06 12 34 56 78
+        </a>
+        <a href="sms:0612345678" class="btn-sms">
+          <span class="material-symbols-outlined">sms</span>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <div class="chauffeur-card">
+    <div class="chauffeur-header">
+      <div class="chauffeur-avatar" style="background:linear-gradient(135deg,#5a7a2e,#3d2200);">SR</div>
+      <div class="chauffeur-info">
+        <div class="chauffeur-name">Saint-Remy Taxi</div>
+        <div class="chauffeur-sub">Taxi agree · Courses locales specialite</div>
+        <div class="chauffeur-note">★★★★☆ <span class="cnt">4.6 · Courses courtes</span></div>
+      </div>
+    </div>
+    <div class="chauffeur-body">
+      <div class="chauffeur-tags">
+        <span class="ctag ctag-green"><span class="material-symbols-outlined">accessible</span>PMR possible</span>
+        <span class="ctag ctag-blue"><span class="material-symbols-outlined">local_hospital</span>Medical</span>
+        <span class="ctag ctag-yellow"><span class="material-symbols-outlined">schedule</span>7h – 22h</span>
+      </div>
+      <div class="chauffeur-tarifs">
+        <div class="tarif-box"><div class="tarif-val">2€</div><div class="tarif-label">Prise en charge</div></div>
+        <div class="tarif-box"><div class="tarif-val">1.70€</div><div class="tarif-label">Par km</div></div>
+        <div class="tarif-box"><div class="tarif-val">18€</div><div class="tarif-label">Tarif mini</div></div>
+      </div>
+      <div class="chauffeur-actions">
+        <a href="tel:0490921111" class="btn-call">
+          <span class="material-symbols-outlined">call</span>
+          Appeler · 04 90 92 11 11
+        </a>
+        <a href="sms:0490921111" class="btn-sms">
+          <span class="material-symbols-outlined">sms</span>
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- TRAJETS TYPES -->
+<div class="section">
+  <div class="section-title">Trajets types depuis Saint-Remy</div>
+  <div class="trajet-grid">
+    <div class="trajet-row">
+      <div class="trajet-icon"><span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">train</span></div>
+      <div class="trajet-content">
+        <div class="trajet-dest">Gare TGV Avignon Centre</div>
+        <div class="trajet-detail">25 min · 22 km</div>
+      </div>
+      <div class="trajet-prix">~25€</div>
+    </div>
+    <div class="trajet-row">
+      <div class="trajet-icon"><span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">train</span></div>
+      <div class="trajet-content">
+        <div class="trajet-dest">Gare TGV Avignon Courtine</div>
+        <div class="trajet-detail">30 min · 26 km</div>
+      </div>
+      <div class="trajet-prix">~32€</div>
+    </div>
+    <div class="trajet-row">
+      <div class="trajet-icon"><span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">flight</span></div>
+      <div class="trajet-content">
+        <div class="trajet-dest">Aeroport Marseille-Provence</div>
+        <div class="trajet-detail">1h05 · 75 km</div>
+      </div>
+      <div class="trajet-prix">~90€</div>
+    </div>
+    <div class="trajet-row">
+      <div class="trajet-icon"><span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">flight</span></div>
+      <div class="trajet-content">
+        <div class="trajet-dest">Aeroport Nimes-Ales</div>
+        <div class="trajet-detail">55 min · 65 km</div>
+      </div>
+      <div class="trajet-prix">~80€</div>
+    </div>
+    <div class="trajet-row">
+      <div class="trajet-icon"><span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">location_city</span></div>
+      <div class="trajet-content">
+        <div class="trajet-dest">Les Baux-de-Provence</div>
+        <div class="trajet-detail">15 min · 10 km</div>
+      </div>
+      <div class="trajet-prix">~18€</div>
+    </div>
+    <div class="trajet-row">
+      <div class="trajet-icon"><span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">location_city</span></div>
+      <div class="trajet-content">
+        <div class="trajet-dest">Arles</div>
+        <div class="trajet-detail">35 min · 28 km</div>
+      </div>
+      <div class="trajet-prix">~40€</div>
+    </div>
+    <div class="trajet-row">
+      <div class="trajet-icon"><span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">local_hospital</span></div>
+      <div class="trajet-content">
+        <div class="trajet-dest">Hopital d'Avignon</div>
+        <div class="trajet-detail">28 min · 24 km · Conventionnable</div>
+      </div>
+      <div class="trajet-prix">~28€</div>
+    </div>
+  </div>
+</div>
+
+<!-- SERVICES PMR -->
+<div class="section">
+  <div class="section-title">Transport adapte PMR</div>
+  <div class="desc-card">
+    <p class="desc-text">Plusieurs chauffeurs de Saint-Remy disposent de <strong>vehicules adaptes aux personnes en fauteuil roulant</strong> — rampe d'acces, sangles de maintien, espace largeur conforme.</p>
+    <p class="desc-text" style="margin-top:10px;">Pour les transports medicaux, certaines courses sont <strong>conventionnees par l'Assurance Maladie</strong> sur prescription medicale. Renseignez-vous aupres de votre medecin avant la prise en charge.</p>
+    <div style="margin-top:12px;padding:10px 12px;background:#dcfce7;border-radius:10px;font-size:12px;font-weight:700;color:#166534;display:flex;align-items:center;gap:8px;">
+      <span class="material-symbols-outlined" style="font-size:16px;">accessible</span>
+      Vehicules PMR disponibles · Prevenir lors de la reservation
+    </div>
+  </div>
+</div>
+
+<!-- CONSEILS -->
+<div class="section">
+  <div class="section-title">Conseils pratiques</div>
+  <div class="conseil-card">
+    <div class="conseil-item">
+      <span class="material-symbols-outlined">schedule</span>
+      <div class="conseil-text"><strong>Reserver a l'avance :</strong> en haute saison (juillet-aout) et les jours de marche (mercredi matin), les taxis sont tres demandes. Prevenir la veille.</div>
+    </div>
+    <div class="conseil-item">
+      <span class="material-symbols-outlined">payments</span>
+      <div class="conseil-text"><strong>Paiement :</strong> les taxis agrees acceptent CB et especes. Les VTC preferent le virement ou CB — preciser au moment de la reservation.</div>
+    </div>
+    <div class="conseil-item">
+      <span class="material-symbols-outlined">flight</span>
+      <div class="conseil-text"><strong>Aeroport :</strong> toujours reserver la veille pour les departs matinaux. Prevoir 15 min supplementaires en periode estivale pour les trajets Marseille.</div>
+    </div>
+    <div class="conseil-item">
+      <span class="material-symbols-outlined">local_hospital</span>
+      <div class="conseil-text"><strong>Transport medical :</strong> sur prescription, le taxi conventionne prend en charge les transports vers les etablissements de sante. Numero CPAM : 3646.</div>
+    </div>
+  </div>
+</div>
+
+<!-- SERVICES -->
+<div class="section">
+  <div class="section-title">Services disponibles</div>
+  <div class="tags-wrap">
+    <div class="tag"><span class="material-symbols-outlined">accessible</span>Vehicules PMR</div>
+    <div class="tag"><span class="material-symbols-outlined">flight</span>Navettes aeroports</div>
+    <div class="tag"><span class="material-symbols-outlined">train</span>Gares TGV</div>
+    <div class="tag"><span class="material-symbols-outlined">local_hospital</span>Transport medical</div>
+    <div class="tag"><span class="material-symbols-outlined">wine_bar</span>Circuits oenotourisme</div>
+    <div class="tag"><span class="material-symbols-outlined">groups</span>Minivans groupes</div>
+    <div class="tag"><span class="material-symbols-outlined">star</span>VTC premium</div>
+    <div class="tag"><span class="material-symbols-outlined">schedule</span>Reservation anticipee</div>
+  </div>
+</div>
+
+<!-- URGENCE -->
+<div class="section" style="padding-bottom:16px;">
+  <div class="urgence-card">
+    <span class="material-symbols-outlined">emergency</span>
+    <div>
+      <div class="urgence-title">Urgence ou besoin immediat</div>
+      <div class="urgence-sub">Centrale de taxi departementale — disponible 24h/24</div>
+      <div class="urgence-num">04 90 82 20 20</div>
+    </div>
+  </div>
+</div>
+
+<div class="cta-bottom">
+  <a href="tel:0490920000" class="cta-main">
+    <span class="material-symbols-outlined">call</span>
+    Appeler le taxi le plus proche
+  </a>
+</div>
+
+</body>
+</html>
