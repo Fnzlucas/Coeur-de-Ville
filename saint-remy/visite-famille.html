@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1"/>
+<title>En famille — Cœur de Ville Saint-Rémy</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800;900&display=swap"/>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html,body{font-family:'Manrope',sans-serif;background:#f8f9fa;color:#0f1923;-webkit-overflow-scrolling:touch;}
+body{padding-bottom:90px;}
+.hero{position:relative;height:260px;overflow:hidden;}
+.hero-bg{width:100%;height:100%;background:linear-gradient(135deg,#1a4a6e,#2563eb,#0f1923);display:flex;align-items:center;justify-content:center;}
+.hero-bg .material-symbols-outlined{font-size:100px;color:rgba(255,255,255,0.1);font-variation-settings:'FILL' 1;}
+.hero-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,0.82) 0%,rgba(0,0,0,0.1) 60%,transparent 100%);}
+.hero-back{position:absolute;top:16px;left:16px;width:40px;height:40px;border-radius:50%;background:rgba(255,255,255,0.15);backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,0.25);display:flex;align-items:center;justify-content:center;z-index:10;text-decoration:none;}
+.hero-back .material-symbols-outlined{color:#fff;font-size:20px;}
+.hero-content{position:absolute;bottom:0;left:0;right:0;padding:20px 20px 24px;}
+.hero-badge{display:inline-flex;align-items:center;gap:5px;background:rgba(37,99,235,0.85);color:#fff;font-size:9px;font-weight:800;letter-spacing:0.12em;text-transform:uppercase;padding:5px 12px;border-radius:20px;margin-bottom:10px;}
+.hero-badge::before{content:'';width:5px;height:5px;background:#fff;border-radius:50%;}
+.hero-name{font-size:28px;font-weight:900;color:#fff;line-height:1.05;letter-spacing:-0.02em;margin-bottom:6px;}
+.hero-sub{font-size:13px;color:rgba(255,255,255,0.7);}
+.section{padding:24px 16px 0;}
+.section-title{font-size:17px;font-weight:900;color:#0f1923;letter-spacing:-0.02em;margin-bottom:12px;}
+.desc-card{background:#fff;border-radius:16px;padding:16px;box-shadow:0 2px 10px rgba(0,0,0,0.06);}
+.desc-text{font-size:14px;line-height:1.7;color:#374151;}
+.etape-card{background:#fff;border-radius:18px;box-shadow:0 3px 16px rgba(0,0,0,0.08);overflow:hidden;margin-bottom:12px;}
+.etape-img{width:100%;height:160px;object-fit:cover;display:block;background:linear-gradient(135deg,#1a4a6e,#0f1923);}
+.etape-img-ph{width:100%;height:160px;display:flex;align-items:center;justify-content:center;}
+.etape-img-ph .material-symbols-outlined{font-size:60px;color:rgba(255,255,255,0.3);font-variation-settings:'FILL' 1;}
+.etape-body{padding:14px 16px 16px;}
+.etape-num{display:inline-flex;align-items:center;justify-content:center;width:26px;height:26px;border-radius:50%;background:#2563eb;color:#fff;font-size:12px;font-weight:900;margin-bottom:8px;}
+.etape-name{font-size:16px;font-weight:900;color:#0f1923;margin-bottom:5px;letter-spacing:-0.01em;}
+.etape-why{background:#eff6ff;border-radius:10px;padding:10px 12px;margin-bottom:10px;}
+.etape-why-label{font-size:9px;font-weight:800;text-transform:uppercase;letter-spacing:0.1em;color:#2563eb;margin-bottom:3px;}
+.etape-why-text{font-size:13px;color:#1e40af;line-height:1.5;}
+.etape-tags{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px;}
+.etag{font-size:10px;font-weight:700;padding:4px 9px;border-radius:20px;background:#f1f5f9;color:#374151;display:inline-flex;align-items:center;gap:3px;}
+.etag .material-symbols-outlined{font-size:11px;color:#2563eb;}
+.etape-btn{display:flex;align-items:center;justify-content:center;gap:6px;background:#0f1923;color:#fff;border:none;border-radius:12px;padding:11px;font-family:Manrope;font-size:13px;font-weight:800;text-decoration:none;width:100%;}
+.etape-btn .material-symbols-outlined{font-size:16px;}
+.conseil-card{background:linear-gradient(135deg,#1a4a6e,#0f1923);border-radius:16px;padding:18px;}
+.conseil-item{display:flex;align-items:flex-start;gap:10px;margin-bottom:12px;}
+.conseil-item:last-child{margin-bottom:0;}
+.conseil-item .material-symbols-outlined{font-size:18px;color:rgba(255,255,255,0.7);flex-shrink:0;margin-top:1px;}
+.conseil-text{font-size:13px;color:rgba(255,255,255,0.9);line-height:1.6;}
+.conseil-text strong{color:#fff;}
+.duree-card{background:#fff;border-radius:16px;padding:16px;box-shadow:0 2px 10px rgba(0,0,0,0.06);display:flex;gap:16px;align-items:center;}
+.duree-num{font-size:42px;font-weight:900;color:#2563eb;letter-spacing:-0.04em;line-height:1;}
+.duree-label{font-size:12px;color:#64748b;font-weight:600;margin-top:4px;}
+.duree-sep{width:1px;background:#e2e8f0;align-self:stretch;}
+.duree-details{flex:1;}
+.duree-row{display:flex;align-items:center;gap:6px;margin-bottom:6px;font-size:12px;color:#374151;}
+.duree-row:last-child{margin-bottom:0;}
+.duree-row .material-symbols-outlined{font-size:14px;color:#2563eb;}
+.cta-bottom{position:fixed;bottom:0;left:0;right:0;padding:12px 16px 20px;background:rgba(255,255,255,0.95);backdrop-filter:blur(20px);border-top:1px solid rgba(0,0,0,0.06);display:flex;gap:10px;z-index:100;}
+.cta-main{flex:1;display:flex;align-items:center;justify-content:center;gap:8px;background:#2563eb;color:#fff;border:none;border-radius:14px;padding:15px;font-family:Manrope;font-size:15px;font-weight:800;text-decoration:none;}
+.cta-main .material-symbols-outlined{font-size:19px;font-variation-settings:'FILL' 1;}
+.cta-sec{width:52px;height:52px;border-radius:14px;background:#fff;border:1.5px solid #e2e8f0;display:flex;align-items:center;justify-content:center;text-decoration:none;flex-shrink:0;}
+.cta-sec .material-symbols-outlined{font-size:22px;color:#0f1923;}
+</style>
+</head>
+<body>
+<div class="hero">
+  <div class="hero-bg"><span class="material-symbols-outlined">family_restroom</span></div>
+  <div class="hero-overlay"></div>
+  <a class="hero-back" href="javascript:history.back()"><span class="material-symbols-outlined">arrow_back</span></a>
+  <div class="hero-content">
+    <div class="hero-badge">Idée de visite · 5 étapes</div>
+    <div class="hero-name">Saint-Rémy en famille</div>
+    <div class="hero-sub">Une journée parfaite avec les enfants — histoire, nature et gourmandise</div>
+  </div>
+</div>
+
+<div class="section">
+  <div class="duree-card">
+    <div><div class="duree-num">1j</div><div class="duree-label">Journée complète</div></div>
+    <div class="duree-sep"></div>
+    <div class="duree-details">
+      <div class="duree-row"><span class="material-symbols-outlined">schedule</span>Départ conseillé 9h00</div>
+      <div class="duree-row"><span class="material-symbols-outlined">directions_walk</span>Tout accessible à pied ou en voiture</div>
+      <div class="duree-row"><span class="material-symbols-outlined">euro</span>Budget ~35€ / adulte · Enfants -18 ans gratuits Glanum</div>
+    </div>
+  </div>
+</div>
+
+<div class="section">
+  <div class="section-title">Le parcours</div>
+
+  <div class="etape-card">
+    <div class="etape-img-ph" style="background:linear-gradient(135deg,#3d2b1f,#6b4c2a);">
+      <span class="material-symbols-outlined">account_balance</span>
+    </div>
+    <div class="etape-body">
+      <div class="etape-num">1</div>
+      <div class="etape-name">Site de Glanum — 9h30</div>
+      <div class="etape-why">
+        <div class="etape-why-label">Pourquoi en famille ?</div>
+        <div class="etape-why-text">Les enfants adorent jouer aux archéologues parmi les vraies ruines romaines. Le guide explique la vie quotidienne des Romains avec des anecdotes accessibles dès 6 ans. Prévoir 1h30.</div>
+      </div>
+      <div class="etape-tags">
+        <span class="etag"><span class="material-symbols-outlined">child_care</span>Dès 6 ans</span>
+        <span class="etag"><span class="material-symbols-outlined">local_parking</span>Parking gratuit</span>
+        <span class="etag"><span class="material-symbols-outlined">euro</span>Gratuit -18 ans</span>
+      </div>
+      <a href="glanum.html" class="etape-btn"><span class="material-symbols-outlined">arrow_forward</span>Voir le site</a>
+    </div>
+  </div>
+
+  <div class="etape-card">
+    <div class="etape-img-ph" style="background:linear-gradient(135deg,#5c4a1e,#8B6F2C);">
+      <span class="material-symbols-outlined">holiday_village</span>
+    </div>
+    <div class="etape-body">
+      <div class="etape-num">2</div>
+      <div class="etape-name">Les Antiques — 11h00</div>
+      <div class="etape-why">
+        <div class="etape-why-label">Pourquoi en famille ?</div>
+        <div class="etape-why-text">À 300 mètres de Glanum, l'arc de triomphe et le mausolée fascinent les enfants par leur taille impressionnante. Accès libre et gratuit — parfait pour une pause photo en famille.</div>
+      </div>
+      <div class="etape-tags">
+        <span class="etag"><span class="material-symbols-outlined">lock_open</span>Gratuit</span>
+        <span class="etag"><span class="material-symbols-outlined">directions_walk</span>300m de Glanum</span>
+        <span class="etag"><span class="material-symbols-outlined">schedule</span>20 min</span>
+      </div>
+      <a href="les-antiques.html" class="etape-btn"><span class="material-symbols-outlined">arrow_forward</span>Voir le monument</a>
+    </div>
+  </div>
+
+  <div class="etape-card">
+    <div class="etape-img-ph" style="background:linear-gradient(135deg,#e67e22,#8b2500);">
+      <span class="material-symbols-outlined">lunch_dining</span>
+    </div>
+    <div class="etape-body">
+      <div class="etape-num">3</div>
+      <div class="etape-name">Déjeuner — Toute une Époque — 12h30</div>
+      <div class="etape-why">
+        <div class="etape-why-label">Pourquoi en famille ?</div>
+        <div class="etape-why-text">Terrasse face au marché du mercredi, chaises bébé disponibles, menu enfant possible. Cuisine généreuse qui convient à tous les âges. L'adresse familiale par excellence de Saint-Rémy.</div>
+      </div>
+      <div class="etape-tags">
+        <span class="etag"><span class="material-symbols-outlined">child_care</span>Chaise bébé</span>
+        <span class="etag"><span class="material-symbols-outlined">deck</span>Grande terrasse</span>
+        <span class="etag"><span class="material-symbols-outlined">pets</span>Animaux bienvenus</span>
+      </div>
+      <a href="toute-une-epoque.html" class="etape-btn"><span class="material-symbols-outlined">arrow_forward</span>Voir le restaurant</a>
+    </div>
+  </div>
+
+  <div class="etape-card">
+    <div class="etape-img-ph" style="background:linear-gradient(135deg,#8B2252,#6d1a3e);">
+      <span class="material-symbols-outlined">cake</span>
+    </div>
+    <div class="etape-body">
+      <div class="etape-num">4</div>
+      <div class="etape-name">Confiserie Lilamand — 14h30</div>
+      <div class="etape-why">
+        <div class="etape-why-label">Pourquoi en famille ?</div>
+        <div class="etape-why-text">Les enfants sont fascinés par la boutique historique et ses vitrines de fruits confits et calissons. Dégustation gratuite, coffrets à ramener. La plus vieille maison de Saint-Rémy depuis 1866 !</div>
+      </div>
+      <div class="etape-tags">
+        <span class="etag"><span class="material-symbols-outlined">restaurant</span>Dégustation gratuite</span>
+        <span class="etag"><span class="material-symbols-outlined">history</span>Depuis 1866</span>
+        <span class="etag"><span class="material-symbols-outlined">card_giftcard</span>Coffrets souvenirs</span>
+      </div>
+      <a href="lilamand.html" class="etape-btn"><span class="material-symbols-outlined">arrow_forward</span>Voir la confiserie</a>
+    </div>
+  </div>
+
+  <div class="etape-card">
+    <div class="etape-img-ph" style="background:linear-gradient(135deg,#1a4a6e,#2d6a4f);">
+      <span class="material-symbols-outlined">water</span>
+    </div>
+    <div class="etape-body">
+      <div class="etape-num">5</div>
+      <div class="etape-name">Lac du Peiroou — 16h00</div>
+      <div class="etape-why">
+        <div class="etape-why-label">Pourquoi en famille ?</div>
+        <div class="etape-why-text">Le spot secret des Saint-Rémois pour finir la journée en beauté. Baignade dans une eau fraîche et claire, berges herbeuses pour pique-niquer, sentiers faciles autour du lac pour les plus grands.</div>
+      </div>
+      <div class="etape-tags">
+        <span class="etag"><span class="material-symbols-outlined">pool</span>Baignade</span>
+        <span class="etag"><span class="material-symbols-outlined">directions_walk</span>Sentiers faciles</span>
+        <span class="etag"><span class="material-symbols-outlined">lock_open</span>Gratuit</span>
+      </div>
+      <a href="lac-peiroou.html" class="etape-btn"><span class="material-symbols-outlined">arrow_forward</span>Voir le lac</a>
+    </div>
+  </div>
+</div>
+
+<div class="section">
+  <div class="section-title">Conseils pratiques</div>
+  <div class="conseil-card">
+    <div class="conseil-item"><span class="material-symbols-outlined">wb_sunny</span><div class="conseil-text"><strong>En été :</strong> commencer Glanum dès 9h30 avant la chaleur. Prévoir chapeaux, crème solaire et eau — le site n'a aucun ombre.</div></div>
+    <div class="conseil-item"><span class="material-symbols-outlined">restaurant</span><div class="conseil-text"><strong>Déjeuner :</strong> réserver la table à Toute une Époque la veille en été — la terrasse est prise d'assaut le midi.</div></div>
+    <div class="conseil-item"><span class="material-symbols-outlined">pool</span><div class="conseil-text"><strong>Lac :</strong> emporter maillots et serviettes depuis le matin. Pas de vestiaires sur place. Parking limité en saison — arriver avant 16h.</div></div>
+    <div class="conseil-item"><span class="material-symbols-outlined">directions_car</span><div class="conseil-text"><strong>Voiture :</strong> Glanum et le Peiroou sont à 2 km du centre. Une voiture est recommandée pour enchaîner confortablement avec des enfants.</div></div>
+  </div>
+</div>
+
+<div class="section" style="padding-bottom:16px;">
+  <div class="section-title">Autres parcours</div>
+  <div style="display:flex;gap:10px;flex-wrap:wrap;">
+    <a href="visite-couple.html" style="flex:1;min-width:130px;background:#fff;border-radius:14px;padding:14px;box-shadow:0 2px 10px rgba(0,0,0,0.06);text-decoration:none;display:flex;align-items:center;gap:10px;">
+      <span class="material-symbols-outlined" style="font-size:22px;color:#e11d48;font-variation-settings:'FILL' 1;">favorite</span>
+      <div><div style="font-size:13px;font-weight:800;color:#0f1923;">En couple</div><div style="font-size:11px;color:#94a3b8;">4 lieux romantiques</div></div>
+    </a>
+    <a href="visite-amis.html" style="flex:1;min-width:130px;background:#fff;border-radius:14px;padding:14px;box-shadow:0 2px 10px rgba(0,0,0,0.06);text-decoration:none;display:flex;align-items:center;gap:10px;">
+      <span class="material-symbols-outlined" style="font-size:22px;color:#16a085;font-variation-settings:'FILL' 1;">groups</span>
+      <div><div style="font-size:13px;font-weight:800;color:#0f1923;">Entre amis</div><div style="font-size:11px;color:#94a3b8;">6 lieux bonne humeur</div></div>
+    </a>
+  </div>
+</div>
+
+<div class="cta-bottom">
+  <a href="carte.html" class="cta-main"><span class="material-symbols-outlined">map</span>Voir tous les lieux sur la carte</a>
+  <a href="javascript:history.back()" class="cta-sec"><span class="material-symbols-outlined">arrow_back</span></a>
+</div>
+</body>
+</html>
