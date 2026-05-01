@@ -62,5 +62,14 @@
     "couleur": "#4a3520",
     "photo": "assets/saint-remy/hero.jpg",
     "expire": "2027-01-01"
+  },
+   },
+  "Avignon": {
+    "actif": true,
+    "nom": "Avignon",
+    "departement": "Vaucluse (84)",
+    "couleur": "#4a3520",
+    "photo": "assets/Avignon/hero.jpg",
+    "expire": "2027-01-01"
   }
 }
