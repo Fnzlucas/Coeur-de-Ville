@@ -143,26 +143,26 @@ const KB = [
   },
   {
     keys:['manger','restaurant','diner','dejeuner','table','bonne adresse','ou manger','resto'],
-    poi:'carte.html',
-    ans:"🍽️ **Les meilleures adresses :**\n\n⭐ **Toute une Époque** · Place de la République\n7h-22h tous les jours · Aïoli vendredi midi\n📞 04 90 92 30 21\n\n🍷 **Le Bistrot Découverte** · Bvd Victor Hugo\nCave d'exception · Terrasse · Mar-Sam\n📞 04 90 92 34 49 (réservation conseillée)\n\n🌿 **L'Aile ou la Cuisse** · 5 rue de la Commune\nCour intérieure · Vins naturels · Mar-Sam",
+    poi:null,
+    ans:"🍽️ **Les meilleures adresses :**\n\n⭐ **Toute une Époque** · Place de la République\n7h-22h tous les jours · Aïoli vendredi midi\n📞 04 90 92 30 21\n[YALLER:carte.html?poi=101:Toute une Époque]\n\n🍷 **Le Bistrot Découverte** · Bvd Victor Hugo\nCave d'exception · Terrasse · Mar-Sam\n📞 04 90 92 34 49\n[YALLER:carte.html?poi=152:Bistrot Découverte]\n\n🌿 **L'Aile ou la Cuisse** · 5 rue de la Commune\nCour intérieure · Vins naturels · Mar-Sam\n[YALLER:carte.html?poi=151:L'Aile ou la Cuisse]",
     qr:['Dîner en couple','Avec les enfants','Aïoli du vendredi']
   },
   {
     keys:['couple','amoureux','romantique','intime','saint-valentin'],
-    poi:'carte.html',
-    ans:"💕 **Saint-Rémy en amoureux :**\n\n🎨 Monastère Van Gogh — jardins d'iris\n🏺 Les Antiques — lumière dorée le matin\n🍷 Bistrot Découverte — cave d'exception, terrasse platanes\n🌅 Lac du Peiroou — coucher de soleil\n\nVoir le parcours complet : visite-couple.html",
+    poi:null,
+    ans:"💕 **Saint-Rémy en amoureux :**\n\n🎨 Monastère Van Gogh — jardins d'iris\n[YALLER:carte.html?poi=2:Monastère Van Gogh]\n\n🏺 Les Antiques — lumière dorée le matin\n[YALLER:carte.html?poi=3:Les Antiques]\n\n🍷 Bistrot Découverte — cave d'exception, terrasse platanes\n[YALLER:carte.html?poi=152:Bistrot Découverte]\n\n🌅 Lac du Peiroou — coucher de soleil\n[YALLER:carte.html?poi=5:Lac du Peiroou]",
     qr:['Bistrot Découverte','Lac du Peiroou','Monastère Van Gogh']
   },
   {
     keys:['famille','enfant','kids','gamin','petit','bebe'],
-    poi:'carte.html',
-    ans:"👨‍👩‍👧 **Saint-Rémy en famille :**\n\n🏛️ Glanum — archéologues en herbe, gratuit -18 ans\n🏺 Les Antiques — accès libre gratuit\n🍬 Confiserie Lilamand — dégustation gratuite\n🏊 Lac du Peiroou — baignade, sentiers faciles\n\n💡 Commencer Glanum dès 9h30 avant la chaleur !",
+    poi:null,
+    ans:"👨‍👩‍👧 **Saint-Rémy en famille :**\n\n🏛️ Glanum — archéologues en herbe, gratuit -18 ans\n[YALLER:carte.html?poi=1:Glanum]\n\n🏺 Les Antiques — accès libre gratuit\n[YALLER:carte.html?poi=3:Les Antiques]\n\n🍬 Confiserie Lilamand — dégustation gratuite\n[YALLER:carte.html?poi=153:Lilamand]\n\n🏊 Lac du Peiroou — baignade, sentiers faciles\n[YALLER:carte.html?poi=5:Lac du Peiroou]",
     qr:['Horaires Glanum','Confiserie Lilamand','Lac du Peiroou']
   },
   {
     keys:['amis','copains','groupe','bande','entre amis'],
-    poi:'carte.html',
-    ans:"🎉 **Saint-Rémy entre amis :**\n\n🛒 Marché du mercredi — chacun son stand !\n🫒 Moulin du Calanquet — dégustation d'huiles (hilarant en groupe)\n🍽️ Toute une Époque — grande terrasse\n🏛️ Glanum — le jeu des théories sur les Romains\n🏊 Lac du Peiroou — baignade + pétanque\n\nVoir le parcours : visite-amis.html",
+    poi:null,
+    ans:"🎉 **Saint-Rémy entre amis :**\n\n🛒 Marché du mercredi — chacun son stand !\n[YALLER:carte.html?poi=103:Marché mercredi]\n\n🫒 Moulin du Calanquet — dégustation d'huiles\n[YALLER:carte.html?poi=102:Moulin du Calanquet]\n\n🍽️ Toute une Époque — grande terrasse\n[YALLER:carte.html?poi=101:Toute une Époque]\n\n🏛️ Glanum — le jeu des théories sur les Romains\n[YALLER:carte.html?poi=1:Glanum]\n\n🏊 Lac du Peiroou — baignade + pétanque\n[YALLER:carte.html?poi=5:Lac du Peiroou]",
     qr:['Marché mercredi','Moulin du Calanquet','Lac du Peiroou']
   },
   {
@@ -290,7 +290,16 @@ field.addEventListener('keydown',function(e){
 
 function timeNow(){return new Date().toLocaleTimeString('fr-FR',{hour:'2-digit',minute:'2-digit'});}
 
-function fmt(t){return t.replace(/\*\*(.*?)\*\*/g,'<strong>$1</strong>').replace(/\n/g,'<br>');}
+function fmt(t){
+  // Convertir les balises [YALLER:url:label] en boutons
+  t = t.replace(/\[YALLER:([^:]+):([^\]]+)\]/g, function(m, url, label){
+    return '<a href="'+url+'" style="display:inline-flex;align-items:center;gap:5px;background:#0f1923;color:#fff;border-radius:16px;padding:6px 12px;font-size:11px;font-weight:800;text-decoration:none;margin:4px 0;">'
+      +'<span class="material-symbols-outlined" style="font-size:13px;">navigation</span>'+label+'</a>';
+  });
+  return t
+    .replace(/\*\*(.*?)\*\*/g,'<strong>$1</strong>')
+    .replace(/\n/g,'<br>');
+}
 
 function ask(q){
   sugWrap.style.display='none';
