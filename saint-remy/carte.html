@@ -1,0 +1,1459 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"/>
+<meta http-equiv="Permissions-Policy" content="geolocation=(self), camera=(self)"/>
+<title>Carte — Cœur de Ville</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800;900&display=swap"/>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html,body{height:100%;font-family:'Manrope',sans-serif;background:#f8f8f6;overflow:hidden;}
+
+/* Header */
+#app-header{
+  position:fixed;top:0;left:0;right:0;height:48px;z-index:1000;
+  background:rgba(255,255,255,0.92);backdrop-filter:blur(20px);
+  border-bottom:1px solid rgba(0,0,0,0.06);
+  display:flex;align-items:center;padding:0 8px;
+}
+#app-header .h-logo{flex:1;display:flex;justify-content:center;align-items:center;}
+#app-header button{background:none;border:none;cursor:pointer;border-radius:50%;padding:6px;display:flex;align-items:center;justify-content:center;}
+#app-header button:hover{background:rgba(0,0,0,0.05);}
+
+/* City banner */
+#city-banner{
+  position:fixed;top:48px;left:0;right:0;height:56px;z-index:999;
+  background:#fff;border-bottom:1px solid rgba(0,0,0,0.07);
+  display:flex;align-items:center;padding:0 14px;gap:12px;
+  box-shadow:0 2px 8px rgba(0,0,0,0.06);
+}
+#city-banner .cb-blason{width:34px;height:34px;object-fit:contain;flex-shrink:0;}
+#city-banner .cb-info{flex:1;min-width:0;}
+#city-banner .cb-name{font-size:12px;font-weight:800;color:#0f1923;letter-spacing:0.01em;}
+#city-banner .cb-stats{display:flex;gap:10px;margin-top:2px;}
+#city-banner .cb-stat{font-size:9.5px;font-weight:600;color:#94a3b8;}
+#city-banner .cb-stat span{color:#0f1923;font-weight:700;}
+
+/* Map */
+#map-wrap{position:fixed;top:104px;left:0;right:0;bottom:64px;}
+#map{width:100%;height:100%;background:#e8e8e0;}
+
+/* Bottom nav */
+#bottomnav{
+  position:fixed;bottom:0;left:0;right:0;height:64px;z-index:1000;
+  background:rgba(255,255,255,0.95);backdrop-filter:blur(20px);
+  border-top:1px solid rgba(0,0,0,0.06);
+  display:flex;align-items:center;justify-content:space-around;padding:0 8px;
+  border-radius:20px 20px 0 0;
+}
+.n-btn{background:none;border:none;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:2px;padding:6px 12px;color:#94a3b8;-webkit-tap-highlight-color:transparent;}
+.n-btn span.material-symbols-outlined{font-size:22px;}
+.n-btn span.lbl{font-size:9px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;}
+.n-btn.active{color:#0f1923;}
+.n-btn.active span.material-symbols-outlined{font-variation-settings:'FILL' 1,'wght' 500;}
+.n-legend{display:flex;flex-direction:column;gap:4px;justify-content:center;padding:0 8px;}
+.n-legend-row{display:flex;align-items:center;gap:5px;}
+.n-legend-dot{width:8px;height:8px;border-radius:50%;}
+.n-legend-lbl{font-size:9px;font-weight:700;letter-spacing:0.06em;color:#555;text-transform:uppercase;}
+
+/* FABs */
+#map-fabs{position:fixed;right:14px;bottom:80px;display:flex;flex-direction:column;gap:10px;z-index:500;}
+.fab{width:46px;height:46px;border-radius:50%;border:none;cursor:pointer;background:#fff;box-shadow:0 2px 12px rgba(0,0,0,0.18);display:flex;align-items:center;justify-content:center;color:#0f1923;transition:all 0.15s;}
+.fab:active{transform:scale(0.94);}
+.fab .material-symbols-outlined{font-size:22px;}
+#locate-btn.gps-loading .material-symbols-outlined{animation:spin 1s linear infinite;color:#3B5BDB;}
+#locate-btn.gps-ready .material-symbols-outlined{color:#3B5BDB;}
+#locate-btn.gps-follow{background:#3B5BDB;}
+#locate-btn.gps-follow .material-symbols-outlined{color:#fff;font-variation-settings:'FILL' 1;}
+#locate-btn.gps-denied .material-symbols-outlined{color:#dc2626;}
+@keyframes spin{to{transform:rotate(360deg);}}
+
+/* POI marker (custom HTML overlay via AdvancedMarkerElement-like effect) */
+.poi-pin{
+  width:36px;height:36px;border-radius:50% 50% 50% 0;
+  transform:rotate(-45deg);
+  display:flex;align-items:center;justify-content:center;
+  box-shadow:0 3px 10px rgba(0,0,0,0.3);
+  border:2px solid #fff;cursor:pointer;
+}
+.poi-pin .material-symbols-outlined{
+  transform:rotate(45deg);color:#fff;font-size:18px;
+  font-variation-settings:'FILL' 1,'wght' 600;
+}
+
+/* Popup card */
+#popup-container{display:none;position:fixed;bottom:80px;left:14px;right:14px;z-index:800;max-width:420px;margin:0 auto;}
+#popup-container.show{display:block;}
+#popup-card{background:#fff;border-radius:20px;box-shadow:0 12px 40px rgba(0,0,0,0.22);overflow:hidden;animation:slideUp 0.3s cubic-bezier(0.34,1.5,0.64,1);}
+@keyframes slideUp{from{opacity:0;transform:translateY(30px);}to{opacity:1;transform:translateY(0);}}
+.pw-img{width:100%;height:160px;object-fit:cover;display:block;background:#e8e8e0;}
+.pw-body{padding:14px 16px 6px;}
+.pw-cat{font-size:10px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;margin-bottom:6px;display:flex;align-items:center;gap:6px;}
+.pw-cat-dot{width:8px;height:8px;border-radius:50%;}
+.pw-name{font-size:17px;font-weight:800;color:#0f1923;line-height:1.2;margin-bottom:6px;}
+.pw-desc{font-size:13px;color:#6b7280;line-height:1.5;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;}
+.pw-footer{display:flex;align-items:center;justify-content:space-between;padding:12px 16px 14px;border-top:1px solid #f1f5f9;margin-top:8px;}
+.pw-dist{font-size:12px;color:#94a3b8;font-weight:600;}
+.pw-cta{background:#0f1923;color:#fff;border:none;border-radius:10px;padding:9px 16px;font-family:Manrope;font-size:12px;font-weight:700;cursor:pointer;display:flex;align-items:center;gap:5px;}
+.pw-cta .material-symbols-outlined{font-size:15px;}
+.pw-x{position:absolute;top:10px;right:10px;background:rgba(255,255,255,0.95);border:none;border-radius:50%;width:30px;height:30px;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 10px rgba(0,0,0,0.2);z-index:2;}
+.pw-img-wrap{position:relative;}
+
+/* Navigation banner */
+#nav-banner{
+  display:none;
+  position:fixed;top:104px;left:14px;right:14px;z-index:850;
+  background:#0f1923;color:#fff;border-radius:14px;padding:12px 14px;
+  box-shadow:0 4px 20px rgba(0,0,0,0.25);
+  align-items:center;gap:12px;
+  animation:slideDown 0.3s cubic-bezier(0.34,1.5,0.64,1);
+}
+@keyframes slideDown{from{opacity:0;transform:translateY(-20px);}to{opacity:1;transform:translateY(0);}}
+#nav-banner.show{display:flex;}
+#nav-banner .nav-icon{width:36px;height:36px;border-radius:50%;background:rgba(255,255,255,0.12);display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+#nav-banner .nav-icon .material-symbols-outlined{color:#fff;font-size:20px;}
+#nav-banner .nav-info{flex:1;min-width:0;}
+#nav-banner .nav-dest{font-size:13px;font-weight:700;line-height:1.2;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+#nav-banner .nav-meta{font-size:11px;font-weight:500;color:rgba(255,255,255,0.65);margin-top:2px;}
+#nav-banner .nav-meta b{color:#fff;font-weight:700;}
+#nav-banner .nav-close{background:rgba(255,255,255,0.12);border:none;border-radius:50%;width:30px;height:30px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+#nav-banner .nav-close .material-symbols-outlined{color:#fff;font-size:18px;}
+
+/* Toast */
+#toast{position:fixed;bottom:80px;left:50%;transform:translateX(-50%) translateY(20px);background:rgba(15,25,35,0.92);color:#fff;padding:9px 18px;border-radius:20px;font-size:13px;font-weight:600;opacity:0;transition:all 0.3s;z-index:9000;pointer-events:none;}
+#toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+
+/* Permission Modal (iOS & Android) */
+#perm-overlay{position:fixed;inset:0;background:rgba(15,25,35,0.5);backdrop-filter:blur(4px);z-index:9500;display:none;align-items:flex-end;justify-content:center;opacity:0;transition:opacity 0.25s;}
+#perm-overlay.show{display:flex;opacity:1;}
+#perm-modal{background:#fff;border-radius:20px 20px 0 0;width:100%;max-width:480px;padding:24px 20px 32px;transform:translateY(100%);transition:transform 0.3s cubic-bezier(0.34,1.5,0.64,1);box-shadow:0 -4px 30px rgba(0,0,0,0.15);}
+#perm-overlay.show #perm-modal{transform:translateY(0);}
+.ipm-handle{width:40px;height:4px;background:#e2e8f0;border-radius:2px;margin:0 auto 20px;}
+.ipm-icon-wrap{width:56px;height:56px;border-radius:16px;background:#fee2e2;display:flex;align-items:center;justify-content:center;margin:0 auto 14px;}
+.ipm-icon-wrap .material-symbols-outlined{font-size:28px;color:#dc2626;font-variation-settings:'FILL' 1;}
+.ipm-title{font-size:18px;font-weight:800;color:#0f1923;text-align:center;margin-bottom:6px;}
+.ipm-desc{font-size:13px;color:#6b7280;text-align:center;line-height:1.5;margin-bottom:18px;padding:0 8px;}
+.ipm-steps{background:#f8f8f6;border-radius:14px;padding:14px 14px;margin-bottom:16px;}
+.ipm-step{display:flex;align-items:center;gap:10px;font-size:12.5px;color:#475569;font-weight:500;padding:5px 0;}
+.ipm-step-num{width:20px;height:20px;border-radius:50%;background:#3B5BDB;color:#fff;font-size:10px;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.ipm-step strong{color:#0f1923;font-weight:700;}
+.ipm-step .material-symbols-outlined{font-size:15px;color:#94a3b8;}
+.ipm-btn-primary{width:100%;background:#3B5BDB;color:#fff;border:none;border-radius:12px;padding:14px;font-family:Manrope;font-size:14px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;text-decoration:none;-webkit-tap-highlight-color:transparent;}
+.ipm-btn-primary:active{transform:scale(0.98);background:#2f48b3;}
+.ipm-btn-primary .material-symbols-outlined{font-size:18px;}
+.ipm-btn-secondary{width:100%;background:none;color:#94a3b8;border:none;padding:12px;font-family:Manrope;font-size:13px;font-weight:600;cursor:pointer;margin-top:4px;-webkit-tap-highlight-color:transparent;}
+
+/* User location dot (overlay div) */
+.user-dot-wrap{position:relative;width:24px;height:24px;}
+.user-dot{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:18px;height:18px;border-radius:50%;background:#3B5BDB;border:3px solid #fff;box-shadow:0 2px 10px rgba(59,91,219,0.5);}
+.user-pulse{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:24px;height:24px;border-radius:50%;background:#3B5BDB;opacity:0.4;animation:pulse 2s ease-out infinite;}
+@keyframes pulse{0%{transform:translate(-50%,-50%) scale(0.8);opacity:0.6;}100%{transform:translate(-50%,-50%) scale(2.2);opacity:0;}}
+
+/* Hide Google logo & ToS to give clean UI (allowed by ToS) — actually we MUST show attribution, so keep but reduce */
+.gm-style-cc{display:none!important;}
+a[href^="https://maps.google.com/maps"]{display:none!important;}
+
+/* ═══════════════════════════════════════════════════════════════
+   🎯 NOUVELLES FONCTIONS — Filtres, Bottom Sheet, Recherche, Pins pro
+   ═══════════════════════════════════════════════════════════════ */
+
+/* ── City banner amélioré ── */
+#city-banner .cb-stats{display:flex;gap:6px;margin-top:3px;flex-wrap:wrap;}
+#city-banner .cb-stat-pill{
+  display:inline-flex;align-items:center;gap:4px;
+  font-size:9px;font-weight:800;letter-spacing:0.06em;text-transform:uppercase;
+  color:#475569;background:#f1f5f9;
+  padding:3px 8px;border-radius:20px;
+  border:1px solid rgba(15,25,35,0.08);
+}
+#city-banner .cb-stat-pill .dot{
+  width:6px;height:6px;border-radius:50%;background:#4ade80;
+  animation:cb-pulse 2s ease-in-out infinite;
+}
+@keyframes cb-pulse{
+  0%,100%{box-shadow:0 0 0 0 rgba(74,222,128,0.4);}
+  50%{box-shadow:0 0 0 4px rgba(74,222,128,0);}
+}
+
+/* ── FILTRES PILLS ── */
+#filter-bar{
+  position:fixed;top:104px;left:0;right:0;z-index:700;
+  padding:10px 14px 10px;
+  background:linear-gradient(to bottom, rgba(255,255,255,0.95) 60%, rgba(255,255,255,0));
+  display:flex;gap:8px;overflow-x:auto;
+  -webkit-overflow-scrolling:touch;scrollbar-width:none;
+  pointer-events:auto;
+}
+#filter-bar::-webkit-scrollbar{display:none;}
+.filter-pill{
+  flex-shrink:0;
+  display:inline-flex;align-items:center;gap:5px;
+  background:#fff;border:1px solid rgba(15,25,35,0.1);
+  border-radius:100px;padding:7px 13px 7px 10px;
+  font-family:Manrope;font-size:12px;font-weight:800;
+  color:#0f1923;cursor:pointer;
+  box-shadow:0 2px 8px rgba(15,25,35,0.08);
+  transition:all 0.18s;white-space:nowrap;
+  -webkit-tap-highlight-color:transparent;
+}
+.filter-pill:active{transform:scale(0.95);}
+.filter-pill .dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;}
+.filter-pill.active{background:#0f1923;color:#fff;border-color:#0f1923;}
+.filter-pill .count{
+  background:rgba(15,25,35,0.06);font-size:10px;font-weight:800;
+  padding:1px 6px;border-radius:20px;margin-left:4px;
+}
+.filter-pill.active .count{background:rgba(255,255,255,0.18);color:#fff;}
+
+/* Map-wrap décalé pour laisser la place aux filtres */
+#map-wrap{top:152px !important;}
+
+/* ── BOTTOM SHEET (liste POI visibles) ── */
+#bottom-sheet{
+  position:fixed;left:0;right:0;
+  background:#fff;
+  border-radius:20px 20px 0 0;
+  box-shadow:0 -4px 20px rgba(15,25,35,0.12);
+  z-index:600;
+  transition:transform 0.35s cubic-bezier(0.4,0,0.2,1);
+  bottom:64px;
+  /* État fermé : seule la poignée visible */
+  transform:translateY(calc(100% - 56px));
+  max-height:calc(100vh - 200px);
+  display:flex;flex-direction:column;
+  overflow:hidden;
+}
+#bottom-sheet.open{transform:translateY(0);}
+#bottom-sheet.popup-active{display:none;}
+
+.bs-handle{
+  padding:10px 16px 8px;cursor:pointer;
+  display:flex;flex-direction:column;align-items:center;gap:6px;
+  border-bottom:1px solid rgba(15,25,35,0.04);
+  flex-shrink:0;
+  -webkit-tap-highlight-color:transparent;
+}
+.bs-bar{
+  width:40px;height:4px;border-radius:2px;background:#cbd5e1;
+}
+.bs-title-row{
+  display:flex;align-items:center;justify-content:space-between;width:100%;
+}
+.bs-title{font-size:14px;font-weight:900;color:#0f1923;letter-spacing:-0.01em;}
+.bs-count{font-size:11px;font-weight:700;color:#94a3b8;letter-spacing:0.04em;}
+
+.bs-list{
+  flex:1;overflow-y:auto;
+  padding:4px 12px 12px;
+  -webkit-overflow-scrolling:touch;
+}
+.bs-item{
+  display:flex;align-items:center;gap:12px;
+  padding:10px 8px;cursor:pointer;
+  border-radius:12px;
+  transition:background 0.15s;
+  -webkit-tap-highlight-color:transparent;
+}
+.bs-item:active{background:rgba(15,25,35,0.04);}
+.bs-item-img{
+  width:54px;height:54px;border-radius:12px;
+  background:#e8e8e0 center/cover;flex-shrink:0;
+  display:flex;align-items:center;justify-content:center;
+  border:1px solid rgba(15,25,35,0.06);
+}
+.bs-item-img .material-symbols-outlined{font-size:22px;color:#94a3b8;}
+.bs-item-body{flex:1;min-width:0;}
+.bs-item-cat{
+  display:flex;align-items:center;gap:4px;
+  font-size:9px;font-weight:800;letter-spacing:0.08em;
+  text-transform:uppercase;color:#64748b;margin-bottom:2px;
+}
+.bs-item-cat .dot{width:6px;height:6px;border-radius:50%;}
+.bs-item-name{
+  font-size:13px;font-weight:800;color:#0f1923;
+  letter-spacing:-0.01em;line-height:1.2;margin-bottom:2px;
+  overflow:hidden;text-overflow:ellipsis;white-space:nowrap;
+}
+.bs-item-desc{
+  font-size:11px;color:#64748b;font-weight:500;
+  overflow:hidden;text-overflow:ellipsis;white-space:nowrap;
+}
+.bs-item-arrow{
+  color:#cbd5e1;flex-shrink:0;
+}
+
+/* ── PINS repensés ── */
+.poi-pin{
+  width:32px;height:42px;
+  border-radius:50% 50% 50% 50% / 45% 45% 55% 55%;
+  transform:translate(-50%, -100%);
+  display:flex;align-items:flex-start;justify-content:center;
+  padding-top:6px;
+  box-shadow:
+    0 1px 0 rgba(15,25,35,0.1),
+    0 4px 10px rgba(15,25,35,0.2),
+    0 0 0 2px #fff;
+  border:none;cursor:pointer;
+  transition:transform 0.2s cubic-bezier(0.34,1.5,0.64,1);
+  position:relative;
+}
+.poi-pin::after{
+  content:'';position:absolute;
+  bottom:-5px;left:50%;transform:translateX(-50%);
+  width:10px;height:10px;border-radius:50%;
+  background:rgba(0,0,0,0.18);filter:blur(3px);
+  z-index:-1;
+}
+.poi-pin .material-symbols-outlined{
+  transform:none;color:#fff;font-size:16px;
+  font-variation-settings:'FILL' 1,'wght' 700;
+}
+.poi-pin.active{
+  transform:translate(-50%, -100%) scale(1.2);
+  z-index:500 !important;
+  box-shadow:
+    0 2px 0 rgba(15,25,35,0.1),
+    0 8px 20px rgba(15,25,35,0.3),
+    0 0 0 3px #fff;
+}
+
+/* ── POPUP enrichi ── */
+#popup-card{
+  border-radius:22px;
+  box-shadow:0 16px 48px rgba(15,25,35,0.28),0 0 0 1px rgba(15,25,35,0.04);
+}
+.pw-badges{
+  display:flex;gap:6px;flex-wrap:wrap;
+  padding:12px 16px 0;
+}
+.pw-badge{
+  display:inline-flex;align-items:center;gap:4px;
+  background:#f1f5f9;color:#475569;
+  font-size:10px;font-weight:800;letter-spacing:0.04em;
+  padding:4px 8px;border-radius:20px;
+  border:1px solid rgba(15,25,35,0.04);
+}
+.pw-badge.open{background:#dcfce7;color:#16a34a;}
+.pw-badge.closed{background:#fee2e2;color:#dc2626;}
+.pw-badge .material-symbols-outlined{font-size:11px;}
+.pw-rating{display:inline-flex;align-items:center;gap:3px;}
+.pw-rating .star{color:#f59e0b;font-size:11px;}
+
+/* ── RECHERCHE ── */
+#search-overlay{
+  position:fixed;inset:0;z-index:9500;
+  background:rgba(15,25,35,0.5);
+  backdrop-filter:blur(6px);
+  display:none;opacity:0;transition:opacity 0.25s;
+}
+#search-overlay.show{display:block;opacity:1;}
+#search-panel{
+  position:absolute;top:0;left:0;right:0;
+  background:#fff;padding:10px 14px 14px;
+  box-shadow:0 4px 20px rgba(15,25,35,0.15);
+  transform:translateY(-100%);
+  transition:transform 0.3s cubic-bezier(0.34,1.3,0.64,1);
+}
+#search-overlay.show #search-panel{transform:translateY(0);}
+.sp-row{display:flex;align-items:center;gap:10px;margin-bottom:12px;}
+.sp-input{
+  flex:1;background:#f1f5f9;border:1px solid rgba(15,25,35,0.06);
+  border-radius:14px;padding:12px 14px;
+  font-family:Manrope;font-size:14px;font-weight:600;color:#0f1923;
+  outline:none;
+}
+.sp-input:focus{background:#fff;border-color:#3B5BDB;}
+.sp-close{
+  background:transparent;border:none;padding:8px;cursor:pointer;
+  color:#64748b;
+}
+.sp-results{max-height:60vh;overflow-y:auto;}
+.sp-no-results{
+  text-align:center;padding:30px 20px;color:#94a3b8;
+  font-size:13px;font-weight:600;
+}
+
+</style>
+</head>
+<body>
+
+<header id="app-header">
+  <button onclick="window.location.href='index.html'">
+    <span class="material-symbols-outlined" style="font-size:22px;color:#0f1923;">arrow_back</span>
+  </button>
+  <div class="h-logo"><img src="data:image/png;base64,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" alt="Cœur de Ville" style="height:24px;object-fit:contain;"/></div>
+  <button onclick="openSearch()"><span class="material-symbols-outlined" style="font-size:22px;color:#0f1923;">search</span></button>
+</header>
+
+<div id="city-banner">
+  <img class="cb-blason" src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/Blason_Saint-R%C3%A9my-de-Provence.svg/200px-Blason_Saint-R%C3%A9my-de-Provence.svg.png" alt="" onerror="this.style.display='none'"/>
+  <div class="cb-info">
+    <div class="cb-name">Saint-Rémy-de-Provence</div>
+    <div class="cb-stats">
+      <div class="cb-stat-pill"><span class="dot"></span><span id="cb-visible-count">—</span> visibles</div>
+      <div class="cb-stat-pill">10 408 hab.</div>
+    </div>
+  </div>
+</div>
+
+<!-- FILTRES -->
+<div id="filter-bar">
+  <button class="filter-pill active" data-filter="all" onclick="setFilter('all')">
+    <span class="material-symbols-outlined" style="font-size:14px;">apps</span>
+    Tout <span class="count" id="count-all">0</span>
+  </button>
+  <button class="filter-pill" data-filter="patrimoine" onclick="setFilter('patrimoine')">
+    <span class="dot" style="background:#2D6A4F;"></span>
+    Patrimoine <span class="count" id="count-patrimoine">0</span>
+  </button>
+  <button class="filter-pill" data-filter="commerces" onclick="setFilter('commerces')">
+    <span class="dot" style="background:#E76F51;"></span>
+    Commerces <span class="count" id="count-commerces">0</span>
+  </button>
+  <button class="filter-pill" data-filter="evenements" onclick="setFilter('evenements')">
+    <span class="dot" style="background:#3B5BDB;"></span>
+    Événements <span class="count" id="count-evenements">0</span>
+  </button>
+</div>
+
+<div id="map-wrap"><div id="map"></div></div>
+
+<div id="map-fabs">
+  <button class="fab" id="locate-btn" onclick="locateUser()">
+    <span class="material-symbols-outlined">my_location</span>
+  </button>
+  <button class="fab" onclick="googleMap && googleMap.setZoom(googleMap.getZoom()+1)">
+    <span class="material-symbols-outlined">add</span>
+  </button>
+  <button class="fab" onclick="googleMap && googleMap.setZoom(googleMap.getZoom()-1)">
+    <span class="material-symbols-outlined">remove</span>
+  </button>
+</div>
+
+<div id="popup-container">
+  <div id="popup-card">
+    <div class="pw-img-wrap">
+      <button class="pw-x" onclick="closePopup()"><span class="material-symbols-outlined" style="font-size:18px;">close</span></button>
+      <img class="pw-img" id="pw-img" src="" alt="" style="display:none;"/>
+    </div>
+    <div class="pw-badges" id="pw-badges"></div>
+    <div class="pw-body">
+      <div class="pw-cat" id="pw-cat"></div>
+      <div class="pw-name" id="pw-name"></div>
+      <div class="pw-desc" id="pw-desc"></div>
+    </div>
+    <div class="pw-footer">
+      <span class="pw-dist" id="pw-dist"></span>
+      <button class="pw-cta" id="pw-cta" onclick="navigateToSelected()">
+        <span class="material-symbols-outlined">near_me</span>
+        Y aller
+      </button>
+    </div>
+  </div>
+</div>
+
+<div id="nav-banner">
+  <div class="nav-icon"><span class="material-symbols-outlined">directions_walk</span></div>
+  <div class="nav-info">
+    <div class="nav-dest" id="nav-dest"></div>
+    <div class="nav-meta"><b id="nav-dist"></b> · <b id="nav-time"></b></div>
+  </div>
+  <button class="nav-close" onclick="stopNavigation()"><span class="material-symbols-outlined">close</span></button>
+</div>
+
+<!-- BOTTOM SHEET (liste des POI visibles) -->
+<div id="bottom-sheet">
+  <div class="bs-handle" onclick="toggleBottomSheet()">
+    <div class="bs-bar"></div>
+    <div class="bs-title-row">
+      <div class="bs-title">Lieux visibles</div>
+      <div class="bs-count" id="bs-count-label">0 lieux</div>
+    </div>
+  </div>
+  <div class="bs-list" id="bs-list"></div>
+</div>
+
+<!-- OVERLAY RECHERCHE -->
+<div id="search-overlay" onclick="if(event.target===this)closeSearch()">
+  <div id="search-panel">
+    <div class="sp-row">
+      <input type="text" class="sp-input" id="sp-input" placeholder="Rechercher un lieu, un commerce..." oninput="onSearchInput()"/>
+      <button class="sp-close" onclick="closeSearch()">
+        <span class="material-symbols-outlined">close</span>
+      </button>
+    </div>
+    <div class="sp-results" id="sp-results"></div>
+  </div>
+</div>
+
+<div id="toast"></div>
+
+<!-- Geolocation Permission Modal (iOS & Android) -->
+<div id="perm-overlay" onclick="if(event.target===this)closePermModal()">
+  <div id="perm-modal">
+    <div class="ipm-handle"></div>
+    <div class="ipm-icon-wrap"><span class="material-symbols-outlined">location_off</span></div>
+    <div class="ipm-title">Géolocalisation désactivée</div>
+    <div class="ipm-desc" id="perm-desc">Pour voir votre position sur la carte et calculer les itinéraires, activez la localisation.</div>
+    <div class="ipm-steps" id="perm-steps"></div>
+    <a id="perm-btn-primary" class="ipm-btn-primary" href="#" onclick="setTimeout(closePermModal,500)">
+      <span class="material-symbols-outlined">settings</span>
+      <span id="perm-btn-primary-label">Ouvrir Réglages</span>
+    </a>
+    <a id="perm-btn-secondary-link" class="ipm-btn-primary" href="#" style="display:none;background:#f1f5f9;color:#0f1923;border:1px solid #e2e8f0;margin-top:8px;" onclick="setTimeout(closePermModal,500)">
+      <span class="material-symbols-outlined">public</span>
+      <span id="perm-btn-secondary-link-label">Réglages système</span>
+    </a>
+    <button class="ipm-btn-secondary" onclick="closePermModal()">Plus tard</button>
+  </div>
+</div>
+
+<nav id="bottomnav">
+  <button class="n-btn" onclick="window.location.href='index.html'">
+    <span class="material-symbols-outlined">home</span>
+    <span class="lbl">Accueil</span>
+  </button>
+  <button class="n-btn active">
+    <span class="material-symbols-outlined">map</span>
+    <span class="lbl">Carte</span>
+  </button>
+  <div class="n-legend">
+    <div class="n-legend-row"><div class="n-legend-dot" style="background:#2D6A4F;"></div><span class="n-legend-lbl">Patrimoine</span></div>
+    <div class="n-legend-row"><div class="n-legend-dot" style="background:#E76F51;"></div><span class="n-legend-lbl">Commerces</span></div>
+    <div class="n-legend-row"><div class="n-legend-dot" style="background:#3B5BDB;"></div><span class="n-legend-lbl">Événements</span></div>
+  </div>
+  <button class="n-btn" onclick="alert('Bientôt')">
+    <span class="material-symbols-outlined">photo_camera</span>
+    <span class="lbl">Photos</span>
+  </button>
+</nav>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- DATA -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<script>
+const CONFIG = {
+  titre: 'Cœur de Ville — Saint-Rémy-de-Provence',
+  ville: 'Saint-Rémy-de-Provence',
+  lat: 43.7895,
+  lng: 4.8311,
+  zoom: 15,
+  couleurPrimaire: '#3B5BDB',
+  epochBanner: 'Cœurville · Alpilles',
+  arFOV: 100,
+  arRayonMax: 2000,
+  radarRayonMax: 1000,
+};
+</script>
+<script>
+// POIS
+// ═══════════════════════════════════════════════════
+// DATA/POIS.JS — Lieux, commerces, événements de la ville
+// Seul fichier à modifier pour chaque nouvelle ville
+// ═══════════════════════════════════════════════════
+
+// ═══════════════════════════════════════════════════════════
+// DATA/POIS.JS — À MODIFIER POUR CHAQUE NOUVELLE VILLE
+// Ajouter / modifier les lieux ici uniquement
+// ═══════════════════════════════════════════════════════════
+
+// ─── CATÉGORIES ─────────────────────────────────────────────
+const CATS = {
+  monument:  { label:'Monument',  color:'#c0392b', dot:'#e74c3c' },
+  religieux: { label:'Religieux', color:'#8b5e3c', dot:'#a0714f' },
+  militaire: { label:'Militaire', color:'#2c3e50', dot:'#4a6274' },
+  culturel:  { label:'Culturel',  color:'#6b3fa0', dot:'#8e5cb5' },
+  naturel:   { label:'Nature',    color:'#27ae60', dot:'#2ecc71' },
+  restaurant:{ label:'Restaurant',color:'#e67e22', dot:'#f39c12' },
+  artisan:   { label:'Artisan',   color:'#16a085', dot:'#1abc9c' },
+  commerce:  { label:'Commerce',  color:'#8e44ad', dot:'#9b59b6' },
+  fete:      { label:'Événement', color:'#2980b9', dot:'#3498db' },
+  evenement: { label:'Événement', color:'#dc5028', dot:'#dc5028' },
+};
+
+// ─── THÈMES VISUELS PAR CATÉGORIE ───────────────────────────
+const CAT_THEMES = {
+  militaire: {
+    tint: 'rgba(40,10,10,0.45)',
+    particles: 'rgba(200,60,40,0.55)',
+    accent: '#c0392b', accentLight: '#e74c3c',
+    badgeBg: 'rgba(80,10,10,0.7)', badgeColor: '#e88',
+    btnGrad: 'linear-gradient(135deg,#4a0a0a,#8b1a1a)',
+    statColor: '#e74c3c',
+  },
+  religieux: {
+    tint: 'rgba(60,30,0,0.38)',
+    particles: 'rgba(255,210,80,0.7)',
+    accent: '#c9a227', accentLight: '#f6be39',
+    badgeBg: 'rgba(50,30,0,0.7)', badgeColor: '#f6d76b',
+    btnGrad: 'linear-gradient(135deg,#4a3000,#9a6800)',
+    statColor: '#f6be39',
+  },
+  monument: {
+    tint: 'rgba(30,20,10,0.4)',
+    particles: 'rgba(200,160,80,0.6)',
+    accent: '#a0784a', accentLight: '#c9964e',
+    badgeBg: 'rgba(40,25,10,0.7)', badgeColor: '#d4a96a',
+    btnGrad: 'linear-gradient(135deg,#3d2200,#8b5e00)',
+    statColor: '#c9964e',
+  },
+  culturel: {
+    tint: 'rgba(40,15,60,0.38)',
+    particles: 'rgba(180,120,240,0.55)',
+    accent: '#7b3fa0', accentLight: '#a855f7',
+    badgeBg: 'rgba(30,10,50,0.7)', badgeColor: '#c084fc',
+    btnGrad: 'linear-gradient(135deg,#2a0a40,#6b2fa0)',
+    statColor: '#a855f7',
+  },
+  naturel: {
+    tint: 'rgba(10,30,15,0.38)',
+    particles: 'rgba(80,200,120,0.5)',
+    accent: '#1a6b35', accentLight: '#22c55e',
+    badgeBg: 'rgba(5,25,10,0.7)', badgeColor: '#4ade80',
+    btnGrad: 'linear-gradient(135deg,#0a2e18,#1a6b35)',
+    statColor: '#22c55e',
+  },
+  restaurant: {
+    tint: 'rgba(60,25,0,0.38)',
+    particles: 'rgba(230,140,40,0.6)',
+    accent: '#e67e22', accentLight: '#f39c12',
+    badgeBg: 'rgba(60,25,0,0.7)', badgeColor: '#fca84e',
+    btnGrad: 'linear-gradient(135deg,#4a2000,#9a5000)',
+    statColor: '#f39c12',
+  },
+  artisan: {
+    tint: 'rgba(0,40,35,0.38)',
+    particles: 'rgba(26,188,156,0.5)',
+    accent: '#16a085', accentLight: '#1abc9c',
+    badgeBg: 'rgba(0,30,25,0.7)', badgeColor: '#1de9b6',
+    btnGrad: 'linear-gradient(135deg,#003d30,#16a085)',
+    statColor: '#1abc9c',
+  },
+};
+
+// ─── LIEUX PATRIMONIAUX ──────────────────────────────────────
+const PLACES = [
+  {
+    id: 1,
+    cat: 'monument',
+    pmr: true,
+    name: "Site archéologique de Glanum",
+    desc: "Cité gallo-romaine fondée au VIe siècle av. J.-C. autour d'une source sacrée. Temples, forum, thermes et maisons à péristyle — l'un des sites antiques les mieux préservés de Provence.",
+    addr: "Route des Baux-de-Provence, 13210 Saint-Rémy-de-Provence",
+    lat: 43.7758, lng: 4.8311,
+    era: "VIe siècle av. J.-C.",
+    img: "../assets/saint-remy/poi_001.jpg",
+    page: "glanum.html",
+    anecdote: "Glanum dort sous terre depuis 1700 ans — détruite par les invasions barbares vers 260, ses habitants ont fui à un kilomètre au nord pour fonder Saint-Rémy.",
+  },
+  {
+    id: 2,
+    cat: 'religieux',
+    pmr: false,
+    name: "Monastère Saint-Paul-de-Mausole",
+    desc: "Chef-d'œuvre de l'art roman provençal du XIe siècle où Van Gogh fut interné en 1889-1890. Il y peignit 143 toiles dont La Nuit étoilée et Les Iris.",
+    addr: "Chemin Saint-Paul, 13210 Saint-Rémy-de-Provence",
+    lat: 43.7779, lng: 4.8336,
+    era: "XIe siècle",
+    img: "../assets/saint-remy/poi_002.jpg",
+    page: "saint-paul-de-mausole.html",
+    anecdote: "Van Gogh peignit 143 huiles en 53 semaines d'internement volontaire — la période la plus prolifique de sa vie.",
+  },
+  {
+    id: 3,
+    cat: 'monument',
+    pmr: true,
+    name: "Les Antiques — Mausolée & Arc de triomphe",
+    desc: "Deux monuments romains parmi les mieux conservés au monde. Le Mausolée des Jules et l'Arc marquent l'entrée de l'antique Glanum.",
+    addr: "Avenue Vincent Van Gogh, 13210 Saint-Rémy-de-Provence",
+    lat: 43.7771, lng: 4.8316,
+    era: "Ier siècle av. J.-C.",
+    img: "../assets/saint-remy/poi_003.jpg",
+    page: "les-antiques.html",
+    anecdote: "Le Mausolée des Jules n'est pas un tombeau — c'est un cénotaphe vide. Sa tholos à colonnes est unique au monde.",
+  },
+  {
+    id: 4,
+    cat: 'culturel',
+    pmr: true,
+    name: "Maison natale de Nostradamus",
+    desc: "Maison du XVe siècle où naquit Michel de Nostredame le 14 décembre 1503. L'apothicaire devenu astrologue rédigea ici ses premières confitures avant ses prophéties.",
+    addr: "6 rue Hoche, 13210 Saint-Rémy-de-Provence",
+    lat: 43.7892, lng: 4.8328,
+    era: "XVe siècle",
+    img: "../assets/saint-remy/poi_003b.jpg",
+    anecdote: "Avant ses Centuries, Nostradamus publia en 1555 le premier traité de confitures de la langue française.",
+  },
+  {
+    id: 5,
+    cat: 'naturel',
+    pmr: false,
+    name: "Lac du Peiroou",
+    desc: "Lac de retenue niché dans les Alpilles, entouré de pins et de calcaire blanc. Spot favori des Saint-Rémois pour la baignade, la randonnée et les couchers de soleil.",
+    addr: "Chemin du Peiroou, 13210 Saint-Rémy-de-Provence",
+    lat: 43.7705, lng: 4.8408,
+    era: "XIXe siècle",
+    img: "../assets/saint-remy/poi_004.jpg",
+    page: "lac-peiroou.html",
+    anecdote: "Aucune indication touristique ne mène ici. C'est pourtant le spot caché des Saint-Rémois pour échapper à la foule de Glanum en été.",
+  },
+  {
+    id: 302,
+    cat: 'culturel',
+    pmr: false,
+    name: "Hôtel de Sade",
+    desc: "Derrière la façade Renaissance se cache un concentré de 2000 ans d'histoire : thermes antiques, tour médiévale, deux églises et chapelle des Pénitents Noirs superposés.",
+    addr: "Rue du Parage, 13210 Saint-Rémy-de-Provence",
+    lat: 43.7895, lng: 4.8321,
+    era: "XVIe siècle",
+    img: "../assets/saint-remy/poi_005.jpg",
+    page: "hotel-de-sade.html",
+  },
+];
+
+// ─── COMMERCES ───────────────────────────────────────────────
+const COMMERCES = [
+  {
+    id: 153,
+    cat: 'artisan',
+    pmr: true,
+    name: "Confiserie Lilamand",
+    desc: "Confiseur depuis 1866 — calissons, fruits confits, pâtes d'amande et nougats. La maison la plus ancienne de Saint-Rémy.",
+    addr: "5 avenue Albert Schweitzer, 13210 Saint-Rémy-de-Provence",
+    lat: 43.7884, lng: 4.8284,
+    img: "../assets/saint-remy/lilamand.jpg",
+    page: "lilamand.html",
+  },
+  {
+    id: 152,
+    cat: 'restaurant',
+    pmr: true,
+    name: "Le Bistrot Découverte",
+    desc: "Bistrot provençal réputé tenu par Claude et Dana Douard. Cuisine du marché, cave d'exception et terrasse à l'ombre des platanes.",
+    addr: "19 boulevard Victor Hugo, 13210 Saint-Rémy-de-Provence",
+    lat: 43.7898, lng: 4.8312,
+    img: "../assets/saint-remy/bistrot-decouverte.jpg",
+    page: "bistrot-decouverte.html",
+  },
+  {
+    id: 151,
+    cat: 'restaurant',
+    pmr: true,
+    name: "L'Aile ou la Cuisse",
+    desc: "Cuisine provençale créative dans une cour intérieure du centre ancien. Produits du marché du mercredi, vins des Alpilles.",
+    addr: "5 rue de la Commune, 13210 Saint-Rémy-de-Provence",
+    lat: 43.7902, lng: 4.8319,
+    img: "../assets/saint-remy/poi_008.jpg",
+    page: "aile-ou-cuisse.html",
+  },
+  {
+    id: 101,
+    cat: 'restaurant',
+    pmr: true,
+    name: "Toute une Époque",
+    desc: "Brasserie familiale plein sud face à la place du marché. Cuisine provençale généreuse, aïoli les vendredis. N°3 sur 107 restaurants.",
+    addr: "21 Place de la République, 13210 Saint-Rémy-de-Provence",
+    lat: 43.7895, lng: 4.8311,
+    img: "../assets/saint-remy/toute-une-epoque.jpg",
+    page: "toute-une-epoque.html",
+  },
+  {
+    id: 102,
+    cat: 'artisan',
+    pmr: true,
+    name: "Moulin du Calanquet",
+    desc: "Moulin à huile familial — huiles d'olive AOP Vallée des Baux, tapenades et produits du terroir provençal. Visite et dégustation sur place.",
+    addr: "Saint-Rémy-de-Provence",
+    lat: 43.7821, lng: 4.8189,
+    img: "../assets/saint-remy/moulin-calanquet.jpg",
+    page: "moulin-calanquet.html",
+  },
+  {
+    id: 103,
+    cat: 'commerce',
+    pmr: true,
+    name: "Marché du Mercredi",
+    desc: "Le grand marché provençal — plus de 150 exposants toute l'année, jusqu'à 300 en haute saison. L'un des plus vivants de Provence.",
+    addr: "Place de la République, 13210 Saint-Rémy-de-Provence",
+    lat: 43.7895, lng: 4.8302,
+    img: "../assets/saint-remy/marche-mercredi.jpg",
+    page: "marche-mercredi.html",
+  },
+  {
+    id: 104,
+    cat: 'commerce',
+    pmr: true,
+    name: "Marché du Samedi",
+    desc: "Petit marché 100% producteurs locaux — fromages de chèvre des Alpilles, miels, légumes bio, fruits de saison.",
+    addr: "Avenue de la Résistance, 13210 Saint-Rémy-de-Provence",
+    lat: 43.7906, lng: 4.8298,
+    img: "../assets/saint-remy/marche-samedi.jpg",
+    page: "marche-samedi.html",
+  },
+];
+
+// ─── ÉVÉNEMENTS ──────────────────────────────────────────────
+const EVENEMENTS = [
+  {
+    id: 201,
+    cat: 'fete',
+    pmr: true,
+    name: "Marché Nocturne Créateurs",
+    desc: "Chaque mardi soir en été — artisans, créateurs, food trucks et musique live dans le centre ancien.",
+    lat: 43.7895, lng: 4.8311,
+    date: "Chaque mardi · Été",
+    page: "marche-nocturne.html",
+  },
+  {
+    id: 202,
+    cat: 'fete',
+    pmr: true,
+    name: "Festival Organa",
+    desc: "Festival de musique classique et baroque dans les sites antiques — Glanum, Les Antiques, Saint-Paul-de-Mausole.",
+    lat: 43.7758, lng: 4.8311,
+    date: "Juillet – Septembre",
+  },
+  {
+    id: 203,
+    cat: 'fete',
+    pmr: true,
+    name: "Fête de la Transhumance",
+    desc: "Des milliers de moutons traversent le centre de Saint-Rémy — spectacle unique et tradition provençale vivante.",
+    lat: 43.7895, lng: 4.8311,
+    date: "Lundi de Pentecôte",
+  },
+];
+</script>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- GOOGLE MAPS LOGIC -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<script>
+let googleMap = null;
+let userMarker = null;
+let userAccuracyCircle = null;
+let userLat = null, userLng = null;
+let gpsState = 'idle'; // idle | loading | ready | follow | denied
+let gpsWatchId = null;
+let allMarkers = [];
+let selectedPlace = null;
+
+function getCatColor(cat) {
+  return (CATS[cat] && CATS[cat].color) || '#94a3b8';
+}
+
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2500);
+}
+
+function calcDist(lat1, lng1, lat2, lng2) {
+  const R = 6371000;
+  const dLat = (lat2 - lat1) * Math.PI / 180;
+  const dLng = (lng2 - lng1) * Math.PI / 180;
+  const a = Math.sin(dLat/2)**2 + Math.cos(lat1*Math.PI/180)*Math.cos(lat2*Math.PI/180)*Math.sin(dLng/2)**2;
+  return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+}
+
+// ═══════════════════════════════════════════════════════════
+// INIT MAP — Called by Google Maps SDK callback
+// ═══════════════════════════════════════════════════════════
+function initMap() {
+  document.title = CONFIG.titre;
+
+  googleMap = new google.maps.Map(document.getElementById('map'), {
+    center: { lat: CONFIG.lat, lng: CONFIG.lng },
+    zoom: CONFIG.zoom,
+    disableDefaultUI: true,
+    gestureHandling: 'greedy',
+    clickableIcons: false,
+    mapId: 'DEMO_MAP_ID' // Required for Advanced Markers; use your own in prod
+  });
+
+  // User dragged → disable follow mode
+  googleMap.addListener('dragstart', () => {
+    if (gpsState === 'follow') {
+      gpsState = 'ready';
+      setLocateBtnState('ready');
+    }
+  });
+
+  // Click on map → close popup
+  googleMap.addListener('click', () => closePopup());
+
+  renderAllMarkers();
+
+  // Don't auto-request GPS — wait for user tap on locate button
+  // (iOS Safari blocks geolocation without explicit user gesture)
+}
+
+// ═══════════════════════════════════════════════════════════
+// MARKERS
+// ═══════════════════════════════════════════════════════════
+function renderAllMarkers() {
+  // Clear old markers
+  allMarkers.forEach(m => m.setMap(null));
+  allMarkers = [];
+
+  const all = [...PLACES, ...COMMERCES, ...EVENEMENTS];
+
+  all.forEach(place => {
+    const color = getCatColor(place.cat);
+    const icon = (CATS[place.cat] && CATS[place.cat].label) || '';
+
+    // Use a simple SVG marker for compatibility
+    const marker = new google.maps.Marker({
+      position: { lat: place.lat, lng: place.lng },
+      map: googleMap,
+      title: place.name,
+      icon: {
+        path: 'M12 2C8 2 4 5 4 9c0 5 8 13 8 13s8-8 8-13c0-4-4-7-8-7z',
+        fillColor: color,
+        fillOpacity: 1,
+        strokeColor: '#fff',
+        strokeWeight: 2,
+        scale: 1.6,
+        anchor: new google.maps.Point(12, 22),
+      }
+    });
+
+    marker.addListener('click', () => openPopup(place));
+    // Stocker la place et le groupe de catégorie pour le filtrage
+    marker.poi_data = place;
+    marker.poi_group = getCategoryGroup(place.cat);
+    allMarkers.push(marker);
+  });
+
+  // Après création, mettre à jour les compteurs et la liste
+  if (typeof updateFilterCounts === 'function') updateFilterCounts();
+  if (typeof updateBottomSheet === 'function') updateBottomSheet();
+}
+
+// ═══════════════════════════════════════════════════════════
+// POPUP
+// ═══════════════════════════════════════════════════════════
+function openPopup(place) {
+  selectedPlace = place;
+  const cont = document.getElementById('popup-container');
+  const img = document.getElementById('pw-img');
+  const imgSrc = place.img || place.bg;
+  if (imgSrc) {
+    img.src = imgSrc;
+    img.style.display = 'block';
+  } else {
+    img.style.display = 'none';
+  }
+  const color = getCatColor(place.cat);
+  const label = (CATS[place.cat] && CATS[place.cat].label) || '';
+  document.getElementById('pw-cat').innerHTML = '<span class="pw-cat-dot" style="background:'+color+';"></span>' + label + (place.era ? ' · ' + place.era : '');
+  document.getElementById('pw-name').textContent = place.name;
+  document.getElementById('pw-desc').textContent = place.desc || '';
+
+  // BADGES enrichis (note + ouvert/fermé si infos dispo)
+  const badgesWrap = document.getElementById('pw-badges');
+  if (badgesWrap) {
+    let badgesHTML = '';
+    // Note / Rating
+    if (place.note || place.rating) {
+      const n = place.note || place.rating;
+      badgesHTML += '<span class="pw-badge"><span class="pw-rating"><span class="star">★</span>'+n+'</span></span>';
+    }
+    // Ouvert / Fermé (basique: selon catégorie + heure)
+    const h = new Date().getHours();
+    if (place.cat === 'restaurant' || place.cat === 'commerce' || place.cat === 'artisan') {
+      const isOpen = h >= 9 && h < 20;
+      badgesHTML += '<span class="pw-badge ' + (isOpen?'open':'closed') + '"><span class="material-symbols-outlined">' + (isOpen?'check_circle':'do_not_disturb_on') + '</span>' + (isOpen?'Ouvert':'Fermé') + '</span>';
+    }
+    // PMR
+    if (place.pmr) {
+      badgesHTML += '<span class="pw-badge"><span class="material-symbols-outlined">accessible</span>PMR</span>';
+    }
+    badgesWrap.innerHTML = badgesHTML;
+  }
+
+  let distTxt = '';
+  if (userLat !== null) {
+    const d = calcDist(userLat, userLng, place.lat, place.lng);
+    distTxt = d < 1000 ? Math.round(d) + ' m' : (d/1000).toFixed(1) + ' km';
+  }
+  document.getElementById('pw-dist').textContent = distTxt;
+
+  cont.classList.add('show');
+
+  // Cacher bottom sheet quand popup actif
+  const bs = document.getElementById('bottom-sheet');
+  if (bs) bs.classList.add('popup-active');
+
+  // Pan to marker, slightly above center to leave room for popup
+  googleMap.panTo({ lat: place.lat, lng: place.lng });
+}
+
+function closePopup() {
+  document.getElementById('popup-container').classList.remove('show');
+  selectedPlace = null;
+  // Réafficher bottom sheet
+  const bs = document.getElementById('bottom-sheet');
+  if (bs) bs.classList.remove('popup-active');
+}
+
+let directionsRenderer = null;
+let directionsService = null;
+let currentRoutePlace = null;
+
+function navigateToSelected() {
+  if (!selectedPlace) return;
+
+  // Need user location first
+  if (userLat === null) {
+    showToast('Recherche de votre position…');
+    currentRoutePlace = selectedPlace; // Will draw route once GPS locks
+    locateUser(); // Trigger GPS
+    return;
+  }
+
+  drawRoute(selectedPlace);
+}
+
+function drawRoute(place) {
+  if (!directionsService) {
+    directionsService = new google.maps.DirectionsService();
+  }
+
+  // Init renderer once, suppress default markers (we keep ours)
+  if (!directionsRenderer) {
+    directionsRenderer = new google.maps.DirectionsRenderer({
+      suppressMarkers: true,
+      polylineOptions: {
+        strokeColor: '#3B5BDB',
+        strokeWeight: 5,
+        strokeOpacity: 0.85,
+      },
+    });
+    directionsRenderer.setMap(googleMap);
+  }
+
+  const request = {
+    origin: { lat: userLat, lng: userLng },
+    destination: { lat: place.lat, lng: place.lng },
+    travelMode: google.maps.TravelMode.WALKING,
+  };
+
+  directionsService.route(request, (result, status) => {
+    if (status === 'OK') {
+      directionsRenderer.setDirections(result);
+      currentRoutePlace = place;
+
+      // Show nav banner
+      const route = result.routes[0].legs[0];
+      document.getElementById('nav-dest').textContent = place.name;
+      document.getElementById('nav-dist').textContent = route.distance.text;
+      document.getElementById('nav-time').textContent = route.duration.text;
+      document.getElementById('nav-banner').classList.add('show');
+
+      // Close popup, fit map to show whole route
+      closePopup();
+      googleMap.fitBounds(result.routes[0].bounds, { top: 140, right: 60, bottom: 100, left: 30 });
+    } else if (status === 'ZERO_RESULTS') {
+      showToast('Aucun itinéraire trouvé');
+    } else {
+      showToast('Erreur de calcul d\'itinéraire');
+      console.warn('Directions error:', status);
+    }
+  });
+}
+
+function stopNavigation() {
+  if (directionsRenderer) {
+    directionsRenderer.setMap(null);
+    directionsRenderer = null;
+  }
+  document.getElementById('nav-banner').classList.remove('show');
+  currentRoutePlace = null;
+}
+
+// ═══════════════════════════════════════════════════════════
+// GPS
+// ═══════════════════════════════════════════════════════════
+function setLocateBtnState(state) {
+  gpsState = state;
+  const btn = document.getElementById('locate-btn');
+  if (!btn) return;
+  btn.classList.remove('gps-loading','gps-ready','gps-follow','gps-denied');
+  const icon = btn.querySelector('.material-symbols-outlined');
+  if (state === 'loading') {
+    btn.classList.add('gps-loading');
+  } else if (state === 'ready') {
+    btn.classList.add('gps-ready');
+  } else if (state === 'follow') {
+    btn.classList.add('gps-follow');
+  } else if (state === 'denied') {
+    btn.classList.add('gps-denied');
+  }
+}
+
+// ─── GPS centralisé ───────────────────────────────────────
+function locateUser() {
+  if (!('geolocation' in navigator)) {
+    setLocateBtnState('denied');
+    showToast('Géolocalisation non disponible');
+    return;
+  }
+
+  // Si déjà refusé → rouvrir la modale iOS/Android ou toast
+  if (gpsState === 'denied') {
+    if (isIOS() || isAndroid()) {
+      openPermModal();
+    } else {
+      showToast('Géolocalisation refusée — activez-la dans les réglages');
+    }
+    return;
+  }
+
+  // Si position déjà connue → toggle follow
+  if (userLat !== null) {
+    if (gpsState === 'follow') {
+      gpsState = 'ready';
+      setLocateBtnState('ready');
+      showToast('Suivi désactivé');
+    } else {
+      gpsState = 'follow';
+      setLocateBtnState('follow');
+      googleMap.panTo({ lat: userLat, lng: userLng });
+      googleMap.setZoom(17);
+      showToast('Suivi GPS activé');
+    }
+    return;
+  }
+
+  // Pas encore de fix → démarrer watchPosition
+  if (gpsWatchId !== null) {
+    // Déjà en cours, juste rappeler le toast
+    showToast('Recherche GPS en cours…');
+    return;
+  }
+
+  setLocateBtnState('loading');
+  showToast('Recherche GPS…');
+
+  gpsWatchId = navigator.geolocation.watchPosition(
+    onGPSSuccess,
+    onGPSError,
+    { enableHighAccuracy: true, timeout: 30000, maximumAge: 5000 }
+  );
+}
+
+function onGPSSuccess(pos) {
+  userLat = pos.coords.latitude;
+  userLng = pos.coords.longitude;
+  const acc = pos.coords.accuracy || 0;
+  const latlng = { lat: userLat, lng: userLng };
+
+  // Créer ou déplacer le point bleu
+  if (!userMarker) {
+    userMarker = new google.maps.Marker({
+      position: latlng,
+      map: googleMap,
+      zIndex: 9999,
+      icon: {
+        path: google.maps.SymbolPath.CIRCLE,
+        fillColor: '#3B5BDB',
+        fillOpacity: 1,
+        strokeColor: '#fff',
+        strokeWeight: 3,
+        scale: 9,
+      }
+    });
+    // Premier fix → centrer la carte
+    googleMap.panTo(latlng);
+    googleMap.setZoom(16);
+    gpsState = 'follow';
+    setLocateBtnState('follow');
+  } else {
+    userMarker.setPosition(latlng);
+  }
+
+  // Cercle de précision
+  if (acc > 0) {
+    if (!userAccuracyCircle) {
+      userAccuracyCircle = new google.maps.Circle({
+        map: googleMap,
+        center: latlng,
+        radius: acc,
+        strokeColor: '#3B5BDB',
+        strokeOpacity: 0.3,
+        strokeWeight: 1,
+        fillColor: '#3B5BDB',
+        fillOpacity: 0.07,
+      });
+    } else {
+      userAccuracyCircle.setCenter(latlng);
+      userAccuracyCircle.setRadius(acc);
+    }
+  }
+
+  // Si mode follow → recentrer à chaque update
+  if (gpsState === 'follow') {
+    googleMap.panTo(latlng);
+  }
+
+  // Si une navigation était en attente de position
+  if (currentRoutePlace && !directionsRenderer) {
+    drawRoute(currentRoutePlace);
+  }
+}
+
+function onGPSError(err) {
+  console.warn('GPS error', err.code, err.message);
+  if (err.code === 1) { // PERMISSION_DENIED
+    setLocateBtnState('denied');
+    if (isIOS() || isAndroid()) {
+      openPermModal();
+    } else {
+      showToast('Géolocalisation refusée — activez-la dans les réglages');
+    }
+    if (gpsWatchId !== null) {
+      navigator.geolocation.clearWatch(gpsWatchId);
+      gpsWatchId = null;
+    }
+  }
+  // code 2 (UNAVAILABLE) et 3 (TIMEOUT) → on garde l'icône loading, watchPosition réessaie
+}
+
+// Platform detection
+function isIOS() {
+  const ua = navigator.userAgent;
+  return /iPad|iPhone|iPod/.test(ua) ||
+    (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1); // iPadOS 13+
+}
+function isAndroid() {
+  return /Android/i.test(navigator.userAgent);
+}
+
+function openPermModal() {
+  const desc = document.getElementById('perm-desc');
+  const steps = document.getElementById('perm-steps');
+  const btnPrimary = document.getElementById('perm-btn-primary');
+  const btnPrimaryLabel = document.getElementById('perm-btn-primary-label');
+  const btnSecondary = document.getElementById('perm-btn-secondary-link');
+  const btnSecondaryLabel = document.getElementById('perm-btn-secondary-link-label');
+
+  if (isIOS()) {
+    desc.textContent = "Pour voir votre position sur la carte et calculer les itinéraires, activez la localisation pour Safari.";
+    steps.innerHTML = `
+      <div class="ipm-step"><span class="ipm-step-num">1</span><span>Appuyez sur <strong>Ouvrir Réglages</strong></span></div>
+      <div class="ipm-step"><span class="ipm-step-num">2</span><span>Sélectionnez <strong>Localisation</strong></span></div>
+      <div class="ipm-step"><span class="ipm-step-num">3</span><span>Choisissez <strong>Lors de l'utilisation</strong></span></div>
+    `;
+    btnPrimary.href = 'App-prefs:root=SAFARI';
+    btnPrimaryLabel.textContent = 'Ouvrir Réglages Safari';
+    btnSecondary.style.display = 'none';
+  } else if (isAndroid()) {
+    desc.textContent = "Pour voir votre position sur la carte, autorisez la localisation pour ce site dans votre navigateur.";
+    steps.innerHTML = `
+      <div class="ipm-step"><span class="ipm-step-num">1</span><span>Appuyez sur le <strong>cadenas</strong> 🔒 à gauche de l'URL</span></div>
+      <div class="ipm-step"><span class="ipm-step-num">2</span><span>Ouvrez <strong>Autorisations</strong></span></div>
+      <div class="ipm-step"><span class="ipm-step-num">3</span><span>Activez la <strong>Localisation</strong></span></div>
+    `;
+    btnPrimary.href = 'intent://#Intent;scheme=https;action=android.settings.APPLICATION_DETAILS_SETTINGS;end';
+    btnPrimaryLabel.textContent = 'Réglages du navigateur';
+    btnSecondary.style.display = 'flex';
+    btnSecondary.href = 'intent://#Intent;action=android.settings.LOCATION_SOURCE_SETTINGS;end';
+    btnSecondaryLabel.textContent = 'Réglages système de localisation';
+  }
+
+  document.getElementById('perm-overlay').classList.add('show');
+}
+function closePermModal() {
+  document.getElementById('perm-overlay').classList.remove('show');
+}
+
+// Open POI from URL param (?poi=X)
+window.addEventListener('load', () => {
+  const params = new URLSearchParams(window.location.search);
+  const poiId = params.get('poi');
+  if (poiId) {
+    setTimeout(() => {
+      const id = parseInt(poiId);
+      const place = [...PLACES, ...COMMERCES, ...EVENEMENTS].find(p => p.id === id);
+      if (place && googleMap) {
+        googleMap.setCenter({ lat: place.lat, lng: place.lng });
+        googleMap.setZoom(17);
+        openPopup(place);
+      }
+    }, 800);
+  }
+});
+
+// ═══════════════════════════════════════════════════════════
+// FILTRES + BOTTOM SHEET + RECHERCHE
+// ═══════════════════════════════════════════════════════════
+
+// Mapping catégorie spécifique → groupe (patrimoine/commerces/evenements)
+function getCategoryGroup(cat) {
+  const patrimoine = ['monument','religieux','militaire','culturel','naturel'];
+  const commerces = ['restaurant','artisan','commerce'];
+  const evenements = ['fete','evenement'];
+  if (patrimoine.indexOf(cat) > -1) return 'patrimoine';
+  if (commerces.indexOf(cat) > -1) return 'commerces';
+  if (evenements.indexOf(cat) > -1) return 'evenements';
+  return 'autre';
+}
+
+let currentFilter = 'all';
+
+function setFilter(filter) {
+  currentFilter = filter;
+  // Mettre à jour UI des pills
+  document.querySelectorAll('.filter-pill').forEach(p => {
+    p.classList.toggle('active', p.dataset.filter === filter);
+  });
+  // Afficher/masquer les markers
+  allMarkers.forEach(m => {
+    const show = (filter === 'all' || m.poi_group === filter);
+    m.setMap(show ? googleMap : null);
+  });
+  // Rafraîchir bottom sheet + compteur visible
+  updateBottomSheet();
+  updateVisibleCount();
+}
+
+function updateFilterCounts() {
+  const all = [...PLACES, ...COMMERCES, ...EVENEMENTS];
+  let counts = { all: all.length, patrimoine: 0, commerces: 0, evenements: 0 };
+  all.forEach(p => {
+    const g = getCategoryGroup(p.cat);
+    if (counts[g] !== undefined) counts[g]++;
+  });
+  Object.keys(counts).forEach(k => {
+    const el = document.getElementById('count-' + k);
+    if (el) el.textContent = counts[k];
+  });
+  updateVisibleCount();
+}
+
+function updateVisibleCount() {
+  const el = document.getElementById('cb-visible-count');
+  if (!el) return;
+  const visible = allMarkers.filter(m => m.getMap()).length;
+  el.textContent = visible;
+}
+
+// ── BOTTOM SHEET ──────────────────────────────────────
+function toggleBottomSheet() {
+  const bs = document.getElementById('bottom-sheet');
+  if (bs) bs.classList.toggle('open');
+}
+
+function updateBottomSheet() {
+  const list = document.getElementById('bs-list');
+  const countLabel = document.getElementById('bs-count-label');
+  if (!list) return;
+  // Récupérer les places filtrées
+  const visibleMarkers = allMarkers.filter(m => m.getMap());
+  const places = visibleMarkers.map(m => m.poi_data);
+
+  if (countLabel) countLabel.textContent = places.length + ' lieu' + (places.length > 1 ? 'x' : '');
+
+  let html = '';
+  places.forEach(p => {
+    const color = getCatColor(p.cat);
+    const label = (CATS[p.cat] && CATS[p.cat].label) || '';
+    const imgStyle = p.bg ? 'background-image:url(' + p.bg + ');' : '';
+    html += '<div class="bs-item" onclick=\'openPopupById(' + p.id + ')\'>';
+    html += '<div class="bs-item-img" style="' + imgStyle + '">';
+    if (!p.bg) html += '<span class="material-symbols-outlined">place</span>';
+    html += '</div>';
+    html += '<div class="bs-item-body">';
+    html += '<div class="bs-item-cat"><span class="dot" style="background:' + color + ';"></span>' + label + '</div>';
+    html += '<div class="bs-item-name">' + p.name + '</div>';
+    html += '<div class="bs-item-desc">' + (p.desc || '').substring(0, 80) + '</div>';
+    html += '</div>';
+    html += '<div class="bs-item-arrow"><span class="material-symbols-outlined">chevron_right</span></div>';
+    html += '</div>';
+  });
+  list.innerHTML = html || '<div class="sp-no-results">Aucun lieu dans cette vue</div>';
+}
+
+function openPopupById(id) {
+  const place = [...PLACES, ...COMMERCES, ...EVENEMENTS].find(p => p.id === id);
+  if (place) {
+    googleMap.panTo({ lat: place.lat, lng: place.lng });
+    openPopup(place);
+  }
+}
+
+// ── RECHERCHE ──────────────────────────────────────
+function openSearch() {
+  const ov = document.getElementById('search-overlay');
+  ov.classList.add('show');
+  setTimeout(() => {
+    const inp = document.getElementById('sp-input');
+    if (inp) inp.focus();
+  }, 300);
+}
+
+function closeSearch() {
+  const ov = document.getElementById('search-overlay');
+  ov.classList.remove('show');
+  const inp = document.getElementById('sp-input');
+  if (inp) inp.value = '';
+  document.getElementById('sp-results').innerHTML = '';
+}
+
+function onSearchInput() {
+  const q = (document.getElementById('sp-input').value || '').toLowerCase().trim();
+  const results = document.getElementById('sp-results');
+  if (!q) { results.innerHTML = ''; return; }
+
+  const all = [...PLACES, ...COMMERCES, ...EVENEMENTS];
+  const matches = all.filter(p =>
+    (p.name || '').toLowerCase().includes(q) ||
+    (p.desc || '').toLowerCase().includes(q) ||
+    (p.cat || '').toLowerCase().includes(q)
+  ).slice(0, 20);
+
+  if (matches.length === 0) {
+    results.innerHTML = '<div class="sp-no-results">Aucun résultat pour "' + q + '"</div>';
+    return;
+  }
+
+  let html = '';
+  matches.forEach(p => {
+    const color = getCatColor(p.cat);
+    const label = (CATS[p.cat] && CATS[p.cat].label) || '';
+    const imgStyle = p.bg ? 'background-image:url(' + p.bg + ');' : '';
+    html += '<div class="bs-item" onclick="closeSearch();openPopupById(' + p.id + ')">';
+    html += '<div class="bs-item-img" style="' + imgStyle + '">';
+    if (!p.bg) html += '<span class="material-symbols-outlined">place</span>';
+    html += '</div>';
+    html += '<div class="bs-item-body">';
+    html += '<div class="bs-item-cat"><span class="dot" style="background:' + color + ';"></span>' + label + '</div>';
+    html += '<div class="bs-item-name">' + p.name + '</div>';
+    html += '<div class="bs-item-desc">' + (p.desc || '').substring(0, 80) + '</div>';
+    html += '</div>';
+    html += '<div class="bs-item-arrow"><span class="material-symbols-outlined">chevron_right</span></div>';
+    html += '</div>';
+  });
+  results.innerHTML = html;
+}
+
+// Fermer le search avec Escape
+document.addEventListener('keydown', function(e){
+  if (e.key === 'Escape') {
+    const ov = document.getElementById('search-overlay');
+    if (ov && ov.classList.contains('show')) closeSearch();
+  }
+});
+</script>
+
+<!-- Google Maps SDK -->
+<script async defer
+  src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAiHCBsQvmoYR8ANs5vBiZX9UByytL86mQ&callback=initMap&loading=async">
+</script>
+
+</body>
+</html>
