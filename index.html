@@ -366,17 +366,17 @@ function cdvOpenChoiceModal(id, v) {
     '<div class="cdv-cmodal-img" style="' + bgStyle + '"><div class="cdv-cmodal-img-name">' + v.nom + '</div></div>' +
     '<div class="cdv-cmodal-actions">' +
       '<button class="cdv-cmodal-btn cdv-cmodal-btn-primary" onclick="cdvVisiterVille()">' +
-        '<div class="cdv-cmodal-btn-ico">→</div>' +
+        '<div class="cdv-cmodal-btn-ico"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></div>' +
         '<div class="cdv-cmodal-btn-txt"><div class="cdv-cmodal-btn-title">' + t.visiter + '</div><div class="cdv-cmodal-btn-sub">' + t.visiter_sub + '</div></div>' +
       '</button>' +
       (isCurrent ?
         '<button class="cdv-cmodal-btn cdv-cmodal-btn-secondary is-current" onclick="cdvUnpinVille();cdvCloseChoiceModal();">' +
-          '<div class="cdv-cmodal-btn-ico">📍</div>' +
+          '<div class="cdv-cmodal-btn-ico"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 1 1 0-5 2.5 2.5 0 0 1 0 5z"/></svg></div>' +
           '<div class="cdv-cmodal-btn-txt"><div class="cdv-cmodal-btn-title">' + t.deja_ville + '</div><div class="cdv-cmodal-btn-sub">' + t.deja_sub + '</div></div>' +
         '</button>'
       :
         '<button class="cdv-cmodal-btn cdv-cmodal-btn-secondary" onclick="cdvDefinirVille()">' +
-          '<div class="cdv-cmodal-btn-ico">📍</div>' +
+          '<div class="cdv-cmodal-btn-ico"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg></div>' +
           '<div class="cdv-cmodal-btn-txt"><div class="cdv-cmodal-btn-title">' + t.definir + '</div><div class="cdv-cmodal-btn-sub">' + t.definir_sub + '</div></div>' +
         '</button>'
       ) +
