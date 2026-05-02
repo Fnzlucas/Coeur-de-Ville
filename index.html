@@ -126,6 +126,45 @@ html,body{font-family:'Manrope',sans-serif;background:#000;min-height:100vh;}
 .cta-title{font-size:20px;font-weight:900;color:#fff;line-height:1.2;margin-bottom:6px;}
 .cta-sub{font-size:12px;color:rgba(255,255,255,0.45);line-height:1.6;margin-bottom:18px;}
 .cta-btn{background:#fff;color:#0f1923;border:none;border-radius:12px;padding:12px 20px;font-family:Manrope,sans-serif;font-size:13px;font-weight:800;cursor:pointer;}
+
+/* ========== HERO VILLE PRINCIPALE ========== */
+.hero-ville{position:relative;margin:8px 16px 28px;border-radius:24px;overflow:hidden;height:240px;cursor:pointer;box-shadow:0 16px 48px rgba(0,0,0,0.4);}
+.hero-ville-bg{position:absolute;inset:0;background-size:cover;background-position:center;transition:transform 0.4s;}
+.hero-ville:active .hero-ville-bg{transform:scale(1.03);}
+.hero-ville-overlay{position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,0) 0%,rgba(0,0,0,0.2) 50%,rgba(0,0,0,0.85) 100%);}
+.hero-ville-pin{position:absolute;top:16px;left:16px;display:flex;align-items:center;gap:6px;background:rgba(255,255,255,0.95);backdrop-filter:blur(12px);padding:7px 12px;border-radius:100px;font-size:10px;font-weight:800;letter-spacing:0.08em;text-transform:uppercase;color:#3B5BDB;}
+.hero-ville-pin-ico{width:12px;height:12px;}
+.hero-ville-unpin{position:absolute;top:16px;right:16px;width:34px;height:34px;background:rgba(0,0,0,0.4);backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,0.15);border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;color:#fff;font-size:14px;}
+.hero-ville-body{position:absolute;bottom:0;left:0;right:0;padding:24px;color:#fff;}
+.hero-ville-name{font-size:28px;font-weight:900;letter-spacing:-0.02em;margin-bottom:4px;line-height:1.05;}
+.hero-ville-dept{font-size:13px;color:rgba(255,255,255,0.75);font-weight:500;margin-bottom:14px;}
+.hero-ville-cta{display:inline-flex;align-items:center;gap:6px;background:#fff;color:#0f1923;padding:10px 18px;border-radius:100px;font-size:13px;font-weight:800;letter-spacing:-0.01em;}
+
+.sec-label-other{margin-top:0;}
+
+/* ========== MODALE CHOIX VISITER / DÉFINIR ========== */
+.cdv-cmodal-back{position:fixed;inset:0;background:rgba(11,16,32,0.6);backdrop-filter:blur(8px);z-index:8000;opacity:0;pointer-events:none;transition:opacity 0.25s;}
+.cdv-cmodal-back.open{opacity:1;pointer-events:auto;}
+.cdv-cmodal{position:fixed;left:0;right:0;bottom:0;background:#fff;border-radius:28px 28px 0 0;z-index:8001;transform:translateY(100%);transition:transform 0.32s cubic-bezier(.2,.85,.3,1);max-width:520px;margin:0 auto;padding:8px 0 32px;}
+.cdv-cmodal.open{transform:translateY(0);}
+.cdv-cmodal-handle{width:40px;height:4px;background:rgba(11,16,32,0.18);border-radius:100px;margin:8px auto 18px;}
+.cdv-cmodal-img{height:140px;margin:0 20px 18px;border-radius:18px;background-size:cover;background-position:center;position:relative;overflow:hidden;}
+.cdv-cmodal-img::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,0) 40%,rgba(0,0,0,0.5) 100%);}
+.cdv-cmodal-img-name{position:absolute;bottom:14px;left:16px;right:16px;color:#fff;font-size:20px;font-weight:900;letter-spacing:-0.02em;z-index:1;}
+.cdv-cmodal-actions{padding:0 20px;display:flex;flex-direction:column;gap:10px;}
+.cdv-cmodal-btn{display:flex;align-items:center;gap:14px;width:100%;padding:16px 18px;border-radius:16px;border:none;cursor:pointer;font-family:Manrope,sans-serif;text-align:left;transition:transform 0.15s;}
+.cdv-cmodal-btn:active{transform:scale(0.98);}
+.cdv-cmodal-btn-primary{background:#0f1923;color:#fff;}
+.cdv-cmodal-btn-secondary{background:#F4F6FA;color:#0f1923;}
+.cdv-cmodal-btn-secondary.is-current{background:#EEF2FF;color:#3B5BDB;}
+.cdv-cmodal-btn-ico{width:40px;height:40px;border-radius:12px;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:18px;}
+.cdv-cmodal-btn-primary .cdv-cmodal-btn-ico{background:rgba(255,255,255,0.1);}
+.cdv-cmodal-btn-secondary .cdv-cmodal-btn-ico{background:rgba(11,16,32,0.06);}
+.cdv-cmodal-btn-secondary.is-current .cdv-cmodal-btn-ico{background:rgba(59,91,219,0.12);}
+.cdv-cmodal-btn-txt{flex:1;}
+.cdv-cmodal-btn-title{font-size:15px;font-weight:800;letter-spacing:-0.01em;margin-bottom:2px;}
+.cdv-cmodal-btn-sub{font-size:12px;opacity:0.6;font-weight:500;line-height:1.35;}
+.cdv-cmodal-btn-arrow{font-size:18px;opacity:0.4;}
 </style>
 </head>
 <body>
@@ -198,9 +237,9 @@ html,body{font-family:'Manrope',sans-serif;background:#000;min-height:100vh;}
 
 <script>
 var T = {
-  fr:{available:'Villes disponibles',soon:'Bientôt disponibles',actif:'Disponible',bientot:'Bientôt',cta_label:"Votre ville n'est pas là ?",cta_title:'Rejoignez Cœur de Ville',cta_sub:'Contactez-nous pour valoriser le patrimoine de votre commune.',cta_btn:'Nous contacter →',sw:'🌐 FR'},
-  en:{available:'Available cities',soon:'Coming soon',actif:'Available',bientot:'Soon',cta_label:'Your city is not here?',cta_title:'Join Cœur de Ville',cta_sub:"Contact us to showcase your city's heritage.",cta_btn:'Contact us →',sw:'🌐 EN'},
-  es:{available:'Ciudades disponibles',soon:'Próximamente',actif:'Disponible',bientot:'Pronto',cta_label:'¿Tu ciudad no está aquí?',cta_title:'Únete a Cœur de Ville',cta_sub:'Contáctanos para valorizar el patrimonio de tu ciudad.',cta_btn:'Contáctanos →',sw:'🌐 ES'}
+  fr:{available:'Villes disponibles',soon:'Bientôt disponibles',actif:'Disponible',bientot:'Bientôt',cta_label:"Votre ville n'est pas là ?",cta_title:'Rejoignez Cœur de Ville',cta_sub:'Contactez-nous pour valoriser le patrimoine de votre commune.',cta_btn:'Nous contacter →',sw:'🌐 FR',ma_ville:'Ma ville',autres:'Autres villes à découvrir',explorer:'Explorer',visiter:'Visiter',visiter_sub:'Découvrir cette ville',definir:'Définir comme ma ville',definir_sub:'Ouverture directe à chaque visite',deja_ville:'C\'est déjà ma ville',deja_sub:'Détacher pour choisir une autre'},
+  en:{available:'Available cities',soon:'Coming soon',actif:'Available',bientot:'Soon',cta_label:'Your city is not here?',cta_title:'Join Cœur de Ville',cta_sub:"Contact us to showcase your city's heritage.",cta_btn:'Contact us →',sw:'🌐 EN',ma_ville:'My city',autres:'Other cities to explore',explorer:'Explore',visiter:'Visit',visiter_sub:'Discover this city',definir:'Set as my city',definir_sub:'Open directly on each visit',deja_ville:'Already my city',deja_sub:'Unpin to choose another'},
+  es:{available:'Ciudades disponibles',soon:'Próximamente',actif:'Disponible',bientot:'Pronto',cta_label:'¿Tu ciudad no está aquí?',cta_title:'Únete a Cœur de Ville',cta_sub:'Contáctanos para valorizar el patrimonio de tu ciudad.',cta_btn:'Contáctanos →',sw:'🌐 ES',ma_ville:'Mi ciudad',autres:'Otras ciudades por descubrir',explorer:'Explorar',visiter:'Visitar',visiter_sub:'Descubrir esta ciudad',definir:'Definir como mi ciudad',definir_sub:'Apertura directa en cada visita',deja_ville:'Ya es mi ciudad',deja_sub:'Desanclar para elegir otra'}
 };
 var lang = 'fr';
 
@@ -239,19 +278,133 @@ function loadVilles() {
   var ga = document.getElementById('villes-actives');
   var gb = document.getElementById('villes-bientot');
   ga.innerHTML = ''; gb.innerHTML = '';
+  // Retire un hero existant pour éviter les doublons
+  var existingHero = document.querySelector('.hero-ville');
+  if (existingHero) existingHero.parentNode.removeChild(existingHero);
+  // Réaffiche l'en-tête de section "Villes disponibles" si masqué
+  var hdr = document.querySelector('#selector .sec-label:not(#bientot-hdr)');
+  if (hdr) hdr.style.display = '';
+  // Récupère la ville principale
+  var villePrincipale = null;
+  try { villePrincipale = localStorage.getItem('cdv_ville_principale'); } catch(e) {}
   fetch('villes.json')
     .then(function(r){ return r.json(); })
     .then(function(villes) {
       var hasBientot = false;
+      // Si ville principale définie ET active, afficher en hero
+      if (villePrincipale && villes[villePrincipale] && villes[villePrincipale].actif) {
+        var hero = makeHero(villePrincipale, villes[villePrincipale]);
+        ga.parentNode.insertBefore(hero, ga.parentNode.querySelector('.sec-label'));
+        // Mettre à jour le label de la section "Villes disponibles" en "Autres villes"
+        var lblTxt = document.getElementById('txt-available');
+        if (lblTxt) lblTxt.textContent = T[lang].autres;
+      } else {
+        // Reset label si pas de ville principale
+        var lblTxt = document.getElementById('txt-available');
+        if (lblTxt) lblTxt.textContent = T[lang].available;
+      }
       Object.keys(villes).forEach(function(id) {
+        // Skip la ville principale dans la grille (elle est en hero)
+        if (id === villePrincipale && villes[id].actif) return;
         var v = villes[id];
         var card = makeCard(id, v);
         if (v.actif) ga.appendChild(card);
         else { gb.appendChild(card); hasBientot = true; }
       });
       if (hasBientot) document.getElementById('bientot-hdr').style.display = 'flex';
+      // Si toutes les villes actives ont été placées en hero, masquer la section
+      if (villePrincipale && villes[villePrincipale] && villes[villePrincipale].actif) {
+        var nbActivesRestantes = Object.keys(villes).filter(function(id){
+          return villes[id].actif && id !== villePrincipale;
+        }).length;
+        if (nbActivesRestantes === 0) {
+          var hdr = document.querySelector('#selector .sec-label:not(#bientot-hdr)');
+          if (hdr) hdr.style.display = 'none';
+        }
+      }
     })
     .catch(function() { window.location.href = 'villeneuve/index.html?lang=' + lang; });
+}
+
+function makeHero(id, v) {
+  var t = T[lang];
+  var hero = document.createElement('div');
+  hero.className = 'hero-ville';
+  var bgStyle = v.photo ? 'background-image:url(' + v.photo + ');background-color:' + (v.couleur||'#888') + ';' : 'background-color:' + (v.couleur||'#888') + ';';
+  hero.innerHTML = '<div class="hero-ville-bg" style="' + bgStyle + '"></div>' +
+    '<div class="hero-ville-overlay"></div>' +
+    '<div class="hero-ville-pin"><svg class="hero-ville-pin-ico" viewBox="0 0 24 24" fill="#3B5BDB"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 1 1 0-5 2.5 2.5 0 0 1 0 5z"/></svg>' + t.ma_ville + '</div>' +
+    '<button class="hero-ville-unpin" onclick="event.stopPropagation();cdvUnpinVille();" aria-label="Désépingler">×</button>' +
+    '<div class="hero-ville-body">' +
+      '<div class="hero-ville-name">' + v.nom + '</div>' +
+      '<div class="hero-ville-dept">' + (v.departement||'') + '</div>' +
+      '<div class="hero-ville-cta">' + t.explorer + ' →</div>' +
+    '</div>';
+  hero.onclick = function(){ window.location.href = id + '/index.html?lang=' + lang; };
+  return hero;
+}
+
+function cdvUnpinVille() {
+  try { localStorage.removeItem('cdv_ville_principale'); } catch(e) {}
+  // Retire le hero du DOM
+  var existingHero = document.querySelector('.hero-ville');
+  if (existingHero) existingHero.parentNode.removeChild(existingHero);
+  // Recharge la grille
+  loadVilles();
+}
+
+// Modale choix Visiter / Définir
+var cdvCurrentVilleId = null;
+function cdvOpenChoiceModal(id, v) {
+  cdvCurrentVilleId = id;
+  var t = T[lang];
+  var villePrincipale = null;
+  try { villePrincipale = localStorage.getItem('cdv_ville_principale'); } catch(e) {}
+  var isCurrent = (villePrincipale === id);
+  var bgStyle = v.photo ? 'background-image:url(' + v.photo + ');' : 'background-color:' + (v.couleur||'#888') + ';';
+  var html = '<div class="cdv-cmodal-handle"></div>' +
+    '<div class="cdv-cmodal-img" style="' + bgStyle + '"><div class="cdv-cmodal-img-name">' + v.nom + '</div></div>' +
+    '<div class="cdv-cmodal-actions">' +
+      '<button class="cdv-cmodal-btn cdv-cmodal-btn-primary" onclick="cdvVisiterVille()">' +
+        '<div class="cdv-cmodal-btn-ico">→</div>' +
+        '<div class="cdv-cmodal-btn-txt"><div class="cdv-cmodal-btn-title">' + t.visiter + '</div><div class="cdv-cmodal-btn-sub">' + t.visiter_sub + '</div></div>' +
+      '</button>' +
+      (isCurrent ?
+        '<button class="cdv-cmodal-btn cdv-cmodal-btn-secondary is-current" onclick="cdvUnpinVille();cdvCloseChoiceModal();">' +
+          '<div class="cdv-cmodal-btn-ico">📍</div>' +
+          '<div class="cdv-cmodal-btn-txt"><div class="cdv-cmodal-btn-title">' + t.deja_ville + '</div><div class="cdv-cmodal-btn-sub">' + t.deja_sub + '</div></div>' +
+        '</button>'
+      :
+        '<button class="cdv-cmodal-btn cdv-cmodal-btn-secondary" onclick="cdvDefinirVille()">' +
+          '<div class="cdv-cmodal-btn-ico">📍</div>' +
+          '<div class="cdv-cmodal-btn-txt"><div class="cdv-cmodal-btn-title">' + t.definir + '</div><div class="cdv-cmodal-btn-sub">' + t.definir_sub + '</div></div>' +
+        '</button>'
+      ) +
+    '</div>';
+  document.getElementById('cdv-cmodal').innerHTML = html;
+  document.getElementById('cdv-cmodal-back').classList.add('open');
+  document.getElementById('cdv-cmodal').classList.add('open');
+}
+
+function cdvCloseChoiceModal() {
+  document.getElementById('cdv-cmodal-back').classList.remove('open');
+  document.getElementById('cdv-cmodal').classList.remove('open');
+  cdvCurrentVilleId = null;
+}
+
+function cdvVisiterVille() {
+  if (!cdvCurrentVilleId) return;
+  window.location.href = cdvCurrentVilleId + '/index.html?lang=' + lang;
+}
+
+function cdvDefinirVille() {
+  if (!cdvCurrentVilleId) return;
+  try { localStorage.setItem('cdv_ville_principale', cdvCurrentVilleId); } catch(e) {}
+  cdvCloseChoiceModal();
+  // Recharge la grille pour afficher le hero
+  loadVilles();
+  // Scroll vers le haut pour voir le hero
+  window.scrollTo({top:0, behavior:'smooth'});
 }
 
 function makeCard(id, v) {
@@ -262,7 +415,7 @@ function makeCard(id, v) {
   var badge = v.actif ? '<div class="ville-badge badge-actif">' + t.actif + '</div>' : '<div class="ville-badge badge-bientot">' + t.bientot + '</div>';
   var lock = v.actif ? '' : '<div class="ville-lock"><div class="ville-lock-ico"><svg viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></div></div>';
   card.innerHTML = '<div class="ville-bg" style="' + bgStyle + '"></div><div class="ville-overlay"></div>' + badge + lock + '<div class="ville-body"><div class="ville-name">' + v.nom + '</div><div class="ville-dept">' + (v.departement||'') + '</div></div>';
-  if (v.actif) card.onclick = (function(vid){ return function(){ window.location.href = vid + '/index.html?lang=' + lang; }; })(id);
+  if (v.actif) card.onclick = (function(vid, vobj){ return function(){ cdvOpenChoiceModal(vid, vobj); }; })(id, v);
   return card;
 }
 
@@ -280,6 +433,11 @@ window.addEventListener('load', function() {
       document.getElementById('lang').classList.remove('hidden');
     }
   }, 1800);
+});
+
+// Fermer la modale avec ESC
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape') cdvCloseChoiceModal();
 });
 </script>
 
@@ -474,6 +632,9 @@ window.addEventListener('load', function() {
 })();
 </script>
 
+<!-- ========== MODALE CHOIX VISITER / DÉFINIR ========== -->
+<div id="cdv-cmodal-back" class="cdv-cmodal-back" onclick="cdvCloseChoiceModal()"></div>
+<div id="cdv-cmodal" class="cdv-cmodal"></div>
 
 </body>
 </html>
