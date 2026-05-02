@@ -62,5 +62,13 @@
     "couleur": "#4a3520",
     "photo": "assets/saint-remy/hero.jpg",
     "expire": "2027-01-01"
+  },
+   "Vaison la Romaine": {
+    "actif": false,
+    "nom": "Vaison la Romaine",
+    "departement": "Vaucluse (84)",
+    "couleur": "#4a3520",
+    "photo": "assets/Vaison-la-romaine/hero.jpg",
+    "expire": null
   }
 }
