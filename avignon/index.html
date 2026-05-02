@@ -5,7 +5,7 @@
 <script>
 function getVilleParam() {
   var params = new URLSearchParams(window.location.search);
-  return params.get('ville') || localStorage.getItem('cdv_ville') || 'Avignon';
+  return params.get('ville') || localStorage.getItem('cdv_ville') || 'avignon';
 }
 var VILLE_ID = getVilleParam();
 var ASSETS_PREFIX = '../assets/' + VILLE_ID + '/';
