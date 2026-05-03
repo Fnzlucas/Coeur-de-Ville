@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1"/>
+<title>Déchets & Tri – Cœur de Ville</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800;900&display=swap"/>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html,body{font-family:'Manrope',sans-serif;background:#f4f6f9;color:#0f1923;}
+body{padding-bottom:40px;}
+.hero{position:relative;width:100%;height:220px;overflow:hidden;}
+.hero-img{width:100%;height:100%;object-fit:cover;display:block;background:#065f46 url('../assets/villeneuve/dechets.jpg') center/cover no-repeat;}
+.hero-overlay{position:absolute;inset:0;background:linear-gradient(to bottom,rgba(0,0,0,0.05),rgba(0,0,0,0.6));}
+.hero-back{position:absolute;top:16px;left:16px;width:40px;height:40px;border-radius:50%;background:rgba(255,255,255,0.18);backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,0.25);display:flex;align-items:center;justify-content:center;cursor:pointer;color:#fff;text-decoration:none;}
+.hero-back .material-symbols-outlined{font-size:22px;}
+.hero-content{position:absolute;bottom:0;left:0;right:0;padding:18px 16px 16px;}
+.hero-cat{font-size:9px;font-weight:800;letter-spacing:0.14em;text-transform:uppercase;color:rgba(255,255,255,0.65);margin-bottom:4px;}
+.hero-title{font-size:24px;font-weight:900;color:#fff;line-height:1.1;letter-spacing:-0.03em;}
+.body{padding:18px 16px 0;}
+.intro{font-size:13px;color:#475569;line-height:1.6;font-weight:500;margin-bottom:20px;}
+.sec{margin-bottom:22px;}
+.sec-title{font-size:15px;font-weight:900;color:#0f1923;letter-spacing:-0.02em;margin-bottom:10px;display:flex;align-items:center;gap:8px;}
+.sec-title .material-symbols-outlined{font-size:18px;color:#059669;}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-bottom:10px;}
+.tri-card{background:#fff;border-radius:14px;padding:13px;box-shadow:0 3px 14px rgba(15,25,35,0.06);border:1px solid rgba(15,25,35,0.04);}
+.tri-icon{width:36px;height:36px;border-radius:10px;display:flex;align-items:center;justify-content:center;margin-bottom:8px;}
+.tri-icon .material-symbols-outlined{font-size:19px;font-variation-settings:'FILL' 1;}
+.tri-name{font-size:13px;font-weight:800;color:#0f1923;line-height:1.2;margin-bottom:2px;}
+.tri-freq{font-size:11px;color:#64748b;font-weight:600;}
+.block{background:#fff;border-radius:16px;overflow:hidden;box-shadow:0 3px 14px rgba(15,25,35,0.06);margin-bottom:10px;border:1px solid rgba(15,25,35,0.04);}
+.block-head{display:flex;align-items:center;gap:12px;padding:13px 14px;border-bottom:1px solid #f4f6f9;}
+.block-icon{width:38px;height:38px;border-radius:11px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.block-icon .material-symbols-outlined{font-size:20px;font-variation-settings:'FILL' 1;}
+.block-name{font-size:14px;font-weight:800;color:#0f1923;}
+.block-sub{font-size:11px;color:#64748b;font-weight:500;margin-top:1px;}
+.row{display:flex;align-items:center;justify-content:space-between;padding:9px 14px;border-bottom:1px solid #f8f9fa;}
+.row:last-child{border-bottom:none;}
+.row-label{font-size:12px;font-weight:700;color:#64748b;display:flex;align-items:center;gap:6px;}
+.row-label .material-symbols-outlined{font-size:14px;color:#94a3b8;}
+.row-val{font-size:12px;font-weight:800;color:#0f1923;text-align:right;}
+.call-btn{margin-left:auto;width:34px;height:34px;background:#f1f5f9;border-radius:50%;display:flex;align-items:center;justify-content:center;text-decoration:none;flex-shrink:0;}
+.call-btn .material-symbols-outlined{font-size:16px;color:#475569;font-variation-settings:'FILL' 1;}
+.alert{border-radius:14px;background:#fef3c7;border:1px solid #fcd34d;padding:12px 14px;display:flex;gap:10px;align-items:flex-start;margin-bottom:20px;}
+.alert .material-symbols-outlined{font-size:18px;color:#d97706;flex-shrink:0;margin-top:1px;font-variation-settings:'FILL' 1;}
+.alert-text{font-size:12px;color:#92400e;font-weight:600;line-height:1.5;}
+</style>
+</head>
+<body>
+<div class="hero">
+  <div class="hero-img"></div>
+  <div class="hero-overlay"></div>
+  <a class="hero-back" href="javascript:history.back()"><span class="material-symbols-outlined">arrow_back</span></a>
+  <div class="hero-content">
+    <div class="hero-cat">Infos pratiques · Résident</div>
+    <h1 class="hero-title">Déchets &amp; Tri</h1>
+  </div>
+</div>
+
+<div class="body">
+  <p class="intro">Calendriers de collecte, déchetterie et points de tri pour les habitants de Villeneuve-lès-Avignon. Renseignements : Mairie 04 90 27 49 49.</p>
+
+  <div class="alert">
+    <span class="material-symbols-outlined">info</span>
+    <div class="alert-text">Sortez vos bacs la veille au soir avant 20h. Rentrez-les le jour même de la collecte.</div>
+  </div>
+
+  <!-- Collecte -->
+  <div class="sec">
+    <div class="sec-title"><span class="material-symbols-outlined">calendar_today</span>Collecte à domicile</div>
+    <div class="grid2">
+      <div class="tri-card">
+        <div class="tri-icon" style="background:#dcfce7;"><span class="material-symbols-outlined" style="color:#16a34a;">delete</span></div>
+        <div class="tri-name">Ordures ménagères</div>
+        <div class="tri-freq">Lundi &amp; jeudi</div>
+      </div>
+      <div class="tri-card">
+        <div class="tri-icon" style="background:#dbeafe;"><span class="material-symbols-outlined" style="color:#2563eb;">recycling</span></div>
+        <div class="tri-name">Recyclables (jaune)</div>
+        <div class="tri-freq">Mercredi (semaines paires)</div>
+      </div>
+      <div class="tri-card">
+        <div class="tri-icon" style="background:#d1fae5;"><span class="material-symbols-outlined" style="color:#059669;">compost</span></div>
+        <div class="tri-name">Biodéchets (marron)</div>
+        <div class="tri-freq">Mardi &amp; vendredi</div>
+      </div>
+      <div class="tri-card">
+        <div class="tri-icon" style="background:#f0fdf4;"><span class="material-symbols-outlined" style="color:#15803d;">yard</span></div>
+        <div class="tri-name">Déchets verts</div>
+        <div class="tri-freq">Sur rendez-vous mairie</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Déchetterie -->
+  <div class="sec">
+    <div class="sec-title"><span class="material-symbols-outlined">location_on</span>Déchetterie municipale</div>
+    <div class="block">
+      <div class="block-head">
+        <div class="block-icon" style="background:#dcfce7;"><span class="material-symbols-outlined" style="color:#16a34a;">delete_sweep</span></div>
+        <div>
+          <div class="block-name">Déchetterie de Villeneuve</div>
+          <div class="block-sub">Zone industrielle Nord</div>
+        </div>
+        <a href="tel:+33490274949" class="call-btn"><span class="material-symbols-outlined">call</span></a>
+      </div>
+      <div class="row"><div class="row-label"><span class="material-symbols-outlined">today</span> Mar – Sam</div><div class="row-val">8h – 12h · 14h – 18h</div></div>
+      <div class="row"><div class="row-label"><span class="material-symbols-outlined">weekend</span> Dimanche</div><div class="row-val">9h – 12h</div></div>
+      <div class="row"><div class="row-label"><span class="material-symbols-outlined">weekend</span> Lundi</div><div class="row-val" style="color:#dc2626;">Fermé</div></div>
+    </div>
+  </div>
+
+  <!-- Encombrants -->
+  <div class="sec">
+    <div class="sec-title"><span class="material-symbols-outlined">chair</span>Encombrants</div>
+    <div class="block">
+      <div class="block-head">
+        <div class="block-icon" style="background:#fef3c7;"><span class="material-symbols-outlined" style="color:#d97706;">weekend</span></div>
+        <div>
+          <div class="block-name">Collecte sur rendez-vous</div>
+          <div class="block-sub">Mairie — Service technique</div>
+        </div>
+        <a href="tel:+33490274949" class="call-btn"><span class="material-symbols-outlined">call</span></a>
+      </div>
+      <div class="row"><div class="row-label"><span class="material-symbols-outlined">call</span> Contact</div><div class="row-val">04 90 27 49 49</div></div>
+      <div class="row"><div class="row-label"><span class="material-symbols-outlined">today</span> Fréquence</div><div class="row-val">Mensuelle · sur RDV</div></div>
+    </div>
+  </div>
+
+  <!-- Points d'apport -->
+  <div class="sec">
+    <div class="sec-title"><span class="material-symbols-outlined">place</span>Points d'apport volontaire</div>
+    <div class="block">
+      <div class="row"><div class="row-label"><span class="material-symbols-outlined">location_on</span> Place Charles David</div><div class="row-val">Verre · Papier</div></div>
+      <div class="row"><div class="row-label"><span class="material-symbols-outlined">location_on</span> Rue de la République</div><div class="row-val">Verre · Textile</div></div>
+      <div class="row"><div class="row-label"><span class="material-symbols-outlined">location_on</span> Av. Gal Leclerc</div><div class="row-val">Verre · Carton</div></div>
+      <div class="row"><div class="row-label"><span class="material-symbols-outlined">location_on</span> Zone industrielle Nord</div><div class="row-val">Tous types</div></div>
+    </div>
+  </div>
+</div>
+</body>
+</html>
