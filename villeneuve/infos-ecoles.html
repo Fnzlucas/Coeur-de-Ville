@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1"/>
+<title>Écoles & Petite enfance – Cœur de Ville</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800;900&display=swap"/>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html,body{font-family:'Manrope',sans-serif;background:#f4f6f9;color:#0f1923;}
+body{padding-bottom:40px;}
+.hero{position:relative;width:100%;height:220px;overflow:hidden;}
+.hero-img{width:100%;height:100%;display:block;background:#3730a3 url('../assets/villeneuve/ecoles.jpg') center/cover no-repeat;}
+.hero-overlay{position:absolute;inset:0;background:linear-gradient(to bottom,rgba(0,0,0,0.05),rgba(0,0,0,0.6));}
+.hero-back{position:absolute;top:16px;left:16px;width:40px;height:40px;border-radius:50%;background:rgba(255,255,255,0.18);backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,0.25);display:flex;align-items:center;justify-content:center;cursor:pointer;color:#fff;text-decoration:none;}
+.hero-back .material-symbols-outlined{font-size:22px;}
+.hero-content{position:absolute;bottom:0;left:0;right:0;padding:18px 16px 16px;}
+.hero-cat{font-size:9px;font-weight:800;letter-spacing:0.14em;text-transform:uppercase;color:rgba(255,255,255,0.65);margin-bottom:4px;}
+.hero-title{font-size:24px;font-weight:900;color:#fff;line-height:1.1;letter-spacing:-0.03em;}
+.body{padding:18px 16px 0;}
+.intro{font-size:13px;color:#475569;line-height:1.6;font-weight:500;margin-bottom:18px;}
+/* Onglets */
+.tabs{display:flex;gap:6px;margin-bottom:18px;overflow-x:auto;padding-bottom:2px;scrollbar-width:none;}
+.tabs::-webkit-scrollbar{display:none;}
+.tab{padding:7px 14px;border-radius:100px;font-size:11px;font-weight:800;letter-spacing:0.04em;background:#fff;border:1.5px solid rgba(15,25,35,0.1);color:#64748b;cursor:pointer;white-space:nowrap;transition:all 0.15s;flex-shrink:0;}
+.tab.active{background:#3730a3;color:#fff;border-color:#3730a3;}
+.sec{margin-bottom:20px;}
+.sec-title{font-size:15px;font-weight:900;color:#0f1923;letter-spacing:-0.02em;margin-bottom:10px;display:flex;align-items:center;gap:8px;}
+.sec-title .material-symbols-outlined{font-size:18px;color:#3730a3;}
+.block{background:#fff;border-radius:16px;overflow:hidden;box-shadow:0 3px 14px rgba(15,25,35,0.06);margin-bottom:10px;border:1px solid rgba(15,25,35,0.04);}
+.block-head{display:flex;align-items:center;gap:12px;padding:13px 14px;border-bottom:1px solid #f4f6f9;}
+.block-icon{width:38px;height:38px;border-radius:11px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.block-icon .material-symbols-outlined{font-size:20px;font-variation-settings:'FILL' 1;}
+.block-name{font-size:14px;font-weight:800;color:#0f1923;line-height:1.2;}
+.block-sub{font-size:11px;color:#64748b;font-weight:500;margin-top:1px;}
+.row{display:flex;align-items:center;justify-content:space-between;padding:9px 14px;border-bottom:1px solid #f8f9fa;}
+.row:last-child{border-bottom:none;}
+.row-label{font-size:12px;font-weight:700;color:#64748b;display:flex;align-items:center;gap:6px;}
+.row-label .material-symbols-outlined{font-size:14px;color:#94a3b8;}
+.row-val{font-size:12px;font-weight:800;color:#0f1923;text-align:right;max-width:58%;}
+.call-btn{margin-left:auto;width:34px;height:34px;background:#f1f5f9;border-radius:50%;display:flex;align-items:center;justify-content:center;text-decoration:none;flex-shrink:0;}
+.call-btn .material-symbols-outlined{font-size:16px;color:#475569;font-variation-settings:'FILL' 1;}
+.mail-btn{margin-left:6px;width:34px;height:34px;background:#f1f5f9;border-radius:50%;display:flex;align-items:center;justify-content:center;text-decoration:none;flex-shrink:0;}
+.mail-btn .material-symbols-outlined{font-size:16px;color:#475569;font-variation-settings:'FILL' 1;}
+/* Vac */
+.vac-item{background:#fff;border-radius:12px;padding:11px 13px;display:flex;justify-content:space-between;align-items:center;box-shadow:0 2px 10px rgba(15,25,35,0.05);border:1px solid rgba(15,25,35,0.04);margin-bottom:8px;}
+.vac-name{font-size:13px;font-weight:800;color:#0f1923;}
+.vac-dates{font-size:11px;color:#64748b;font-weight:600;margin-top:2px;}
+.badge{padding:3px 9px;border-radius:100px;font-size:9px;font-weight:800;letter-spacing:0.06em;text-transform:uppercase;white-space:nowrap;}
+.note{background:#f1f5f9;border-radius:12px;padding:11px 13px;font-size:11px;font-weight:600;color:#475569;line-height:1.5;display:flex;gap:8px;align-items:flex-start;}
+.note .material-symbols-outlined{font-size:15px;color:#3B5BDB;flex-shrink:0;margin-top:1px;}
+</style>
+</head>
+<body>
+<div class="hero">
+  <div class="hero-img"></div>
+  <div class="hero-overlay"></div>
+  <a class="hero-back" href="javascript:history.back()"><span class="material-symbols-outlined">arrow_back</span></a>
+  <div class="hero-content">
+    <div class="hero-cat">Infos pratiques · Résident</div>
+    <h1 class="hero-title">Écoles &amp; Petite enfance</h1>
+  </div>
+</div>
+
+<div class="body">
+  <p class="intro">Établissements scolaires, crèches et assistantes maternelles de Villeneuve-lès-Avignon. Données : villeneuvelezavignon.com &amp; sidscavar.fr</p>
+
+  <div class="tabs">
+    <div class="tab active" onclick="show('ecoles',this)">Écoles</div>
+    <div class="tab" onclick="show('creches',this)">Crèches</div>
+    <div class="tab" onclick="show('am',this)">Assist. mat.</div>
+    <div class="tab" onclick="show('vacances',this)">Vacances</div>
+  </div>
+
+  <!-- ÉCOLES -->
+  <div id="tab-ecoles">
+    <div class="sec">
+      <div class="sec-title"><span class="material-symbols-outlined">child_care</span>Maternelles publiques</div>
+
+      <div class="block">
+        <div class="block-head">
+          <div class="block-icon" style="background:#e0e7ff;"><span class="material-symbols-outlined" style="color:#4338ca;">child_care</span></div>
+          <div style="flex:1;min-width:0;">
+            <div class="block-name">Maternelle Noël Lacombe</div>
+            <div class="block-sub">Rue des Poètes · 04 88 61 98 22</div>
+          </div>
+          <a href="tel:+33488619822" class="call-btn"><span class="material-symbols-outlined">call</span></a>
+          <a href="mailto:ce.0301277a@ac-montpellier.fr" class="mail-btn"><span class="material-symbols-outlined">mail</span></a>
+        </div>
+        <div class="row"><div class="row-label"><span class="material-symbols-outlined">schedule</span> Horaires</div><div class="row-val">8h30 – 11h30 · 13h30 – 16h30</div></div>
+        <div class="row"><div class="row-label"><span class="material-symbols-outlined">child_friendly</span> Périscolaire</div><div class="row-val">Portail Belami</div></div>
+      </div>
+
+      <div class="block">
+        <div class="block-head">
+          <div class="block-icon" style="background:#e0e7ff;"><span class="material-symbols-outlined" style="color:#4338ca;">child_care</span></div>
+          <div style="flex:1;min-width:0;">
+            <div class="block-name">Maternelle Thomas David</div>
+            <div class="block-sub">Rue des Poètes · 04 88 61 98 22</div>
+          </div>
+          <a href="tel:+33488619822" class="call-btn"><span class="material-symbols-outlined">call</span></a>
+          <a href="mailto:ce.0301277a@ac-montpellier.fr" class="mail-btn"><span class="material-symbols-outlined">mail</span></a>
+        </div>
+        <div class="row"><div class="row-label"><span class="material-symbols-outlined">schedule</span> Horaires</div><div class="row-val">8h30 – 11h30 · 13h30 – 16h30</div></div>
+        <div class="row"><div class="row-label"><span class="material-symbols-outlined">child_friendly</span> Périscolaire</div><div class="row-val">Portail Belami</div></div>
+      </div>
+    </div>
+
+    <div class="sec">
+      <div class="sec-title"><span class="material-symbols-outlined">school</span>Élémentaires publiques</div>
+
+      <div class="block">
+        <div class="block-head">
+          <div class="block-icon" style="background:#dbeafe;"><span class="material-symbols-outlined" style="color:#1d4ed8;">school</span></div>
+          <div style="flex:1;min-width:0;">
+            <div class="block-name">Primaire Joseph Lhermitte</div>
+            <div class="block-sub">Rond-point du Félibrige · 10 classes</div>
+          </div>
+          <a href="tel:+33490256830" class="call-btn"><span class="material-symbols-outlined">call</span></a>
+          <a href="mailto:ce.0301199R@ac-montpellier.fr" class="mail-btn"><span class="material-symbols-outlined">mail</span></a>
+        </div>
+        <div class="row"><div class="row-label"><span class="material-symbols-outlined">call</span> Tél. école</div><div class="row-val">04 90 25 68 30</div></div>
+        <div class="row"><div class="row-label"><span class="material-symbols-outlined">child_friendly</span> Tél. périscolaire</div><div class="row-val">04 32 70 08 61</div></div>
+      </div>
+
+      <div class="block">
+        <div class="block-head">
+          <div class="block-icon" style="background:#dbeafe;"><span class="material-symbols-outlined" style="color:#1d4ed8;">school</span></div>
+          <div style="flex:1;min-width:0;">
+            <div class="block-name">Primaire Montolivet</div>
+            <div class="block-sub">Rue de Montolivet · 10 classes + ULIS</div>
+          </div>
+          <a href="tel:+33484156268" class="call-btn"><span class="material-symbols-outlined">call</span></a>
+        </div>
+        <div class="row"><div class="row-label"><span class="material-symbols-outlined">call</span> Tél. école</div><div class="row-val">04 84 15 62 68</div></div>
+        <div class="row"><div class="row-label"><span class="material-symbols-outlined">child_friendly</span> Tél. périscolaire</div><div class="row-val">04 90 27 49 74</div></div>
+      </div>
+    </div>
+
+    <div class="sec">
+      <div class="sec-title"><span class="material-symbols-outlined">school</span>Privé</div>
+      <div class="block">
+        <div class="block-head">
+          <div class="block-icon" style="background:#ede9fe;"><span class="material-symbols-outlined" style="color:#6d28d9;">school</span></div>
+          <div style="flex:1;min-width:0;">
+            <div class="block-name">Institution Sancta Maria</div>
+            <div class="block-sub">Rue de Monteau · Maternelle &amp; primaire</div>
+          </div>
+          <a href="tel:+33490254162" class="call-btn"><span class="material-symbols-outlined">call</span></a>
+          <a href="mailto:accueil@institution-sanctamaria.org" class="mail-btn"><span class="material-symbols-outlined">mail</span></a>
+        </div>
+        <div class="row"><div class="row-label"><span class="material-symbols-outlined">call</span> Téléphone</div><div class="row-val">04 90 25 41 62</div></div>
+        <div class="row"><div class="row-label"><span class="material-symbols-outlined">info</span> Directrice mat.</div><div class="row-val">Mme Graziella Regen</div></div>
+      </div>
+    </div>
+
+    <div class="note"><span class="material-symbols-outlined">info</span>Inscriptions mars-mai en mairie · Portail périscolaire : Belami · Cantine : restauration@villeneuvelezavignon.fr</div>
+  </div>
+
+  <!-- CRÈCHES -->
+  <div id="tab-creches" style="display:none;">
+    <div class="sec">
+      <div class="sec-title"><span class="material-symbols-outlined">child_friendly</span>Crèches SIDSCAVAR</div>
+
+      <div class="block">
+        <div class="block-head">
+          <div class="block-icon" style="background:#fce7f3;"><span class="material-symbols-outlined" style="color:#be185d;">child_friendly</span></div>
+          <div style="flex:1;min-width:0;">
+            <div class="block-name">Crèche La Ribambelle</div>
+            <div class="block-sub">1 allée Pierre-Louis Loisil · 50 places</div>
+          </div>
+          <a href="tel:+33490159714" class="call-btn"><span class="material-symbols-outlined">call</span></a>
+        </div>
+        <div class="row"><div class="row-label"><span class="material-symbols-outlined">person</span> Directrice</div><div class="row-val">Mme Céline Lunel</div></div>
+        <div class="row"><div class="row-label"><span class="material-symbols-outlined">call</span> Téléphone</div><div class="row-val">04 90 15 97 14</div></div>
+        <div class="row"><div class="row-label"><span class="material-symbols-outlined">mail</span> Email</div><div class="row-val">ribambelle@sidscava.com</div></div>
+        <div class="row"><div class="row-label"><span class="material-symbols-outlined">schedule</span> Horaires</div><div class="row-val">Lun – Ven · 7h30 – 18h30</div></div>
+        <div class="row"><div class="row-label"><span class="material-symbols-outlined">child_care</span> Accueil</div><div class="row-val">10 sem. – 4 ans</div></div>
+      </div>
+
+      <div class="block">
+        <div class="block-head">
+          <div class="block-icon" style="background:#fce7f3;"><span class="material-symbols-outlined" style="color:#be185d;">child_friendly</span></div>
+          <div style="flex:1;min-width:0;">
+            <div class="block-name">Crèche La Marelle</div>
+            <div class="block-sub">Av. Pierre Sémard · 40 places</div>
+          </div>
+          <a href="tel:+33490251977" class="call-btn"><span class="material-symbols-outlined">call</span></a>
+        </div>
+        <div class="row"><div class="row-label"><span class="material-symbols-outlined">person</span> Directrice</div><div class="row-val">Mme Christine Dudon</div></div>
+        <div class="row"><div class="row-label"><span class="material-symbols-outlined">call</span> Téléphone</div><div class="row-val">04 90 25 19 77</div></div>
+        <div class="row"><div class="row-label"><span class="material-symbols-outlined">mail</span> Email</div><div class="row-val">marelle@sidscava.com</div></div>
+        <div class="row"><div class="row-label"><span class="material-symbols-outlined">schedule</span> Horaires</div><div class="row-val">Lun – Ven · 7h30 – 18h30</div></div>
+        <div class="row"><div class="row-label"><span class="material-symbols-outlined">euro</span> Tarif</div><div class="row-val">Barème CNAF</div></div>
+      </div>
+    </div>
+
+    <div class="note"><span class="material-symbols-outlined">info</span>Inscriptions via la mairie — Service Petite Enfance · 04 90 27 49 49 · Lectures crèches : tous les mardis 9h par la médiathèque Saint-Pons.</div>
+  </div>
+
+  <!-- ASSISTANTES MATERNELLES -->
+  <div id="tab-am" style="display:none;">
+    <div class="sec">
+      <div class="sec-title"><span class="material-symbols-outlined">people</span>Relais Petite Enfance (RPE)</div>
+      <div class="block">
+        <div class="block-head">
+          <div class="block-icon" style="background:#dcfce7;"><span class="material-symbols-outlined" style="color:#16a34a;">support_agent</span></div>
+          <div style="flex:1;min-width:0;">
+            <div class="block-name">RPE — Les Hauts de Villeneuve</div>
+            <div class="block-sub">Rue des Poètes · SIDSCAVAR</div>
+          </div>
+          <a href="tel:+33490152014" class="call-btn"><span class="material-symbols-outlined">call</span></a>
+        </div>
+        <div class="row"><div class="row-label"><span class="material-symbols-outlined">person</span> Responsable</div><div class="row-val">Mme Sylvie Robert</div></div>
+        <div class="row"><div class="row-label"><span class="material-symbols-outlined">call</span> Téléphone</div><div class="row-val">04 90 15 20 14</div></div>
+        <div class="row"><div class="row-label"><span class="material-symbols-outlined">mail</span> Email</div><div class="row-val">rpe@sidscava.com</div></div>
+        <div class="row"><div class="row-label"><span class="material-symbols-outlined">calendar_today</span> Ouverture</div><div class="row-val">Lun – Ven · sur RDV</div></div>
+      </div>
+    </div>
+
+    <div class="note" style="margin-bottom:16px;"><span class="material-symbols-outlined">info</span>La liste complète des assistantes maternelles agréées est disponible auprès du RPE ou sur <strong>monenfant.fr</strong>. Le RPE accompagne parents et assistantes maternelles dans leurs démarches.</div>
+  </div>
+
+  <!-- VACANCES -->
+  <div id="tab-vacances" style="display:none;">
+    <div class="sec">
+      <div class="sec-title"><span class="material-symbols-outlined">beach_access</span>Vacances scolaires 2024–2025 · Zone C</div>
+      <div class="vac-item"><div><div class="vac-name">Toussaint</div><div class="vac-dates">19 oct. – 4 nov. 2024</div></div><div class="badge" style="background:#f1f5f9;color:#475569;">Passé</div></div>
+      <div class="vac-item"><div><div class="vac-name">Noël</div><div class="vac-dates">21 déc. 2024 – 6 jan. 2025</div></div><div class="badge" style="background:#f1f5f9;color:#475569;">Passé</div></div>
+      <div class="vac-item"><div><div class="vac-name">Hiver</div><div class="vac-dates">15 fév. – 3 mars 2025</div></div><div class="badge" style="background:#f1f5f9;color:#475569;">Passé</div></div>
+      <div class="vac-item"><div><div class="vac-name">Printemps</div><div class="vac-dates">12 avr. – 28 avr. 2025</div></div><div class="badge" style="background:#f1f5f9;color:#475569;">Passé</div></div>
+      <div class="vac-item"><div><div class="vac-name">Été</div><div class="vac-dates">5 juil. – 1 sept. 2025</div></div><div class="badge" style="background:#dcfce7;color:#166534;">À venir</div></div>
+    </div>
+    <div class="note"><span class="material-symbols-outlined">info</span>Inscriptions périscolaires via portail <strong>Belami</strong> — 10 jours avant chaque période. Service Enseignement : 04 90 27 49 49.</div>
+  </div>
+</div>
+
+<script>
+function show(name, el) {
+  ['ecoles','creches','am','vacances'].forEach(function(t){
+    document.getElementById('tab-'+t).style.display = t===name?'block':'none';
+  });
+  document.querySelectorAll('.tab').forEach(function(t){t.classList.remove('active');});
+  el.classList.add('active');
+}
+</script>
+</body>
+</html>
