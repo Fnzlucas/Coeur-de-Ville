@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1"/>
+<title>L'Annexe — Cœur de Ville</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800;900&family=Inter:wght@300;400;500;600&display=swap"/>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html,body{font-family:'Manrope',sans-serif;background:#f8f9fa;color:#0f1923;-webkit-overflow-scrolling:touch;}
+body{padding-bottom:90px;}
+
+.hero{position:relative;height:320px;overflow:hidden;}
+.hero-img{width:100%;height:100%;object-fit:cover;display:block;}
+.hero-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,0.85) 0%,rgba(0,0,0,0.2) 55%,transparent 100%);}
+.hero-back{position:absolute;top:16px;left:16px;width:40px;height:40px;border-radius:50%;background:rgba(255,255,255,0.15);backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,0.25);display:flex;align-items:center;justify-content:center;cursor:pointer;z-index:10;}
+.hero-back .material-symbols-outlined{color:#fff;font-size:20px;}
+.hero-share{position:absolute;top:16px;right:16px;width:40px;height:40px;border-radius:50%;background:rgba(255,255,255,0.15);backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,0.25);display:flex;align-items:center;justify-content:center;cursor:pointer;z-index:10;}
+.hero-share .material-symbols-outlined{color:#fff;font-size:20px;}
+.hero-content{position:absolute;bottom:0;left:0;right:0;padding:20px 20px 24px;}
+.hero-badge{display:inline-flex;align-items:center;gap:5px;background:rgba(90,138,111,0.92);backdrop-filter:blur(6px);color:#fff;font-size:9px;font-weight:800;letter-spacing:0.12em;text-transform:uppercase;padding:5px 12px;border-radius:20px;margin-bottom:10px;}
+.hero-badge::before{content:'';width:5px;height:5px;background:#fff;border-radius:50%;}
+.hero-name{font-size:30px;font-weight:900;color:#fff;line-height:1.05;letter-spacing:-0.02em;margin-bottom:8px;}
+.hero-meta{display:flex;align-items:center;gap:12px;}
+.hero-rating{display:flex;align-items:center;gap:4px;color:#FBBF24;font-size:13px;font-weight:800;}
+.hero-rating span.cnt{color:rgba(255,255,255,0.6);font-weight:500;font-size:11px;}
+.hero-pill{background:rgba(255,255,255,0.15);backdrop-filter:blur(6px);border:1px solid rgba(255,255,255,0.25);color:#fff;font-size:10px;font-weight:700;padding:4px 10px;border-radius:20px;}
+
+.open-banner{margin:16px 16px 0;background:#f0fdf4;border-radius:14px;padding:12px 16px;display:flex;align-items:center;gap:10px;border:1px solid #bbf7d0;}
+.open-dot{width:8px;height:8px;border-radius:50%;background:#22c55e;flex-shrink:0;box-shadow:0 0 0 3px rgba(34,197,94,0.2);}
+.open-text{font-size:13px;font-weight:700;color:#166534;}
+.open-hours{font-size:12px;font-weight:500;color:#4ade80;margin-top:1px;}
+
+.actions-bar{display:flex;gap:10px;padding:16px 16px 0;}
+.action-btn{flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;padding:12px 8px;background:#fff;border-radius:14px;box-shadow:0 2px 10px rgba(0,0,0,0.06);cursor:pointer;border:none;font-family:Manrope;text-decoration:none;transition:all 0.15s;}
+.action-btn:active{transform:scale(0.96);}
+.action-btn .material-symbols-outlined{font-size:22px;color:#5a8a6f;}
+.action-btn .lbl{font-size:10px;font-weight:700;color:#0f1923;letter-spacing:0.02em;}
+
+.section{padding:24px 16px 0;}
+.section-title{font-size:17px;font-weight:900;color:#0f1923;letter-spacing:-0.02em;margin-bottom:12px;}
+
+.desc-card{background:#fff;border-radius:16px;padding:16px;box-shadow:0 2px 10px rgba(0,0,0,0.06);}
+.desc-text{font-size:14px;line-height:1.7;color:#374151;font-weight:400;}
+
+.infos-grid{display:flex;flex-direction:column;gap:1px;background:#f1f5f9;border-radius:16px;overflow:hidden;box-shadow:0 2px 10px rgba(0,0,0,0.06);}
+.info-row{background:#fff;padding:13px 16px;display:flex;align-items:center;gap:12px;}
+.info-row .material-symbols-outlined{font-size:20px;color:#5a8a6f;flex-shrink:0;}
+.info-row-content{flex:1;}
+.info-row-label{font-size:11px;font-weight:600;color:#94a3b8;margin-bottom:2px;}
+.info-row-val{font-size:14px;font-weight:700;color:#0f1923;}
+.info-row-action{width:32px;height:32px;border-radius:50%;background:#dcf2e3;display:flex;align-items:center;justify-content:center;flex-shrink:0;text-decoration:none;}
+.info-row-action .material-symbols-outlined{font-size:16px;color:#5a8a6f;}
+
+.tags-wrap{display:flex;flex-wrap:wrap;gap:8px;}
+.tag{display:inline-flex;align-items:center;gap:5px;background:#fff;border-radius:100px;padding:7px 12px;font-size:11px;font-weight:700;color:#374151;box-shadow:0 1px 6px rgba(0,0,0,0.07);}
+.tag .material-symbols-outlined{font-size:14px;color:#5a8a6f;}
+
+.horaires-card{background:#fff;border-radius:16px;padding:4px 0;box-shadow:0 2px 10px rgba(0,0,0,0.06);}
+.hrow{display:flex;justify-content:space-between;align-items:center;padding:10px 16px;border-bottom:1px solid #f8f9fa;}
+.hrow:last-child{border-bottom:none;}
+.hrow-day{font-size:13px;font-weight:600;color:#374151;}
+.hrow-time{font-size:13px;font-weight:700;color:#0f1923;}
+.hrow-time.closed{color:#dc2626;}
+.hrow-badge{font-size:9px;font-weight:800;text-transform:uppercase;letter-spacing:0.1em;background:#dcf2e3;color:#3a6650;padding:3px 8px;border-radius:20px;}
+
+.prix-row{display:flex;justify-content:space-between;align-items:center;padding:12px 0;border-bottom:1px solid #f1f5f9;}
+.prix-row:last-child{border-bottom:none;}
+.prix-name{font-size:14px;font-weight:600;color:#374151;}
+.prix-val{font-size:14px;font-weight:800;color:#0f1923;}
+
+.cta-bottom{position:fixed;bottom:0;left:0;right:0;padding:12px 16px 20px;background:rgba(255,255,255,0.95);backdrop-filter:blur(20px);border-top:1px solid rgba(0,0,0,0.06);display:flex;gap:10px;z-index:100;}
+.cta-call{flex:1;display:flex;align-items:center;justify-content:center;gap:8px;background:#0f1923;color:#fff;border:none;border-radius:14px;padding:15px;font-family:Manrope;font-size:15px;font-weight:800;cursor:pointer;text-decoration:none;transition:all 0.15s;}
+.cta-call:active{transform:scale(0.97);}
+.cta-call .material-symbols-outlined{font-size:19px;}
+.cta-map{width:52px;height:52px;border-radius:14px;background:#fff;border:1.5px solid #e2e8f0;display:flex;align-items:center;justify-content:center;cursor:pointer;text-decoration:none;flex-shrink:0;transition:all 0.15s;}
+.cta-map:active{transform:scale(0.96);}
+.cta-map .material-symbols-outlined{font-size:22px;color:#0f1923;}
+
+.avis-card{background:#fff;border-radius:14px;padding:14px;box-shadow:0 1px 8px rgba(0,0,0,0.06);margin-bottom:10px;}
+.avis-header{display:flex;align-items:center;gap:10px;margin-bottom:8px;}
+.avis-avatar{width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,#5a8a6f,#8bb89f);display:flex;align-items:center;justify-content:center;color:#fff;font-size:14px;font-weight:800;flex-shrink:0;}
+.avis-name{font-size:13px;font-weight:800;color:#0f1923;}
+.avis-date{font-size:11px;color:#94a3b8;margin-top:1px;}
+.avis-stars{display:flex;gap:2px;color:#FBBF24;font-size:13px;margin-left:auto;}
+.avis-text{font-size:13px;color:#374151;line-height:1.6;}
+
+.score-card{background:linear-gradient(135deg,#3a6650,#5a8a6f);border-radius:18px;padding:20px;display:flex;align-items:center;gap:16px;}
+.score-big{font-size:48px;font-weight:900;color:#fff;line-height:1;letter-spacing:-0.04em;}
+.score-stars{display:flex;gap:3px;color:#FBBF24;font-size:18px;margin-bottom:4px;}
+.score-cnt{font-size:12px;color:rgba(255,255,255,0.6);font-weight:500;}
+.score-bars{flex:1;}
+.score-bar-row{display:flex;align-items:center;gap:8px;margin-bottom:5px;}
+.score-bar-label{font-size:10px;color:rgba(255,255,255,0.7);font-weight:600;width:10px;text-align:right;}
+.score-bar-track{flex:1;height:4px;background:rgba(255,255,255,0.15);border-radius:2px;overflow:hidden;}
+.score-bar-fill{height:100%;background:#FBBF24;border-radius:2px;}
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <img class="hero-img" src="../assets/villeneuve/lannexe.jpg" alt="L'Annexe">
+  <div class="hero-overlay"></div>
+  <button class="hero-back" onclick="history.back()">
+    <span class="material-symbols-outlined">arrow_back</span>
+  </button>
+  <div class="hero-share">
+    <span class="material-symbols-outlined">share</span>
+  </div>
+  <div class="hero-content">
+    <div class="hero-badge">Bistrot · Bar · Tapas</div>
+    <div class="hero-name">L'Annexe</div>
+    <div class="hero-meta">
+      <div class="hero-rating">
+        <span class="cnt">4,5/5 · 320+ avis</span>
+      </div>
+      <div class="hero-pill">€€</div>
+      <div class="hero-pill">Brunch dimanche</div>
+    </div>
+  </div>
+</div>
+
+<div class="open-banner">
+  <div class="open-dot"></div>
+  <div>
+    <div class="open-text">Ouvert · Du mardi au samedi</div>
+    <div class="open-hours">8h–1h · Petit-déj, déjeuner, apéro & tapas</div>
+  </div>
+</div>
+
+<div class="actions-bar">
+  <a href="tel:0973162281" class="action-btn">
+    <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">call</span>
+    <span class="lbl">Appeler</span>
+  </a>
+  <a href="https://maps.google.com/?q=7+Place+Saint-Marc+30400+Villeneuve-lès-Avignon" target="_blank" class="action-btn">
+    <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">near_me</span>
+    <span class="lbl">Itinéraire</span>
+  </a>
+  <a href="mailto:bla.villeneuvelesavignon@gmail.com" class="action-btn">
+    <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">mail</span>
+    <span class="lbl">Email</span>
+  </a>
+  <a href="https://www.facebook.com/lannexevilleneuve/" target="_blank" class="action-btn">
+    <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">thumb_up</span>
+    <span class="lbl">Facebook</span>
+  </a>
+</div>
+
+<div class="section">
+  <div class="section-title">À propos</div>
+  <div class="desc-card">
+    <p class="desc-text">
+      Vraie brasserie de quartier idéalement située place Saint-Marc, juste en face de la Tour Philippe le Bel, L'Annexe est l'adresse incontournable pour vivre la convivialité villeneuvoise. Un bistrot lumineux et atypique, à la décoration soignée, où l'on vient pour le petit-déjeuner, déjeuner, l'apéro entre amis ou les tapas du soir.
+    </p>
+    <p class="desc-text" style="margin-top:10px;">
+      Sophie et son équipe vous accueillent avec une bienveillance et une gentillesse qui font la réputation du lieu. Plats simples, copieux et savoureux, cocktails maison, et le fameux <strong>brunch du dimanche</strong> très apprécié. Service rapide, charmant, et une ambiance chaleureuse jusqu'à 1h du matin.
+    </p>
+  </div>
+</div>
+
+<div class="section">
+  <div class="section-title">À savoir</div>
+  <div class="tags-wrap">
+    <div class="tag"><span class="material-symbols-outlined">restaurant</span>Bistrot</div>
+    <div class="tag"><span class="material-symbols-outlined">local_bar</span>Bar à cocktails</div>
+    <div class="tag"><span class="material-symbols-outlined">tapas</span>Tapas</div>
+    <div class="tag"><span class="material-symbols-outlined">free_breakfast</span>Petit-déjeuner</div>
+    <div class="tag"><span class="material-symbols-outlined">brunch_dining</span>Brunch dimanche</div>
+    <div class="tag"><span class="material-symbols-outlined">deck</span>Terrasse</div>
+    <div class="tag"><span class="material-symbols-outlined">accessible</span>Accès PMR</div>
+    <div class="tag"><span class="material-symbols-outlined">wc</span>Toilettes PMR</div>
+    <div class="tag"><span class="material-symbols-outlined">credit_card</span>Tickets restaurant</div>
+    <div class="tag"><span class="material-symbols-outlined">nightlife</span>Ouvert tard</div>
+  </div>
+</div>
+
+<div class="section">
+  <div class="section-title">Horaires</div>
+  <div class="horaires-card">
+    <div class="hrow">
+      <span class="hrow-day">Lundi</span>
+      <span class="hrow-time closed">Fermé</span>
+    </div>
+    <div class="hrow">
+      <span class="hrow-day">Mardi</span>
+      <span class="hrow-time">8h–1h</span>
+    </div>
+    <div class="hrow">
+      <span class="hrow-day">Mercredi</span>
+      <span class="hrow-time">8h–1h</span>
+    </div>
+    <div class="hrow">
+      <span class="hrow-day">Jeudi</span>
+      <span class="hrow-time">8h–1h</span>
+    </div>
+    <div class="hrow">
+      <span class="hrow-day">Vendredi</span>
+      <span class="hrow-time">8h–1h</span>
+    </div>
+    <div class="hrow">
+      <span class="hrow-day">Samedi</span>
+      <span class="hrow-time">8h–1h</span>
+    </div>
+    <div class="hrow">
+      <span class="hrow-day">Dimanche</span>
+      <span class="hrow-time closed">Fermé</span>
+    </div>
+    <div style="padding:10px 16px;font-size:11px;color:#94a3b8;font-weight:500;">
+       Brunch occasionnel le dimanche · à confirmer par téléphone
+    </div>
+  </div>
+</div>
+
+<div class="section">
+  <div class="section-title">Infos pratiques</div>
+  <div class="infos-grid">
+    <div class="info-row">
+      <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">location_on</span>
+      <div class="info-row-content">
+        <div class="info-row-label">Adresse</div>
+        <div class="info-row-val">7 Place Saint-Marc<br>30400 Villeneuve-lès-Avignon</div>
+      </div>
+      <a href="https://maps.google.com/?q=7+Place+Saint-Marc+30400+Villeneuve-lès-Avignon" target="_blank" class="info-row-action">
+        <span class="material-symbols-outlined">open_in_new</span>
+      </a>
+    </div>
+    <div class="info-row">
+      <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">call</span>
+      <div class="info-row-content">
+        <div class="info-row-label">Téléphone</div>
+        <div class="info-row-val">09 73 16 22 81</div>
+      </div>
+      <a href="tel:0973162281" class="info-row-action">
+        <span class="material-symbols-outlined">call</span>
+      </a>
+    </div>
+    <div class="info-row">
+      <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">mail</span>
+      <div class="info-row-content">
+        <div class="info-row-label">Email</div>
+        <div class="info-row-val">bla.villeneuvelesavignon@gmail.com</div>
+      </div>
+      <a href="mailto:bla.villeneuvelesavignon@gmail.com" class="info-row-action">
+        <span class="material-symbols-outlined">open_in_new</span>
+      </a>
+    </div>
+    <div class="info-row">
+      <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">photo_camera</span>
+      <div class="info-row-content">
+        <div class="info-row-label">Réseaux sociaux</div>
+        <div class="info-row-val">@lannexevilleneuve</div>
+      </div>
+      <a href="https://www.facebook.com/lannexevilleneuve/" target="_blank" class="info-row-action">
+        <span class="material-symbols-outlined">open_in_new</span>
+      </a>
+    </div>
+    <div class="info-row">
+      <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">storefront</span>
+      <div class="info-row-content">
+        <div class="info-row-label">Type d'établissement</div>
+        <div class="info-row-val">Bistrot · Bar · Restaurant</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="section">
+  <div class="section-title">Avis clients</div>
+  <div class="score-card">
+    <div style="text-align:center;">
+      <div class="score-big">4,5</div>
+      <div class="score-stars">★★★★★</div>
+      <div class="score-cnt">320+ avis</div>
+    </div>
+    <div class="score-bars">
+      <div class="score-bar-row">
+        <span class="score-bar-label">5</span>
+        <div class="score-bar-track"><div class="score-bar-fill" style="width:69%"></div></div>
+      </div>
+      <div class="score-bar-row">
+        <span class="score-bar-label">4</span>
+        <div class="score-bar-track"><div class="score-bar-fill" style="width:20%"></div></div>
+      </div>
+      <div class="score-bar-row">
+        <span class="score-bar-label">3</span>
+        <div class="score-bar-track"><div class="score-bar-fill" style="width:4%"></div></div>
+      </div>
+      <div class="score-bar-row">
+        <span class="score-bar-label">2</span>
+        <div class="score-bar-track"><div class="score-bar-fill" style="width:3%"></div></div>
+      </div>
+      <div class="score-bar-row" style="margin-bottom:0;">
+        <span class="score-bar-label">1</span>
+        <div class="score-bar-track"><div class="score-bar-fill" style="width:3%"></div></div>
+      </div>
+      <div style="margin-top:10px;font-size:10px;color:rgba(255,255,255,0.5);font-weight:500;">N°18 / 48 restaurants à Villeneuve · TripAdvisor</div>
+    </div>
+  </div>
+</div>
+
+<div style="padding:12px 16px 0;">
+  <div class="avis-card">
+    <div class="avis-header">
+      <div class="avis-avatar">B</div>
+      <div>
+        <div class="avis-name">Bernard</div>
+        <div class="avis-date">Avis Google</div>
+      </div>
+      <div class="avis-stars">★★★★★</div>
+    </div>
+    <div class="avis-text">Enfin une vraie brasserie à Villeneuve-lès-Avignon ! Un grand bravo à Sophie pour toutes ces bonnes idées. Et en plus un super brunch le dimanche !</div>
+  </div>
+
+  <div class="avis-card">
+    <div class="avis-header">
+      <div class="avis-avatar" style="background:linear-gradient(135deg,#3a6650,#5a8a6f);">J</div>
+      <div>
+        <div class="avis-name">Jérôme</div>
+        <div class="avis-date">Client habitué</div>
+      </div>
+      <div class="avis-stars">★★★★★</div>
+    </div>
+    <div class="avis-text">Lieu atypique sympa et très agréable. Le service est rapide, les plats sont très bien préparés et très goûteux. Le patron très souriant sait s'y prendre avec ses clients.</div>
+  </div>
+
+  <div class="avis-card">
+    <div class="avis-header">
+      <div class="avis-avatar" style="background:linear-gradient(135deg,#7b8db8,#a8b8d4);">A</div>
+      <div>
+        <div class="avis-name">Anne</div>
+        <div class="avis-date">TripAdvisor</div>
+      </div>
+      <div class="avis-stars">★★★★★</div>
+    </div>
+    <div class="avis-text">Excellente soirée dans ce restaurant où la cuisine et le service sont fabuleux. On est choyés et ça fait du bien un tel accueil. Je recommande vivement cette adresse !</div>
+  </div>
+
+  <a href="https://www.tripadvisor.fr/Restaurant_Review-g196611-d16698779-Reviews-L_Annexe-Villeneuve_les_Avignon_Gard_Occitanie.html" target="_blank"
+     style="display:flex;align-items:center;justify-content:center;gap:6px;padding:13px;border-radius:14px;border:1.5px solid #e2e8f0;background:#fff;font-family:Manrope;font-size:13px;font-weight:700;color:#0f1923;text-decoration:none;margin-bottom:8px;">
+    <span class="material-symbols-outlined" style="font-size:17px;color:#00aa6c;">rate_review</span>
+    Voir tous les avis TripAdvisor
+  </a>
+</div>
+
+<div class="section" style="padding-bottom:16px;">
+  <div class="section-title">Localisation</div>
+  <a href="https://maps.google.com/?q=7+Place+Saint-Marc+30400+Villeneuve-lès-Avignon" target="_blank"
+     style="display:block;border-radius:16px;overflow:hidden;height:160px;background:linear-gradient(135deg,#dcf2e3,#b8e0c5);position:relative;text-decoration:none;">
+    <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:8px;">
+      <span class="material-symbols-outlined" style="font-size:40px;color:#5a8a6f;font-variation-settings:'FILL' 1;">location_on</span>
+      <div style="font-size:14px;font-weight:800;color:#0f1923;">7 Place Saint-Marc</div>
+      <div style="font-size:12px;font-weight:500;color:#64748b;">Face à la Tour Philippe le Bel</div>
+      <div style="display:flex;align-items:center;gap:4px;background:#fff;padding:6px 14px;border-radius:20px;box-shadow:0 2px 8px rgba(0,0,0,0.1);margin-top:4px;">
+        <span class="material-symbols-outlined" style="font-size:14px;color:#5a8a6f;">near_me</span>
+        <span style="font-size:11px;font-weight:700;color:#0f1923;">Ouvrir dans Maps</span>
+      </div>
+    </div>
+  </a>
+</div>
+
+<div class="cta-bottom">
+  <a href="tel:0973162281" class="cta-call">
+    <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">call</span>
+    Réserver · 09 73 16 22 81
+  </a>
+  <a href="https://maps.google.com/?q=7+Place+Saint-Marc+30400+Villeneuve-lès-Avignon" target="_blank" class="cta-map">
+    <span class="material-symbols-outlined">near_me</span>
+  </a>
+</div>
+
+<script>
+(function(){
+  var today = new Date().getDay();
+  var rows = document.querySelectorAll('.hrow');
+  if(rows[today]) {
+    var dayEl = rows[today].querySelector('.hrow-day');
+    if(dayEl){
+      dayEl.style.fontWeight = '800';
+      dayEl.style.color = '#0f1923';
+      var badge = document.createElement('span');
+      badge.className = 'hrow-badge';
+      badge.style.marginLeft = '8px';
+      badge.textContent = 'Auj.';
+      dayEl.appendChild(badge);
+    }
+  }
+})();
+</script>
+</body>
+</html>
