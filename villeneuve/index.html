@@ -2102,26 +2102,43 @@ setTimeout(function(){
       <div class="res-section-sub">Au quotidien</div>
     </div>
   </div>
+
+  <!-- Accès PMR -->
+  <div style="margin-bottom:14px;">
+    <a href="accessibilite.html" style="
+      display:flex;align-items:center;gap:12px;
+      background:linear-gradient(120deg,#1a4a2e,#2d7a4f);
+      border-radius:16px;padding:12px 14px;text-decoration:none;
+      box-shadow:0 4px 18px rgba(26,74,46,0.2);
+      position:relative;overflow:hidden;
+      transition:transform 0.18s,box-shadow 0.18s;
+    " onclick="this.style.transform='scale(0.98)'">
+      <div style="position:absolute;top:-20px;right:-20px;width:80px;height:80px;background:rgba(74,222,128,0.15);border-radius:50%;filter:blur(24px);"></div>
+      <div style="width:40px;height:40px;border-radius:11px;background:rgba(255,255,255,0.12);border:1px solid rgba(255,255,255,0.2);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+        <span class="material-symbols-outlined" style="font-size:20px;color:#fff;font-variation-settings:'FILL' 1;">accessible</span>
+      </div>
+      <div style="flex:1;min-width:0;">
+        <div style="font-size:9px;font-weight:800;letter-spacing:0.14em;text-transform:uppercase;color:rgba(255,255,255,0.55);margin-bottom:2px;">Accessibilité</div>
+        <div style="font-size:14px;font-weight:900;color:#fff;font-family:Manrope;letter-spacing:-0.02em;line-height:1.15;">Lieux accessibles PMR</div>
+      </div>
+      <div style="display:flex;align-items:center;gap:8px;flex-shrink:0;">
+        <div style="background:#4ade80;color:#0f1923;font-size:9px;font-weight:900;letter-spacing:0.04em;padding:3px 7px;border-radius:20px;">7 lieux</div>
+        <span class="material-symbols-outlined" style="font-size:18px;color:rgba(255,255,255,0.7);">arrow_forward</span>
+      </div>
+    </a>
+  </div>
+
+  <!-- Grille 2 colonnes -->
   <div class="res-infos-grid">
     <div class="res-info-card" onclick="window.location.href='infos.html#dechets'">
       <div class="res-info-card-icon green"><span class="material-symbols-outlined">delete</span></div>
       <div class="res-info-card-title">Déchets &amp; tri</div>
       <div class="res-info-card-sub">Collecte · Déchetterie · Encombrants</div>
     </div>
-    <div class="res-info-card" onclick="window.location.href='infos.html#mairie'">
-      <div class="res-info-card-icon blue"><span class="material-symbols-outlined">account_balance</span></div>
-      <div class="res-info-card-title">Mairie</div>
-      <div class="res-info-card-sub">Horaires · Démarches · Contact</div>
-    </div>
     <div class="res-info-card" onclick="window.location.href='infos.html#marche'">
       <div class="res-info-card-icon amber"><span class="material-symbols-outlined">storefront</span></div>
       <div class="res-info-card-title">Marché</div>
       <div class="res-info-card-sub">Jeudi &amp; samedi matin · Pl. Charles David</div>
-    </div>
-    <div class="res-info-card" onclick="window.location.href='infos.html#urgences'">
-      <div class="res-info-card-icon rose"><span class="material-symbols-outlined">local_hospital</span></div>
-      <div class="res-info-card-title">Urgences</div>
-      <div class="res-info-card-sub">Pharmacie · Médecin de garde</div>
     </div>
     <div class="res-info-card" onclick="window.location.href='infos.html#ecoles'">
       <div class="res-info-card-icon" style="background:#e0e7ff;color:#3730a3;"><span class="material-symbols-outlined">school</span></div>
@@ -2134,6 +2151,76 @@ setTimeout(function(){
       <div class="res-info-card-sub">Horaires · Ateliers · Prêts</div>
     </div>
   </div>
+
+  <!-- Mairie — fiche complète -->
+  <div class="info-block" style="margin-top:14px;">
+    <div class="info-block-head">
+      <div class="info-block-icon" style="background:#eff6ff;">
+        <span class="material-symbols-outlined" style="color:#3B5BDB;">account_balance</span>
+      </div>
+      <div>
+        <div class="info-block-name">Mairie de Villeneuve</div>
+        <div class="info-block-status" id="mairie-status-res">Vérification…</div>
+      </div>
+      <a href="tel:+33466250900" style="margin-left:auto;width:36px;height:36px;background:#f1f5f9;border-radius:50%;display:flex;align-items:center;justify-content:center;text-decoration:none;">
+        <span class="material-symbols-outlined" style="font-size:17px;color:#475569;font-variation-settings:'FILL' 1;">call</span>
+      </a>
+    </div>
+    <div class="info-row">
+      <div class="info-row-label"><span class="material-symbols-outlined">location_on</span> Adresse</div>
+      <div class="info-row-val">Pl. Charles David, 30400</div>
+    </div>
+    <div class="info-row">
+      <div class="info-row-label"><span class="material-symbols-outlined">today</span> Lun · Mar · Jeu</div>
+      <div class="info-row-val">8h30 – 12h · 13h30 – 17h</div>
+    </div>
+    <div class="info-row">
+      <div class="info-row-label"><span class="material-symbols-outlined">today</span> Mercredi</div>
+      <div class="info-row-val">8h30 – 12h</div>
+    </div>
+    <div class="info-row">
+      <div class="info-row-label"><span class="material-symbols-outlined">today</span> Vendredi</div>
+      <div class="info-row-val">8h30 – 12h · 13h30 – 16h</div>
+    </div>
+    <div class="info-row">
+      <div class="info-row-label"><span class="material-symbols-outlined">weekend</span> Sam · Dim</div>
+      <div class="info-row-val" style="color:#dc2626;">Fermé</div>
+    </div>
+  </div>
+
+  <!-- Numéros d'urgence -->
+  <div class="info-block" style="margin-top:12px;">
+    <div class="info-block-head">
+      <div class="info-block-icon" style="background:#fff1f2;">
+        <span class="material-symbols-outlined" style="color:#e11d48;">emergency</span>
+      </div>
+      <div>
+        <div class="info-block-name">Numéros d'urgence</div>
+        <div class="info-block-status" style="color:#e11d48;">Disponibles 24h/24</div>
+      </div>
+    </div>
+    <a href="tel:15" class="info-row" style="text-decoration:none;display:flex;align-items:center;justify-content:space-between;padding:9px 16px;border-bottom:1px solid #f8f9fa;">
+      <div class="info-row-label" style="display:flex;align-items:center;gap:8px;"><span class="material-symbols-outlined" style="font-size:14px;color:#ff3b30;">emergency</span> SAMU — Urgences médicales</div>
+      <div class="info-row-val" style="color:#e11d48;">15</div>
+    </a>
+    <a href="tel:17" class="info-row" style="text-decoration:none;display:flex;align-items:center;justify-content:space-between;padding:9px 16px;border-bottom:1px solid #f8f9fa;">
+      <div class="info-row-label" style="display:flex;align-items:center;gap:8px;"><span class="material-symbols-outlined" style="font-size:14px;color:#007aff;">local_police</span> Police — Gendarmerie</div>
+      <div class="info-row-val" style="color:#007aff;">17</div>
+    </a>
+    <a href="tel:18" class="info-row" style="text-decoration:none;display:flex;align-items:center;justify-content:space-between;padding:9px 16px;border-bottom:1px solid #f8f9fa;">
+      <div class="info-row-label" style="display:flex;align-items:center;gap:8px;"><span class="material-symbols-outlined" style="font-size:14px;color:#ff9500;">local_fire_department</span> Pompiers — Incendie · Secours</div>
+      <div class="info-row-val" style="color:#ff9500;">18</div>
+    </a>
+    <a href="tel:112" class="info-row" style="text-decoration:none;display:flex;align-items:center;justify-content:space-between;padding:9px 16px;border-bottom:1px solid #f8f9fa;">
+      <div class="info-row-label" style="display:flex;align-items:center;gap:8px;"><span class="material-symbols-outlined" style="font-size:14px;color:#34c759;">public</span> Numéro européen — Toutes urgences</div>
+      <div class="info-row-val" style="color:#34c759;">112</div>
+    </a>
+    <a href="tel:3114" class="info-row" style="text-decoration:none;display:flex;align-items:center;justify-content:space-between;padding:9px 16px;">
+      <div class="info-row-label" style="display:flex;align-items:center;gap:8px;"><span class="material-symbols-outlined" style="font-size:14px;color:#af52de;">support</span> Prévention suicide — Écoute 24h/24</div>
+      <div class="info-row-val" style="color:#af52de;">3114</div>
+    </a>
+  </div>
+
 </div>
 
 </div>
@@ -4380,8 +4467,10 @@ document.addEventListener('DOMContentLoaded', function() {
   };
 
   var mairieEl = document.getElementById('mairie-status');
+  var mairieElRes = document.getElementById('mairie-status-res');
   var otEl = document.getElementById('ot-status');
   checkOpen(mairieSchedules, mairieEl);
+  checkOpen(mairieSchedules, mairieElRes);
   checkOpen(otSchedules, otEl);
 })();
 </script>
