@@ -784,7 +784,7 @@ body { background: #f4f6f9; }
 /* ═══════════════════════════════════════════════════════ */
 /* ── HOME RÉSIDENT ── */
 /* ═══════════════════════════════════════════════════════ */
-#home-resident{display:none;padding-top:64px;padding-bottom:20px;}
+#home-resident{display:none;padding-bottom:20px;}
 body.user-resident #home-resident{display:block;}
 body.user-resident #home-visitor{display:none;}
 
@@ -3111,8 +3111,9 @@ function filterByVisit(type) {
 }
 
 function buildAujourdhui() {
-  var container = document.getElementById('aujourdhui-container');
-  if (!container) return;
+  var ids = ['aujourdhui-container', 'aujourdhui-container-res'];
+  var containers = ids.map(function(id){ return document.getElementById(id); }).filter(Boolean);
+  if (containers.length === 0) return;
   var now = new Date();
   var day = now.getDay();
   var month = now.getMonth();
@@ -3129,12 +3130,15 @@ function buildAujourdhui() {
   if (events.length === 0) {
     events.push({icon:'castle',label:'Ouvert aujourd\'hui',title:'Fort Saint-Andre',time:'10h - 17h',page:'fort-saint-andre.html'});
   }
-  events.forEach(function(ev) {
-    var card = document.createElement('div');
-    card.className = 'aujourdhui-card';
-    card.onclick = function(){ window.location.href = ev.page; };
-    card.innerHTML = '<div class="aujourdhui-dot"><span class="material-symbols-outlined" style="font-size:22px;color:#f59e0b;">'+ev.icon+'</span></div><div class="aujourdhui-content"><div class="aujourdhui-label">'+ev.label+'</div><div class="aujourdhui-title">'+ev.title+'</div><div class="aujourdhui-time">'+ev.time+'</div></div><div class="aujourdhui-chevron">›</div>';
-    container.appendChild(card);
+  containers.forEach(function(container) {
+    container.innerHTML = ''; // reset
+    events.forEach(function(ev) {
+      var card = document.createElement('div');
+      card.className = 'aujourdhui-card';
+      card.onclick = function(){ window.location.href = ev.page; };
+      card.innerHTML = '<div class="aujourdhui-dot"><span class="material-symbols-outlined" style="font-size:22px;color:#f59e0b;">'+ev.icon+'</span></div><div class="aujourdhui-content"><div class="aujourdhui-label">'+ev.label+'</div><div class="aujourdhui-title">'+ev.title+'</div><div class="aujourdhui-time">'+ev.time+'</div></div><div class="aujourdhui-chevron">›</div>';
+      container.appendChild(card);
+    });
   });
 }
 
@@ -3494,6 +3498,13 @@ function buildCDC() {
 </script>
 <script>
 function applyTranslations() {
+  // Helper qui set le textContent sur un ID donné s'il existe ET sur sa version "-res" (clone hero résident)
+  function setBoth(id, key) {
+    var el = document.getElementById(id);
+    if (el) el.textContent = T(key);
+    var elRes = document.getElementById(id + '-res');
+    if (elRes) elRes.textContent = T(key);
+  }
   var ids = {
     't-hero-title': 'hero_title',
     't-hero-sub': 'hero_sub',
@@ -3540,8 +3551,7 @@ function applyTranslations() {
     't-concierge-btn': 'concierge_btn',
   };
   Object.keys(ids).forEach(function(id) {
-    var el = document.getElementById(id);
-    if (el) el.textContent = T(ids[id]);
+    setBoth(id, ids[id]);
   });
 }
 document.addEventListener('DOMContentLoaded', function() {
@@ -3549,38 +3559,44 @@ document.addEventListener('DOMContentLoaded', function() {
 
   // ═══ HERO STATUS BAR — Date + compteur de commerces ═══
   try {
-    // Date joliment formatée en français
-    var heroDate = document.getElementById('hero-date-label');
-    if (heroDate) {
-      var days = ['Dim.', 'Lun.', 'Mar.', 'Mer.', 'Jeu.', 'Ven.', 'Sam.'];
-      var months = ['janv.', 'févr.', 'mars', 'avr.', 'mai', 'juin',
-                    'juil.', 'août', 'sept.', 'oct.', 'nov.', 'déc.'];
-      var d = new Date();
-      heroDate.textContent = days[d.getDay()] + ' ' + d.getDate() + ' ' + months[d.getMonth()];
-    }
+    // Date joliment formatée en français (visiteur ET résident)
+    var days = ['Dim.', 'Lun.', 'Mar.', 'Mer.', 'Jeu.', 'Ven.', 'Sam.'];
+    var months = ['janv.', 'févr.', 'mars', 'avr.', 'mai', 'juin',
+                  'juil.', 'août', 'sept.', 'oct.', 'nov.', 'déc.'];
+    var d = new Date();
+    var dateStr = days[d.getDay()] + ' ' + d.getDate() + ' ' + months[d.getMonth()];
+    ['hero-date-label', 'hero-date-label-res'].forEach(function(id){
+      var el = document.getElementById(id);
+      if (el) el.textContent = dateStr;
+    });
 
     // Compteur de commerces "ouverts" — estimation simple basée sur l'heure
-    var heroOpen = document.getElementById('hero-open-count');
-    if (heroOpen && typeof COMMERCES !== 'undefined') {
+    if (typeof COMMERCES !== 'undefined') {
       var h = new Date().getHours();
-      // Heuristique : commerces ouverts entre 9h et 20h
-      var openCount;
+      var openCountText, isOpen = true;
       if (h >= 9 && h < 20) {
-        openCount = Math.max(2, Math.floor(COMMERCES.length * 0.7)); // ~70% ouverts en journée
-        heroOpen.textContent = openCount + ' commerces ouverts';
+        var n = Math.max(2, Math.floor(COMMERCES.length * 0.7));
+        openCountText = n + ' commerces ouverts';
       } else if (h >= 20 && h < 23) {
-        openCount = Math.floor(COMMERCES.length * 0.3); // restaurants du soir
-        heroOpen.textContent = openCount + ' restaurants ouverts';
+        var nr = Math.floor(COMMERCES.length * 0.3);
+        openCountText = nr + ' restaurants ouverts';
       } else {
-        heroOpen.textContent = 'Ouvre à 9h';
-        // Remplacer le point vert par gris
-        var dot = heroOpen.parentElement.querySelector('.hero-status-dot');
-        if (dot) {
-          dot.style.background = '#94a3b8';
-          dot.style.animation = 'none';
-          dot.style.boxShadow = '0 0 0 2px rgba(148,163,184,0.2)';
-        }
+        openCountText = 'Ouvre à 9h';
+        isOpen = false;
       }
+      ['hero-open-count', 'hero-open-count-res'].forEach(function(id){
+        var heroOpen = document.getElementById(id);
+        if (!heroOpen) return;
+        heroOpen.textContent = openCountText;
+        if (!isOpen) {
+          var dot = heroOpen.parentElement.querySelector('.hero-status-dot');
+          if (dot) {
+            dot.style.background = '#94a3b8';
+            dot.style.animation = 'none';
+            dot.style.boxShadow = '0 0 0 2px rgba(148,163,184,0.2)';
+          }
+        }
+      });
     }
 
     // Compteur dans "Voir tout" de la section commerces
@@ -3970,9 +3986,19 @@ document.addEventListener('DOMContentLoaded', function() {
     var d = new Date(today); d.setDate(d.getDate()+i);
     return DAYS_FR[d.getDay()];
   });
-  document.getElementById('weather-row').innerHTML = defaultDays.map(function(d){
-    return '<div class="weather-day"><div class="weather-day-name">'+d+'</div><div class="weather-day-icon"><span class="material-symbols-outlined" style="color:#94a3b8;">cloud</span></div><div class="weather-day-temp">--°</div></div>';
-  }).join('');
+  // Helper : set un attribut/contenu sur un ID ET sa version "-res" (clone résident)
+  function setBothW(id, fn) {
+    var el = document.getElementById(id);
+    if (el) fn(el);
+    var elRes = document.getElementById(id + '-res');
+    if (elRes) fn(elRes);
+  }
+
+  setBothW('weather-row', function(el){
+    el.innerHTML = defaultDays.map(function(d){
+      return '<div class="weather-day"><div class="weather-day-name">'+d+'</div><div class="weather-day-icon"><span class="material-symbols-outlined" style="color:#94a3b8;">cloud</span></div><div class="weather-day-temp">--°</div></div>';
+    }).join('');
+  });
 
   function getW(code) {
     return WMO_ICON[code] || { icon: 'cloud', color: '#94a3b8', label: 'Variable' };
@@ -3984,25 +4010,22 @@ document.addEventListener('DOMContentLoaded', function() {
       var cur = data.current;
       var daily = data.daily;
       var w = getW(cur.weathercode);
+      var tempStr = Math.round(cur.temperature_2m) + '°';
 
-      // Température et description
-      document.getElementById('weather-temp').textContent = Math.round(cur.temperature_2m) + '°';
-      // Aussi alimenter la status bar du hero
-      var heroTemp = document.getElementById('hero-weather-temp');
-      if (heroTemp) heroTemp.textContent = Math.round(cur.temperature_2m) + '°';
-      // Et le hero résident
-      var resMeteo = document.getElementById('res-meteo');
-      if (resMeteo) resMeteo.textContent = Math.round(cur.temperature_2m) + '°';
+      // Température et description (visiteur ET résident)
+      setBothW('weather-temp', function(el){ el.textContent = tempStr; });
+      // Aussi alimenter la status bar des heros
+      setBothW('hero-weather-temp', function(el){ el.textContent = tempStr; });
       var windDesc = '';
       if (cur.windspeed_10m >= 30) windDesc = ' · Vent fort ' + Math.round(cur.windspeed_10m) + ' km/h';
       else if (cur.windspeed_10m >= 15) windDesc = ' · Venteux ' + Math.round(cur.windspeed_10m) + ' km/h';
-      document.getElementById('weather-desc').textContent = w.label + windDesc;
-      document.getElementById('weather-icon').innerHTML =
-        '<span class="material-symbols-outlined" style="color:' + w.color + ';font-size:28px;">' + w.icon + '</span>';
+      setBothW('weather-desc', function(el){ el.textContent = w.label + windDesc; });
+      setBothW('weather-icon', function(el){
+        el.innerHTML = '<span class="material-symbols-outlined" style="color:' + w.color + ';font-size:28px;">' + w.icon + '</span>';
+      });
 
       // Prévisions 3 prochains jours (index 1, 2, 3)
-      var row = document.getElementById('weather-row');
-      row.innerHTML = '';
+      var rowHtml = '';
       for (var i = 1; i <= 3; i++) {
         var dw = getW(daily.weathercode[i]);
         var date = new Date(daily.time[i]);
@@ -4010,28 +4033,31 @@ document.addEventListener('DOMContentLoaded', function() {
         var windMax = daily.windspeed_10m_max ? daily.windspeed_10m_max[i] : 0;
         var forecastIcon = (windMax >= 35 && (daily.weathercode[i] <= 3)) ? 'air' : dw.icon;
         var forecastColor = (windMax >= 35 && (daily.weathercode[i] <= 3)) ? '#64748b' : dw.color;
-        row.innerHTML +=
+        rowHtml +=
           '<div class="weather-day">' +
             '<div class="weather-day-name">' + dayName + '</div>' +
             '<div class="weather-day-icon"><span class="material-symbols-outlined" style="color:' + forecastColor + ';">' + forecastIcon + '</span></div>' +
             '<div class="weather-day-temp">' + Math.round(daily.temperature_2m_max[i]) + '°</div>' +
           '</div>';
       }
+      setBothW('weather-row', function(el){ el.innerHTML = rowHtml; });
     })
     .catch(function() {
       // Fallback si API inaccessible (ex: ouverture en local)
-      document.getElementById('weather-temp').textContent = '--°';
-      document.getElementById('weather-desc').textContent = 'Disponible en ligne';
-      document.getElementById('weather-icon').innerHTML =
-        '<span class="material-symbols-outlined" style="color:#94a3b8;">wifi_off</span>';
+      setBothW('weather-temp', function(el){ el.textContent = '--°'; });
+      setBothW('weather-desc', function(el){ el.textContent = 'Disponible en ligne'; });
+      setBothW('weather-icon', function(el){
+        el.innerHTML = '<span class="material-symbols-outlined" style="color:#94a3b8;">wifi_off</span>';
+      });
     });
 
   // Note : l'API météo nécessite une connexion réseau (ne fonctionne pas en file://)
   if (window.location.protocol === 'file:') {
-    document.getElementById('weather-temp').textContent = '?°';
-    document.getElementById('weather-desc').textContent = 'Ouvrir via serveur';
-    document.getElementById('weather-icon').innerHTML =
-      '<span class="material-symbols-outlined" style="color:#94a3b8;">cloud_off</span>';
+    setBothW('weather-temp', function(el){ el.textContent = '?°'; });
+    setBothW('weather-desc', function(el){ el.textContent = 'Ouvrir via serveur'; });
+    setBothW('weather-icon', function(el){
+      el.innerHTML = '<span class="material-symbols-outlined" style="color:#94a3b8;">cloud_off</span>';
+    });
   }
 })();
 </script>
