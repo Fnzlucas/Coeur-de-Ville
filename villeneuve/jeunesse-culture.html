@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1"/>
+<title>Culture – Cœur de Ville</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800;900&display=swap"/>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html,body{font-family:'Manrope',sans-serif;background:#f4f6f9;color:#0f1923;-webkit-overflow-scrolling:touch;}
+body{padding-bottom:32px;}
+.fiche-hero{position:relative;width:100%;height:260px;overflow:hidden;}
+.fiche-hero-img{width:100%;height:100%;display:block;background:url('../assets/villeneuve/culture.jpg') center/cover no-repeat;background-color:#4f46e5;}
+.fiche-hero-overlay{position:absolute;inset:0;background:linear-gradient(to bottom,rgba(0,0,0,0.15) 0%,rgba(0,0,0,0.6) 100%);}
+.fiche-hero-back{position:absolute;top:16px;left:16px;width:40px;height:40px;border-radius:50%;background:rgba(255,255,255,0.18);backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,0.25);display:flex;align-items:center;justify-content:center;cursor:pointer;color:#fff;}
+.fiche-hero-back .material-symbols-outlined{font-size:22px;}
+.fiche-hero-content{position:absolute;bottom:0;left:0;right:0;padding:20px 16px 18px;}
+.fiche-hero-cat{font-size:9px;font-weight:800;letter-spacing:0.14em;text-transform:uppercase;color:rgba(255,255,255,0.75);margin-bottom:6px;}
+.fiche-hero-title{font-size:26px;font-weight:900;color:#fff;line-height:1.1;letter-spacing:-0.03em;}
+.fiche-body{padding:20px 16px 0;}
+.fiche-intro{font-size:14px;color:#475569;line-height:1.6;font-weight:500;margin-bottom:24px;}
+.fiche-chips{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:24px;}
+.fiche-chip{padding:6px 14px;border-radius:100px;font-size:11px;font-weight:800;letter-spacing:0.04em;background:#fff;border:1.5px solid rgba(15,25,35,0.1);color:#0f1923;cursor:pointer;}
+.fiche-chip.active{background:#4f46e5;color:#fff;border-color:#4f46e5;}
+.fiche-sec{margin-bottom:24px;}
+.fiche-sec-title{font-size:15px;font-weight:900;color:#0f1923;letter-spacing:-0.02em;margin-bottom:12px;display:flex;align-items:center;gap:8px;}
+.fiche-sec-title .material-symbols-outlined{font-size:18px;color:#7c3aed;}
+.fiche-clubs{display:flex;flex-direction:column;gap:10px;}
+.fiche-club{background:#fff;border-radius:16px;padding:14px;display:flex;gap:13px;align-items:center;box-shadow:0 3px 14px rgba(15,25,35,0.06);cursor:pointer;transition:transform 0.15s;border:1px solid rgba(15,25,35,0.04);}
+.fiche-club:active{transform:scale(0.98);}
+.fiche-club-icon{flex-shrink:0;width:48px;height:48px;border-radius:13px;background:linear-gradient(135deg,#4f46e5 0%,#7c3aed 100%);display:flex;align-items:center;justify-content:center;}
+.fiche-club-icon .material-symbols-outlined{font-size:24px;color:#fff;}
+.fiche-club-body{flex:1;min-width:0;}
+.fiche-club-name{font-size:14px;font-weight:800;color:#0f1923;line-height:1.2;margin-bottom:2px;}
+.fiche-club-info{font-size:11px;color:#64748b;font-weight:500;}
+.fiche-club-tag{flex-shrink:0;padding:4px 10px;border-radius:100px;font-size:9px;font-weight:800;letter-spacing:0.06em;text-transform:uppercase;background:#ede9fe;color:#4f46e5;}
+
+/* Agenda culturel scroll horiz */
+.fiche-agenda{display:flex;gap:10px;overflow-x:auto;padding-bottom:4px;margin-bottom:24px;scroll-snap-type:x mandatory;}
+.fiche-agenda::-webkit-scrollbar{display:none;}
+.fiche-agenda-card{flex-shrink:0;width:160px;border-radius:16px;overflow:hidden;background:#fff;box-shadow:0 3px 14px rgba(15,25,35,0.06);scroll-snap-align:start;cursor:pointer;}
+.fiche-agenda-img{height:90px;background:linear-gradient(135deg,#4f46e5,#7c3aed);}
+.fiche-agenda-body{padding:10px;}
+.fiche-agenda-date{font-size:9px;font-weight:800;letter-spacing:0.1em;text-transform:uppercase;color:#7c3aed;margin-bottom:3px;}
+.fiche-agenda-name{font-size:12px;font-weight:800;color:#0f1923;line-height:1.25;}
+
+.fiche-points-cta{border-radius:18px;overflow:hidden;position:relative;background:linear-gradient(135deg,#7c3aed 0%,#4f46e5 100%);padding:18px 16px;display:flex;align-items:center;gap:14px;margin-bottom:24px;cursor:pointer;}
+.fiche-points-icon{flex-shrink:0;width:48px;height:48px;border-radius:14px;background:rgba(255,255,255,0.18);display:flex;align-items:center;justify-content:center;}
+.fiche-points-icon .material-symbols-outlined{font-size:26px;color:#fff;}
+.fiche-points-text{flex:1;}
+.fiche-points-label{font-size:9px;font-weight:800;letter-spacing:0.12em;text-transform:uppercase;color:rgba(255,255,255,0.7);margin-bottom:4px;}
+.fiche-points-title{font-size:14px;font-weight:900;color:#fff;line-height:1.2;}
+.fiche-points-sub{font-size:11px;color:rgba(255,255,255,0.75);font-weight:500;margin-top:2px;}
+.fiche-points-arrow .material-symbols-outlined{font-size:20px;color:rgba(255,255,255,0.6);}
+</style>
+</head>
+<body>
+<div class="fiche-hero">
+  <div class="fiche-hero-img"></div>
+  <div class="fiche-hero-overlay"></div>
+  <div class="fiche-hero-back" onclick="history.back()"><span class="material-symbols-outlined">arrow_back</span></div>
+  <div class="fiche-hero-content">
+    <div class="fiche-hero-cat">Jeunesse · Culture</div>
+    <h1 class="fiche-hero-title">Expos, musique<br/>&amp; scenes locales</h1>
+  </div>
+</div>
+<div class="fiche-body">
+  <p class="fiche-intro">Mediathèque, musee, concerts, ateliers creatifs — la vie culturelle de Villeneuve, souvent gratuite ou a tarif reduit pour les jeunes.</p>
+  <div class="fiche-chips">
+    <div class="fiche-chip active">Tout</div>
+    <div class="fiche-chip">Gratuit</div>
+    <div class="fiche-chip">Musique</div>
+    <div class="fiche-chip">Expo</div>
+    <div class="fiche-chip">Atelier</div>
+  </div>
+
+  <!-- Agenda scrollable -->
+  <div class="fiche-sec">
+    <div class="fiche-sec-title"><span class="material-symbols-outlined">event</span>Cette semaine</div>
+    <div class="fiche-agenda">
+      <div class="fiche-agenda-card">
+        <div class="fiche-agenda-img" style="background:linear-gradient(135deg,#4f46e5,#7c3aed);"></div>
+        <div class="fiche-agenda-body"><div class="fiche-agenda-date">Ven 9 Mai</div><div class="fiche-agenda-name">Concert jazz — Cour du Fort</div></div>
+      </div>
+      <div class="fiche-agenda-card">
+        <div class="fiche-agenda-img" style="background:linear-gradient(135deg,#be185d,#ec4899);"></div>
+        <div class="fiche-agenda-body"><div class="fiche-agenda-date">Sam 10 Mai</div><div class="fiche-agenda-name">Expo photo — Chartreuse</div></div>
+      </div>
+      <div class="fiche-agenda-card">
+        <div class="fiche-agenda-img" style="background:linear-gradient(135deg,#92400e,#d97706);"></div>
+        <div class="fiche-agenda-body"><div class="fiche-agenda-date">Dim 11 Mai</div><div class="fiche-agenda-name">Marche des createurs — Place Tour</div></div>
+      </div>
+      <div class="fiche-agenda-card">
+        <div class="fiche-agenda-img" style="background:linear-gradient(135deg,#065f46,#059669);"></div>
+        <div class="fiche-agenda-body"><div class="fiche-agenda-date">Mar 13 Mai</div><div class="fiche-agenda-name">Atelier ceramique — Mediatheque</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Lieux -->
+  <div class="fiche-sec">
+    <div class="fiche-sec-title"><span class="material-symbols-outlined">place</span>Lieux culturels</div>
+    <div class="fiche-clubs">
+      <div class="fiche-club">
+        <div class="fiche-club-icon"><span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">menu_book</span></div>
+        <div class="fiche-club-body"><div class="fiche-club-name">Mediatheque municipale</div><div class="fiche-club-info">Mar–Sam · 10h–18h · Ateliers gratuits</div></div>
+        <div class="fiche-club-tag">Gratuit</div>
+      </div>
+      <div class="fiche-club">
+        <div class="fiche-club-icon"><span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">museum</span></div>
+        <div class="fiche-club-body"><div class="fiche-club-name">Musee Pierre de Luxembourg</div><div class="fiche-club-info">Collections permanentes · -26 ans gratuit</div></div>
+        <div class="fiche-club-tag">Gratuit -26 ans</div>
+      </div>
+      <div class="fiche-club">
+        <div class="fiche-club-icon"><span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">church</span></div>
+        <div class="fiche-club-body"><div class="fiche-club-name">La Chartreuse — CNES</div><div class="fiche-club-info">Residences &amp; spectacles · Programme Festival</div></div>
+        <div class="fiche-club-tag">Tarif jeune</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="fiche-points-cta" onclick="window.location.href='fidelite.html'">
+    <div class="fiche-points-icon"><span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">loyalty</span></div>
+    <div class="fiche-points-text">
+      <div class="fiche-points-label">Carte fidelite</div>
+      <div class="fiche-points-title">30 pts par evenement culturel visite</div>
+      <div class="fiche-points-sub">Scanne le QR code a l'entree pour valider</div>
+    </div>
+    <div class="fiche-points-arrow"><span class="material-symbols-outlined">chevron_right</span></div>
+  </div>
+</div>
+</body>
+</html>
