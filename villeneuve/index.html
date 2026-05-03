@@ -12,7 +12,7 @@ function getVilleParam() {
   }
 }
 var VILLE_ID = getVilleParam() || 'villeneuve';
-var ASSETS_PREFIX = '../assets/' + VILLE_ID + '/';
+var ASSETS_PREFIX = 'assets/' + VILLE_ID + '/';
 </script>
 
 <script>
@@ -2157,16 +2157,43 @@ const CONFIG = {
 // ─── CATÉGORIES ─────────────────────────────────────────────
 const CATS = {
   monument:  { label:'Monument',  color:'#c0392b', dot:'#e74c3c' },
-  religieux: { label:'Religieux', color:'#8b5e3c', dot:'#a0714f' },
-  militaire: { label:'Militaire', color:'#2c3e50', dot:'#4a6274' },
-  culturel:  { label:'Culturel',  color:'#6b3fa0', dot:'#8e5cb5' },
-  naturel:   { label:'Nature',    color:'#27ae60', dot:'#2ecc71' },
-  restaurant:{ label:'Restaurant',color:'#e67e22', dot:'#f39c12' },
-  artisan:   { label:'Artisan',   color:'#16a085', dot:'#1abc9c' },
-  commerce:  { label:'Commerce',  color:'#8e44ad', dot:'#9b59b6' },
-  fete:      { label:'Événement', color:'#2980b9', dot:'#3498db' },
-  evenement: { label:'Événement', color:'#dc5028', dot:'#dc5028' },
+  religieux: { label:'Religieux', color:'#8b5e3c', dot:'#a0714f', icon:'church' },
+  militaire: { label:'Militaire', color:'#2c3e50', dot:'#4a6274', icon:'security' },
+  culturel:  { label:'Culturel',  color:'#6b3fa0', dot:'#8e5cb5', icon:'palette' },
+  naturel:   { label:'Nature',    color:'#27ae60', dot:'#2ecc71', icon:'park' },
+  restaurant:{ label:'Restaurant',color:'#e67e22', dot:'#f39c12', icon:'restaurant' },
+  artisan:   { label:'Artisan',   color:'#16a085', dot:'#1abc9c', icon:'handyman' },
+  commerce:  { label:'Commerce',  color:'#8e44ad', dot:'#9b59b6', icon:'storefront' },
+  fete:      { label:'Événement', color:'#2980b9', dot:'#3498db', icon:'celebration' },
+  evenement: { label:'Événement', color:'#dc5028', dot:'#dc5028', icon:'event' },
+  // Sous-catégories commerces / lieux de vie
+  coiffeur:       { label:'Coiffeur',       color:'#d4a373', dot:'#e0b88f', icon:'content_cut' },
+  'salon-de-the': { label:'Salon de Thé',   color:'#a67c52', dot:'#c19878', icon:'local_cafe' },
+  bar:            { label:'Bar',            color:'#5d3a8e', dot:'#7c5cb0', icon:'local_bar' },
+  cafe:           { label:'Café',           color:'#7b4e2d', dot:'#9c6a45', icon:'coffee' },
+  'bar-tabac':    { label:'Bar-Tabac',      color:'#6b4423', dot:'#8a5d35', icon:'storefront' },
+  'lieu-de-vie':  { label:'Lieu de Vie',    color:'#c9416d', dot:'#d96088', icon:'groups' },
+  hotel:          { label:'Hôtel',          color:'#1e6091', dot:'#3a7eb0', icon:'hotel' },
+  boulangerie:    { label:'Boulangerie',    color:'#d4860c', dot:'#e69b1f', icon:'bakery_dining' },
+  patisserie:     { label:'Pâtisserie',     color:'#d4a373', dot:'#e0b88f', icon:'cake' },
+  fleuriste:      { label:'Fleuriste',      color:'#c44569', dot:'#d9618a', icon:'local_florist' },
+  epicerie:       { label:'Épicerie',       color:'#588157', dot:'#78a07a', icon:'shopping_basket' },
+  cave:           { label:'Cave',           color:'#722f37', dot:'#8e3f49', icon:'wine_bar' },
+  librairie:      { label:'Librairie',      color:'#4a5568', dot:'#6b7689', icon:'menu_book' },
+  galerie:        { label:'Galerie',        color:'#6b3fa0', dot:'#8e5cb5', icon:'palette' },
+  marche:         { label:'Marché',         color:'#16a085', dot:'#1abc9c', icon:'storefront' },
+  bien_etre:      { label:'Bien-être',      color:'#7a9e7e', dot:'#95b598', icon:'spa' },
 };
+
+// Fallback : si une `cat` n'est pas dans CATS, on génère un objet par défaut
+// → tu peux mettre n'importe quelle cat dans tes données, ça marchera tout seul
+function getCat(key) {
+  if (!key) return { label:'Lieu', color:'#8e44ad', dot:'#9b59b6', icon:'storefront' };
+  if (CATS[key]) return CATS[key];
+  // Auto-format : 'salon-de-the' / 'salon_de_the' → 'Salon De The'
+  const label = String(key).replace(/[-_]/g,' ').replace(/\b\w/g, c => c.toUpperCase());
+  return { label: label, color:'#8e44ad', dot:'#9b59b6', icon:'storefront' };
+}
 
 // ─── THÈMES VISUELS PAR CATÉGORIE ───────────────────────────
 const CAT_THEMES = {
@@ -2397,7 +2424,7 @@ const COMMERCES = [
   },
   {
     id: 151,
-    cat: 'Lieux de Vie',
+    cat: 'restaurant',
     ville: 'villeneuve',
     name: "Maison Bronzini",
     desc: "L'ancien Moulin de la Chartreuse réveillé. Bistrot, salon de thé, boutique huile d'olive et jardin provençal dans un lieu classé au patrimoine historique.",
@@ -2449,19 +2476,20 @@ const COMMERCES = [
   },
   {
     id: 106,
-    cat: 'commerce',
+    cat: 'salon-de-the',
     ville: 'villeneuve',
-    name: "L'heure Bleu",
+    name: "L'Heure Bleue",
     desc: "Restaurant et salon de thé niché derrière une porte discrète de la rue de la République. Brunch raffiné, jardin clos secret, cuisine soignée et chambres d'hôtes au cœur du village.",
-    addr: "5 Rue de la République, 30400 Villeneuve-lès-Avignon.",
-    lat: 43.9634976, lng: 4.7968135,
-    horaires: "Lun-Sam · 9h-18h",
+    addr: "5 Rue de la République, 30400 Villeneuve-lès-Avignon",
+    lat: 43.9638337, lng: 4.7967730,
+    horaires: "Lun-Ven 9h-18h · Sam 9h30-16h",
     tel: "04 86 84 50 85",
-    bg: ASSETS_PREFIX + "lheure-bleu.jpg",
+    note: "4.8",
+    bg: ASSETS_PREFIX + "heure-bleue.jpg",
   },
   {
     id: 103,
-    cat: 'Marché',
+    cat: 'artisan',
     ville: 'villeneuve',
     name: "Marché du Jeudi",
     desc: "Maraîchers, fromagers, oliviers et fleurs — chaque jeudi matin place Charles David.",
@@ -2473,7 +2501,7 @@ const COMMERCES = [
   },
   {
     id: 104,
-    cat: 'Marché',
+    cat: 'artisan',
     ville: 'villeneuve',
     name: "Marché du Samedi",
     desc: "Producteurs locaux en circuits courts — vins AOC, miels, pains artisanaux.",
@@ -2637,7 +2665,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
   if (typeof PLACES !== 'undefined' && typeof buildVerticalAnecdotes === 'function') {
     var anecdotes = PLACES.filter(function(p){ return p.anecdote; }).map(function(p){
-      return { title: p.anecdote, img: p.bg, color: (CATS[p.cat] && CATS[p.cat].color) || '#1e3a5f', url: p.page };
+      return { title: p.anecdote, img: p.bg, color: getCat(p.cat).color, url: p.page };
     });
     buildVerticalAnecdotes(anecdotes);
   }
@@ -2664,8 +2692,8 @@ function buildPOIs() {
     101: 'maison-bronzini.html', 151: 'maison-bronzini.html', 201: 'food-trucks.html',
   };
   PLACES.forEach(function(place) {
-    const col = CATS[place.cat]?.color || '#333';
-    const label = CATS[place.cat]?.label || '';
+    const col = getCat(place.cat).color;
+    const label = getCat(place.cat).label;
     const dest = place.page || articlePages[place.id] || ('carte.html?poi=' + place.id);
 
     const a = document.createElement('a');
@@ -2733,8 +2761,8 @@ function buildUneCard() {
   const featured = COMMERCES.find(function(c){ return c.note; }) || COMMERCES[0];
   if (!featured) return;
 
-  const col = CATS[featured.cat]?.color || '#FF6B35';
-  const label = CATS[featured.cat]?.label || 'Commerce';
+  const col = getCat(featured.cat).color;
+  const label = getCat(featured.cat).label;
   const dest = featured.page || ('carte.html?poi=' + featured.id);
 
   const a = document.createElement('a');
@@ -2783,9 +2811,10 @@ function buildCommerces() {
   const el = document.getElementById('home-commerce-carousel');
   if (!el || !COMMERCES) return;
   COMMERCES.forEach(function(place, idx) {
-    const col = CATS[place.cat]?.color || '#FF6B35';
-    const label = CATS[place.cat]?.label || 'Commerce';
-    const icon = place.cat === 'restaurant' ? 'restaurant' : place.cat === 'artisan' ? 'handyman' : 'storefront';
+    const cat = getCat(place.cat);
+    const col = cat.color;
+    const label = cat.label;
+    const icon = cat.icon;
     const dest = place.page || ('carte.html?poi=' + place.id);
     const note = place.note || null;
 
@@ -2887,7 +2916,7 @@ function buildEvents() {
   };
   const months = monthsMap[lang] || monthsMap.fr;
   EVENEMENTS.forEach(function(ev, i) {
-    const col = CATS[ev.cat]?.color || '#3B5BDB';
+    const col = getCat(ev.cat).color;
     const dateStr = ev.date || '';
     const dayNum = dateStr.match(/\d+/)?.[0] || '';
     const monthStr = Object.entries(months).find(function(e) { return dateStr.toLowerCase().includes(e[0]); })?.[1] || '';
