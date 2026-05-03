@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1"/>
+<title>Sport – Cœur de Ville</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800;900&display=swap"/>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html,body{font-family:'Manrope',sans-serif;background:#f4f6f9;color:#0f1923;-webkit-overflow-scrolling:touch;}
+body{padding-bottom:32px;}
+
+/* HERO */
+.fiche-hero{
+  position:relative;width:100%;height:260px;overflow:hidden;
+}
+.fiche-hero-img{
+  width:100%;height:100%;object-fit:cover;object-position:center;display:block;
+  background:url('../assets/villeneuve/sport.jpg') center/cover no-repeat;
+  background-color:#065f46;
+}
+.fiche-hero-overlay{
+  position:absolute;inset:0;
+  background:linear-gradient(to bottom,rgba(0,0,0,0.15) 0%,rgba(0,0,0,0.6) 100%);
+}
+.fiche-hero-back{
+  position:absolute;top:16px;left:16px;
+  width:40px;height:40px;border-radius:50%;
+  background:rgba(255,255,255,0.18);backdrop-filter:blur(12px);
+  border:1px solid rgba(255,255,255,0.25);
+  display:flex;align-items:center;justify-content:center;
+  cursor:pointer;color:#fff;
+}
+.fiche-hero-back .material-symbols-outlined{font-size:22px;}
+.fiche-hero-content{
+  position:absolute;bottom:0;left:0;right:0;padding:20px 16px 18px;
+}
+.fiche-hero-cat{
+  font-size:9px;font-weight:800;letter-spacing:0.14em;text-transform:uppercase;
+  color:rgba(255,255,255,0.75);margin-bottom:6px;
+}
+.fiche-hero-title{
+  font-size:26px;font-weight:900;color:#fff;line-height:1.1;letter-spacing:-0.03em;
+}
+
+/* BODY */
+.fiche-body{padding:20px 16px 0;}
+
+.fiche-intro{
+  font-size:14px;color:#475569;line-height:1.6;font-weight:500;
+  margin-bottom:24px;
+}
+
+/* Chips de filtres */
+.fiche-chips{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:24px;}
+.fiche-chip{
+  padding:6px 14px;border-radius:100px;
+  font-size:11px;font-weight:800;letter-spacing:0.04em;
+  background:#fff;border:1.5px solid rgba(15,25,35,0.1);
+  color:#0f1923;cursor:pointer;transition:all 0.15s;
+}
+.fiche-chip.active{background:#065f46;color:#fff;border-color:#065f46;}
+
+/* Section header */
+.fiche-sec{margin-bottom:24px;}
+.fiche-sec-title{
+  font-size:15px;font-weight:900;color:#0f1923;letter-spacing:-0.02em;
+  margin-bottom:12px;display:flex;align-items:center;gap:8px;
+}
+.fiche-sec-title .material-symbols-outlined{font-size:18px;color:#059669;}
+
+/* Cards clubs */
+.fiche-clubs{display:flex;flex-direction:column;gap:10px;}
+.fiche-club{
+  background:#fff;border-radius:16px;padding:14px;
+  display:flex;gap:13px;align-items:center;
+  box-shadow:0 3px 14px rgba(15,25,35,0.06);
+  cursor:pointer;transition:transform 0.15s;
+  border:1px solid rgba(15,25,35,0.04);
+}
+.fiche-club:active{transform:scale(0.98);}
+.fiche-club-icon{
+  flex-shrink:0;width:48px;height:48px;border-radius:13px;
+  background:linear-gradient(135deg,#065f46 0%,#059669 100%);
+  display:flex;align-items:center;justify-content:center;
+}
+.fiche-club-icon .material-symbols-outlined{font-size:24px;color:#fff;}
+.fiche-club-body{flex:1;min-width:0;}
+.fiche-club-name{font-size:14px;font-weight:800;color:#0f1923;line-height:1.2;margin-bottom:2px;}
+.fiche-club-info{font-size:11px;color:#64748b;font-weight:500;}
+.fiche-club-tag{
+  flex-shrink:0;padding:4px 10px;border-radius:100px;
+  font-size:9px;font-weight:800;letter-spacing:0.06em;text-transform:uppercase;
+  background:#d1fae5;color:#065f46;
+}
+
+/* Map placeholder */
+.fiche-map{
+  border-radius:16px;overflow:hidden;height:160px;
+  background:linear-gradient(135deg,#e2e8f0 0%,#cbd5e1 100%);
+  display:flex;align-items:center;justify-content:center;
+  margin-bottom:24px;flex-direction:column;gap:6px;
+  cursor:pointer;border:1px solid rgba(15,25,35,0.06);
+}
+.fiche-map .material-symbols-outlined{font-size:36px;color:#94a3b8;}
+.fiche-map-label{font-size:12px;font-weight:700;color:#94a3b8;}
+
+/* CTA points */
+.fiche-points-cta{
+  border-radius:18px;overflow:hidden;position:relative;
+  background:linear-gradient(135deg,#7c3aed 0%,#4f46e5 100%);
+  padding:18px 16px;display:flex;align-items:center;gap:14px;
+  margin-bottom:24px;cursor:pointer;
+}
+.fiche-points-icon{
+  flex-shrink:0;width:48px;height:48px;border-radius:14px;
+  background:rgba(255,255,255,0.18);
+  display:flex;align-items:center;justify-content:center;
+}
+.fiche-points-icon .material-symbols-outlined{font-size:26px;color:#fff;}
+.fiche-points-text{flex:1;}
+.fiche-points-label{font-size:9px;font-weight:800;letter-spacing:0.12em;text-transform:uppercase;color:rgba(255,255,255,0.7);margin-bottom:4px;}
+.fiche-points-title{font-size:14px;font-weight:900;color:#fff;line-height:1.2;}
+.fiche-points-sub{font-size:11px;color:rgba(255,255,255,0.75);font-weight:500;margin-top:2px;}
+.fiche-points-arrow .material-symbols-outlined{font-size:20px;color:rgba(255,255,255,0.6);}
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<div class="fiche-hero">
+  <div class="fiche-hero-img"></div>
+  <div class="fiche-hero-overlay"></div>
+  <div class="fiche-hero-back" onclick="history.back()">
+    <span class="material-symbols-outlined">arrow_back</span>
+  </div>
+  <div class="fiche-hero-content">
+    <div class="fiche-hero-cat">Jeunesse · Sport</div>
+    <h1 class="fiche-hero-title">Clubs &amp; terrains<br/>a Villeneuve</h1>
+  </div>
+</div>
+
+<!-- BODY -->
+<div class="fiche-body">
+
+  <p class="fiche-intro">Tous les clubs, terrains et equipements sportifs de la ville — accessibles, ouverts, et souvent gratuits pour les moins de 26 ans.</p>
+
+  <!-- Filtres -->
+  <div class="fiche-chips">
+    <div class="fiche-chip active">Tout</div>
+    <div class="fiche-chip">Collectif</div>
+    <div class="fiche-chip">Individuel</div>
+    <div class="fiche-chip">Plein air</div>
+    <div class="fiche-chip">Gratuit</div>
+  </div>
+
+  <!-- Clubs -->
+  <div class="fiche-sec">
+    <div class="fiche-sec-title">
+      <span class="material-symbols-outlined">groups</span>
+      Clubs de la ville
+    </div>
+    <div class="fiche-clubs">
+      <div class="fiche-club">
+        <div class="fiche-club-icon"><span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">sports_soccer</span></div>
+        <div class="fiche-club-body">
+          <div class="fiche-club-name">AS Villeneuve Football</div>
+          <div class="fiche-club-info">Stade Municipal · Entraineements mer &amp; sam</div>
+        </div>
+        <div class="fiche-club-tag">-50% -18 ans</div>
+      </div>
+      <div class="fiche-club">
+        <div class="fiche-club-icon"><span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">sports_basketball</span></div>
+        <div class="fiche-club-body">
+          <div class="fiche-club-name">Basket Club Villeneuve</div>
+          <div class="fiche-club-info">Gymnase Jean Bouin · Lun / Jeu 18h30</div>
+        </div>
+        <div class="fiche-club-tag">Mixte</div>
+      </div>
+      <div class="fiche-club">
+        <div class="fiche-club-icon"><span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">pool</span></div>
+        <div class="fiche-club-body">
+          <div class="fiche-club-name">Natation — Piscine municipale</div>
+          <div class="fiche-club-info">Cours jeunes · 7-17 ans · Mar &amp; Jeu</div>
+        </div>
+        <div class="fiche-club-tag">Gratuit -12 ans</div>
+      </div>
+      <div class="fiche-club">
+        <div class="fiche-club-icon"><span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">self_improvement</span></div>
+        <div class="fiche-club-body">
+          <div class="fiche-club-name">Arts martiaux — Dojo municipal</div>
+          <div class="fiche-club-info">Judo, Karate, Aikido · Tous niveaux</div>
+        </div>
+        <div class="fiche-club-tag">Licence -26 ans</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Terrains libres -->
+  <div class="fiche-sec">
+    <div class="fiche-sec-title">
+      <span class="material-symbols-outlined">sports_tennis</span>
+      Terrains en acces libre
+    </div>
+    <div class="fiche-clubs">
+      <div class="fiche-club">
+        <div class="fiche-club-icon" style="background:linear-gradient(135deg,#92400e,#d97706);">
+          <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">sports_tennis</span>
+        </div>
+        <div class="fiche-club-body">
+          <div class="fiche-club-name">Courts de tennis — Place du Rie</div>
+          <div class="fiche-club-info">2 courts · Reservation gratuite en mairie</div>
+        </div>
+        <div class="fiche-club-tag">Gratuit</div>
+      </div>
+      <div class="fiche-club">
+        <div class="fiche-club-icon" style="background:linear-gradient(135deg,#1e3a5f,#3B5BDB);">
+          <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">skateboarding</span>
+        </div>
+        <div class="fiche-club-body">
+          <div class="fiche-club-name">Skatepark — Quartier des Angles</div>
+          <div class="fiche-club-info">Acces libre · 8h–21h</div>
+        </div>
+        <div class="fiche-club-tag">Gratuit</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Carte -->
+  <div class="fiche-map" onclick="window.location.href='carte.html?cat=sport'">
+    <span class="material-symbols-outlined">map</span>
+    <div class="fiche-map-label">Voir tous les spots sport sur la carte</div>
+  </div>
+
+  <!-- CTA points fidelite -->
+  <div class="fiche-points-cta" onclick="window.location.href='fidelite.html'">
+    <div class="fiche-points-icon">
+      <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">loyalty</span>
+    </div>
+    <div class="fiche-points-text">
+      <div class="fiche-points-label">Carte fidelite</div>
+      <div class="fiche-points-title">Gagne 50 pts en t'inscrivant a un club</div>
+      <div class="fiche-points-sub">Valide ton adhesion pour crediter tes points</div>
+    </div>
+    <div class="fiche-points-arrow">
+      <span class="material-symbols-outlined">chevron_right</span>
+    </div>
+  </div>
+
+</div>
+</body>
+</html>
