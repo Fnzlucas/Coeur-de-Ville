@@ -1607,7 +1607,7 @@ setTimeout(function(){
     </div>
   </div>
 
-  <!-- Alertes locales (visible si has-alert ajouté) -->
+  <!-- Alertes locales (visible si has-alert ajouté à #res-alerts) -->
   <div class="res-alerts" id="res-alerts">
     <div class="res-alert">
       <div class="res-alert-icon"><span class="material-symbols-outlined">campaign</span></div>
@@ -1619,7 +1619,69 @@ setTimeout(function(){
     </div>
   </div>
 
-  <!-- Agenda -->
+  <!-- ═══ COUPS DE CŒUR — bento immersif (clone style patrimoine, contenu commerces) ═══ -->
+  <div class="patrimoine-zone">
+    <div class="patrimoine-zone-bg"></div>
+    <div class="patrimoine-zone-inner">
+
+      <div class="patrimoine-header">
+        <span class="patrimoine-eyebrow">Coups de cœur</span>
+        <h2 class="patrimoine-title">Vos commerces <em>préférés</em></h2>
+        <p class="patrimoine-desc">Les adresses que les habitants recommandent au quotidien.</p>
+      </div>
+
+      <div class="patrimoine-bento">
+        <!-- Grande tuile : Boulangerie -->
+        <div class="bento-tile bento-tile-hero" onclick="window.location.href='commerces.html'">
+          <div class="bento-bg" style="background:linear-gradient(135deg,#8b5a3c 0%,#d4a574 100%);"></div>
+          <div class="bento-overlay"></div>
+          <div class="bento-pill" style="background:rgba(212,165,116,0.95);color:#3d2817;">Boulangerie · Artisan</div>
+          <div class="bento-body">
+            <div class="bento-title">Boulangerie du Centre</div>
+            <div class="bento-sub">Pain de campagne sorti à 7h</div>
+          </div>
+        </div>
+
+        <!-- Tuile Primeur -->
+        <div class="bento-tile" onclick="window.location.href='commerces.html'">
+          <div class="bento-bg" style="background:linear-gradient(135deg,#0f5f3f 0%,#27ae60 100%);"></div>
+          <div class="bento-overlay"></div>
+          <div class="bento-body">
+            <div class="bento-title-sm">Primeur Place de la Tour</div>
+            <div class="bento-cat" style="color:#a7f3d0;">Frais &amp; local</div>
+          </div>
+        </div>
+
+        <!-- Tuile Restaurant -->
+        <div class="bento-tile" onclick="window.location.href='commerces.html'">
+          <div class="bento-bg" style="background:linear-gradient(135deg,#7a1f1f 0%,#c0392b 100%);"></div>
+          <div class="bento-overlay"></div>
+          <div class="bento-body">
+            <div class="bento-title-sm">Le Saint-André</div>
+            <div class="bento-cat" style="color:#fcd5cc;">Restaurant · Bistrot</div>
+          </div>
+        </div>
+
+        <!-- Tuile Coiffeur -->
+        <div class="bento-tile bento-tile-wide" onclick="window.location.href='commerces.html'">
+          <div class="bento-bg" style="background:linear-gradient(135deg,#1a3a5c 0%,#3B5BDB 100%);"></div>
+          <div class="bento-overlay"></div>
+          <div class="bento-body">
+            <div class="bento-title-sm">Salon Ludovic</div>
+            <div class="bento-cat" style="color:#bfdbfe;">Coiffeur · Bien-être</div>
+          </div>
+        </div>
+      </div>
+
+      <button class="patrimoine-cta" onclick="window.location.href='commerces.html'">
+        <span>Voir tous les commerces de la ville</span>
+        <span class="material-symbols-outlined" style="font-size:18px;">arrow_forward</span>
+      </button>
+
+    </div>
+  </div>
+
+  <!-- ═══ AGENDA — Cette semaine ═══ -->
   <div class="res-section">
     <div class="res-section-header">
       <div>
@@ -1665,7 +1727,7 @@ setTimeout(function(){
     </div>
   </div>
 
-  <!-- Infos pratiques (grid 2x2) -->
+  <!-- ═══ INFOS PRATIQUES (après l'agenda) ═══ -->
   <div class="res-section">
     <div class="res-section-header">
       <div>
@@ -1677,64 +1739,37 @@ setTimeout(function(){
       <div class="res-info-card" onclick="window.location.href='infos.html#dechets'">
         <div class="res-info-card-icon green"><span class="material-symbols-outlined">delete</span></div>
         <div class="res-info-card-title">Déchets &amp; tri</div>
-        <div class="res-info-card-sub">Collecte demain · Déchetterie</div>
+        <div class="res-info-card-sub">Collecte · Déchetterie · Encombrants</div>
       </div>
       <div class="res-info-card" onclick="window.location.href='infos.html#mairie'">
         <div class="res-info-card-icon blue"><span class="material-symbols-outlined">account_balance</span></div>
         <div class="res-info-card-title">Mairie</div>
-        <div class="res-info-card-sub">Horaires · Démarches</div>
+        <div class="res-info-card-sub">Horaires · Démarches · Contact</div>
       </div>
       <div class="res-info-card" onclick="window.location.href='infos.html#marche'">
         <div class="res-info-card-icon amber"><span class="material-symbols-outlined">storefront</span></div>
         <div class="res-info-card-title">Marché</div>
-        <div class="res-info-card-sub">Jeudi &amp; samedi matin</div>
+        <div class="res-info-card-sub">Jeudi &amp; samedi matin · Pl. Charles David</div>
       </div>
       <div class="res-info-card" onclick="window.location.href='infos.html#urgences'">
         <div class="res-info-card-icon rose"><span class="material-symbols-outlined">local_hospital</span></div>
         <div class="res-info-card-title">Urgences</div>
-        <div class="res-info-card-sub">Pharmacie &amp; médecin de garde</div>
+        <div class="res-info-card-sub">Pharmacie · Médecin de garde</div>
+      </div>
+      <div class="res-info-card" onclick="window.location.href='infos.html#ecoles'">
+        <div class="res-info-card-icon" style="background:#e0e7ff;color:#3730a3;"><span class="material-symbols-outlined">school</span></div>
+        <div class="res-info-card-title">Écoles</div>
+        <div class="res-info-card-sub">Cantine · Périscolaire · Vacances</div>
+      </div>
+      <div class="res-info-card" onclick="window.location.href='infos.html#mediatheque'">
+        <div class="res-info-card-icon" style="background:#fce7f3;color:#9f1239;"><span class="material-symbols-outlined">menu_book</span></div>
+        <div class="res-info-card-title">Médiathèque</div>
+        <div class="res-info-card-sub">Horaires · Ateliers · Prêts</div>
       </div>
     </div>
   </div>
 
-  <!-- Commerces (liste compacte) -->
-  <div class="res-section">
-    <div class="res-section-header">
-      <div>
-        <div class="res-section-title">Vos commerces</div>
-        <div class="res-section-sub">Du jour, près de chez vous</div>
-      </div>
-      <a href="commerces.html" class="res-section-link">Tout voir <span class="material-symbols-outlined" style="font-size:14px;">chevron_right</span></a>
-    </div>
-    <div class="res-shops" id="res-shops-list">
-      <div class="res-shop" onclick="window.location.href='commerces.html'">
-        <div class="res-shop-icon"><span class="material-symbols-outlined">bakery_dining</span></div>
-        <div class="res-shop-content">
-          <div class="res-shop-name">Boulangerie du Centre</div>
-          <div class="res-shop-tip">Pain de campagne sorti à 7h</div>
-        </div>
-        <span class="material-symbols-outlined res-shop-arrow">chevron_right</span>
-      </div>
-      <div class="res-shop" onclick="window.location.href='commerces.html'">
-        <div class="res-shop-icon" style="background:linear-gradient(135deg,#10b981 0%,#34d399 100%);"><span class="material-symbols-outlined">local_florist</span></div>
-        <div class="res-shop-content">
-          <div class="res-shop-name">Primeur Place de la Tour</div>
-          <div class="res-shop-tip">Fraises de Carpentras arrivées</div>
-        </div>
-        <span class="material-symbols-outlined res-shop-arrow">chevron_right</span>
-      </div>
-      <div class="res-shop" onclick="window.location.href='commerces.html'">
-        <div class="res-shop-icon" style="background:linear-gradient(135deg,#3B5BDB 0%,#5b7ce8 100%);"><span class="material-symbols-outlined">restaurant</span></div>
-        <div class="res-shop-content">
-          <div class="res-shop-name">Le Saint-André</div>
-          <div class="res-shop-tip">Formule midi 14€ · Aujourd'hui</div>
-        </div>
-        <span class="material-symbols-outlined res-shop-arrow">chevron_right</span>
-      </div>
-    </div>
-  </div>
-
-  <!-- Taxis & mobilité -->
+  <!-- ═══ TAXIS & MOBILITÉ ═══ -->
   <div class="res-taxi-wrap">
     <a class="taxi-banner" href="taxis.html" style="margin:0;">
       <div class="taxi-banner-glow"></div>
