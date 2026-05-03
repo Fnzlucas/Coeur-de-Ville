@@ -881,6 +881,141 @@ body.user-resident #home-visitor{display:none;}
 /* Taxis CTA résident (réutilise .taxi-banner mais ajusté) */
 .res-taxi-wrap{padding:0 16px;margin-bottom:24px;}
 
+/* ═══ SECTION JEUNESSE ═══ */
+.jeunesse-zone{
+  margin:8px 0 32px;
+  padding:0 16px;
+}
+.jeunesse-header{
+  margin-bottom:16px;
+}
+.jeunesse-eyebrow{
+  font-size:10px;font-weight:800;letter-spacing:0.14em;text-transform:uppercase;
+  color:#7c3aed;display:block;margin-bottom:6px;
+}
+.jeunesse-title{
+  font-size:22px;font-weight:900;color:#0f1923;line-height:1.15;font-family:Manrope;letter-spacing:-0.03em;
+}
+.jeunesse-title em{font-style:italic;color:#7c3aed;}
+.jeunesse-desc{
+  font-size:12px;color:#64748b;font-weight:500;line-height:1.45;margin-top:6px;
+}
+
+/* Bannieres jeunesse */
+.jeunesse-banners{
+  display:flex;flex-direction:column;gap:10px;margin-bottom:14px;
+}
+.jeunesse-banner{
+  border-radius:18px;overflow:hidden;display:flex;align-items:center;gap:0;
+  cursor:pointer;transition:transform 0.15s;position:relative;text-decoration:none;
+  min-height:72px;
+}
+.jeunesse-banner:active{transform:scale(0.98);}
+.jeunesse-banner-bg{
+  position:absolute;inset:0;
+}
+.jeunesse-banner-content{
+  position:relative;z-index:1;display:flex;align-items:center;gap:13px;
+  padding:14px 16px;width:100%;
+}
+.jeunesse-banner-icon{
+  flex-shrink:0;width:44px;height:44px;border-radius:12px;
+  display:flex;align-items:center;justify-content:center;
+}
+.jeunesse-banner-icon .material-symbols-outlined{font-size:22px;}
+.jeunesse-banner-text{flex:1;min-width:0;}
+.jeunesse-banner-label{
+  font-size:9px;font-weight:800;letter-spacing:0.12em;text-transform:uppercase;
+  margin-bottom:3px;
+}
+.jeunesse-banner-title{
+  font-size:14px;font-weight:900;line-height:1.2;font-family:Manrope;
+}
+.jeunesse-banner-sub{
+  font-size:11px;font-weight:500;margin-top:2px;opacity:0.75;
+}
+.jeunesse-banner-arrow{
+  flex-shrink:0;
+}
+.jeunesse-banner-arrow .material-symbols-outlined{font-size:20px;}
+
+/* Carte fidelite banner */
+.jb-fidelite .jeunesse-banner-bg{
+  background:linear-gradient(135deg,#4f46e5 0%,#7c3aed 60%,#a21caf 100%);
+}
+.jb-fidelite .jeunesse-banner-icon{background:rgba(255,255,255,0.18);}
+.jb-fidelite .jeunesse-banner-icon .material-symbols-outlined{color:#fff;}
+.jb-fidelite .jeunesse-banner-label{color:rgba(255,255,255,0.7);}
+.jb-fidelite .jeunesse-banner-title{color:#fff;}
+.jb-fidelite .jeunesse-banner-sub{color:rgba(255,255,255,0.75);}
+.jb-fidelite .jeunesse-banner-arrow .material-symbols-outlined{color:rgba(255,255,255,0.7);}
+
+/* Reduction etudiants banner */
+.jb-reduction .jeunesse-banner-bg{
+  background:linear-gradient(135deg,#0f1923 0%,#1e293b 100%);
+  border:1px solid rgba(124,58,237,0.25);
+}
+.jb-reduction .jeunesse-banner-icon{background:rgba(124,58,237,0.2);}
+.jb-reduction .jeunesse-banner-icon .material-symbols-outlined{color:#a78bfa;}
+.jb-reduction .jeunesse-banner-label{color:#7c3aed;}
+.jb-reduction .jeunesse-banner-title{color:#fff;}
+.jb-reduction .jeunesse-banner-sub{color:#94a3b8;}
+.jb-reduction .jeunesse-banner-arrow .material-symbols-outlined{color:#475569;}
+
+/* Chasse au tresor banner — hero visuel */
+.jb-tresor{
+  min-height:110px;margin-bottom:14px;
+}
+.jb-tresor .jeunesse-banner-bg{
+  background:linear-gradient(135deg,#92400e 0%,#b45309 40%,#d97706 80%,#f59e0b 100%);
+}
+.jb-tresor .jeunesse-banner-content{
+  padding:18px 16px;flex-direction:column;align-items:flex-start;gap:8px;
+}
+.jb-tresor-top{display:flex;align-items:center;gap:11px;width:100%;}
+.jb-tresor-icon{
+  flex-shrink:0;width:48px;height:48px;border-radius:14px;
+  background:rgba(255,255,255,0.18);
+  display:flex;align-items:center;justify-content:center;
+}
+.jb-tresor-icon .material-symbols-outlined{font-size:26px;color:#fff;}
+.jb-tresor-text{flex:1;}
+.jb-tresor-label{font-size:9px;font-weight:800;letter-spacing:0.12em;text-transform:uppercase;color:rgba(255,255,255,0.7);margin-bottom:3px;}
+.jb-tresor-title{font-size:16px;font-weight:900;color:#fff;line-height:1.15;font-family:Manrope;}
+.jb-tresor-sub{font-size:11px;color:rgba(255,255,255,0.8);font-weight:500;}
+.jb-tresor-progress-wrap{width:100%;background:rgba(255,255,255,0.18);border-radius:100px;height:6px;}
+.jb-tresor-progress-bar{height:6px;border-radius:100px;background:#fff;width:35%;}
+.jb-tresor-progress-label{font-size:10px;color:rgba(255,255,255,0.8);font-weight:700;margin-top:5px;}
+
+/* Grille activites/sorties jeunesse */
+.jeunesse-grid{
+  display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px;
+}
+.jeunesse-card{
+  border-radius:16px;overflow:hidden;position:relative;
+  min-height:90px;cursor:pointer;transition:transform 0.15s;
+}
+.jeunesse-card:active{transform:scale(0.97);}
+.jeunesse-card-bg{position:absolute;inset:0;}
+.jeunesse-card-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,0.55) 0%,transparent 55%);}
+.jeunesse-card-body{
+  position:relative;z-index:1;height:100%;display:flex;flex-direction:column;
+  justify-content:flex-end;padding:12px;
+}
+.jeunesse-card-cat{font-size:8px;font-weight:800;letter-spacing:0.12em;text-transform:uppercase;color:rgba(255,255,255,0.75);margin-bottom:3px;}
+.jeunesse-card-name{font-size:13px;font-weight:900;color:#fff;line-height:1.2;font-family:Manrope;}
+
+/* Voir plus CTA */
+.jeunesse-cta{
+  width:100%;padding:14px 20px;border-radius:14px;
+  background:#f8f5ff;border:1.5px solid rgba(124,58,237,0.2);
+  display:flex;align-items:center;justify-content:space-between;
+  cursor:pointer;transition:background 0.15s;font-family:Manrope;
+}
+.jeunesse-cta:active{background:#ede9fe;}
+.jeunesse-cta span:first-child{font-size:13px;font-weight:800;color:#7c3aed;}
+.jeunesse-cta .material-symbols-outlined{font-size:18px;color:#7c3aed;}
+
 /* Toggle dans le header */
 .res-toggle{position:fixed;top:74px;right:12px;z-index:999;
   background:rgba(255,255,255,0.96);backdrop-filter:blur(20px);
@@ -1880,6 +2015,126 @@ setTimeout(function(){
   </div>
 </div>
 <div class="home-carousel" id="home-commerce-carousel-res" style="padding-bottom:28px;"></div>
+
+<!-- ═══ SECTION JEUNESSE ═══ -->
+<div class="jeunesse-zone">
+
+  <div class="jeunesse-header">
+    <span class="jeunesse-eyebrow">Pour les jeunes</span>
+    <h2 class="jeunesse-title">Le centre-ville,<br/>c'est <em>votre terrain</em></h2>
+    <p class="jeunesse-desc">Sorties, bons plans et avantages reserves aux habitants de moins de 30 ans.</p>
+  </div>
+
+  <!-- Chasse au tresor — banniere hero -->
+  <a class="jeunesse-banner jb-tresor" href="chasse-au-tresor.html" style="display:flex;border-radius:18px;overflow:hidden;text-decoration:none;cursor:pointer;transition:transform 0.15s;position:relative;margin-bottom:14px;" onclick="window.location.href='chasse-au-tresor.html'">
+    <div class="jeunesse-banner-bg" style="background:linear-gradient(135deg,#92400e 0%,#b45309 40%,#d97706 80%,#f59e0b 100%);position:absolute;inset:0;"></div>
+    <div class="jeunesse-banner-content" style="position:relative;z-index:1;display:flex;flex-direction:column;align-items:flex-start;gap:10px;padding:18px 16px;width:100%;">
+      <div class="jb-tresor-top">
+        <div class="jb-tresor-icon">
+          <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">travel_explore</span>
+        </div>
+        <div class="jb-tresor-text">
+          <div class="jb-tresor-label">Chasse au tresor</div>
+          <div class="jb-tresor-title">Explore la ville &amp; gagne des points</div>
+          <div class="jb-tresor-sub">Chaque etape validee = points sur ta carte fidelite</div>
+        </div>
+      </div>
+      <div style="width:100%;">
+        <div class="jb-tresor-progress-wrap">
+          <div class="jb-tresor-progress-bar"></div>
+        </div>
+        <div class="jb-tresor-progress-label">3 etapes completees sur 8 — Continue !</div>
+      </div>
+    </div>
+  </a>
+
+  <!-- Banniere carte de fidelite + banniere reduction -->
+  <div class="jeunesse-banners">
+
+    <a class="jeunesse-banner jb-fidelite" href="fidelite.html" onclick="window.location.href='fidelite.html'">
+      <div class="jeunesse-banner-bg"></div>
+      <div class="jeunesse-banner-content">
+        <div class="jeunesse-banner-icon">
+          <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">loyalty</span>
+        </div>
+        <div class="jeunesse-banner-text">
+          <div class="jeunesse-banner-label">Carte fidelite</div>
+          <div class="jeunesse-banner-title">Mes points &amp; recompenses</div>
+          <div class="jeunesse-banner-sub">580 pts — Prochain palier a 750 pts</div>
+        </div>
+        <div class="jeunesse-banner-arrow">
+          <span class="material-symbols-outlined">chevron_right</span>
+        </div>
+      </div>
+    </a>
+
+    <a class="jeunesse-banner jb-reduction" href="reductions-jeunes.html" onclick="window.location.href='reductions-jeunes.html'">
+      <div class="jeunesse-banner-bg"></div>
+      <div class="jeunesse-banner-content">
+        <div class="jeunesse-banner-icon">
+          <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">percent</span>
+        </div>
+        <div class="jeunesse-banner-text">
+          <div class="jeunesse-banner-label">Reduction jeunes</div>
+          <div class="jeunesse-banner-title">-15% dans les commerces partenaires</div>
+          <div class="jeunesse-banner-sub">Sur presentation de ta carte villeneuveuse</div>
+        </div>
+        <div class="jeunesse-banner-arrow">
+          <span class="material-symbols-outlined">chevron_right</span>
+        </div>
+      </div>
+    </a>
+
+  </div>
+
+  <!-- Grille sorties / activites jeunesse -->
+  <div class="jeunesse-grid">
+
+    <div class="jeunesse-card" onclick="window.location.href='agenda.html?cat=sport'">
+      <div class="jeunesse-card-bg" style="background:linear-gradient(135deg,#065f46 0%,#059669 100%);"></div>
+      <div class="jeunesse-card-overlay"></div>
+      <div class="jeunesse-card-body">
+        <div class="jeunesse-card-cat">Sport</div>
+        <div class="jeunesse-card-name">Clubs &amp; terrains a proximite</div>
+      </div>
+    </div>
+
+    <div class="jeunesse-card" onclick="window.location.href='agenda.html?cat=culture'">
+      <div class="jeunesse-card-bg" style="background:linear-gradient(135deg,#4f46e5 0%,#7c3aed 100%);"></div>
+      <div class="jeunesse-card-overlay"></div>
+      <div class="jeunesse-card-body">
+        <div class="jeunesse-card-cat">Culture</div>
+        <div class="jeunesse-card-name">Expos, musique &amp; scenes</div>
+      </div>
+    </div>
+
+    <div class="jeunesse-card" onclick="window.location.href='agenda.html?cat=sorties'">
+      <div class="jeunesse-card-bg" style="background:linear-gradient(135deg,#be185d 0%,#ec4899 100%);"></div>
+      <div class="jeunesse-card-overlay"></div>
+      <div class="jeunesse-card-body">
+        <div class="jeunesse-card-cat">Sorties</div>
+        <div class="jeunesse-card-name">Ce week-end a Villeneuve</div>
+      </div>
+    </div>
+
+    <div class="jeunesse-card" onclick="window.location.href='agenda.html?cat=emploi'">
+      <div class="jeunesse-card-bg" style="background:linear-gradient(135deg,#1e3a5f 0%,#3B5BDB 100%);"></div>
+      <div class="jeunesse-card-overlay"></div>
+      <div class="jeunesse-card-body">
+        <div class="jeunesse-card-cat">Emploi &amp; stages</div>
+        <div class="jeunesse-card-name">Opportunites locales</div>
+      </div>
+    </div>
+
+  </div>
+
+  <button class="jeunesse-cta" onclick="window.location.href='jeunesse.html'">
+    <span>Voir tous les bons plans jeunesse</span>
+    <span class="material-symbols-outlined">arrow_forward</span>
+  </button>
+
+</div>
+<!-- FIN SECTION JEUNESSE -->
 
 </div>
 <!-- FIN HOME RÉSIDENT -->
