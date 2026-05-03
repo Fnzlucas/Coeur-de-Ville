@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1"/>
+<title>Marchés – Cœur de Ville</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800;900&display=swap"/>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html,body{font-family:'Manrope',sans-serif;background:#f4f6f9;color:#0f1923;}
+body{padding-bottom:40px;}
+.hero{position:relative;width:100%;height:220px;overflow:hidden;}
+.hero-img{width:100%;height:100%;object-fit:cover;display:block;background:#92400e url('../assets/villeneuve/marche.jpg') center/cover no-repeat;}
+.hero-overlay{position:absolute;inset:0;background:linear-gradient(to bottom,rgba(0,0,0,0.05),rgba(0,0,0,0.6));}
+.hero-back{position:absolute;top:16px;left:16px;width:40px;height:40px;border-radius:50%;background:rgba(255,255,255,0.18);backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,0.25);display:flex;align-items:center;justify-content:center;cursor:pointer;color:#fff;text-decoration:none;}
+.hero-back .material-symbols-outlined{font-size:22px;}
+.hero-content{position:absolute;bottom:0;left:0;right:0;padding:18px 16px 16px;}
+.hero-cat{font-size:9px;font-weight:800;letter-spacing:0.14em;text-transform:uppercase;color:rgba(255,255,255,0.65);margin-bottom:4px;}
+.hero-title{font-size:24px;font-weight:900;color:#fff;line-height:1.1;letter-spacing:-0.03em;}
+.body{padding:18px 16px 0;}
+.intro{font-size:13px;color:#475569;line-height:1.6;font-weight:500;margin-bottom:20px;}
+.sec{margin-bottom:22px;}
+.sec-title{font-size:15px;font-weight:900;color:#0f1923;letter-spacing:-0.02em;margin-bottom:10px;display:flex;align-items:center;gap:8px;}
+.sec-title .material-symbols-outlined{font-size:18px;color:#d97706;}
+.days-row{display:flex;gap:10px;margin-bottom:14px;}
+.day-card{flex:1;border-radius:14px;padding:14px 10px;text-align:center;background:linear-gradient(135deg,#92400e,#d97706);box-shadow:0 4px 18px rgba(146,64,14,0.25);}
+.day-label{font-size:10px;font-weight:800;letter-spacing:0.08em;text-transform:uppercase;color:rgba(255,255,255,0.75);margin-bottom:4px;}
+.day-hours{font-size:14px;font-weight:900;color:#fff;}
+.day-place{font-size:10px;color:rgba(255,255,255,0.7);font-weight:600;margin-top:3px;}
+.block{background:#fff;border-radius:16px;overflow:hidden;box-shadow:0 3px 14px rgba(15,25,35,0.06);margin-bottom:10px;border:1px solid rgba(15,25,35,0.04);}
+.block-head{display:flex;align-items:center;gap:12px;padding:13px 14px;border-bottom:1px solid #f4f6f9;}
+.block-icon{width:38px;height:38px;border-radius:11px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.block-icon .material-symbols-outlined{font-size:20px;font-variation-settings:'FILL' 1;}
+.block-name{font-size:14px;font-weight:800;color:#0f1923;}
+.block-sub{font-size:11px;color:#64748b;font-weight:500;margin-top:1px;}
+.row{display:flex;align-items:center;justify-content:space-between;padding:9px 14px;border-bottom:1px solid #f8f9fa;}
+.row:last-child{border-bottom:none;}
+.row-label{font-size:12px;font-weight:700;color:#64748b;display:flex;align-items:center;gap:6px;}
+.row-label .material-symbols-outlined{font-size:14px;color:#94a3b8;}
+.row-val{font-size:12px;font-weight:800;color:#0f1923;}
+.chips{display:flex;flex-wrap:wrap;gap:7px;}
+.chip{padding:5px 12px;border-radius:100px;font-size:11px;font-weight:700;background:#fff;border:1.5px solid rgba(15,25,35,0.09);color:#0f1923;}
+</style>
+</head>
+<body>
+<div class="hero">
+  <div class="hero-img"></div>
+  <div class="hero-overlay"></div>
+  <a class="hero-back" href="javascript:history.back()"><span class="material-symbols-outlined">arrow_back</span></a>
+  <div class="hero-content">
+    <div class="hero-cat">Infos pratiques · Résident</div>
+    <h1 class="hero-title">Marchés de Villeneuve</h1>
+  </div>
+</div>
+
+<div class="body">
+  <p class="intro">Deux marchés hebdomadaires toute l'année avec producteurs locaux et brocante. Source : villeneuvelezavignon.com</p>
+
+  <!-- Jours -->
+  <div class="sec">
+    <div class="sec-title"><span class="material-symbols-outlined">today</span>Calendrier</div>
+    <div class="days-row">
+      <div class="day-card">
+        <div class="day-label">Jeudi</div>
+        <div class="day-hours">7h – 13h</div>
+        <div class="day-place">Pl. Charles David</div>
+      </div>
+      <div class="day-card">
+        <div class="day-label">Samedi</div>
+        <div class="day-hours">7h – 13h30</div>
+        <div class="day-place">Pl. Charles David</div>
+      </div>
+    </div>
+    <!-- Petit marché du sam place Jean Jaurès -->
+    <div class="block">
+      <div class="row"><div class="row-label"><span class="material-symbols-outlined">store</span>Samedi (petit marché)</div><div class="row-val">7h – 13h · Pl. Jean Jaurès</div></div>
+      <div class="row-label" style="padding:8px 14px;font-size:11px;color:#94a3b8;">Fruits &amp; légumes frais de producteurs locaux</div>
+    </div>
+  </div>
+
+  <!-- Marché du jeudi -->
+  <div class="sec">
+    <div class="sec-title"><span class="material-symbols-outlined">storefront</span>Marché provençal (jeudi)</div>
+    <div class="block">
+      <div class="block-head">
+        <div class="block-icon" style="background:#fef3c7;"><span class="material-symbols-outlined" style="color:#d97706;">storefront</span></div>
+        <div>
+          <div class="block-name">Marché de producteurs</div>
+          <div class="block-sub">Toute l'année · env. 35 exposants</div>
+        </div>
+      </div>
+      <div class="row"><div class="row-label"><span class="material-symbols-outlined">schedule</span> Horaires</div><div class="row-val">7h – 13h</div></div>
+      <div class="row"><div class="row-label"><span class="material-symbols-outlined">location_on</span> Place</div><div class="row-val">Place Charles David</div></div>
+      <div class="row"><div class="row-label"><span class="material-symbols-outlined">sell</span> Type</div><div class="row-val">Alimentaire · terroir provençal</div></div>
+    </div>
+  </div>
+
+  <!-- Brocante du samedi -->
+  <div class="sec">
+    <div class="sec-title"><span class="material-symbols-outlined">storefront</span>Brocante &amp; marché (samedi)</div>
+    <div class="block">
+      <div class="block-head">
+        <div class="block-icon" style="background:#fff7ed;"><span class="material-symbols-outlined" style="color:#ea580c;">sell</span></div>
+        <div>
+          <div class="block-name">Grand marché brocante</div>
+          <div class="block-sub">Toute l'année · Place Charles David</div>
+        </div>
+      </div>
+      <div class="row"><div class="row-label"><span class="material-symbols-outlined">schedule</span> Horaires</div><div class="row-val">7h – 13h30</div></div>
+      <div class="row"><div class="row-label"><span class="material-symbols-outlined">location_on</span> Place</div><div class="row-val">Place Charles David</div></div>
+      <div class="row"><div class="row-label"><span class="material-symbols-outlined">sell</span> Type</div><div class="row-val">Brocante · chineurs · vêtements</div></div>
+    </div>
+  </div>
+
+  <!-- Produits -->
+  <div class="sec">
+    <div class="sec-title"><span class="material-symbols-outlined">eco</span>Produits du terroir</div>
+    <div class="chips">
+      <div class="chip">Fruits &amp; légumes</div>
+      <div class="chip">Fromages</div>
+      <div class="chip">Charcuterie</div>
+      <div class="chip">Olives &amp; tapenade</div>
+      <div class="chip">Pain artisan</div>
+      <div class="chip">Miel</div>
+      <div class="chip">Fleurs</div>
+      <div class="chip">Herbes de Provence</div>
+      <div class="chip">Poisson frais</div>
+      <div class="chip">Huîtres de Bouzigues</div>
+    </div>
+  </div>
+</div>
+</body>
+</html>
