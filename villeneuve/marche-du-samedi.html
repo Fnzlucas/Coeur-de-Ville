@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1"/>
+<title>Marché du samedi — Cœur de Ville</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800;900&family=Inter:wght@300;400;500;600&display=swap"/>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html,body{font-family:'Manrope',sans-serif;background:#f8f9fa;color:#0f1923;-webkit-overflow-scrolling:touch;}
+body{padding-bottom:90px;}
+
+.hero{position:relative;height:320px;overflow:hidden;}
+.hero-img{width:100%;height:100%;object-fit:cover;display:block;}
+.hero-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,0.85) 0%,rgba(0,0,0,0.2) 55%,transparent 100%);}
+.hero-back{position:absolute;top:16px;left:16px;width:40px;height:40px;border-radius:50%;background:rgba(255,255,255,0.15);backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,0.25);display:flex;align-items:center;justify-content:center;cursor:pointer;z-index:10;}
+.hero-back .material-symbols-outlined{color:#fff;font-size:20px;}
+.hero-share{position:absolute;top:16px;right:16px;width:40px;height:40px;border-radius:50%;background:rgba(255,255,255,0.15);backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,0.25);display:flex;align-items:center;justify-content:center;cursor:pointer;z-index:10;}
+.hero-share .material-symbols-outlined{color:#fff;font-size:20px;}
+.hero-content{position:absolute;bottom:0;left:0;right:0;padding:20px 20px 24px;}
+.hero-badge{display:inline-flex;align-items:center;gap:5px;background:rgba(184,132,47,0.92);backdrop-filter:blur(6px);color:#fff;font-size:9px;font-weight:800;letter-spacing:0.12em;text-transform:uppercase;padding:5px 12px;border-radius:20px;margin-bottom:10px;}
+.hero-badge::before{content:'';width:5px;height:5px;background:#fff;border-radius:50%;}
+.hero-name{font-size:30px;font-weight:900;color:#fff;line-height:1.05;letter-spacing:-0.02em;margin-bottom:8px;}
+.hero-meta{display:flex;align-items:center;gap:12px;}
+.hero-rating{display:flex;align-items:center;gap:4px;color:#FBBF24;font-size:13px;font-weight:800;}
+.hero-rating span.cnt{color:rgba(255,255,255,0.6);font-weight:500;font-size:11px;}
+.hero-pill{background:rgba(255,255,255,0.15);backdrop-filter:blur(6px);border:1px solid rgba(255,255,255,0.25);color:#fff;font-size:10px;font-weight:700;padding:4px 10px;border-radius:20px;}
+
+.open-banner{margin:16px 16px 0;background:#fffbeb;border-radius:14px;padding:12px 16px;display:flex;align-items:center;gap:10px;border:1px solid #fde68a;}
+.open-dot{width:8px;height:8px;border-radius:50%;background:#b8842f;flex-shrink:0;box-shadow:0 0 0 3px rgba(184,132,47,0.2);}
+.open-text{font-size:13px;font-weight:700;color:#78350f;}
+.open-hours{font-size:12px;font-weight:500;color:#b8842f;margin-top:1px;}
+
+.actions-bar{display:flex;gap:10px;padding:16px 16px 0;}
+.action-btn{flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;padding:12px 8px;background:#fff;border-radius:14px;box-shadow:0 2px 10px rgba(0,0,0,0.06);cursor:pointer;border:none;font-family:Manrope;text-decoration:none;transition:all 0.15s;}
+.action-btn:active{transform:scale(0.96);}
+.action-btn .material-symbols-outlined{font-size:22px;color:#b8842f;}
+.action-btn .lbl{font-size:10px;font-weight:700;color:#0f1923;letter-spacing:0.02em;}
+
+.section{padding:24px 16px 0;}
+.section-title{font-size:17px;font-weight:900;color:#0f1923;letter-spacing:-0.02em;margin-bottom:12px;}
+
+.desc-card{background:#fff;border-radius:16px;padding:16px;box-shadow:0 2px 10px rgba(0,0,0,0.06);}
+.desc-text{font-size:14px;line-height:1.7;color:#374151;font-weight:400;}
+
+.infos-grid{display:flex;flex-direction:column;gap:1px;background:#f1f5f9;border-radius:16px;overflow:hidden;box-shadow:0 2px 10px rgba(0,0,0,0.06);}
+.info-row{background:#fff;padding:13px 16px;display:flex;align-items:center;gap:12px;}
+.info-row .material-symbols-outlined{font-size:20px;color:#b8842f;flex-shrink:0;}
+.info-row-content{flex:1;}
+.info-row-label{font-size:11px;font-weight:600;color:#94a3b8;margin-bottom:2px;}
+.info-row-val{font-size:14px;font-weight:700;color:#0f1923;}
+.info-row-action{width:32px;height:32px;border-radius:50%;background:#fde68a;display:flex;align-items:center;justify-content:center;flex-shrink:0;text-decoration:none;}
+.info-row-action .material-symbols-outlined{font-size:16px;color:#b8842f;}
+
+.tags-wrap{display:flex;flex-wrap:wrap;gap:8px;}
+.tag{display:inline-flex;align-items:center;gap:5px;background:#fff;border-radius:100px;padding:7px 12px;font-size:11px;font-weight:700;color:#374151;box-shadow:0 1px 6px rgba(0,0,0,0.07);}
+.tag .material-symbols-outlined{font-size:14px;color:#b8842f;}
+
+.horaires-card{background:#fff;border-radius:16px;padding:4px 0;box-shadow:0 2px 10px rgba(0,0,0,0.06);}
+.hrow{display:flex;justify-content:space-between;align-items:center;padding:10px 16px;border-bottom:1px solid #f8f9fa;}
+.hrow:last-child{border-bottom:none;}
+.hrow-day{font-size:13px;font-weight:600;color:#374151;}
+.hrow-time{font-size:13px;font-weight:700;color:#0f1923;}
+.hrow-time.closed{color:#94a3b8;font-weight:500;}
+.hrow-badge{font-size:9px;font-weight:800;text-transform:uppercase;letter-spacing:0.1em;background:#fde68a;color:#78350f;padding:3px 8px;border-radius:20px;}
+
+.cta-bottom{position:fixed;bottom:0;left:0;right:0;padding:12px 16px 20px;background:rgba(255,255,255,0.95);backdrop-filter:blur(20px);border-top:1px solid rgba(0,0,0,0.06);display:flex;gap:10px;z-index:100;}
+.cta-call{flex:1;display:flex;align-items:center;justify-content:center;gap:8px;background:#0f1923;color:#fff;border:none;border-radius:14px;padding:15px;font-family:Manrope;font-size:15px;font-weight:800;cursor:pointer;text-decoration:none;transition:all 0.15s;}
+.cta-call:active{transform:scale(0.97);}
+.cta-call .material-symbols-outlined{font-size:19px;}
+.cta-map{width:52px;height:52px;border-radius:14px;background:#fff;border:1.5px solid #e2e8f0;display:flex;align-items:center;justify-content:center;cursor:pointer;text-decoration:none;flex-shrink:0;transition:all 0.15s;}
+.cta-map:active{transform:scale(0.96);}
+.cta-map .material-symbols-outlined{font-size:22px;color:#0f1923;}
+
+.highlight-card{background:linear-gradient(135deg,#78350f,#b8842f);border-radius:18px;padding:20px;color:#fff;}
+.highlight-title{font-size:16px;font-weight:900;margin-bottom:8px;letter-spacing:-0.02em;}
+.highlight-text{font-size:13px;line-height:1.6;opacity:0.95;}
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <img class="hero-img" src="../assets/villeneuve/marche-du-samedi.jpg" alt="Marché du samedi">
+  <div class="hero-overlay"></div>
+  <button class="hero-back" onclick="history.back()">
+    <span class="material-symbols-outlined">arrow_back</span>
+  </button>
+  <div class="hero-share">
+    <span class="material-symbols-outlined">share</span>
+  </div>
+  <div class="hero-content">
+    <div class="hero-badge">Brocante · Marché provençal</div>
+    <div class="hero-name">Marché du samedi</div>
+    <div class="hero-meta">
+      <div class="hero-pill">Hebdomadaire</div>
+      <div class="hero-pill">Brocante & alimentaire</div>
+      <div class="hero-pill">Accès libre</div>
+    </div>
+  </div>
+</div>
+
+<div class="open-banner">
+  <div class="open-dot"></div>
+  <div>
+    <div class="open-text">Tous les samedis matin</div>
+    <div class="open-hours">7h–13h30 · Brocante place Charles David & marché place Jean Jaurès</div>
+  </div>
+</div>
+
+<div class="actions-bar">
+  <a href="https://maps.google.com/?q=Place+Charles+David+30400+Villeneuve-lès-Avignon" target="_blank" class="action-btn">
+    <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">near_me</span>
+    <span class="lbl">Brocante</span>
+  </a>
+  <a href="https://maps.google.com/?q=Place+Jean+Jaurès+30400+Villeneuve-lès-Avignon" target="_blank" class="action-btn">
+    <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">storefront</span>
+    <span class="lbl">Alimentaire</span>
+  </a>
+  <a href="tel:0490274949" class="action-btn">
+    <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">call</span>
+    <span class="lbl">Mairie</span>
+  </a>
+  <a href="https://www.villeneuvelezavignon.com/decouvrir-la-ville/commerces-et-artisanats/brocante/" target="_blank" class="action-btn">
+    <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">language</span>
+    <span class="lbl">Site Mairie</span>
+  </a>
+</div>
+
+<div class="section">
+  <div class="section-title">À propos</div>
+  <div class="desc-card">
+    <p class="desc-text">
+      Le samedi matin à Villeneuve-lès-Avignon, c'est le rendez-vous des chineurs et des amateurs de bonnes affaires. La <strong>fameuse brocante de la place Charles David</strong> attire toute l'année les curieux venus dénicher meubles, décos vintage, vêtements, vinyles, livres et objets insolites — l'occasion de chiner dans une ambiance bon enfant, parfois animée par de la musique live aux beaux jours.
+    </p>
+    <p class="desc-text" style="margin-top:10px;">
+      En parallèle, un <strong>petit marché provençal alimentaire</strong> se tient place Jean Jaurès (7h–13h) pour les fruits et légumes frais des producteurs locaux. La combinaison gagnante : flâner à la brocante, acheter des huîtres ou crevettes auprès du vendeur ambulant avec un petit blanc, puis poursuivre la balade dans le village historique.
+    </p>
+  </div>
+</div>
+
+<div class="section">
+  <div class="section-title">L'astuce du chineur</div>
+  <div class="highlight-card">
+    <div class="highlight-title">🛍️ Conseil insider</div>
+    <div class="highlight-text">
+      Arrivez tôt (avant 9h) pour repérer les meilleures pièces avant les antiquaires. Négocier fait partie du jeu — restez courtois mais n'hésitez pas. Pensez espèces : la plupart des brocanteurs n'acceptent pas la CB. Et profitez-en pour faire une pause café à La Petite Cuillère ou à la terrasse d'Aubergine juste à côté.
+    </div>
+  </div>
+</div>
+
+<div class="section">
+  <div class="section-title">Ce qu'on y trouve</div>
+  <div class="tags-wrap">
+    <div class="tag"><span class="material-symbols-outlined">chair</span>Mobilier ancien</div>
+    <div class="tag"><span class="material-symbols-outlined">auto_awesome</span>Décoration vintage</div>
+    <div class="tag"><span class="material-symbols-outlined">checkroom</span>Vêtements & accessoires</div>
+    <div class="tag"><span class="material-symbols-outlined">album</span>Vinyles & livres</div>
+    <div class="tag"><span class="material-symbols-outlined">diamond</span>Bijoux & curiosités</div>
+    <div class="tag"><span class="material-symbols-outlined">nutrition</span>Fruits & légumes</div>
+    <div class="tag"><span class="material-symbols-outlined">set_meal</span>Huîtres & fruits de mer</div>
+    <div class="tag"><span class="material-symbols-outlined">music_note</span>Musique live (saison)</div>
+    <div class="tag"><span class="material-symbols-outlined">payments</span>Espèces conseillées</div>
+  </div>
+</div>
+
+<div class="section">
+  <div class="section-title">Horaires</div>
+  <div class="horaires-card">
+    <div class="hrow">
+      <span class="hrow-day">Lundi</span>
+      <span class="hrow-time closed">—</span>
+    </div>
+    <div class="hrow">
+      <span class="hrow-day">Mardi</span>
+      <span class="hrow-time closed">—</span>
+    </div>
+    <div class="hrow">
+      <span class="hrow-day">Mercredi</span>
+      <span class="hrow-time closed">—</span>
+    </div>
+    <div class="hrow">
+      <span class="hrow-day">Jeudi</span>
+      <span class="hrow-time closed">—</span>
+    </div>
+    <div class="hrow">
+      <span class="hrow-day">Vendredi</span>
+      <span class="hrow-time closed">—</span>
+    </div>
+    <div class="hrow">
+      <span class="hrow-day">Samedi</span>
+      <span class="hrow-time">7h–13h30</span>
+    </div>
+    <div class="hrow">
+      <span class="hrow-day">Dimanche</span>
+      <span class="hrow-time closed">—</span>
+    </div>
+    <div style="padding:10px 16px;font-size:11px;color:#94a3b8;font-weight:500;">
+       Brocante place Charles David · Marché alimentaire place Jean Jaurès · Toute l'année
+    </div>
+  </div>
+</div>
+
+<div class="section">
+  <div class="section-title">Infos pratiques</div>
+  <div class="infos-grid">
+    <div class="info-row">
+      <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">storefront</span>
+      <div class="info-row-content">
+        <div class="info-row-label">Brocante</div>
+        <div class="info-row-val">Place Charles David<br>30400 Villeneuve-lès-Avignon</div>
+      </div>
+      <a href="https://maps.google.com/?q=Place+Charles+David+30400+Villeneuve-lès-Avignon" target="_blank" class="info-row-action">
+        <span class="material-symbols-outlined">open_in_new</span>
+      </a>
+    </div>
+    <div class="info-row">
+      <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">nutrition</span>
+      <div class="info-row-content">
+        <div class="info-row-label">Marché alimentaire</div>
+        <div class="info-row-val">Place Jean Jaurès<br>30400 Villeneuve-lès-Avignon</div>
+      </div>
+      <a href="https://maps.google.com/?q=Place+Jean+Jaurès+30400+Villeneuve-lès-Avignon" target="_blank" class="info-row-action">
+        <span class="material-symbols-outlined">open_in_new</span>
+      </a>
+    </div>
+    <div class="info-row">
+      <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">schedule</span>
+      <div class="info-row-content">
+        <div class="info-row-label">Fréquence</div>
+        <div class="info-row-val">Tous les samedis · Toute l'année</div>
+      </div>
+    </div>
+    <div class="info-row">
+      <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">euro</span>
+      <div class="info-row-content">
+        <div class="info-row-label">Tarif</div>
+        <div class="info-row-val">Accès libre & gratuit</div>
+      </div>
+    </div>
+    <div class="info-row">
+      <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">call</span>
+      <div class="info-row-content">
+        <div class="info-row-label">Mairie / Office de tourisme</div>
+        <div class="info-row-val">04 90 27 49 49</div>
+      </div>
+      <a href="tel:0490274949" class="info-row-action">
+        <span class="material-symbols-outlined">call</span>
+      </a>
+    </div>
+    <div class="info-row">
+      <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">accessible</span>
+      <div class="info-row-content">
+        <div class="info-row-label">Accessibilité</div>
+        <div class="info-row-val">Places piétonnes · PMR</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="section" style="padding-bottom:16px;">
+  <div class="section-title">Localisation</div>
+  <a href="https://maps.google.com/?q=Place+Charles+David+30400+Villeneuve-lès-Avignon" target="_blank"
+     style="display:block;border-radius:16px;overflow:hidden;height:160px;background:linear-gradient(135deg,#fde68a,#fcd34d);position:relative;text-decoration:none;">
+    <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:8px;">
+      <span class="material-symbols-outlined" style="font-size:40px;color:#b8842f;font-variation-settings:'FILL' 1;">storefront</span>
+      <div style="font-size:14px;font-weight:800;color:#0f1923;">Place Charles David</div>
+      <div style="font-size:12px;font-weight:500;color:#64748b;">+ Place Jean Jaurès (alimentaire)</div>
+      <div style="display:flex;align-items:center;gap:4px;background:#fff;padding:6px 14px;border-radius:20px;box-shadow:0 2px 8px rgba(0,0,0,0.1);margin-top:4px;">
+        <span class="material-symbols-outlined" style="font-size:14px;color:#b8842f;">near_me</span>
+        <span style="font-size:11px;font-weight:700;color:#0f1923;">Ouvrir dans Maps</span>
+      </div>
+    </div>
+  </a>
+</div>
+
+<div class="cta-bottom">
+  <a href="https://maps.google.com/?q=Place+Charles+David+30400+Villeneuve-lès-Avignon" target="_blank" class="cta-call">
+    <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">near_me</span>
+    Itinéraire vers la brocante
+  </a>
+  <a href="tel:0490274949" class="cta-map">
+    <span class="material-symbols-outlined">call</span>
+  </a>
+</div>
+
+<script>
+(function(){
+  var today = new Date().getDay();
+  var rows = document.querySelectorAll('.hrow');
+  if(rows[today]) {
+    var dayEl = rows[today].querySelector('.hrow-day');
+    if(dayEl){
+      dayEl.style.fontWeight = '800';
+      dayEl.style.color = '#0f1923';
+      var badge = document.createElement('span');
+      badge.className = 'hrow-badge';
+      badge.style.marginLeft = '8px';
+      badge.textContent = 'Auj.';
+      dayEl.appendChild(badge);
+    }
+  }
+})();
+</script>
+</body>
+</html>
