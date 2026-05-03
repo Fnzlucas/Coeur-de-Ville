@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1"/>
+<title>L'Heure Bleue — Cœur de Ville</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800;900&family=Inter:wght@300;400;500;600&display=swap"/>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html,body{font-family:'Manrope',sans-serif;background:#f8f9fa;color:#0f1923;-webkit-overflow-scrolling:touch;}
+body{padding-bottom:90px;}
+
+.hero{position:relative;height:320px;overflow:hidden;}
+.hero-img{width:100%;height:100%;object-fit:cover;display:block;}
+.hero-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,0.85) 0%,rgba(0,0,0,0.2) 55%,transparent 100%);}
+.hero-back{position:absolute;top:16px;left:16px;width:40px;height:40px;border-radius:50%;background:rgba(255,255,255,0.15);backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,0.25);display:flex;align-items:center;justify-content:center;cursor:pointer;z-index:10;}
+.hero-back .material-symbols-outlined{color:#fff;font-size:20px;}
+.hero-share{position:absolute;top:16px;right:16px;width:40px;height:40px;border-radius:50%;background:rgba(255,255,255,0.15);backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,0.25);display:flex;align-items:center;justify-content:center;cursor:pointer;z-index:10;}
+.hero-share .material-symbols-outlined{color:#fff;font-size:20px;}
+.hero-content{position:absolute;bottom:0;left:0;right:0;padding:20px 20px 24px;}
+.hero-badge{display:inline-flex;align-items:center;gap:5px;background:rgba(123,141,184,0.92);backdrop-filter:blur(6px);color:#fff;font-size:9px;font-weight:800;letter-spacing:0.12em;text-transform:uppercase;padding:5px 12px;border-radius:20px;margin-bottom:10px;}
+.hero-badge::before{content:'';width:5px;height:5px;background:#fff;border-radius:50%;}
+.hero-name{font-size:30px;font-weight:900;color:#fff;line-height:1.05;letter-spacing:-0.02em;margin-bottom:8px;}
+.hero-meta{display:flex;align-items:center;gap:12px;}
+.hero-rating{display:flex;align-items:center;gap:4px;color:#FBBF24;font-size:13px;font-weight:800;}
+.hero-rating span.cnt{color:rgba(255,255,255,0.6);font-weight:500;font-size:11px;}
+.hero-pill{background:rgba(255,255,255,0.15);backdrop-filter:blur(6px);border:1px solid rgba(255,255,255,0.25);color:#fff;font-size:10px;font-weight:700;padding:4px 10px;border-radius:20px;}
+
+.open-banner{margin:16px 16px 0;background:#f0fdf4;border-radius:14px;padding:12px 16px;display:flex;align-items:center;gap:10px;border:1px solid #bbf7d0;}
+.open-dot{width:8px;height:8px;border-radius:50%;background:#22c55e;flex-shrink:0;box-shadow:0 0 0 3px rgba(34,197,94,0.2);}
+.open-text{font-size:13px;font-weight:700;color:#166534;}
+.open-hours{font-size:12px;font-weight:500;color:#4ade80;margin-top:1px;}
+
+.actions-bar{display:flex;gap:10px;padding:16px 16px 0;}
+.action-btn{flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;padding:12px 8px;background:#fff;border-radius:14px;box-shadow:0 2px 10px rgba(0,0,0,0.06);cursor:pointer;border:none;font-family:Manrope;text-decoration:none;transition:all 0.15s;}
+.action-btn:active{transform:scale(0.96);}
+.action-btn .material-symbols-outlined{font-size:22px;color:#7b8db8;}
+.action-btn .lbl{font-size:10px;font-weight:700;color:#0f1923;letter-spacing:0.02em;}
+
+.section{padding:24px 16px 0;}
+.section-title{font-size:17px;font-weight:900;color:#0f1923;letter-spacing:-0.02em;margin-bottom:12px;}
+
+.desc-card{background:#fff;border-radius:16px;padding:16px;box-shadow:0 2px 10px rgba(0,0,0,0.06);}
+.desc-text{font-size:14px;line-height:1.7;color:#374151;font-weight:400;}
+
+.infos-grid{display:flex;flex-direction:column;gap:1px;background:#f1f5f9;border-radius:16px;overflow:hidden;box-shadow:0 2px 10px rgba(0,0,0,0.06);}
+.info-row{background:#fff;padding:13px 16px;display:flex;align-items:center;gap:12px;}
+.info-row .material-symbols-outlined{font-size:20px;color:#7b8db8;flex-shrink:0;}
+.info-row-content{flex:1;}
+.info-row-label{font-size:11px;font-weight:600;color:#94a3b8;margin-bottom:2px;}
+.info-row-val{font-size:14px;font-weight:700;color:#0f1923;}
+.info-row-action{width:32px;height:32px;border-radius:50%;background:#e2e8f8;display:flex;align-items:center;justify-content:center;flex-shrink:0;text-decoration:none;}
+.info-row-action .material-symbols-outlined{font-size:16px;color:#7b8db8;}
+
+.tags-wrap{display:flex;flex-wrap:wrap;gap:8px;}
+.tag{display:inline-flex;align-items:center;gap:5px;background:#fff;border-radius:100px;padding:7px 12px;font-size:11px;font-weight:700;color:#374151;box-shadow:0 1px 6px rgba(0,0,0,0.07);}
+.tag .material-symbols-outlined{font-size:14px;color:#7b8db8;}
+
+.horaires-card{background:#fff;border-radius:16px;padding:4px 0;box-shadow:0 2px 10px rgba(0,0,0,0.06);}
+.hrow{display:flex;justify-content:space-between;align-items:center;padding:10px 16px;border-bottom:1px solid #f8f9fa;}
+.hrow:last-child{border-bottom:none;}
+.hrow-day{font-size:13px;font-weight:600;color:#374151;}
+.hrow-time{font-size:13px;font-weight:700;color:#0f1923;}
+.hrow-time.closed{color:#dc2626;}
+.hrow-badge{font-size:9px;font-weight:800;text-transform:uppercase;letter-spacing:0.1em;background:#e2e8f8;color:#5066a0;padding:3px 8px;border-radius:20px;}
+
+.prix-row{display:flex;justify-content:space-between;align-items:center;padding:12px 0;border-bottom:1px solid #f1f5f9;}
+.prix-row:last-child{border-bottom:none;}
+.prix-name{font-size:14px;font-weight:600;color:#374151;}
+.prix-val{font-size:14px;font-weight:800;color:#0f1923;}
+
+.cta-bottom{position:fixed;bottom:0;left:0;right:0;padding:12px 16px 20px;background:rgba(255,255,255,0.95);backdrop-filter:blur(20px);border-top:1px solid rgba(0,0,0,0.06);display:flex;gap:10px;z-index:100;}
+.cta-call{flex:1;display:flex;align-items:center;justify-content:center;gap:8px;background:#0f1923;color:#fff;border:none;border-radius:14px;padding:15px;font-family:Manrope;font-size:15px;font-weight:800;cursor:pointer;text-decoration:none;transition:all 0.15s;}
+.cta-call:active{transform:scale(0.97);}
+.cta-call .material-symbols-outlined{font-size:19px;}
+.cta-map{width:52px;height:52px;border-radius:14px;background:#fff;border:1.5px solid #e2e8f0;display:flex;align-items:center;justify-content:center;cursor:pointer;text-decoration:none;flex-shrink:0;transition:all 0.15s;}
+.cta-map:active{transform:scale(0.96);}
+.cta-map .material-symbols-outlined{font-size:22px;color:#0f1923;}
+
+.avis-card{background:#fff;border-radius:14px;padding:14px;box-shadow:0 1px 8px rgba(0,0,0,0.06);margin-bottom:10px;}
+.avis-header{display:flex;align-items:center;gap:10px;margin-bottom:8px;}
+.avis-avatar{width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,#7b8db8,#a8b8d4);display:flex;align-items:center;justify-content:center;color:#fff;font-size:14px;font-weight:800;flex-shrink:0;}
+.avis-name{font-size:13px;font-weight:800;color:#0f1923;}
+.avis-date{font-size:11px;color:#94a3b8;margin-top:1px;}
+.avis-stars{display:flex;gap:2px;color:#FBBF24;font-size:13px;margin-left:auto;}
+.avis-text{font-size:13px;color:#374151;line-height:1.6;}
+
+.score-card{background:linear-gradient(135deg,#5066a0,#7b8db8);border-radius:18px;padding:20px;display:flex;align-items:center;gap:16px;}
+.score-big{font-size:48px;font-weight:900;color:#fff;line-height:1;letter-spacing:-0.04em;}
+.score-stars{display:flex;gap:3px;color:#FBBF24;font-size:18px;margin-bottom:4px;}
+.score-cnt{font-size:12px;color:rgba(255,255,255,0.6);font-weight:500;}
+.score-bars{flex:1;}
+.score-bar-row{display:flex;align-items:center;gap:8px;margin-bottom:5px;}
+.score-bar-label{font-size:10px;color:rgba(255,255,255,0.7);font-weight:600;width:10px;text-align:right;}
+.score-bar-track{flex:1;height:4px;background:rgba(255,255,255,0.15);border-radius:2px;overflow:hidden;}
+.score-bar-fill{height:100%;background:#FBBF24;border-radius:2px;}
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <img class="hero-img" src="../assets/villeneuve/lheure-bleu.jpg" alt="L'Heure Bleue">
+  <div class="hero-overlay"></div>
+  <button class="hero-back" onclick="history.back()">
+    <span class="material-symbols-outlined">arrow_back</span>
+  </button>
+  <div class="hero-share">
+    <span class="material-symbols-outlined">share</span>
+  </div>
+  <div class="hero-content">
+    <div class="hero-badge">Salon de thé · Restaurant · Brunch</div>
+    <div class="hero-name">L'Heure Bleue</div>
+    <div class="hero-meta">
+      <div class="hero-rating">
+        <span class="cnt">Très bon · Avis Google</span>
+      </div>
+      <div class="hero-pill">€€</div>
+      <div class="hero-pill">Jardin secret</div>
+    </div>
+  </div>
+</div>
+
+<div class="open-banner">
+  <div class="open-dot"></div>
+  <div>
+    <div class="open-text">Ouvert · Du lundi au samedi</div>
+    <div class="open-hours">9h–18h en semaine · 9h30–16h le samedi · Brunch & jardin ombragé</div>
+  </div>
+</div>
+
+<div class="actions-bar">
+  <a href="tel:0486845085" class="action-btn">
+    <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">call</span>
+    <span class="lbl">Appeler</span>
+  </a>
+  <a href="https://maps.google.com/?q=5+Rue+de+la+République+30400+Villeneuve-lès-Avignon" target="_blank" class="action-btn">
+    <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">near_me</span>
+    <span class="lbl">Itinéraire</span>
+  </a>
+  <a href="https://www.lheurebleueprovence.fr/" target="_blank" class="action-btn">
+    <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">language</span>
+    <span class="lbl">Site web</span>
+  </a>
+  <a href="mailto:contact@lheurebleueprovence.fr" class="action-btn">
+    <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">mail</span>
+    <span class="lbl">Email</span>
+  </a>
+</div>
+
+<div class="section">
+  <div class="section-title">À propos</div>
+  <div class="desc-card">
+    <p class="desc-text">
+      En plein cœur de Villeneuve-lès-Avignon, face à la mairie, L'Heure Bleue est un véritable havre de paix : une belle demeure de famille avec ses deux salons cosy, une bibliothèque, un comptoir au délicieux parfum de café fraîchement moulu, et surtout un <strong>somptueux jardin secret</strong> conçu en îlots de vie — l'un des spots les plus charmants du village.
+    </p>
+    <p class="desc-text" style="margin-top:10px;">
+      Antje Nantois, originaire de la Forêt Noire et passionnée d'hôtellerie haut de gamme (ex-La Mirande, ex-Maison Bronzini), y a créé un lieu cosy, familial et élégant. <strong>Petit-déjeuner</strong> frais de 9h à 11h, <strong>restauration le midi</strong>, plats et pâtisseries faits maison, salon de thé Mariage Frères, <strong>apéros au jardin</strong> les jeudis et vendredis soir, et <strong>brunch le samedi</strong> de 11h à 14h30. L'établissement abrite également des <strong>chambres d'hôtes (La Régence)</strong> ouvertes 7j/7.
+    </p>
+  </div>
+</div>
+
+<div class="section">
+  <div class="section-title">À savoir</div>
+  <div class="tags-wrap">
+    <div class="tag"><span class="material-symbols-outlined">park</span>Jardin ombragé</div>
+    <div class="tag"><span class="material-symbols-outlined">emoji_food_beverage</span>Salon de thé</div>
+    <div class="tag"><span class="material-symbols-outlined">brunch_dining</span>Brunch samedi</div>
+    <div class="tag"><span class="material-symbols-outlined">free_breakfast</span>Petit-déjeuner</div>
+    <div class="tag"><span class="material-symbols-outlined">cake</span>Pâtisseries maison</div>
+    <div class="tag"><span class="material-symbols-outlined">local_bar</span>Apéros au jardin</div>
+    <div class="tag"><span class="material-symbols-outlined">hotel</span>Chambres d'hôtes</div>
+    <div class="tag"><span class="material-symbols-outlined">child_care</span>Aire de jeux enfants</div>
+    <div class="tag"><span class="material-symbols-outlined">wifi</span>Wi-Fi gratuit</div>
+    <div class="tag"><span class="material-symbols-outlined">air</span>Climatisation</div>
+    <div class="tag"><span class="material-symbols-outlined">credit_card</span>CB acceptée</div>
+    <div class="tag"><span class="material-symbols-outlined">translate</span>FR · EN · DE · ES</div>
+  </div>
+</div>
+
+<div class="section">
+  <div class="section-title">Horaires</div>
+  <div class="horaires-card">
+    <div class="hrow">
+      <span class="hrow-day">Lundi</span>
+      <span class="hrow-time">9h–18h</span>
+    </div>
+    <div class="hrow">
+      <span class="hrow-day">Mardi</span>
+      <span class="hrow-time">9h–18h</span>
+    </div>
+    <div class="hrow">
+      <span class="hrow-day">Mercredi</span>
+      <span class="hrow-time">9h–18h</span>
+    </div>
+    <div class="hrow">
+      <span class="hrow-day">Jeudi</span>
+      <span class="hrow-time">9h–18h · apéro 18h–21h30</span>
+    </div>
+    <div class="hrow">
+      <span class="hrow-day">Vendredi</span>
+      <span class="hrow-time">9h–18h · apéro 18h–21h30</span>
+    </div>
+    <div class="hrow">
+      <span class="hrow-day">Samedi</span>
+      <span class="hrow-time">9h30–16h · brunch 11h–14h30</span>
+    </div>
+    <div class="hrow">
+      <span class="hrow-day">Dimanche</span>
+      <span class="hrow-time closed">Fermé (salon de thé)</span>
+    </div>
+    <div style="padding:10px 16px;font-size:11px;color:#94a3b8;font-weight:500;">
+       Chambres d'hôtes ouvertes 7j/7 toute l'année
+    </div>
+  </div>
+</div>
+
+<div class="section">
+  <div class="section-title">Formules & tarifs</div>
+  <div class="desc-card">
+    <div class="prix-row">
+      <span class="prix-name">Petit-déjeuner (9h–11h)</span>
+      <span class="prix-val">à partir de 12 €</span>
+    </div>
+    <div class="prix-row">
+      <span class="prix-name">Déjeuner (entrée + plat ou plat + dessert)</span>
+      <span class="prix-val">24 – 28 €</span>
+    </div>
+    <div class="prix-row">
+      <span class="prix-name">Brunch du samedi</span>
+      <span class="prix-val">à partir de 35 €</span>
+    </div>
+    <div class="prix-row" style="border-bottom:none;">
+      <span class="prix-name">Planche apéro (charcuterie / fromage)</span>
+      <span class="prix-val">à partir de 18 €</span>
+    </div>
+    <div style="margin-top:10px;padding:10px 12px;background:#e2e8f8;border-radius:10px;font-size:11px;font-weight:600;color:#5066a0;">
+       50 couverts en jardin · 30 en intérieur · Idéal pour anniversaires & baby showers
+    </div>
+  </div>
+</div>
+
+<div class="section">
+  <div class="section-title">Infos pratiques</div>
+  <div class="infos-grid">
+    <div class="info-row">
+      <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">location_on</span>
+      <div class="info-row-content">
+        <div class="info-row-label">Adresse</div>
+        <div class="info-row-val">5 Rue de la République<br>30400 Villeneuve-lès-Avignon</div>
+      </div>
+      <a href="https://maps.google.com/?q=5+Rue+de+la+République+30400+Villeneuve-lès-Avignon" target="_blank" class="info-row-action">
+        <span class="material-symbols-outlined">open_in_new</span>
+      </a>
+    </div>
+    <div class="info-row">
+      <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">call</span>
+      <div class="info-row-content">
+        <div class="info-row-label">Téléphone</div>
+        <div class="info-row-val">04 86 84 50 85</div>
+      </div>
+      <a href="tel:0486845085" class="info-row-action">
+        <span class="material-symbols-outlined">call</span>
+      </a>
+    </div>
+    <div class="info-row">
+      <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">mail</span>
+      <div class="info-row-content">
+        <div class="info-row-label">Email</div>
+        <div class="info-row-val">contact@lheurebleueprovence.fr</div>
+      </div>
+      <a href="mailto:contact@lheurebleueprovence.fr" class="info-row-action">
+        <span class="material-symbols-outlined">open_in_new</span>
+      </a>
+    </div>
+    <div class="info-row">
+      <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">language</span>
+      <div class="info-row-content">
+        <div class="info-row-label">Site web</div>
+        <div class="info-row-val">lheurebleueprovence.fr</div>
+      </div>
+      <a href="https://www.lheurebleueprovence.fr/" target="_blank" class="info-row-action">
+        <span class="material-symbols-outlined">open_in_new</span>
+      </a>
+    </div>
+    <div class="info-row">
+      <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">storefront</span>
+      <div class="info-row-content">
+        <div class="info-row-label">Type d'établissement</div>
+        <div class="info-row-val">Salon de thé · Restaurant · Chambres d'hôtes</div>
+      </div>
+    </div>
+    <div class="info-row">
+      <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">translate</span>
+      <div class="info-row-content">
+        <div class="info-row-label">Langues parlées</div>
+        <div class="info-row-val">Français · Anglais · Allemand · Espagnol</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="section">
+  <div class="section-title">Avis clients</div>
+  <div class="score-card">
+    <div style="text-align:center;">
+      <div class="score-big">4,6</div>
+      <div class="score-stars">★★★★★</div>
+      <div class="score-cnt">Avis Google</div>
+    </div>
+    <div class="score-bars">
+      <div class="score-bar-row">
+        <span class="score-bar-label">5</span>
+        <div class="score-bar-track"><div class="score-bar-fill" style="width:75%"></div></div>
+      </div>
+      <div class="score-bar-row">
+        <span class="score-bar-label">4</span>
+        <div class="score-bar-track"><div class="score-bar-fill" style="width:18%"></div></div>
+      </div>
+      <div class="score-bar-row">
+        <span class="score-bar-label">3</span>
+        <div class="score-bar-track"><div class="score-bar-fill" style="width:4%"></div></div>
+      </div>
+      <div class="score-bar-row">
+        <span class="score-bar-label">2</span>
+        <div class="score-bar-track"><div class="score-bar-fill" style="width:2%"></div></div>
+      </div>
+      <div class="score-bar-row" style="margin-bottom:0;">
+        <span class="score-bar-label">1</span>
+        <div class="score-bar-track"><div class="score-bar-fill" style="width:1%"></div></div>
+      </div>
+      <div style="margin-top:10px;font-size:10px;color:rgba(255,255,255,0.5);font-weight:500;">Salon de thé · Villeneuve-lès-Avignon</div>
+    </div>
+  </div>
+</div>
+
+<div style="padding:12px 16px 0;">
+  <div class="avis-card">
+    <div class="avis-header">
+      <div class="avis-avatar">M</div>
+      <div>
+        <div class="avis-name">Marie</div>
+        <div class="avis-date">Avis Google</div>
+      </div>
+      <div class="avis-stars">★★★★★</div>
+    </div>
+    <div class="avis-text">Plein centre de Villeneuve-lès-Avignon, nourriture incroyable, de très bonne qualité. Jardin magnifique !</div>
+  </div>
+
+  <div class="avis-card">
+    <div class="avis-header">
+      <div class="avis-avatar" style="background:linear-gradient(135deg,#5066a0,#7b8db8);">P</div>
+      <div>
+        <div class="avis-name">Patricia</div>
+        <div class="avis-date">Visiteuse</div>
+      </div>
+      <div class="avis-stars">★★★★★</div>
+    </div>
+    <div class="avis-text">Quel plaisir d'avoir découvert ce magnifique havre de tranquillité et d'excellence. Bravo au chef pour l'originalité et l'excellente qualité des mets.</div>
+  </div>
+
+  <div class="avis-card">
+    <div class="avis-header">
+      <div class="avis-avatar" style="background:linear-gradient(135deg,#7b8db8,#a8b8d4);">C</div>
+      <div>
+        <div class="avis-name">Camille</div>
+        <div class="avis-date">Cliente régulière</div>
+      </div>
+      <div class="avis-stars">★★★★★</div>
+    </div>
+    <div class="avis-text">Superbe lieu, très cocooning, surtout le jardin aux beaux jours qui devient très agréable. Les gâteaux sont bons, surtout le pomme caramel !</div>
+  </div>
+
+  <a href="https://www.lheurebleueprovence.fr/" target="_blank"
+     style="display:flex;align-items:center;justify-content:center;gap:6px;padding:13px;border-radius:14px;border:1.5px solid #e2e8f0;background:#fff;font-family:Manrope;font-size:13px;font-weight:700;color:#0f1923;text-decoration:none;margin-bottom:8px;">
+    <span class="material-symbols-outlined" style="font-size:17px;color:#7b8db8;">language</span>
+    Visiter le site officiel
+  </a>
+</div>
+
+<div class="section" style="padding-bottom:16px;">
+  <div class="section-title">Localisation</div>
+  <a href="https://maps.google.com/?q=5+Rue+de+la+République+30400+Villeneuve-lès-Avignon" target="_blank"
+     style="display:block;border-radius:16px;overflow:hidden;height:160px;background:linear-gradient(135deg,#e2e8f8,#c8d1e8);position:relative;text-decoration:none;">
+    <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:8px;">
+      <span class="material-symbols-outlined" style="font-size:40px;color:#7b8db8;font-variation-settings:'FILL' 1;">location_on</span>
+      <div style="font-size:14px;font-weight:800;color:#0f1923;">5 Rue de la République</div>
+      <div style="font-size:12px;font-weight:500;color:#64748b;">Face à la mairie</div>
+      <div style="display:flex;align-items:center;gap:4px;background:#fff;padding:6px 14px;border-radius:20px;box-shadow:0 2px 8px rgba(0,0,0,0.1);margin-top:4px;">
+        <span class="material-symbols-outlined" style="font-size:14px;color:#7b8db8;">near_me</span>
+        <span style="font-size:11px;font-weight:700;color:#0f1923;">Ouvrir dans Maps</span>
+      </div>
+    </div>
+  </a>
+</div>
+
+<div class="cta-bottom">
+  <a href="tel:0486845085" class="cta-call">
+    <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">call</span>
+    Réserver · 04 86 84 50 85
+  </a>
+  <a href="https://maps.google.com/?q=5+Rue+de+la+République+30400+Villeneuve-lès-Avignon" target="_blank" class="cta-map">
+    <span class="material-symbols-outlined">near_me</span>
+  </a>
+</div>
+
+<script>
+(function(){
+  var today = new Date().getDay();
+  var rows = document.querySelectorAll('.hrow');
+  if(rows[today]) {
+    var dayEl = rows[today].querySelector('.hrow-day');
+    if(dayEl){
+      dayEl.style.fontWeight = '800';
+      dayEl.style.color = '#0f1923';
+      var badge = document.createElement('span');
+      badge.className = 'hrow-badge';
+      badge.style.marginLeft = '8px';
+      badge.textContent = 'Auj.';
+      dayEl.appendChild(badge);
+    }
+  }
+})();
+</script>
+</body>
+</html>
