@@ -71,7 +71,7 @@
     "photo": "assets/vaison-la-romaine/hero.jpg",
     "expire": null
   },
-   "Rochefort du Gard": {
+   "rochefort-du-gard": {
     "actif": true,
     "nom": "Rochefort du Gard",
     "departement": "Gard (30)",
