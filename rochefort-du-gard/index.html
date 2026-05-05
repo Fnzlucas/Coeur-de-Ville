@@ -6,12 +6,12 @@
 function getVilleParam() {
   try {
     var params = new URLSearchParams(window.location.search);
-    return params.get('ville') || localStorage.getItem('cdv_ville') || 'rochefort';
+    return params.get('ville') || localStorage.getItem('cdv_ville') || 'rochefort-du-gard';
   } catch(e) {
-    return 'rochefort';
+    return 'rochefort-du-gard';
   }
 }
-var VILLE_ID = getVilleParam() || 'rochefort';
+var VILLE_ID = getVilleParam() || 'rochefort-du-gard';
 var ASSETS_PREFIX = '../assets/' + VILLE_ID + '/';
 </script>
 
