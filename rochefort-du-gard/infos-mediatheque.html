@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1"/>
+<title>Bibliothèque – Cœur de Ville</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800;900&display=swap"/>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html,body{font-family:'Manrope',sans-serif;background:#f4f6f9;color:#0f1923;}
+body{padding-bottom:40px;}
+.hero{position:relative;width:100%;height:220px;overflow:hidden;}
+.hero-img{width:100%;height:100%;object-fit:cover;display:block;background:#1e3a5f url('../assets/rochefort/bibliotheque.jpg') center/cover no-repeat;}
+.hero-overlay{position:absolute;inset:0;background:linear-gradient(to bottom,rgba(0,0,0,0.05),rgba(0,0,0,0.6));}
+.hero-back{position:absolute;top:16px;left:16px;width:40px;height:40px;border-radius:50%;background:rgba(255,255,255,0.18);backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,0.25);display:flex;align-items:center;justify-content:center;cursor:pointer;color:#fff;text-decoration:none;}
+.hero-back .material-symbols-outlined{font-size:22px;}
+.hero-content{position:absolute;bottom:0;left:0;right:0;padding:18px 16px 16px;}
+.hero-cat{font-size:9px;font-weight:800;letter-spacing:0.14em;text-transform:uppercase;color:rgba(255,255,255,0.65);margin-bottom:4px;}
+.hero-title{font-size:24px;font-weight:900;color:#fff;line-height:1.1;letter-spacing:-0.03em;}
+.body{padding:18px 16px 0;}
+.sec{margin-bottom:22px;}
+.sec-title{font-size:15px;font-weight:900;color:#0f1923;letter-spacing:-0.02em;margin-bottom:10px;display:flex;align-items:center;gap:8px;}
+.sec-title .material-symbols-outlined{font-size:18px;color:#1e3a5f;}
+.block{background:#fff;border-radius:16px;overflow:hidden;box-shadow:0 3px 14px rgba(15,25,35,0.06);margin-bottom:10px;border:1px solid rgba(15,25,35,0.04);}
+.block-head{display:flex;align-items:center;gap:12px;padding:13px 14px;border-bottom:1px solid #f4f6f9;}
+.block-icon{width:38px;height:38px;border-radius:11px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.block-icon .material-symbols-outlined{font-size:20px;font-variation-settings:'FILL' 1;}
+.block-name{font-size:14px;font-weight:800;color:#0f1923;}
+.block-sub{font-size:11px;color:#64748b;font-weight:500;margin-top:1px;}
+.row{display:flex;align-items:center;justify-content:space-between;padding:9px 14px;border-bottom:1px solid #f8f9fa;}
+.row:last-child{border-bottom:none;}
+.row-label{font-size:12px;font-weight:700;color:#64748b;display:flex;align-items:center;gap:6px;}
+.row-label .material-symbols-outlined{font-size:14px;color:#94a3b8;}
+.row-val{font-size:12px;font-weight:800;color:#0f1923;text-align:right;}
+.row-val.closed{color:#ef4444;}
+.row-val.open{color:#16a34a;}
+.call-btn{margin-left:auto;width:34px;height:34px;background:#f1f5f9;border-radius:50%;display:flex;align-items:center;justify-content:center;text-decoration:none;flex-shrink:0;}
+.call-btn .material-symbols-outlined{font-size:16px;color:#475569;font-variation-settings:'FILL' 1;}
+.mail-btn{margin-left:6px;width:34px;height:34px;background:#f1f5f9;border-radius:50%;display:flex;align-items:center;justify-content:center;text-decoration:none;flex-shrink:0;}
+.mail-btn .material-symbols-outlined{font-size:16px;color:#475569;font-variation-settings:'FILL' 1;}
+.tarif-row{display:flex;justify-content:space-between;align-items:center;padding:9px 14px;border-bottom:1px solid #f8f9fa;}
+.tarif-row:last-child{border-bottom:none;}
+.tarif-label{font-size:12px;font-weight:700;color:#64748b;}
+.tarif-price{font-size:13px;font-weight:900;color:#0f1923;}
+.tarif-price.free{color:#16a34a;}
+.chips{display:flex;flex-wrap:wrap;gap:7px;}
+.chip{padding:5px 12px;border-radius:100px;font-size:11px;font-weight:700;background:#fff;border:1.5px solid rgba(15,25,35,0.09);color:#0f1923;}
+.note{background:#f1f5f9;border-radius:12px;padding:11px 13px;font-size:11px;font-weight:600;color:#475569;line-height:1.5;display:flex;gap:8px;align-items:flex-start;margin-top:4px;}
+.note .material-symbols-outlined{font-size:15px;color:#1e3a5f;flex-shrink:0;margin-top:1px;}
+.link-btn{display:flex;align-items:center;justify-content:space-between;padding:12px 14px;background:#fff;border-radius:14px;border:1.5px solid rgba(30,58,95,0.15);text-decoration:none;margin-bottom:10px;}
+.link-btn-label{font-size:13px;font-weight:800;color:#1e3a5f;}
+.link-btn-sub{font-size:11px;color:#64748b;font-weight:500;margin-top:1px;}
+.link-btn .material-symbols-outlined{font-size:20px;color:#1e3a5f;}
+</style>
+</head>
+<body>
+<div class="hero">
+  <div class="hero-img"></div>
+  <div class="hero-overlay"></div>
+  <a class="hero-back" href="javascript:history.back()"><span class="material-symbols-outlined">arrow_back</span></a>
+  <div class="hero-content">
+    <div class="hero-cat">Infos pratiques · Résident</div>
+    <h1 class="hero-title">Bibliothèque La Source</h1>
+  </div>
+</div>
+
+<div class="body">
+
+  <!-- Infos générales -->
+  <div class="sec">
+    <div class="sec-title"><span class="material-symbols-outlined">local_library</span>Coordonnées</div>
+    <div class="block">
+      <div class="block-head">
+        <div class="block-icon" style="background:#dbeafe;"><span class="material-symbols-outlined" style="color:#1e3a5f;">local_library</span></div>
+        <div style="flex:1;min-width:0;">
+          <div class="block-name">Bibliothèque municipale La Source</div>
+          <div class="block-sub">1 Rue du Grand Pont · 30650 Rochefort-du-Gard</div>
+        </div>
+        <a href="tel:+33490261375" class="call-btn"><span class="material-symbols-outlined">call</span></a>
+        <a href="mailto:bibliotheque@rdg30650.fr" class="mail-btn"><span class="material-symbols-outlined">mail</span></a>
+      </div>
+      <div class="row"><div class="row-label"><span class="material-symbols-outlined">call</span> Téléphone</div><div class="row-val">04 90 26 13 75</div></div>
+      <div class="row"><div class="row-label"><span class="material-symbols-outlined">mail</span> Email</div><div class="row-val">bibliotheque@rdg30650.fr</div></div>
+      <div class="row"><div class="row-label"><span class="material-symbols-outlined">person</span> Responsable</div><div class="row-val">Mme Aurélie Narcisi</div></div>
+      <div class="row"><div class="row-label"><span class="material-symbols-outlined">menu_book</span> Fonds</div><div class="row-val">+10 000 ouvrages</div></div>
+    </div>
+  </div>
+
+  <!-- Horaires -->
+  <div class="sec">
+    <div class="sec-title"><span class="material-symbols-outlined">schedule</span>Horaires d'ouverture</div>
+    <div class="block">
+      <div class="row"><div class="row-label"><span class="material-symbols-outlined">today</span> Lundi</div><div class="row-val closed">Fermé</div></div>
+      <div class="row"><div class="row-label"><span class="material-symbols-outlined">today</span> Mardi</div><div class="row-val open">14h – 18h</div></div>
+      <div class="row"><div class="row-label"><span class="material-symbols-outlined">today</span> Mercredi</div><div class="row-val open">9h – 12h · 14h – 18h</div></div>
+      <div class="row"><div class="row-label"><span class="material-symbols-outlined">today</span> Jeudi</div><div class="row-val open">14h – 18h</div></div>
+      <div class="row"><div class="row-label"><span class="material-symbols-outlined">today</span> Vendredi</div><div class="row-val open">14h – 18h</div></div>
+      <div class="row"><div class="row-label"><span class="material-symbols-outlined">today</span> Samedi</div><div class="row-val open">9h – 12h</div></div>
+      <div class="row"><div class="row-label"><span class="material-symbols-outlined">today</span> Dimanche</div><div class="row-val closed">Fermé</div></div>
+    </div>
+  </div>
+
+  <!-- Inscription & tarifs -->
+  <div class="sec">
+    <div class="sec-title"><span class="material-symbols-outlined">badge</span>Inscription & tarifs</div>
+    <div class="block">
+      <div class="tarif-row"><div class="tarif-label">Rochefortais (tous âges)</div><div class="tarif-price free">Gratuit</div></div>
+      <div class="tarif-row"><div class="tarif-label">Enfants scolarisés à Rochefort</div><div class="tarif-price free">Gratuit</div></div>
+      <div class="tarif-row"><div class="tarif-label">Moins de 18 ans · étudiants · demandeurs d'emploi (hors commune)</div><div class="tarif-price">5 €</div></div>
+      <div class="tarif-row"><div class="tarif-label">Non-Rochefortais</div><div class="tarif-price">15 €</div></div>
+    </div>
+    <div class="note"><span class="material-symbols-outlined">info</span>Consultation sur place gratuite et sans inscription. Pièces à fournir : justificatif de domicile (-4 mois) + pièce d'identité. Pour un compte enfant, un parent doit également présenter sa pièce d'identité.</div>
+  </div>
+
+  <!-- Modalités de prêt -->
+  <div class="sec">
+    <div class="sec-title"><span class="material-symbols-outlined">swap_horiz</span>Modalités de prêt</div>
+    <div class="block">
+      <div class="row"><div class="row-label"><span class="material-symbols-outlined">library_books</span> Quota</div><div class="row-val">10 livres simultanés</div></div>
+      <div class="row"><div class="row-label"><span class="material-symbols-outlined">star</span> Nouveautés</div><div class="row-val">2 max. par emprunt</div></div>
+      <div class="row"><div class="row-label"><span class="material-symbols-outlined">event</span> Durée standard</div><div class="row-val">4 semaines · renouvelable 1×</div></div>
+      <div class="row"><div class="row-label"><span class="material-symbols-outlined">event</span> Durée nouveautés</div><div class="row-val">2 semaines · non renouvelable</div></div>
+    </div>
+  </div>
+
+  <!-- Collections -->
+  <div class="sec">
+    <div class="sec-title"><span class="material-symbols-outlined">auto_stories</span>Collections disponibles</div>
+    <div class="chips">
+      <div class="chip">Romans</div>
+      <div class="chip">Policiers</div>
+      <div class="chip">Historiques</div>
+      <div class="chip">Biographies</div>
+      <div class="chip">Documentaires</div>
+      <div class="chip">BD</div>
+      <div class="chip">Mangas</div>
+      <div class="chip">Science-fiction</div>
+      <div class="chip">Jeunesse</div>
+    </div>
+  </div>
+
+  <!-- Catalogue en ligne -->
+  <div class="sec">
+    <div class="sec-title"><span class="material-symbols-outlined">language</span>Catalogue en ligne</div>
+    <a class="link-btn" href="http://koha.bibliotheque.ville-rochefortdugard.fr/" target="_blank">
+      <div>
+        <div class="link-btn-label">Consulter le catalogue</div>
+        <div class="link-btn-sub">koha.bibliotheque.ville-rochefortdugard.fr</div>
+      </div>
+      <span class="material-symbols-outlined">open_in_new</span>
+    </a>
+    <div class="note"><span class="material-symbols-outlined">info</span>La Bibliothèque départementale de prêt de Nîmes enrichit régulièrement le fonds. Réseau des médiathèques du Grand Avignon.</div>
+  </div>
+
+</div>
+</body>
+</html>
