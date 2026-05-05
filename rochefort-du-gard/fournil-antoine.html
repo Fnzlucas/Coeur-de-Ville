@@ -4,12 +4,14 @@
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1"/>
 <title>Le Fournil d'Antoine — Cœur de Ville</title>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800;900&display=swap"/>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800;900&family=Inter:wght@300;400;500;600&display=swap"/>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"/>
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
 html,body{font-family:'Manrope',sans-serif;background:#f8f9fa;color:#0f1923;-webkit-overflow-scrolling:touch;}
 body{padding-bottom:90px;}
+
+/*  HERO  */
 .hero{position:relative;height:320px;overflow:hidden;}
 .hero-img{width:100%;height:100%;object-fit:cover;display:block;}
 .hero-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,0.85) 0%,rgba(0,0,0,0.2) 55%,transparent 100%);}
@@ -18,30 +20,42 @@ body{padding-bottom:90px;}
 .hero-share{position:absolute;top:16px;right:16px;width:40px;height:40px;border-radius:50%;background:rgba(255,255,255,0.15);backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,0.25);display:flex;align-items:center;justify-content:center;cursor:pointer;z-index:10;}
 .hero-share .material-symbols-outlined{color:#fff;font-size:20px;}
 .hero-content{position:absolute;bottom:0;left:0;right:0;padding:20px 20px 24px;}
-.hero-badge{display:inline-flex;align-items:center;gap:5px;background:rgba(230,126,34,0.9);backdrop-filter:blur(6px);color:#fff;font-size:9px;font-weight:800;letter-spacing:0.12em;text-transform:uppercase;padding:5px 12px;border-radius:20px;margin-bottom:10px;}
+.hero-badge{display:inline-flex;align-items:center;gap:5px;background:rgba(139,90,43,0.9);backdrop-filter:blur(6px);color:#fff;font-size:9px;font-weight:800;letter-spacing:0.12em;text-transform:uppercase;padding:5px 12px;border-radius:20px;margin-bottom:10px;}
 .hero-badge::before{content:'';width:5px;height:5px;background:#fff;border-radius:50%;}
 .hero-name{font-size:30px;font-weight:900;color:#fff;line-height:1.05;letter-spacing:-0.02em;margin-bottom:8px;}
 .hero-meta{display:flex;align-items:center;gap:12px;}
 .hero-rating{display:flex;align-items:center;gap:4px;color:#FBBF24;font-size:13px;font-weight:800;}
 .hero-rating span.cnt{color:rgba(255,255,255,0.6);font-weight:500;font-size:11px;}
 .hero-pill{background:rgba(255,255,255,0.15);backdrop-filter:blur(6px);border:1px solid rgba(255,255,255,0.25);color:#fff;font-size:10px;font-weight:700;padding:4px 10px;border-radius:20px;}
+
+/*  OPEN BANNER  */
 .open-banner{margin:16px 16px 0;background:#fff8f0;border-radius:14px;padding:12px 16px;display:flex;align-items:center;gap:10px;border:1px solid #fcd9a0;}
 .open-dot{width:8px;height:8px;border-radius:50%;background:#f59e0b;flex-shrink:0;box-shadow:0 0 0 3px rgba(245,158,11,0.2);}
 .open-text{font-size:13px;font-weight:700;color:#92400e;}
 .open-hours{font-size:12px;font-weight:500;color:#d97706;margin-top:1px;}
+
+/*  ACTIONS BAR  */
 .actions-bar{display:flex;gap:10px;padding:16px 16px 0;}
 .action-btn{flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;padding:12px 8px;background:#fff;border-radius:14px;box-shadow:0 2px 10px rgba(0,0,0,0.06);cursor:pointer;border:none;font-family:Manrope;text-decoration:none;transition:all 0.15s;}
 .action-btn:active{transform:scale(0.96);}
 .action-btn .material-symbols-outlined{font-size:22px;color:#8b5a2b;}
 .action-btn .lbl{font-size:10px;font-weight:700;color:#0f1923;letter-spacing:0.02em;}
+
+/*  SECTION  */
 .section{padding:24px 16px 0;}
 .section-title{font-size:17px;font-weight:900;color:#0f1923;letter-spacing:-0.02em;margin-bottom:12px;}
+
+/*  DESC  */
 .desc-card{background:#fff;border-radius:16px;padding:16px;box-shadow:0 2px 10px rgba(0,0,0,0.06);}
 .desc-text{font-size:14px;line-height:1.7;color:#374151;font-weight:400;}
+
+/*  PROMO BAND  */
 .promo-band{background:linear-gradient(135deg,#7c3a0e,#c87941);border-radius:14px;padding:14px 16px;display:flex;align-items:center;gap:14px;margin-top:12px;}
 .promo-icon{font-size:28px;flex-shrink:0;}
 .promo-title{font-size:13px;font-weight:800;color:#fff;margin-bottom:3px;}
 .promo-desc{font-size:12px;color:rgba(255,255,255,0.8);line-height:1.5;}
+
+/*  INFOS GRID  */
 .infos-grid{display:flex;flex-direction:column;gap:1px;background:#f1f5f9;border-radius:16px;overflow:hidden;box-shadow:0 2px 10px rgba(0,0,0,0.06);}
 .info-row{background:#fff;padding:13px 16px;display:flex;align-items:center;gap:12px;}
 .info-row .material-symbols-outlined{font-size:20px;color:#8b5a2b;flex-shrink:0;}
@@ -50,16 +64,38 @@ body{padding-bottom:90px;}
 .info-row-val{font-size:14px;font-weight:700;color:#0f1923;}
 .info-row-action{width:32px;height:32px;border-radius:50%;background:#fdefd8;display:flex;align-items:center;justify-content:center;flex-shrink:0;text-decoration:none;}
 .info-row-action .material-symbols-outlined{font-size:16px;color:#8b5a2b;}
+
+/*  TAGS  */
 .tags-wrap{display:flex;flex-wrap:wrap;gap:8px;}
 .tag{display:inline-flex;align-items:center;gap:5px;background:#fff;border-radius:100px;padding:7px 12px;font-size:11px;font-weight:700;color:#374151;box-shadow:0 1px 6px rgba(0,0,0,0.07);}
 .tag .material-symbols-outlined{font-size:14px;color:#8b5a2b;}
+
+/*  HORAIRES DETAIL  */
 .horaires-card{background:#fff;border-radius:16px;padding:4px 0;box-shadow:0 2px 10px rgba(0,0,0,0.06);}
 .hrow{display:flex;justify-content:space-between;align-items:center;padding:10px 16px;border-bottom:1px solid #f8f9fa;}
 .hrow:last-child{border-bottom:none;}
 .hrow-day{font-size:13px;font-weight:600;color:#374151;}
+.hrow-day.today{font-weight:800;color:#0f1923;}
 .hrow-time{font-size:13px;font-weight:700;color:#0f1923;}
 .hrow-time.closed{color:#dc2626;}
 .hrow-badge{font-size:9px;font-weight:800;text-transform:uppercase;letter-spacing:0.1em;background:#fdefd8;color:#7c3a0e;padding:3px 8px;border-radius:20px;}
+
+/*  PRIX  */
+.prix-row{display:flex;justify-content:space-between;align-items:center;padding:12px 0;border-bottom:1px solid #f1f5f9;}
+.prix-row:last-child{border-bottom:none;}
+.prix-name{font-size:14px;font-weight:600;color:#374151;}
+.prix-val{font-size:14px;font-weight:800;color:#0f1923;}
+
+/*  CTA BOTTOM  */
+.cta-bottom{position:fixed;bottom:0;left:0;right:0;padding:12px 16px 20px;background:rgba(255,255,255,0.95);backdrop-filter:blur(20px);border-top:1px solid rgba(0,0,0,0.06);display:flex;gap:10px;z-index:100;}
+.cta-call{flex:1;display:flex;align-items:center;justify-content:center;gap:8px;background:#0f1923;color:#fff;border:none;border-radius:14px;padding:15px;font-family:Manrope;font-size:15px;font-weight:800;cursor:pointer;text-decoration:none;transition:all 0.15s;}
+.cta-call:active{transform:scale(0.97);}
+.cta-call .material-symbols-outlined{font-size:19px;}
+.cta-map{width:52px;height:52px;border-radius:14px;background:#fff;border:1.5px solid #e2e8f0;display:flex;align-items:center;justify-content:center;cursor:pointer;text-decoration:none;flex-shrink:0;transition:all 0.15s;}
+.cta-map:active{transform:scale(0.96);}
+.cta-map .material-symbols-outlined{font-size:22px;color:#0f1923;}
+
+/*  AVIS  */
 .avis-card{background:#fff;border-radius:14px;padding:14px;box-shadow:0 1px 8px rgba(0,0,0,0.06);margin-bottom:10px;}
 .avis-header{display:flex;align-items:center;gap:10px;margin-bottom:8px;}
 .avis-avatar{width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,#8b5a2b,#c87941);display:flex;align-items:center;justify-content:center;color:#fff;font-size:14px;font-weight:800;flex-shrink:0;}
@@ -67,25 +103,24 @@ body{padding-bottom:90px;}
 .avis-date{font-size:11px;color:#94a3b8;margin-top:1px;}
 .avis-stars{display:flex;gap:2px;color:#FBBF24;font-size:13px;margin-left:auto;}
 .avis-text{font-size:13px;color:#374151;line-height:1.6;}
+
+/*  SCORE GLOBAL  */
 .score-card{background:linear-gradient(135deg,#7c3a0e,#8b5a2b);border-radius:18px;padding:20px;display:flex;align-items:center;gap:16px;}
 .score-big{font-size:48px;font-weight:900;color:#fff;line-height:1;letter-spacing:-0.04em;}
 .score-stars{display:flex;gap:3px;color:#FBBF24;font-size:18px;margin-bottom:4px;}
-.score-cnt{font-size:12px;color:rgba(255,255,255,0.6);font-weight:500;}
+.score-cnt{font-size:12px;color:rgba(255,255,255,0.5);font-weight:500;}
 .score-bars{flex:1;}
 .score-bar-row{display:flex;align-items:center;gap:8px;margin-bottom:5px;}
-.score-bar-label{font-size:10px;color:rgba(255,255,255,0.7);font-weight:600;width:10px;text-align:right;}
-.score-bar-track{flex:1;height:4px;background:rgba(255,255,255,0.15);border-radius:2px;overflow:hidden;}
+.score-bar-label{font-size:10px;color:rgba(255,255,255,0.6);font-weight:600;width:10px;text-align:right;}
+.score-bar-track{flex:1;height:4px;background:rgba(255,255,255,0.1);border-radius:2px;overflow:hidden;}
 .score-bar-fill{height:100%;background:#FBBF24;border-radius:2px;}
-.cta-bottom{position:fixed;bottom:0;left:0;right:0;padding:12px 16px 20px;background:rgba(255,255,255,0.95);backdrop-filter:blur(20px);border-top:1px solid rgba(0,0,0,0.06);display:flex;gap:10px;z-index:100;}
-.cta-call{flex:1;display:flex;align-items:center;justify-content:center;gap:8px;background:#0f1923;color:#fff;border:none;border-radius:14px;padding:15px;font-family:Manrope;font-size:15px;font-weight:800;cursor:pointer;text-decoration:none;}
-.cta-call .material-symbols-outlined{font-size:19px;}
-.cta-map{width:52px;height:52px;border-radius:14px;background:#fff;border:1.5px solid #e2e8f0;display:flex;align-items:center;justify-content:center;cursor:pointer;text-decoration:none;flex-shrink:0;}
-.cta-map .material-symbols-outlined{font-size:22px;color:#0f1923;}
 </style>
 </head>
 <body>
 
-<img class="hero-img" src="../assets/rochefort-du-gard/fournil-antoine.jpg" alt="Le Fournil d'Antoine" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center top;">
+<!-- HERO -->
+<div class="hero">
+  <img class="hero-img" src="../assets/rochefort-du-gard/fournil-antoine.jpg" alt="Le Fournil d'Antoine">
   <div class="hero-overlay"></div>
   <button class="hero-back" onclick="history.back()">
     <span class="material-symbols-outlined">arrow_back</span>
@@ -97,13 +132,16 @@ body{padding-bottom:90px;}
     <div class="hero-badge">Boulangerie · Pâtisserie · Traiteur</div>
     <div class="hero-name">Le Fournil d'Antoine</div>
     <div class="hero-meta">
-      <div class="hero-rating"><span class="cnt">4/5 · 27 avis Google</span></div>
+      <div class="hero-rating">
+        <span class="cnt">4/5 · 27 avis Google</span>
+      </div>
       <div class="hero-pill">Artisanal</div>
       <div class="hero-pill">Ouv. 6h30</div>
     </div>
   </div>
 </div>
 
+<!-- STATUT OUVERT -->
 <div class="open-banner">
   <div class="open-dot"></div>
   <div>
@@ -112,6 +150,7 @@ body{padding-bottom:90px;}
   </div>
 </div>
 
+<!-- ACTIONS -->
 <div class="actions-bar">
   <a href="tel:+33490266247" class="action-btn">
     <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">call</span>
@@ -131,6 +170,7 @@ body{padding-bottom:90px;}
   </a>
 </div>
 
+<!-- DESCRIPTION -->
 <div class="section">
   <div class="section-title">À propos</div>
   <div class="desc-card">
@@ -146,6 +186,7 @@ body{padding-bottom:90px;}
   </div>
 </div>
 
+<!-- TAGS / SERVICES -->
 <div class="section">
   <div class="section-title">À savoir</div>
   <div class="tags-wrap">
@@ -161,21 +202,46 @@ body{padding-bottom:90px;}
     <div class="tag"><span class="material-symbols-outlined">credit_card</span>CB / NFC</div>
   </div>
 </div>
-  
+
+<!-- HORAIRES -->
 <div class="section">
   <div class="section-title">Horaires</div>
   <div class="horaires-card">
-    <div class="hrow" data-day="1"><span class="hrow-day">Lundi</span><span class="hrow-time">6h30 – 19h30</span></div>
-    <div class="hrow" data-day="2"><span class="hrow-day">Mardi</span><span class="hrow-time">6h30 – 19h30</span></div>
-    <div class="hrow" data-day="3"><span class="hrow-day">Mercredi</span><span class="hrow-time">6h30 – 19h30</span></div>
-    <div class="hrow" data-day="4"><span class="hrow-day">Jeudi</span><span class="hrow-time">6h30 – 19h30</span></div>
-    <div class="hrow" data-day="5"><span class="hrow-day">Vendredi</span><span class="hrow-time">6h30 – 19h30</span></div>
-    <div class="hrow" data-day="6"><span class="hrow-day">Samedi</span><span class="hrow-time">6h30 – 19h30</span></div>
-    <div class="hrow" data-day="0"><span class="hrow-day">Dimanche</span><span class="hrow-time">6h30 – 13h00</span></div>
-    <div style="padding:10px 16px;font-size:11px;color:#94a3b8;font-weight:500;">Ouverture non-stop · Horaires susceptibles de varier en période de congés</div>
+    <div class="hrow" data-day="1">
+      <span class="hrow-day">Lundi</span>
+      <span class="hrow-time">6h30 – 19h30</span>
+    </div>
+    <div class="hrow" data-day="2">
+      <span class="hrow-day">Mardi</span>
+      <span class="hrow-time">6h30 – 19h30</span>
+    </div>
+    <div class="hrow" data-day="3">
+      <span class="hrow-day">Mercredi</span>
+      <span class="hrow-time">6h30 – 19h30</span>
+    </div>
+    <div class="hrow" data-day="4">
+      <span class="hrow-day">Jeudi</span>
+      <span class="hrow-time">6h30 – 19h30</span>
+    </div>
+    <div class="hrow" data-day="5">
+      <span class="hrow-day">Vendredi</span>
+      <span class="hrow-time">6h30 – 19h30</span>
+    </div>
+    <div class="hrow" data-day="6">
+      <span class="hrow-day">Samedi</span>
+      <span class="hrow-time">6h30 – 19h30</span>
+    </div>
+    <div class="hrow" data-day="0">
+      <span class="hrow-day">Dimanche</span>
+      <span class="hrow-time">6h30 – 13h00</span>
+    </div>
+    <div style="padding:10px 16px;font-size:11px;color:#94a3b8;font-weight:500;">
+      Ouverture non-stop · Horaires susceptibles de varier en période de congés
+    </div>
   </div>
 </div>
 
+<!-- INFOS PRATIQUES -->
 <div class="section">
   <div class="section-title">Infos pratiques</div>
   <div class="infos-grid">
@@ -195,7 +261,9 @@ body{padding-bottom:90px;}
         <div class="info-row-label">Téléphone</div>
         <div class="info-row-val">04 90 26 62 47</div>
       </div>
-      <a href="tel:+33490266247" class="info-row-action"><span class="material-symbols-outlined">call</span></a>
+      <a href="tel:+33490266247" class="info-row-action">
+        <span class="material-symbols-outlined">call</span>
+      </a>
     </div>
     <div class="info-row">
       <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">photo_camera</span>
@@ -203,7 +271,9 @@ body{padding-bottom:90px;}
         <div class="info-row-label">Réseaux sociaux</div>
         <div class="info-row-val">le fournil d'Antoine</div>
       </div>
-      <a href="https://www.facebook.com/p/le-fournil-dAntoine-61563795215384/" target="_blank" class="info-row-action"><span class="material-symbols-outlined">open_in_new</span></a>
+      <a href="https://www.facebook.com/p/le-fournil-dAntoine-61563795215384/" target="_blank" class="info-row-action">
+        <span class="material-symbols-outlined">open_in_new</span>
+      </a>
     </div>
     <div class="info-row">
       <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">local_parking</span>
@@ -222,6 +292,7 @@ body{padding-bottom:90px;}
   </div>
 </div>
 
+<!-- NOTE GLOBALE -->
 <div class="section">
   <div class="section-title">Avis clients</div>
   <div class="score-card">
@@ -231,43 +302,71 @@ body{padding-bottom:90px;}
       <div class="score-cnt">27 avis Google</div>
     </div>
     <div class="score-bars">
-      <div class="score-bar-row"><span class="score-bar-label">5</span><div class="score-bar-track"><div class="score-bar-fill" style="width:60%"></div></div></div>
-      <div class="score-bar-row"><span class="score-bar-label">4</span><div class="score-bar-track"><div class="score-bar-fill" style="width:22%"></div></div></div>
-      <div class="score-bar-row"><span class="score-bar-label">3</span><div class="score-bar-track"><div class="score-bar-fill" style="width:8%"></div></div></div>
-      <div class="score-bar-row"><span class="score-bar-label">2</span><div class="score-bar-track"><div class="score-bar-fill" style="width:5%"></div></div></div>
-      <div class="score-bar-row" style="margin-bottom:0;"><span class="score-bar-label">1</span><div class="score-bar-track"><div class="score-bar-fill" style="width:5%"></div></div></div>
-      <div style="margin-top:10px;font-size:10px;color:rgba(255,255,255,0.5);font-weight:500;">Boulangerie artisanale · Rochefort-du-Gard · Google Maps</div>
+      <div class="score-bar-row">
+        <span class="score-bar-label" style="font-size:10px;color:rgba(255,255,255,0.5);">5</span>
+        <div class="score-bar-track"><div class="score-bar-fill" style="width:60%"></div></div>
+      </div>
+      <div class="score-bar-row">
+        <span class="score-bar-label" style="font-size:10px;color:rgba(255,255,255,0.5);">4</span>
+        <div class="score-bar-track"><div class="score-bar-fill" style="width:22%"></div></div>
+      </div>
+      <div class="score-bar-row">
+        <span class="score-bar-label" style="font-size:10px;color:rgba(255,255,255,0.5);">3</span>
+        <div class="score-bar-track"><div class="score-bar-fill" style="width:8%"></div></div>
+      </div>
+      <div class="score-bar-row">
+        <span class="score-bar-label" style="font-size:10px;color:rgba(255,255,255,0.5);">2</span>
+        <div class="score-bar-track"><div class="score-bar-fill" style="width:5%"></div></div>
+      </div>
+      <div class="score-bar-row" style="margin-bottom:0;">
+        <span class="score-bar-label" style="font-size:10px;color:rgba(255,255,255,0.5);">1</span>
+        <div class="score-bar-track"><div class="score-bar-fill" style="width:5%"></div></div>
+      </div>
+      <div style="margin-top:10px;font-size:10px;color:rgba(255,255,255,0.4);font-weight:500;">Boulangerie artisanale · Rochefort-du-Gard · Google Maps</div>
     </div>
   </div>
 </div>
 
+<!-- AVIS -->
 <div style="padding:12px 16px 0;">
   <div class="avis-card">
     <div class="avis-header">
       <div class="avis-avatar">M</div>
-      <div><div class="avis-name">Marie L.</div><div class="avis-date">Avis Google</div></div>
+      <div>
+        <div class="avis-name">Marie L.</div>
+        <div class="avis-date">Avis Google</div>
+      </div>
       <div class="avis-stars">★★★★★</div>
     </div>
     <div class="avis-text">Nous avons retrouvé une vraie boulangerie à Rochefort-du-Gard. Les gâteaux sont très bons et le service agréable. Merci !</div>
   </div>
+
   <div class="avis-card">
     <div class="avis-header">
       <div class="avis-avatar" style="background:linear-gradient(135deg,#7c3a0e,#8b5a2b);">J</div>
-      <div><div class="avis-name">Jean-Pierre V.</div><div class="avis-date">Client habitué</div></div>
+      <div>
+        <div class="avis-name">Jean-Pierre V.</div>
+        <div class="avis-date">Client habitué</div>
+      </div>
       <div class="avis-stars">★★★★★</div>
     </div>
     <div class="avis-text">Un changement de propriétaire qui se ressent. Le pain est bon, la fougasse au fromage est excellente, et leur frangipane un régal ! C'est un sans faute 😁</div>
   </div>
+
   <div class="avis-card">
     <div class="avis-header">
       <div class="avis-avatar" style="background:linear-gradient(135deg,#b07d4a,#d4a96a);">S</div>
-      <div><div class="avis-name">Sophie C.</div><div class="avis-date">Avis Google</div></div>
+      <div>
+        <div class="avis-name">Sophie C.</div>
+        <div class="avis-date">Avis Google</div>
+      </div>
       <div class="avis-stars">★★★★★</div>
     </div>
     <div class="avis-text">Commande traiteur pour un anniversaire, franc succès ! Accueil chaleureux, portions généreuses. Je recommande 👍</div>
   </div>
 </div>
 
+<!-- CARTE MAP -->
 <div class="section" style="padding-bottom:16px;">
   <div class="section-title">Localisation</div>
   <a href="https://maps.google.com/?q=58+route+d'Avignon+30650+Rochefort-du-Gard" target="_blank"
@@ -284,6 +383,7 @@ body{padding-bottom:90px;}
   </a>
 </div>
 
+<!-- BOTTOM CTA -->
 <div class="cta-bottom">
   <a href="tel:+33490266247" class="cta-call">
     <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">call</span>
@@ -295,6 +395,7 @@ body{padding-bottom:90px;}
 </div>
 
 <script>
+// Mettre à jour le badge "Aujourd'hui" dynamiquement
 (function(){
   var today = new Date().getDay();
   document.querySelectorAll('.hrow[data-day]').forEach(function(row){
