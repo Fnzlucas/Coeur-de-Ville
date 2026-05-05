@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1"/>
+<title>Lieux accessibles PMR – Cœur de Ville</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800;900&display=swap"/>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html,body{font-family:'Manrope',sans-serif;background:#f4f6f9;color:#0f1923;}
+body{padding-bottom:40px;}
+.hero{position:relative;width:100%;height:220px;overflow:hidden;}
+.hero-img{width:100%;height:100%;object-fit:cover;display:block;background:#166534 url('../assets/rochefort/pmr.jpg') center/cover no-repeat;}
+.hero-overlay{position:absolute;inset:0;background:linear-gradient(to bottom,rgba(0,0,0,0.05),rgba(0,0,0,0.55));}
+.hero-back{position:absolute;top:16px;left:16px;width:40px;height:40px;border-radius:50%;background:rgba(255,255,255,0.18);backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,0.25);display:flex;align-items:center;justify-content:center;cursor:pointer;color:#fff;text-decoration:none;}
+.hero-back .material-symbols-outlined{font-size:22px;}
+.hero-content{position:absolute;bottom:0;left:0;right:0;padding:18px 16px 16px;}
+.hero-cat{font-size:9px;font-weight:800;letter-spacing:0.14em;text-transform:uppercase;color:rgba(255,255,255,0.65);margin-bottom:4px;}
+.hero-title{font-size:24px;font-weight:900;color:#fff;line-height:1.1;letter-spacing:-0.03em;}
+.body{padding:18px 16px 0;}
+.sec{margin-bottom:22px;}
+.sec-title{font-size:15px;font-weight:900;color:#0f1923;letter-spacing:-0.02em;margin-bottom:10px;display:flex;align-items:center;gap:8px;}
+.sec-title .material-symbols-outlined{font-size:18px;color:#166534;}
+
+/* Carte lieu vérifiée */
+.place-card{background:#fff;border-radius:16px;box-shadow:0 3px 14px rgba(15,25,35,0.06);border:1px solid rgba(15,25,35,0.04);margin-bottom:10px;overflow:hidden;}
+.place-head{display:flex;align-items:center;gap:12px;padding:13px 14px;}
+.place-icon{width:40px;height:40px;border-radius:12px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.place-icon .material-symbols-outlined{font-size:20px;font-variation-settings:'FILL' 1;}
+.place-name{font-size:14px;font-weight:800;color:#0f1923;line-height:1.2;}
+.place-addr{font-size:11px;color:#64748b;font-weight:500;margin-top:2px;}
+.place-tags{display:flex;flex-wrap:wrap;gap:5px;padding:0 14px 10px;}
+.tag{display:flex;align-items:center;gap:4px;padding:4px 9px;border-radius:100px;font-size:10px;font-weight:700;background:#f1f5f9;color:#475569;}
+.tag .material-symbols-outlined{font-size:12px;}
+.tag.green{background:#dcfce7;color:#166534;}
+.place-footer{border-top:1px solid #f4f6f9;display:flex;}
+.go-btn{flex:1;display:flex;align-items:center;justify-content:center;gap:6px;padding:11px 14px;text-decoration:none;font-size:12px;font-weight:800;color:#166534;background:#f0fdf4;}
+.go-btn .material-symbols-outlined{font-size:16px;font-variation-settings:'FILL' 1;}
+.go-btn:active{background:#dcfce7;}
+
+/* Carte lieu générique */
+.place-card-simple{background:#fff;border-radius:14px;box-shadow:0 2px 10px rgba(15,25,35,0.05);border:1px solid rgba(15,25,35,0.04);margin-bottom:8px;display:flex;align-items:center;gap:12px;padding:12px 14px;}
+.place-card-simple .place-icon{flex-shrink:0;}
+.place-card-simple-info{flex:1;min-width:0;}
+.place-card-simple-name{font-size:13px;font-weight:800;color:#0f1923;}
+.place-card-simple-addr{font-size:11px;color:#94a3b8;font-weight:500;margin-top:1px;}
+.go-btn-sm{width:36px;height:36px;border-radius:50%;background:#f0fdf4;display:flex;align-items:center;justify-content:center;text-decoration:none;flex-shrink:0;border:1.5px solid #bbf7d0;}
+.go-btn-sm .material-symbols-outlined{font-size:17px;color:#166534;font-variation-settings:'FILL' 1;}
+
+/* Badge */
+.badge-verified{display:inline-flex;align-items:center;gap:3px;padding:2px 8px;border-radius:100px;font-size:9px;font-weight:800;letter-spacing:0.05em;text-transform:uppercase;background:#dcfce7;color:#166534;margin-left:6px;}
+.badge-erp{display:inline-flex;align-items:center;gap:3px;padding:2px 8px;border-radius:100px;font-size:9px;font-weight:800;letter-spacing:0.05em;text-transform:uppercase;background:#f1f5f9;color:#64748b;margin-left:6px;}
+
+.note{background:#f1f5f9;border-radius:12px;padding:11px 13px;font-size:11px;font-weight:600;color:#475569;line-height:1.5;display:flex;gap:8px;align-items:flex-start;margin-bottom:14px;}
+.note .material-symbols-outlined{font-size:15px;color:#166534;flex-shrink:0;margin-top:1px;}
+.link-btn{display:flex;align-items:center;justify-content:space-between;padding:12px 14px;background:#fff;border-radius:14px;border:1.5px solid rgba(22,101,52,0.2);text-decoration:none;margin-bottom:10px;}
+.link-btn-label{font-size:13px;font-weight:800;color:#166534;}
+.link-btn-sub{font-size:11px;color:#64748b;font-weight:500;margin-top:1px;}
+.link-btn .material-symbols-outlined{font-size:20px;color:#166634;}
+</style>
+</head>
+<body>
+<div class="hero">
+  <div class="hero-img"></div>
+  <div class="hero-overlay"></div>
+  <a class="hero-back" href="javascript:history.back()"><span class="material-symbols-outlined">arrow_back</span></a>
+  <div class="hero-content">
+    <div class="hero-cat">Infos pratiques · Accessibilité</div>
+    <h1 class="hero-title">Lieux accessibles PMR</h1>
+  </div>
+</div>
+
+<div class="body">
+
+  <div class="note"><span class="material-symbols-outlined">info</span>Tout ERP (établissement recevant du public) construit ou rénové après 2015 est légalement tenu d'être accessible. Les fiches ✔ Vérifiées sont issues d'AccèsLibre ; les autres correspondent aux ERP publics de la commune.</div>
+
+  <!-- SERVICES PUBLICS VÉRIFIÉS -->
+  <div class="sec">
+    <div class="sec-title"><span class="material-symbols-outlined">verified</span>Services publics <span class="badge-verified">✔ Vérifiés</span></div>
+
+    <!-- Mairie -->
+    <div class="place-card">
+      <div class="place-head">
+        <div class="place-icon" style="background:#dcfce7;"><span class="material-symbols-outlined" style="color:#166534;">account_balance</span></div>
+        <div style="flex:1;min-width:0;">
+          <div class="place-name">Mairie de Rochefort-du-Gard</div>
+          <div class="place-addr">1 Place du Lavoir · 30650 Rochefort-du-Gard</div>
+        </div>
+      </div>
+      <div class="place-tags">
+        <div class="tag green"><span class="material-symbols-outlined">accessible</span> Entrée de plain-pied</div>
+        <div class="tag green"><span class="material-symbols-outlined">wc</span> Toilettes adaptées</div>
+        <div class="tag"><span class="material-symbols-outlined">local_parking</span> Parking PMR à proximité</div>
+      </div>
+      <div class="place-footer">
+        <a class="go-btn" href="https://www.google.com/maps/dir/?api=1&destination=Mairie+Rochefort-du-Gard+Place+du+Lavoir+30650" target="_blank">
+          <span class="material-symbols-outlined">near_me</span> Y aller
+        </a>
+      </div>
+    </div>
+
+    <!-- Gendarmerie -->
+    <div class="place-card">
+      <div class="place-head">
+        <div class="place-icon" style="background:#dbeafe;"><span class="material-symbols-outlined" style="color:#1e40af;">local_police</span></div>
+        <div style="flex:1;min-width:0;">
+          <div class="place-name">Gendarmerie de Rochefort-du-Gard</div>
+          <div class="place-addr">115 Rue Colonel Arnaud Beltrame</div>
+        </div>
+      </div>
+      <div class="place-tags">
+        <div class="tag green"><span class="material-symbols-outlined">accessible</span> Entrée de plain-pied</div>
+        <div class="tag green"><span class="material-symbols-outlined">local_parking</span> Parking PMR sur place</div>
+        <div class="tag green"><span class="material-symbols-outlined">directions_bus</span> Bus ligne 16 ORIZO</div>
+        <div class="tag"><span class="material-symbols-outlined">door_front</span> Largeur porte ≥ 80 cm</div>
+        <div class="tag"><span class="material-symbols-outlined">support_agent</span> Aide humaine possible</div>
+      </div>
+      <div class="place-footer">
+        <a class="go-btn" href="https://www.google.com/maps/dir/?api=1&destination=Gendarmerie+Rochefort-du-Gard+115+Rue+Colonel+Arnaud+Beltrame" target="_blank">
+          <span class="material-symbols-outlined">near_me</span> Y aller
+        </a>
+      </div>
+    </div>
+
+    <!-- Bibliothèque -->
+    <div class="place-card">
+      <div class="place-head">
+        <div class="place-icon" style="background:#ede9fe;"><span class="material-symbols-outlined" style="color:#6d28d9;">local_library</span></div>
+        <div style="flex:1;min-width:0;">
+          <div class="place-name">Bibliothèque La Source</div>
+          <div class="place-addr">1 Rue du Grand Pont</div>
+        </div>
+      </div>
+      <div class="place-tags">
+        <div class="tag green"><span class="material-symbols-outlined">accessible</span> Entrée de plain-pied</div>
+        <div class="tag green"><span class="material-symbols-outlined">wc</span> Toilettes adaptées</div>
+        <div class="tag green"><span class="material-symbols-outlined">door_front</span> Largeur porte ≥ 80 cm</div>
+        <div class="tag"><span class="material-symbols-outlined">local_parking</span> Parking PMR à proximité</div>
+      </div>
+      <div class="place-footer">
+        <a class="go-btn" href="https://www.google.com/maps/dir/?api=1&destination=Bibliotheque+La+Source+Rochefort-du-Gard+Rue+du+Grand+Pont" target="_blank">
+          <span class="material-symbols-outlined">near_me</span> Y aller
+        </a>
+      </div>
+    </div>
+
+    <!-- Stade -->
+    <div class="place-card">
+      <div class="place-head">
+        <div class="place-icon" style="background:#fef3c7;"><span class="material-symbols-outlined" style="color:#d97706;">sports</span></div>
+        <div style="flex:1;min-width:0;">
+          <div class="place-name">Complexe sportif Jean Galia</div>
+          <div class="place-addr">Route d'Avignon · Stade &amp; salle polyvalente</div>
+        </div>
+      </div>
+      <div class="place-tags">
+        <div class="tag green"><span class="material-symbols-outlined">accessible</span> Entrée PMR principale</div>
+        <div class="tag green"><span class="material-symbols-outlined">local_parking</span> Parking PMR sur place</div>
+        <div class="tag"><span class="material-symbols-outlined">stadium</span> Tribunes accessibles</div>
+      </div>
+      <div class="place-footer">
+        <a class="go-btn" href="https://www.google.com/maps/dir/?api=1&destination=Complexe+sportif+Jean+Galia+Rochefort-du-Gard" target="_blank">
+          <span class="material-symbols-outlined">near_me</span> Y aller
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ERP PUBLICS -->
+  <div class="sec">
+    <div class="sec-title"><span class="material-symbols-outlined">domain</span>Autres ERP publics <span class="badge-erp">Loi 2015</span></div>
+
+    <div class="place-card-simple">
+      <div class="place-icon" style="background:#e0e7ff;"><span class="material-symbols-outlined" style="color:#4338ca;font-variation-settings:'FILL' 1;">child_care</span></div>
+      <div class="place-card-simple-info">
+        <div class="place-card-simple-name">Maternelle Les Eynavay</div>
+        <div class="place-card-simple-addr">2 Avenue du Languedoc</div>
+      </div>
+      <a class="go-btn-sm" href="https://www.google.com/maps/dir/?api=1&destination=Ecole+maternelle+Les+Eynavay+Rochefort-du-Gard" target="_blank"><span class="material-symbols-outlined">near_me</span></a>
+    </div>
+
+    <div class="place-card-simple">
+      <div class="place-icon" style="background:#e0e7ff;"><span class="material-symbols-outlined" style="color:#4338ca;font-variation-settings:'FILL' 1;">school</span></div>
+      <div class="place-card-simple-info">
+        <div class="place-card-simple-name">École Saint-Exupéry</div>
+        <div class="place-card-simple-addr">2 Avenue Saint-Exupéry</div>
+      </div>
+      <a class="go-btn-sm" href="https://www.google.com/maps/dir/?api=1&destination=Ecole+elementaire+Saint-Exupery+Rochefort-du-Gard" target="_blank"><span class="material-symbols-outlined">near_me</span></a>
+    </div>
+
+    <div class="place-card-simple">
+      <div class="place-icon" style="background:#e0e7ff;"><span class="material-symbols-outlined" style="color:#4338ca;font-variation-settings:'FILL' 1;">school</span></div>
+      <div class="place-card-simple-info">
+        <div class="place-card-simple-name">École du Vieux Moulin</div>
+        <div class="place-card-simple-addr">2 Boulevard Marcel Pagnol</div>
+      </div>
+      <a class="go-btn-sm" href="https://www.google.com/maps/dir/?api=1&destination=Ecole+du+Vieux+Moulin+Rochefort-du-Gard+boulevard+pagnol" target="_blank"><span class="material-symbols-outlined">near_me</span></a>
+    </div>
+
+    <div class="place-card-simple">
+      <div class="place-icon" style="background:#fce7f3;"><span class="material-symbols-outlined" style="color:#be185d;font-variation-settings:'FILL' 1;">child_friendly</span></div>
+      <div class="place-card-simple-info">
+        <div class="place-card-simple-name">Crèche Les Cigales</div>
+        <div class="place-card-simple-addr">3201 Route d'Avignon – La Bégude</div>
+      </div>
+      <a class="go-btn-sm" href="https://www.google.com/maps/dir/?api=1&destination=Creche+Les+Cigales+3201+Route+Avignon+Rochefort-du-Gard" target="_blank"><span class="material-symbols-outlined">near_me</span></a>
+    </div>
+
+    <div class="place-card-simple">
+      <div class="place-icon" style="background:#fce7f3;"><span class="material-symbols-outlined" style="color:#be185d;font-variation-settings:'FILL' 1;">child_friendly</span></div>
+      <div class="place-card-simple-info">
+        <div class="place-card-simple-name">Crèche Les Petits Loups</div>
+        <div class="place-card-simple-addr">1020 Route d'Orange</div>
+      </div>
+      <a class="go-btn-sm" href="https://www.google.com/maps/dir/?api=1&destination=Creche+Les+Petits+Loups+1020+Route+Orange+Rochefort-du-Gard" target="_blank"><span class="material-symbols-outlined">near_me</span></a>
+    </div>
+
+    <div class="place-card-simple">
+      <div class="place-icon" style="background:#dcfce7;"><span class="material-symbols-outlined" style="color:#166534;font-variation-settings:'FILL' 1;">medical_services</span></div>
+      <div class="place-card-simple-info">
+        <div class="place-card-simple-name">Cabinet médical / Pharmacie</div>
+        <div class="place-card-simple-addr">Centre-ville · 30650 Rochefort-du-Gard</div>
+      </div>
+      <a class="go-btn-sm" href="https://www.google.com/maps/search/pharmacie+Rochefort-du-Gard" target="_blank"><span class="material-symbols-outlined">near_me</span></a>
+    </div>
+
+    <div class="place-card-simple">
+      <div class="place-icon" style="background:#f1f5f9;"><span class="material-symbols-outlined" style="color:#475569;font-variation-settings:'FILL' 1;">menu_book</span></div>
+      <div class="place-card-simple-info">
+        <div class="place-card-simple-name">Collège Claudie Haigneré</div>
+        <div class="place-card-simple-addr">30650 Rochefort-du-Gard</div>
+      </div>
+      <a class="go-btn-sm" href="https://www.google.com/maps/dir/?api=1&destination=College+Claudie+Haignere+Rochefort-du-Gard" target="_blank"><span class="material-symbols-outlined">near_me</span></a>
+    </div>
+
+    <div class="place-card-simple">
+      <div class="place-icon" style="background:#fef3c7;"><span class="material-symbols-outlined" style="color:#d97706;font-variation-settings:'FILL' 1;">sports_soccer</span></div>
+      <div class="place-card-simple-info">
+        <div class="place-card-simple-name">Stade d'athlétisme</div>
+        <div class="place-card-simple-addr">30650 Rochefort-du-Gard</div>
+      </div>
+      <a class="go-btn-sm" href="https://www.google.com/maps/dir/?api=1&destination=Stade+athletisme+Rochefort-du-Gard" target="_blank"><span class="material-symbols-outlined">near_me</span></a>
+    </div>
+  </div>
+
+  <!-- Lien AccèsLibre -->
+  <div class="sec">
+    <div class="sec-title"><span class="material-symbols-outlined">open_in_new</span>Aller plus loin</div>
+    <a class="link-btn" href="https://acceslibre.beta.gouv.fr/recherche/30-rochefort-du-gard/" target="_blank">
+      <div>
+        <div class="link-btn-label">AccèsLibre – Tous les lieux</div>
+        <div class="link-btn-sub">Plateforme officielle de l'État · données collaboratives</div>
+      </div>
+      <span class="material-symbols-outlined" style="color:#166534;">open_in_new</span>
+    </a>
+    <div class="note"><span class="material-symbols-outlined">info</span>Les informations ✔ Vérifiées proviennent d'AccèsLibre (beta.gouv.fr). Les autres établissements sont soumis à l'obligation légale d'accessibilité PMR depuis 2015. En cas de difficulté, contactez la mairie au <strong>04 90 26 69 00</strong>.</div>
+  </div>
+
+</div>
+</body>
+</html>
