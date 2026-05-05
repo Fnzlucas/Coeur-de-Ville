@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1"/>
+<title>Déchets &amp; Tri – Rochefort-du-Gard</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800;900&display=swap"/>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html,body{font-family:'Manrope',sans-serif;background:#f4f6f9;color:#0f1923;}
+body{padding-bottom:40px;}
+
+/* HERO */
+.hero{position:relative;width:100%;height:220px;overflow:hidden;}
+.hero-img{width:100%;height:100%;object-fit:cover;display:block;background:url('../assets/rochefort-du-gard/dechets.jpg') center/cover no-repeat,linear-gradient(135deg,#064e3b 0%,#065f46 60%,#059669 100%);}
+.hero-overlay{position:absolute;inset:0;background:linear-gradient(to bottom,rgba(0,0,0,0.05),rgba(0,0,0,0.6));}
+.hero-back{position:absolute;top:16px;left:16px;width:40px;height:40px;border-radius:50%;background:rgba(255,255,255,0.18);backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,0.25);display:flex;align-items:center;justify-content:center;cursor:pointer;color:#fff;text-decoration:none;}
+.hero-back .material-symbols-outlined{font-size:22px;}
+.hero-content{position:absolute;bottom:0;left:0;right:0;padding:18px 16px 16px;}
+.hero-cat{font-size:9px;font-weight:800;letter-spacing:0.14em;text-transform:uppercase;color:rgba(255,255,255,0.65);margin-bottom:4px;}
+.hero-title{font-size:24px;font-weight:900;color:#fff;line-height:1.1;letter-spacing:-0.03em;}
+
+/* BODY */
+.body{padding:18px 16px 0;}
+.intro{font-size:13px;color:#475569;line-height:1.6;font-weight:500;margin-bottom:20px;}
+
+/* ALERT */
+.alert{border-radius:14px;background:#fef3c7;border:1px solid #fcd34d;padding:12px 14px;display:flex;gap:10px;align-items:flex-start;margin-bottom:20px;}
+.alert .material-symbols-outlined{font-size:18px;color:#d97706;flex-shrink:0;margin-top:1px;font-variation-settings:'FILL' 1;}
+.alert-text{font-size:12px;color:#92400e;font-weight:600;line-height:1.5;}
+
+/* SECTIONS */
+.sec{margin-bottom:22px;}
+.sec-title{font-size:15px;font-weight:900;color:#0f1923;letter-spacing:-0.02em;margin-bottom:10px;display:flex;align-items:center;gap:8px;}
+.sec-title .material-symbols-outlined{font-size:18px;color:#059669;}
+
+/* GRID COLLECTE */
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-bottom:10px;}
+.tri-card{background:#fff;border-radius:14px;padding:13px;box-shadow:0 3px 14px rgba(15,25,35,0.06);border:1px solid rgba(15,25,35,0.04);}
+.tri-icon{width:36px;height:36px;border-radius:10px;display:flex;align-items:center;justify-content:center;margin-bottom:8px;}
+.tri-icon .material-symbols-outlined{font-size:19px;font-variation-settings:'FILL' 1;}
+.tri-name{font-size:12px;font-weight:800;color:#0f1923;line-height:1.2;margin-bottom:3px;}
+.tri-freq{font-size:11px;color:#64748b;font-weight:600;line-height:1.4;}
+.tri-badge{display:inline-block;margin-top:5px;padding:2px 8px;border-radius:100px;font-size:9px;font-weight:800;letter-spacing:0.06em;text-transform:uppercase;}
+
+/* BLOC INFO */
+.block{background:#fff;border-radius:16px;overflow:hidden;box-shadow:0 3px 14px rgba(15,25,35,0.06);margin-bottom:10px;border:1px solid rgba(15,25,35,0.04);}
+.block-head{display:flex;align-items:center;gap:12px;padding:13px 14px;border-bottom:1px solid #f4f6f9;}
+.block-icon{width:38px;height:38px;border-radius:11px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.block-icon .material-symbols-outlined{font-size:20px;font-variation-settings:'FILL' 1;}
+.block-titles{flex:1;}
+.block-name{font-size:14px;font-weight:800;color:#0f1923;}
+.block-sub{font-size:11px;color:#64748b;font-weight:500;margin-top:1px;}
+.call-btn{width:36px;height:36px;background:#f0fdf4;border-radius:50%;display:flex;align-items:center;justify-content:center;text-decoration:none;flex-shrink:0;border:1.5px solid #d1fae5;}
+.call-btn .material-symbols-outlined{font-size:17px;color:#059669;font-variation-settings:'FILL' 1;}
+.row{display:flex;align-items:center;justify-content:space-between;padding:9px 14px;border-bottom:1px solid #f8f9fa;}
+.row:last-child{border-bottom:none;}
+.row-label{font-size:12px;font-weight:700;color:#64748b;display:flex;align-items:center;gap:6px;}
+.row-label .material-symbols-outlined{font-size:14px;color:#94a3b8;}
+.row-val{font-size:12px;font-weight:800;color:#0f1923;text-align:right;max-width:55%;}
+.row-val.closed{color:#dc2626;}
+.row-val.open{color:#059669;}
+
+/* SECTEURS TABS */
+.tabs{display:flex;gap:8px;margin-bottom:12px;}
+.tab{flex:1;padding:9px 6px;border-radius:12px;font-size:11px;font-weight:800;text-align:center;cursor:pointer;border:1.5px solid rgba(15,25,35,0.1);background:#fff;color:#64748b;transition:all 0.15s;}
+.tab.active{background:#065f46;color:#fff;border-color:#065f46;}
+.tab-content{display:none;}
+.tab-content.active{display:block;}
+
+/* CTA SMICTOM */
+.cta-smictom{border-radius:18px;background:linear-gradient(135deg,#065f46,#059669);padding:16px;display:flex;align-items:center;gap:14px;margin-bottom:10px;cursor:pointer;text-decoration:none;}
+.cta-smictom-icon{width:44px;height:44px;border-radius:12px;background:rgba(255,255,255,0.18);display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.cta-smictom-icon .material-symbols-outlined{font-size:22px;color:#fff;}
+.cta-smictom-text{flex:1;}
+.cta-smictom-label{font-size:9px;font-weight:800;letter-spacing:0.1em;text-transform:uppercase;color:rgba(255,255,255,0.7);margin-bottom:3px;}
+.cta-smictom-title{font-size:14px;font-weight:900;color:#fff;line-height:1.2;}
+.cta-smictom-sub{font-size:11px;color:rgba(255,255,255,0.75);font-weight:500;margin-top:2px;}
+.cta-smictom-arrow .material-symbols-outlined{font-size:20px;color:rgba(255,255,255,0.6);}
+
+/* TIP CARD */
+.tip{background:#f0fdf4;border-radius:14px;border:1px solid #bbf7d0;padding:12px 14px;display:flex;gap:10px;align-items:flex-start;margin-bottom:10px;}
+.tip .material-symbols-outlined{font-size:18px;color:#059669;flex-shrink:0;margin-top:1px;font-variation-settings:'FILL' 1;}
+.tip-text{font-size:12px;color:#065f46;font-weight:600;line-height:1.5;}
+.tip-text strong{font-weight:900;}
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="hero-img"></div>
+  <div class="hero-overlay"></div>
+  <a class="hero-back" href="javascript:history.back()"><span class="material-symbols-outlined">arrow_back</span></a>
+  <div class="hero-content">
+    <div class="hero-cat">Infos pratiques · Résident</div>
+    <h1 class="hero-title">Déchets &amp; Tri</h1>
+  </div>
+</div>
+
+<div class="body">
+  <p class="intro">Collecte, déchetterie et tri sélectif à Rochefort-du-Gard — infos officielles SMICTOM Rhône-Garrigues. Renseignements : Allo Mairie <strong>04 90 90 91 91</strong>.</p>
+
+  <div class="alert">
+    <span class="material-symbols-outlined">info</span>
+    <div class="alert-text">Sortez vos bacs la veille au soir. Rentrez-les le jour même après le passage du camion. La collecte est assurée normalement les jours fériés.</div>
+  </div>
+
+  <!-- COLLECTE -->
+  <div class="sec">
+    <div class="sec-title"><span class="material-symbols-outlined">calendar_today</span>Collecte à domicile</div>
+
+    <div class="tabs">
+      <div class="tab active" onclick="switchTab(this,'pavillon')">Pavillonnaire</div>
+      <div class="tab" onclick="switchTab(this,'centre')">Centre ancien</div>
+    </div>
+
+    <div class="tab-content active" id="tab-pavillon">
+      <div class="grid2">
+        <div class="tri-card">
+          <div class="tri-icon" style="background:#dcfce7;"><span class="material-symbols-outlined" style="color:#16a34a;">delete</span></div>
+          <div class="tri-name">Ordures ménagères</div>
+          <div class="tri-freq">Bac gris · Fréquence selon secteur</div>
+          <div class="tri-badge" style="background:#dcfce7;color:#16a34a;">SMICTOM</div>
+        </div>
+        <div class="tri-card">
+          <div class="tri-icon" style="background:#fef9c3;"><span class="material-symbols-outlined" style="color:#ca8a04;">recycling</span></div>
+          <div class="tri-name">Recyclables</div>
+          <div class="tri-freq">Bac jaune · 1 fois / 15 jours</div>
+          <div class="tri-badge" style="background:#fef9c3;color:#ca8a04;">Jaune</div>
+        </div>
+        <div class="tri-card">
+          <div class="tri-icon" style="background:#f5f3ff;"><span class="material-symbols-outlined" style="color:#7c3aed;">compost</span></div>
+          <div class="tri-name">Biodéchets</div>
+          <div class="tri-freq">Bac vert · Même fréquence OM</div>
+          <div class="tri-badge" style="background:#f5f3ff;color:#7c3aed;">Vert</div>
+        </div>
+        <div class="tri-card">
+          <div class="tri-icon" style="background:#fef3c7;"><span class="material-symbols-outlined" style="color:#d97706;">yard</span></div>
+          <div class="tri-name">Déchets verts</div>
+          <div class="tri-freq">Broyage mobile · Voir agenda</div>
+          <div class="tri-badge" style="background:#fef3c7;color:#d97706;">Sur annonce</div>
+        </div>
+      </div>
+      <div class="tip">
+        <span class="material-symbols-outlined">tips_and_updates</span>
+        <div class="tip-text">Les jours de collecte varient selon votre secteur. <strong>Consultez le calendrier 2024</strong> sur smictom-rhonegarrigues.fr ou appelez le <strong>04 90 15 17 80</strong>.</div>
+      </div>
+    </div>
+
+    <div class="tab-content" id="tab-centre">
+      <div class="block">
+        <div class="block-head">
+          <div class="block-icon" style="background:#dcfce7;"><span class="material-symbols-outlined" style="color:#16a34a;">inventory_2</span></div>
+          <div class="block-titles">
+            <div class="block-name">Sacs traçables</div>
+            <div class="block-sub">Centre ancien · Pas de conteneur individuel</div>
+          </div>
+        </div>
+        <div class="row"><div class="row-label"><span class="material-symbols-outlined">location_on</span>Retrait des sacs</div><div class="row-val">Hôtel de Ville · 1 Place du Lavoir</div></div>
+        <div class="row"><div class="row-label"><span class="material-symbols-outlined">today</span>Lundi</div><div class="row-val">11h – 12h</div></div>
+        <div class="row"><div class="row-label"><span class="material-symbols-outlined">today</span>Mercredi</div><div class="row-val">13h30 – 15h30</div></div>
+        <div class="row"><div class="row-label"><span class="material-symbols-outlined">badge</span>Pièce requise</div><div class="row-val">Justificatif de domicile</div></div>
+      </div>
+      <div class="tip">
+        <span class="material-symbols-outlined">info</span>
+        <div class="tip-text">Les sacs sont numérotés et enregistrés. Un sac abandonné dans la rue permet d'identifier le foyer. Renseignements : <strong>Allo Mairie 04 90 90 91 91</strong> ou <strong>allomairie@rdg30650.fr</strong></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- DECHETTERIE -->
+  <div class="sec">
+    <div class="sec-title"><span class="material-symbols-outlined">location_on</span>Déchetterie du Pigonelier</div>
+    <div class="block">
+      <div class="block-head">
+        <div class="block-icon" style="background:#dcfce7;"><span class="material-symbols-outlined" style="color:#16a34a;">delete_sweep</span></div>
+        <div class="block-titles">
+          <div class="block-name">Déchetterie intercommunale du Pigonelier</div>
+          <div class="block-sub">Près du grand rond-point des Angles</div>
+        </div>
+        <a href="tel:0490151780" class="call-btn"><span class="material-symbols-outlined">call</span></a>
+      </div>
+      <div class="row"><div class="row-label"><span class="material-symbols-outlined">today</span>Lun – Sam</div><div class="row-val open">8h30–11h45 · 14h–17h15</div></div>
+      <div class="row"><div class="row-label"><span class="material-symbols-outlined">weekend</span>Dimanche</div><div class="row-val closed">Fermé</div></div>
+      <div class="row"><div class="row-label"><span class="material-symbols-outlined">badge</span>Accès</div><div class="row-val">Carte SMICTOM obligatoire</div></div>
+      <div class="row"><div class="row-label"><span class="material-symbols-outlined">repeat</span>Limite</div><div class="row-val">Gratuit · 18 passages/an · 3m³/passage</div></div>
+    </div>
+
+    <div class="block">
+      <div class="block-head">
+        <div class="block-icon" style="background:#dcfce7;"><span class="material-symbols-outlined" style="color:#16a34a;">check_circle</span></div>
+        <div class="block-titles">
+          <div class="block-name">Ce qu'on accepte</div>
+          <div class="block-sub">Tri préalable obligatoire</div>
+        </div>
+      </div>
+      <div class="row"><div class="row-label"><span class="material-symbols-outlined">recycling</span>Recyclables</div><div class="row-val">Papier · Carton · Ferrailles · Verre</div></div>
+      <div class="row"><div class="row-label"><span class="material-symbols-outlined">warning</span>Dangereux</div><div class="row-val">Huile vidange · Piles · Produits toxiques</div></div>
+      <div class="row"><div class="row-label"><span class="material-symbols-outlined">yard</span>Végétaux</div><div class="row-val">Déchets verts · Gravats</div></div>
+      <div class="row"><div class="row-label"><span class="material-symbols-outlined">chair</span>Encombrants</div><div class="row-val">Meubles · Électroménager</div></div>
+      <div class="row"><div class="row-label"><span class="material-symbols-outlined">cancel</span>Refusés</div><div class="row-val closed">Ordures ménag. · Liquides divers</div></div>
+    </div>
+
+    <div class="tip">
+      <span class="material-symbols-outlined">card_membership</span>
+      <div class="tip-text">La carte SMICTOM est à retirer au siège : <strong>160 Chemin des Sableyes, Villeneuve-lès-Avignon</strong> · Mar &amp; Jeu 9h–12h et 14h–17h.</div>
+    </div>
+  </div>
+
+  <!-- ENCOMBRANTS -->
+  <div class="sec">
+    <div class="sec-title"><span class="material-symbols-outlined">chair</span>Encombrants à domicile</div>
+    <div class="block">
+      <div class="block-head">
+        <div class="block-icon" style="background:#fef3c7;"><span class="material-symbols-outlined" style="color:#d97706;">local_shipping</span></div>
+        <div class="block-titles">
+          <div class="block-name">Enlèvement sur rendez-vous</div>
+          <div class="block-sub">SMICTOM · Objets ne rentrant pas dans un véhicule</div>
+        </div>
+        <a href="tel:0432628511" class="call-btn"><span class="material-symbols-outlined">call</span></a>
+      </div>
+      <div class="row"><div class="row-label"><span class="material-symbols-outlined">call</span>Réservation</div><div class="row-val">04 32 62 85 11 · Obligatoire</div></div>
+      <div class="row"><div class="row-label"><span class="material-symbols-outlined">schedule</span>Dépôt</div><div class="row-val">La veille au soir · Sur domaine public</div></div>
+      <div class="row"><div class="row-label"><span class="material-symbols-outlined">straighten</span>Volume max</div><div class="row-val">1 m³ maximum</div></div>
+      <div class="row"><div class="row-label"><span class="material-symbols-outlined">cancel</span>Refusés</div><div class="row-val closed">Peinture · Pneus · Végétaux · Gravats</div></div>
+    </div>
+  </div>
+
+  <!-- AMIANTE -->
+  <div class="sec">
+    <div class="sec-title"><span class="material-symbols-outlined">health_and_safety</span>Collecte amiante</div>
+    <div class="block">
+      <div class="block-head">
+        <div class="block-icon" style="background:#fee2e2;"><span class="material-symbols-outlined" style="color:#dc2626;">warning</span></div>
+        <div class="block-titles">
+          <div class="block-name">Nouveau service SMICTOM</div>
+          <div class="block-sub">Déchets amiantés acceptés en déchetterie</div>
+        </div>
+        <a href="tel:0490151780" class="call-btn"><span class="material-symbols-outlined">call</span></a>
+      </div>
+      <div class="row"><div class="row-label"><span class="material-symbols-outlined">call</span>Renseignements</div><div class="row-val">04 90 15 17 80</div></div>
+      <div class="row"><div class="row-label"><span class="material-symbols-outlined">info</span>Modalités</div><div class="row-val">Conditions spécifiques · Appeler avant</div></div>
+    </div>
+  </div>
+
+  <!-- COMPOSTEURS -->
+  <div class="sec">
+    <div class="sec-title"><span class="material-symbols-outlined">compost</span>Composteurs individuels</div>
+    <div class="block">
+      <div class="block-head">
+        <div class="block-icon" style="background:#d1fae5;"><span class="material-symbols-outlined" style="color:#059669;">compost</span></div>
+        <div class="block-titles">
+          <div class="block-name">Composteurs en vente</div>
+          <div class="block-sub">SMICTOM · 160 Chemin des Sableyes · Villeneuve-lès-Avignon</div>
+        </div>
+        <a href="tel:0490151780" class="call-btn"><span class="material-symbols-outlined">call</span></a>
+      </div>
+      <div class="row"><div class="row-label"><span class="material-symbols-outlined">today</span>Mar &amp; Jeu</div><div class="row-val">9h–12h · 14h–17h</div></div>
+      <div class="row"><div class="row-label"><span class="material-symbols-outlined">payments</span>Paiement</div><div class="row-val">Chèque ou CB</div></div>
+    </div>
+  </div>
+
+  <!-- CONTACTS -->
+  <div class="sec">
+    <div class="sec-title"><span class="material-symbols-outlined">contacts</span>Contacts utiles</div>
+
+    <a class="cta-smictom" href="tel:0490151780">
+      <div class="cta-smictom-icon"><span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">recycling</span></div>
+      <div class="cta-smictom-text">
+        <div class="cta-smictom-label">SMICTOM Rhône-Garrigues</div>
+        <div class="cta-smictom-title">04 90 15 17 80</div>
+        <div class="cta-smictom-sub">Bacs · Carte déchetterie · Calendrier collecte</div>
+      </div>
+      <div class="cta-smictom-arrow"><span class="material-symbols-outlined">call</span></div>
+    </a>
+
+    <div class="block">
+      <div class="row"><div class="row-label"><span class="material-symbols-outlined">call</span>Allo Mairie technique</div><div class="row-val"><a href="tel:0490909191" style="color:#059669;font-weight:800;">04 90 90 91 91</a></div></div>
+      <div class="row"><div class="row-label"><span class="material-symbols-outlined">mail</span>Email mairie</div><div class="row-val"><a href="mailto:allomairie@rdg30650.fr" style="color:#059669;font-weight:700;font-size:11px;">allomairie@rdg30650.fr</a></div></div>
+      <div class="row"><div class="row-label"><span class="material-symbols-outlined">local_police</span>Vol de bac</div><div class="row-val"><a href="tel:0490266903" style="color:#dc2626;font-weight:800;">04 90 26 69 03</a></div></div>
+      <div class="row"><div class="row-label"><span class="material-symbols-outlined">call</span>Encombrants RDV</div><div class="row-val"><a href="tel:0432628511" style="color:#059669;font-weight:800;">04 32 62 85 11</a></div></div>
+    </div>
+
+    <a class="cta-smictom" href="http://www.smictom-rhonegarrigues.fr/" target="_blank" style="background:linear-gradient(135deg,#1e3a5f,#1d4ed8);margin-top:0;">
+      <div class="cta-smictom-icon"><span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">language</span></div>
+      <div class="cta-smictom-text">
+        <div class="cta-smictom-label">Site officiel</div>
+        <div class="cta-smictom-title">smictom-rhonegarrigues.fr</div>
+        <div class="cta-smictom-sub">Calendrier de collecte · Infos · Formulaires</div>
+      </div>
+      <div class="cta-smictom-arrow"><span class="material-symbols-outlined">open_in_new</span></div>
+    </a>
+  </div>
+
+</div>
+
+<script>
+function switchTab(el, id) {
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+  el.classList.add('active');
+  document.getElementById('tab-' + id).classList.add('active');
+}
+</script>
+</body>
+</html>
