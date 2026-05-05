@@ -4498,13 +4498,7 @@ if ("serviceWorker" in navigator) {
 
 <!-- ══════════════════════════════════════════════════════════════
      ONBOARDING CŒUR DE VILLE — à coller juste avant 
-<script>
-  var imgs = document.querySelectorAll('img[data-villeneuve-hero="1"]');
-  imgs.forEach(function(img) { img.src = "../assets/rochefort-du-gard/hero.jpg"; });
-</script>
-
-</body>
-     ══════════════════════════════════════════════════════════════ -->
+══════════════════════════════════════════════════════════════ -->
 
 <style>
 /* Bloque le scroll du body quand l'onboarding est ouvert */
@@ -4961,9 +4955,9 @@ body.onb-open{overflow:hidden;}
 <!-- ══════════════════════════════════════════════════════════════
      FIN DU BLOC ONBOARDING
      ══════════════════════════════════════════════════════════════ -->
-
-
-<img src="../assets/rochefort-du-gard/hero.jpg" alt="Rochefort-du-Gard" />
-  
+<script>
+  var imgs = document.querySelectorAll('img[data-rochefort-du-gard-hero="1"]');
+  imgs.forEach(function(img) { img.src = "../assets/rochefort-du-gard/hero.jpg"; });
+</script>
 </body>
 </html>
