@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1"/>
+<title>Expositions – Rochefort-du-Gard</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800;900&display=swap"/>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html,body{font-family:'Manrope',sans-serif;background:#f4f6f9;color:#0f1923;-webkit-overflow-scrolling:touch;}
+body{padding-bottom:32px;}
+.fiche-hero{position:relative;width:100%;height:260px;overflow:hidden;}
+.fiche-hero-img{width:100%;height:100%;object-fit:cover;display:block;background:linear-gradient(135deg,#4a044e 0%,#7e22ce 50%,#a855f7 100%);}
+.fiche-hero-overlay{position:absolute;inset:0;background:linear-gradient(to bottom,rgba(0,0,0,0.1) 0%,rgba(0,0,0,0.55) 100%);}
+.fiche-hero-back{position:absolute;top:16px;left:16px;width:40px;height:40px;border-radius:50%;background:rgba(255,255,255,0.18);backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,0.25);display:flex;align-items:center;justify-content:center;cursor:pointer;color:#fff;}
+.fiche-hero-back .material-symbols-outlined{font-size:22px;}
+.fiche-hero-content{position:absolute;bottom:0;left:0;right:0;padding:20px 16px 18px;}
+.fiche-hero-cat{font-size:9px;font-weight:800;letter-spacing:0.14em;text-transform:uppercase;color:rgba(255,255,255,0.75);margin-bottom:6px;}
+.fiche-hero-title{font-size:26px;font-weight:900;color:#fff;line-height:1.1;letter-spacing:-0.03em;}
+.fiche-body{padding:20px 16px 0;}
+.fiche-intro{font-size:14px;color:#475569;line-height:1.6;font-weight:500;margin-bottom:24px;}
+.fiche-chips{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:24px;}
+.fiche-chip{padding:6px 14px;border-radius:100px;font-size:11px;font-weight:800;letter-spacing:0.04em;background:#fff;border:1.5px solid rgba(15,25,35,0.1);color:#0f1923;cursor:pointer;transition:all 0.15s;}
+.fiche-chip.active{background:#7e22ce;color:#fff;border-color:#7e22ce;}
+.fiche-sec{margin-bottom:24px;}
+.fiche-sec-title{font-size:15px;font-weight:900;color:#0f1923;letter-spacing:-0.02em;margin-bottom:12px;display:flex;align-items:center;gap:8px;}
+.fiche-sec-title .material-symbols-outlined{font-size:18px;color:#9333ea;}
+.fiche-expo-card{background:#fff;border-radius:18px;overflow:hidden;margin-bottom:12px;box-shadow:0 3px 14px rgba(15,25,35,0.07);border:1px solid rgba(15,25,35,0.04);cursor:pointer;transition:transform 0.15s;}
+.fiche-expo-card:active{transform:scale(0.98);}
+.fiche-expo-banner{height:90px;display:flex;align-items:center;justify-content:center;font-size:36px;}
+.fiche-expo-body{padding:14px;}
+.fiche-expo-date{font-size:9px;font-weight:800;letter-spacing:0.12em;text-transform:uppercase;color:#9333ea;margin-bottom:5px;}
+.fiche-expo-title{font-size:15px;font-weight:900;color:#0f1923;margin-bottom:4px;line-height:1.2;}
+.fiche-expo-lieu{font-size:11px;color:#64748b;font-weight:600;display:flex;align-items:center;gap:4px;margin-bottom:6px;}
+.fiche-expo-desc{font-size:12px;color:#64748b;line-height:1.5;font-weight:500;}
+.fiche-expo-tags{display:flex;gap:6px;margin-top:10px;flex-wrap:wrap;}
+.fiche-expo-tag{padding:4px 10px;border-radius:100px;font-size:9px;font-weight:800;letter-spacing:0.06em;text-transform:uppercase;background:#f3e8ff;color:#7e22ce;}
+.fiche-expo-tag.gratuit{background:#d1fae5;color:#065f46;}
+
+.fiche-lieu-card{background:#fff;border-radius:16px;padding:14px;display:flex;gap:13px;align-items:center;box-shadow:0 3px 14px rgba(15,25,35,0.06);cursor:pointer;transition:transform 0.15s;border:1px solid rgba(15,25,35,0.04);margin-bottom:10px;}
+.fiche-lieu-card:active{transform:scale(0.98);}
+.fiche-lieu-icon{flex-shrink:0;width:48px;height:48px;border-radius:13px;background:linear-gradient(135deg,#4a044e,#9333ea);display:flex;align-items:center;justify-content:center;}
+.fiche-lieu-icon .material-symbols-outlined{font-size:24px;color:#fff;}
+.fiche-lieu-body{flex:1;min-width:0;}
+.fiche-lieu-name{font-size:14px;font-weight:800;color:#0f1923;line-height:1.2;margin-bottom:2px;}
+.fiche-lieu-info{font-size:11px;color:#64748b;font-weight:500;}
+.fiche-lieu-tag{flex-shrink:0;padding:4px 10px;border-radius:100px;font-size:9px;font-weight:800;letter-spacing:0.06em;text-transform:uppercase;background:#f3e8ff;color:#7e22ce;}
+
+.fiche-points-cta{border-radius:18px;overflow:hidden;position:relative;background:linear-gradient(135deg,#7c3aed 0%,#4f46e5 100%);padding:18px 16px;display:flex;align-items:center;gap:14px;margin-bottom:24px;cursor:pointer;}
+.fiche-points-icon{flex-shrink:0;width:48px;height:48px;border-radius:14px;background:rgba(255,255,255,0.18);display:flex;align-items:center;justify-content:center;}
+.fiche-points-icon .material-symbols-outlined{font-size:26px;color:#fff;}
+.fiche-points-text{flex:1;}
+.fiche-points-label{font-size:9px;font-weight:800;letter-spacing:0.12em;text-transform:uppercase;color:rgba(255,255,255,0.7);margin-bottom:4px;}
+.fiche-points-title{font-size:14px;font-weight:900;color:#fff;line-height:1.2;}
+.fiche-points-sub{font-size:11px;color:rgba(255,255,255,0.75);font-weight:500;margin-top:2px;}
+.fiche-points-arrow .material-symbols-outlined{font-size:20px;color:rgba(255,255,255,0.6);}
+</style>
+</head>
+<body>
+<div class="fiche-hero">
+  <div class="fiche-hero-img"></div>
+  <div class="fiche-hero-overlay"></div>
+  <div class="fiche-hero-back" onclick="history.back()">
+    <span class="material-symbols-outlined">arrow_back</span>
+  </div>
+  <div class="fiche-hero-content">
+    <div class="fiche-hero-cat">Culture · Arts</div>
+    <h1 class="fiche-hero-title">Expositions &amp;<br/>vie culturelle</h1>
+  </div>
+</div>
+<div class="fiche-body">
+  <p class="fiche-intro">Expos, ateliers créatifs, spectacles et événements culturels à Rochefort-du-Gard — pour toutes les envies et tous les âges.</p>
+  <div class="fiche-chips">
+    <div class="fiche-chip active">Tout</div>
+    <div class="fiche-chip">En ce moment</div>
+    <div class="fiche-chip">Ateliers</div>
+    <div class="fiche-chip">Gratuit</div>
+    <div class="fiche-chip">Famille</div>
+  </div>
+
+  <div class="fiche-sec">
+    <div class="fiche-sec-title">
+      <span class="material-symbols-outlined">palette</span>
+      En ce moment
+    </div>
+
+    <div class="fiche-expo-card">
+      <div class="fiche-expo-banner" style="background:linear-gradient(135deg,#fdf4ff,#e9d5ff);">🎨</div>
+      <div class="fiche-expo-body">
+        <div class="fiche-expo-date">4 mars – 3 avril 2026</div>
+        <div class="fiche-expo-title">Exposition Clos des Arts</div>
+        <div class="fiche-expo-lieu"><span class="material-symbols-outlined" style="font-size:13px;">location_on</span>Clos des Arts · Rochefort-du-Gard</div>
+        <div class="fiche-expo-desc">Expo-vente d'artisans créateurs — découvrez le talent et le savoir-faire local dans un cadre chaleureux.</div>
+        <div class="fiche-expo-tags">
+          <span class="fiche-expo-tag gratuit">Accès libre</span>
+          <span class="fiche-expo-tag">Artisanat</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="fiche-expo-card">
+      <div class="fiche-expo-banner" style="background:linear-gradient(135deg,#fdf2f8,#fce7f3);">✂️</div>
+      <div class="fiche-expo-body">
+        <div class="fiche-expo-date">7–8 mars 2026</div>
+        <div class="fiche-expo-title">Signature – Source de Création 4ᵉ éd.</div>
+        <div class="fiche-expo-lieu"><span class="material-symbols-outlined" style="font-size:13px;">location_on</span>Clos des Arts · Rochefort-du-Gard</div>
+        <div class="fiche-expo-desc">Expo-vente d'objets d'art. Venez découvrir le talent d'artisans créateurs réunis pour cette nouvelle édition.</div>
+        <div class="fiche-expo-tags">
+          <span class="fiche-expo-tag">Créateurs</span>
+          <span class="fiche-expo-tag">Vente</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="fiche-sec">
+    <div class="fiche-sec-title">
+      <span class="material-symbols-outlined">menu_book</span>
+      Bibliothèque La Source – Ateliers
+    </div>
+
+    <div class="fiche-expo-card">
+      <div class="fiche-expo-banner" style="background:linear-gradient(135deg,#ecfdf5,#d1fae5);">📚</div>
+      <div class="fiche-expo-body">
+        <div class="fiche-expo-date">Régulier</div>
+        <div class="fiche-expo-title">Micro-Folie – Musée numérique</div>
+        <div class="fiche-expo-lieu"><span class="material-symbols-outlined" style="font-size:13px;">location_on</span>Bibliothèque La Source</div>
+        <div class="fiche-expo-desc">Immersion dans les plus grandes œuvres d'art via le musée numérique Micro-Folie. Sessions régulières tout au long de l'année.</div>
+        <div class="fiche-expo-tags">
+          <span class="fiche-expo-tag gratuit">Gratuit</span>
+          <span class="fiche-expo-tag">Numérique</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="fiche-expo-card">
+      <div class="fiche-expo-banner" style="background:linear-gradient(135deg,#fff7ed,#fed7aa);">🖼️</div>
+      <div class="fiche-expo-body">
+        <div class="fiche-expo-date">Mensuel</div>
+        <div class="fiche-expo-title">Une heure, une œuvre</div>
+        <div class="fiche-expo-lieu"><span class="material-symbols-outlined" style="font-size:13px;">location_on</span>Bibliothèque La Source</div>
+        <div class="fiche-expo-desc">Rendez-vous culturel mensuel — découverte et échange autour d'une œuvre choisie, ouvert à tous.</div>
+        <div class="fiche-expo-tags">
+          <span class="fiche-expo-tag gratuit">Gratuit</span>
+          <span class="fiche-expo-tag">Art</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="fiche-expo-card">
+      <div class="fiche-expo-banner" style="background:linear-gradient(135deg,#f0fdf4,#bbf7d0);">🃏</div>
+      <div class="fiche-expo-body">
+        <div class="fiche-expo-date">Mensuel – Dernier vendredi</div>
+        <div class="fiche-expo-title">Soirée jeux de société</div>
+        <div class="fiche-expo-lieu"><span class="material-symbols-outlined" style="font-size:13px;">location_on</span>Bibliothèque La Source</div>
+        <div class="fiche-expo-desc">Moment ludique à partager en famille ou entre amis. Jeux disponibles sur place, pour tous les niveaux.</div>
+        <div class="fiche-expo-tags">
+          <span class="fiche-expo-tag gratuit">Gratuit</span>
+          <span class="fiche-expo-tag">Famille</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="fiche-sec">
+    <div class="fiche-sec-title">
+      <span class="material-symbols-outlined">theater_comedy</span>
+      Spectacles &amp; Théâtre
+    </div>
+    <div class="fiche-lieu-card">
+      <div class="fiche-lieu-icon"><span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">theater_comedy</span></div>
+      <div class="fiche-lieu-body">
+        <div class="fiche-lieu-name">La Bonne Adresse – Ménestels Théâtre</div>
+        <div class="fiche-lieu-info">Comédie en 2 actes · 28 fév. 2026 · Salle des fêtes</div>
+      </div>
+      <div class="fiche-lieu-tag">Spectacle</div>
+    </div>
+    <div class="fiche-lieu-card">
+      <div class="fiche-lieu-icon"><span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">library_books</span></div>
+      <div class="fiche-lieu-body">
+        <div class="fiche-lieu-name">Café lecture – Public adulte</div>
+        <div class="fiche-lieu-info">Bibliothèque La Source · Mensuel · Échange autour des livres</div>
+      </div>
+      <div class="fiche-lieu-tag gratuit" style="background:#d1fae5;color:#065f46;">Gratuit</div>
+    </div>
+  </div>
+
+  <div class="fiche-sec">
+    <div class="fiche-sec-title">
+      <span class="material-symbols-outlined">event</span>
+      Agenda annuel
+    </div>
+    <div class="fiche-lieu-card">
+      <div class="fiche-lieu-icon" style="background:linear-gradient(135deg,#0369a1,#0ea5e9);"><span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">store</span></div>
+      <div class="fiche-lieu-body">
+        <div class="fiche-lieu-name">Marché provençal – Tous les dimanches</div>
+        <div class="fiche-lieu-info">Place de la République · 8h–13h · Toute l'année</div>
+      </div>
+      <div class="fiche-lieu-tag gratuit" style="background:#d1fae5;color:#065f46;">Régulier</div>
+    </div>
+    <div class="fiche-lieu-card">
+      <div class="fiche-lieu-icon" style="background:linear-gradient(135deg,#c2410c,#ea580c);"><span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">celebration</span></div>
+      <div class="fiche-lieu-body">
+        <div class="fiche-lieu-name">Fête de la Saint-Jean</div>
+        <div class="fiche-lieu-info">Juin · Défilé aux lampions &amp; bal traditionnel</div>
+      </div>
+      <div class="fiche-lieu-tag">Annuel</div>
+    </div>
+    <div class="fiche-lieu-card">
+      <div class="fiche-lieu-icon" style="background:linear-gradient(135deg,#1e3a5f,#3B5BDB);"><span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">park</span></div>
+      <div class="fiche-lieu-body">
+        <div class="fiche-lieu-name">Fête Votive – Aïoli traditionnel</div>
+        <div class="fiche-lieu-info">Juillet · Nombreuses animations, concerts</div>
+      </div>
+      <div class="fiche-lieu-tag">Annuel</div>
+    </div>
+    <div class="fiche-lieu-card">
+      <div class="fiche-lieu-icon" style="background:linear-gradient(135deg,#7c3aed,#a855f7);"><span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">accessibility_new</span></div>
+      <div class="fiche-lieu-body">
+        <div class="fiche-lieu-name">Marché de Noël &amp; Foire aux Santons</div>
+        <div class="fiche-lieu-info">Décembre · Place du village</div>
+      </div>
+      <div class="fiche-lieu-tag">Annuel</div>
+    </div>
+  </div>
+
+  <div class="fiche-points-cta" onclick="window.location.href='fidelite.html'">
+    <div class="fiche-points-icon">
+      <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">loyalty</span>
+    </div>
+    <div class="fiche-points-text">
+      <div class="fiche-points-label">Carte fidélité</div>
+      <div class="fiche-points-title">+30 pts par expo visitée</div>
+      <div class="fiche-points-sub">Scanne ta carte à la billetterie pour valider</div>
+    </div>
+    <div class="fiche-points-arrow">
+      <span class="material-symbols-outlined">chevron_right</span>
+    </div>
+  </div>
+</div>
+</body>
+</html>
