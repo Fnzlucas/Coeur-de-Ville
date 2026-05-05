@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1"/>
+<title>Emploi – Rochefort-du-Gard</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800;900&display=swap"/>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html,body{font-family:'Manrope',sans-serif;background:#f4f6f9;color:#0f1923;-webkit-overflow-scrolling:touch;}
+body{padding-bottom:32px;}
+.fiche-hero{position:relative;width:100%;height:260px;overflow:hidden;}
+.fiche-hero-img{width:100%;height:100%;object-fit:cover;display:block;background:linear-gradient(135deg,#1e3a5f 0%,#1d4ed8 50%,#3b82f6 100%);}
+.fiche-hero-overlay{position:absolute;inset:0;background:linear-gradient(to bottom,rgba(0,0,0,0.1) 0%,rgba(0,0,0,0.55) 100%);}
+.fiche-hero-back{position:absolute;top:16px;left:16px;width:40px;height:40px;border-radius:50%;background:rgba(255,255,255,0.18);backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,0.25);display:flex;align-items:center;justify-content:center;cursor:pointer;color:#fff;}
+.fiche-hero-back .material-symbols-outlined{font-size:22px;}
+.fiche-hero-content{position:absolute;bottom:0;left:0;right:0;padding:20px 16px 18px;}
+.fiche-hero-cat{font-size:9px;font-weight:800;letter-spacing:0.14em;text-transform:uppercase;color:rgba(255,255,255,0.75);margin-bottom:6px;}
+.fiche-hero-title{font-size:26px;font-weight:900;color:#fff;line-height:1.1;letter-spacing:-0.03em;}
+.fiche-body{padding:20px 16px 0;}
+.fiche-intro{font-size:14px;color:#475569;line-height:1.6;font-weight:500;margin-bottom:24px;}
+.fiche-chips{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:24px;}
+.fiche-chip{padding:6px 14px;border-radius:100px;font-size:11px;font-weight:800;letter-spacing:0.04em;background:#fff;border:1.5px solid rgba(15,25,35,0.1);color:#0f1923;cursor:pointer;transition:all 0.15s;}
+.fiche-chip.active{background:#1d4ed8;color:#fff;border-color:#1d4ed8;}
+.fiche-sec{margin-bottom:24px;}
+.fiche-sec-title{font-size:15px;font-weight:900;color:#0f1923;letter-spacing:-0.02em;margin-bottom:12px;display:flex;align-items:center;gap:8px;}
+.fiche-sec-title .material-symbols-outlined{font-size:18px;color:#3b82f6;}
+.fiche-offre-card{background:#fff;border-radius:18px;padding:16px;margin-bottom:12px;box-shadow:0 3px 14px rgba(15,25,35,0.07);border:1px solid rgba(15,25,35,0.04);cursor:pointer;transition:transform 0.15s;}
+.fiche-offre-card:active{transform:scale(0.98);}
+.fiche-offre-header{display:flex;align-items:flex-start;gap:12px;margin-bottom:10px;}
+.fiche-offre-icon{flex-shrink:0;width:44px;height:44px;border-radius:12px;background:linear-gradient(135deg,#1e3a5f,#1d4ed8);display:flex;align-items:center;justify-content:center;}
+.fiche-offre-icon .material-symbols-outlined{font-size:22px;color:#fff;}
+.fiche-offre-meta{flex:1;}
+.fiche-offre-title{font-size:14px;font-weight:800;color:#0f1923;line-height:1.2;margin-bottom:3px;}
+.fiche-offre-company{font-size:11px;color:#64748b;font-weight:600;}
+.fiche-offre-tags{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:8px;}
+.fiche-offre-tag{padding:4px 10px;border-radius:100px;font-size:9px;font-weight:800;letter-spacing:0.06em;text-transform:uppercase;}
+.tag-cdi{background:#dbeafe;color:#1d4ed8;}
+.tag-cdd{background:#fef3c7;color:#92400e;}
+.tag-interim{background:#f3e8ff;color:#7e22ce;}
+.tag-alt{background:#d1fae5;color:#065f46;}
+.tag-btp{background:#fee2e2;color:#dc2626;}
+.fiche-offre-desc{font-size:12px;color:#64748b;line-height:1.5;font-weight:500;}
+.fiche-offre-footer{display:flex;justify-content:space-between;align-items:center;margin-top:10px;}
+.fiche-offre-lieu{font-size:10px;color:#94a3b8;font-weight:700;display:flex;align-items:center;gap:3px;}
+.fiche-offre-btn{padding:7px 14px;border-radius:100px;background:#1d4ed8;color:#fff;font-size:10px;font-weight:800;letter-spacing:0.04em;cursor:pointer;border:none;}
+
+.fiche-ressource{background:#fff;border-radius:16px;padding:14px;display:flex;gap:13px;align-items:center;box-shadow:0 3px 14px rgba(15,25,35,0.06);cursor:pointer;transition:transform 0.15s;border:1px solid rgba(15,25,35,0.04);margin-bottom:10px;}
+.fiche-ressource:active{transform:scale(0.98);}
+.fiche-ressource-icon{flex-shrink:0;width:48px;height:48px;border-radius:13px;display:flex;align-items:center;justify-content:center;}
+.fiche-ressource-icon .material-symbols-outlined{font-size:24px;color:#fff;}
+.fiche-ressource-body{flex:1;min-width:0;}
+.fiche-ressource-name{font-size:14px;font-weight:800;color:#0f1923;line-height:1.2;margin-bottom:2px;}
+.fiche-ressource-info{font-size:11px;color:#64748b;font-weight:500;}
+.fiche-ressource-tag{flex-shrink:0;padding:4px 10px;border-radius:100px;font-size:9px;font-weight:800;letter-spacing:0.06em;text-transform:uppercase;background:#dbeafe;color:#1d4ed8;}
+
+.fiche-points-cta{border-radius:18px;overflow:hidden;position:relative;background:linear-gradient(135deg,#7c3aed 0%,#4f46e5 100%);padding:18px 16px;display:flex;align-items:center;gap:14px;margin-bottom:24px;cursor:pointer;}
+.fiche-points-icon{flex-shrink:0;width:48px;height:48px;border-radius:14px;background:rgba(255,255,255,0.18);display:flex;align-items:center;justify-content:center;}
+.fiche-points-icon .material-symbols-outlined{font-size:26px;color:#fff;}
+.fiche-points-text{flex:1;}
+.fiche-points-label{font-size:9px;font-weight:800;letter-spacing:0.12em;text-transform:uppercase;color:rgba(255,255,255,0.7);margin-bottom:4px;}
+.fiche-points-title{font-size:14px;font-weight:900;color:#fff;line-height:1.2;}
+.fiche-points-sub{font-size:11px;color:rgba(255,255,255,0.75);font-weight:500;margin-top:2px;}
+.fiche-points-arrow .material-symbols-outlined{font-size:20px;color:rgba(255,255,255,0.6);}
+</style>
+</head>
+<body>
+<div class="fiche-hero">
+  <div class="fiche-hero-img"></div>
+  <div class="fiche-hero-overlay"></div>
+  <div class="fiche-hero-back" onclick="history.back()">
+    <span class="material-symbols-outlined">arrow_back</span>
+  </div>
+  <div class="fiche-hero-content">
+    <div class="fiche-hero-cat">Emploi · Stage · Alternance</div>
+    <h1 class="fiche-hero-title">Emploi, stages &amp;<br/>alternances</h1>
+  </div>
+</div>
+<div class="fiche-body">
+  <p class="fiche-intro">CDI, CDD, intérim, alternance — des milliers d'offres disponibles à Rochefort-du-Gard et dans le bassin d'Avignon. Retrouvez les principales ressources locales.</p>
+  <div class="fiche-chips" id="chips">
+    <div class="fiche-chip active" data-filter="tout" onclick="filterOffres(this)">Tout</div>
+    <div class="fiche-chip" data-filter="cdi-cdd" onclick="filterOffres(this)">CDI/CDD</div>
+    <div class="fiche-chip" data-filter="interim" onclick="filterOffres(this)">Intérim</div>
+    <div class="fiche-chip" data-filter="alternance" onclick="filterOffres(this)">Alternance</div>
+    <div class="fiche-chip" data-filter="stage" onclick="filterOffres(this)">Stage</div>
+    <div class="fiche-chip" data-filter="proximite" onclick="filterOffres(this)">Proximité</div>
+  </div>
+
+  <div class="fiche-sec">
+  <div class="fiche-sec" id="sec-cdi">
+    <div class="fiche-sec-title">
+      <span class="material-symbols-outlined">work</span>
+      CDI / CDD – Secteur local
+    </div>
+
+    <div class="fiche-offre-card" data-type="cdi-cdd proximite" onclick="window.open('https://www.hellowork.com/fr-fr/emploi/rochefort-du-gard-30650.html','_blank')">
+      <div class="fiche-offre-header">
+        <div class="fiche-offre-icon"><span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">calculate</span></div>
+        <div class="fiche-offre-meta">
+          <div class="fiche-offre-title">Collaborateur Comptable Confirmé H/F</div>
+          <div class="fiche-offre-company">Cabinet d'expertise comptable · Rochefort-du-Gard</div>
+        </div>
+      </div>
+      <div class="fiche-offre-tags"><span class="fiche-offre-tag tag-cdi">CDI</span><span class="fiche-offre-tag tag-btp">Comptabilité</span></div>
+      <div class="fiche-offre-desc">Gestion d'un portefeuille clients, déclarations sociales et fiscales. 13e mois, prime vacances, télétravail possible. BTS/DCG min.</div>
+      <div class="fiche-offre-footer">
+        <div class="fiche-offre-lieu"><span class="material-symbols-outlined" style="font-size:12px;">location_on</span>Rochefort-du-Gard · 30650</div>
+        <button class="fiche-offre-btn" onclick="event.stopPropagation();window.open('https://www.hellowork.com/fr-fr/emploi/rochefort-du-gard-30650.html','_blank')">Postuler →</button>
+      </div>
+    </div>
+
+    <div class="fiche-offre-card" data-type="cdi-cdd" onclick="window.open('https://fr.indeed.com/emplois?q=infirmier&l=Avignon+84000','_blank')">
+      <div class="fiche-offre-header">
+        <div class="fiche-offre-icon" style="background:linear-gradient(135deg,#065f46,#059669);"><span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">medical_services</span></div>
+        <div class="fiche-offre-meta">
+          <div class="fiche-offre-title">Infirmier(e) H/F</div>
+          <div class="fiche-offre-company">Clinique · Secteur Avignon / Villeneuve</div>
+        </div>
+      </div>
+      <div class="fiche-offre-tags"><span class="fiche-offre-tag tag-cdi">CDI</span><span class="fiche-offre-tag" style="background:#d1fae5;color:#065f46;">Santé</span></div>
+      <div class="fiche-offre-desc">Plusieurs établissements de santé du bassin avignonnais recrutent des IDE. Poste de jour/nuit, planning fixe ou roulement. Expérience souhaitée.</div>
+      <div class="fiche-offre-footer">
+        <div class="fiche-offre-lieu"><span class="material-symbols-outlined" style="font-size:12px;">location_on</span>Grand Avignon</div>
+        <button class="fiche-offre-btn" onclick="event.stopPropagation();window.open('https://fr.indeed.com/emplois?q=infirmier&l=Avignon+84000','_blank')">Voir l'offre →</button>
+      </div>
+    </div>
+
+    <div class="fiche-offre-card" data-type="cdi-cdd" onclick="window.open('https://www.hellowork.com/fr-fr/emploi/rochefort-du-gard-30650.html','_blank')">
+      <div class="fiche-offre-header">
+        <div class="fiche-offre-icon" style="background:linear-gradient(135deg,#92400e,#d97706);"><span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">agriculture</span></div>
+        <div class="fiche-offre-meta">
+          <div class="fiche-offre-title">Conducteur d'engins TP H/F</div>
+          <div class="fiche-offre-company">Entreprise BTP · Gard / Vaucluse</div>
+        </div>
+      </div>
+      <div class="fiche-offre-tags"><span class="fiche-offre-tag tag-cdi">CDI</span><span class="fiche-offre-tag tag-btp">BTP</span></div>
+      <div class="fiche-offre-desc">Conduite d'engins de chantier (pelle, bulldozer, chargeuse). CACES requis. Salaire selon convention BTP + panier + déplacements.</div>
+      <div class="fiche-offre-footer">
+        <div class="fiche-offre-lieu"><span class="material-symbols-outlined" style="font-size:12px;">location_on</span>Gard / Vaucluse</div>
+        <button class="fiche-offre-btn" onclick="event.stopPropagation();window.open('https://www.hellowork.com/fr-fr/emploi/rochefort-du-gard-30650.html','_blank')">Voir l'offre →</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="fiche-sec" id="sec-interim">
+    <div class="fiche-sec-title">
+      <span class="material-symbols-outlined">construction</span>
+      Intérim
+    </div>
+
+    <div class="fiche-offre-card" data-type="interim proximite" onclick="window.open('https://www.meteojob.com/jobsearch/offres-emploi?q=maçon&l=30650&r=30','_blank')">
+      <div class="fiche-offre-header">
+        <div class="fiche-offre-icon" style="background:linear-gradient(135deg,#c2410c,#ea580c);"><span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">construction</span></div>
+        <div class="fiche-offre-meta">
+          <div class="fiche-offre-title">Maçon / Couvreur H/F</div>
+          <div class="fiche-offre-company">Welljob Intérim Avignon · Missions régulières</div>
+        </div>
+      </div>
+      <div class="fiche-offre-tags"><span class="fiche-offre-tag tag-interim">Intérim</span><span class="fiche-offre-tag tag-btp">BTP</span></div>
+      <div class="fiche-offre-desc">Missions sur chantiers de rénovation, neuf et couverture. Départ de Rochefort-du-Gard possible. Taux horaire selon qualification + panier + déplacements.</div>
+      <div class="fiche-offre-footer">
+        <div class="fiche-offre-lieu"><span class="material-symbols-outlined" style="font-size:12px;">location_on</span>Rochefort-du-Gard · 30650</div>
+        <button class="fiche-offre-btn" onclick="event.stopPropagation();window.open('https://www.meteojob.com/Rochefort-Du-Gard-(30)-Emploi-Interim','_blank')">Voir l'offre →</button>
+      </div>
+    </div>
+
+    <div class="fiche-offre-card" data-type="interim" onclick="window.open('https://fr.indeed.com/emplois?q=chauffeur+livreur&l=Avignon+84000','_blank')">
+      <div class="fiche-offre-header">
+        <div class="fiche-offre-icon" style="background:linear-gradient(135deg,#1e3a5f,#3B5BDB);"><span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">local_shipping</span></div>
+        <div class="fiche-offre-meta">
+          <div class="fiche-offre-title">Chauffeur Livreur VL/PL H/F</div>
+          <div class="fiche-offre-company">Agence intérim · Bassin Avignon</div>
+        </div>
+      </div>
+      <div class="fiche-offre-tags"><span class="fiche-offre-tag tag-interim">Intérim</span><span class="fiche-offre-tag" style="background:#dbeafe;color:#1d4ed8;">Logistique</span></div>
+      <div class="fiche-offre-desc">Livraisons en VL ou PL sur le secteur Avignon / Gard. Permis B exigé (permis C selon poste). Missions à la semaine ou longue durée.</div>
+      <div class="fiche-offre-footer">
+        <div class="fiche-offre-lieu"><span class="material-symbols-outlined" style="font-size:12px;">location_on</span>Avignon / Nîmes</div>
+        <button class="fiche-offre-btn" onclick="event.stopPropagation();window.open('https://fr.indeed.com/emplois?q=chauffeur+livreur&l=Avignon+84000','_blank')">Voir l'offre →</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="fiche-sec" id="sec-alt">
+    <div class="fiche-sec-title">
+      <span class="material-symbols-outlined">school</span>
+      Alternances &amp; Apprentissages
+    </div>
+
+    <div class="fiche-offre-card" data-type="alternance" onclick="window.open('https://www.hellowork.com/fr-fr/emploi/rochefort-du-gard-30650.html?k=alternance','_blank')">
+      <div class="fiche-offre-header">
+        <div class="fiche-offre-icon" style="background:linear-gradient(135deg,#7c3aed,#a855f7);"><span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">store</span></div>
+        <div class="fiche-offre-meta">
+          <div class="fiche-offre-title">Alternant(e) Assistant Manager H/F</div>
+          <div class="fiche-offre-company">Commerce · Grand Avignon (30/84)</div>
+        </div>
+      </div>
+      <div class="fiche-offre-tags"><span class="fiche-offre-tag tag-alt">Alternance</span><span class="fiche-offre-tag" style="background:#f3e8ff;color:#7e22ce;">Commerce</span></div>
+      <div class="fiche-offre-desc">Bac+2 à Bac+3 en commerce ou management. Formation en alternance en grande distribution ou commerce de proximité, secteur Grand Avignon.</div>
+      <div class="fiche-offre-footer">
+        <div class="fiche-offre-lieu"><span class="material-symbols-outlined" style="font-size:12px;">location_on</span>Grand Avignon</div>
+        <button class="fiche-offre-btn" onclick="event.stopPropagation();window.open('https://www.hellowork.com/fr-fr/emploi/rochefort-du-gard-30650.html?k=alternance','_blank')">Candidater →</button>
+      </div>
+    </div>
+
+    <div class="fiche-offre-card" data-type="alternance" onclick="window.open('https://www.la-mairie.com/rochefort-du-gard/emploi','_blank')">
+      <div class="fiche-offre-header">
+        <div class="fiche-offre-icon" style="background:linear-gradient(135deg,#c2410c,#ea580c);"><span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">construction</span></div>
+        <div class="fiche-offre-meta">
+          <div class="fiche-offre-title">Apprenti(e) BTP – Maçonnerie / VRD</div>
+          <div class="fiche-offre-company">Entreprises locales · CAP à BTS</div>
+        </div>
+      </div>
+      <div class="fiche-offre-tags"><span class="fiche-offre-tag tag-alt">Apprentissage</span><span class="fiche-offre-tag tag-btp">BTP</span></div>
+      <div class="fiche-offre-desc">Plusieurs entreprises du BTP du secteur Gard/Vaucluse recrutent des apprentis (CAP, Bac Pro, BTS). Maçonnerie, carrelage, VRD, couverture.</div>
+      <div class="fiche-offre-footer">
+        <div class="fiche-offre-lieu"><span class="material-symbols-outlined" style="font-size:12px;">location_on</span>Gard / Vaucluse</div>
+        <button class="fiche-offre-btn" onclick="event.stopPropagation();window.open('https://www.la-mairie.com/rochefort-du-gard/emploi','_blank')">Voir les offres →</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="fiche-sec" id="sec-stage">
+    <div class="fiche-sec-title">
+      <span class="material-symbols-outlined">bookmark</span>
+      Stages
+    </div>
+
+    <div class="fiche-offre-card" data-type="stage proximite" onclick="window.open('https://www.emploi-collectivites.fr/esp-candidats/offres_emploi/emploi-ville-rochefort-gard-30650-11850','_blank')">
+      <div class="fiche-offre-header">
+        <div class="fiche-offre-icon" style="background:linear-gradient(135deg,#0891b2,#22d3ee);"><span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">account_balance</span></div>
+        <div class="fiche-offre-meta">
+          <div class="fiche-offre-title">Stage Mairie – Services administratifs</div>
+          <div class="fiche-offre-company">Mairie de Rochefort-du-Gard · Candidature spontanée</div>
+        </div>
+      </div>
+      <div class="fiche-offre-tags"><span class="fiche-offre-tag" style="background:#cffafe;color:#0e7490;">Stage</span><span class="fiche-offre-tag" style="background:#dbeafe;color:#1d4ed8;">Fonction publique</span></div>
+      <div class="fiche-offre-desc">Accueil de stagiaires dans les services (administratif, animation, technique). Présenter son dossier en mairie ou via le portail collectivités.</div>
+      <div class="fiche-offre-footer">
+        <div class="fiche-offre-lieu"><span class="material-symbols-outlined" style="font-size:12px;">location_on</span>Rochefort-du-Gard · Mairie</div>
+        <button class="fiche-offre-btn" onclick="event.stopPropagation();window.open('https://www.emploi-collectivites.fr/esp-candidats/offres_emploi/emploi-ville-rochefort-gard-30650-11850','_blank')">Voir les offres →</button>
+      </div>
+    </div>
+
+    <div class="fiche-offre-card" data-type="stage" onclick="window.open('https://fr.indeed.com/emplois?q=auxiliaire+de+vie&l=Avignon+84000','_blank')">
+      <div class="fiche-offre-header">
+        <div class="fiche-offre-icon" style="background:linear-gradient(135deg,#7c3aed,#a855f7);"><span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">child_care</span></div>
+        <div class="fiche-offre-meta">
+          <div class="fiche-offre-title">Stage / Job étudiant – Auxiliaire de vie</div>
+          <div class="fiche-offre-company">Family Sphere · Lédenon / Rochefort</div>
+        </div>
+      </div>
+      <div class="fiche-offre-tags"><span class="fiche-offre-tag" style="background:#cffafe;color:#0e7490;">Stage</span><span class="fiche-offre-tag" style="background:#f3e8ff;color:#7e22ce;">Petite enfance</span></div>
+      <div class="fiche-offre-desc">Garde d'enfants à domicile, horaires flexibles selon disponibilités. Débutants acceptés. Idéal job étudiant ou complément d'activité.</div>
+      <div class="fiche-offre-footer">
+        <div class="fiche-offre-lieu"><span class="material-symbols-outlined" style="font-size:12px;">location_on</span>Lédenon / Rochefort-du-Gard</div>
+        <button class="fiche-offre-btn" onclick="event.stopPropagation();window.open('https://fr.indeed.com/emplois?q=auxiliaire+de+vie&l=Avignon+84000','_blank')">Postuler →</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+  function filterOffres(chip) {
+    document.querySelectorAll('.fiche-chip').forEach(c => c.classList.remove('active'));
+    chip.classList.add('active');
+    const filter = chip.dataset.filter;
+    document.querySelectorAll('.fiche-offre-card').forEach(card => {
+      if (filter === 'tout') { card.style.display = ''; return; }
+      const types = (card.dataset.type || '').split(' ');
+      card.style.display = types.includes(filter) ? '' : 'none';
+    });
+    document.querySelectorAll('.fiche-sec').forEach(sec => {
+      const cards = sec.querySelectorAll('.fiche-offre-card');
+      if (!cards.length) return;
+      const hasVisible = [...cards].some(c => c.style.display !== 'none');
+      sec.style.display = hasVisible ? '' : 'none';
+    });
+  }
+  </script>
+
+  <div class="fiche-sec">
+    <div class="fiche-sec-title">
+      <span class="material-symbols-outlined">search</span>
+      Plateformes &amp; ressources
+    </div>
+    <div class="fiche-ressource" onclick="window.open('https://www.hellowork.com/fr-fr/emploi/ville_rochefort-du-gard-30650.html','_blank')">
+      <div class="fiche-ressource-icon" style="background:linear-gradient(135deg,#1e3a5f,#1d4ed8);"><span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">work</span></div>
+      <div class="fiche-ressource-body">
+        <div class="fiche-ressource-name">Hellowork</div>
+        <div class="fiche-ressource-info">+5 400 offres · CDI, CDD, intérim · Rochefort-du-Gard</div>
+      </div>
+      <div class="fiche-ressource-tag">5 400+ offres</div>
+    </div>
+    <div class="fiche-ressource" onclick="window.open('https://fr.indeed.com/l-30650-rochefort-du-gard-emplois.html','_blank')">
+      <div class="fiche-ressource-icon" style="background:linear-gradient(135deg,#0369a1,#0ea5e9);"><span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">search</span></div>
+      <div class="fiche-ressource-body">
+        <div class="fiche-ressource-name">Indeed</div>
+        <div class="fiche-ressource-info">+2 700 offres · Bassin Avignon · Candidature simplifiée</div>
+      </div>
+      <div class="fiche-ressource-tag">2 700+ offres</div>
+    </div>
+    <div class="fiche-ressource" onclick="window.open('https://www.meteojob.com/Rochefort-Du-Gard-(30)-Emploi','_blank')">
+      <div class="fiche-ressource-icon" style="background:linear-gradient(135deg,#065f46,#059669);"><span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">star</span></div>
+      <div class="fiche-ressource-body">
+        <div class="fiche-ressource-name">Meteojob</div>
+        <div class="fiche-ressource-info">Matching CV · +6 900 offres · Intérim inclus</div>
+      </div>
+      <div class="fiche-ressource-tag">6 900+ offres</div>
+    </div>
+    <div class="fiche-ressource" onclick="window.open('https://www.emploi-collectivites.fr/esp-candidats/offres_emploi/emploi-ville-rochefort-gard-30650-11850','_blank')">
+      <div class="fiche-ressource-icon" style="background:linear-gradient(135deg,#92400e,#d97706);"><span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">account_balance</span></div>
+      <div class="fiche-ressource-body">
+        <div class="fiche-ressource-name">Emploi Collectivités</div>
+        <div class="fiche-ressource-info">Fonction publique territoriale · Cat. A, B, C · Stages</div>
+      </div>
+      <div class="fiche-ressource-tag">Mairie</div>
+    </div>
+  </div>
+
+  <div class="fiche-points-cta" onclick="window.location.href='fidelite.html'">
+    <div class="fiche-points-icon">
+      <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">loyalty</span>
+    </div>
+    <div class="fiche-points-text">
+      <div class="fiche-points-label">Carte fidélité</div>
+      <div class="fiche-points-title">Job ou stage signé ? Gagne jusqu'à 100 pts !</div>
+      <div class="fiche-points-sub">Signale ton embauche ou convention de stage à la mairie</div>
+    </div>
+    <div class="fiche-points-arrow">
+      <span class="material-symbols-outlined">chevron_right</span>
+    </div>
+  </div>
+</div>
+</body>
+</html>
