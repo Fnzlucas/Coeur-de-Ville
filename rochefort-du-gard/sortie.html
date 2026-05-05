@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1"/>
+<title>Sorties – Rochefort-du-Gard</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800;900&display=swap"/>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html,body{font-family:'Manrope',sans-serif;background:#f4f6f9;color:#0f1923;-webkit-overflow-scrolling:touch;}
+body{padding-bottom:32px;}
+.fiche-hero{position:relative;width:100%;height:260px;overflow:hidden;}
+.fiche-hero-img{width:100%;height:100%;object-fit:cover;display:block;background:linear-gradient(135deg,#7f1d1d 0%,#dc2626 50%,#f97316 100%);}
+.fiche-hero-overlay{position:absolute;inset:0;background:linear-gradient(to bottom,rgba(0,0,0,0.1) 0%,rgba(0,0,0,0.55) 100%);}
+.fiche-hero-back{position:absolute;top:16px;left:16px;width:40px;height:40px;border-radius:50%;background:rgba(255,255,255,0.18);backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,0.25);display:flex;align-items:center;justify-content:center;cursor:pointer;color:#fff;}
+.fiche-hero-back .material-symbols-outlined{font-size:22px;}
+.fiche-hero-content{position:absolute;bottom:0;left:0;right:0;padding:20px 16px 18px;}
+.fiche-hero-cat{font-size:9px;font-weight:800;letter-spacing:0.14em;text-transform:uppercase;color:rgba(255,255,255,0.75);margin-bottom:6px;}
+.fiche-hero-title{font-size:26px;font-weight:900;color:#fff;line-height:1.1;letter-spacing:-0.03em;}
+.fiche-body{padding:20px 16px 0;}
+.fiche-intro{font-size:14px;color:#475569;line-height:1.6;font-weight:500;margin-bottom:24px;}
+.fiche-chips{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:24px;}
+.fiche-chip{padding:6px 14px;border-radius:100px;font-size:11px;font-weight:800;letter-spacing:0.04em;background:#fff;border:1.5px solid rgba(15,25,35,0.1);color:#0f1923;cursor:pointer;transition:all 0.15s;}
+.fiche-chip.active{background:#dc2626;color:#fff;border-color:#dc2626;}
+.fiche-sec{margin-bottom:24px;}
+.fiche-sec-title{font-size:15px;font-weight:900;color:#0f1923;letter-spacing:-0.02em;margin-bottom:12px;display:flex;align-items:center;gap:8px;}
+.fiche-sec-title .material-symbols-outlined{font-size:18px;color:#ef4444;}
+.fiche-clubs{display:flex;flex-direction:column;gap:10px;}
+.fiche-club{background:#fff;border-radius:16px;padding:14px;display:flex;gap:13px;align-items:center;box-shadow:0 3px 14px rgba(15,25,35,0.06);cursor:pointer;transition:transform 0.15s;border:1px solid rgba(15,25,35,0.04);}
+.fiche-club:active{transform:scale(0.98);}
+.fiche-club-icon{flex-shrink:0;width:48px;height:48px;border-radius:13px;background:linear-gradient(135deg,#dc2626,#f97316);display:flex;align-items:center;justify-content:center;}
+.fiche-club-icon .material-symbols-outlined{font-size:24px;color:#fff;}
+.fiche-club-body{flex:1;min-width:0;}
+.fiche-club-name{font-size:14px;font-weight:800;color:#0f1923;line-height:1.2;margin-bottom:2px;}
+.fiche-club-info{font-size:11px;color:#64748b;font-weight:500;}
+.fiche-club-tag{flex-shrink:0;padding:4px 10px;border-radius:100px;font-size:9px;font-weight:800;letter-spacing:0.06em;text-transform:uppercase;background:#fee2e2;color:#dc2626;}
+.fiche-club-tag.green{background:#d1fae5;color:#065f46;}
+.fiche-club-tag.blue{background:#dbeafe;color:#1d4ed8;}
+.fiche-map{border-radius:16px;overflow:hidden;height:160px;background:linear-gradient(135deg,#e2e8f0 0%,#cbd5e1 100%);display:flex;align-items:center;justify-content:center;margin-bottom:24px;flex-direction:column;gap:6px;cursor:pointer;border:1px solid rgba(15,25,35,0.06);}
+.fiche-map .material-symbols-outlined{font-size:36px;color:#94a3b8;}
+.fiche-map-label{font-size:12px;font-weight:700;color:#94a3b8;}
+.fiche-points-cta{border-radius:18px;overflow:hidden;position:relative;background:linear-gradient(135deg,#7c3aed 0%,#4f46e5 100%);padding:18px 16px;display:flex;align-items:center;gap:14px;margin-bottom:24px;cursor:pointer;}
+.fiche-points-icon{flex-shrink:0;width:48px;height:48px;border-radius:14px;background:rgba(255,255,255,0.18);display:flex;align-items:center;justify-content:center;}
+.fiche-points-icon .material-symbols-outlined{font-size:26px;color:#fff;}
+.fiche-points-text{flex:1;}
+.fiche-points-label{font-size:9px;font-weight:800;letter-spacing:0.12em;text-transform:uppercase;color:rgba(255,255,255,0.7);margin-bottom:4px;}
+.fiche-points-title{font-size:14px;font-weight:900;color:#fff;line-height:1.2;}
+.fiche-points-sub{font-size:11px;color:rgba(255,255,255,0.75);font-weight:500;margin-top:2px;}
+.fiche-points-arrow .material-symbols-outlined{font-size:20px;color:rgba(255,255,255,0.6);}
+</style>
+</head>
+<body>
+<div class="fiche-hero">
+  <div class="fiche-hero-img"></div>
+  <div class="fiche-hero-overlay"></div>
+  <div class="fiche-hero-back" onclick="history.back()">
+    <span class="material-symbols-outlined">arrow_back</span>
+  </div>
+  <div class="fiche-hero-content">
+    <div class="fiche-hero-cat">Sorties · Loisirs</div>
+    <h1 class="fiche-hero-title">Où sortir à<br/>Rochefort-du-Gard</h1>
+  </div>
+</div>
+<div class="fiche-body">
+  <p class="fiche-intro">Restaurants, bars, loisirs, balades et bons plans pour profiter de Rochefort-du-Gard et ses environs — toute l'année.</p>
+  <div class="fiche-chips">
+    <div class="fiche-chip active">Tout</div>
+    <div class="fiche-chip">Restaurants</div>
+    <div class="fiche-chip">Soirées</div>
+    <div class="fiche-chip">Nature</div>
+    <div class="fiche-chip">Famille</div>
+  </div>
+
+  <div class="fiche-sec">
+    <div class="fiche-sec-title">
+      <span class="material-symbols-outlined">restaurant</span>
+      Restaurants &amp; Pizzerias
+    </div>
+    <div class="fiche-clubs">
+      <div class="fiche-club">
+        <div class="fiche-club-icon"><span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">restaurant</span></div>
+        <div class="fiche-club-body">
+          <div class="fiche-club-name">La Tour de Pizz</div>
+          <div class="fiche-club-info">Pâte maison, produits frais · Sur place, à emporter, livraison · Animaux OK</div>
+        </div>
+        <div class="fiche-club-tag">Pizza</div>
+      </div>
+      <div class="fiche-club">
+        <div class="fiche-club-icon"><span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">local_pizza</span></div>
+        <div class="fiche-club-body">
+          <div class="fiche-club-name">Don Papa – Pizzeria</div>
+          <div class="fiche-club-info">Pizzas classiques, sans gluten, Pinsa romaine · Livraison rapide</div>
+        </div>
+        <div class="fiche-club-tag">Pizza</div>
+      </div>
+      <div class="fiche-club">
+        <div class="fiche-club-icon" style="background:linear-gradient(135deg,#065f46,#059669);"><span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">dining</span></div>
+        <div class="fiche-club-body">
+          <div class="fiche-club-name">Mamé &amp; Papé</div>
+          <div class="fiche-club-info">Cuisine traditionnelle maison · Recettes authentiques &amp; conviviales</div>
+        </div>
+        <div class="fiche-club-tag green">Traditionnel</div>
+      </div>
+      <div class="fiche-club">
+        <div class="fiche-club-icon" style="background:linear-gradient(135deg,#c2410c,#ea580c);"><span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">lunch_dining</span></div>
+        <div class="fiche-club-body">
+          <div class="fiche-club-name">Hôtel-Restaurant Le Lagon</div>
+          <div class="fiche-club-info">Rochefort-du-Gard · 04 90 26 04 47</div>
+        </div>
+        <div class="fiche-club-tag">Resto</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="fiche-sec">
+    <div class="fiche-sec-title">
+      <span class="material-symbols-outlined">local_bar</span>
+      Bars &amp; Soirées
+    </div>
+    <div class="fiche-clubs">
+      <div class="fiche-club">
+        <div class="fiche-club-icon" style="background:linear-gradient(135deg,#1e3a5f,#3B5BDB);"><span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">music_note</span></div>
+        <div class="fiche-club-body">
+          <div class="fiche-club-name">Legend's Valley – Steak House &amp; Café Concert</div>
+          <div class="fiche-club-info">5 min d'Avignon · Bœuf Musical jeu · Concert ven · Soirée à thème sam</div>
+        </div>
+        <div class="fiche-club-tag blue">Live Music</div>
+      </div>
+      <div class="fiche-club">
+        <div class="fiche-club-icon" style="background:linear-gradient(135deg,#92400e,#d97706);"><span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">local_pizza</span></div>
+        <div class="fiche-club-body">
+          <div class="fiche-club-name">Food Trucks – Place de la République</div>
+          <div class="fiche-club-info">Plus d'une dizaine de food trucks · Cuisines variées</div>
+        </div>
+        <div class="fiche-club-tag green">Street Food</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="fiche-sec">
+    <div class="fiche-sec-title">
+      <span class="material-symbols-outlined">park</span>
+      Nature &amp; Balades
+    </div>
+    <div class="fiche-clubs">
+      <div class="fiche-club">
+        <div class="fiche-club-icon" style="background:linear-gradient(135deg,#14532d,#16a34a);"><span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">directions_bike</span></div>
+        <div class="fiche-club-body">
+          <div class="fiche-club-name">Balade VTT – Étangs de Rochefort &amp; Pujaut</div>
+          <div class="fiche-club-info">Traverse les anciens étangs &amp; la ferme Saint-Anthelme · Boucle</div>
+        </div>
+        <div class="fiche-club-tag green">Gratuit</div>
+      </div>
+      <div class="fiche-club">
+        <div class="fiche-club-icon" style="background:linear-gradient(135deg,#065f46,#059669);"><span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">directions_walk</span></div>
+        <div class="fiche-club-body">
+          <div class="fiche-club-name">Vignobles de Saze &amp; Signargues à vélo</div>
+          <div class="fiche-club-info">Passage non revêtu sur 500 m · VTC conseillé · Boucle</div>
+        </div>
+        <div class="fiche-club-tag green">Gratuit</div>
+      </div>
+      <div class="fiche-club">
+        <div class="fiche-club-icon" style="background:linear-gradient(135deg,#7c3aed,#a855f7);"><span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">church</span></div>
+        <div class="fiche-club-body">
+          <div class="fiche-club-name">Église Saint-Bardulphe</div>
+          <div class="fiche-club-info">Rue de l'Église · Patrimoine historique local</div>
+        </div>
+        <div class="fiche-club-tag green">Gratuit</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="fiche-sec">
+    <div class="fiche-sec-title">
+      <span class="material-symbols-outlined">family_restroom</span>
+      Famille &amp; Enfants
+    </div>
+    <div class="fiche-clubs">
+      <div class="fiche-club">
+        <div class="fiche-club-icon" style="background:linear-gradient(135deg,#0369a1,#0ea5e9);"><span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">pool</span></div>
+        <div class="fiche-club-body">
+          <div class="fiche-club-name">Centre de Loisirs Les Cigales</div>
+          <div class="fiche-club-info">Escalade, basket, hand, foot, aire de baignade · Garderie</div>
+        </div>
+        <div class="fiche-club-tag blue">Familles</div>
+      </div>
+      <div class="fiche-club">
+        <div class="fiche-club-icon" style="background:linear-gradient(135deg,#7f1d1d,#dc2626);"><span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">water</span></div>
+        <div class="fiche-club-body">
+          <div class="fiche-club-name">Pirateland – Parc de loisirs</div>
+          <div class="fiche-club-info">Toboggans &amp; piscines · Accrobranche, karting, trampoline, laser game, mini-golf · Idéal familles · Ouvert été &amp; week-ends</div>
+        </div>
+        <div class="fiche-club-tag blue">Famille</div>
+      </div>
+      <div class="fiche-club">
+        <div class="fiche-club-icon" style="background:linear-gradient(135deg,#c2410c,#ea580c);"><span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">cruelty_free</span></div>
+        <div class="fiche-club-body">
+          <div class="fiche-club-name">Équinade – Soirées équestres</div>
+          <div class="fiche-club-info">Tous les jeudis de juillet · Ecurie Mélanie Bayle · Tapas sur place</div>
+        </div>
+        <div class="fiche-club-tag">Soirée</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="fiche-map" onclick="window.location.href='carte.html?cat=sortie'">
+    <span class="material-symbols-outlined">map</span>
+    <div class="fiche-map-label">Voir toutes les adresses sur la carte</div>
+  </div>
+
+  <div class="fiche-points-cta" onclick="window.location.href='fidelite.html'">
+    <div class="fiche-points-icon">
+      <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">loyalty</span>
+    </div>
+    <div class="fiche-points-text">
+      <div class="fiche-points-label">Carte fidélité</div>
+      <div class="fiche-points-title">+20 pts pour chaque sortie validée</div>
+      <div class="fiche-points-sub">Scanne ta carte chez les commerçants partenaires</div>
+    </div>
+    <div class="fiche-points-arrow">
+      <span class="material-symbols-outlined">chevron_right</span>
+    </div>
+  </div>
+</div>
+</body>
+</html>
