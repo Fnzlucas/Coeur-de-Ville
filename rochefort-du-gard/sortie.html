@@ -9,34 +9,40 @@
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
 html,body{font-family:'Manrope',sans-serif;background:#f4f6f9;color:#0f1923;-webkit-overflow-scrolling:touch;}
-body{padding-bottom:32px;}
+body{padding-bottom:40px;}
 .fiche-hero{position:relative;width:100%;height:260px;overflow:hidden;}
-.fiche-hero-img{width:100%;height:100%;object-fit:cover;display:block;background:linear-gradient(135deg,#7f1d1d 0%,#dc2626 50%,#f97316 100%);}
+.fiche-hero-img{width:100%;height:100%;object-fit:cover;display:block;background:url('../assets/rochefort-du-gard/sorties.jpg') center/cover no-repeat,linear-gradient(135deg,#7f1d1d 0%,#dc2626 50%,#f97316 100%);}
 .fiche-hero-overlay{position:absolute;inset:0;background:linear-gradient(to bottom,rgba(0,0,0,0.1) 0%,rgba(0,0,0,0.55) 100%);}
 .fiche-hero-back{position:absolute;top:16px;left:16px;width:40px;height:40px;border-radius:50%;background:rgba(255,255,255,0.18);backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,0.25);display:flex;align-items:center;justify-content:center;cursor:pointer;color:#fff;}
 .fiche-hero-back .material-symbols-outlined{font-size:22px;}
 .fiche-hero-content{position:absolute;bottom:0;left:0;right:0;padding:20px 16px 18px;}
 .fiche-hero-cat{font-size:9px;font-weight:800;letter-spacing:0.14em;text-transform:uppercase;color:rgba(255,255,255,0.75);margin-bottom:6px;}
 .fiche-hero-title{font-size:26px;font-weight:900;color:#fff;line-height:1.1;letter-spacing:-0.03em;}
+.fiche-hero-count{font-size:11px;font-weight:600;color:rgba(255,255,255,0.7);margin-top:6px;}
 .fiche-body{padding:20px 16px 0;}
-.fiche-intro{font-size:14px;color:#475569;line-height:1.6;font-weight:500;margin-bottom:24px;}
+.fiche-intro{font-size:14px;color:#475569;line-height:1.6;font-weight:500;margin-bottom:20px;}
 .fiche-chips{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:24px;}
-.fiche-chip{padding:6px 14px;border-radius:100px;font-size:11px;font-weight:800;letter-spacing:0.04em;background:#fff;border:1.5px solid rgba(15,25,35,0.1);color:#0f1923;cursor:pointer;transition:all 0.15s;}
+.fiche-chip{padding:7px 14px;border-radius:100px;font-size:11px;font-weight:800;letter-spacing:0.04em;background:#fff;border:1.5px solid rgba(15,25,35,0.1);color:#0f1923;cursor:pointer;transition:all 0.15s;white-space:nowrap;}
 .fiche-chip.active{background:#dc2626;color:#fff;border-color:#dc2626;}
-.fiche-sec{margin-bottom:24px;}
+.fiche-sec{margin-bottom:28px;}
 .fiche-sec-title{font-size:15px;font-weight:900;color:#0f1923;letter-spacing:-0.02em;margin-bottom:12px;display:flex;align-items:center;gap:8px;}
 .fiche-sec-title .material-symbols-outlined{font-size:18px;color:#ef4444;}
 .fiche-clubs{display:flex;flex-direction:column;gap:10px;}
-.fiche-club{background:#fff;border-radius:16px;padding:14px;display:flex;gap:13px;align-items:center;box-shadow:0 3px 14px rgba(15,25,35,0.06);cursor:pointer;transition:transform 0.15s;border:1px solid rgba(15,25,35,0.04);}
+.fiche-club{background:#fff;border-radius:16px;padding:14px;display:flex;gap:13px;align-items:center;box-shadow:0 3px 14px rgba(15,25,35,0.06);cursor:pointer;transition:transform 0.15s,box-shadow 0.15s;border:1px solid rgba(15,25,35,0.04);}
 .fiche-club:active{transform:scale(0.98);}
+.fiche-club:hover{box-shadow:0 6px 20px rgba(15,25,35,0.1);}
 .fiche-club-icon{flex-shrink:0;width:48px;height:48px;border-radius:13px;background:linear-gradient(135deg,#dc2626,#f97316);display:flex;align-items:center;justify-content:center;}
 .fiche-club-icon .material-symbols-outlined{font-size:24px;color:#fff;}
 .fiche-club-body{flex:1;min-width:0;}
-.fiche-club-name{font-size:14px;font-weight:800;color:#0f1923;line-height:1.2;margin-bottom:2px;}
-.fiche-club-info{font-size:11px;color:#64748b;font-weight:500;}
-.fiche-club-tag{flex-shrink:0;padding:4px 10px;border-radius:100px;font-size:9px;font-weight:800;letter-spacing:0.06em;text-transform:uppercase;background:#fee2e2;color:#dc2626;}
+.fiche-club-name{font-size:14px;font-weight:800;color:#0f1923;line-height:1.2;margin-bottom:3px;}
+.fiche-club-info{font-size:11px;color:#64748b;font-weight:500;line-height:1.4;}
+.fiche-club-right{flex-shrink:0;display:flex;flex-direction:column;align-items:flex-end;gap:6px;}
+.fiche-club-tag{padding:4px 10px;border-radius:100px;font-size:9px;font-weight:800;letter-spacing:0.06em;text-transform:uppercase;background:#fee2e2;color:#dc2626;white-space:nowrap;}
 .fiche-club-tag.green{background:#d1fae5;color:#065f46;}
 .fiche-club-tag.blue{background:#dbeafe;color:#1d4ed8;}
+.fiche-club-tag.orange{background:#ffedd5;color:#c2410c;}
+.fiche-club-chevron{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:#fff5f5;}
+.fiche-club-chevron .material-symbols-outlined{font-size:16px;color:#ef4444;}
 .fiche-map{border-radius:16px;overflow:hidden;height:160px;background:linear-gradient(135deg,#e2e8f0 0%,#cbd5e1 100%);display:flex;align-items:center;justify-content:center;margin-bottom:24px;flex-direction:column;gap:6px;cursor:pointer;border:1px solid rgba(15,25,35,0.06);}
 .fiche-map .material-symbols-outlined{font-size:36px;color:#94a3b8;}
 .fiche-map-label{font-size:12px;font-weight:700;color:#94a3b8;}
@@ -48,159 +54,308 @@ body{padding-bottom:32px;}
 .fiche-points-title{font-size:14px;font-weight:900;color:#fff;line-height:1.2;}
 .fiche-points-sub{font-size:11px;color:rgba(255,255,255,0.75);font-weight:500;margin-top:2px;}
 .fiche-points-arrow .material-symbols-outlined{font-size:20px;color:rgba(255,255,255,0.6);}
+/* MODAL */
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:200;display:flex;align-items:flex-end;backdrop-filter:blur(4px);opacity:0;pointer-events:none;transition:opacity 0.25s;}
+.modal-overlay.open{opacity:1;pointer-events:all;}
+.modal-sheet{background:#fff;border-radius:24px 24px 0 0;padding:20px 20px 44px;width:100%;transform:translateY(100%);transition:transform 0.32s cubic-bezier(0.34,1.2,0.64,1);}
+.modal-overlay.open .modal-sheet{transform:translateY(0);}
+.modal-handle{width:40px;height:4px;background:#e2e8f0;border-radius:2px;margin:0 auto 20px;}
+.modal-badge{display:inline-flex;align-items:center;gap:5px;padding:4px 10px;border-radius:100px;font-size:9px;font-weight:800;letter-spacing:0.08em;text-transform:uppercase;margin-bottom:10px;}
+.modal-name{font-size:18px;font-weight:900;color:#0f1923;margin-bottom:16px;line-height:1.2;}
+.modal-row{display:flex;align-items:flex-start;gap:12px;padding:11px 0;border-bottom:1px solid #f1f5f9;}
+.modal-row:last-of-type{border-bottom:none;}
+.modal-row-icon{width:34px;height:34px;border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.modal-row-icon .material-symbols-outlined{font-size:17px;}
+.modal-row-content{flex:1;}
+.modal-row-label{font-size:9px;font-weight:800;text-transform:uppercase;letter-spacing:0.08em;margin-bottom:2px;}
+.modal-row-text{font-size:13px;color:#0f1923;font-weight:600;line-height:1.4;}
+.modal-btns{margin-top:18px;display:flex;flex-direction:column;gap:8px;}
+.modal-btn{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;padding:14px;border-radius:14px;font-size:14px;font-weight:800;cursor:pointer;border:none;text-decoration:none;font-family:'Manrope',sans-serif;}
+.modal-btn-map{background:linear-gradient(135deg,#dc2626,#f97316);color:#fff;}
+.modal-btn-call{background:#fff5f5;color:#dc2626;border:1.5px solid #fecaca;}
+.modal-btn-web{background:#f8fafc;color:#0f1923;border:1.5px solid #e2e8f0;}
+.modal-btn .material-symbols-outlined{font-size:18px;}
 </style>
 </head>
 <body>
+
 <div class="fiche-hero">
-  <div class="fiche-hero-img" style="background:url('../assets/rochefort-du-gard/sorties.jpg') center/cover no-repeat,linear-gradient(135deg,#7f1d1d 0%,#dc2626 50%,#f97316 100%);"></div>
+  <div class="fiche-hero-img"></div>
   <div class="fiche-hero-overlay"></div>
-  <div class="fiche-hero-back" onclick="history.back()">
-    <span class="material-symbols-outlined">arrow_back</span>
-  </div>
+  <div class="fiche-hero-back" onclick="history.back()"><span class="material-symbols-outlined">arrow_back</span></div>
   <div class="fiche-hero-content">
     <div class="fiche-hero-cat">Sorties · Loisirs</div>
     <h1 class="fiche-hero-title">Où sortir à<br/>Rochefort-du-Gard</h1>
+    <div class="fiche-hero-count">Restaurants · Bars · Loisirs · Nature</div>
   </div>
 </div>
+
 <div class="fiche-body">
-  <p class="fiche-intro">Restaurants, bars, loisirs, balades et bons plans pour profiter de Rochefort-du-Gard et ses environs — toute l'année.</p>
+  <p class="fiche-intro">Les meilleures adresses de Rochefort-du-Gard — horaires, budget et contacts vérifiés. Appuie sur une carte pour voir la fiche complète.</p>
+
   <div class="fiche-chips">
-    <div class="fiche-chip active">Tout</div>
-    <div class="fiche-chip">Restaurants</div>
-    <div class="fiche-chip">Soirées</div>
-    <div class="fiche-chip">Nature</div>
-    <div class="fiche-chip">Famille</div>
+    <div class="fiche-chip active" data-filter="tout" onclick="filterLieux(this)">Tout</div>
+    <div class="fiche-chip" data-filter="restaurant" onclick="filterLieux(this)">Restaurants</div>
+    <div class="fiche-chip" data-filter="bar" onclick="filterLieux(this)">Bars &amp; Soirées</div>
+    <div class="fiche-chip" data-filter="famille" onclick="filterLieux(this)">Famille</div>
+    <div class="fiche-chip" data-filter="nature" onclick="filterLieux(this)">Nature</div>
   </div>
 
+  <!-- RESTAURANTS -->
   <div class="fiche-sec">
-    <div class="fiche-sec-title">
-      <span class="material-symbols-outlined">restaurant</span>
-      Restaurants &amp; Pizzerias
-    </div>
+    <div class="fiche-sec-title"><span class="material-symbols-outlined">restaurant</span>Restaurants &amp; Pizzerias</div>
     <div class="fiche-clubs">
-      <div class="fiche-club">
-        <div class="fiche-club-icon"><span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">restaurant</span></div>
-        <div class="fiche-club-body">
-          <div class="fiche-club-name">La Tour de Pizz</div>
-          <div class="fiche-club-info">Pâte maison, produits frais · Sur place, à emporter, livraison · Animaux OK</div>
-        </div>
-        <div class="fiche-club-tag">Pizza</div>
-      </div>
-      <div class="fiche-club">
+
+      <div class="fiche-club" data-cat="restaurant" onclick="openModal({
+        badge:'Pizza · Sur place & livraison', badgeColor:'#fee2e2', badgeText:'#dc2626',
+        name:'A La Tour de Pizz',
+        rows:[
+          {icon:'location_on',iconBg:'#fff5f5',iconColor:'#dc2626',label:'Adresse',text:'5 bis Avenue Frédéric Mistral · 30650 Rochefort-du-Gard'},
+          {icon:'schedule',iconBg:'#fff5f5',iconColor:'#dc2626',label:'Horaires',text:'Mar–Dim : 18h–21h30 · Fermé le lundi'},
+          {icon:'euro',iconBg:'#f0fdf4',iconColor:'#065f46',label:'Budget moyen',text:'10–15 € · Pizza 26cm ou 30cm · Pâte maison'},
+          {icon:'phone',iconBg:'#eff6ff',iconColor:'#1d4ed8',label:'Téléphone',text:'04 90 48 06 25'},
+          {icon:'mail',iconBg:'#eff6ff',iconColor:'#1d4ed8',label:'Email',text:'alatourdepizz30@gmail.com'}
+        ],
+        tel:'tel:0490480625', web:'https://www.alatourdepizz30.fr', maps:'https://maps.google.com/?q=5+bis+Avenue+Frédéric+Mistral+Rochefort-du-Gard'
+      })">
         <div class="fiche-club-icon"><span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">local_pizza</span></div>
         <div class="fiche-club-body">
-          <div class="fiche-club-name">Don Papa – Pizzeria</div>
-          <div class="fiche-club-info">Pizzas classiques, sans gluten, Pinsa romaine · Livraison rapide</div>
+          <div class="fiche-club-name">A La Tour de Pizz</div>
+          <div class="fiche-club-info">5 bis Av. Frédéric Mistral · 18h–21h30 · Mar–Dim</div>
         </div>
-        <div class="fiche-club-tag">Pizza</div>
+        <div class="fiche-club-right"><div class="fiche-club-tag">~12€</div><div class="fiche-club-chevron"><span class="material-symbols-outlined">chevron_right</span></div></div>
       </div>
-      <div class="fiche-club">
+
+      <div class="fiche-club" data-cat="restaurant" onclick="openModal({
+        badge:'Pizza · Pinsa · Sans gluten', badgeColor:'#ffedd5', badgeText:'#c2410c',
+        name:'Pizzeria Don Papa',
+        rows:[
+          {icon:'location_on',iconBg:'#fff5f5',iconColor:'#dc2626',label:'Adresse',text:'16 Rue du Marché · 30650 Rochefort-du-Gard'},
+          {icon:'schedule',iconBg:'#fff5f5',iconColor:'#dc2626',label:'Horaires',text:'Lun–Dim : 17h30–22h · Sam midi : 11h30–14h'},
+          {icon:'euro',iconBg:'#f0fdf4',iconColor:'#065f46',label:'Budget moyen',text:'10–18 € · Pizzas classiques, sans gluten, Pinsa romaine'},
+          {icon:'phone',iconBg:'#eff6ff',iconColor:'#1d4ed8',label:'Téléphone',text:'04 90 15 09 86'}
+        ],
+        tel:'tel:0490150986', web:'', maps:'https://maps.google.com/?q=16+Rue+du+Marché+Rochefort-du-Gard'
+      })">
+        <div class="fiche-club-icon" style="background:linear-gradient(135deg,#c2410c,#ea580c);"><span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">local_pizza</span></div>
+        <div class="fiche-club-body">
+          <div class="fiche-club-name">Pizzeria Don Papa</div>
+          <div class="fiche-club-info">16 Rue du Marché · 17h30–22h · 7j/7</div>
+        </div>
+        <div class="fiche-club-right"><div class="fiche-club-tag">~14€</div><div class="fiche-club-chevron"><span class="material-symbols-outlined">chevron_right</span></div></div>
+      </div>
+
+      <div class="fiche-club" data-cat="restaurant" onclick="openModal({
+        badge:'Cuisine maison · Terrasse · ⭐4.8/5', badgeColor:'#d1fae5', badgeText:'#065f46',
+        name:'Chez Mamé &amp; Papé',
+        rows:[
+          {icon:'location_on',iconBg:'#fff5f5',iconColor:'#dc2626',label:'Adresse',text:'8 Impasse du Lavoir · 30650 Rochefort-du-Gard'},
+          {icon:'schedule',iconBg:'#fff5f5',iconColor:'#dc2626',label:'Horaires',text:'Mar–Mer : 12h–15h · Jeu–Sam : 12h–15h &amp; 19h–22h30 · Dim–Lun : Fermé'},
+          {icon:'euro',iconBg:'#f0fdf4',iconColor:'#065f46',label:'Budget moyen',text:'20–35 € · Cuisine maison · Spécialités régionales &amp; cubaines · Terrasse sous figuier'},
+          {icon:'phone',iconBg:'#eff6ff',iconColor:'#1d4ed8',label:'Téléphone',text:'04 90 24 96 70'}
+        ],
+        tel:'tel:0490249670', web:'', maps:'https://maps.google.com/?q=8+Impasse+du+Lavoir+Rochefort-du-Gard'
+      })">
         <div class="fiche-club-icon" style="background:linear-gradient(135deg,#065f46,#059669);"><span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">dining</span></div>
         <div class="fiche-club-body">
-          <div class="fiche-club-name">Mamé &amp; Papé</div>
-          <div class="fiche-club-info">Cuisine traditionnelle maison · Recettes authentiques &amp; conviviales</div>
+          <div class="fiche-club-name">Chez Mamé &amp; Papé</div>
+          <div class="fiche-club-info">8 Imp. du Lavoir · Mar–Sam · ⭐ 4.8/5 (124 avis)</div>
         </div>
-        <div class="fiche-club-tag green">Traditionnel</div>
+        <div class="fiche-club-right"><div class="fiche-club-tag green">~28€</div><div class="fiche-club-chevron"><span class="material-symbols-outlined">chevron_right</span></div></div>
       </div>
-      <div class="fiche-club">
-        <div class="fiche-club-icon" style="background:linear-gradient(135deg,#c2410c,#ea580c);"><span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">lunch_dining</span></div>
+
+      <div class="fiche-club" data-cat="restaurant" onclick="openModal({
+        badge:'Hôtel-Restaurant', badgeColor:'#fee2e2', badgeText:'#dc2626',
+        name:'Hôtel-Restaurant Le Lagon',
+        rows:[
+          {icon:'location_on',iconBg:'#fff5f5',iconColor:'#dc2626',label:'Adresse',text:'Rochefort-du-Gard'},
+          {icon:'phone',iconBg:'#eff6ff',iconColor:'#1d4ed8',label:'Téléphone',text:'04 90 26 04 47'},
+          {icon:'euro',iconBg:'#f0fdf4',iconColor:'#065f46',label:'Budget moyen',text:'15–30 € · Restaurant traditionnel · Hébergement disponible'}
+        ],
+        tel:'tel:0490260447', web:'', maps:'https://maps.google.com/?q=Hotel+Restaurant+Le+Lagon+Rochefort-du-Gard'
+      })">
+        <div class="fiche-club-icon" style="background:linear-gradient(135deg,#0369a1,#0ea5e9);"><span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">hotel</span></div>
         <div class="fiche-club-body">
           <div class="fiche-club-name">Hôtel-Restaurant Le Lagon</div>
           <div class="fiche-club-info">Rochefort-du-Gard · 04 90 26 04 47</div>
         </div>
-        <div class="fiche-club-tag">Resto</div>
+        <div class="fiche-club-right"><div class="fiche-club-tag">~22€</div><div class="fiche-club-chevron"><span class="material-symbols-outlined">chevron_right</span></div></div>
       </div>
+
     </div>
   </div>
 
+  <!-- BARS & SOIREES -->
   <div class="fiche-sec">
-    <div class="fiche-sec-title">
-      <span class="material-symbols-outlined">local_bar</span>
-      Bars &amp; Soirées
-    </div>
+    <div class="fiche-sec-title"><span class="material-symbols-outlined">local_bar</span>Bars &amp; Soirées</div>
     <div class="fiche-clubs">
-      <div class="fiche-club">
+
+      <div class="fiche-club" data-cat="bar restaurant" onclick="openModal({
+        badge:'Steak House · Café Concert · Live Music', badgeColor:'#dbeafe', badgeText:'#1d4ed8',
+        name:'Legend\'s Valley',
+        rows:[
+          {icon:'location_on',iconBg:'#fff5f5',iconColor:'#dc2626',label:'Adresse',text:'112 Allée des Issards · La Bégude · 30650 Rochefort-du-Gard'},
+          {icon:'schedule',iconBg:'#fff5f5',iconColor:'#dc2626',label:'Horaires',text:'Mar–Sam : 12h–14h &amp; 20h–22h30 · Soirs jeu–sam'},
+          {icon:'celebration',iconBg:'#eff6ff',iconColor:'#1d4ed8',label:'Programme',text:'Jeu : Bœuf Musical · Ven : Repas-concert · Sam : Soirée à thème'},
+          {icon:'euro',iconBg:'#f0fdf4',iconColor:'#065f46',label:'Budget moyen',text:'25–40 € · Steak House fait maison · Privatisation possible'},
+          {icon:'phone',iconBg:'#eff6ff',iconColor:'#1d4ed8',label:'Téléphone',text:'04 90 90 09 42'}
+        ],
+        tel:'tel:0490900942', web:'https://legendsvalley.com', maps:'https://maps.google.com/?q=112+Allée+des+Issards+Rochefort-du-Gard'
+      })">
         <div class="fiche-club-icon" style="background:linear-gradient(135deg,#1e3a5f,#3B5BDB);"><span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">music_note</span></div>
         <div class="fiche-club-body">
-          <div class="fiche-club-name">Legend's Valley – Steak House &amp; Café Concert</div>
-          <div class="fiche-club-info">5 min d'Avignon · Bœuf Musical jeu · Concert ven · Soirée à thème sam</div>
+          <div class="fiche-club-name">Legend's Valley</div>
+          <div class="fiche-club-info">112 Allée des Issards · Live Jeu, Ven, Sam · 5 min Avignon</div>
         </div>
-        <div class="fiche-club-tag blue">Live Music</div>
+        <div class="fiche-club-right"><div class="fiche-club-tag blue">Live Music</div><div class="fiche-club-chevron"><span class="material-symbols-outlined">chevron_right</span></div></div>
       </div>
-      <div class="fiche-club">
-        <div class="fiche-club-icon" style="background:linear-gradient(135deg,#92400e,#d97706);"><span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">local_pizza</span></div>
+
+      <div class="fiche-club" data-cat="bar" onclick="openModal({
+        badge:'Street Food · Cuisines du monde', badgeColor:'#ffedd5', badgeText:'#c2410c',
+        name:'Food Trucks – Place de la République',
+        rows:[
+          {icon:'location_on',iconBg:'#fff5f5',iconColor:'#dc2626',label:'Adresse',text:'Place de la République · 30650 Rochefort-du-Gard'},
+          {icon:'schedule',iconBg:'#fff5f5',iconColor:'#dc2626',label:'Horaires',text:'Principalement en soirée · Weekends · Vérifier sur place'},
+          {icon:'euro',iconBg:'#f0fdf4',iconColor:'#065f46',label:'Budget moyen',text:'8–15 € · Cuisines variées · Plus d\'une dizaine de food trucks'}
+        ],
+        tel:'', web:'', maps:'https://maps.google.com/?q=Place+de+la+République+Rochefort-du-Gard'
+      })">
+        <div class="fiche-club-icon" style="background:linear-gradient(135deg,#92400e,#d97706);"><span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">fastfood</span></div>
         <div class="fiche-club-body">
           <div class="fiche-club-name">Food Trucks – Place de la République</div>
-          <div class="fiche-club-info">Plus d'une dizaine de food trucks · Cuisines variées</div>
+          <div class="fiche-club-info">Soirées &amp; weekends · Cuisines variées</div>
         </div>
-        <div class="fiche-club-tag green">Street Food</div>
+        <div class="fiche-club-right"><div class="fiche-club-tag orange">Street Food</div><div class="fiche-club-chevron"><span class="material-symbols-outlined">chevron_right</span></div></div>
       </div>
+
     </div>
   </div>
 
+  <!-- FAMILLE -->
   <div class="fiche-sec">
-    <div class="fiche-sec-title">
-      <span class="material-symbols-outlined">park</span>
-      Nature &amp; Balades
-    </div>
+    <div class="fiche-sec-title"><span class="material-symbols-outlined">family_restroom</span>Famille &amp; Enfants</div>
     <div class="fiche-clubs">
-      <div class="fiche-club">
-        <div class="fiche-club-icon" style="background:linear-gradient(135deg,#14532d,#16a34a);"><span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">directions_bike</span></div>
-        <div class="fiche-club-body">
-          <div class="fiche-club-name">Balade VTT – Étangs de Rochefort &amp; Pujaut</div>
-          <div class="fiche-club-info">Traverse les anciens étangs &amp; la ferme Saint-Anthelme · Boucle</div>
-        </div>
-        <div class="fiche-club-tag green">Gratuit</div>
-      </div>
-      <div class="fiche-club">
-        <div class="fiche-club-icon" style="background:linear-gradient(135deg,#065f46,#059669);"><span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">directions_walk</span></div>
-        <div class="fiche-club-body">
-          <div class="fiche-club-name">Vignobles de Saze &amp; Signargues à vélo</div>
-          <div class="fiche-club-info">Passage non revêtu sur 500 m · VTC conseillé · Boucle</div>
-        </div>
-        <div class="fiche-club-tag green">Gratuit</div>
-      </div>
-      <div class="fiche-club">
-        <div class="fiche-club-icon" style="background:linear-gradient(135deg,#7c3aed,#a855f7);"><span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">church</span></div>
-        <div class="fiche-club-body">
-          <div class="fiche-club-name">Église Saint-Bardulphe</div>
-          <div class="fiche-club-info">Rue de l'Église · Patrimoine historique local</div>
-        </div>
-        <div class="fiche-club-tag green">Gratuit</div>
-      </div>
-    </div>
-  </div>
 
-  <div class="fiche-sec">
-    <div class="fiche-sec-title">
-      <span class="material-symbols-outlined">family_restroom</span>
-      Famille &amp; Enfants
-    </div>
-    <div class="fiche-clubs">
-      <div class="fiche-club">
+      <div class="fiche-club" data-cat="famille" onclick="openModal({
+        badge:'Parc de loisirs · Enfants 1–12 ans', badgeColor:'#dbeafe', badgeText:'#1d4ed8',
+        name:'Piratland – Parc de loisirs',
+        rows:[
+          {icon:'location_on',iconBg:'#fff5f5',iconColor:'#dc2626',label:'Adresse',text:'Route Nationale 100 · La Bégude · 30650 Rochefort-du-Gard'},
+          {icon:'schedule',iconBg:'#fff5f5',iconColor:'#dc2626',label:'Horaires',text:'Fév–Nov · Mercredis, vacances scolaires &amp; week-ends'},
+          {icon:'euro',iconBg:'#f0fdf4',iconColor:'#065f46',label:'Budget moyen',text:'Entrée gratuite · Pièces d\'or pour les manèges · ~15–25€ par enfant'},
+          {icon:'child_care',iconBg:'#eff6ff',iconColor:'#1d4ed8',label:'Attractions',text:'Manèges · Toboggans aquatiques · Jeux gonflables · Snack · Pique-nique'},
+          {icon:'phone',iconBg:'#eff6ff',iconColor:'#1d4ed8',label:'Téléphone',text:'06 08 70 26 88'}
+        ],
+        tel:'tel:0608702688', web:'https://www.piratland.fr', maps:'https://maps.google.com/?q=Piratland+Rochefort-du-Gard+RN100'
+      })">
+        <div class="fiche-club-icon" style="background:linear-gradient(135deg,#7f1d1d,#dc2626);"><span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">attractions</span></div>
+        <div class="fiche-club-body">
+          <div class="fiche-club-name">Piratland – Parc de loisirs</div>
+          <div class="fiche-club-info">RN100 La Bégude · Manèges, eau, gonflables · Entrée gratuite</div>
+        </div>
+        <div class="fiche-club-right"><div class="fiche-club-tag blue">Famille</div><div class="fiche-club-chevron"><span class="material-symbols-outlined">chevron_right</span></div></div>
+      </div>
+
+      <div class="fiche-club" data-cat="famille" onclick="openModal({
+        badge:'Centre de loisirs · Été', badgeColor:'#dbeafe', badgeText:'#1d4ed8',
+        name:'Centre de Loisirs Les Cigales',
+        rows:[
+          {icon:'location_on',iconBg:'#fff5f5',iconColor:'#dc2626',label:'Adresse',text:'Rochefort-du-Gard'},
+          {icon:'sports',iconBg:'#eff6ff',iconColor:'#1d4ed8',label:'Activités',text:'Escalade · Basket · Handball · Football · Aire de baignade · Garderie'},
+          {icon:'euro',iconBg:'#f0fdf4',iconColor:'#065f46',label:'Budget',text:'Tarif selon quotient familial · Rens. à la mairie · 04 90 26 99 96'}
+        ],
+        tel:'tel:0490269996', web:'', maps:'https://maps.google.com/?q=Centre+Loisirs+Les+Cigales+Rochefort-du-Gard'
+      })">
         <div class="fiche-club-icon" style="background:linear-gradient(135deg,#0369a1,#0ea5e9);"><span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">pool</span></div>
         <div class="fiche-club-body">
           <div class="fiche-club-name">Centre de Loisirs Les Cigales</div>
-          <div class="fiche-club-info">Escalade, basket, hand, foot, aire de baignade · Garderie</div>
+          <div class="fiche-club-info">Escalade · Baignade · Garderie · Tarif QF</div>
         </div>
-        <div class="fiche-club-tag blue">Familles</div>
+        <div class="fiche-club-right"><div class="fiche-club-tag blue">Enfants</div><div class="fiche-club-chevron"><span class="material-symbols-outlined">chevron_right</span></div></div>
       </div>
-      <div class="fiche-club">
-        <div class="fiche-club-icon" style="background:linear-gradient(135deg,#7f1d1d,#dc2626);"><span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">water</span></div>
-        <div class="fiche-club-body">
-          <div class="fiche-club-name">Pirateland – Parc de loisirs</div>
-          <div class="fiche-club-info">Toboggans &amp; piscines · Accrobranche, karting, trampoline, laser game, mini-golf · Idéal familles · Ouvert été &amp; week-ends</div>
-        </div>
-        <div class="fiche-club-tag blue">Famille</div>
-      </div>
-      <div class="fiche-club">
+
+      <div class="fiche-club" data-cat="famille" onclick="openModal({
+        badge:'Soirées équestres · Juillet', badgeColor:'#ffedd5', badgeText:'#c2410c',
+        name:'Équinade – Soirées équestres',
+        rows:[
+          {icon:'location_on',iconBg:'#fff5f5',iconColor:'#dc2626',label:'Adresse',text:'Ecurie Mélanie Bayle · Rochefort-du-Gard'},
+          {icon:'schedule',iconBg:'#fff5f5',iconColor:'#dc2626',label:'Horaires',text:'Tous les jeudis de juillet'},
+          {icon:'euro',iconBg:'#f0fdf4',iconColor:'#065f46',label:'Budget',text:'Tapas sur place · Soirée conviviale · Famille bienvenue'}
+        ],
+        tel:'', web:'', maps:'https://maps.google.com/?q=Rochefort-du-Gard'
+      })">
         <div class="fiche-club-icon" style="background:linear-gradient(135deg,#c2410c,#ea580c);"><span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">cruelty_free</span></div>
         <div class="fiche-club-body">
           <div class="fiche-club-name">Équinade – Soirées équestres</div>
-          <div class="fiche-club-info">Tous les jeudis de juillet · Ecurie Mélanie Bayle · Tapas sur place</div>
+          <div class="fiche-club-info">Ecurie Mélanie Bayle · Jeudis de juillet · Tapas</div>
         </div>
-        <div class="fiche-club-tag">Soirée</div>
+        <div class="fiche-club-right"><div class="fiche-club-tag orange">Juillet</div><div class="fiche-club-chevron"><span class="material-symbols-outlined">chevron_right</span></div></div>
       </div>
+
+    </div>
+  </div>
+
+  <!-- NATURE -->
+  <div class="fiche-sec">
+    <div class="fiche-sec-title"><span class="material-symbols-outlined">park</span>Nature &amp; Balades</div>
+    <div class="fiche-clubs">
+
+      <div class="fiche-club" data-cat="nature" onclick="openModal({
+        badge:'VTT · Boucle · Gratuit', badgeColor:'#d1fae5', badgeText:'#065f46',
+        name:'Balade VTT – Étangs de Rochefort &amp; Pujaut',
+        rows:[
+          {icon:'location_on',iconBg:'#fff5f5',iconColor:'#dc2626',label:'Départ',text:'Rochefort-du-Gard · Boucle vers Pujaut'},
+          {icon:'route',iconBg:'#f0fdf4',iconColor:'#065f46',label:'Parcours',text:'Traverse les anciens étangs &amp; la ferme Saint-Anthelme · Boucle'},
+          {icon:'euro',iconBg:'#f0fdf4',iconColor:'#065f46',label:'Budget',text:'Gratuit · VTT recommandé'},
+          {icon:'schedule',iconBg:'#fff5f5',iconColor:'#dc2626',label:'Durée estimée',text:'1h30 – 2h · Niveau facile à intermédiaire'}
+        ],
+        tel:'', web:'', maps:'https://maps.google.com/?q=Étangs+Rochefort-du-Gard'
+      })">
+        <div class="fiche-club-icon" style="background:linear-gradient(135deg,#14532d,#16a34a);"><span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">directions_bike</span></div>
+        <div class="fiche-club-body">
+          <div class="fiche-club-name">Balade VTT – Étangs de Rochefort</div>
+          <div class="fiche-club-info">Boucle · Étangs &amp; ferme Saint-Anthelme · Gratuit</div>
+        </div>
+        <div class="fiche-club-right"><div class="fiche-club-tag green">Gratuit</div><div class="fiche-club-chevron"><span class="material-symbols-outlined">chevron_right</span></div></div>
+      </div>
+
+      <div class="fiche-club" data-cat="nature" onclick="openModal({
+        badge:'Vélo · Vignobles · Gratuit', badgeColor:'#d1fae5', badgeText:'#065f46',
+        name:'Vignobles de Saze &amp; Signargues à vélo',
+        rows:[
+          {icon:'location_on',iconBg:'#fff5f5',iconColor:'#dc2626',label:'Départ',text:'Rochefort-du-Gard · Boucle vers Saze et Signargues'},
+          {icon:'route',iconBg:'#f0fdf4',iconColor:'#065f46',label:'Parcours',text:'Passage non revêtu sur 500 m · VTC conseillé · Boucle vignobles'},
+          {icon:'euro',iconBg:'#f0fdf4',iconColor:'#065f46',label:'Budget',text:'Gratuit · VTC conseillé'},
+          {icon:'schedule',iconBg:'#fff5f5',iconColor:'#dc2626',label:'Durée estimée',text:'2h – 3h · Niveau facile · Paysages de vignes'}
+        ],
+        tel:'', web:'', maps:'https://maps.google.com/?q=Signargues+Rochefort-du-Gard'
+      })">
+        <div class="fiche-club-icon" style="background:linear-gradient(135deg,#065f46,#059669);"><span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">directions_walk</span></div>
+        <div class="fiche-club-body">
+          <div class="fiche-club-name">Vignobles de Saze &amp; Signargues à vélo</div>
+          <div class="fiche-club-info">Boucle vignobles · VTC conseillé · Gratuit</div>
+        </div>
+        <div class="fiche-club-right"><div class="fiche-club-tag green">Gratuit</div><div class="fiche-club-chevron"><span class="material-symbols-outlined">chevron_right</span></div></div>
+      </div>
+
+      <div class="fiche-club" data-cat="nature" onclick="openModal({
+        badge:'Patrimoine · Entrée libre', badgeColor:'#d1fae5', badgeText:'#065f46',
+        name:'Église Saint-Bardulphe',
+        rows:[
+          {icon:'location_on',iconBg:'#fff5f5',iconColor:'#dc2626',label:'Adresse',text:'Rue de l\'Église · 30650 Rochefort-du-Gard'},
+          {icon:'info',iconBg:'#f0fdf4',iconColor:'#065f46',label:'Info',text:'Patrimoine historique local · XIIe siècle · Accès libre'},
+          {icon:'euro',iconBg:'#f0fdf4',iconColor:'#065f46',label:'Budget',text:'Gratuit · Visite libre'}
+        ],
+        tel:'', web:'', maps:'https://maps.google.com/?q=Église+Saint-Bardulphe+Rochefort-du-Gard'
+      })">
+        <div class="fiche-club-icon" style="background:linear-gradient(135deg,#7c3aed,#a855f7);"><span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">church</span></div>
+        <div class="fiche-club-body">
+          <div class="fiche-club-name">Église Saint-Bardulphe</div>
+          <div class="fiche-club-info">Rue de l'Église · Patrimoine XIIe siècle · Accès libre</div>
+        </div>
+        <div class="fiche-club-right"><div class="fiche-club-tag green">Gratuit</div><div class="fiche-club-chevron"><span class="material-symbols-outlined">chevron_right</span></div></div>
+      </div>
+
     </div>
   </div>
 
@@ -210,18 +365,107 @@ body{padding-bottom:32px;}
   </div>
 
   <div class="fiche-points-cta" onclick="window.location.href='fidelite.html'">
-    <div class="fiche-points-icon">
-      <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">loyalty</span>
-    </div>
+    <div class="fiche-points-icon"><span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">loyalty</span></div>
     <div class="fiche-points-text">
       <div class="fiche-points-label">Carte fidélité</div>
       <div class="fiche-points-title">+20 pts pour chaque sortie validée</div>
       <div class="fiche-points-sub">Scanne ta carte chez les commerçants partenaires</div>
     </div>
-    <div class="fiche-points-arrow">
-      <span class="material-symbols-outlined">chevron_right</span>
+    <div class="fiche-points-arrow"><span class="material-symbols-outlined">chevron_right</span></div>
+  </div>
+</div>
+
+<!-- MODAL -->
+<div class="modal-overlay" id="modal" onclick="handleOverlayClick(event)">
+  <div class="modal-sheet">
+    <div class="modal-handle"></div>
+    <div id="modal-badge" class="modal-badge"></div>
+    <div id="modal-name" class="modal-name"></div>
+    <div id="modal-rows"></div>
+    <div class="modal-btns">
+      <a id="modal-btn-map" class="modal-btn modal-btn-map" href="#" target="_blank">
+        <span class="material-symbols-outlined">near_me</span>Y aller
+      </a>
+      <a id="modal-btn-call" class="modal-btn modal-btn-call" href="#" style="display:none;">
+        <span class="material-symbols-outlined">call</span><span id="modal-call-text">Appeler</span>
+      </a>
+      <a id="modal-btn-web" class="modal-btn modal-btn-web" href="#" target="_blank" style="display:none;">
+        <span class="material-symbols-outlined">language</span>Site web
+      </a>
     </div>
   </div>
 </div>
+
+<script>
+function filterLieux(chip) {
+  document.querySelectorAll('.fiche-chip').forEach(c => c.classList.remove('active'));
+  chip.classList.add('active');
+  const filter = chip.dataset.filter;
+  document.querySelectorAll('.fiche-club').forEach(card => {
+    if (filter === 'tout') { card.style.display = ''; return; }
+    const cats = (card.dataset.cat || '').split(' ');
+    card.style.display = cats.includes(filter) ? '' : 'none';
+  });
+  document.querySelectorAll('.fiche-sec').forEach(sec => {
+    const cards = sec.querySelectorAll('.fiche-club');
+    if (!cards.length) return;
+    const hasVisible = [...cards].some(c => c.style.display !== 'none');
+    sec.style.display = hasVisible ? '' : 'none';
+  });
+}
+
+function openModal(data) {
+  // Badge
+  const badge = document.getElementById('modal-badge');
+  badge.textContent = data.badge;
+  badge.style.background = data.badgeColor;
+  badge.style.color = data.badgeText;
+
+  document.getElementById('modal-name').innerHTML = data.name;
+
+  // Rows
+  let rowsHTML = '';
+  data.rows.forEach(r => {
+    rowsHTML += `<div class="modal-row">
+      <div class="modal-row-icon" style="background:${r.iconBg};">
+        <span class="material-symbols-outlined" style="color:${r.iconColor};font-variation-settings:'FILL' 1;">${r.icon}</span>
+      </div>
+      <div class="modal-row-content">
+        <div class="modal-row-label" style="color:${r.iconColor};">${r.label}</div>
+        <div class="modal-row-text">${r.text}</div>
+      </div>
+    </div>`;
+  });
+  document.getElementById('modal-rows').innerHTML = rowsHTML;
+
+  // Boutons
+  const btnMap = document.getElementById('modal-btn-map');
+  btnMap.href = data.maps || '#';
+
+  const btnCall = document.getElementById('modal-btn-call');
+  if (data.tel) {
+    btnCall.href = data.tel;
+    btnCall.style.display = 'flex';
+    const num = data.rows.find(r => r.icon === 'phone');
+    document.getElementById('modal-call-text').textContent = num ? `Appeler · ${num.text}` : 'Appeler';
+  } else { btnCall.style.display = 'none'; }
+
+  const btnWeb = document.getElementById('modal-btn-web');
+  if (data.web) {
+    btnWeb.href = data.web;
+    btnWeb.style.display = 'flex';
+  } else { btnWeb.style.display = 'none'; }
+
+  document.getElementById('modal').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function handleOverlayClick(e) {
+  if (e.target === document.getElementById('modal')) {
+    document.getElementById('modal').classList.remove('open');
+    document.body.style.overflow = '';
+  }
+}
+</script>
 </body>
 </html>
