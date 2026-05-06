@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1"/>
+<title>Sanctuaire Notre-Dame de Grâce — Rochefort-du-Gard</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800;900&family=Inter:wght@300;400;500;600&display=swap"/>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html,body{font-family:'Manrope',sans-serif;background:#f8f9fa;color:#0f1923;-webkit-overflow-scrolling:touch;}
+body{padding-bottom:90px;}
+
+/*  HERO  */
+.hero{position:relative;height:320px;overflow:hidden;}
+.hero-img{width:100%;height:100%;object-fit:cover;display:block;}
+.hero-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,0.85) 0%,rgba(0,0,0,0.2) 55%,transparent 100%);}
+.hero-back{position:absolute;top:16px;left:16px;width:40px;height:40px;border-radius:50%;background:rgba(255,255,255,0.15);backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,0.25);display:flex;align-items:center;justify-content:center;cursor:pointer;z-index:10;}
+.hero-back .material-symbols-outlined{color:#fff;font-size:20px;}
+.hero-share{position:absolute;top:16px;right:16px;width:40px;height:40px;border-radius:50%;background:rgba(255,255,255,0.15);backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,0.25);display:flex;align-items:center;justify-content:center;cursor:pointer;z-index:10;}
+.hero-share .material-symbols-outlined{color:#fff;font-size:20px;}
+.hero-content{position:absolute;bottom:0;left:0;right:0;padding:20px 20px 24px;}
+.hero-badge{display:inline-flex;align-items:center;gap:5px;background:rgba(30,40,80,0.88);backdrop-filter:blur(6px);color:#c7d4f5;font-size:9px;font-weight:800;letter-spacing:0.12em;text-transform:uppercase;padding:5px 12px;border-radius:20px;margin-bottom:10px;}
+.hero-badge::before{content:'';width:5px;height:5px;background:#c7d4f5;border-radius:50%;}
+.hero-name{font-size:28px;font-weight:900;color:#fff;line-height:1.05;letter-spacing:-0.02em;margin-bottom:8px;}
+.hero-meta{display:flex;align-items:center;gap:12px;flex-wrap:wrap;}
+.hero-pill{background:rgba(255,255,255,0.15);backdrop-filter:blur(6px);border:1px solid rgba(255,255,255,0.25);color:#fff;font-size:10px;font-weight:700;padding:4px 10px;border-radius:20px;}
+
+/*  OPEN BANNER  */
+.open-banner{margin:16px 16px 0;background:#f0f4ff;border-radius:14px;padding:12px 16px;display:flex;align-items:center;gap:10px;border:1px solid #c7d4f5;}
+.open-dot{width:8px;height:8px;border-radius:50%;background:#3b4fa8;flex-shrink:0;box-shadow:0 0 0 3px rgba(59,79,168,0.2);}
+.open-text{font-size:13px;font-weight:700;color:#1e2850;}
+.open-hours{font-size:12px;font-weight:500;color:#3b4fa8;margin-top:1px;}
+
+/*  ACTIONS BAR  */
+.actions-bar{display:flex;gap:10px;padding:16px 16px 0;}
+.action-btn{flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;padding:12px 8px;background:#fff;border-radius:14px;box-shadow:0 2px 10px rgba(0,0,0,0.06);cursor:pointer;border:none;font-family:Manrope;text-decoration:none;transition:all 0.15s;}
+.action-btn:active{transform:scale(0.96);}
+.action-btn .material-symbols-outlined{font-size:22px;color:#2d3a8c;}
+.action-btn .lbl{font-size:10px;font-weight:700;color:#0f1923;letter-spacing:0.02em;}
+
+/*  SECTION  */
+.section{padding:24px 16px 0;}
+.section-title{font-size:17px;font-weight:900;color:#0f1923;letter-spacing:-0.02em;margin-bottom:12px;}
+
+/*  DESC  */
+.desc-card{background:#fff;border-radius:16px;padding:16px;box-shadow:0 2px 10px rgba(0,0,0,0.06);}
+.desc-text{font-size:14px;line-height:1.7;color:#374151;font-weight:400;}
+
+/*  HIGHLIGHT BAND  */
+.highlight-band{background:linear-gradient(135deg,#1e2850,#2d3a8c);border-radius:14px;padding:14px 16px;display:flex;align-items:center;gap:14px;margin-top:12px;}
+.highlight-icon{flex-shrink:0;}
+.highlight-title{font-size:13px;font-weight:800;color:#fff;margin-bottom:3px;}
+.highlight-desc{font-size:12px;color:rgba(255,255,255,0.8);line-height:1.5;}
+
+/*  BADGE MH  */
+.mh-badge{display:inline-flex;align-items:center;gap:6px;background:#f0f4ff;border:1.5px solid #c7d4f5;border-radius:10px;padding:10px 14px;margin-bottom:12px;}
+.mh-badge .material-symbols-outlined{font-size:20px;color:#2d3a8c;}
+.mh-badge-text{font-size:12px;font-weight:700;color:#1e2850;line-height:1.4;}
+.mh-badge-sub{font-size:11px;color:#3b4fa8;font-weight:500;}
+
+/*  TIMELINE  */
+.timeline{display:flex;flex-direction:column;gap:0;}
+.tl-item{display:flex;gap:14px;padding:12px 0;border-bottom:1px solid #f1f5f9;}
+.tl-item:last-child{border-bottom:none;}
+.tl-left{display:flex;flex-direction:column;align-items:center;width:52px;flex-shrink:0;}
+.tl-year{font-size:11px;font-weight:800;color:#2d3a8c;text-align:center;line-height:1.2;}
+.tl-line{flex:1;width:2px;background:#c7d4f5;margin-top:4px;}
+.tl-right{flex:1;padding-bottom:4px;}
+.tl-title{font-size:13px;font-weight:700;color:#0f1923;margin-bottom:3px;}
+.tl-desc{font-size:12px;color:#64748b;line-height:1.5;}
+
+/*  INFOS GRID  */
+.infos-grid{display:flex;flex-direction:column;gap:1px;background:#f1f5f9;border-radius:16px;overflow:hidden;box-shadow:0 2px 10px rgba(0,0,0,0.06);}
+.info-row{background:#fff;padding:13px 16px;display:flex;align-items:center;gap:12px;}
+.info-row .material-symbols-outlined{font-size:20px;color:#2d3a8c;flex-shrink:0;}
+.info-row-content{flex:1;}
+.info-row-label{font-size:11px;font-weight:600;color:#94a3b8;margin-bottom:2px;}
+.info-row-val{font-size:14px;font-weight:700;color:#0f1923;}
+.info-row-action{width:32px;height:32px;border-radius:50%;background:#f0f4ff;display:flex;align-items:center;justify-content:center;flex-shrink:0;text-decoration:none;}
+.info-row-action .material-symbols-outlined{font-size:16px;color:#2d3a8c;}
+
+/*  TAGS  */
+.tags-wrap{display:flex;flex-wrap:wrap;gap:8px;}
+.tag{display:inline-flex;align-items:center;gap:5px;background:#fff;border-radius:100px;padding:7px 12px;font-size:11px;font-weight:700;color:#374151;box-shadow:0 1px 6px rgba(0,0,0,0.07);}
+.tag .material-symbols-outlined{font-size:14px;color:#2d3a8c;}
+
+/*  HORAIRES  */
+.horaires-card{background:#fff;border-radius:16px;padding:4px 0;box-shadow:0 2px 10px rgba(0,0,0,0.06);}
+.hrow{display:flex;justify-content:space-between;align-items:center;padding:10px 16px;border-bottom:1px solid #f8f9fa;}
+.hrow:last-child{border-bottom:none;}
+.hrow-day{font-size:13px;font-weight:600;color:#374151;}
+.hrow-time{font-size:13px;font-weight:700;color:#0f1923;}
+.hrow-time.closed{color:#dc2626;}
+.hrow-badge{font-size:9px;font-weight:800;text-transform:uppercase;letter-spacing:0.1em;background:#f0f4ff;color:#1e2850;padding:3px 8px;border-radius:20px;}
+
+/*  CTA BOTTOM  */
+.cta-bottom{position:fixed;bottom:0;left:0;right:0;padding:12px 16px 20px;background:rgba(255,255,255,0.95);backdrop-filter:blur(20px);border-top:1px solid rgba(0,0,0,0.06);display:flex;gap:10px;z-index:100;}
+.cta-call{flex:1;display:flex;align-items:center;justify-content:center;gap:8px;background:#1e2850;color:#fff;border:none;border-radius:14px;padding:15px;font-family:Manrope;font-size:15px;font-weight:800;cursor:pointer;text-decoration:none;transition:all 0.15s;}
+.cta-call:active{transform:scale(0.97);}
+.cta-call .material-symbols-outlined{font-size:19px;}
+.cta-map{width:52px;height:52px;border-radius:14px;background:#fff;border:1.5px solid #e2e8f0;display:flex;align-items:center;justify-content:center;cursor:pointer;text-decoration:none;flex-shrink:0;}
+.cta-map:active{transform:scale(0.96);}
+.cta-map .material-symbols-outlined{font-size:22px;color:#0f1923;}
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<div class="hero">
+  <img class="hero-img" src="../assets/rochefort-du-gard/poi_002.jpg" alt="Sanctuaire Notre-Dame de Grâce">
+  <div class="hero-overlay"></div>
+  <button class="hero-back" onclick="history.back()">
+    <span class="material-symbols-outlined">arrow_back</span>
+  </button>
+  <div class="hero-share">
+    <span class="material-symbols-outlined">share</span>
+  </div>
+  <div class="hero-content">
+    <div class="hero-badge">Monument Historique · Depuis 792 · Rochefort-du-Gard</div>
+    <div class="hero-name">Sanctuaire Notre-Dame de Grâce</div>
+    <div class="hero-meta">
+      <div class="hero-pill">Inscrit MH 2013</div>
+      <div class="hero-pill">Visites guidées</div>
+      <div class="hero-pill">Panorama</div>
+      <div class="hero-pill">Accès gratuit</div>
+    </div>
+  </div>
+</div>
+
+<!-- STATUT -->
+<div class="open-banner">
+  <div class="open-dot"></div>
+  <div>
+    <div class="open-text">Ouvert tous les jours sauf le mercredi</div>
+    <div class="open-hours">08h00 – 19h00 · Participation libre</div>
+  </div>
+</div>
+
+<!-- ACTIONS -->
+<div class="actions-bar">
+  <a href="tel:+33490317201" class="action-btn">
+    <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">call</span>
+    <span class="lbl">Appeler</span>
+  </a>
+  <a href="http://ndg30.fr" target="_blank" class="action-btn">
+    <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">language</span>
+    <span class="lbl">Site web</span>
+  </a>
+  <a href="https://maps.google.com/?q=830+Notre+Dame+de+Grace+30650+Rochefort-du-Gard" target="_blank" class="action-btn">
+    <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">near_me</span>
+    <span class="lbl">Y aller</span>
+  </a>
+  <a href="mailto:accueil@ndg30.fr" class="action-btn">
+    <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">mail</span>
+    <span class="lbl">Email</span>
+  </a>
+</div>
+
+<!-- DESCRIPTION -->
+<div class="section">
+  <div class="section-title">Le sanctuaire</div>
+
+  <div class="mh-badge">
+    <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">account_balance</span>
+    <div>
+      <div class="mh-badge-text">Inscrit aux Monuments Historiques</div>
+      <div class="mh-badge-sub">Arrêté du 5 décembre 2013 · Centre Spirituel Diocésain de Nîmes</div>
+    </div>
+  </div>
+
+  <div class="desc-card">
+    <div class="desc-text">
+      Perché sur une colline au nord de Rochefort-du-Gard, le sanctuaire Notre-Dame de Grâce est l'un des hauts lieux spirituels du Gard. Ses origines remontent à <strong>798</strong>, lorsque Charlemagne aurait fait ériger une première chapelle en mémoire des victoires carolingiennes sur les armées sarrasines.<br><br>
+      Aujourd'hui, le site réunit un <strong>monastère du XVIIe siècle</strong>, un chemin de croix monumental (dit "Sacro Monte") de 14 stations, une collection remarquable d'<strong>ex-voto</strong>, une boutique, un restaurant et une hôtellerie pour les retraites et séjours spirituels. La <strong>salle de l'écho</strong>, curiosité acoustique unique, ne manque pas d'étonner les visiteurs.<br><br>
+      Plus de <strong>70 miracles documentés</strong> depuis le XIIe siècle, notamment des guérisons miraculeuses, ont forgé la réputation de ce lieu de pèlerinage marial, toujours vivant sous la direction du diocèse de Nîmes depuis 2006.
+    </div>
+  </div>
+  <div class="highlight-band">
+    <div class="highlight-icon"><span class="material-symbols-outlined" style="font-size:32px;color:#c7d4f5;font-variation-settings:'FILL' 1;">landscape</span></div>
+    <div>
+      <div class="highlight-title">Vue imprenable</div>
+      <div class="highlight-desc">Du sanctuaire : panorama sur la plaine, les vignobles, le Mont Ventoux et les Alpilles.</div>
+    </div>
+  </div>
+</div>
+
+<!-- TIMELINE -->
+<div class="section">
+  <div class="section-title">Histoire du lieu</div>
+  <div class="desc-card">
+    <div class="timeline">
+      <div class="tl-item">
+        <div class="tl-left"><div class="tl-year">798</div><div class="tl-line"></div></div>
+        <div class="tl-right"><div class="tl-title">Fondation carolingienne</div><div class="tl-desc">Charlemagne fait ériger une première chapelle sur la colline, en mémoire des victoires sur les armées sarrasines. Dédiée à Notre-Dame-des-Victoires.</div></div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-left"><div class="tl-year">1189</div><div class="tl-line"></div></div>
+        <div class="tl-right"><div class="tl-title">Premiers miracles documentés</div><div class="tl-desc">Le site devient lieu de pèlerinage. Plus de 70 miracles documentés dès le XIIe siècle, dont des guérisons miraculeuses.</div></div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-left"><div class="tl-year">1567</div><div class="tl-line"></div></div>
+        <div class="tl-right"><div class="tl-title">Guerres de Religion</div><div class="tl-desc">Rochefort et la chapelle sont touchés. Des travaux de réparation sont entrepris à partir de 1631.</div></div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-left"><div class="tl-year">1634</div><div class="tl-line"></div></div>
+        <div class="tl-right"><div class="tl-title">Bénédiction & consécration</div><div class="tl-desc">L'archevêque d'Avignon Philonardi bénit les premiers aménagements. Le sanctuaire est consacré à Notre-Dame de Grâce. Une statue de la Vierge en bois est offerte par Jean Palejay.</div></div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-left"><div class="tl-year">XVIIe s.</div><div class="tl-line"></div></div>
+        <div class="tl-right"><div class="tl-title">Monastère bénédictin</div><div class="tl-desc">Construction du monastère. Le site se dote d'une hôtellerie et du chemin de croix monumental. Un tableau de Nicolas Mignard orne la chapelle Saint-Joseph (1643).</div></div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-left"><div class="tl-year">1836</div><div class="tl-line"></div></div>
+        <div class="tl-right"><div class="tl-title">Restauration bénédictine</div><div class="tl-desc">Restauré en monastère bénédictin. Devient successivement couvent de maristes puis foyer de charité à partir de 1964.</div></div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-left"><div class="tl-year">2006</div><div class="tl-line"></div></div>
+        <div class="tl-right"><div class="tl-title">Diocèse de Nîmes</div><div class="tl-desc">Le diocèse de Nîmes reprend la gestion du sanctuaire. Devient Centre Spirituel Diocésain sous la direction de Jérôme Bourdenet.</div></div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-left"><div class="tl-year">2013</div><div class="tl-line"></div></div>
+        <div class="tl-right"><div class="tl-title">Monument Historique</div><div class="tl-desc">Inscription à l'inventaire des Monuments Historiques par arrêté du 5 décembre 2013.</div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- À VOIR SUR PLACE -->
+<div class="section">
+  <div class="section-title">À voir sur place</div>
+  <div class="desc-card">
+    <div class="desc-text">
+      Le <strong>chemin de croix monumental</strong> (ou "Sacro Monte") guide les visiteurs en 14 stations à travers la Passion du Christ, depuis le tribunal de Pilate jusqu'au Calvaire. Considéré comme l'un des plus beaux de la région, il a été créé par les frères maristes.<br><br>
+      L'église abrite une <strong>remarquable statue de la Vierge</strong>, une riche collection d'<strong>ex-voto</strong> témoignant des grâces reçues, et un tableau du peintre Nicolas Mignard. Ne pas manquer la <strong>salle de l'écho</strong>, curiosité acoustique étonnante, ni la nef voûtée et l'autel baroque.
+    </div>
+  </div>
+</div>
+
+<!-- TAGS -->
+<div class="section">
+  <div class="section-title">À savoir avant de venir</div>
+  <div class="tags-wrap">
+    <div class="tag"><span class="material-symbols-outlined">account_balance</span>Monument Historique 2013</div>
+    <div class="tag"><span class="material-symbols-outlined">church</span>Sanctuaire depuis 798</div>
+    <div class="tag"><span class="material-symbols-outlined">landscape</span>Panorama Mont Ventoux</div>
+    <div class="tag"><span class="material-symbols-outlined">self_improvement</span>Retraites spirituelles</div>
+    <div class="tag"><span class="material-symbols-outlined">tour</span>Visites guidées</div>
+    <div class="tag"><span class="material-symbols-outlined">restaurant</span>Restaurant sur place</div>
+    <div class="tag"><span class="material-symbols-outlined">hotel</span>Hôtellerie</div>
+    <div class="tag"><span class="material-symbols-outlined">storefront</span>Boutique</div>
+    <div class="tag"><span class="material-symbols-outlined">local_parking</span>Parking gratuit</div>
+    <div class="tag"><span class="material-symbols-outlined">euro</span>Participation libre</div>
+  </div>
+</div>
+
+<!-- INFOS PRATIQUES -->
+<div class="section">
+  <div class="section-title">Infos pratiques</div>
+  <div class="infos-grid">
+    <div class="info-row">
+      <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">location_on</span>
+      <div class="info-row-content">
+        <div class="info-row-label">Adresse</div>
+        <div class="info-row-val">830 Notre-Dame-de-Grâce · Route d'Orange · 30650 Rochefort-du-Gard</div>
+      </div>
+      <a href="https://maps.google.com/?q=830+Notre+Dame+de+Grace+30650+Rochefort-du-Gard" target="_blank" class="info-row-action">
+        <span class="material-symbols-outlined">open_in_new</span>
+      </a>
+    </div>
+    <div class="info-row">
+      <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">call</span>
+      <div class="info-row-content">
+        <div class="info-row-label">Téléphone</div>
+        <div class="info-row-val">04 90 31 72 01</div>
+      </div>
+      <a href="tel:+33490317201" class="info-row-action">
+        <span class="material-symbols-outlined">open_in_new</span>
+      </a>
+    </div>
+    <div class="info-row">
+      <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">mail</span>
+      <div class="info-row-content">
+        <div class="info-row-label">Email</div>
+        <div class="info-row-val">accueil@ndg30.fr</div>
+      </div>
+      <a href="mailto:accueil@ndg30.fr" class="info-row-action">
+        <span class="material-symbols-outlined">open_in_new</span>
+      </a>
+    </div>
+    <div class="info-row">
+      <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">language</span>
+      <div class="info-row-content">
+        <div class="info-row-label">Site web</div>
+        <div class="info-row-val">ndg30.fr</div>
+      </div>
+      <a href="http://ndg30.fr" target="_blank" class="info-row-action">
+        <span class="material-symbols-outlined">open_in_new</span>
+      </a>
+    </div>
+    <div class="info-row">
+      <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">euro</span>
+      <div class="info-row-content">
+        <div class="info-row-label">Tarif</div>
+        <div class="info-row-val">Participation libre · Visites guidées gratuites</div>
+      </div>
+    </div>
+    <div class="info-row">
+      <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">directions_car</span>
+      <div class="info-row-content">
+        <div class="info-row-label">Accès</div>
+        <div class="info-row-val">Route d'Orange · Sortie autoroute à moins de 5 km · Parking gratuit</div>
+      </div>
+    </div>
+    <div class="info-row">
+      <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">gps_fixed</span>
+      <div class="info-row-content">
+        <div class="info-row-label">Coordonnées GPS</div>
+        <div class="info-row-val">43° 58′ 58″ N · 4° 41′ 45″ E</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- HORAIRES -->
+<div class="section">
+  <div class="section-title">Horaires</div>
+  <div class="horaires-card">
+    <div class="hrow" data-day="1"><span class="hrow-day">Lundi</span><span class="hrow-time">08h00 – 19h00</span></div>
+    <div class="hrow" data-day="2"><span class="hrow-day">Mardi</span><span class="hrow-time">08h00 – 19h00</span></div>
+    <div class="hrow" data-day="3"><span class="hrow-day">Mercredi</span><span class="hrow-time closed">Fermé</span></div>
+    <div class="hrow" data-day="4"><span class="hrow-day">Jeudi</span><span class="hrow-time">08h00 – 19h00</span></div>
+    <div class="hrow" data-day="5"><span class="hrow-day">Vendredi</span><span class="hrow-time">08h00 – 19h00</span></div>
+    <div class="hrow" data-day="6"><span class="hrow-day">Samedi</span><span class="hrow-time">08h00 – 19h00</span></div>
+    <div class="hrow" data-day="0"><span class="hrow-day">Dimanche</span><span class="hrow-time">08h00 – 19h00</span></div>
+  </div>
+  <div style="font-size:11px;color:#94a3b8;font-weight:500;margin-top:8px;padding:0 4px;">Toute l'année · Fermé le mercredi · Visites guidées sur demande individuelle ou groupe</div>
+</div>
+
+<!-- MAP -->
+<div class="section" style="padding-bottom:16px;">
+  <div class="section-title">Localisation</div>
+  <a href="https://maps.google.com/?q=830+Notre+Dame+de+Grace+30650+Rochefort-du-Gard" target="_blank"
+     style="display:block;border-radius:16px;overflow:hidden;height:160px;background:linear-gradient(135deg,#f0f4ff,#c7d4f5);position:relative;text-decoration:none;">
+    <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:8px;">
+      <span class="material-symbols-outlined" style="font-size:40px;color:#1e2850;font-variation-settings:'FILL' 1;">location_on</span>
+      <div style="font-size:14px;font-weight:800;color:#0f1923;">830 Notre-Dame-de-Grâce · Route d'Orange</div>
+      <div style="font-size:12px;font-weight:500;color:#64748b;">30650 Rochefort-du-Gard · Sur la colline</div>
+      <div style="display:flex;align-items:center;gap:4px;background:#fff;padding:6px 14px;border-radius:20px;box-shadow:0 2px 8px rgba(0,0,0,0.1);margin-top:4px;">
+        <span class="material-symbols-outlined" style="font-size:14px;color:#1e2850;">near_me</span>
+        <span style="font-size:11px;font-weight:700;color:#0f1923;">Y aller</span>
+      </div>
+    </div>
+  </a>
+</div>
+
+<!-- BOTTOM CTA -->
+<div class="cta-bottom">
+  <a href="tel:+33490317201" class="cta-call">
+    <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">call</span>
+    Appeler · 04 90 31 72 01
+  </a>
+  <a href="https://maps.google.com/?q=830+Notre+Dame+de+Grace+30650+Rochefort-du-Gard" target="_blank" class="cta-map">
+    <span class="material-symbols-outlined">near_me</span>
+  </a>
+</div>
+
+<script>
+(function(){
+  var today = new Date().getDay();
+  document.querySelectorAll('.hrow[data-day]').forEach(function(row){
+    if(parseInt(row.dataset.day) === today){
+      var dayEl = row.querySelector('.hrow-day');
+      if(dayEl){
+        dayEl.style.fontWeight = '800';
+        dayEl.style.color = '#0f1923';
+        var badge = document.createElement('span');
+        badge.className = 'hrow-badge';
+        badge.style.marginLeft = '8px';
+        badge.textContent = 'Auj.';
+        dayEl.appendChild(badge);
+      }
+    }
+  });
+})();
+</script>
+</body>
+</html>
