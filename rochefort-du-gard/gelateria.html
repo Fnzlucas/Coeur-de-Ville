@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1"/>
+<title>Gelateria Francesca — Rochefort-du-Gard</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800;900&family=Inter:wght@300;400;500;600&display=swap"/>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html,body{font-family:'Manrope',sans-serif;background:#f8f9fa;color:#0f1923;-webkit-overflow-scrolling:touch;}
+body{padding-bottom:90px;}
+
+/*  HERO  */
+.hero{position:relative;height:320px;overflow:hidden;}
+.hero-img{width:100%;height:100%;object-fit:cover;display:block;}
+.hero-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,0.85) 0%,rgba(0,0,0,0.2) 55%,transparent 100%);}
+.hero-back{position:absolute;top:16px;left:16px;width:40px;height:40px;border-radius:50%;background:rgba(255,255,255,0.15);backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,0.25);display:flex;align-items:center;justify-content:center;cursor:pointer;z-index:10;}
+.hero-back .material-symbols-outlined{color:#fff;font-size:20px;}
+.hero-share{position:absolute;top:16px;right:16px;width:40px;height:40px;border-radius:50%;background:rgba(255,255,255,0.15);backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,0.25);display:flex;align-items:center;justify-content:center;cursor:pointer;z-index:10;}
+.hero-share .material-symbols-outlined{color:#fff;font-size:20px;}
+.hero-content{position:absolute;bottom:0;left:0;right:0;padding:20px 20px 24px;}
+.hero-badge{display:inline-flex;align-items:center;gap:5px;background:rgba(190,60,30,0.9);backdrop-filter:blur(6px);color:#fff;font-size:9px;font-weight:800;letter-spacing:0.12em;text-transform:uppercase;padding:5px 12px;border-radius:20px;margin-bottom:10px;}
+.hero-badge::before{content:'';width:5px;height:5px;background:#fff;border-radius:50%;}
+.hero-name{font-size:30px;font-weight:900;color:#fff;line-height:1.05;letter-spacing:-0.02em;margin-bottom:8px;}
+.hero-meta{display:flex;align-items:center;gap:12px;}
+.hero-rating span.cnt{color:rgba(255,255,255,0.6);font-weight:500;font-size:11px;}
+.hero-pill{background:rgba(255,255,255,0.15);backdrop-filter:blur(6px);border:1px solid rgba(255,255,255,0.25);color:#fff;font-size:10px;font-weight:700;padding:4px 10px;border-radius:20px;}
+
+/*  OPEN BANNER  */
+.open-banner{margin:16px 16px 0;background:#fff7ed;border-radius:14px;padding:12px 16px;display:flex;align-items:center;gap:10px;border:1px solid #fed7aa;}
+.open-dot{width:8px;height:8px;border-radius:50%;background:#ea580c;flex-shrink:0;box-shadow:0 0 0 3px rgba(234,88,12,0.2);}
+.open-text{font-size:13px;font-weight:700;color:#7c2d12;}
+.open-hours{font-size:12px;font-weight:500;color:#ea580c;margin-top:1px;}
+
+/*  ACTIONS BAR  */
+.actions-bar{display:flex;gap:10px;padding:16px 16px 0;}
+.action-btn{flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;padding:12px 8px;background:#fff;border-radius:14px;box-shadow:0 2px 10px rgba(0,0,0,0.06);cursor:pointer;border:none;font-family:Manrope;text-decoration:none;transition:all 0.15s;}
+.action-btn:active{transform:scale(0.96);}
+.action-btn .material-symbols-outlined{font-size:22px;color:#c2410c;}
+.action-btn .lbl{font-size:10px;font-weight:700;color:#0f1923;letter-spacing:0.02em;}
+
+/*  SECTION  */
+.section{padding:24px 16px 0;}
+.section-title{font-size:17px;font-weight:900;color:#0f1923;letter-spacing:-0.02em;margin-bottom:12px;}
+
+/*  DESC  */
+.desc-card{background:#fff;border-radius:16px;padding:16px;box-shadow:0 2px 10px rgba(0,0,0,0.06);}
+.desc-text{font-size:14px;line-height:1.7;color:#374151;font-weight:400;}
+
+/*  PROMO BAND  */
+.promo-band{background:linear-gradient(135deg,#9a3412,#ea580c);border-radius:14px;padding:14px 16px;display:flex;align-items:center;gap:14px;margin-top:12px;}
+.promo-icon{flex-shrink:0;}
+.promo-title{font-size:13px;font-weight:800;color:#fff;margin-bottom:3px;}
+.promo-desc{font-size:12px;color:rgba(255,255,255,0.8);line-height:1.5;}
+
+/*  INFOS GRID  */
+.infos-grid{display:flex;flex-direction:column;gap:1px;background:#f1f5f9;border-radius:16px;overflow:hidden;box-shadow:0 2px 10px rgba(0,0,0,0.06);}
+.info-row{background:#fff;padding:13px 16px;display:flex;align-items:center;gap:12px;}
+.info-row .material-symbols-outlined{font-size:20px;color:#c2410c;flex-shrink:0;}
+.info-row-content{flex:1;}
+.info-row-label{font-size:11px;font-weight:600;color:#94a3b8;margin-bottom:2px;}
+.info-row-val{font-size:14px;font-weight:700;color:#0f1923;}
+.info-row-action{width:32px;height:32px;border-radius:50%;background:#ffedd5;display:flex;align-items:center;justify-content:center;flex-shrink:0;text-decoration:none;}
+.info-row-action .material-symbols-outlined{font-size:16px;color:#c2410c;}
+
+/*  TAGS  */
+.tags-wrap{display:flex;flex-wrap:wrap;gap:8px;}
+.tag{display:inline-flex;align-items:center;gap:5px;background:#fff;border-radius:100px;padding:7px 12px;font-size:11px;font-weight:700;color:#374151;box-shadow:0 1px 6px rgba(0,0,0,0.07);}
+.tag .material-symbols-outlined{font-size:14px;color:#c2410c;}
+
+/*  HORAIRES  */
+.horaires-card{background:#fff;border-radius:16px;padding:4px 0;box-shadow:0 2px 10px rgba(0,0,0,0.06);}
+.hrow{display:flex;justify-content:space-between;align-items:center;padding:10px 16px;border-bottom:1px solid #f8f9fa;}
+.hrow:last-child{border-bottom:none;}
+.hrow-day{font-size:13px;font-weight:600;color:#374151;}
+.hrow-time{font-size:13px;font-weight:700;color:#0f1923;}
+.hrow-time.closed{color:#dc2626;}
+.hrow-badge{font-size:9px;font-weight:800;text-transform:uppercase;letter-spacing:0.1em;background:#ffedd5;color:#9a3412;padding:3px 8px;border-radius:20px;}
+
+/*  MENU  */
+.menu-row{display:flex;justify-content:space-between;align-items:flex-start;padding:12px 0;border-bottom:1px solid #f1f5f9;}
+.menu-row:last-child{border-bottom:none;}
+.menu-name{font-size:14px;font-weight:700;color:#0f1923;margin-bottom:2px;}
+.menu-desc{font-size:12px;color:#94a3b8;line-height:1.4;}
+.menu-price{font-size:14px;font-weight:800;color:#c2410c;flex-shrink:0;margin-left:12px;margin-top:2px;}
+
+/*  CTA BOTTOM  */
+.cta-bottom{position:fixed;bottom:0;left:0;right:0;padding:12px 16px 20px;background:rgba(255,255,255,0.95);backdrop-filter:blur(20px);border-top:1px solid rgba(0,0,0,0.06);display:flex;gap:10px;z-index:100;}
+.cta-call{flex:1;display:flex;align-items:center;justify-content:center;gap:8px;background:#c2410c;color:#fff;border:none;border-radius:14px;padding:15px;font-family:Manrope;font-size:15px;font-weight:800;cursor:pointer;text-decoration:none;transition:all 0.15s;}
+.cta-call:active{transform:scale(0.97);}
+.cta-call .material-symbols-outlined{font-size:19px;}
+.cta-map{width:52px;height:52px;border-radius:14px;background:#fff;border:1.5px solid #e2e8f0;display:flex;align-items:center;justify-content:center;cursor:pointer;text-decoration:none;flex-shrink:0;}
+.cta-map:active{transform:scale(0.96);}
+.cta-map .material-symbols-outlined{font-size:22px;color:#0f1923;}
+
+/*  AVIS  */
+.avis-card{background:#fff;border-radius:14px;padding:14px;box-shadow:0 1px 8px rgba(0,0,0,0.06);margin-bottom:10px;}
+.avis-header{display:flex;align-items:center;gap:10px;margin-bottom:8px;}
+.avis-avatar{width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,#9a3412,#ea580c);display:flex;align-items:center;justify-content:center;color:#fff;font-size:14px;font-weight:800;flex-shrink:0;}
+.avis-name{font-size:13px;font-weight:800;color:#0f1923;}
+.avis-date{font-size:11px;color:#94a3b8;margin-top:1px;}
+.avis-stars{display:flex;gap:2px;color:#FBBF24;font-size:13px;margin-left:auto;}
+.avis-text{font-size:13px;color:#374151;line-height:1.6;}
+
+/*  SCORE  */
+.score-card{background:linear-gradient(135deg,#9a3412,#c2410c);border-radius:18px;padding:20px;display:flex;align-items:center;gap:16px;}
+.score-big{font-size:48px;font-weight:900;color:#fff;line-height:1;letter-spacing:-0.04em;}
+.score-stars{display:flex;gap:3px;color:#FBBF24;font-size:18px;margin-bottom:4px;}
+.score-cnt{font-size:12px;color:rgba(255,255,255,0.5);font-weight:500;}
+.score-bars{flex:1;}
+.score-bar-row{display:flex;align-items:center;gap:8px;margin-bottom:5px;}
+.score-bar-label{font-size:10px;color:rgba(255,255,255,0.6);font-weight:600;width:10px;text-align:right;}
+.score-bar-track{flex:1;height:4px;background:rgba(255,255,255,0.1);border-radius:2px;overflow:hidden;}
+.score-bar-fill{height:100%;background:#FBBF24;border-radius:2px;}
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<div class="hero">
+  <img class="hero-img" src="../assets/rochefort-du-gard/gelateria.jpg" alt="Gelateria Francesca">
+  <div class="hero-overlay"></div>
+  <button class="hero-back" onclick="history.back()">
+    <span class="material-symbols-outlined">arrow_back</span>
+  </button>
+  <div class="hero-share">
+    <span class="material-symbols-outlined">share</span>
+  </div>
+  <div class="hero-content">
+    <div class="hero-badge">Glacier · Café · Restauration · Rochefort-du-Gard</div>
+    <div class="hero-name">Gelateria Francesca</div>
+    <div class="hero-meta">
+      <div class="hero-rating">
+        <span class="cnt">4,9/5 · Google · #2 sur 8 à Rochefort</span>
+      </div>
+      <div class="hero-pill">Artisanal</div>
+      <div class="hero-pill">Terrasse</div>
+    </div>
+  </div>
+</div>
+
+<!-- STATUT -->
+<div class="open-banner">
+  <div class="open-dot"></div>
+  <div>
+    <div class="open-text">Ouvert · Centre du village</div>
+    <div class="open-hours">11 ter avenue Frédéric Mistral · Rochefort-du-Gard</div>
+  </div>
+</div>
+
+<!-- ACTIONS -->
+<div class="actions-bar">
+  <a href="tel:+33465877727" class="action-btn">
+    <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">call</span>
+    <span class="lbl">Appeler</span>
+  </a>
+  <a href="https://www.instagram.com/gelateria.francesca/" target="_blank" class="action-btn">
+    <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">photo_camera</span>
+    <span class="lbl">Instagram</span>
+  </a>
+  <a href="https://maps.google.com/?q=11+ter+avenue+Frederic+Mistral+30650+Rochefort-du-Gard" target="_blank" class="action-btn">
+    <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">near_me</span>
+    <span class="lbl">Itinéraire</span>
+  </a>
+  <a href="https://www.facebook.com/gelateria.francesca1/" target="_blank" class="action-btn">
+    <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">thumb_up</span>
+    <span class="lbl">Facebook</span>
+  </a>
+</div>
+
+<!-- DESCRIPTION -->
+<div class="section">
+  <div class="section-title">La gelateria</div>
+  <div class="desc-card">
+    <div class="desc-text">
+      Entrez chez Gelateria Francesca et laissez-vous séduire par l'art du goûter à l'italienne, au coeur du village de Rochefort-du-Gard. Ici, chaque coupe raconte la promesse d'un produit choisi et servi avec chaleur : <strong>glaces artisanales aux parfums généreux</strong>, planches charcuterie-fromage bien fournies, salades fraîches, pancakes gourmands et café de qualité.<br><br>
+      Le décor soigné et la <strong>terrasse ombragée</strong> invitent à s'attarder. Une équipe souriante — Cyril et Enzo en tête — veille à ce que chaque passage devienne un petit rituel plaisir. Idéal pour une pause sucrée, un déjeuner léger ou un moment entre amis.
+    </div>
+  </div>
+  <div class="promo-band">
+    <div class="promo-icon"><span class="material-symbols-outlined" style="font-size:32px;color:#fff;font-variation-settings:'FILL' 1;">icecream</span></div>
+    <div>
+      <div class="promo-title">Glaces artisanales</div>
+      <div class="promo-desc">Parfums généreux, produits de qualité — en saison, horaires prolongés en soirée et présence aux fêtes du village.</div>
+    </div>
+  </div>
+</div>
+
+<!-- CARTE -->
+<div class="section">
+  <div class="section-title">Ce qu'on y trouve</div>
+  <div class="desc-card">
+    <div style="font-size:11px;font-weight:800;color:#c2410c;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:8px;">Glaces & Sorbets</div>
+    <div class="menu-row">
+      <div><div class="menu-name">Coupes artisanales</div><div class="menu-desc">Glaces maison aux parfums généreux · Chocolat, Mangue, Sorbet gingembre...</div></div>
+      <div class="menu-price">—</div>
+    </div>
+    <div class="menu-row">
+      <div><div class="menu-name">Sorbets de saison</div><div class="menu-desc">Fruits frais sélectionnés · Parfums éphémères selon les arrivages</div></div>
+      <div class="menu-price">—</div>
+    </div>
+
+    <div style="font-size:11px;font-weight:800;color:#c2410c;text-transform:uppercase;letter-spacing:0.1em;margin:14px 0 8px;">Restauration & Planches</div>
+    <div class="menu-row">
+      <div><div class="menu-name">Planches charcuterie-fromage</div><div class="menu-desc">Assortiment généreux de produits du terroir</div></div>
+      <div class="menu-price">—</div>
+    </div>
+    <div class="menu-row">
+      <div><div class="menu-name">Salades fraîches</div><div class="menu-desc">Compositions légères et de saison</div></div>
+      <div class="menu-price">—</div>
+    </div>
+    <div class="menu-row">
+      <div><div class="menu-name">Pancakes gourmands</div><div class="menu-desc">Garnitures sucrées ou salées</div></div>
+      <div class="menu-price">—</div>
+    </div>
+
+    <div style="font-size:11px;font-weight:800;color:#c2410c;text-transform:uppercase;letter-spacing:0.1em;margin:14px 0 8px;">Boissons</div>
+    <div class="menu-row">
+      <div><div class="menu-name">Café & boissons chaudes</div><div class="menu-desc">Espresso, cappuccino, café gourmand...</div></div>
+      <div class="menu-price">—</div>
+    </div>
+    <div class="menu-row">
+      <div><div class="menu-name">Vins de la région</div><div class="menu-desc">Sélection de vins locaux — Côtes du Rhône</div></div>
+      <div class="menu-price">—</div>
+    </div>
+  </div>
+  <div style="font-size:11px;color:#94a3b8;font-weight:500;margin-top:8px;padding:0 4px;">Prix par personne · 10 € – 20 €</div>
+</div>
+
+<!-- TAGS -->
+<div class="section">
+  <div class="section-title">Le bon à savoir</div>
+  <div class="tags-wrap">
+    <div class="tag"><span class="material-symbols-outlined">icecream</span>Glaces artisanales</div>
+    <div class="tag"><span class="material-symbols-outlined">local_cafe</span>Café & boissons</div>
+    <div class="tag"><span class="material-symbols-outlined">deck</span>Terrasse ombragée</div>
+    <div class="tag"><span class="material-symbols-outlined">takeout_dining</span>Plats à emporter</div>
+    <div class="tag"><span class="material-symbols-outlined">center_focus_strong</span>Centre village</div>
+    <div class="tag"><span class="material-symbols-outlined">local_parking</span>Parking à proximité</div>
+    <div class="tag"><span class="material-symbols-outlined">accessible</span>Accès fauteuil roulant</div>
+  </div>
+</div>
+
+<!-- INFOS PRATIQUES -->
+<div class="section">
+  <div class="section-title">Infos pratiques</div>
+  <div class="infos-grid">
+    <div class="info-row">
+      <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">location_on</span>
+      <div class="info-row-content">
+        <div class="info-row-label">Adresse</div>
+        <div class="info-row-val">11 ter avenue Frédéric Mistral · 30650 Rochefort-du-Gard</div>
+      </div>
+      <a href="https://maps.google.com/?q=11+ter+avenue+Frederic+Mistral+30650+Rochefort-du-Gard" target="_blank" class="info-row-action">
+        <span class="material-symbols-outlined">open_in_new</span>
+      </a>
+    </div>
+    <div class="info-row">
+      <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">call</span>
+      <div class="info-row-content">
+        <div class="info-row-label">Téléphone</div>
+        <div class="info-row-val">04 65 87 77 27</div>
+      </div>
+      <a href="tel:+33465877727" class="info-row-action">
+        <span class="material-symbols-outlined">open_in_new</span>
+      </a>
+    </div>
+    <div class="info-row">
+      <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">photo_camera</span>
+      <div class="info-row-content">
+        <div class="info-row-label">Instagram</div>
+        <div class="info-row-val">@gelateria.francesca</div>
+      </div>
+      <a href="https://www.instagram.com/gelateria.francesca/" target="_blank" class="info-row-action">
+        <span class="material-symbols-outlined">open_in_new</span>
+      </a>
+    </div>
+    <div class="info-row">
+      <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">storefront</span>
+      <div class="info-row-content">
+        <div class="info-row-label">Type d'établissement</div>
+        <div class="info-row-val">Glacier · Café · Restauration légère</div>
+      </div>
+    </div>
+    <div class="info-row">
+      <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">language</span>
+      <div class="info-row-content">
+        <div class="info-row-label">Langues parlées</div>
+        <div class="info-row-val">Français · Anglais</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- HORAIRES -->
+<div class="section">
+  <div class="section-title">Horaires</div>
+  <div class="horaires-card">
+    <div class="hrow" data-day="1"><span class="hrow-day">Lundi</span><span class="hrow-time closed">Fermé</span></div>
+    <div class="hrow" data-day="2"><span class="hrow-day">Mardi</span><span class="hrow-time">À confirmer</span></div>
+    <div class="hrow" data-day="3"><span class="hrow-day">Mercredi</span><span class="hrow-time">À confirmer</span></div>
+    <div class="hrow" data-day="4"><span class="hrow-day">Jeudi</span><span class="hrow-time">À confirmer</span></div>
+    <div class="hrow" data-day="5"><span class="hrow-day">Vendredi</span><span class="hrow-time">À confirmer</span></div>
+    <div class="hrow" data-day="6"><span class="hrow-day">Samedi</span><span class="hrow-time">À confirmer</span></div>
+    <div class="hrow" data-day="0"><span class="hrow-day">Dimanche</span><span class="hrow-time">À confirmer</span></div>
+  </div>
+  <div style="font-size:11px;color:#94a3b8;font-weight:500;margin-top:8px;padding:0 4px;">Horaires variables selon la saison · En été, ouverture prolongée en soirée · Appeler pour confirmer</div>
+</div>
+
+<!-- AVIS -->
+<div class="section">
+  <div class="section-title">Avis clients</div>
+  <div class="score-card">
+    <div style="text-align:center;">
+      <div class="score-big">4,9</div>
+      <div class="score-stars">★★★★★</div>
+      <div class="score-cnt">Google · Tripadvisor 5/5</div>
+    </div>
+    <div class="score-bars">
+      <div class="score-bar-row"><span class="score-bar-label">5</span><div class="score-bar-track"><div class="score-bar-fill" style="width:92%"></div></div></div>
+      <div class="score-bar-row"><span class="score-bar-label">4</span><div class="score-bar-track"><div class="score-bar-fill" style="width:6%"></div></div></div>
+      <div class="score-bar-row"><span class="score-bar-label">3</span><div class="score-bar-track"><div class="score-bar-fill" style="width:1%"></div></div></div>
+      <div class="score-bar-row"><span class="score-bar-label">2</span><div class="score-bar-track"><div class="score-bar-fill" style="width:1%"></div></div></div>
+      <div class="score-bar-row" style="margin-bottom:0;"><span class="score-bar-label">1</span><div class="score-bar-track"><div class="score-bar-fill" style="width:0%"></div></div></div>
+      <div style="margin-top:10px;font-size:10px;color:rgba(255,255,255,0.4);font-weight:500;">Glacier · Rochefort-du-Gard · #2 sur 8 restaurants</div>
+    </div>
+  </div>
+</div>
+
+<div style="padding:12px 16px 0;">
+  <div class="avis-card">
+    <div class="avis-header">
+      <div class="avis-avatar">L</div>
+      <div><div class="avis-name">Laura M.</div><div class="avis-date">Google</div></div>
+      <div class="avis-stars">★★★★★</div>
+    </div>
+    <div class="avis-text">Chaque cuillère est un régal, on sent vraiment la qualité des ingrédients. J'ai particulièrement apprécié le service chaleureux et l'ambiance conviviale qui donnent envie de revenir.</div>
+  </div>
+  <div class="avis-card">
+    <div class="avis-header">
+      <div class="avis-avatar" style="background:linear-gradient(135deg,#9a3412,#c2410c);">S</div>
+      <div><div class="avis-name">Sarah K.</div><div class="avis-date">Tripadvisor</div></div>
+      <div class="avis-stars">★★★★★</div>
+    </div>
+    <div class="avis-text">Un endroit incroyable. Bloqués sans taxi après une soirée, l'équipe a proposé de nous ramener à la maison. Une hospitalité française dans ce qu'elle a de meilleur. Merci Cyril et Enzo !</div>
+  </div>
+  <div class="avis-card">
+    <div class="avis-header">
+      <div class="avis-avatar" style="background:linear-gradient(135deg,#c2410c,#f97316);">P</div>
+      <div><div class="avis-name">Pierre D.</div><div class="avis-date">Tripadvisor</div></div>
+      <div class="avis-stars">★★★★★</div>
+    </div>
+    <div class="avis-text">Repas succulent avec des produits de qualité, des vins de la région et un personnel fort sympathique. Parfait pour un déjeuner léger ou une pause gourmande.</div>
+  </div>
+</div>
+
+<!-- MAP -->
+<div class="section" style="padding-bottom:16px;">
+  <div class="section-title">Localisation</div>
+  <a href="https://maps.google.com/?q=11+ter+avenue+Frederic+Mistral+30650+Rochefort-du-Gard" target="_blank"
+     style="display:block;border-radius:16px;overflow:hidden;height:160px;background:linear-gradient(135deg,#ffedd5,#fed7aa);position:relative;text-decoration:none;">
+    <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:8px;">
+      <span class="material-symbols-outlined" style="font-size:40px;color:#c2410c;font-variation-settings:'FILL' 1;">location_on</span>
+      <div style="font-size:14px;font-weight:800;color:#0f1923;">11 ter avenue Frédéric Mistral</div>
+      <div style="font-size:12px;font-weight:500;color:#64748b;">30650 Rochefort-du-Gard · Centre village</div>
+      <div style="display:flex;align-items:center;gap:4px;background:#fff;padding:6px 14px;border-radius:20px;box-shadow:0 2px 8px rgba(0,0,0,0.1);margin-top:4px;">
+        <span class="material-symbols-outlined" style="font-size:14px;color:#c2410c;">near_me</span>
+        <span style="font-size:11px;font-weight:700;color:#0f1923;">Ouvrir dans Maps</span>
+      </div>
+    </div>
+  </a>
+</div>
+
+<!-- BOTTOM CTA -->
+<div class="cta-bottom">
+  <a href="tel:+33465877727" class="cta-call">
+    <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">call</span>
+    Appeler · 04 65 87 77 27
+  </a>
+  <a href="https://maps.google.com/?q=11+ter+avenue+Frederic+Mistral+30650+Rochefort-du-Gard" target="_blank" class="cta-map">
+    <span class="material-symbols-outlined">near_me</span>
+  </a>
+</div>
+
+<script>
+(function(){
+  var today = new Date().getDay();
+  document.querySelectorAll('.hrow[data-day]').forEach(function(row){
+    if(parseInt(row.dataset.day) === today){
+      var dayEl = row.querySelector('.hrow-day');
+      if(dayEl){
+        dayEl.style.fontWeight = '800';
+        dayEl.style.color = '#0f1923';
+        var badge = document.createElement('span');
+        badge.className = 'hrow-badge';
+        badge.style.marginLeft = '8px';
+        badge.textContent = 'Auj.';
+        dayEl.appendChild(badge);
+      }
+    }
+  });
+})();
+</script>
+</body>
+</html>
