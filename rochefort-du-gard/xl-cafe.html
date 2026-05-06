@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1"/>
+<title>XL Café — Rochefort-du-Gard</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800;900&family=Inter:wght@300;400;500;600&display=swap"/>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html,body{font-family:'Manrope',sans-serif;background:#f8f9fa;color:#0f1923;-webkit-overflow-scrolling:touch;}
+body{padding-bottom:90px;}
+
+/*  HERO  */
+.hero{position:relative;height:320px;overflow:hidden;}
+.hero-img{width:100%;height:100%;object-fit:cover;display:block;}
+.hero-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,0.85) 0%,rgba(0,0,0,0.2) 55%,transparent 100%);}
+.hero-back{position:absolute;top:16px;left:16px;width:40px;height:40px;border-radius:50%;background:rgba(255,255,255,0.15);backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,0.25);display:flex;align-items:center;justify-content:center;cursor:pointer;z-index:10;}
+.hero-back .material-symbols-outlined{color:#fff;font-size:20px;}
+.hero-share{position:absolute;top:16px;right:16px;width:40px;height:40px;border-radius:50%;background:rgba(255,255,255,0.15);backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,0.25);display:flex;align-items:center;justify-content:center;cursor:pointer;z-index:10;}
+.hero-share .material-symbols-outlined{color:#fff;font-size:20px;}
+.hero-content{position:absolute;bottom:0;left:0;right:0;padding:20px 20px 24px;}
+.hero-badge{display:inline-flex;align-items:center;gap:5px;background:rgba(15,25,35,0.85);backdrop-filter:blur(6px);color:#fff;font-size:9px;font-weight:800;letter-spacing:0.12em;text-transform:uppercase;padding:5px 12px;border-radius:20px;margin-bottom:10px;}
+.hero-badge::before{content:'';width:5px;height:5px;background:#e5a100;border-radius:50%;}
+.hero-name{font-size:30px;font-weight:900;color:#fff;line-height:1.05;letter-spacing:-0.02em;margin-bottom:8px;}
+.hero-meta{display:flex;align-items:center;gap:12px;}
+.hero-rating span.cnt{color:rgba(255,255,255,0.6);font-weight:500;font-size:11px;}
+.hero-pill{background:rgba(255,255,255,0.15);backdrop-filter:blur(6px);border:1px solid rgba(255,255,255,0.25);color:#fff;font-size:10px;font-weight:700;padding:4px 10px;border-radius:20px;}
+
+/*  OPEN BANNER  */
+.open-banner{margin:16px 16px 0;background:#fffbeb;border-radius:14px;padding:12px 16px;display:flex;align-items:center;gap:10px;border:1px solid #fcd34d;}
+.open-dot{width:8px;height:8px;border-radius:50%;background:#d97706;flex-shrink:0;box-shadow:0 0 0 3px rgba(217,119,6,0.2);}
+.open-text{font-size:13px;font-weight:700;color:#78350f;}
+.open-hours{font-size:12px;font-weight:500;color:#d97706;margin-top:1px;}
+
+/*  ACTIONS BAR  */
+.actions-bar{display:flex;gap:10px;padding:16px 16px 0;}
+.action-btn{flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;padding:12px 8px;background:#fff;border-radius:14px;box-shadow:0 2px 10px rgba(0,0,0,0.06);cursor:pointer;border:none;font-family:Manrope;text-decoration:none;transition:all 0.15s;}
+.action-btn:active{transform:scale(0.96);}
+.action-btn .material-symbols-outlined{font-size:22px;color:#1a1a1a;}
+.action-btn .lbl{font-size:10px;font-weight:700;color:#0f1923;letter-spacing:0.02em;}
+
+/*  SECTION  */
+.section{padding:24px 16px 0;}
+.section-title{font-size:17px;font-weight:900;color:#0f1923;letter-spacing:-0.02em;margin-bottom:12px;}
+
+/*  DESC  */
+.desc-card{background:#fff;border-radius:16px;padding:16px;box-shadow:0 2px 10px rgba(0,0,0,0.06);}
+.desc-text{font-size:14px;line-height:1.7;color:#374151;font-weight:400;}
+
+/*  PROMO BAND  */
+.promo-band{background:linear-gradient(135deg,#1a1a1a,#374151);border-radius:14px;padding:14px 16px;display:flex;align-items:center;gap:14px;margin-top:12px;}
+.promo-icon{flex-shrink:0;}
+.promo-title{font-size:13px;font-weight:800;color:#fff;margin-bottom:3px;}
+.promo-desc{font-size:12px;color:rgba(255,255,255,0.75);line-height:1.5;}
+
+/*  INFOS GRID  */
+.infos-grid{display:flex;flex-direction:column;gap:1px;background:#f1f5f9;border-radius:16px;overflow:hidden;box-shadow:0 2px 10px rgba(0,0,0,0.06);}
+.info-row{background:#fff;padding:13px 16px;display:flex;align-items:center;gap:12px;}
+.info-row .material-symbols-outlined{font-size:20px;color:#1a1a1a;flex-shrink:0;}
+.info-row-content{flex:1;}
+.info-row-label{font-size:11px;font-weight:600;color:#94a3b8;margin-bottom:2px;}
+.info-row-val{font-size:14px;font-weight:700;color:#0f1923;}
+.info-row-action{width:32px;height:32px;border-radius:50%;background:#f1f5f9;display:flex;align-items:center;justify-content:center;flex-shrink:0;text-decoration:none;}
+.info-row-action .material-symbols-outlined{font-size:16px;color:#1a1a1a;}
+
+/*  TAGS  */
+.tags-wrap{display:flex;flex-wrap:wrap;gap:8px;}
+.tag{display:inline-flex;align-items:center;gap:5px;background:#fff;border-radius:100px;padding:7px 12px;font-size:11px;font-weight:700;color:#374151;box-shadow:0 1px 6px rgba(0,0,0,0.07);}
+.tag .material-symbols-outlined{font-size:14px;color:#1a1a1a;}
+
+/*  HORAIRES  */
+.horaires-card{background:#fff;border-radius:16px;padding:4px 0;box-shadow:0 2px 10px rgba(0,0,0,0.06);}
+.hrow{display:flex;justify-content:space-between;align-items:center;padding:10px 16px;border-bottom:1px solid #f8f9fa;}
+.hrow:last-child{border-bottom:none;}
+.hrow-day{font-size:13px;font-weight:600;color:#374151;}
+.hrow-time{font-size:13px;font-weight:700;color:#0f1923;}
+.hrow-time.closed{color:#dc2626;}
+.hrow-badge{font-size:9px;font-weight:800;text-transform:uppercase;letter-spacing:0.1em;background:#fef9c3;color:#713f12;padding:3px 8px;border-radius:20px;}
+
+/*  MENU  */
+.menu-row{display:flex;justify-content:space-between;align-items:flex-start;padding:12px 0;border-bottom:1px solid #f1f5f9;}
+.menu-row:last-child{border-bottom:none;}
+.menu-name{font-size:14px;font-weight:700;color:#0f1923;margin-bottom:2px;}
+.menu-desc{font-size:12px;color:#94a3b8;line-height:1.4;}
+.menu-price{font-size:14px;font-weight:800;color:#1a1a1a;flex-shrink:0;margin-left:12px;margin-top:2px;}
+
+/*  CTA BOTTOM  */
+.cta-bottom{position:fixed;bottom:0;left:0;right:0;padding:12px 16px 20px;background:rgba(255,255,255,0.95);backdrop-filter:blur(20px);border-top:1px solid rgba(0,0,0,0.06);display:flex;gap:10px;z-index:100;}
+.cta-call{flex:1;display:flex;align-items:center;justify-content:center;gap:8px;background:#0f1923;color:#fff;border:none;border-radius:14px;padding:15px;font-family:Manrope;font-size:15px;font-weight:800;cursor:pointer;text-decoration:none;transition:all 0.15s;}
+.cta-call:active{transform:scale(0.97);}
+.cta-call .material-symbols-outlined{font-size:19px;}
+.cta-map{width:52px;height:52px;border-radius:14px;background:#fff;border:1.5px solid #e2e8f0;display:flex;align-items:center;justify-content:center;cursor:pointer;text-decoration:none;flex-shrink:0;}
+.cta-map:active{transform:scale(0.96);}
+.cta-map .material-symbols-outlined{font-size:22px;color:#0f1923;}
+
+/*  AVIS  */
+.avis-card{background:#fff;border-radius:14px;padding:14px;box-shadow:0 1px 8px rgba(0,0,0,0.06);margin-bottom:10px;}
+.avis-header{display:flex;align-items:center;gap:10px;margin-bottom:8px;}
+.avis-avatar{width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,#1a1a1a,#374151);display:flex;align-items:center;justify-content:center;color:#fff;font-size:14px;font-weight:800;flex-shrink:0;}
+.avis-name{font-size:13px;font-weight:800;color:#0f1923;}
+.avis-date{font-size:11px;color:#94a3b8;margin-top:1px;}
+.avis-stars{display:flex;gap:2px;color:#FBBF24;font-size:13px;margin-left:auto;}
+.avis-text{font-size:13px;color:#374151;line-height:1.6;}
+
+/*  SCORE  */
+.score-card{background:linear-gradient(135deg,#1a1a1a,#374151);border-radius:18px;padding:20px;display:flex;align-items:center;gap:16px;}
+.score-big{font-size:48px;font-weight:900;color:#fff;line-height:1;letter-spacing:-0.04em;}
+.score-stars{display:flex;gap:3px;color:#FBBF24;font-size:18px;margin-bottom:4px;}
+.score-cnt{font-size:12px;color:rgba(255,255,255,0.5);font-weight:500;}
+.score-bars{flex:1;}
+.score-bar-row{display:flex;align-items:center;gap:8px;margin-bottom:5px;}
+.score-bar-label{font-size:10px;color:rgba(255,255,255,0.6);font-weight:600;width:10px;text-align:right;}
+.score-bar-track{flex:1;height:4px;background:rgba(255,255,255,0.1);border-radius:2px;overflow:hidden;}
+.score-bar-fill{height:100%;background:#FBBF24;border-radius:2px;}
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<div class="hero">
+  <img class="hero-img" src="../assets/rochefort-du-gard/xl-cafe.jpg" alt="XL Café">
+  <div class="hero-overlay"></div>
+  <button class="hero-back" onclick="history.back()">
+    <span class="material-symbols-outlined">arrow_back</span>
+  </button>
+  <div class="hero-share">
+    <span class="material-symbols-outlined">share</span>
+  </div>
+  <div class="hero-content">
+    <div class="hero-badge">Bar · Restaurant · Tapas · Rochefort-du-Gard</div>
+    <div class="hero-name">XL Café</div>
+    <div class="hero-meta">
+      <div class="hero-rating">
+        <span class="cnt">4,3/5 · Google · 2033 avis</span>
+      </div>
+      <div class="hero-pill">Fait maison</div>
+      <div class="hero-pill">Soirées à thème</div>
+    </div>
+  </div>
+</div>
+
+<!-- STATUT -->
+<div class="open-banner">
+  <div class="open-dot"></div>
+  <div>
+    <div class="open-text">Ouvert dès 6h30</div>
+    <div class="open-hours">Lun – Dim · 06h30 – 22h00 · Vendredi & Samedi jusqu'à 01h00</div>
+  </div>
+</div>
+
+<!-- ACTIONS -->
+<div class="actions-bar">
+  <a href="tel:+33490230824" class="action-btn">
+    <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">call</span>
+    <span class="lbl">Appeler</span>
+  </a>
+  <a href="https://www.xl-cafe.fr" target="_blank" class="action-btn">
+    <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">language</span>
+    <span class="lbl">Site web</span>
+  </a>
+  <a href="https://maps.google.com/?q=14+rue+du+marche+30650+Rochefort-du-Gard" target="_blank" class="action-btn">
+    <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">near_me</span>
+    <span class="lbl">Itinéraire</span>
+  </a>
+  <a href="https://www.facebook.com/xlcaferestaurant" target="_blank" class="action-btn">
+    <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">thumb_up</span>
+    <span class="lbl">Facebook</span>
+  </a>
+</div>
+
+<!-- DESCRIPTION -->
+<div class="section">
+  <div class="section-title">Le bar-restaurant</div>
+  <div class="desc-card">
+    <div class="desc-text">
+      XL Café accueille dans une ambiance chaleureuse autour d'une <strong>cuisine authentique et faite maison</strong>. Un chef passionné met à l'honneur les produits frais et locaux — viandes, légumes et fromages sélectionnés auprès de producteurs de la région — pour une cuisine conviviale et accessible.<br><br>
+      Le soir, le bar se transforme en <strong>bar à tapas</strong> avec ses planches de charcuteries et fromages à partager. Et tout au long de l'année, des <strong>soirées à thème</strong> régulières animent le lieu : années 80, fluo, Halloween et bien d'autres.
+    </div>
+  </div>
+  <div class="promo-band">
+    <div class="promo-icon"><span class="material-symbols-outlined" style="font-size:32px;color:#FBBF24;font-variation-settings:'FILL' 1;">celebration</span></div>
+    <div>
+      <div class="promo-title">Privatisation & Traiteur</div>
+      <div class="promo-desc">Salle jusqu'à 100 convives · Anniversaire, baptême, séminaire · Devis rapide sur demande.</div>
+    </div>
+  </div>
+</div>
+
+<!-- CARTE -->
+<div class="section">
+  <div class="section-title">La carte</div>
+  <div class="desc-card">
+    <div style="font-size:11px;font-weight:800;color:#1a1a1a;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:8px;">Restaurant — Midi</div>
+    <div class="menu-row">
+      <div><div class="menu-name">Formule du jour</div><div class="menu-desc">Entrée + Plat + Dessert + Café + 1/4 de vin</div></div>
+      <div class="menu-price">15 €</div>
+    </div>
+    <div class="menu-row">
+      <div><div class="menu-name">Salades</div><div class="menu-desc">Compositions fraîches à base de produits locaux</div></div>
+      <div class="menu-price">—</div>
+    </div>
+    <div class="menu-row">
+      <div><div class="menu-name">Burgers maison</div><div class="menu-desc">Viande sélectionnée, fait maison</div></div>
+      <div class="menu-price">—</div>
+    </div>
+    <div class="menu-row">
+      <div><div class="menu-name">Magret de canard</div><div class="menu-desc">Cuisson soignée, accompagnements du chef</div></div>
+      <div class="menu-price">—</div>
+    </div>
+
+    <div style="font-size:11px;font-weight:800;color:#1a1a1a;text-transform:uppercase;letter-spacing:0.1em;margin:14px 0 8px;">Bar à tapas — Soir</div>
+    <div class="menu-row">
+      <div><div class="menu-name">Planche charcuterie</div><div class="menu-desc">Sélection de charcuteries fines à partager</div></div>
+      <div class="menu-price">—</div>
+    </div>
+    <div class="menu-row">
+      <div><div class="menu-name">Planche fromages</div><div class="menu-desc">Fromages affinés, produits locaux</div></div>
+      <div class="menu-price">—</div>
+    </div>
+
+    <div style="font-size:11px;font-weight:800;color:#1a1a1a;text-transform:uppercase;letter-spacing:0.1em;margin:14px 0 8px;">Traiteur — Événements</div>
+    <div class="menu-row">
+      <div><div class="menu-name">Buffets sur mesure</div><div class="menu-desc">Chauds ou froids, verrines salées et sucrées · Adapté à vos envies</div></div>
+      <div class="menu-price">Devis</div>
+    </div>
+  </div>
+</div>
+
+<!-- TAGS -->
+<div class="section">
+  <div class="section-title">Le bon à savoir</div>
+  <div class="tags-wrap">
+    <div class="tag"><span class="material-symbols-outlined">restaurant</span>Cuisine faite maison</div>
+    <div class="tag"><span class="material-symbols-outlined">eco</span>Produits locaux</div>
+    <div class="tag"><span class="material-symbols-outlined">tapas</span>Bar à tapas le soir</div>
+    <div class="tag"><span class="material-symbols-outlined">nightlife</span>Soirées à thème</div>
+    <div class="tag"><span class="material-symbols-outlined">celebration</span>Privatisation (100 pers.)</div>
+    <div class="tag"><span class="material-symbols-outlined">room_service</span>Service traiteur</div>
+    <div class="tag"><span class="material-symbols-outlined">local_bar</span>Ouvert dès 6h30</div>
+  </div>
+</div>
+
+<!-- INFOS PRATIQUES -->
+<div class="section">
+  <div class="section-title">Infos pratiques</div>
+  <div class="infos-grid">
+    <div class="info-row">
+      <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">location_on</span>
+      <div class="info-row-content">
+        <div class="info-row-label">Adresse</div>
+        <div class="info-row-val">14 rue du Marché · 30650 Rochefort-du-Gard</div>
+      </div>
+      <a href="https://maps.google.com/?q=14+rue+du+marche+30650+Rochefort-du-Gard" target="_blank" class="info-row-action">
+        <span class="material-symbols-outlined">open_in_new</span>
+      </a>
+    </div>
+    <div class="info-row">
+      <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">call</span>
+      <div class="info-row-content">
+        <div class="info-row-label">Téléphone fixe</div>
+        <div class="info-row-val">04 90 23 08 24</div>
+      </div>
+      <a href="tel:+33490230824" class="info-row-action">
+        <span class="material-symbols-outlined">open_in_new</span>
+      </a>
+    </div>
+    <div class="info-row">
+      <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">smartphone</span>
+      <div class="info-row-content">
+        <div class="info-row-label">Mobile</div>
+        <div class="info-row-val">07 80 48 97 07</div>
+      </div>
+      <a href="tel:+33780489707" class="info-row-action">
+        <span class="material-symbols-outlined">open_in_new</span>
+      </a>
+    </div>
+    <div class="info-row">
+      <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">language</span>
+      <div class="info-row-content">
+        <div class="info-row-label">Site web</div>
+        <div class="info-row-val">xl-cafe.fr</div>
+      </div>
+      <a href="https://www.xl-cafe.fr" target="_blank" class="info-row-action">
+        <span class="material-symbols-outlined">open_in_new</span>
+      </a>
+    </div>
+    <div class="info-row">
+      <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">storefront</span>
+      <div class="info-row-content">
+        <div class="info-row-label">Type d'établissement</div>
+        <div class="info-row-val">Bar · Restaurant · Tapas · Traiteur · Événements</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- HORAIRES -->
+<div class="section">
+  <div class="section-title">Horaires</div>
+  <div class="horaires-card">
+    <div class="hrow" data-day="1"><span class="hrow-day">Lundi</span><span class="hrow-time">06h30 – 22h00</span></div>
+    <div class="hrow" data-day="2"><span class="hrow-day">Mardi</span><span class="hrow-time">06h30 – 22h00</span></div>
+    <div class="hrow" data-day="3"><span class="hrow-day">Mercredi</span><span class="hrow-time">06h45 – 22h00</span></div>
+    <div class="hrow" data-day="4"><span class="hrow-day">Jeudi</span><span class="hrow-time">06h45 – 22h00</span></div>
+    <div class="hrow" data-day="5"><span class="hrow-day">Vendredi</span><span class="hrow-time">06h45 – 01h00</span></div>
+    <div class="hrow" data-day="6"><span class="hrow-day">Samedi</span><span class="hrow-time">06h45 – 01h00</span></div>
+    <div class="hrow" data-day="0"><span class="hrow-day">Dimanche</span><span class="hrow-time">06h45 – 22h00</span></div>
+  </div>
+  <div style="font-size:11px;color:#94a3b8;font-weight:500;margin-top:8px;padding:0 4px;">Ouvert 7j/7 · Service midi et soir · Bar à tapas le soir</div>
+</div>
+
+<!-- AVIS -->
+<div class="section">
+  <div class="section-title">Avis clients</div>
+  <div class="score-card">
+    <div style="text-align:center;">
+      <div class="score-big">4,3</div>
+      <div class="score-stars">★★★★☆</div>
+      <div class="score-cnt">2033 avis · Google</div>
+    </div>
+    <div class="score-bars">
+      <div class="score-bar-row"><span class="score-bar-label">5</span><div class="score-bar-track"><div class="score-bar-fill" style="width:60%"></div></div></div>
+      <div class="score-bar-row"><span class="score-bar-label">4</span><div class="score-bar-track"><div class="score-bar-fill" style="width:20%"></div></div></div>
+      <div class="score-bar-row"><span class="score-bar-label">3</span><div class="score-bar-track"><div class="score-bar-fill" style="width:10%"></div></div></div>
+      <div class="score-bar-row"><span class="score-bar-label">2</span><div class="score-bar-track"><div class="score-bar-fill" style="width:5%"></div></div></div>
+      <div class="score-bar-row" style="margin-bottom:0;"><span class="score-bar-label">1</span><div class="score-bar-track"><div class="score-bar-fill" style="width:5%"></div></div></div>
+      <div style="margin-top:10px;font-size:10px;color:rgba(255,255,255,0.4);font-weight:500;">Bar · Restaurant · Rochefort-du-Gard · Ouvert 7j/7</div>
+    </div>
+  </div>
+</div>
+
+<div style="padding:12px 16px 0;">
+  <div class="avis-card">
+    <div class="avis-header">
+      <div class="avis-avatar">N</div>
+      <div><div class="avis-name">Nathalie B.</div><div class="avis-date">Tripadvisor</div></div>
+      <div class="avis-stars">★★★★★</div>
+    </div>
+    <div class="avis-text">Voilà plusieurs midi que nous allons au XL. Accueil parfait, serveuses au top — souriantes, agréables et professionnelles. Cuisine de très bons produits super bien cuisinés. Nous y allons tous les lundis depuis un mois, je recommande fortement.</div>
+  </div>
+  <div class="avis-card">
+    <div class="avis-header">
+      <div class="avis-avatar" style="background:linear-gradient(135deg,#1a1a1a,#374151);">F</div>
+      <div><div class="avis-name">François L.</div><div class="avis-date">Tripadvisor</div></div>
+      <div class="avis-stars">★★★★★</div>
+    </div>
+    <div class="avis-text">Bon accueil, service rapide, du choix en entrée et plat du jour. En plus c'est bon et frais. Un très bon rapport qualité-prix.</div>
+  </div>
+  <div class="avis-card">
+    <div class="avis-header">
+      <div class="avis-avatar" style="background:linear-gradient(135deg,#374151,#6b7280);">M</div>
+      <div><div class="avis-name">Marc D.</div><div class="avis-date">Restaurant Guru · 4,4/5</div></div>
+      <div class="avis-stars">★★★★★</div>
+    </div>
+    <div class="avis-text">Très bon accueil et menu du jour excellent. Service chaleureux. Entrée, plat, dessert et café pour 3 personnes : 57 €. Un très bon rapport qualité-prix.</div>
+  </div>
+</div>
+
+<!-- MAP -->
+<div class="section" style="padding-bottom:16px;">
+  <div class="section-title">Localisation</div>
+  <a href="https://maps.google.com/?q=14+rue+du+marche+30650+Rochefort-du-Gard" target="_blank"
+     style="display:block;border-radius:16px;overflow:hidden;height:160px;background:linear-gradient(135deg,#f1f5f9,#e2e8f0);position:relative;text-decoration:none;">
+    <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:8px;">
+      <span class="material-symbols-outlined" style="font-size:40px;color:#0f1923;font-variation-settings:'FILL' 1;">location_on</span>
+      <div style="font-size:14px;font-weight:800;color:#0f1923;">14 rue du Marché</div>
+      <div style="font-size:12px;font-weight:500;color:#64748b;">30650 Rochefort-du-Gard</div>
+      <div style="display:flex;align-items:center;gap:4px;background:#fff;padding:6px 14px;border-radius:20px;box-shadow:0 2px 8px rgba(0,0,0,0.1);margin-top:4px;">
+        <span class="material-symbols-outlined" style="font-size:14px;color:#0f1923;">near_me</span>
+        <span style="font-size:11px;font-weight:700;color:#0f1923;">Ouvrir dans Maps</span>
+      </div>
+    </div>
+  </a>
+</div>
+
+<!-- BOTTOM CTA -->
+<div class="cta-bottom">
+  <a href="tel:+33490230824" class="cta-call">
+    <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">call</span>
+    Appeler · 04 90 23 08 24
+  </a>
+  <a href="https://maps.google.com/?q=14+rue+du+marche+30650+Rochefort-du-Gard" target="_blank" class="cta-map">
+    <span class="material-symbols-outlined">near_me</span>
+  </a>
+</div>
+
+<script>
+(function(){
+  var today = new Date().getDay();
+  document.querySelectorAll('.hrow[data-day]').forEach(function(row){
+    if(parseInt(row.dataset.day) === today){
+      var dayEl = row.querySelector('.hrow-day');
+      if(dayEl){
+        dayEl.style.fontWeight = '800';
+        dayEl.style.color = '#0f1923';
+        var badge = document.createElement('span');
+        badge.className = 'hrow-badge';
+        badge.style.marginLeft = '8px';
+        badge.textContent = 'Auj.';
+        dayEl.appendChild(badge);
+      }
+    }
+  });
+})();
+</script>
+</body>
+</html>
