@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1"/>
+<title>Les Vignobles de Signargues — Rochefort-du-Gard</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800;900&family=Inter:wght@300;400;500;600&display=swap"/>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html,body{font-family:'Manrope',sans-serif;background:#f8f9fa;color:#0f1923;-webkit-overflow-scrolling:touch;}
+body{padding-bottom:90px;}
+
+.hero{position:relative;height:320px;overflow:hidden;}
+.hero-img{width:100%;height:100%;object-fit:cover;display:block;}
+.hero-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,0.85) 0%,rgba(0,0,0,0.2) 55%,transparent 100%);}
+.hero-back{position:absolute;top:16px;left:16px;width:40px;height:40px;border-radius:50%;background:rgba(255,255,255,0.15);backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,0.25);display:flex;align-items:center;justify-content:center;cursor:pointer;z-index:10;}
+.hero-back .material-symbols-outlined{color:#fff;font-size:20px;}
+.hero-share{position:absolute;top:16px;right:16px;width:40px;height:40px;border-radius:50%;background:rgba(255,255,255,0.15);backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,0.25);display:flex;align-items:center;justify-content:center;cursor:pointer;z-index:10;}
+.hero-share .material-symbols-outlined{color:#fff;font-size:20px;}
+.hero-content{position:absolute;bottom:0;left:0;right:0;padding:20px 20px 24px;}
+.hero-badge{display:inline-flex;align-items:center;gap:5px;background:rgba(70,20,50,0.88);backdrop-filter:blur(6px);color:#e8c4d4;font-size:9px;font-weight:800;letter-spacing:0.12em;text-transform:uppercase;padding:5px 12px;border-radius:20px;margin-bottom:10px;}
+.hero-badge::before{content:'';width:5px;height:5px;background:#e8c4d4;border-radius:50%;}
+.hero-name{font-size:28px;font-weight:900;color:#fff;line-height:1.05;letter-spacing:-0.02em;margin-bottom:8px;}
+.hero-meta{display:flex;align-items:center;gap:12px;flex-wrap:wrap;}
+.hero-pill{background:rgba(255,255,255,0.15);backdrop-filter:blur(6px);border:1px solid rgba(255,255,255,0.25);color:#fff;font-size:10px;font-weight:700;padding:4px 10px;border-radius:20px;}
+
+.info-banner{margin:16px 16px 0;background:#fdf5f8;border-radius:14px;padding:12px 16px;display:flex;align-items:flex-start;gap:10px;border:1px solid #e8c4d4;}
+.info-banner .material-symbols-outlined{font-size:20px;color:#7c2050;flex-shrink:0;margin-top:1px;}
+.info-text{font-size:13px;font-weight:700;color:#3d0f28;}
+.info-sub{font-size:12px;font-weight:500;color:#7c2050;margin-top:2px;line-height:1.5;}
+
+.actions-bar{display:flex;gap:10px;padding:16px 16px 0;}
+.action-btn{flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;padding:12px 8px;background:#fff;border-radius:14px;box-shadow:0 2px 10px rgba(0,0,0,0.06);cursor:pointer;border:none;font-family:Manrope;text-decoration:none;transition:all 0.15s;}
+.action-btn:active{transform:scale(0.96);}
+.action-btn .material-symbols-outlined{font-size:22px;color:#6b1a40;}
+.action-btn .lbl{font-size:10px;font-weight:700;color:#0f1923;letter-spacing:0.02em;}
+
+.section{padding:24px 16px 0;}
+.section-title{font-size:17px;font-weight:900;color:#0f1923;letter-spacing:-0.02em;margin-bottom:12px;}
+
+.desc-card{background:#fff;border-radius:16px;padding:16px;box-shadow:0 2px 10px rgba(0,0,0,0.06);}
+.desc-text{font-size:14px;line-height:1.7;color:#374151;font-weight:400;}
+
+.highlight-band{background:linear-gradient(135deg,#3d0f28,#6b1a40);border-radius:14px;padding:14px 16px;display:flex;align-items:center;gap:14px;margin-top:12px;}
+.highlight-icon{flex-shrink:0;}
+.highlight-title{font-size:13px;font-weight:800;color:#fff;margin-bottom:3px;}
+.highlight-desc{font-size:12px;color:rgba(255,255,255,0.8);line-height:1.5;}
+
+/* CHIFFRES CLÉS */
+.stats-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+.stat-card{background:#fff;border-radius:14px;padding:14px;box-shadow:0 2px 10px rgba(0,0,0,0.06);text-align:center;}
+.stat-number{font-size:28px;font-weight:900;color:#6b1a40;letter-spacing:-0.02em;line-height:1;}
+.stat-label{font-size:11px;font-weight:600;color:#64748b;margin-top:4px;line-height:1.3;}
+
+/* CÉPAGES */
+.cepage-row{display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid #f1f5f9;}
+.cepage-row:last-child{border-bottom:none;}
+.cepage-name{font-size:14px;font-weight:700;color:#0f1923;}
+.cepage-role{font-size:11px;font-weight:500;color:#94a3b8;margin-top:2px;}
+.cepage-bar-wrap{flex:1;margin:0 16px;height:6px;background:#f1f5f9;border-radius:3px;overflow:hidden;}
+.cepage-bar{height:100%;background:linear-gradient(90deg,#6b1a40,#a83060);border-radius:3px;}
+.cepage-pct{font-size:12px;font-weight:800;color:#6b1a40;flex-shrink:0;}
+
+/* TERROIR CARD */
+.terroir-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+.terroir-item{background:#fff;border-radius:12px;padding:12px;box-shadow:0 1px 6px rgba(0,0,0,0.06);}
+.terroir-icon{font-size:18px;color:#6b1a40;margin-bottom:6px;}
+.terroir-label{font-size:10px;font-weight:700;color:#94a3b8;text-transform:uppercase;letter-spacing:0.08em;margin-bottom:3px;}
+.terroir-val{font-size:12px;font-weight:700;color:#0f1923;line-height:1.4;}
+
+/* LEGENDE */
+.legende-card{background:linear-gradient(135deg,#fdf5f8,#f5e8ef);border-radius:14px;padding:16px;border-left:4px solid #6b1a40;margin-top:12px;}
+.legende-title{font-size:12px;font-weight:800;color:#3d0f28;text-transform:uppercase;letter-spacing:0.08em;margin-bottom:8px;}
+.legende-text{font-size:13px;color:#374151;line-height:1.7;font-style:italic;}
+
+/* COMMUNES */
+.communes-grid{display:flex;flex-wrap:wrap;gap:8px;}
+.commune-pill{display:inline-flex;align-items:center;gap:6px;background:#fff;border-radius:10px;padding:10px 14px;box-shadow:0 1px 8px rgba(0,0,0,0.07);}
+.commune-pill .material-symbols-outlined{font-size:16px;color:#6b1a40;}
+.commune-name{font-size:13px;font-weight:700;color:#0f1923;}
+.commune-sub{font-size:10px;color:#94a3b8;font-weight:500;}
+
+.tags-wrap{display:flex;flex-wrap:wrap;gap:8px;}
+.tag{display:inline-flex;align-items:center;gap:5px;background:#fff;border-radius:100px;padding:7px 12px;font-size:11px;font-weight:700;color:#374151;box-shadow:0 1px 6px rgba(0,0,0,0.07);}
+.tag .material-symbols-outlined{font-size:14px;color:#6b1a40;}
+
+.infos-grid{display:flex;flex-direction:column;gap:1px;background:#f1f5f9;border-radius:16px;overflow:hidden;box-shadow:0 2px 10px rgba(0,0,0,0.06);}
+.info-row{background:#fff;padding:13px 16px;display:flex;align-items:center;gap:12px;}
+.info-row .material-symbols-outlined{font-size:20px;color:#6b1a40;flex-shrink:0;}
+.info-row-content{flex:1;}
+.info-row-label{font-size:11px;font-weight:600;color:#94a3b8;margin-bottom:2px;}
+.info-row-val{font-size:14px;font-weight:700;color:#0f1923;}
+.info-row-action{width:32px;height:32px;border-radius:50%;background:#fdf5f8;display:flex;align-items:center;justify-content:center;flex-shrink:0;text-decoration:none;}
+.info-row-action .material-symbols-outlined{font-size:16px;color:#6b1a40;}
+
+.cta-bottom{position:fixed;bottom:0;left:0;right:0;padding:12px 16px 20px;background:rgba(255,255,255,0.95);backdrop-filter:blur(20px);border-top:1px solid rgba(0,0,0,0.06);display:flex;gap:10px;z-index:100;}
+.cta-call{flex:1;display:flex;align-items:center;justify-content:center;gap:8px;background:#3d0f28;color:#fff;border:none;border-radius:14px;padding:15px;font-family:Manrope;font-size:15px;font-weight:800;cursor:pointer;text-decoration:none;transition:all 0.15s;}
+.cta-call:active{transform:scale(0.97);}
+.cta-call .material-symbols-outlined{font-size:19px;}
+.cta-map{width:52px;height:52px;border-radius:14px;background:#fff;border:1.5px solid #e2e8f0;display:flex;align-items:center;justify-content:center;cursor:pointer;text-decoration:none;flex-shrink:0;}
+.cta-map:active{transform:scale(0.96);}
+.cta-map .material-symbols-outlined{font-size:22px;color:#0f1923;}
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<div class="hero">
+  <img class="hero-img" src="../assets/rochefort-du-gard/poi_004.jpg" alt="Vignobles de Signargues">
+  <div class="hero-overlay"></div>
+  <button class="hero-back" onclick="history.back()">
+    <span class="material-symbols-outlined">arrow_back</span>
+  </button>
+  <div class="hero-share">
+    <span class="material-symbols-outlined">share</span>
+  </div>
+  <div class="hero-content">
+    <div class="hero-badge">AOC · Côtes du Rhône Villages · Depuis 2004</div>
+    <div class="hero-name">Les Vignobles de Signargues</div>
+    <div class="hero-meta">
+      <div class="hero-pill">Vins rouges uniquement</div>
+      <div class="hero-pill">445 ha · 4 communes</div>
+      <div class="hero-pill">Galets roulés</div>
+    </div>
+  </div>
+</div>
+
+<!-- BANNER -->
+<div class="info-banner">
+  <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">wine_bar</span>
+  <div>
+    <div class="info-text">Le terroir le plus méridional des Côtes du Rhône Villages nommés</div>
+    <div class="info-sub">Entre Avignon et le Pont du Gard · Plateau à 150 m d'altitude balayé par le Mistral</div>
+  </div>
+</div>
+
+<!-- ACTIONS -->
+<div class="actions-bar">
+  <a href="https://www.signargues.com" target="_blank" class="action-btn">
+    <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">language</span>
+    <span class="lbl">AOC</span>
+  </a>
+  <a href="https://www.vignerons-castelas.fr" target="_blank" class="action-btn">
+    <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">liquor</span>
+    <span class="lbl">Cave locale</span>
+  </a>
+  <a href="https://maps.google.com/?q=Signargues+Rochefort-du-Gard" target="_blank" class="action-btn">
+    <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">near_me</span>
+    <span class="lbl">Y aller</span>
+  </a>
+  <a href="https://www.vins-rhone.com/vignobles/appellations/signargues" target="_blank" class="action-btn">
+    <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">travel_explore</span>
+    <span class="lbl">En savoir +</span>
+  </a>
+</div>
+
+<!-- DESCRIPTION -->
+<div class="section">
+  <div class="section-title">L'appellation</div>
+  <div class="desc-card">
+    <div class="desc-text">
+      Le <strong>Côtes du Rhône Villages Signargues</strong> est une appellation d'origine contrôlée reconnue à partir du millésime <strong>2004</strong> (consacrée en 2005), couvrant 445 hectares répartis sur quatre communes gardoises : Domazan, Estézargues, Rochefort-du-Gard et Saze.<br><br>
+      Ce territoire hors du commun est planté sur l'<strong>ancien lit du Rhône</strong> : un plateau de galets roulés millénaires, rougis par l'oxyde de fer déposé par le fleuve venu des Alpes. Par endroits, on peut creuser sur plus d'un mètre avant d'atteindre l'argile et le sable sous les galets. La garrigue toute proche apporte des arômes très particuliers de <strong>sous-bois et de fruits noirs</strong>.<br><br>
+      Signargues produit <strong>uniquement des vins rouges</strong> — subtils, élégants et racés, avec des arômes de fruits noirs et de mûres, d'une concentration et d'une puissance rares même pour la Vallée du Rhône.
+    </div>
+  </div>
+  <div class="highlight-band">
+    <div class="highlight-icon"><span class="material-symbols-outlined" style="font-size:32px;color:#e8c4d4;font-variation-settings:'FILL' 1;">diamond</span></div>
+    <div>
+      <div class="highlight-title">Au cœur d'un triangle d'exception</div>
+      <div class="highlight-desc">Entre Avignon (cité des Papes), le Pont du Gard et les appellations Tavel, Lirac et Châteauneuf-du-Pape.</div>
+    </div>
+  </div>
+</div>
+
+<!-- CHIFFRES CLÉS -->
+<div class="section">
+  <div class="section-title">L'appellation en chiffres</div>
+  <div class="stats-grid">
+    <div class="stat-card">
+      <div class="stat-number">445</div>
+      <div class="stat-label">Hectares de vignes</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-number">4</div>
+      <div class="stat-label">Communes gardoises</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-number">150 m</div>
+      <div class="stat-label">Altitude du plateau</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-number">2004</div>
+      <div class="stat-label">Millésime fondateur</div>
+    </div>
+  </div>
+</div>
+
+<!-- TERROIR -->
+<div class="section">
+  <div class="section-title">Le terroir</div>
+  <div class="terroir-grid">
+    <div class="terroir-item">
+      <div class="terroir-icon"><span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">landscape</span></div>
+      <div class="terroir-label">Sol</div>
+      <div class="terroir-val">Galets roulés sur sables et marnes du Pliocène rougis par l'oxyde de fer</div>
+    </div>
+    <div class="terroir-item">
+      <div class="terroir-icon"><span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">air</span></div>
+      <div class="terroir-label">Climat</div>
+      <div class="terroir-val">Méditerranéen, chaud et sec · Très influencé par le Mistral</div>
+    </div>
+    <div class="terroir-item">
+      <div class="terroir-icon"><span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">wb_sunny</span></div>
+      <div class="terroir-label">Saisons</div>
+      <div class="terroir-val">Deux sèches (hiver court, été long) · Deux pluvieuses (automne, printemps)</div>
+    </div>
+    <div class="terroir-item">
+      <div class="terroir-icon"><span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">local_florist</span></div>
+      <div class="terroir-label">Environnement</div>
+      <div class="terroir-val">Garrigue environnante · Arômes de sous-bois et fruits noirs</div>
+    </div>
+  </div>
+</div>
+
+<!-- CÉPAGES -->
+<div class="section">
+  <div class="section-title">Les cépages</div>
+  <div class="desc-card">
+    <div style="font-size:11px;font-weight:800;color:#6b1a40;text-transform:uppercase;letter-spacing:0.08em;margin-bottom:10px;">Cépages principaux (min. 80 % de l'encépagement)</div>
+    <div class="cepage-row">
+      <div><div class="cepage-name">Grenache N</div><div class="cepage-role">Cépage principal · min. 40 %</div></div>
+      <div class="cepage-bar-wrap"><div class="cepage-bar" style="width:70%"></div></div>
+      <div class="cepage-pct">40 %+</div>
+    </div>
+    <div class="cepage-row">
+      <div><div class="cepage-name">Syrah N</div><div class="cepage-role">Cépage principal · min. 25 % (avec Mourvèdre)</div></div>
+      <div class="cepage-bar-wrap"><div class="cepage-bar" style="width:45%"></div></div>
+      <div class="cepage-pct">25 %+</div>
+    </div>
+    <div class="cepage-row">
+      <div><div class="cepage-name">Mourvèdre N</div><div class="cepage-role">Cépage principal · min. 25 % (avec Syrah)</div></div>
+      <div class="cepage-bar-wrap"><div class="cepage-bar" style="width:35%"></div></div>
+      <div class="cepage-pct">25 %+</div>
+    </div>
+    <div style="font-size:11px;font-weight:800;color:#6b1a40;text-transform:uppercase;letter-spacing:0.08em;margin:14px 0 10px;">Cépages accessoires</div>
+    <div class="cepage-row">
+      <div><div class="cepage-name">Cinsault, Carignan, Counoise</div><div class="cepage-role">Accessoires · max. 20 % au total</div></div>
+      <div class="cepage-bar-wrap"><div class="cepage-bar" style="width:20%"></div></div>
+      <div class="cepage-pct">≤ 20 %</div>
+    </div>
+    <div class="cepage-row">
+      <div><div class="cepage-name">Vaccarèse (Camarèse)</div><div class="cepage-role">Cépage local · Brun argenté</div></div>
+      <div class="cepage-bar-wrap"><div class="cepage-bar" style="width:10%"></div></div>
+      <div class="cepage-pct">Rare</div>
+    </div>
+    <div style="font-size:11px;color:#94a3b8;font-weight:500;margin-top:10px;">Rendement max. : 41 hl/ha · 24 cépages autorisés au total · Cahier des charges modifié nov. 2024</div>
+  </div>
+</div>
+
+<!-- HISTOIRE -->
+<div class="section">
+  <div class="section-title">Un terroir chargé d'histoire</div>
+  <div class="desc-card">
+    <div class="desc-text">
+      Bien avant les vignes, le plateau de Signargues était un haut lieu de l'histoire. Occupé lors de la <strong>colonisation romaine</strong>, il a livré aux archéologues une statuette à double face représentant <strong>Bacchus et Ariane</strong>, aujourd'hui exposée au <strong>musée du Louvre</strong> à Paris.<br><br>
+      En <strong>736</strong>, Signargues est le théâtre d'une grande bataille : les troupes de <strong>Charles Martel</strong> y affrontent les Sarrasins qui occupaient le sud de la France. La légende veut qu'il fallût trois jours entiers pour enterrer les morts. En commémoration, le roi Franc fit construire une chapelle dédiée à <strong>saint Jean des Vignes</strong>. C'est de ce passé tumultueux que viendrait le nom : <em>« Sign »</em> faisant référence au sang versé, <em>« argues »</em> à la cité romaine.
+    </div>
+  </div>
+  <div class="legende-card">
+    <div class="legende-title">Le nom Signargues</div>
+    <div class="legende-text">« Sign » — le sang versé lors des invasions sarrasines. « Argues » — la cité romaine. Il n'existe aucune commune portant ce nom sur la carte : Signargues est un plateau, un terroir, une mémoire gravée dans la roche et dans les galets roulés du vieux Rhône.</div>
+  </div>
+</div>
+
+<!-- COMMUNES -->
+<div class="section">
+  <div class="section-title">Les 4 communes de l'appellation</div>
+  <div class="communes-grid">
+    <div class="commune-pill">
+      <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">location_city</span>
+      <div><div class="commune-name">Rochefort-du-Gard</div><div class="commune-sub">Commune principale</div></div>
+    </div>
+    <div class="commune-pill">
+      <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">location_city</span>
+      <div><div class="commune-name">Domazan</div><div class="commune-sub">Rive droite du Rhône</div></div>
+    </div>
+    <div class="commune-pill">
+      <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">location_city</span>
+      <div><div class="commune-name">Estézargues</div><div class="commune-sub">Gard</div></div>
+    </div>
+    <div class="commune-pill">
+      <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">location_city</span>
+      <div><div class="commune-name">Saze</div><div class="commune-sub">Gard</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- TAGS -->
+<div class="section">
+  <div class="section-title">À retenir</div>
+  <div class="tags-wrap">
+    <div class="tag"><span class="material-symbols-outlined">wine_bar</span>Vins rouges uniquement</div>
+    <div class="tag"><span class="material-symbols-outlined">landscape</span>Galets roulés du Rhône</div>
+    <div class="tag"><span class="material-symbols-outlined">air</span>Mistral assainissant</div>
+    <div class="tag"><span class="material-symbols-outlined">history</span>Bataille de 736 (Charles Martel)</div>
+    <div class="tag"><span class="material-symbols-outlined">museum</span>Statuette au Louvre</div>
+    <div class="tag"><span class="material-symbols-outlined">eco</span>Agriculture raisonnée</div>
+    <div class="tag"><span class="material-symbols-outlined">liquor</span>Dégustation à la cave du Castelas</div>
+  </div>
+</div>
+
+<!-- INFOS -->
+<div class="section">
+  <div class="section-title">Infos appellation</div>
+  <div class="infos-grid">
+    <div class="info-row">
+      <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">verified</span>
+      <div class="info-row-content">
+        <div class="info-row-label">Statut</div>
+        <div class="info-row-val">AOC Côtes du Rhône Villages Signargues</div>
+      </div>
+    </div>
+    <div class="info-row">
+      <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">event</span>
+      <div class="info-row-content">
+        <div class="info-row-label">Reconnaissance officielle</div>
+        <div class="info-row-val">À partir du millésime 2004 · Consacrée en 2005</div>
+      </div>
+    </div>
+    <div class="info-row">
+      <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">straighten</span>
+      <div class="info-row-content">
+        <div class="info-row-label">Superficie</div>
+        <div class="info-row-val">445 ha · 4 communes du Gard</div>
+      </div>
+    </div>
+    <div class="info-row">
+      <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">production_quantity_limits</span>
+      <div class="info-row-content">
+        <div class="info-row-label">Rendement maximum</div>
+        <div class="info-row-val">41 hl/ha</div>
+      </div>
+    </div>
+    <div class="info-row">
+      <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">language</span>
+      <div class="info-row-content">
+        <div class="info-row-label">Site officiel de l'appellation</div>
+        <div class="info-row-val">signargues.com</div>
+      </div>
+      <a href="https://www.signargues.com" target="_blank" class="info-row-action">
+        <span class="material-symbols-outlined">open_in_new</span>
+      </a>
+    </div>
+    <div class="info-row">
+      <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">liquor</span>
+      <div class="info-row-content">
+        <div class="info-row-label">Cave locale — Les Vignerons du Castelas</div>
+        <div class="info-row-val">674 avenue de Signargues · 04 90 26 62 66</div>
+      </div>
+      <a href="tel:+33490266266" class="info-row-action">
+        <span class="material-symbols-outlined">open_in_new</span>
+      </a>
+    </div>
+  </div>
+</div>
+
+<!-- MAP -->
+<div class="section" style="padding-bottom:16px;">
+  <div class="section-title">Localisation du terroir</div>
+  <a href="https://maps.google.com/?q=Signargues+Rochefort-du-Gard+30650" target="_blank"
+     style="display:block;border-radius:16px;overflow:hidden;height:160px;background:linear-gradient(135deg,#fdf5f8,#e8c4d4);position:relative;text-decoration:none;">
+    <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:8px;">
+      <span class="material-symbols-outlined" style="font-size:40px;color:#3d0f28;font-variation-settings:'FILL' 1;">location_on</span>
+      <div style="font-size:14px;font-weight:800;color:#0f1923;">Plateau de Signargues</div>
+      <div style="font-size:12px;font-weight:500;color:#64748b;">Rochefort-du-Gard · 150 m d'altitude · Entre Avignon et le Pont du Gard</div>
+      <div style="display:flex;align-items:center;gap:4px;background:#fff;padding:6px 14px;border-radius:20px;box-shadow:0 2px 8px rgba(0,0,0,0.1);margin-top:4px;">
+        <span class="material-symbols-outlined" style="font-size:14px;color:#3d0f28;">near_me</span>
+        <span style="font-size:11px;font-weight:700;color:#0f1923;">Y aller</span>
+      </div>
+    </div>
+  </a>
+</div>
+
+<!-- BOTTOM CTA -->
+<div class="cta-bottom">
+  <a href="https://www.signargues.com" target="_blank" class="cta-call">
+    <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">language</span>
+    Site officiel de l'appellation
+  </a>
+  <a href="https://maps.google.com/?q=Signargues+Rochefort-du-Gard+30650" target="_blank" class="cta-map">
+    <span class="material-symbols-outlined">near_me</span>
+  </a>
+</div>
+
+</body>
+</html>
