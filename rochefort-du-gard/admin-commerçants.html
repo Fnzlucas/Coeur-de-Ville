@@ -1,0 +1,1307 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<meta name="theme-color" content="#1a3a6e"/>
+<title>Espace Commerçant — Cœur de Ville · Rochefort-du-Gard</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"/>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html,body{font-family:'Inter',-apple-system,sans-serif;background:#f4f5f7;color:#1a1a1a;-webkit-font-smoothing:antialiased;font-size:14px;line-height:1.5;}
+
+:root{
+  --blue:#1a3a6e;
+  --blue-dark:#142d56;
+  --blue-light:#eef2f8;
+  --blue-mid:#3a6aae;
+  --red:#c8102e;
+  --orange:#e67e22;
+  --green:#16a34a;
+  --border:#dde1e7;
+  --bg:#f4f5f7;
+  --card:#fff;
+  --text:#1a1a1a;
+  --muted:#5a6470;
+  --soft:#374151;
+}
+
+/* ══ LOGIN ══ */
+#login-screen{position:fixed;inset:0;z-index:200;background:var(--bg);display:flex;align-items:center;justify-content:center;padding:20px;}
+#login-screen.hidden{display:none;}
+.login-wrap{width:100%;max-width:420px;}
+.login-band{background:var(--blue);color:#fff;padding:16px 24px;border-radius:8px 8px 0 0;display:flex;align-items:center;gap:14px;border-top:4px solid var(--red);}
+.login-band .material-symbols-outlined{font-size:26px;}
+.login-band-title{font-size:16px;font-weight:800;margin-bottom:2px;}
+.login-band-sub{font-size:11px;color:rgba(255,255,255,0.75);font-weight:500;}
+.login-card{background:#fff;border:1px solid var(--border);border-top:none;border-radius:0 0 8px 8px;padding:28px 24px;}
+.login-field-label{font-size:12px;font-weight:600;display:block;margin-bottom:5px;color:var(--soft);}
+.login-input{width:100%;border:1.5px solid #d0d5dc;border-radius:6px;padding:10px 12px;font-family:Inter;font-size:14px;outline:none;margin-bottom:14px;transition:all 0.12s;}
+.login-input:focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(26,58,110,0.1);}
+.login-row{display:flex;align-items:center;justify-content:space-between;margin-top:4px;}
+.login-forgot{font-size:12px;color:var(--blue);background:none;border:none;cursor:pointer;text-decoration:underline;font-family:inherit;}
+.login-btn{background:var(--blue);color:#fff;border:none;border-radius:6px;padding:10px 22px;font-family:Inter;font-size:13px;font-weight:700;cursor:pointer;display:flex;align-items:center;gap:6px;transition:background 0.12s;}
+.login-btn:hover{background:var(--blue-dark);}
+.login-btn .material-symbols-outlined{font-size:17px;}
+.login-error{margin-top:12px;padding:10px 12px;background:#fef2f2;border:1px solid #fecaca;border-left:3px solid var(--red);color:#991b1b;font-size:12px;border-radius:4px;display:none;align-items:center;gap:8px;}
+.login-hint{margin-top:18px;padding:10px 14px;background:var(--bg);border:1px dashed var(--border);border-radius:4px;font-size:11px;color:var(--muted);line-height:1.7;}
+.login-hint strong{color:var(--text);}
+
+/* ══ TOPBAR ══ */
+.topbar{background:var(--blue);color:#fff;border-bottom:3px solid var(--red);height:54px;display:flex;align-items:center;justify-content:space-between;padding:0 24px;position:sticky;top:0;z-index:100;}
+.topbar-left{display:flex;align-items:center;gap:16px;}
+.topbar-brand{font-size:14px;font-weight:800;letter-spacing:-0.01em;}
+.topbar-sep{color:rgba(255,255,255,0.25);font-size:18px;margin:0 2px;}
+.topbar-commerce-name{font-size:13px;font-weight:600;color:rgba(255,255,255,0.9);}
+.topbar-right{display:flex;align-items:center;gap:8px;}
+.topbar-notif-quota{background:rgba(255,255,255,0.12);border:1px solid rgba(255,255,255,0.2);border-radius:20px;padding:4px 12px;font-size:11px;font-weight:700;color:#fff;display:flex;align-items:center;gap:5px;cursor:default;}
+.topbar-notif-quota .material-symbols-outlined{font-size:14px;}
+.topbar-notif-quota.warn{background:rgba(231,126,34,0.25);border-color:rgba(231,126,34,0.5);color:#fed7aa;}
+.topbar-notif-quota.full{background:rgba(200,16,46,0.25);border-color:rgba(200,16,46,0.5);color:#fecaca;}
+.topbar-user{display:flex;align-items:center;gap:8px;padding:5px 10px;border-radius:6px;cursor:pointer;}
+.topbar-user:hover{background:rgba(255,255,255,0.1);}
+.topbar-avatar{width:30px;height:30px;border-radius:50%;background:rgba(255,255,255,0.2);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:800;}
+.topbar-icon-btn{background:none;border:none;color:rgba(255,255,255,0.8);cursor:pointer;width:34px;height:34px;border-radius:4px;display:flex;align-items:center;justify-content:center;}
+.topbar-icon-btn:hover{background:rgba(255,255,255,0.1);color:#fff;}
+.topbar-icon-btn .material-symbols-outlined{font-size:19px;}
+
+/* ══ LAYOUT ══ */
+.layout{display:flex;min-height:calc(100vh - 54px);}
+.sidebar{width:230px;background:#fff;border-right:1px solid var(--border);flex-shrink:0;position:sticky;top:54px;height:calc(100vh - 54px);overflow-y:auto;display:flex;flex-direction:column;}
+.sb-section{font-size:10px;font-weight:700;color:#9ca3af;letter-spacing:0.08em;text-transform:uppercase;padding:16px 16px 6px;}
+.sb-link{display:flex;align-items:center;gap:9px;padding:9px 16px;font-size:12.5px;font-weight:500;color:var(--soft);cursor:pointer;border-left:3px solid transparent;transition:all 0.12s;text-decoration:none;}
+.sb-link:hover{background:var(--bg);color:var(--text);}
+.sb-link.active{background:var(--blue-light);color:var(--blue);border-left-color:var(--blue);font-weight:600;}
+.sb-link .material-symbols-outlined{font-size:17px;color:#9ca3af;}
+.sb-link.active .material-symbols-outlined{color:var(--blue);}
+.sb-link .badge-red{margin-left:auto;background:var(--red);color:#fff;font-size:9px;font-weight:700;padding:1px 5px;border-radius:10px;}
+.sb-foot{margin-top:auto;padding:12px 16px;border-top:1px solid var(--border);font-size:10px;color:#9ca3af;line-height:1.6;}
+.sb-foot a{color:var(--blue);text-decoration:none;}
+
+/* ══ MAIN ══ */
+.main{flex:1;padding:28px 36px 60px;max-width:1100px;}
+.breadcrumb{display:flex;align-items:center;gap:5px;font-size:11px;color:var(--muted);margin-bottom:18px;}
+.breadcrumb a{color:var(--blue);text-decoration:none;cursor:pointer;}
+.breadcrumb .material-symbols-outlined{font-size:13px;color:#bbb;}
+.page-title{font-size:21px;font-weight:800;color:var(--text);letter-spacing:-0.02em;margin-bottom:4px;}
+.page-sub{font-size:12px;color:var(--muted);margin-bottom:22px;line-height:1.6;}
+.page-header-row{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:22px;gap:12px;flex-wrap:wrap;}
+
+/* ══ CARDS STAT ══ */
+.stats-row{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:24px;}
+.stat-card{background:#fff;border:1px solid var(--border);border-radius:8px;padding:16px 18px;}
+.stat-card-head{display:flex;align-items:center;gap:7px;margin-bottom:10px;}
+.stat-card-head .material-symbols-outlined{font-size:17px;color:#9ca3af;}
+.stat-card-label{font-size:11px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:0.04em;}
+.stat-value{font-size:24px;font-weight:800;color:var(--text);letter-spacing:-0.02em;line-height:1;margin-bottom:4px;}
+.stat-extra{font-size:11px;color:var(--muted);}
+.stat-extra .up{color:var(--green);font-weight:600;}
+.stat-extra .warn{color:var(--orange);font-weight:700;}
+.stat-extra .danger{color:var(--red);font-weight:700;}
+.stat-progress{height:4px;background:#e9ecf0;border-radius:2px;margin-top:10px;overflow:hidden;}
+.stat-progress-fill{height:100%;border-radius:2px;transition:width 0.6s ease;}
+
+/* ══ PANELS ══ */
+.panel{background:#fff;border:1px solid var(--border);border-radius:8px;margin-bottom:18px;}
+.panel-head{padding:14px 20px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;}
+.panel-title{font-size:13px;font-weight:700;color:var(--text);display:flex;align-items:center;gap:8px;}
+.panel-title .material-symbols-outlined{font-size:17px;color:#9ca3af;}
+.panel-body{padding:20px;}
+
+/* ══ FORM ══ */
+.field{margin-bottom:18px;}
+.field-label{font-size:12px;font-weight:600;color:var(--soft);margin-bottom:6px;display:flex;align-items:center;justify-content:space-between;}
+.field-req{color:var(--red);margin-left:2px;}
+.field-counter{font-size:11px;color:var(--muted);font-weight:400;}
+.field-counter.warn{color:var(--orange);font-weight:600;}
+.field-input,.field-textarea,.field-select{width:100%;border:1.5px solid #d0d5dc;border-radius:6px;padding:9px 12px;font-family:Inter;font-size:13px;color:var(--text);outline:none;transition:all 0.12s;background:#fff;}
+.field-input:focus,.field-textarea:focus,.field-select:focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(26,58,110,0.1);}
+.field-textarea{resize:vertical;min-height:80px;line-height:1.6;}
+.field-help{font-size:11px;color:var(--muted);margin-top:4px;line-height:1.5;}
+.form-grid-2{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+.form-grid-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;}
+
+/* ══ BOUTONS ══ */
+.btn{display:inline-flex;align-items:center;gap:6px;padding:8px 16px;font-family:Inter;font-size:12px;font-weight:600;border-radius:6px;cursor:pointer;transition:all 0.12s;border:1.5px solid var(--border);background:#fff;color:var(--text);}
+.btn:hover{background:var(--bg);}
+.btn .material-symbols-outlined{font-size:15px;}
+.btn-sm{padding:5px 10px;font-size:11px;}
+.btn-primary{background:var(--blue);color:#fff;border-color:var(--blue);}
+.btn-primary:hover{background:var(--blue-dark);}
+.btn-orange{background:var(--orange);color:#fff;border-color:var(--orange);}
+.btn-orange:hover{background:#d35400;}
+.btn-danger{background:#fef2f2;color:var(--red);border-color:#fecaca;}
+.btn-success{background:#f0fdf4;color:var(--green);border-color:#bbf7d0;}
+
+/* ══ NOTICE ══ */
+.notice{padding:12px 16px;border-radius:6px;display:flex;gap:10px;align-items:flex-start;margin-bottom:18px;font-size:12px;line-height:1.5;}
+.notice .material-symbols-outlined{font-size:17px;flex-shrink:0;margin-top:1px;}
+.notice.info{background:var(--blue-light);border:1px solid #bdd3f0;color:var(--blue-dark);}
+.notice.info .material-symbols-outlined{color:var(--blue);}
+.notice.warn{background:#fffbeb;border:1px solid #fde68a;color:#92400e;}
+.notice.warn .material-symbols-outlined{color:#d97706;}
+.notice.danger{background:#fef2f2;border:1px solid #fecaca;color:#991b1b;}
+.notice.danger .material-symbols-outlined{color:var(--red);}
+
+/* ══ VIEW ══ */
+.view{display:none;}
+.view.active{display:block;}
+
+/* ══ HORAIRES ══ */
+.horaire-row{display:grid;grid-template-columns:120px 1fr 1fr 80px;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid #f1f5f9;}
+.horaire-row:last-child{border-bottom:none;}
+.horaire-day{font-size:12px;font-weight:600;color:var(--soft);}
+.horaire-day.today{color:var(--blue);font-weight:700;}
+.horaire-badge-today{font-size:9px;font-weight:800;background:var(--blue);color:#fff;padding:1px 6px;border-radius:10px;margin-left:5px;}
+.horaire-closed-label{font-size:12px;font-weight:600;color:var(--red);}
+.toggle-switch{position:relative;display:inline-flex;align-items:center;gap:8px;cursor:pointer;}
+.toggle-switch input{opacity:0;width:0;height:0;position:absolute;}
+.toggle-track{width:36px;height:20px;background:#d1d5db;border-radius:10px;position:relative;transition:background 0.2s;flex-shrink:0;}
+.toggle-switch input:checked+.toggle-track{background:var(--blue);}
+.toggle-track::after{content:'';position:absolute;top:2px;left:2px;width:16px;height:16px;border-radius:50%;background:#fff;transition:left 0.2s;box-shadow:0 1px 3px rgba(0,0,0,0.2);}
+.toggle-switch input:checked+.toggle-track::after{left:18px;}
+.toggle-label{font-size:11px;font-weight:600;color:var(--muted);}
+
+/* ══ NOTIFICATIONS ══ */
+.notif-quota-bar{background:#fff;border:1px solid var(--border);border-radius:8px;padding:16px 20px;margin-bottom:20px;display:flex;align-items:center;gap:20px;}
+.notif-quota-info{flex:1;}
+.notif-quota-title{font-size:13px;font-weight:700;margin-bottom:4px;}
+.notif-quota-sub{font-size:11px;color:var(--muted);}
+.quota-track{flex:1;height:8px;background:#e9ecf0;border-radius:4px;overflow:hidden;min-width:200px;}
+.quota-fill{height:100%;border-radius:4px;transition:width 0.6s;}
+.quota-count{font-size:13px;font-weight:800;min-width:60px;text-align:right;}
+
+.notif-history-item{display:flex;gap:14px;padding:12px 0;border-bottom:1px solid #f1f5f9;}
+.notif-history-item:last-child{border-bottom:none;}
+.notif-history-icon{width:34px;height:34px;border-radius:8px;background:var(--blue-light);display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.notif-history-icon .material-symbols-outlined{font-size:16px;color:var(--blue);}
+.notif-history-body{flex:1;}
+.notif-history-title{font-size:13px;font-weight:700;color:var(--text);margin-bottom:2px;}
+.notif-history-meta{font-size:11px;color:var(--muted);}
+.notif-history-stats{display:flex;gap:14px;margin-top:5px;font-size:11px;color:var(--muted);}
+.notif-history-stats span{display:flex;align-items:center;gap:3px;}
+.notif-history-stats .material-symbols-outlined{font-size:13px;}
+
+/* ══ PREVIEW PHONE ══ */
+.preview-wrap{position:sticky;top:80px;}
+.preview-label{font-size:11px;font-weight:700;color:var(--muted);letter-spacing:0.04em;text-transform:uppercase;margin-bottom:10px;}
+.phone-frame{background:#111;border-radius:28px;padding:10px;box-shadow:0 8px 30px rgba(0,0,0,0.25);max-width:230px;margin:0 auto;}
+.phone-screen{background:#fff;border-radius:20px;overflow:hidden;}
+.phone-status{background:#000;padding:8px 14px;display:flex;justify-content:space-between;align-items:center;font-size:10px;color:#fff;font-weight:700;}
+.phone-status .material-symbols-outlined{font-size:11px;}
+.notif-bubble{background:#f0f0f0;margin:10px 8px;border-radius:12px;padding:10px 12px;}
+.notif-bubble-header{display:flex;align-items:center;gap:6px;margin-bottom:5px;}
+.notif-bubble-icon{width:22px;height:22px;background:var(--blue);border-radius:5px;display:flex;align-items:center;justify-content:center;}
+.notif-bubble-icon .material-symbols-outlined{font-size:12px;color:#fff;}
+.notif-bubble-app{font-size:10px;font-weight:700;color:#555;}
+.notif-bubble-time{font-size:10px;color:#999;margin-left:auto;}
+.notif-bubble-title{font-size:12px;font-weight:800;color:#1a1a1a;margin-bottom:2px;line-height:1.3;}
+.notif-bubble-body{font-size:11px;color:#555;line-height:1.4;}
+
+/* ══ PHOTO UPLOAD ══ */
+.photo-zone{border:2px dashed var(--border);border-radius:8px;padding:24px;text-align:center;background:#fafbfc;cursor:pointer;transition:all 0.15s;}
+.photo-zone:hover{border-color:var(--blue);background:var(--blue-light);}
+.photo-zone .material-symbols-outlined{font-size:32px;color:#9ca3af;display:block;margin-bottom:8px;}
+.photo-zone-text{font-size:13px;font-weight:600;color:var(--soft);margin-bottom:4px;}
+.photo-zone-sub{font-size:11px;color:var(--muted);}
+.photo-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:14px;}
+.photo-thumb{aspect-ratio:1;background:var(--bg);border-radius:6px;border:1px solid var(--border);display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;}
+.photo-thumb img{width:100%;height:100%;object-fit:cover;}
+.photo-thumb-placeholder{display:flex;flex-direction:column;align-items:center;gap:4px;}
+.photo-thumb-placeholder .material-symbols-outlined{font-size:20px;color:#c0c8d8;}
+.photo-thumb-placeholder span{font-size:9px;color:#c0c8d8;font-weight:600;}
+.photo-thumb .photo-del{position:absolute;top:4px;right:4px;background:rgba(200,16,46,0.85);border:none;border-radius:50%;width:20px;height:20px;cursor:pointer;display:none;align-items:center;justify-content:center;}
+.photo-thumb:hover .photo-del{display:flex;}
+.photo-del .material-symbols-outlined{font-size:12px;color:#fff;}
+
+/* ══ CARTE ══ */
+.map-embed{width:100%;height:240px;border-radius:8px;border:1px solid var(--border);background:linear-gradient(135deg,#e8edf5,#d4dce8);display:flex;align-items:center;justify-content:center;flex-direction:column;gap:8px;color:var(--muted);}
+.map-embed .material-symbols-outlined{font-size:36px;color:var(--blue);}
+
+/* ══ MENU ITEMS ══ */
+.menu-item-row{display:grid;grid-template-columns:1fr 1fr 80px 36px;gap:10px;align-items:center;padding:8px 0;border-bottom:1px solid #f1f5f9;}
+.menu-item-row:last-child{border-bottom:none;}
+.menu-add-btn{display:flex;align-items:center;gap:6px;background:none;border:1.5px dashed var(--border);border-radius:6px;padding:8px 14px;font-family:Inter;font-size:12px;font-weight:600;color:var(--muted);cursor:pointer;width:100%;justify-content:center;margin-top:8px;transition:all 0.12s;}
+.menu-add-btn:hover{border-color:var(--blue);color:var(--blue);}
+.menu-add-btn .material-symbols-outlined{font-size:16px;}
+
+/* ══ TAGS PILLS ══ */
+.tags-wrap{display:flex;flex-wrap:wrap;gap:7px;}
+.tag-pill{display:inline-flex;align-items:center;gap:5px;padding:5px 10px;border-radius:20px;font-size:11px;font-weight:600;cursor:pointer;border:1.5px solid var(--border);background:#fff;color:var(--soft);transition:all 0.12s;}
+.tag-pill:hover{border-color:var(--blue);}
+.tag-pill.active{background:var(--blue);color:#fff;border-color:var(--blue);}
+.tag-pill .material-symbols-outlined{font-size:13px;}
+
+/* ══ STATUS BANNER ══ */
+.status-banner{border-radius:8px;padding:14px 18px;display:flex;align-items:center;gap:12px;margin-bottom:20px;}
+.status-banner.open{background:#f0fdf4;border:1px solid #bbf7d0;}
+.status-banner.closed{background:#fef2f2;border:1px solid #fecaca;}
+.status-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0;}
+.status-banner.open .status-dot{background:var(--green);box-shadow:0 0 0 3px rgba(22,163,74,0.2);}
+.status-banner.closed .status-dot{background:var(--red);}
+.status-text{font-size:13px;font-weight:700;}
+.status-banner.open .status-text{color:#15803d;}
+.status-banner.closed .status-text{color:var(--red);}
+.status-sub{font-size:11px;color:var(--muted);}
+
+/* ══ DASHBOARD WELCOME ══ */
+.welcome{background:var(--blue);color:#fff;border-radius:10px;padding:20px 24px;display:flex;align-items:center;justify-content:space-between;margin-bottom:24px;gap:16px;flex-wrap:wrap;}
+.welcome-title{font-size:17px;font-weight:800;margin-bottom:3px;letter-spacing:-0.01em;}
+.welcome-sub{font-size:12px;color:rgba(255,255,255,0.75);}
+.welcome-actions{display:flex;gap:8px;flex-shrink:0;}
+.welcome-btn{background:rgba(255,255,255,0.12);color:#fff;border:1px solid rgba(255,255,255,0.25);border-radius:6px;padding:8px 14px;font-family:Inter;font-size:12px;font-weight:600;cursor:pointer;display:flex;align-items:center;gap:6px;}
+.welcome-btn:hover{background:rgba(255,255,255,0.22);}
+.welcome-btn.primary{background:#fff;color:var(--blue);}
+.welcome-btn.primary:hover{background:#eef2f8;}
+.welcome-btn .material-symbols-outlined{font-size:14px;}
+
+/* ══ ACTIVITY ══ */
+.activity-item{display:flex;gap:12px;padding:10px 0;border-bottom:1px solid #f1f5f9;}
+.activity-item:last-child{border-bottom:none;}
+.activity-icon{width:32px;height:32px;border-radius:8px;background:var(--blue-light);display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.activity-icon .material-symbols-outlined{font-size:15px;color:var(--blue);}
+.activity-text{font-size:12px;color:var(--text);font-weight:500;line-height:1.4;}
+.activity-time{font-size:10px;color:var(--muted);margin-top:2px;}
+
+/* ══ TOAST ══ */
+.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(20px);background:#1a1a1a;color:#fff;padding:10px 18px;border-radius:20px;font-size:12px;font-weight:600;opacity:0;transition:all 0.3s;z-index:9999;pointer-events:none;display:flex;align-items:center;gap:8px;}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+.toast .material-symbols-outlined{font-size:15px;color:#4ade80;}
+.toast.error .material-symbols-outlined{color:#f87171;}
+
+/* ══ SECTION TITLE ══ */
+.section-label{font-size:11px;font-weight:700;color:#9ca3af;letter-spacing:0.08em;text-transform:uppercase;margin-bottom:12px;padding-bottom:8px;border-bottom:1px solid var(--border);}
+
+/* ══ TABLE ══ */
+.data-table{width:100%;border-collapse:collapse;}
+.data-table th{font-size:11px;font-weight:700;color:var(--muted);letter-spacing:0.04em;text-transform:uppercase;padding:10px 14px;border-bottom:1.5px solid var(--border);text-align:left;background:#fafbfc;}
+.data-table td{padding:11px 14px;border-bottom:1px solid #f0f4f8;font-size:12px;}
+.data-table tr:last-child td{border-bottom:none;}
+.data-table tr:hover td{background:#fafbfc;}
+
+/* ══ SAVE BAR ══ */
+.save-bar{position:sticky;bottom:0;background:rgba(255,255,255,0.96);backdrop-filter:blur(8px);border-top:1px solid var(--border);padding:12px 20px;display:flex;align-items:center;justify-content:space-between;gap:12px;z-index:10;margin-top:24px;}
+.save-bar-info{font-size:12px;color:var(--muted);}
+.save-bar-info strong{color:var(--orange);}
+.save-bar-actions{display:flex;gap:8px;}
+
+/* ══ RESPONSIVE ══ */
+@media(max-width:900px){
+  .stats-row{grid-template-columns:1fr 1fr;}
+  .form-grid-2{grid-template-columns:1fr;}
+  .form-grid-3{grid-template-columns:1fr 1fr;}
+  .main{padding:18px;}
+}
+@keyframes spin{to{transform:rotate(360deg);}}
+</style>
+</head>
+<body>
+
+<!-- ══ LOGIN ══ -->
+<div id="login-screen">
+  <div class="login-wrap">
+    <div class="login-band">
+      <span class="material-symbols-outlined">storefront</span>
+      <div>
+        <div class="login-band-title">Espace Commerçant</div>
+        <div class="login-band-sub">Cœur de Ville · Rochefort-du-Gard</div>
+      </div>
+    </div>
+    <div class="login-card">
+      <label class="login-field-label" for="lu">Identifiant</label>
+      <input type="text" class="login-input" id="lu" placeholder="contact@votrecommerce.fr" autocomplete="username"/>
+      <label class="login-field-label" for="lp">Mot de passe</label>
+      <input type="password" class="login-input" id="lp" autocomplete="current-password"/>
+      <div class="login-row">
+        <button class="login-forgot">Mot de passe oublié ?</button>
+        <button class="login-btn" onclick="doLogin()">Connexion <span class="material-symbols-outlined">arrow_forward</span></button>
+      </div>
+      <div id="login-error" class="login-error"><span class="material-symbols-outlined">error</span>Identifiants incorrects.</div>
+      <div class="login-hint">
+        <strong>Démo Gelateria Francesca</strong><br/>
+        Identifiant : <strong>gelateria@rochefort.fr</strong><br/>
+        Mot de passe : <strong>demo2026</strong>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ APP ══ -->
+<div id="app" style="display:none;">
+
+  <header class="topbar">
+    <div class="topbar-left">
+      <div class="topbar-brand">Cœur de Ville</div>
+      <span class="topbar-sep">|</span>
+      <span class="topbar-commerce-name" id="topbar-commerce-name">—</span>
+    </div>
+    <div class="topbar-right">
+      <div class="topbar-notif-quota" id="quota-badge" title="Notifications restantes ce mois">
+        <span class="material-symbols-outlined">campaign</span>
+        <span id="quota-label">— / 5</span>
+      </div>
+      <button class="topbar-icon-btn" title="Voir ma fiche publique" onclick="openFichePublique()">
+        <span class="material-symbols-outlined">open_in_new</span>
+      </button>
+      <div class="topbar-user" onclick="doLogout()" title="Se déconnecter">
+        <div class="topbar-avatar" id="topbar-avatar">GF</div>
+      </div>
+    </div>
+  </header>
+
+  <div class="layout">
+
+    <aside class="sidebar">
+      <div class="sb-section">Mon espace</div>
+      <a class="sb-link" data-view="dashboard"><span class="material-symbols-outlined">dashboard</span>Vue d'ensemble</a>
+      <a class="sb-link" data-view="fiche"><span class="material-symbols-outlined">edit_note</span>Ma fiche</a>
+      <a class="sb-link" data-view="photos"><span class="material-symbols-outlined">photo_library</span>Photos</a>
+      <a class="sb-link" data-view="horaires"><span class="material-symbols-outlined">schedule</span>Horaires</a>
+      <a class="sb-link" data-view="menu"><span class="material-symbols-outlined">menu_book</span>Carte / Menu</a>
+
+      <div class="sb-section">Communication</div>
+      <a class="sb-link" data-view="notifications"><span class="material-symbols-outlined">campaign</span>Envoyer une notif.</a>
+      <a class="sb-link" data-view="notif-history"><span class="material-symbols-outlined">history</span>Historique</a>
+
+      <div class="sb-section">Présence</div>
+      <a class="sb-link" data-view="carte"><span class="material-symbols-outlined">location_on</span>Position sur la carte</a>
+      <a class="sb-link" data-view="stats"><span class="material-symbols-outlined">bar_chart</span>Statistiques</a>
+
+      <div class="sb-foot">
+        Cœur de Ville · <a href="#">Aide</a> · <a href="#">Contact mairie</a>
+      </div>
+    </aside>
+
+    <main class="main">
+
+      <!-- ══ DASHBOARD ══ -->
+      <div class="view" id="view-dashboard">
+        <div class="welcome">
+          <div>
+            <div class="welcome-title" id="welcome-title">Bonjour 👋</div>
+            <div class="welcome-sub">Gérez votre présence sur Cœur de Ville depuis cet espace.</div>
+          </div>
+          <div class="welcome-actions">
+            <button class="welcome-btn primary" onclick="goView('notifications')"><span class="material-symbols-outlined">campaign</span>Envoyer une notification</button>
+            <button class="welcome-btn" onclick="goView('fiche')"><span class="material-symbols-outlined">edit_note</span>Modifier ma fiche</button>
+          </div>
+        </div>
+
+        <div class="stats-row">
+          <div class="stat-card">
+            <div class="stat-card-head"><span class="material-symbols-outlined">visibility</span><span class="stat-card-label">Vues ce mois</span></div>
+            <div class="stat-value" id="stat-vues">—</div>
+            <div class="stat-extra"><span class="up" id="stat-vues-var"></span> vs mois dernier</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-card-head"><span class="material-symbols-outlined">near_me</span><span class="stat-card-label">Itinéraires lancés</span></div>
+            <div class="stat-value" id="stat-nav">—</div>
+            <div class="stat-extra">depuis votre fiche</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-card-head"><span class="material-symbols-outlined">call</span><span class="stat-card-label">Appels téléphone</span></div>
+            <div class="stat-value" id="stat-calls">—</div>
+            <div class="stat-extra">via l'app ce mois</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-card-head"><span class="material-symbols-outlined">campaign</span><span class="stat-card-label">Notifications restantes</span></div>
+            <div class="stat-value" id="stat-quota">—</div>
+            <div class="stat-extra" id="stat-quota-extra">notifications ce mois</div>
+            <div class="stat-progress"><div class="stat-progress-fill" id="quota-bar" style="width:0%;background:var(--blue);"></div></div>
+          </div>
+        </div>
+
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
+          <section class="panel">
+            <div class="panel-head"><div class="panel-title"><span class="material-symbols-outlined">info</span>État de ma fiche</div><button class="btn btn-sm" onclick="goView('fiche')"><span class="material-symbols-outlined">edit</span>Modifier</button></div>
+            <div class="panel-body" id="dash-fiche-status">
+              <div class="status-banner open" id="dash-status-banner">
+                <div class="status-dot"></div>
+                <div><div class="status-text" id="dash-status-text">Ouvert</div><div class="status-sub" id="dash-status-sub">Selon vos horaires</div></div>
+              </div>
+              <div style="display:flex;flex-direction:column;gap:8px;font-size:12px;">
+                <div style="display:flex;align-items:center;gap:8px;"><span class="material-symbols-outlined" style="font-size:15px;color:#9ca3af;">location_on</span><span id="dash-addr">—</span></div>
+                <div style="display:flex;align-items:center;gap:8px;"><span class="material-symbols-outlined" style="font-size:15px;color:#9ca3af;">schedule</span><span id="dash-horaire-today">—</span></div>
+                <div style="display:flex;align-items:center;gap:8px;"><span class="material-symbols-outlined" style="font-size:15px;color:#9ca3af;">call</span><span id="dash-tel">—</span></div>
+              </div>
+            </div>
+          </section>
+
+          <section class="panel">
+            <div class="panel-head"><div class="panel-title"><span class="material-symbols-outlined">notifications</span>Dernière notification</div><button class="btn btn-sm btn-primary" onclick="goView('notifications')"><span class="material-symbols-outlined">add</span>Nouvelle</button></div>
+            <div class="panel-body" id="dash-last-notif">
+              <div style="text-align:center;padding:20px;color:#9ca3af;">
+                <span class="material-symbols-outlined" style="font-size:28px;display:block;margin-bottom:6px;">notifications_none</span>
+                <div style="font-size:12px;">Aucune notification envoyée</div>
+              </div>
+            </div>
+          </section>
+        </div>
+
+        <section class="panel" style="margin-top:16px;">
+          <div class="panel-head"><div class="panel-title"><span class="material-symbols-outlined">timeline</span>Activité récente</div></div>
+          <div class="panel-body" id="activity-list">
+            <div class="activity-item"><div class="activity-icon"><span class="material-symbols-outlined" style="animation:spin 1s linear infinite;">progress_activity</span></div><div><div class="activity-text">Chargement…</div></div></div>
+          </div>
+        </section>
+      </div>
+
+      <!-- ══ MA FICHE ══ -->
+      <div class="view" id="view-fiche">
+        <nav class="breadcrumb"><a onclick="goView('dashboard')">Accueil</a><span class="material-symbols-outlined">chevron_right</span><span>Ma fiche</span></nav>
+        <div class="page-header-row">
+          <div><h1 class="page-title">Ma fiche</h1><p class="page-sub">Ces informations s'affichent dans l'application Cœur de Ville et sur votre fiche publique.</p></div>
+          <button class="btn" onclick="openFichePublique()"><span class="material-symbols-outlined">open_in_new</span>Voir ma fiche publique</button>
+        </div>
+
+        <section class="panel">
+          <div class="panel-head"><div class="panel-title"><span class="material-symbols-outlined">store</span>Informations générales</div></div>
+          <div class="panel-body">
+            <div class="form-grid-2">
+              <div class="field">
+                <div class="field-label">Nom du commerce <span class="field-req">*</span></div>
+                <input type="text" class="field-input" id="f-name" placeholder="Gelateria Francesca"/>
+              </div>
+              <div class="field">
+                <div class="field-label">Catégorie <span class="field-req">*</span></div>
+                <select class="field-select" id="f-cat">
+                  <option>Glacier · Café</option>
+                  <option>Restaurant</option>
+                  <option>Boulangerie · Pâtisserie</option>
+                  <option>Bar · Brasserie</option>
+                  <option>Commerce alimentaire</option>
+                  <option>Artisan</option>
+                  <option>Santé · Beauté</option>
+                  <option>Services</option>
+                  <option>Hébergement</option>
+                  <option>Autre</option>
+                </select>
+              </div>
+              <div class="field">
+                <div class="field-label">Adresse complète <span class="field-req">*</span></div>
+                <input type="text" class="field-input" id="f-addr" placeholder="11 ter Av. Frédéric Mistral, 30650 Rochefort-du-Gard"/>
+              </div>
+              <div class="field">
+                <div class="field-label">Téléphone</div>
+                <input type="tel" class="field-input" id="f-tel" placeholder="04 65 87 77 27"/>
+              </div>
+              <div class="field">
+                <div class="field-label">Site web</div>
+                <input type="url" class="field-input" id="f-web" placeholder="https://…"/>
+              </div>
+              <div class="field">
+                <div class="field-label">Instagram</div>
+                <input type="text" class="field-input" id="f-insta" placeholder="@votrecompte"/>
+              </div>
+              <div class="field" style="grid-column:1/-1;">
+                <div class="field-label">Description courte <span class="field-req">*</span> <span class="field-counter" id="desc-counter">0 / 200</span></div>
+                <textarea class="field-textarea" id="f-desc" maxlength="200" rows="3" placeholder="Décrivez votre établissement en quelques phrases…" oninput="updateDescCounter()"></textarea>
+                <div class="field-help">Affichée sur la carte et en aperçu. 200 caractères max.</div>
+              </div>
+              <div class="field" style="grid-column:1/-1;">
+                <div class="field-label">Description longue</div>
+                <textarea class="field-textarea" id="f-desc-long" rows="5" placeholder="Texte complet pour la fiche détaillée…"></textarea>
+              </div>
+            </div>
+
+            <div class="field">
+              <div class="field-label">Tags & services</div>
+              <div class="tags-wrap" id="tags-container">
+                <div class="tag-pill" onclick="toggleTag(this)"><span class="material-symbols-outlined">deck</span>Terrasse</div>
+                <div class="tag-pill" onclick="toggleTag(this)"><span class="material-symbols-outlined">wifi</span>Wi-Fi</div>
+                <div class="tag-pill" onclick="toggleTag(this)"><span class="material-symbols-outlined">accessible</span>PMR</div>
+                <div class="tag-pill" onclick="toggleTag(this)"><span class="material-symbols-outlined">pets</span>Animaux acceptés</div>
+                <div class="tag-pill" onclick="toggleTag(this)"><span class="material-symbols-outlined">delivery_dining</span>Livraison</div>
+                <div class="tag-pill" onclick="toggleTag(this)"><span class="material-symbols-outlined">takeout_dining</span>À emporter</div>
+                <div class="tag-pill" onclick="toggleTag(this)"><span class="material-symbols-outlined">local_parking</span>Parking</div>
+                <div class="tag-pill" onclick="toggleTag(this)"><span class="material-symbols-outlined">credit_card</span>CB acceptée</div>
+                <div class="tag-pill" onclick="toggleTag(this)"><span class="material-symbols-outlined">lunch_dining</span>Menu du jour</div>
+                <div class="tag-pill" onclick="toggleTag(this)"><span class="material-symbols-outlined">child_friendly</span>Enfants</div>
+                <div class="tag-pill" onclick="toggleTag(this)"><span class="material-symbols-outlined">groups</span>Réservation</div>
+                <div class="tag-pill" onclick="toggleTag(this)"><span class="material-symbols-outlined">kitchen</span>Fait maison</div>
+              </div>
+            </div>
+
+            <div class="field">
+              <div class="field-label">Promo / Mise en avant (optionnel)</div>
+              <input type="text" class="field-input" id="f-promo" placeholder="Ex : Happy hour 17h–19h · -20% le lundi · Plat du jour 12€"/>
+              <div class="field-help">Affiché en bandeau sur votre fiche. Laissez vide pour désactiver.</div>
+            </div>
+          </div>
+        </section>
+
+        <div class="save-bar">
+          <div class="save-bar-info">Les modifications sont visibles dans l'app après sauvegarde.</div>
+          <div class="save-bar-actions">
+            <button class="btn" onclick="loadFicheData()"><span class="material-symbols-outlined">refresh</span>Annuler</button>
+            <button class="btn btn-primary" onclick="saveFiche()"><span class="material-symbols-outlined">save</span>Enregistrer</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ══ PHOTOS ══ -->
+      <div class="view" id="view-photos">
+        <nav class="breadcrumb"><a onclick="goView('dashboard')">Accueil</a><span class="material-symbols-outlined">chevron_right</span><span>Photos</span></nav>
+        <div class="page-header-row">
+          <div><h1 class="page-title">Photos</h1><p class="page-sub">La première photo est utilisée comme image principale sur la carte et dans l'application.</p></div>
+        </div>
+
+        <section class="panel">
+          <div class="panel-head"><div class="panel-title"><span class="material-symbols-outlined">add_photo_alternate</span>Ajouter une photo</div></div>
+          <div class="panel-body">
+            <div class="photo-zone" onclick="document.getElementById('photo-input').click()">
+              <span class="material-symbols-outlined">cloud_upload</span>
+              <div class="photo-zone-text">Cliquez pour choisir une photo</div>
+              <div class="photo-zone-sub">JPEG · PNG · max 5 Mo · Recommandé : 1200 × 800 px</div>
+            </div>
+            <input type="file" id="photo-input" accept="image/*" multiple style="display:none;" onchange="handlePhotoUpload(this)"/>
+
+            <div style="margin-top:20px;">
+              <div class="section-label">Photos actuelles (glissez pour réordonner)</div>
+              <div class="photo-grid" id="photo-grid">
+                <div class="photo-thumb">
+                  <div class="photo-thumb-placeholder"><span class="material-symbols-outlined">image</span><span>Photo 1<br/>Principale</span></div>
+                </div>
+                <div class="photo-thumb">
+                  <div class="photo-thumb-placeholder"><span class="material-symbols-outlined">image</span><span>Photo 2</span></div>
+                </div>
+                <div class="photo-thumb">
+                  <div class="photo-thumb-placeholder"><span class="material-symbols-outlined">image</span><span>Photo 3</span></div>
+                </div>
+              </div>
+            </div>
+
+            <div class="notice info" style="margin-top:16px;margin-bottom:0;">
+              <span class="material-symbols-outlined">info</span>
+              <div>Les noms de fichiers doivent correspondre à ceux déclarés dans la fiche HTML. Référencez vos photos dans <code style="background:#dde4f0;padding:1px 5px;border-radius:3px;font-size:11px;">assets/rochefort-du-gard/</code></div>
+            </div>
+          </div>
+        </section>
+      </div>
+
+      <!-- ══ HORAIRES ══ -->
+      <div class="view" id="view-horaires">
+        <nav class="breadcrumb"><a onclick="goView('dashboard')">Accueil</a><span class="material-symbols-outlined">chevron_right</span><span>Horaires</span></nav>
+        <div class="page-header-row">
+          <div><h1 class="page-title">Horaires d'ouverture</h1><p class="page-sub">Définissez vos horaires habituels. Vous pouvez aussi créer des exceptions ponctuelles.</p></div>
+        </div>
+
+        <section class="panel">
+          <div class="panel-head"><div class="panel-title"><span class="material-symbols-outlined">schedule</span>Horaires réguliers</div></div>
+          <div class="panel-body">
+            <div id="horaires-editor">
+              <!-- généré par JS -->
+            </div>
+          </div>
+          <div class="save-bar" style="position:relative;margin-top:0;border-top:1px solid var(--border);">
+            <div class="save-bar-info">Modifiez et enregistrez vos horaires.</div>
+            <div class="save-bar-actions">
+              <button class="btn btn-primary" onclick="saveHoraires()"><span class="material-symbols-outlined">save</span>Enregistrer</button>
+            </div>
+          </div>
+        </section>
+
+        <section class="panel">
+          <div class="panel-head"><div class="panel-title"><span class="material-symbols-outlined">event_busy</span>Fermetures exceptionnelles</div><button class="btn btn-sm" onclick="addException()"><span class="material-symbols-outlined">add</span>Ajouter</button></div>
+          <div class="panel-body">
+            <div class="notice warn"><span class="material-symbols-outlined">info</span><div>Indiquez ici vos congés, jours fériés ou fermetures imprévues. Ces exceptions remplacent vos horaires habituels pour les dates concernées.</div></div>
+            <table class="data-table" id="exceptions-table">
+              <thead><tr><th>Date(s)</th><th>Motif</th><th>Statut</th><th></th></tr></thead>
+              <tbody id="exceptions-body">
+                <tr><td colspan="4" style="text-align:center;padding:20px;color:#9ca3af;font-size:12px;">Aucune exception enregistrée</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+      </div>
+
+      <!-- ══ CARTE / MENU ══ -->
+      <div class="view" id="view-menu">
+        <nav class="breadcrumb"><a onclick="goView('dashboard')">Accueil</a><span class="material-symbols-outlined">chevron_right</span><span>Carte / Menu</span></nav>
+        <div class="page-header-row">
+          <div><h1 class="page-title">Carte & Menu</h1><p class="page-sub">Ajoutez vos plats, formules ou spécialités. Ils s'affichent dans la section "Ce qu'on y trouve" de votre fiche.</p></div>
+        </div>
+
+        <section class="panel">
+          <div class="panel-head"><div class="panel-title"><span class="material-symbols-outlined">menu_book</span>Sections du menu</div><button class="btn btn-sm btn-primary" onclick="addMenuSection()"><span class="material-symbols-outlined">add</span>Nouvelle section</button></div>
+          <div class="panel-body" id="menu-editor">
+            <div class="section-label">Section 1</div>
+            <input type="text" class="field-input" style="margin-bottom:12px;" placeholder="Nom de la section (ex : Glaces & Sorbets, Plats…)" id="menu-section-0"/>
+            <div id="menu-items-0">
+              <div class="menu-item-row">
+                <input type="text" class="field-input" placeholder="Nom du produit"/>
+                <input type="text" class="field-input" placeholder="Description"/>
+                <input type="text" class="field-input" placeholder="Prix"/>
+                <button class="btn btn-sm btn-danger" onclick="this.parentElement.remove()"><span class="material-symbols-outlined">delete</span></button>
+              </div>
+            </div>
+            <button class="menu-add-btn" onclick="addMenuItem(0)"><span class="material-symbols-outlined">add</span>Ajouter un article</button>
+          </div>
+          <div class="save-bar" style="position:relative;margin-top:0;">
+            <div class="save-bar-info">Les prix affichés sont indicatifs.</div>
+            <div class="save-bar-actions"><button class="btn btn-primary" onclick="showToast('Menu enregistré !')"><span class="material-symbols-outlined">save</span>Enregistrer</button></div>
+          </div>
+        </section>
+      </div>
+
+      <!-- ══ NOTIFICATIONS ══ -->
+      <div class="view" id="view-notifications">
+        <nav class="breadcrumb"><a onclick="goView('dashboard')">Accueil</a><span class="material-symbols-outlined">chevron_right</span><span>Notification</span></nav>
+        <div class="page-header-row">
+          <div><h1 class="page-title">Envoyer une notification</h1><p class="page-sub">Informez les habitants et visiteurs de vos actualités, offres ou événements.</p></div>
+        </div>
+
+        <div class="notif-quota-bar" id="notif-quota-bar">
+          <div class="notif-quota-info">
+            <div class="notif-quota-title">Quota mensuel de notifications</div>
+            <div class="notif-quota-sub">Inclus dans votre abonnement Cœur de Ville · Renouvellement le 1ᵉʳ du mois</div>
+          </div>
+          <div class="quota-track">
+            <div class="quota-fill" id="quota-fill" style="width:0%;background:var(--blue);"></div>
+          </div>
+          <div class="quota-count" id="quota-text" style="color:var(--blue);">— / 5</div>
+        </div>
+
+        <div id="quota-warning" style="display:none;"></div>
+
+        <div style="display:grid;grid-template-columns:1fr 300px;gap:28px;align-items:start;">
+          <div>
+            <section class="panel">
+              <div class="panel-head"><div class="panel-title"><span class="material-symbols-outlined">edit</span>Rédiger votre message</div></div>
+              <div class="panel-body">
+
+                <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:20px;">
+                  <button class="tag-pill active" data-type="promo" onclick="pickNotifType(this,'promo','sell')"><span class="material-symbols-outlined">sell</span>Promo</button>
+                  <button class="tag-pill" data-type="event" onclick="pickNotifType(this,'event','event')"><span class="material-symbols-outlined">event</span>Événement</button>
+                  <button class="tag-pill" data-type="info" onclick="pickNotifType(this,'info','info')"><span class="material-symbols-outlined">info</span>Info</button>
+                  <button class="tag-pill" data-type="news" onclick="pickNotifType(this,'news','newspaper')"><span class="material-symbols-outlined">newspaper</span>Nouveauté</button>
+                </div>
+
+                <div class="field">
+                  <div class="field-label">Titre <span class="field-req">*</span> <span class="field-counter" id="ntitle-count">0 / 50</span></div>
+                  <input type="text" class="field-input" id="n-title" maxlength="50" placeholder="Ex : Nouveaux parfums de saison disponibles !" oninput="updateNotifPreview()"/>
+                </div>
+                <div class="field">
+                  <div class="field-label">Message <span class="field-req">*</span> <span class="field-counter" id="nbody-count">0 / 120</span></div>
+                  <textarea class="field-textarea" id="n-body" maxlength="120" rows="3" placeholder="Texte qui s'affiche sous le titre dans la notification…" oninput="updateNotifPreview()"></textarea>
+                </div>
+                <div class="field">
+                  <div class="field-label">Lien vers (optionnel)</div>
+                  <select class="field-select" id="n-link">
+                    <option value="">Aucun lien</option>
+                    <option value="fiche">Ma fiche dans l'app</option>
+                    <option value="carte">Ma position sur la carte</option>
+                    <option value="custom">URL personnalisée…</option>
+                  </select>
+                </div>
+                <div class="field" id="n-custom-url-field" style="display:none;">
+                  <div class="field-label">URL</div>
+                  <input type="url" class="field-input" id="n-custom-url" placeholder="https://…"/>
+                </div>
+
+                <div class="notice info">
+                  <span class="material-symbols-outlined">info</span>
+                  <div>La notification sera envoyée aux utilisateurs de l'app qui ont votre commerce en favori ou qui sont géolocalisés à Rochefort-du-Gard. Chaque envoi consomme <strong>1 crédit sur 5</strong> ce mois.</div>
+                </div>
+              </div>
+              <div class="save-bar" style="position:relative;margin-top:0;">
+                <div class="save-bar-info"><strong id="save-bar-quota"></strong></div>
+                <div class="save-bar-actions">
+                  <button class="btn" onclick="resetNotifForm()"><span class="material-symbols-outlined">close</span>Effacer</button>
+                  <button class="btn btn-primary" id="send-btn" onclick="sendNotification()"><span class="material-symbols-outlined">send</span>Envoyer maintenant</button>
+                </div>
+              </div>
+            </section>
+          </div>
+
+          <div class="preview-wrap">
+            <div class="preview-label">Aperçu</div>
+            <div class="phone-frame">
+              <div class="phone-screen">
+                <div class="phone-status"><span id="p-time">--:--</span><div style="display:flex;gap:3px;"><span class="material-symbols-outlined">signal_cellular_alt</span><span class="material-symbols-outlined">battery_full</span></div></div>
+                <div class="notif-bubble">
+                  <div class="notif-bubble-header">
+                    <div class="notif-bubble-icon"><span class="material-symbols-outlined" id="p-icon">sell</span></div>
+                    <span class="notif-bubble-app" id="p-commerce-name">Votre commerce</span>
+                    <span class="notif-bubble-time">maintenant</span>
+                  </div>
+                  <div class="notif-bubble-title" id="p-title">Titre de votre notification</div>
+                  <div class="notif-bubble-body" id="p-body">Votre message s'affichera ici.</div>
+                </div>
+              </div>
+            </div>
+            <div style="font-size:10px;color:var(--muted);text-align:center;margin-top:10px;line-height:1.5;">Aperçu indicatif.<br/>L'affichage varie selon l'OS.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ══ HISTORIQUE NOTIFS ══ -->
+      <div class="view" id="view-notif-history">
+        <nav class="breadcrumb"><a onclick="goView('dashboard')">Accueil</a><span class="material-symbols-outlined">chevron_right</span><span>Historique</span></nav>
+        <div class="page-header-row">
+          <div><h1 class="page-title">Historique des notifications</h1><p class="page-sub">Toutes vos notifications envoyées et leurs performances.</p></div>
+        </div>
+        <section class="panel">
+          <div class="panel-body" id="notif-history-list">
+            <div style="text-align:center;padding:30px;color:#9ca3af;">
+              <span class="material-symbols-outlined" style="font-size:32px;display:block;margin-bottom:6px;animation:spin 1s linear infinite;">progress_activity</span>
+              <div style="font-size:12px;">Chargement…</div>
+            </div>
+          </div>
+        </section>
+      </div>
+
+      <!-- ══ CARTE POSITION ══ -->
+      <div class="view" id="view-carte">
+        <nav class="breadcrumb"><a onclick="goView('dashboard')">Accueil</a><span class="material-symbols-outlined">chevron_right</span><span>Position sur la carte</span></nav>
+        <div class="page-header-row">
+          <div><h1 class="page-title">Ma position</h1><p class="page-sub">Vérifiez et corrigez votre emplacement affiché sur la carte interactive.</p></div>
+        </div>
+        <section class="panel">
+          <div class="panel-head"><div class="panel-title"><span class="material-symbols-outlined">map</span>Coordonnées GPS</div></div>
+          <div class="panel-body">
+            <div class="map-embed">
+              <span class="material-symbols-outlined">location_on</span>
+              <div style="font-size:13px;font-weight:600;">Aperçu de la carte</div>
+              <div style="font-size:11px;color:var(--muted);margin-top:2px;">Votre position selon les coordonnées ci-dessous</div>
+            </div>
+            <div class="form-grid-2" style="margin-top:18px;">
+              <div class="field">
+                <div class="field-label">Latitude</div>
+                <input type="number" class="field-input" id="f-lat" placeholder="43.9748" step="0.0001" id="f-lat"/>
+              </div>
+              <div class="field">
+                <div class="field-label">Longitude</div>
+                <input type="number" class="field-input" id="f-lng" placeholder="4.6897" step="0.0001" id="f-lng"/>
+              </div>
+            </div>
+            <div class="notice info"><span class="material-symbols-outlined">info</span><div>Pour trouver vos coordonnées exactes : ouvrez <strong>Google Maps</strong>, faites un clic droit sur votre commerce, et copiez les coordonnées affichées.</div></div>
+          </div>
+          <div class="save-bar" style="position:relative;margin-top:0;">
+            <div class="save-bar-actions"><button class="btn btn-primary" onclick="showToast('Position enregistrée !')"><span class="material-symbols-outlined">save</span>Enregistrer</button></div>
+          </div>
+        </section>
+      </div>
+
+      <!-- ══ STATISTIQUES ══ -->
+      <div class="view" id="view-stats">
+        <nav class="breadcrumb"><a onclick="goView('dashboard')">Accueil</a><span class="material-symbols-outlined">chevron_right</span><span>Statistiques</span></nav>
+        <div class="page-header-row">
+          <div><h1 class="page-title">Statistiques</h1><p class="page-sub">Performances de votre fiche sur les 30 derniers jours.</p></div>
+          <select class="field-select" style="width:auto;padding:7px 12px;font-size:12px;">
+            <option>Ces 30 derniers jours</option>
+            <option>Ce trimestre</option>
+            <option>Toujours</option>
+          </select>
+        </div>
+
+        <div class="stats-row">
+          <div class="stat-card"><div class="stat-card-head"><span class="material-symbols-outlined">visibility</span><span class="stat-card-label">Vues fiche</span></div><div class="stat-value" id="s-vues">—</div><div class="stat-extra"><span class="up" id="s-vues-var">—</span></div></div>
+          <div class="stat-card"><div class="stat-card-head"><span class="material-symbols-outlined">near_me</span><span class="stat-card-label">Itinéraires</span></div><div class="stat-value" id="s-nav">—</div><div class="stat-extra">Clic "Y aller"</div></div>
+          <div class="stat-card"><div class="stat-card-head"><span class="material-symbols-outlined">call</span><span class="stat-card-label">Appels</span></div><div class="stat-value" id="s-calls">—</div><div class="stat-extra">Clic téléphone</div></div>
+          <div class="stat-card"><div class="stat-card-head"><span class="material-symbols-outlined">open_in_new</span><span class="stat-card-label">Clics web</span></div><div class="stat-value" id="s-web">—</div><div class="stat-extra">Vers votre site</div></div>
+        </div>
+
+        <section class="panel">
+          <div class="panel-head"><div class="panel-title"><span class="material-symbols-outlined">trending_up</span>Évolution des vues</div></div>
+          <div class="panel-body">
+            <svg viewBox="0 0 700 140" style="width:100%;display:block;" preserveAspectRatio="none">
+              <defs><linearGradient id="sg" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#1a3a6e" stop-opacity="0.15"/><stop offset="100%" stop-color="#1a3a6e" stop-opacity="0"/></linearGradient></defs>
+              <line x1="0" y1="25" x2="700" y2="25" stroke="#e9ecf0"/><line x1="0" y1="70" x2="700" y2="70" stroke="#e9ecf0"/><line x1="0" y1="115" x2="700" y2="115" stroke="#e9ecf0"/>
+              <path d="M0,110 L50,100 L100,95 L150,85 L200,78 L250,88 L300,65 L350,55 L400,60 L450,45 L500,38 L550,42 L600,30 L650,25 L700,22 L700,140 L0,140 Z" fill="url(#sg)"/>
+              <path d="M0,110 L50,100 L100,95 L150,85 L200,78 L250,88 L300,65 L350,55 L400,60 L450,45 L500,38 L550,42 L600,30 L650,25 L700,22" fill="none" stroke="#1a3a6e" stroke-width="2"/>
+            </svg>
+            <div style="display:flex;gap:16px;font-size:11px;color:var(--muted);margin-top:8px;">
+              <span>1er avril</span><span style="margin-left:auto;">30 avril</span>
+            </div>
+          </div>
+        </section>
+
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
+          <section class="panel">
+            <div class="panel-head"><div class="panel-title"><span class="material-symbols-outlined">leaderboard</span>Actions les plus cliquées</div></div>
+            <div class="panel-body">
+              <div style="display:flex;flex-direction:column;gap:10px;">
+                <div style="display:flex;align-items:center;gap:10px;font-size:12px;"><span class="material-symbols-outlined" style="font-size:16px;color:#9ca3af;">near_me</span><span style="flex:1;">Y aller</span><div style="flex:2;height:20px;background:#e9ecf0;border-radius:3px;overflow:hidden;"><div style="height:100%;background:var(--blue);width:72%;border-radius:3px;"></div></div><strong style="min-width:30px;text-align:right;">72%</strong></div>
+                <div style="display:flex;align-items:center;gap:10px;font-size:12px;"><span class="material-symbols-outlined" style="font-size:16px;color:#9ca3af;">call</span><span style="flex:1;">Appeler</span><div style="flex:2;height:20px;background:#e9ecf0;border-radius:3px;overflow:hidden;"><div style="height:100%;background:#3a6aae;width:48%;border-radius:3px;"></div></div><strong style="min-width:30px;text-align:right;">48%</strong></div>
+                <div style="display:flex;align-items:center;gap:10px;font-size:12px;"><span class="material-symbols-outlined" style="font-size:16px;color:#9ca3af;">open_in_new</span><span style="flex:1;">Site web</span><div style="flex:2;height:20px;background:#e9ecf0;border-radius:3px;overflow:hidden;"><div style="height:100%;background:#7a9abe;width:28%;border-radius:3px;"></div></div><strong style="min-width:30px;text-align:right;">28%</strong></div>
+              </div>
+            </div>
+          </section>
+          <section class="panel">
+            <div class="panel-head"><div class="panel-title"><span class="material-symbols-outlined">access_time</span>Heures de pointe</div></div>
+            <div class="panel-body">
+              <div style="display:flex;align-items:flex-end;gap:5px;height:80px;padding-top:8px;">
+                <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;"><div style="width:100%;background:#dde1e7;border-radius:2px 2px 0 0;" style="height:30%;"></div><span style="font-size:9px;color:#9ca3af;">8h</span></div>
+                <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;"><div style="width:100%;background:#7a9abe;border-radius:2px 2px 0 0;height:45px;"></div><span style="font-size:9px;color:#9ca3af;">10h</span></div>
+                <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;"><div style="width:100%;background:var(--blue);border-radius:2px 2px 0 0;height:70px;"></div><span style="font-size:9px;color:#9ca3af;">12h</span></div>
+                <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;"><div style="width:100%;background:#3a6aae;border-radius:2px 2px 0 0;height:55px;"></div><span style="font-size:9px;color:#9ca3af;">14h</span></div>
+                <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;"><div style="width:100%;background:var(--blue);border-radius:2px 2px 0 0;height:60px;"></div><span style="font-size:9px;color:#9ca3af;">16h</span></div>
+                <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;"><div style="width:100%;background:#7a9abe;border-radius:2px 2px 0 0;height:40px;"></div><span style="font-size:9px;color:#9ca3af;">18h</span></div>
+                <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;"><div style="width:100%;background:#dde1e7;border-radius:2px 2px 0 0;height:20px;"></div><span style="font-size:9px;color:#9ca3af;">20h</span></div>
+              </div>
+            </div>
+          </section>
+        </div>
+      </div>
+
+    </main>
+  </div>
+</div>
+
+<div class="toast" id="toast"><span class="material-symbols-outlined">check_circle</span><span id="toast-msg"></span></div>
+
+<script>
+// ══ CONFIG ══
+const API_BASE = '';
+const ADMIN_TOKEN = 'cdv-mairie-2026-xK9pQzL3r7nM';
+const AUTH_KEY = 'cdv_commercant_auth';
+const QUOTA_MAX = 5;
+
+// Données commerçants (en prod : viendrait de l'API)
+const COMMERCANTS = {
+  'gelateria@rochefort.fr': {
+    pass: 'demo2026',
+    id: 'gelateria',
+    name: 'Gelateria Francesca',
+    cat: 'Glacier · Café',
+    addr: '11 ter Av. Frédéric Mistral, 30650 Rochefort-du-Gard',
+    tel: '04 65 87 77 27',
+    web: 'https://m.facebook.com/gelateria.francesca1',
+    insta: '@gelateria.francesca',
+    desc: 'Glaces artisanales italiennes, planches charcuterie-fromage, salades fraîches et café de qualité au cœur du village.',
+    lat: 43.9748, lng: 4.6897,
+    fiche_url: 'gelateria.html',
+    quota_used: 2,
+    tags: ['Terrasse', 'PMR', 'À emporter', 'CB acceptée'],
+    stats: { vues: 412, nav: 87, calls: 34, web: 18, vues_var: '+24%' },
+  },
+  'fromager@rochefort.fr': {
+    pass: 'demo2026',
+    id: 'fromager',
+    name: 'Les Tables du Fromager',
+    cat: 'Restaurant',
+    addr: '21 Rue du Grand Pont, 30650 Rochefort-du-Gard',
+    tel: '04 90 92 04 43',
+    web: 'https://lestablesdufromager.fr',
+    insta: '',
+    desc: 'Restaurant fromager #1 à Rochefort-du-Gard. Camembert rôti à la truffe, sélection de fromages affinés.',
+    lat: 43.9745, lng: 4.6903,
+    fiche_url: 'tables-du-fromager.html',
+    quota_used: 4,
+    tags: ['Réservation', 'CB acceptée', 'Fait maison'],
+    stats: { vues: 588, nav: 124, calls: 67, web: 42, vues_var: '+31%' },
+  },
+};
+
+let currentUser = null;
+let currentData = null;
+
+// ══ AUTH ══
+function checkAuth(){
+  const saved = localStorage.getItem(AUTH_KEY);
+  if(saved){ try{ currentUser = JSON.parse(saved); currentData = COMMERCANTS[currentUser.email]; if(currentData) showApp(); } catch(e){} }
+}
+
+function doLogin(){
+  const email = document.getElementById('lu').value.trim().toLowerCase();
+  const pass = document.getElementById('lp').value;
+  const err = document.getElementById('login-error');
+  const data = COMMERCANTS[email];
+  if(data && data.pass === pass){
+    currentUser = { email };
+    currentData = data;
+    localStorage.setItem(AUTH_KEY, JSON.stringify(currentUser));
+    err.style.display = 'none';
+    showApp();
+  } else {
+    err.style.display = 'flex';
+    setTimeout(()=>err.style.display='none', 4000);
+  }
+}
+
+function doLogout(){
+  if(!confirm('Se déconnecter ?')) return;
+  localStorage.removeItem(AUTH_KEY);
+  location.reload();
+}
+
+function showApp(){
+  document.getElementById('login-screen').classList.add('hidden');
+  document.getElementById('app').style.display = 'block';
+  initApp();
+}
+
+function initApp(){
+  const d = currentData;
+  document.getElementById('topbar-commerce-name').textContent = d.name;
+  document.getElementById('topbar-avatar').textContent = d.name.split(' ').map(w=>w[0]).slice(0,2).join('').toUpperCase();
+  document.getElementById('welcome-title').textContent = `Bonjour, ${d.name} 👋`;
+  document.getElementById('p-commerce-name').textContent = d.name;
+  updateQuotaDisplay();
+  loadFicheData();
+  loadHorairesEditor();
+  loadDashboard();
+  loadStatsView();
+  loadNotifHistory();
+  updateClock();
+  setInterval(updateClock, 60000);
+  goView(location.hash.replace('#','') || 'dashboard');
+
+  document.getElementById('n-link').addEventListener('change', function(){
+    document.getElementById('n-custom-url-field').style.display = this.value==='custom'?'block':'none';
+  });
+}
+
+function updateQuotaDisplay(){
+  const d = currentData;
+  const remaining = QUOTA_MAX - (d.quota_used||0);
+  const pct = Math.round((d.quota_used||0) / QUOTA_MAX * 100);
+  const label = `${remaining} / ${QUOTA_MAX} restante${remaining>1?'s':''}`;
+
+  setText('quota-label', label);
+  setText('quota-text', label);
+  setText('stat-quota', remaining);
+  setText('stat-quota-extra', `notifications ce mois (${QUOTA_MAX} max)`);
+
+  const fill = document.getElementById('quota-fill');
+  if(fill){ fill.style.width = pct+'%'; fill.style.background = pct>=100?'var(--red)':pct>=80?'var(--orange)':'var(--blue)'; }
+  const qbar = document.getElementById('quota-bar');
+  if(qbar){ qbar.style.width = pct+'%'; qbar.style.background = pct>=100?'var(--red)':pct>=80?'var(--orange)':'var(--blue)'; }
+
+  const badge = document.getElementById('quota-badge');
+  if(badge){ badge.className = 'topbar-notif-quota'+(pct>=100?' full':pct>=80?' warn':''); }
+
+  const sb = document.getElementById('save-bar-quota');
+  if(sb) sb.innerHTML = remaining>0 ? `<span style="color:var(--blue);">${remaining} crédit${remaining>1?'s':''} restant${remaining>1?'s':''} ce mois</span>` : `<span style="color:var(--red);">Quota épuisé — renouvellement le 1ᵉʳ</span>`;
+
+  const sendBtn = document.getElementById('send-btn');
+  if(sendBtn){ sendBtn.disabled = remaining<=0; sendBtn.style.opacity = remaining<=0?'0.5':'1'; }
+
+  const warn = document.getElementById('quota-warning');
+  if(warn){
+    if(remaining<=0){
+      warn.innerHTML='<div class="notice danger"><span class="material-symbols-outlined">block</span><div><strong>Quota épuisé.</strong> Vous avez utilisé vos 5 notifications ce mois. Votre quota se renouvelle le 1ᵉʳ du mois prochain.</div></div>';
+      warn.style.display='block';
+    } else if(remaining===1){
+      warn.innerHTML='<div class="notice warn"><span class="material-symbols-outlined">warning</span><div><strong>Dernier crédit.</strong> Il vous reste 1 notification ce mois. Utilisez-la pour un message à fort impact.</div></div>';
+      warn.style.display='block';
+    } else { warn.style.display='none'; }
+  }
+}
+
+function loadFicheData(){
+  const d = currentData;
+  setVal('f-name', d.name);
+  setVal('f-cat', d.cat);
+  setVal('f-addr', d.addr);
+  setVal('f-tel', d.tel);
+  setVal('f-web', d.web||'');
+  setVal('f-insta', d.insta||'');
+  setVal('f-desc', d.desc||'');
+  updateDescCounter();
+
+  // Tags
+  document.querySelectorAll('.tag-pill[onclick*="toggleTag"]').forEach(t=>{
+    t.classList.toggle('active', (d.tags||[]).includes(t.textContent.trim().replace(/\s+/g,' ')));
+  });
+
+  // Dashboard infos
+  setText('dash-addr', d.addr);
+  setText('dash-tel', d.tel||'Non renseigné');
+  setText('f-lat', d.lat||'');
+  setText('f-lng', d.lng||'');
+  setVal('f-lat', d.lat||'');
+  setVal('f-lng', d.lng||'');
+}
+
+function loadDashboard(){
+  const d = currentData;
+  const today = new Date().getDay(); // 0=dim
+  const days = ['Dimanche','Lundi','Mardi','Mercredi','Jeudi','Vendredi','Samedi'];
+  const h = new Date().getHours();
+  const isOpen = h >= 8 && h < 19;
+  const banner = document.getElementById('dash-status-banner');
+  if(banner){
+    banner.className = 'status-banner ' + (isOpen?'open':'closed');
+    setText('dash-status-text', isOpen ? 'Ouvert en ce moment' : 'Fermé en ce moment');
+    setText('dash-status-sub', `${days[today]} · ${isOpen?'Ferme à 19h':'Ouvre à 8h'}`);
+  }
+  setText('dash-horaire-today', `${days[today]} : ${today===1?'Fermé':'8h – 19h'}`);
+  setText('stat-vues', d.stats.vues);
+  setText('stat-nav', d.stats.nav);
+  setText('stat-calls', d.stats.calls);
+
+  // Activity
+  const acts = [
+    {icon:'visibility',text:`Votre fiche a été vue ${d.stats.vues} fois ce mois`,time:'Ce mois'},
+    {icon:'near_me',text:`${d.stats.nav} personnes ont lancé un itinéraire`,time:'Ce mois'},
+    {icon:'star',text:`Note Google : 4.9 / 5`,time:'Dernière mise à jour'},
+  ];
+  const al = document.getElementById('activity-list');
+  if(al) al.innerHTML = acts.map(a=>`<div class="activity-item"><div class="activity-icon"><span class="material-symbols-outlined">${a.icon}</span></div><div><div class="activity-text">${a.text}</div><div class="activity-time">${a.time}</div></div></div>`).join('');
+}
+
+function loadStatsView(){
+  const d = currentData;
+  setText('s-vues', d.stats.vues);
+  setText('s-vues-var', d.stats.vues_var || '—');
+  setText('s-nav', d.stats.nav);
+  setText('s-calls', d.stats.calls);
+  setText('s-web', d.stats.web);
+  setText('stat-vues-var', d.stats.vues_var || '—');
+}
+
+// ══ HORAIRES ══
+const JOURS = ['Lundi','Mardi','Mercredi','Jeudi','Vendredi','Samedi','Dimanche'];
+let horaireData = [
+  {open:false,h1:'',h2:''},  // Lundi - fermé pour Gelateria
+  {open:true,h1:'08:00',h2:'19:00'},
+  {open:true,h1:'08:00',h2:'19:00'},
+  {open:true,h1:'08:00',h2:'19:00'},
+  {open:true,h1:'08:00',h2:'19:00'},
+  {open:true,h1:'09:00',h2:'19:00'},
+  {open:false,h1:'',h2:''},
+];
+
+function loadHorairesEditor(){
+  const today = (new Date().getDay()+6)%7; // 0=lundi
+  const el = document.getElementById('horaires-editor');
+  if(!el) return;
+  el.innerHTML = JOURS.map((jour,i)=>{
+    const d = horaireData[i];
+    const isToday = i===today;
+    return `
+    <div class="horaire-row" id="hrow-${i}">
+      <div class="horaire-day ${isToday?'today':''}">${jour}${isToday?'<span class="horaire-badge-today">Auj.</span>':''}</div>
+      <label class="toggle-switch">
+        <input type="checkbox" ${d.open?'checked':''} onchange="toggleHoraire(${i},this.checked)"/>
+        <div class="toggle-track"></div>
+        <span class="toggle-label" id="hlabel-${i}">${d.open?'Ouvert':'Fermé'}</span>
+      </label>
+      <div id="htime-${i}" style="display:${d.open?'flex':'none'};align-items:center;gap:8px;">
+        <input type="time" class="field-input" style="width:100px;padding:6px 8px;" value="${d.h1}" onchange="horaireData[${i}].h1=this.value"/>
+        <span style="font-size:12px;color:var(--muted);">–</span>
+        <input type="time" class="field-input" style="width:100px;padding:6px 8px;" value="${d.h2}" onchange="horaireData[${i}].h2=this.value"/>
+      </div>
+      <div id="hclosed-${i}" style="display:${d.open?'none':'block'};"><span class="horaire-closed-label">Fermé</span></div>
+    </div>`;
+  }).join('');
+}
+
+function toggleHoraire(i, checked){
+  horaireData[i].open = checked;
+  document.getElementById('htime-'+i).style.display = checked?'flex':'none';
+  document.getElementById('hclosed-'+i).style.display = checked?'none':'block';
+  document.getElementById('hlabel-'+i).textContent = checked?'Ouvert':'Fermé';
+}
+
+function saveHoraires(){
+  showToast('Horaires enregistrés !');
+  loadDashboard();
+}
+
+function addException(){
+  const date = prompt('Date ou période (ex : 14/07/2026 ou 14/07 – 20/07/2026) :');
+  if(!date) return;
+  const motif = prompt('Motif (ex : Congés d\'été, Jour férié…) :') || 'Fermeture exceptionnelle';
+  const tbody = document.getElementById('exceptions-body');
+  if(tbody.querySelector('td[colspan]')) tbody.innerHTML='';
+  const tr = document.createElement('tr');
+  tr.innerHTML = `<td style="font-size:12px;">${date}</td><td style="font-size:12px;">${motif}</td><td><span style="font-size:10px;font-weight:700;background:#fef2f2;color:var(--red);padding:2px 7px;border-radius:10px;">Fermé</span></td><td style="text-align:right;"><button class="btn btn-sm btn-danger" onclick="this.closest('tr').remove()"><span class="material-symbols-outlined">delete</span></button></td>`;
+  tbody.appendChild(tr);
+  showToast('Exception ajoutée !');
+}
+
+// ══ NOTIFICATIONS ══
+let notifType = 'promo';
+let notifIcon = 'sell';
+
+function pickNotifType(btn, type, icon){
+  document.querySelectorAll('[data-type]').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  notifType = type;
+  notifIcon = icon;
+  document.getElementById('p-icon').textContent = icon;
+  updateNotifPreview();
+}
+
+function updateNotifPreview(){
+  const t = document.getElementById('n-title'); const b = document.getElementById('n-body');
+  document.getElementById('p-title').textContent = t.value || 'Titre de votre notification';
+  document.getElementById('p-body').textContent = b.value || 'Votre message s\'affichera ici.';
+  const tC=document.getElementById('ntitle-count'); const bC=document.getElementById('nbody-count');
+  tC.textContent=`${t.value.length} / 50`; tC.classList.toggle('warn',t.value.length>40);
+  bC.textContent=`${b.value.length} / 120`; bC.classList.toggle('warn',b.value.length>100);
+}
+
+function resetNotifForm(){
+  setVal('n-title',''); setVal('n-body','');
+  updateNotifPreview();
+}
+
+async function sendNotification(){
+  const title = document.getElementById('n-title').value.trim();
+  const body = document.getElementById('n-body').value.trim();
+  if(!title||!body){ showToast('Remplissez le titre et le message.','error'); return; }
+  const remaining = QUOTA_MAX - (currentData.quota_used||0);
+  if(remaining<=0){ showToast('Quota épuisé ce mois.','error'); return; }
+  if(!confirm(`Envoyer cette notification ?\n\n"${title}"\n\nCela utilisera 1 crédit (${remaining-1} restant${remaining-1>1?'s':''} après envoi).`)) return;
+
+  try {
+    await fetch(`${API_BASE}/api/send-notification`, {
+      method:'POST', headers:{'Content-Type':'application/json','x-admin-token':ADMIN_TOKEN},
+      body: JSON.stringify({title, body, ville:'rochefort', target:'all', commercant: currentData.id, type: notifType})
+    });
+  } catch(e){ /* demo mode silencieux */ }
+
+  currentData.quota_used = (currentData.quota_used||0) + 1;
+  currentData.lastNotif = { title, body, date: new Date().toISOString(), type: notifType };
+  updateQuotaDisplay();
+  loadNotifHistory();
+  resetNotifForm();
+  showToast('Notification envoyée !');
+  goView('notif-history');
+}
+
+function loadNotifHistory(){
+  const el = document.getElementById('notif-history-list');
+  if(!el) return;
+
+  // Données démo
+  const history = currentData.lastNotif ? [
+    { title: currentData.lastNotif.title, body: currentData.lastNotif.body, date: currentData.lastNotif.date, recu: 842, ouvert: 621, type: currentData.lastNotif.type },
+    { title: 'Nouveaux parfums de saison', body: 'Sorbet mangue-passion et pistache-fleur d\'oranger disponibles !', date: new Date(Date.now()-86400000*8).toISOString(), recu: 798, ouvert: 554, type: 'news' },
+    { title: 'Fermé lundi 27 avril', body: 'Exceptionnellement fermé ce lundi. On vous retrouve mardi dès 8h !', date: new Date(Date.now()-86400000*14).toISOString(), recu: 811, ouvert: 489, type: 'info' },
+  ] : [
+    { title: 'Nouveaux parfums de saison', body: 'Sorbet mangue-passion et pistache disponibles !', date: new Date(Date.now()-86400000*8).toISOString(), recu: 798, ouvert: 554, type: 'news' },
+    { title: 'Fermé lundi 27 avril', body: 'Exceptionnellement fermé ce lundi.', date: new Date(Date.now()-86400000*14).toISOString(), recu: 811, ouvert: 489, type: 'info' },
+  ];
+
+  const icons = {promo:'sell',event:'event',info:'info',news:'newspaper'};
+  el.innerHTML = history.map((n,i)=>` 
+    <div class="notif-history-item">
+      <div class="notif-history-icon"><span class="material-symbols-outlined">${icons[n.type]||'campaign'}</span></div>
+      <div class="notif-history-body">
+        <div class="notif-history-title">${escapeHtml(n.title)}</div>
+        <div class="notif-history-meta">${timeAgo(n.date)}</div>
+        <div class="notif-history-stats">
+          <span><span class="material-symbols-outlined">send</span> ${n.recu} envoyée${n.recu>1?'s':''}</span>
+          <span><span class="material-symbols-outlined">visibility</span> ${n.ouvert} ouverture${n.ouvert>1?'s':''} <span style="color:var(--green);font-weight:600;">(${Math.round(n.ouvert/n.recu*100)}%)</span></span>
+          <span style="margin-left:auto;font-size:10px;background:var(--blue-light);color:var(--blue);padding:2px 7px;border-radius:10px;font-weight:700;">Crédit ${i+1}/${QUOTA_MAX}</span>
+        </div>
+      </div>
+    </div>`).join('');
+
+  // Aussi mettre à jour le dashboard
+  const dln = document.getElementById('dash-last-notif');
+  if(dln && history.length>0){
+    const n = history[0];
+    dln.innerHTML = `<div style="font-size:13px;font-weight:700;margin-bottom:4px;">${escapeHtml(n.title)}</div><div style="font-size:11px;color:var(--muted);margin-bottom:8px;">${timeAgo(n.date)}</div><div style="font-size:11px;color:var(--muted);display:flex;gap:12px;"><span>✉ ${n.recu} envois</span><span>👁 ${n.ouvert} ouvertures (${Math.round(n.ouvert/n.recu*100)}%)</span></div>`;
+  }
+}
+
+// ══ FICHE ══
+function saveFiche(){
+  currentData.name = document.getElementById('f-name').value.trim() || currentData.name;
+  currentData.cat = document.getElementById('f-cat').value;
+  currentData.addr = document.getElementById('f-addr').value.trim();
+  currentData.tel = document.getElementById('f-tel').value.trim();
+  currentData.web = document.getElementById('f-web').value.trim();
+  currentData.desc = document.getElementById('f-desc').value.trim();
+  document.getElementById('topbar-commerce-name').textContent = currentData.name;
+  loadDashboard();
+  showToast('Fiche enregistrée !');
+}
+
+function updateDescCounter(){
+  const el = document.getElementById('f-desc');
+  const c = document.getElementById('desc-counter');
+  if(!el||!c) return;
+  c.textContent = `${el.value.length} / 200`;
+  c.classList.toggle('warn', el.value.length>170);
+}
+
+function openFichePublique(){
+  if(currentData.fiche_url) window.open(currentData.fiche_url,'_blank');
+  else showToast('Fichier non disponible','error');
+}
+
+// ══ TAGS ══
+function toggleTag(el){ el.classList.toggle('active'); }
+
+// ══ MENU ══
+let menuSectionCount = 1;
+function addMenuSection(){
+  menuSectionCount++;
+  const ed = document.getElementById('menu-editor');
+  const div = document.createElement('div');
+  div.style.marginTop = '20px';
+  div.innerHTML = `<div class="section-label" style="margin-top:16px;">Section ${menuSectionCount}</div><input type="text" class="field-input" style="margin-bottom:12px;" placeholder="Nom de la section" id="menu-section-${menuSectionCount-1}"/><div id="menu-items-${menuSectionCount-1}"></div><button class="menu-add-btn" onclick="addMenuItem(${menuSectionCount-1})"><span class="material-symbols-outlined">add</span>Ajouter un article</button>`;
+  ed.appendChild(div);
+}
+function addMenuItem(sectionIdx){
+  const container = document.getElementById(`menu-items-${sectionIdx}`);
+  if(!container) return;
+  const div = document.createElement('div');
+  div.className = 'menu-item-row';
+  div.innerHTML = `<input type="text" class="field-input" placeholder="Nom"/><input type="text" class="field-input" placeholder="Description"/><input type="text" class="field-input" placeholder="Prix"/><button class="btn btn-sm btn-danger" onclick="this.parentElement.remove()"><span class="material-symbols-outlined">delete</span></button>`;
+  container.appendChild(div);
+}
+
+// ══ PHOTOS ══
+function handlePhotoUpload(input){
+  const files = Array.from(input.files);
+  const grid = document.getElementById('photo-grid');
+  const thumbs = grid.querySelectorAll('.photo-thumb');
+  files.forEach((file,i)=>{
+    const thumb = thumbs[i];
+    if(!thumb) return;
+    const reader = new FileReader();
+    reader.onload = e=>{
+      thumb.innerHTML = `<img src="${e.target.result}" alt="Photo ${i+1}"/><button class="photo-del" onclick="this.parentElement.innerHTML='<div class=\\'photo-thumb-placeholder\\'><span class=\\'material-symbols-outlined\\'>image</span><span>Photo ${i+1}</span></div>'"><span class="material-symbols-outlined">close</span></button>`;
+    };
+    reader.readAsDataURL(file);
+  });
+  showToast(`${files.length} photo${files.length>1?'s':''} chargée${files.length>1?'s':''} !`);
+}
+
+// ══ ROUTING ══
+function goView(name){
+  document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
+  const t = document.getElementById('view-'+name);
+  if(t) t.classList.add('active');
+  document.querySelectorAll('.sb-link').forEach(l=>l.classList.toggle('active',l.dataset.view===name));
+  location.hash = name;
+  window.scrollTo(0,0);
+}
+document.querySelectorAll('.sb-link').forEach(l=>{
+  l.addEventListener('click',e=>{ e.preventDefault(); if(l.dataset.view) goView(l.dataset.view); });
+});
+window.addEventListener('hashchange',()=>{ const h=location.hash.replace('#',''); if(h) goView(h); });
+
+// ══ UTILS ══
+function setText(id,v){ const e=document.getElementById(id); if(e) e.textContent=v; }
+function setVal(id,v){ const e=document.getElementById(id); if(e) e.value=v; }
+function escapeHtml(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+function timeAgo(iso){
+  if(!iso) return '';
+  const d=(Date.now()-new Date(iso).getTime())/1000;
+  if(d<60) return 'À l\'instant'; if(d<3600) return `Il y a ${Math.floor(d/60)} min`;
+  if(d<86400) return `Il y a ${Math.floor(d/3600)} h`; if(d<604800) return `Il y a ${Math.floor(d/86400)} j`;
+  return new Date(iso).toLocaleDateString('fr-FR');
+}
+function updateClock(){ const e=document.getElementById('p-time'); if(e){ const n=new Date(); e.textContent=`${n.getHours().toString().padStart(2,'0')}:${n.getMinutes().toString().padStart(2,'0')}`; } }
+function showToast(msg,type='ok'){
+  const t=document.getElementById('toast');
+  document.getElementById('toast-msg').textContent=msg;
+  t.className='toast show'+(type==='error'?' error':'');
+  setTimeout(()=>t.classList.remove('show'),3000);
+}
+
+document.getElementById('lp').addEventListener('keypress',e=>{ if(e.key==='Enter') doLogin(); });
+checkAuth();
+</script>
+</body>
+</html>
