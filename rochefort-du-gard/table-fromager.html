@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1"/>
+<title>Les Tables du Fromager — Rochefort-du-Gard</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800;900&family=Inter:wght@300;400;500;600&display=swap"/>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html,body{font-family:'Manrope',sans-serif;background:#f8f9fa;color:#0f1923;-webkit-overflow-scrolling:touch;}
+body{padding-bottom:90px;}
+
+/*  HERO  */
+.hero{position:relative;height:320px;overflow:hidden;}
+.hero-img{width:100%;height:100%;object-fit:cover;display:block;}
+.hero-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,0.85) 0%,rgba(0,0,0,0.2) 55%,transparent 100%);}
+.hero-back{position:absolute;top:16px;left:16px;width:40px;height:40px;border-radius:50%;background:rgba(255,255,255,0.15);backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,0.25);display:flex;align-items:center;justify-content:center;cursor:pointer;z-index:10;}
+.hero-back .material-symbols-outlined{color:#fff;font-size:20px;}
+.hero-share{position:absolute;top:16px;right:16px;width:40px;height:40px;border-radius:50%;background:rgba(255,255,255,0.15);backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,0.25);display:flex;align-items:center;justify-content:center;cursor:pointer;z-index:10;}
+.hero-share .material-symbols-outlined{color:#fff;font-size:20px;}
+.hero-content{position:absolute;bottom:0;left:0;right:0;padding:20px 20px 24px;}
+.hero-badge{display:inline-flex;align-items:center;gap:5px;background:rgba(120,60,20,0.9);backdrop-filter:blur(6px);color:#fff;font-size:9px;font-weight:800;letter-spacing:0.12em;text-transform:uppercase;padding:5px 12px;border-radius:20px;margin-bottom:10px;}
+.hero-badge::before{content:'';width:5px;height:5px;background:#fff;border-radius:50%;}
+.hero-name{font-size:30px;font-weight:900;color:#fff;line-height:1.05;letter-spacing:-0.02em;margin-bottom:8px;}
+.hero-meta{display:flex;align-items:center;gap:12px;}
+.hero-rating span.cnt{color:rgba(255,255,255,0.6);font-weight:500;font-size:11px;}
+.hero-pill{background:rgba(255,255,255,0.15);backdrop-filter:blur(6px);border:1px solid rgba(255,255,255,0.25);color:#fff;font-size:10px;font-weight:700;padding:4px 10px;border-radius:20px;}
+
+/*  ALERT BANNER  */
+.alert-banner{margin:16px 16px 0;background:#fefce8;border-radius:14px;padding:12px 16px;display:flex;align-items:flex-start;gap:10px;border:1px solid #fde68a;}
+.alert-banner .material-symbols-outlined{font-size:20px;color:#92400e;flex-shrink:0;margin-top:1px;}
+.alert-text{font-size:13px;font-weight:700;color:#78350f;}
+.alert-sub{font-size:12px;font-weight:500;color:#92400e;margin-top:2px;line-height:1.5;}
+
+/*  OPEN BANNER  */
+.open-banner{margin:16px 16px 0;background:#f0fdf4;border-radius:14px;padding:12px 16px;display:flex;align-items:center;gap:10px;border:1px solid #86efac;}
+.open-dot{width:8px;height:8px;border-radius:50%;background:#16a34a;flex-shrink:0;box-shadow:0 0 0 3px rgba(22,163,74,0.2);}
+.open-text{font-size:13px;font-weight:700;color:#14532d;}
+.open-hours{font-size:12px;font-weight:500;color:#16a34a;margin-top:1px;}
+
+/*  ACTIONS BAR  */
+.actions-bar{display:flex;gap:10px;padding:16px 16px 0;}
+.action-btn{flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;padding:12px 8px;background:#fff;border-radius:14px;box-shadow:0 2px 10px rgba(0,0,0,0.06);cursor:pointer;border:none;font-family:Manrope;text-decoration:none;transition:all 0.15s;}
+.action-btn:active{transform:scale(0.96);}
+.action-btn .material-symbols-outlined{font-size:22px;color:#92400e;}
+.action-btn .lbl{font-size:10px;font-weight:700;color:#0f1923;letter-spacing:0.02em;}
+
+/*  SECTION  */
+.section{padding:24px 16px 0;}
+.section-title{font-size:17px;font-weight:900;color:#0f1923;letter-spacing:-0.02em;margin-bottom:12px;}
+
+/*  DESC  */
+.desc-card{background:#fff;border-radius:16px;padding:16px;box-shadow:0 2px 10px rgba(0,0,0,0.06);}
+.desc-text{font-size:14px;line-height:1.7;color:#374151;font-weight:400;}
+
+/*  PROMO BAND  */
+.promo-band{background:linear-gradient(135deg,#78350f,#b45309);border-radius:14px;padding:14px 16px;display:flex;align-items:center;gap:14px;margin-top:12px;}
+.promo-icon{flex-shrink:0;}
+.promo-title{font-size:13px;font-weight:800;color:#fff;margin-bottom:3px;}
+.promo-desc{font-size:12px;color:rgba(255,255,255,0.8);line-height:1.5;}
+
+/*  INFOS GRID  */
+.infos-grid{display:flex;flex-direction:column;gap:1px;background:#f1f5f9;border-radius:16px;overflow:hidden;box-shadow:0 2px 10px rgba(0,0,0,0.06);}
+.info-row{background:#fff;padding:13px 16px;display:flex;align-items:center;gap:12px;}
+.info-row .material-symbols-outlined{font-size:20px;color:#92400e;flex-shrink:0;}
+.info-row-content{flex:1;}
+.info-row-label{font-size:11px;font-weight:600;color:#94a3b8;margin-bottom:2px;}
+.info-row-val{font-size:14px;font-weight:700;color:#0f1923;}
+.info-row-action{width:32px;height:32px;border-radius:50%;background:#fef3c7;display:flex;align-items:center;justify-content:center;flex-shrink:0;text-decoration:none;}
+.info-row-action .material-symbols-outlined{font-size:16px;color:#92400e;}
+
+/*  TAGS  */
+.tags-wrap{display:flex;flex-wrap:wrap;gap:8px;}
+.tag{display:inline-flex;align-items:center;gap:5px;background:#fff;border-radius:100px;padding:7px 12px;font-size:11px;font-weight:700;color:#374151;box-shadow:0 1px 6px rgba(0,0,0,0.07);}
+.tag .material-symbols-outlined{font-size:14px;color:#92400e;}
+
+/*  HORAIRES  */
+.horaires-card{background:#fff;border-radius:16px;padding:4px 0;box-shadow:0 2px 10px rgba(0,0,0,0.06);}
+.hrow{display:flex;justify-content:space-between;align-items:center;padding:10px 16px;border-bottom:1px solid #f8f9fa;}
+.hrow:last-child{border-bottom:none;}
+.hrow-day{font-size:13px;font-weight:600;color:#374151;}
+.hrow-time{font-size:13px;font-weight:700;color:#0f1923;}
+.hrow-time.closed{color:#dc2626;}
+.hrow-badge{font-size:9px;font-weight:800;text-transform:uppercase;letter-spacing:0.1em;background:#fef3c7;color:#78350f;padding:3px 8px;border-radius:20px;}
+
+/*  MENU  */
+.menu-row{display:flex;justify-content:space-between;align-items:flex-start;padding:12px 0;border-bottom:1px solid #f1f5f9;}
+.menu-row:last-child{border-bottom:none;}
+.menu-name{font-size:14px;font-weight:700;color:#0f1923;margin-bottom:2px;}
+.menu-desc{font-size:12px;color:#94a3b8;line-height:1.4;}
+.menu-price{font-size:14px;font-weight:800;color:#92400e;flex-shrink:0;margin-left:12px;margin-top:2px;}
+
+/*  CTA BOTTOM  */
+.cta-bottom{position:fixed;bottom:0;left:0;right:0;padding:12px 16px 20px;background:rgba(255,255,255,0.95);backdrop-filter:blur(20px);border-top:1px solid rgba(0,0,0,0.06);display:flex;gap:10px;z-index:100;}
+.cta-call{flex:1;display:flex;align-items:center;justify-content:center;gap:8px;background:#78350f;color:#fff;border:none;border-radius:14px;padding:15px;font-family:Manrope;font-size:15px;font-weight:800;cursor:pointer;text-decoration:none;transition:all 0.15s;}
+.cta-call:active{transform:scale(0.97);}
+.cta-call .material-symbols-outlined{font-size:19px;}
+.cta-map{width:52px;height:52px;border-radius:14px;background:#fff;border:1.5px solid #e2e8f0;display:flex;align-items:center;justify-content:center;cursor:pointer;text-decoration:none;flex-shrink:0;}
+.cta-map:active{transform:scale(0.96);}
+.cta-map .material-symbols-outlined{font-size:22px;color:#0f1923;}
+
+/*  AVIS  */
+.avis-card{background:#fff;border-radius:14px;padding:14px;box-shadow:0 1px 8px rgba(0,0,0,0.06);margin-bottom:10px;}
+.avis-header{display:flex;align-items:center;gap:10px;margin-bottom:8px;}
+.avis-avatar{width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,#78350f,#b45309);display:flex;align-items:center;justify-content:center;color:#fff;font-size:14px;font-weight:800;flex-shrink:0;}
+.avis-name{font-size:13px;font-weight:800;color:#0f1923;}
+.avis-date{font-size:11px;color:#94a3b8;margin-top:1px;}
+.avis-stars{display:flex;gap:2px;color:#FBBF24;font-size:13px;margin-left:auto;}
+.avis-text{font-size:13px;color:#374151;line-height:1.6;}
+
+/*  SCORE  */
+.score-card{background:linear-gradient(135deg,#78350f,#92400e);border-radius:18px;padding:20px;display:flex;align-items:center;gap:16px;}
+.score-big{font-size:48px;font-weight:900;color:#fff;line-height:1;letter-spacing:-0.04em;}
+.score-stars{display:flex;gap:3px;color:#FBBF24;font-size:18px;margin-bottom:4px;}
+.score-cnt{font-size:12px;color:rgba(255,255,255,0.5);font-weight:500;}
+.score-bars{flex:1;}
+.score-bar-row{display:flex;align-items:center;gap:8px;margin-bottom:5px;}
+.score-bar-label{font-size:10px;color:rgba(255,255,255,0.6);font-weight:600;width:10px;text-align:right;}
+.score-bar-track{flex:1;height:4px;background:rgba(255,255,255,0.1);border-radius:2px;overflow:hidden;}
+.score-bar-fill{height:100%;background:#FBBF24;border-radius:2px;}
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<div class="hero">
+  <img class="hero-img" src="../assets/rochefort-du-gard/tables-du-fromager.jpg" alt="Les Tables du Fromager">
+  <div class="hero-overlay"></div>
+  <button class="hero-back" onclick="history.back()">
+    <span class="material-symbols-outlined">arrow_back</span>
+  </button>
+  <div class="hero-share">
+    <span class="material-symbols-outlined">share</span>
+  </div>
+  <div class="hero-content">
+    <div class="hero-badge">Bistro · Viande & Fromages · Rochefort-du-Gard</div>
+    <div class="hero-name">Les Tables du Fromager</div>
+    <div class="hero-meta">
+      <div class="hero-rating">
+        <span class="cnt">4,8/5 · 135 avis · #1 sur 8 à Rochefort</span>
+      </div>
+      <div class="hero-pill">Fait maison</div>
+      <div class="hero-pill">Patio</div>
+    </div>
+  </div>
+</div>
+
+<!-- ALERTE FERMETURE -->
+<div class="alert-banner">
+  <span class="material-symbols-outlined">info</span>
+  <div>
+    <div class="alert-text">Fermeture temporaire en cours</div>
+    <div class="alert-sub">Le restaurant est fermé jusqu'à nouvel ordre suite à un manque de personnel. Suivez leur site web ou réseaux sociaux pour la réouverture.</div>
+  </div>
+</div>
+
+<!-- ACTIONS -->
+<div class="actions-bar">
+  <a href="tel:+33490920443" class="action-btn">
+    <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">call</span>
+    <span class="lbl">Appeler</span>
+  </a>
+  <a href="https://www.lestablesdufromager.fr" target="_blank" class="action-btn">
+    <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">language</span>
+    <span class="lbl">Site web</span>
+  </a>
+  <a href="https://maps.google.com/?q=21+rue+du+Grand+Pont+30650+Rochefort-du-Gard" target="_blank" class="action-btn">
+    <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">near_me</span>
+    <span class="lbl">Itinéraire</span>
+  </a>
+  <a href="https://www.facebook.com/p/Les-Tables-Du-Fromager-100084004550741/" target="_blank" class="action-btn">
+    <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">thumb_up</span>
+    <span class="lbl">Facebook</span>
+  </a>
+</div>
+
+<!-- DESCRIPTION -->
+<div class="section">
+  <div class="section-title">Le restaurant</div>
+  <div class="desc-card">
+    <div class="desc-text">
+      Les Tables du Fromager, c'est un <strong>bistro à viande et fromages</strong>, chaleureux et authentique, imaginé comme une table de partage au coeur de Rochefort-du-Gard. La cuisine est sincère, généreuse et accessible — le produit et le goût toujours au centre.<br><br>
+      La carte, évolutive au fil des saisons, met à l'honneur des <strong>viandes soigneusement sélectionnées</strong>, des <strong>fromages affinés</strong> et des accords audacieux. Camembert rôti à la crème de truffe, porchetta de Toscane grillée à la broche, planches fromagères… Une adresse incontournable, classée <strong>#1 sur 8 restaurants</strong> à Rochefort-du-Gard sur Tripadvisor.
+    </div>
+  </div>
+  <div class="promo-band">
+    <div class="promo-icon"><span class="material-symbols-outlined" style="font-size:32px;color:#fff;font-variation-settings:'FILL' 1;">restaurant</span></div>
+    <div>
+      <div class="promo-title">Box à emporter disponibles</div>
+      <div class="promo-desc">Emportez vos plats préférés et régalez-vous en famille ou entre amis.</div>
+    </div>
+  </div>
+</div>
+
+<!-- MENU -->
+<div class="section">
+  <div class="section-title">Carte — Sélection</div>
+  <div class="desc-card">
+    <div style="font-size:11px;font-weight:800;color:#92400e;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:8px;">Entrées & Planches</div>
+    <div class="menu-row">
+      <div><div class="menu-name">La Charcutière</div><div class="menu-desc">Planche assortiment de charcuterie fine</div></div>
+      <div class="menu-price">15 €</div>
+    </div>
+    <div class="menu-row">
+      <div><div class="menu-name">La Fromagère</div><div class="menu-desc">Planche de nos meilleurs fromages affinés</div></div>
+      <div class="menu-price">17 €</div>
+    </div>
+    <div class="menu-row">
+      <div><div class="menu-name">La Mixte</div><div class="menu-desc">Rencontre entre la charcutière et la fromagère</div></div>
+      <div class="menu-price">20 €</div>
+    </div>
+
+    <div style="font-size:11px;font-weight:800;color:#92400e;text-transform:uppercase;letter-spacing:0.1em;margin:14px 0 8px;">Camemberts Rôtis</div>
+    <div class="menu-row">
+      <div><div class="menu-name">Camembert Truffe</div><div class="menu-desc">Camembert rôti à la crème de truffe noire</div></div>
+      <div class="menu-price">—</div>
+    </div>
+    <div class="menu-row">
+      <div><div class="menu-name">Camembert Truffe & Foie Gras</div><div class="menu-desc">Crème de truffe noire et généreuse tranche de foie gras</div></div>
+      <div class="menu-price">—</div>
+    </div>
+    <div class="menu-row">
+      <div><div class="menu-name">Camembert Cèpes & Foie Gras</div><div class="menu-desc">Crème de cèpes et généreuse tranche de foie gras</div></div>
+      <div class="menu-price">—</div>
+    </div>
+
+    <div style="font-size:11px;font-weight:800;color:#92400e;text-transform:uppercase;letter-spacing:0.1em;margin:14px 0 8px;">Plats</div>
+    <div class="menu-row">
+      <div><div class="menu-name">Porchetta Toscane</div><div class="menu-desc">Véritable cochon de lait grillé à la broche, snacké maison</div></div>
+      <div class="menu-price">—</div>
+    </div>
+    <div class="menu-row">
+      <div><div class="menu-name">Burger Maison</div><div class="menu-desc">Viande charolaise, cheddar, tomate, oignons, sauce burger</div></div>
+      <div class="menu-price">—</div>
+    </div>
+    <div class="menu-row">
+      <div><div class="menu-name">Poitrine de Porc Laquée</div><div class="menu-desc">Laquée au miel</div></div>
+      <div class="menu-price">—</div>
+    </div>
+  </div>
+  <div style="font-size:11px;color:#94a3b8;font-weight:500;margin-top:8px;padding:0 4px;">Fourchette de prix · 22 € – 35 € par personne</div>
+</div>
+
+<!-- TAGS -->
+<div class="section">
+  <div class="section-title">Le bon à savoir</div>
+  <div class="tags-wrap">
+    <div class="tag"><span class="material-symbols-outlined">restaurant</span>Bistro viande & fromages</div>
+    <div class="tag"><span class="material-symbols-outlined">eco</span>Produits de saison</div>
+    <div class="tag"><span class="material-symbols-outlined">deck</span>Patio extérieur</div>
+    <div class="tag"><span class="material-symbols-outlined">takeout_dining</span>Box à emporter</div>
+    <div class="tag"><span class="material-symbols-outlined">local_parking</span>Parking à proximité</div>
+    <div class="tag"><span class="material-symbols-outlined">nature_people</span>Options végétariennes</div>
+  </div>
+</div>
+
+<!-- INFOS PRATIQUES -->
+<div class="section">
+  <div class="section-title">Infos pratiques</div>
+  <div class="infos-grid">
+    <div class="info-row">
+      <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">location_on</span>
+      <div class="info-row-content">
+        <div class="info-row-label">Adresse</div>
+        <div class="info-row-val">21 rue du Grand Pont · 30650 Rochefort-du-Gard</div>
+      </div>
+      <a href="https://maps.google.com/?q=21+rue+du+Grand+Pont+30650+Rochefort-du-Gard" target="_blank" class="info-row-action">
+        <span class="material-symbols-outlined">open_in_new</span>
+      </a>
+    </div>
+    <div class="info-row">
+      <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">call</span>
+      <div class="info-row-content">
+        <div class="info-row-label">Téléphone</div>
+        <div class="info-row-val">04 90 92 04 43</div>
+      </div>
+      <a href="tel:+33490920443" class="info-row-action">
+        <span class="material-symbols-outlined">open_in_new</span>
+      </a>
+    </div>
+    <div class="info-row">
+      <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">mail</span>
+      <div class="info-row-content">
+        <div class="info-row-label">Email</div>
+        <div class="info-row-val">contact@lestablesdufromager.fr</div>
+      </div>
+      <a href="mailto:contact@lestablesdufromager.fr" class="info-row-action">
+        <span class="material-symbols-outlined">open_in_new</span>
+      </a>
+    </div>
+    <div class="info-row">
+      <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">language</span>
+      <div class="info-row-content">
+        <div class="info-row-label">Site web</div>
+        <div class="info-row-val">lestablesdufromager.fr</div>
+      </div>
+      <a href="https://www.lestablesdufromager.fr" target="_blank" class="info-row-action">
+        <span class="material-symbols-outlined">open_in_new</span>
+      </a>
+    </div>
+    <div class="info-row">
+      <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">storefront</span>
+      <div class="info-row-content">
+        <div class="info-row-label">Type d'établissement</div>
+        <div class="info-row-val">Bistro · Viande & Fromages · Sur place & À emporter</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- HORAIRES -->
+<div class="section">
+  <div class="section-title">Horaires habituels</div>
+  <div class="horaires-card">
+    <div class="hrow" data-day="1"><span class="hrow-day">Lundi</span><span class="hrow-time closed">Fermé</span></div>
+    <div class="hrow" data-day="2"><span class="hrow-day">Mardi</span><span class="hrow-time">17h00 – 22h00</span></div>
+    <div class="hrow" data-day="3"><span class="hrow-day">Mercredi</span><span class="hrow-time">17h00 – 22h00</span></div>
+    <div class="hrow" data-day="4"><span class="hrow-day">Jeudi</span><span class="hrow-time">17h00 – 22h00</span></div>
+    <div class="hrow" data-day="5"><span class="hrow-day">Vendredi</span><span class="hrow-time">17h00 – 22h00</span></div>
+    <div class="hrow" data-day="6"><span class="hrow-day">Samedi</span><span class="hrow-time">17h00 – 22h00</span></div>
+    <div class="hrow" data-day="0"><span class="hrow-day">Dimanche</span><span class="hrow-time">17h00 – 22h00</span></div>
+  </div>
+  <div style="font-size:11px;color:#94a3b8;font-weight:500;margin-top:8px;padding:0 4px;">Horaires en vigueur lors de la prochaine réouverture · Vérifier sur leur site web</div>
+</div>
+
+<!-- AVIS -->
+<div class="section">
+  <div class="section-title">Avis clients</div>
+  <div class="score-card">
+    <div style="text-align:center;">
+      <div class="score-big">4,8</div>
+      <div class="score-stars">★★★★★</div>
+      <div class="score-cnt">135 avis Tripadvisor</div>
+    </div>
+    <div class="score-bars">
+      <div class="score-bar-row"><span class="score-bar-label">5</span><div class="score-bar-track"><div class="score-bar-fill" style="width:85%"></div></div></div>
+      <div class="score-bar-row"><span class="score-bar-label">4</span><div class="score-bar-track"><div class="score-bar-fill" style="width:10%"></div></div></div>
+      <div class="score-bar-row"><span class="score-bar-label">3</span><div class="score-bar-track"><div class="score-bar-fill" style="width:3%"></div></div></div>
+      <div class="score-bar-row"><span class="score-bar-label">2</span><div class="score-bar-track"><div class="score-bar-fill" style="width:1%"></div></div></div>
+      <div class="score-bar-row" style="margin-bottom:0;"><span class="score-bar-label">1</span><div class="score-bar-track"><div class="score-bar-fill" style="width:1%"></div></div></div>
+      <div style="margin-top:10px;font-size:10px;color:rgba(255,255,255,0.4);font-weight:500;">Bistro · Rochefort-du-Gard · #1 sur 8 restaurants</div>
+    </div>
+  </div>
+</div>
+
+<div style="padding:12px 16px 0;">
+  <div class="avis-card">
+    <div class="avis-header">
+      <div class="avis-avatar">A</div>
+      <div><div class="avis-name">Alexandre D.</div><div class="avis-date">Tripadvisor</div></div>
+      <div class="avis-stars">★★★★★</div>
+    </div>
+    <div class="avis-text">Un lieu très intimiste et chaleureux avec de bons plats faits maison et de qualité. Des camemberts au four aux cèpes et à la truffe qui nous rappellent nos meilleurs moments à la montagne. Un lieu incontournable à Rochefort-du-Gard !</div>
+  </div>
+  <div class="avis-card">
+    <div class="avis-header">
+      <div class="avis-avatar" style="background:linear-gradient(135deg,#78350f,#b45309);">S</div>
+      <div><div class="avis-name">Sophie M.</div><div class="avis-date">Tripadvisor</div></div>
+      <div class="avis-stars">★★★★★</div>
+    </div>
+    <div class="avis-text">Nous avons très bien mangé et l'accueil et le suivi du repas ont été excellents. Une adresse à retenir absolument.</div>
+  </div>
+  <div class="avis-card">
+    <div class="avis-header">
+      <div class="avis-avatar" style="background:linear-gradient(135deg,#b45309,#d97706);">P</div>
+      <div><div class="avis-name">Pierre L.</div><div class="avis-date">Google · 4,7/5</div></div>
+      <div class="avis-stars">★★★★★</div>
+    </div>
+    <div class="avis-text">Les accords fromages et vins sont fabuleux. Le plaisir de la découverte qui ne cesse de se répéter tellement le terroir abonde de produits incroyables.</div>
+  </div>
+</div>
+
+<!-- MAP -->
+<div class="section" style="padding-bottom:16px;">
+  <div class="section-title">Localisation</div>
+  <a href="https://maps.google.com/?q=21+rue+du+Grand+Pont+30650+Rochefort-du-Gard" target="_blank"
+     style="display:block;border-radius:16px;overflow:hidden;height:160px;background:linear-gradient(135deg,#fef3c7,#fde68a);position:relative;text-decoration:none;">
+    <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:8px;">
+      <span class="material-symbols-outlined" style="font-size:40px;color:#78350f;font-variation-settings:'FILL' 1;">location_on</span>
+      <div style="font-size:14px;font-weight:800;color:#0f1923;">21 rue du Grand Pont</div>
+      <div style="font-size:12px;font-weight:500;color:#64748b;">30650 Rochefort-du-Gard · Centre village</div>
+      <div style="display:flex;align-items:center;gap:4px;background:#fff;padding:6px 14px;border-radius:20px;box-shadow:0 2px 8px rgba(0,0,0,0.1);margin-top:4px;">
+        <span class="material-symbols-outlined" style="font-size:14px;color:#78350f;">near_me</span>
+        <span style="font-size:11px;font-weight:700;color:#0f1923;">Ouvrir dans Maps</span>
+      </div>
+    </div>
+  </a>
+</div>
+
+<!-- BOTTOM CTA -->
+<div class="cta-bottom">
+  <a href="tel:+33490920443" class="cta-call">
+    <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">call</span>
+    Appeler · 04 90 92 04 43
+  </a>
+  <a href="https://maps.google.com/?q=21+rue+du+Grand+Pont+30650+Rochefort-du-Gard" target="_blank" class="cta-map">
+    <span class="material-symbols-outlined">near_me</span>
+  </a>
+</div>
+
+<script>
+(function(){
+  var today = new Date().getDay();
+  document.querySelectorAll('.hrow[data-day]').forEach(function(row){
+    if(parseInt(row.dataset.day) === today){
+      var dayEl = row.querySelector('.hrow-day');
+      if(dayEl){
+        dayEl.style.fontWeight = '800';
+        dayEl.style.color = '#0f1923';
+        var badge = document.createElement('span');
+        badge.className = 'hrow-badge';
+        badge.style.marginLeft = '8px';
+        badge.textContent = 'Auj.';
+        dayEl.appendChild(badge);
+      }
+    }
+  });
+})();
+</script>
+</body>
+</html>
