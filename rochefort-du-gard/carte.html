@@ -171,50 +171,65 @@ a[href^="https://maps.google.com/maps"]{display:none!important;}
   border:1px solid rgba(15,25,35,0.1)!important;
 }
 
-/* ── FICHE OVERLAY ── */
+/* ── FICHE IFRAME VIEWER ── */
 #fiche-overlay{
   position:fixed;inset:0;z-index:1200;
   background:rgba(15,25,35,0.55);backdrop-filter:blur(6px);
-  display:none;opacity:0;transition:opacity 0.25s;
+  display:none;opacity:0;
+  transition:opacity 0.3s;
   align-items:flex-end;justify-content:center;
 }
 #fiche-overlay.show{display:flex;opacity:1;}
 #fiche-panel{
+  width:100%;max-width:480px;
+  height:92vh;
+  display:flex;flex-direction:column;
   background:#fff;
   border-radius:24px 24px 0 0;
-  width:100%;max-width:480px;
-  max-height:88vh;
-  display:flex;flex-direction:column;
-  box-shadow:0 -8px 40px rgba(15,25,35,0.22);
-  transform:translateY(100%);
-  transition:transform 0.35s cubic-bezier(0.34,1.2,0.64,1);
   overflow:hidden;
+  box-shadow:0 -8px 40px rgba(15,25,35,0.3);
+  transform:translateY(100%);
+  transition:transform 0.38s cubic-bezier(0.34,1.1,0.64,1);
 }
 #fiche-overlay.show #fiche-panel{transform:translateY(0);}
-.fiche-img-wrap{position:relative;height:220px;background:#e8ede8;flex-shrink:0;}
-.fiche-img{width:100%;height:100%;object-fit:cover;display:block;}
-.fiche-img-placeholder{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#e8ede8,#c8d8c8);}
-.fiche-img-placeholder .material-symbols-outlined{font-size:56px;color:#94a3b8;}
-.fiche-close{position:absolute;top:12px;right:12px;z-index:2;background:rgba(255,255,255,0.92);border:none;border-radius:50%;width:34px;height:34px;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 10px rgba(0,0,0,0.18);}
-.fiche-close .material-symbols-outlined{font-size:18px;color:#0f1923;}
-.fiche-cat-badge{position:absolute;bottom:12px;left:12px;background:rgba(255,255,255,0.92);backdrop-filter:blur(8px);border-radius:20px;padding:5px 11px;font-size:10px;font-weight:800;letter-spacing:0.06em;text-transform:uppercase;color:#0f1923;box-shadow:0 2px 10px rgba(0,0,0,0.12);}
-.fiche-scroll{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;}
-.fiche-header{padding:18px 18px 10px;}
-.fiche-name{font-size:22px;font-weight:900;color:#0f1923;letter-spacing:-0.02em;line-height:1.1;margin-bottom:6px;}
-.fiche-addr{font-size:12px;color:#94a3b8;font-weight:600;}
-.fiche-badges{display:flex;gap:6px;flex-wrap:wrap;padding:0 18px 14px;}
-.fiche-badge{display:inline-flex;align-items:center;gap:4px;background:#f1f5f9;color:#475569;font-size:10px;font-weight:800;letter-spacing:0.04em;padding:5px 10px;border-radius:20px;border:1px solid rgba(15,25,35,0.06);}
-.fiche-section{padding:14px 18px;}
-.fiche-section+.fiche-section{border-top:1px solid #f1f5f9;}
-.fiche-section-title{display:flex;align-items:center;gap:6px;font-size:11px;font-weight:800;letter-spacing:0.08em;text-transform:uppercase;color:#94a3b8;margin-bottom:10px;}
-.fiche-section-title .material-symbols-outlined{font-size:15px;}
-.fiche-text{font-size:13.5px;color:#374151;line-height:1.65;font-weight:500;}
-.fiche-info-row{display:flex;align-items:flex-start;gap:10px;font-size:12.5px;color:#374151;font-weight:600;padding:5px 0;}
-.fiche-info-row .material-symbols-outlined{font-size:16px;color:#94a3b8;flex-shrink:0;margin-top:1px;}
-.fiche-actions{padding:16px 18px 32px;}
-.fiche-btn-primary{width:100%;background:#0f1923;color:#fff;border:none;border-radius:14px;padding:15px;font-family:Manrope;font-size:14px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;-webkit-tap-highlight-color:transparent;}
-.fiche-btn-primary:active{transform:scale(0.98);}
-.fiche-btn-primary .material-symbols-outlined{font-size:18px;}
+
+#fiche-topbar{
+  display:flex;align-items:center;
+  padding:0 6px 0 14px;
+  height:52px;
+  border-bottom:1px solid #f1f5f9;
+  flex-shrink:0;
+  gap:10px;
+}
+#fiche-close-btn{
+  background:none;border:none;cursor:pointer;
+  width:36px;height:36px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  color:#0f1923;flex-shrink:0;
+  -webkit-tap-highlight-color:transparent;
+}
+#fiche-close-btn:active{background:rgba(0,0,0,0.05);}
+#fiche-close-btn .material-symbols-outlined{font-size:26px;}
+#fiche-topbar-title{
+  flex:1;font-size:14px;font-weight:800;color:#0f1923;
+  overflow:hidden;text-overflow:ellipsis;white-space:nowrap;
+}
+#fiche-nav-btn{
+  background:#0f1923;border:none;cursor:pointer;
+  width:36px;height:36px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  flex-shrink:0;
+  -webkit-tap-highlight-color:transparent;
+}
+#fiche-nav-btn:active{background:#1e2e3e;}
+#fiche-nav-btn .material-symbols-outlined{font-size:18px;color:#fff;}
+
+#fiche-iframe{
+  flex:1;
+  width:100%;
+  border:none;
+  display:block;
+}
 
 
 /* ═══════════════════════════════════════════════════════════════
@@ -523,33 +538,19 @@ a[href^="https://maps.google.com/maps"]{display:none!important;}
   </div>
 </div>
 
-<!-- FICHE DÉTAILLÉE -->
-<div id="fiche-overlay" onclick="if(event.target===this)closeFiche()">
+<!-- FICHE IFRAME VIEWER -->
+<div id="fiche-overlay">
   <div id="fiche-panel">
-    <div class="fiche-img-wrap">
-      <img class="fiche-img" id="fiche-img" src="" alt=""/>
-      <div class="fiche-img-placeholder" id="fiche-img-placeholder"><span class="material-symbols-outlined">place</span></div>
-      <button class="fiche-close" onclick="closeFiche()"><span class="material-symbols-outlined">close</span></button>
-      <div class="fiche-cat-badge" id="fiche-cat-badge"></div>
+    <div id="fiche-topbar">
+      <button id="fiche-close-btn" onclick="closeFiche()">
+        <span class="material-symbols-outlined">keyboard_arrow_down</span>
+      </button>
+      <span id="fiche-topbar-title"></span>
+      <button id="fiche-nav-btn" onclick="closeFiche();navigateToSelected()">
+        <span class="material-symbols-outlined">near_me</span>
+      </button>
     </div>
-    <div class="fiche-scroll">
-      <div class="fiche-header">
-        <div class="fiche-name" id="fiche-name"></div>
-        <div class="fiche-addr" id="fiche-addr"></div>
-      </div>
-      <div class="fiche-badges" id="fiche-badges"></div>
-      <div class="fiche-section">
-        <div class="fiche-section-title"><span class="material-symbols-outlined">history_edu</span> À propos</div>
-        <div class="fiche-text" id="fiche-histoire"></div>
-      </div>
-      <div class="fiche-infos" id="fiche-infos"></div>
-      <div class="fiche-actions">
-        <button class="fiche-btn-primary" onclick="closeFiche();navigateToSelected()">
-          <span class="material-symbols-outlined">near_me</span>
-          Y aller
-        </button>
-      </div>
-    </div>
+    <iframe id="fiche-iframe" src="" frameborder="0" allowfullscreen></iframe>
   </div>
 </div>
 
@@ -739,12 +740,13 @@ const PLACES = [
     cat: 'religieux',
     pmr: false,
     name: "Sanctuaire Notre-Dame de Grâce",
+    fiche_url: "notre-dame-de-grace.html",
     desc: "Perché sur un piton rocheux à 1 km du village, ce sanctuaire bénédictin du XVIIe siècle surplombe la plaine. Il offre une vue panoramique exceptionnelle sur la vallée du Rhône et le Mont Ventoux.",
     addr: "830 Avenue du Sanctuaire, 30650 Rochefort-du-Gard",
     lat: 43.982905, lng: 4.695791,
     era: "XVIIe siècle",
     note: "4.8",
-    bg: "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3e/Notre-Dame-de-Gr%C3%A2ce_Rochefort-du-Gard.jpg/640px-Notre-Dame-de-Gr%C3%A2ce_Rochefort-du-Gard.jpg",
+    bg: "notre-dame-de-grace.jpg",
     fiche: { histoire: "Le sanctuaire de Notre-Dame de Grâce est l'un des hauts lieux de pèlerinage de la région. Son prédécesseur fut bâti en 798 comme chapelle Notre-Dame de Victoire par Charlemagne pour célébrer la victoire sur les Arabes. Reconstruit en 1637 avec l'arrivée des Bénédictins de Saint-Maur, il connut de nombreuses améliorations aux XVIIe et XVIIIe siècles. Vendu comme bien national en 1795, il fut confié aux pères maristes de 1846 à 1962.", horaires: "Tous les jours 8h–19h (fermé mercredi)", tel: "04 90 31 72 01", web: "ndg30.fr" },
   },
   {
@@ -752,12 +754,13 @@ const PLACES = [
     cat: 'religieux',
     pmr: true,
     name: "Église Saint-Bardulphe",
+    fiche_url: "sainte-bardulphe.html",
     desc: "Inaugurée en 1849, cette église néo-gothique aux deux tours pointues est le cœur du vieux village. Son décor polychrome est l'œuvre du peintre Marinelli (1876). L'autel de marbre provient de Notre-Dame de Grâce.",
     addr: "Rue de l'Église, 30650 Rochefort-du-Gard",
     lat: 43.9748, lng: 4.6900,
     era: "XIXe siècle",
     note: "4.5",
-    bg: "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6a/Rochefort-du-Gard_-_%C3%A9glise.jpg/640px-Rochefort-du-Gard_-_%C3%A9glise.jpg",
+    bg: "sainte-bardulphe.jpg",
     fiche: { histoire: "L'église paroissiale Saint-Bardulphe, inaugurée en 1849, est l'une des plus complètes et harmonieuses du département du Gard. Ses deux tours hexagonales caractéristiques dominent le village. L'intérieur à trois nefs renferme des vitraux, un décor polychrome exceptionnel peint par Marinelli en 1876, et un autel de marbre provenant du sanctuaire Notre-Dame de Grâce. Plusieurs restaurations ont eu lieu entre 1981 et 2010.", horaires: "Accès libre", tel: "", web: "ville-rochefortdugard.fr" },
   },
   {
@@ -765,12 +768,13 @@ const PLACES = [
     cat: 'monument',
     pmr: false,
     name: "Le Castelas",
+    fiche_url: "castellas.html",
     desc: "Sommet historique du village occupé dès le XIIe siècle. Château féodal et remparts médiévaux. Au XVIe siècle, une tour et une chapelle y furent bâties. Vue panoramique sur les plaines, le Mont Ventoux et les Alpilles.",
     addr: "Montée du Castelas, 30650 Rochefort-du-Gard",
     lat: 43.9762, lng: 4.6889,
     era: "XIIe siècle",
     note: "4.7",
-    bg: "https://upload.wikimedia.org/wikipedia/commons/thumb/f/fc/Rochefort-du-Gard_-_le_castelas.jpg/640px-Rochefort-du-Gard_-_le_castelas.jpg",
+    bg: "castellas.jpg",
     fiche: { histoire: "Le Castelas est le point culminant de Rochefort-du-Gard. Ce site stratégique, occupé dès le XIIe siècle, accueillait un château féodal avec ses remparts. Au début du XVIe siècle, une tour et une chapelle y furent érigées et surplombent encore le village aujourd'hui. Le panorama depuis le belvédère permet d'identifier le Mont Ventoux, les Alpilles, et par temps clair, la mer.", horaires: "Accès libre toute l'année", tel: "", web: "" },
   },
 ];
@@ -782,12 +786,13 @@ const COMMERCES = [
     cat: 'restaurant',
     pmr: true,
     name: "Gelateria Francesca",
+    fiche_url: "gelateria.html",
     desc: "Glaces artisanales italiennes au cœur du village. Parfums généreux, terrasse ombragée, salades fraîches et planches charcuterie-fromage. Note Google 4.9/5.",
     addr: "11 ter Avenue Frédéric Mistral, 30650 Rochefort-du-Gard",
     lat: 43.9748, lng: 4.6897,
     horaires: "8h–19h",
     note: "4.9",
-    bg: "https://images.unsplash.com/photo-1501443762994-82bd5dace89a?w=640&q=80",
+    bg: "gelateria.jpg",
     fiche: { histoire: "Au cœur du village de Rochefort-du-Gard, la Gelateria Francesca est devenue une adresse incontournable pour les habitants et les visiteurs. Glaces artisanales aux parfums généreux, planches charcuterie-fromage, salades fraîches et pancakes gourmands. La terrasse ombragée invite à s'attarder dans une ambiance chaleureuse.", horaires: "Mar–Sam 8h–19h · Dim 9h–19h · Fermé Lundi", tel: "04 65 87 77 27", web: "gelateria.francesca" },
   },
   {
@@ -795,12 +800,13 @@ const COMMERCES = [
     cat: 'restaurant',
     pmr: true,
     name: "Les Tables du Fromager",
+    fiche_url: "tables-du-fromager.html",
     desc: "Restaurant fromager #1 à Rochefort-du-Gard. Camembert rôti à la truffe, magret au chèvre, sélection de fromages affinés. Patio intérieur charmant, note 4.8/5.",
     addr: "21 Rue du Grand Pont, 30650 Rochefort-du-Gard",
     lat: 43.9745, lng: 4.6903,
     horaires: "12h–22h",
     note: "4.8",
-    bg: "https://images.unsplash.com/photo-1486297678162-eb2a19b0a32d?w=640&q=80",
+    bg: "tables-du-fromager.jpg",
     fiche: { histoire: "Les Tables du Fromager est le restaurant le mieux noté de Rochefort-du-Gard (4.8/5 sur 750+ avis). L'établissement met le fromage à l'honneur sous toutes ses formes : camembert rôti à la truffe, magret au chèvre, assiettes de fromages affinés soigneusement composées. Le patio intérieur offre une atmosphère intime et chaleureuse, idéale pour un repas en famille ou entre amis. Réservation recommandée.", horaires: "Mer–Dim 12h–14h · 19h–22h · Fermé Lun & Mar", tel: "04 90 92 04 43", web: "lestablesdufromager.fr" },
   },
   {
@@ -808,12 +814,13 @@ const COMMERCES = [
     cat: 'artisan',
     pmr: true,
     name: "Au Levain Naturel",
+    fiche_url: "au-levain-naturel.html",
     desc: "Boulangerie-pâtisserie artisanale au levain naturel. Pains travaillés sur place, pâtisseries de qualité. Ouverte tous les jours de 6h30 à 20h. Parking à disposition.",
     addr: "148 Allée des Issards, 30650 Rochefort-du-Gard",
     lat: 43.9728, lng: 4.6855,
     horaires: "6h30–20h",
     note: "5.0",
-    bg: "https://images.unsplash.com/photo-1509440159596-0249088772ff?w=640&q=80",
+    bg: "au-levain-naturel.jpg",
     fiche: { histoire: "Boulangerie-pâtisserie artisanale travaillant exclusivement au levain naturel. Située à la sortie des Angles, à l'entrée de Rochefort-du-Gard, avec un grand parking. Pain à la croûte dorée, mie alvéolée, pâtisseries maison de qualité. Accueil chaleureux et souriant. Note parfaite 5.0/5.", horaires: "Tous les jours 6h30–20h", tel: "", web: "aulevainnaturel.fr" },
   },
   {
@@ -821,12 +828,13 @@ const COMMERCES = [
     cat: 'restaurant',
     pmr: true,
     name: "XL Café Restaurant",
+    fiche_url: "xl-cafe.html",
     desc: "Bar-restaurant convivial avec cuisine maison à base de produits locaux. Salades, burgers, magret, tapas. Grande salle jusqu'à 100 convives pour événements privés ou professionnels.",
     addr: "14 Rue du Marché, 30650 Rochefort-du-Gard",
     lat: 43.9746, lng: 4.6908,
     horaires: "9h–23h",
     note: "4.3",
-    bg: "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=640&q=80",
+    bg: "xl-cafe.jpg",
     fiche: { histoire: "Le XL Café est le bar-restaurant central de Rochefort-du-Gard. Cuisine faite maison avec des produits locaux : viandes, légumes et fromages sélectionnés auprès de producteurs de la région. La salle modulable peut accueillir jusqu'à 100 convives pour anniversaires, baptêmes ou séminaires. Soirées à thème régulières.", horaires: "Mar–Dim 9h–23h · Fermé Lundi", tel: "04 90 23 08 24", web: "xl-cafe.fr" },
   },
 ];
@@ -959,9 +967,9 @@ function openPopup(place) {
     if (placeholder) placeholder.style.display = 'flex';
   }
 
-  // Bouton "Voir la fiche" visible seulement si fiche dispo
+  // Bouton "Voir la fiche" visible seulement si fiche_url dispo
   const ficheBtn = document.getElementById('pw-fiche-btn');
-  if (ficheBtn) ficheBtn.style.display = place.fiche ? 'flex' : 'none';
+  if (ficheBtn) ficheBtn.style.display = place.fiche_url ? 'flex' : 'none';
 
   const color = getCatColor(place.cat);
   const label = (CATS[place.cat] && CATS[place.cat].label) || '';
@@ -1004,53 +1012,24 @@ function openPopup(place) {
 }
 
 function openFiche() {
-  if (!selectedPlace) return;
-  const p = selectedPlace;
+  if (!selectedPlace || !selectedPlace.fiche_url) return;
   const overlay = document.getElementById('fiche-overlay');
-  
-  // Image
-  const img = document.getElementById('fiche-img');
-  const ph = document.getElementById('fiche-img-placeholder');
-  if (p.bg) {
-    img.src = p.bg;
-    img.style.display = 'block';
-    if (ph) ph.style.display = 'none';
-  } else {
-    img.style.display = 'none';
-    if (ph) ph.style.display = 'flex';
-  }
-
-  // Cat badge
-  const color = getCatColor(p.cat);
-  const label = (CATS[p.cat] && CATS[p.cat].label) || '';
-  document.getElementById('fiche-cat-badge').innerHTML = '<span style="display:inline-flex;align-items:center;gap:5px;"><span style="width:7px;height:7px;border-radius:50%;background:'+color+';display:inline-block;"></span>'+label+(p.era?' · '+p.era:'')+'</span>';
-
-  document.getElementById('fiche-name').textContent = p.name;
-  document.getElementById('fiche-addr').textContent = p.addr || '';
-
-  // Badges
-  let bHTML = '';
-  if (p.note) bHTML += '<span class="fiche-badge"><span style="color:#f59e0b">★</span> '+p.note+'</span>';
-  if (p.pmr) bHTML += '<span class="fiche-badge"><span class="material-symbols-outlined" style="font-size:13px;">accessible</span> PMR</span>';
-  if (p.fiche && p.fiche.horaires) bHTML += '<span class="fiche-badge"><span class="material-symbols-outlined" style="font-size:13px;">schedule</span> '+p.fiche.horaires+'</span>';
-  document.getElementById('fiche-badges').innerHTML = bHTML;
-
-  // Histoire
-  const hist = (p.fiche && p.fiche.histoire) ? p.fiche.histoire : p.desc || '';
-  document.getElementById('fiche-histoire').textContent = hist;
-
-  // Infos pratiques
-  let infosHTML = '';
-  if (p.fiche && p.fiche.tel) infosHTML += '<div class="fiche-info-row"><span class="material-symbols-outlined">call</span><span>'+p.fiche.tel+'</span></div>';
-  if (p.addr) infosHTML += '<div class="fiche-info-row"><span class="material-symbols-outlined">location_on</span><span>'+p.addr+'</span></div>';
-  if (p.fiche && p.fiche.web) infosHTML += '<div class="fiche-info-row"><span class="material-symbols-outlined">language</span><span>'+p.fiche.web+'</span></div>';
-  document.getElementById('fiche-infos').innerHTML = infosHTML ? '<div class="fiche-section"><div class="fiche-section-title"><span class="material-symbols-outlined">info</span> Infos pratiques</div>'+infosHTML+'</div>' : '';
-
+  const iframe = document.getElementById('fiche-iframe');
+  const title = document.getElementById('fiche-topbar-title');
+  iframe.src = selectedPlace.fiche_url;
+  title.textContent = selectedPlace.name;
   overlay.classList.add('show');
+  document.body.style.overflow = 'hidden';
 }
 
 function closeFiche() {
-  document.getElementById('fiche-overlay').classList.remove('show');
+  const overlay = document.getElementById('fiche-overlay');
+  overlay.classList.remove('show');
+  document.body.style.overflow = '';
+  // Reset iframe after transition
+  setTimeout(() => {
+    document.getElementById('fiche-iframe').src = '';
+  }, 400);
 }
 
 function closePopup() {
