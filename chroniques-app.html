@@ -1,0 +1,769 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Noto+Serif:ital,wght@0,400;0,700;1,400&family=Uncial+Antiqua&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<title>Chroniques de Provence</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+.material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+
+:root {
+  --primary: #9e3d00;
+  --primary-dark: #7a2e00;
+  --accent: #c64f00;
+  --gold: #c8960a;
+  --surface: #ffffff;
+  --surface-2: #f7f2ec;
+  --outline: #8c7166;
+  --outline-light: #e0c8b8;
+  --text: #1f1b10;
+  --text-2: #594238;
+  --manrope: 'Manrope', sans-serif;
+  --serif: 'Noto Serif', serif;
+}
+
+html, body {
+  height: 100dvh;
+  overflow: hidden;
+  background: #0d0a06;
+  font-family: var(--manrope);
+}
+
+/* ══ PHONE SHELL ══ */
+.phone {
+  width: 375px;
+  height: 812px;
+  max-height: 100dvh;
+  margin: 0 auto;
+  position: relative;
+  overflow: hidden;
+  background: var(--surface);
+}
+
+/* ══ SCREENS ══ */
+.screen {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .3s ease;
+}
+.screen.active {
+  opacity: 1;
+  pointer-events: all;
+}
+
+/* ══ SHARED NAVBAR ══ */
+.navbar {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  padding: 8px 8px 12px;
+  background: #ffffff;
+  border-top: 1.5px solid var(--outline-light);
+  flex-shrink: 0;
+  z-index: 50;
+}
+.nav-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  cursor: pointer;
+  padding: 4px 12px;
+  border-radius: 50px;
+  transition: all .15s;
+  font-family: var(--manrope);
+}
+.nav-item.active {
+  background: var(--accent);
+}
+.nav-item.active .material-symbols-outlined,
+.nav-item.active .nav-label { color: #fff; }
+.nav-item .material-symbols-outlined { font-size: 22px; color: #000; }
+.nav-label {
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: .07em;
+  text-transform: uppercase;
+  color: #000;
+}
+
+/* ════════════════════════
+   ÉCRAN 1 — ACCUEIL
+════════════════════════ */
+#s-accueil {
+  position: relative;
+  background: #0d0a06;
+  height: 100dvh;
+}
+.accueil-bg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+.accueil-bg img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 30%;
+}
+.accueil-bg::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to bottom,
+    rgba(13,10,6,.55) 0%,
+    rgba(13,10,6,.1) 35%,
+    rgba(13,10,6,.2) 60%,
+    rgba(13,10,6,.88) 100%
+  );
+}
+.accueil-content {
+  position: relative;
+  z-index: 2;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  padding: 60px 28px 36px;
+}
+.accueil-logo { display: flex; flex-direction: column; align-items: center; }
+.accueil-title {
+  font-family: 'Uncial Antiqua', cursive;
+  font-size: 34px;
+  font-weight: 400;
+  color: #fff;
+  text-align: center;
+  line-height: 1.2;
+  text-shadow: 0 2px 40px rgba(0,0,0,.7), 0 0 80px rgba(0,0,0,.4);
+}
+.accueil-bottom { width: 100%; }
+.btn-jouer {
+  width: 100%;
+  padding: 18px;
+  background: var(--accent);
+  border: none;
+  border-radius: 14px;
+  font-family: var(--manrope);
+  font-size: 18px;
+  font-weight: 800;
+  color: #fff;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+  cursor: pointer;
+  box-shadow: 0 8px 24px rgba(198,79,0,.5);
+  transition: transform .1s, box-shadow .1s;
+}
+.btn-jouer:active { transform: scale(.97); }
+
+/* ════════════════════════
+   ÉCRAN 2 — MAP
+════════════════════════ */
+#s-map {
+  background: var(--surface);
+}
+.map-header {
+  background: #fff;
+  border-bottom: 1.5px solid var(--outline-light);
+  padding: 12px 16px 10px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-shrink: 0;
+  z-index: 20;
+}
+.map-logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.map-logo-icon {
+  width: 36px;
+  height: 36px;
+  background: var(--accent);
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.map-logo-icon .material-symbols-outlined {
+  color: #fff;
+  font-size: 20px;
+  font-variation-settings: 'FILL' 1, 'wght' 400;
+}
+.map-logo-text {
+  display: flex;
+  flex-direction: column;
+}
+.map-logo-title {
+  font-size: 15px;
+  font-weight: 800;
+  color: var(--primary);
+  line-height: 1.1;
+  letter-spacing: -.01em;
+}
+.map-logo-sub {
+  font-size: 10px;
+  font-weight: 500;
+  color: var(--outline);
+  letter-spacing: .05em;
+  text-transform: uppercase;
+}
+.map-avatar {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  border: 2px solid var(--primary);
+  overflow: hidden;
+  cursor: pointer;
+}
+.map-avatar img { width: 100%; height: 100%; object-fit: cover; }
+
+.map-wrap {
+  flex: 1;
+  position: relative;
+  overflow: hidden;
+  touch-action: none;
+  cursor: grab;
+}
+.map-wrap:active { cursor: grabbing; }
+
+#map-layer {
+  position: absolute;
+  top: -50%; left: -50%;
+  width: 200%; height: 200%;
+  will-change: transform;
+  transform-origin: center center;
+}
+.map-bg-img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
+.region-card {
+  position: absolute;
+  top: 14px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 10;
+  background: #fff;
+  border: 1.5px solid var(--outline-light);
+  border-radius: 14px;
+  padding: 8px 18px;
+  text-align: center;
+  box-shadow: 0 4px 16px rgba(0,0,0,.1);
+  pointer-events: none;
+  white-space: nowrap;
+}
+.region-label {
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--outline);
+  margin-bottom: 2px;
+}
+.region-name {
+  font-family: var(--manrope);
+  font-size: 15px;
+  font-weight: 800;
+  color: var(--primary);
+}
+
+/* Map markers */
+.mpin {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  cursor: pointer;
+  z-index: 8;
+}
+.mpin-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  border: 2px solid var(--outline);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 12px rgba(0,0,0,.2);
+  transition: transform .15s;
+}
+.mpin:active .mpin-icon { transform: scale(.92); }
+.mpin-icon .material-symbols-outlined { font-size: 22px; }
+.mpin-label {
+  background: #fff;
+  border: 1px solid var(--outline-light);
+  border-radius: 8px;
+  padding: 3px 8px;
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--text);
+  margin-top: 4px;
+  white-space: nowrap;
+  box-shadow: 0 2px 8px rgba(0,0,0,.1);
+  font-family: var(--manrope);
+}
+.mpin-quest {
+  position: absolute;
+  top: -6px;
+  right: -6px;
+  width: 18px;
+  height: 18px;
+  background: var(--accent);
+  border-radius: 50%;
+  border: 2px solid #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 9px;
+  font-weight: 800;
+  color: #fff;
+  font-family: var(--manrope);
+  animation: questBounce 1.2s ease-in-out infinite alternate;
+}
+@keyframes questBounce { from { transform: translateY(0); } to { transform: translateY(-3px); } }
+
+/* ════════════════════════
+   ÉCRAN 3 — JEU
+════════════════════════ */
+#s-jeu {
+  background: #0d0a06;
+}
+.jeu-scene {
+  flex: 1;
+  position: relative;
+  overflow: hidden;
+  min-height: 0;
+}
+.jeu-bg {
+  position: absolute;
+  inset: 0;
+}
+.jeu-bg img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 20%;
+}
+.jeu-topbar {
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  z-index: 10;
+  padding: 14px 16px 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+.jeu-hp {
+  background: rgba(0,0,0,.55);
+  border: 1.5px solid rgba(255,255,255,.2);
+  border-radius: 20px;
+  padding: 6px 14px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  backdrop-filter: blur(8px);
+}
+.hp-bar-wrap {
+  width: 80px;
+  height: 6px;
+  background: rgba(255,255,255,.2);
+  border-radius: 3px;
+  overflow: hidden;
+}
+.hp-bar { height: 100%; width: 75%; background: #4caf50; border-radius: 3px; }
+.hp-txt {
+  font-size: 11px;
+  font-weight: 700;
+  color: #fff;
+  font-family: var(--manrope);
+}
+.jeu-minimap {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  border: 2.5px solid rgba(255,255,255,.5);
+  overflow: hidden;
+  box-shadow: 0 4px 16px rgba(0,0,0,.4);
+  cursor: pointer;
+}
+.jeu-minimap img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.jeu-character {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 5;
+  height: 65%;
+  pointer-events: none;
+}
+.jeu-character img {
+  height: 100%;
+  object-fit: contain;
+  object-position: bottom;
+  filter: drop-shadow(0 0 20px rgba(0,0,0,.6));
+}
+
+.jeu-panel {
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  z-index: 10;
+  background: #fff;
+  border-top: 2px solid var(--outline-light);
+  border-radius: 20px 20px 0 0;
+  padding: 14px 16px 16px;
+  box-shadow: 0 -8px 32px rgba(0,0,0,.15);
+}
+.jeu-quest-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  background: rgba(158,61,0,.1);
+  border: 1px solid rgba(158,61,0,.2);
+  border-radius: 20px;
+  padding: 4px 10px;
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--primary);
+  text-transform: uppercase;
+  letter-spacing: .06em;
+  margin-bottom: 8px;
+}
+.jeu-quest-tag .material-symbols-outlined { font-size: 13px; font-variation-settings: 'FILL' 1; }
+.jeu-quest-text {
+  font-family: var(--serif);
+  font-size: 14px;
+  font-style: italic;
+  color: var(--text);
+  line-height: 1.55;
+  margin-bottom: 12px;
+}
+.jeu-progress-wrap {
+  margin-bottom: 12px;
+}
+.jeu-progress-bar {
+  height: 5px;
+  background: #eee;
+  border-radius: 3px;
+  overflow: hidden;
+  margin-bottom: 4px;
+}
+.jeu-progress-fill { height: 100%; width: 75%; background: var(--accent); border-radius: 3px; }
+.jeu-progress-txt {
+  font-size: 10px;
+  font-weight: 600;
+  color: var(--outline);
+  text-align: right;
+  font-family: var(--manrope);
+}
+.btn-interagir {
+  width: 100%;
+  padding: 14px;
+  background: var(--accent);
+  border: none;
+  border-radius: 12px;
+  font-family: var(--manrope);
+  font-size: 15px;
+  font-weight: 800;
+  color: #fff;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  letter-spacing: .03em;
+  box-shadow: 0 4px 16px rgba(198,79,0,.3);
+  transition: transform .1s;
+}
+.btn-interagir:active { transform: scale(.97); }
+.btn-interagir .material-symbols-outlined { font-size: 18px; font-variation-settings: 'FILL' 1; }
+
+/* hamburger jeu */
+.jeu-menu-btn {
+  position: absolute;
+  top: 14px;
+  left: 16px;
+  z-index: 15;
+  width: 36px;
+  height: 36px;
+  background: rgba(0,0,0,.5);
+  border: 1.5px solid rgba(255,255,255,.2);
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  backdrop-filter: blur(8px);
+}
+.jeu-menu-btn .material-symbols-outlined { color: #fff; font-size: 20px; }
+
+/* flash */
+.flash { position: fixed; inset: 0; z-index: 99; pointer-events: none; opacity: 0; transition: opacity .15s; }
+</style>
+</head>
+<body>
+
+<div class="flash" id="flash"></div>
+
+<div class="phone">
+
+<!-- ════ ÉCRAN ACCUEIL ════ -->
+<div class="screen active" id="s-accueil">
+  <div class="accueil-bg">
+    <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuDn-qhLG7CGMY1xQSHasZUMCQCI7bhjUdBIGZsFiS62RPTWwblJRQ--2LV8Ff5pkLcZ49RtDOKHSiiLI3ndSov5Yb8-HPXBHb0Xtv-T6PxVaJ_U6PHc2NS89rqoqYTRiobahQ5xkYRLep0lhiryehJHK-6pL6qvN61hkCebgdBBKuZHI9NA7CLAPRXqPKKtJb9lKggrUbJhYWvERsIoznGD7ViSMCOQ9MvXDFfS3mqdCRHMFonBCzZ5RoYwz6qOvuRbsA4U-8w4gchb" alt="bg"/>
+  </div>
+  <div class="accueil-content">
+    <div style="position:absolute;top:16px;right:16px;z-index:5;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2);border-radius:20px;padding:3px 10px;font-family:'Manrope',sans-serif;font-size:10px;color:rgba(255,255,255,.8)">v1.0</div>
+    <div class="accueil-logo">
+      <div class="accueil-title">Chroniques<br>de Provence</div>
+      <div style="font-family:'Manrope',sans-serif;font-size:10px;font-weight:500;color:rgba(255,255,255,.9);letter-spacing:.06em;margin-top:8px">par Alma Company</div>
+    </div>
+    <div class="accueil-bottom">
+      <button class="btn-jouer" onclick="goTo('s-map')">JOUER</button>
+    </div>
+  </div>
+  <!-- navbar accueil -->
+  <nav class="navbar">
+    <div class="nav-item" onclick="goTo('s-map')">
+      <span class="material-symbols-outlined">map</span>
+      <span class="nav-label">Carte</span>
+    </div>
+    <div class="nav-item">
+      <span class="material-symbols-outlined">backpack</span>
+      <span class="nav-label">Besace</span>
+    </div>
+    <div class="nav-item active">
+      <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1">scrollable_header</span>
+      <span class="nav-label">Quêtes</span>
+    </div>
+    <div class="nav-item">
+      <span class="material-symbols-outlined">person_apron</span>
+      <span class="nav-label">Héros</span>
+    </div>
+  </nav>
+</div>
+
+<!-- ════ ÉCRAN MAP ════ -->
+<div class="screen" id="s-map">
+  <header class="map-header">
+    <div class="map-logo">
+      <div class="map-logo-icon">
+        <span class="material-symbols-outlined">location_city</span>
+      </div>
+      <div class="map-logo-text">
+        <span class="map-logo-title">Cœur de Ville</span>
+        <span class="map-logo-sub">Chroniques de Provence</span>
+      </div>
+    </div>
+    <div class="map-avatar">
+      <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuCqU-ZJxntbAdSmtAKxN1DJZZ647RV5Q6VvRUcwKxJBkJqNPjBHghlOvLgADHCWgb1Hp1KXmQJcJzxk2xitREHdDHdWEHIr-yzEvSikKfQimP1Yj8Hq7ogMhNg2ICQlrLeQr0fnfZoTwUgbGhHFVdu6qGKPSg-9ZuAddJ9cGFwsr2lHcJ_BM35SluT8epHUttuHkoaIG-Ap4xKVlCENun-WnbhdBRaUZidy9QnGX4rf4FJczeieP_-r9Uwjl6he1wtKcLhajEFmeCyqs-" alt="avatar"/>
+    </div>
+  </header>
+
+  <div class="map-wrap" id="map-wrap">
+    <div id="map-layer">
+      <img class="map-bg-img" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCye-1LwTLeOPo-x0be8np6CtkQNq1OoSsnYOk0y5tSWYhbLJFxfx9gqcIfHUyt6OzKl56p5Vyrc_PQnzv3ECjy57aVnMM28Y-v4hMvPG4IwAg8pn-TxIqVD6OyYrPnVasfyfkJAhdYmOkB-wT-cMjIKNDHQptzAlND5fRaHJi6OioJZ5XbI9-TDpxPqxJJBRLEPnrWeMZCN25LW9mmrKAlMdchxhg8O1rWBRPp-2SZapiamaID39JaqxDXmr_9GmVKTNf5XLu0z2zp" alt="map"/>
+
+      <div class="region-card">
+        <div class="region-label">Région actuelle</div>
+        <div class="region-name">Comté de Provence</div>
+      </div>
+
+      <!-- Avignon -->
+      <div class="mpin" style="left:30%;top:38%" onclick="goTo('s-jeu')">
+        <div style="position:relative">
+          <div class="mpin-icon" style="background:#f0e8ff;border-color:#9b59b6">
+            <span class="material-symbols-outlined" style="color:#9b59b6">fort</span>
+          </div>
+          <div class="mpin-quest">!</div>
+        </div>
+        <div class="mpin-label">Avignon</div>
+      </div>
+
+      <!-- Abbaye de Sénanque -->
+      <div class="mpin" style="left:60%;top:22%">
+        <div style="position:relative">
+          <div class="mpin-icon" style="background:#e8f4ff;border-color:#3498db">
+            <span class="material-symbols-outlined" style="color:#3498db">church</span>
+          </div>
+          <div style="position:absolute;top:-4px;right:-4px;width:16px;height:16px;background:#27ae60;border-radius:50%;border:2px solid #fff;display:flex;align-items:center;justify-content:center;font-size:9px;color:#fff">✓</div>
+        </div>
+        <div class="mpin-label">Abbaye de Sénanque</div>
+      </div>
+
+      <!-- Alpilles -->
+      <div class="mpin" style="left:52%;top:55%">
+        <div class="mpin-icon" style="background:#e8ffe8;border-color:#27ae60">
+          <span class="material-symbols-outlined" style="color:#27ae60">landscape</span>
+        </div>
+        <div class="mpin-label">Alpilles</div>
+      </div>
+
+      <!-- Port de Marseille -->
+      <div class="mpin" style="left:42%;top:70%" onclick="goTo('s-jeu')">
+        <div style="position:relative">
+          <div class="mpin-icon" style="background:#fff0e8;border-color:var(--accent)">
+            <span class="material-symbols-outlined" style="color:var(--accent)">sailing</span>
+          </div>
+          <div class="mpin-quest">!</div>
+        </div>
+        <div class="mpin-label">Port de Marseille</div>
+      </div>
+
+      <!-- Nîmes -->
+      <div class="mpin" style="left:18%;top:55%">
+        <div style="position:relative">
+          <div class="mpin-icon" style="background:#fff0e8;border-color:var(--accent)">
+            <span class="material-symbols-outlined" style="color:var(--accent)">architecture</span>
+          </div>
+          <div class="mpin-quest">!</div>
+        </div>
+        <div class="mpin-label">Nîmes</div>
+      </div>
+    </div>
+  </div>
+
+  <nav class="navbar">
+    <div class="nav-item active">
+      <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1">map</span>
+      <span class="nav-label">Carte</span>
+    </div>
+    <div class="nav-item">
+      <span class="material-symbols-outlined">backpack</span>
+      <span class="nav-label">Besace</span>
+    </div>
+    <div class="nav-item">
+      <span class="material-symbols-outlined">scrollable_header</span>
+      <span class="nav-label">Quêtes</span>
+    </div>
+    <div class="nav-item">
+      <span class="material-symbols-outlined">person_apron</span>
+      <span class="nav-label">Héros</span>
+    </div>
+  </nav>
+</div>
+
+<!-- ════ ÉCRAN JEU ════ -->
+<div class="screen" id="s-jeu">
+  <div class="jeu-scene">
+    <div class="jeu-bg">
+      <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuBdKpns726my8zAMrBm3H0iH44-ogQPQoH22eBvx0HrnuN8yM99JJVMi4abi6zsGG9Sxdd1FNWhXTQQIKCN6wW7oDDyjdjye32wDz-D49KVF5hpesqWLjvC6S5Ei6QQpMzhPiTR0Dy5ZWvMmKYVyQqlAWW_IMJTqSlSS7ti5MgaCs-Yl76iKgYkbgpBFw6XLB7L3C1rhm30HhJqGPDO-6r47DNERFV6SjpgBCbaLmOMHkVr1L-S3X12ByHCGfzDmp5jQ0igrgEj1QC5" alt="bg"/>
+    </div>
+
+    <div class="jeu-menu-btn" onclick="goTo('s-map')">
+      <span class="material-symbols-outlined">menu</span>
+    </div>
+
+    <div class="jeu-topbar">
+      <div style="width:36px"></div>
+      <div class="jeu-hp" style="margin:0 auto">
+        <span class="material-symbols-outlined" style="color:#e74c3c;font-size:16px;font-variation-settings:'FILL' 1">favorite</span>
+        <div class="hp-bar-wrap"><div class="hp-bar"></div></div>
+        <span class="hp-txt">75%</span>
+      </div>
+      <div class="jeu-minimap" onclick="goTo('s-map')">
+        <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuCye-1LwTLeOPo-x0be8np6CtkQNq1OoSsnYOk0y5tSWYhbLJFxfx9gqcIfHUyt6OzKl56p5Vyrc_PQnzv3ECjy57aVnMM28Y-v4hMvPG4IwAg8pn-TxIqVD6OyYrPnVasfyfkJAhdYmOkB-wT-cMjIKNDHQptzAlND5fRaHJi6OioJZ5XbI9-TDpxPqxJJBRLEPnrWeMZCN25LW9mmrKAlMdchxhg8O1rWBRPp-2SZapiamaID39JaqxDXmr_9GmVKTNf5XLu0z2zp" alt="minimap"/>
+      </div>
+    </div>
+
+    <div class="jeu-character">
+      <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuDSIV_Q2P42KQcW-VX04K-VUXtnmC-aq_Tyht2E-CNSBSKTyaxll_W3EZO-sc6OI5IrCigwr8mtnmnQPRlL-RYSBbBSkvroMgadNbayxLfWMeexzIiMW7rzZ9YaN0qwFhectpN08HtqE5r7_45uySQge2UdLRgB6zV87eEbLLjxfUPxzCzN6cu5LghXlXjJFEsENEWWgPfq_V4EyZaMFXKqCzIMOyKgJ_HLlomwZUZ7dcg_ImddtAF2GDrkLPSDdk--QzHNMZYU8sAw" alt="hero"/>
+    </div>
+
+    <div class="jeu-panel">
+      <div class="jeu-quest-tag">
+        <span class="material-symbols-outlined">location_on</span>
+        Quête Active
+      </div>
+      <div class="jeu-quest-text">
+        "Sécuriser le sanctuaire de Notre-Dame de Grâce avant le crépuscule."
+      </div>
+      <div class="jeu-progress-wrap">
+        <div class="jeu-progress-bar"><div class="jeu-progress-fill"></div></div>
+        <div class="jeu-progress-txt">75%</div>
+      </div>
+      <button class="btn-interagir" onclick="goTo('s-accueil')">
+        <span class="material-symbols-outlined">bolt</span>
+        Interagir
+      </button>
+    </div>
+  </div>
+
+  <nav class="navbar">
+    <div class="nav-item" onclick="goTo('s-map')">
+      <span class="material-symbols-outlined">map</span>
+      <span class="nav-label">Carte</span>
+    </div>
+    <div class="nav-item">
+      <span class="material-symbols-outlined">backpack</span>
+      <span class="nav-label">Besace</span>
+    </div>
+    <div class="nav-item active">
+      <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1">scrollable_header</span>
+      <span class="nav-label">Quêtes</span>
+    </div>
+    <div class="nav-item">
+      <span class="material-symbols-outlined">person_apron</span>
+      <span class="nav-label">Héros</span>
+    </div>
+  </nav>
+</div>
+
+</div><!-- /phone -->
+
+<script>
+// Navigation
+function goTo(id) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+}
+
+// Map drag
+const mapWrap = document.getElementById('map-wrap');
+const mapLayer = document.getElementById('map-layer');
+let tx=0, ty=0, scale=0.55;
+let drag=false, lx=0, ly=0, pinch=null;
+
+function applyMap() {
+  mapLayer.style.transform = `translate(${tx}px,${ty}px) scale(${scale})`;
+}
+applyMap();
+
+function dist(t1,t2){ const dx=t1.clientX-t2.clientX,dy=t1.clientY-t2.clientY; return Math.sqrt(dx*dx+dy*dy); }
+function clamp(v,a,b){ return Math.max(a,Math.min(b,v)); }
+
+mapWrap.addEventListener('mousedown',e=>{drag=true;lx=e.clientX;ly=e.clientY;});
+window.addEventListener('mousemove',e=>{if(!drag)return;tx+=e.clientX-lx;ty+=e.clientY-ly;lx=e.clientX;ly=e.clientY;applyMap();});
+window.addEventListener('mouseup',()=>drag=false);
+mapWrap.addEventListener('touchstart',e=>{
+  if(e.touches.length===1){drag=true;lx=e.touches[0].clientX;ly=e.touches[0].clientY;}
+  else if(e.touches.length===2){drag=false;pinch=dist(e.touches[0],e.touches[1]);}
+},{passive:true});
+mapWrap.addEventListener('touchmove',e=>{
+  e.preventDefault();
+  if(e.touches.length===1&&drag){tx+=e.touches[0].clientX-lx;ty+=e.touches[0].clientY-ly;lx=e.touches[0].clientX;ly=e.touches[0].clientY;applyMap();}
+  else if(e.touches.length===2&&pinch){const nd=dist(e.touches[0],e.touches[1]);scale=clamp(scale*(nd/pinch),.25,2.5);pinch=nd;applyMap();}
+},{passive:false});
+mapWrap.addEventListener('wheel',e=>{e.preventDefault();scale=clamp(scale*(e.deltaY>0?.9:1.1),.25,2.5);applyMap();},{passive:false});
+</script>
+</body>
+</html>
