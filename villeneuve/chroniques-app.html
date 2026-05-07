@@ -148,85 +148,21 @@ html, body {
 .accueil-bottom { width: 100%; }
 .btn-jouer {
   width: 100%;
-  padding: 0;
-  background: none;
+  padding: 18px;
+  background: var(--accent);
   border: none;
-  cursor: pointer;
-  position: relative;
-  transition: transform .15s ease, filter .15s ease;
-}
-.btn-jouer-inner {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 12px;
-  padding: 18px 28px;
-  background: linear-gradient(160deg, #2a1a08 0%, #1a0e04 100%);
-  border: 1px solid rgba(200,150,10,.35);
-  border-radius: 4px;
-  position: relative;
-  overflow: hidden;
-}
-/* Reflet doré subtil */
-.btn-jouer-inner::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(135deg, rgba(200,150,10,.12) 0%, transparent 50%, rgba(200,150,10,.06) 100%);
-  pointer-events: none;
-}
-/* Bordure lumineuse top */
-.btn-jouer-inner::after {
-  content: '';
-  position: absolute;
-  top: 0; left: 10%; right: 10%;
-  height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(200,150,10,.7), transparent);
-}
-/* Coins décorés */
-.btn-jouer-corner {
-  position: absolute;
-  width: 10px;
-  height: 10px;
-  border-color: rgba(200,150,10,.6);
-  border-style: solid;
-}
-.btn-jouer-corner.tl { top: 4px; left: 4px; border-width: 1px 0 0 1px; }
-.btn-jouer-corner.tr { top: 4px; right: 4px; border-width: 1px 1px 0 0; }
-.btn-jouer-corner.bl { bottom: 4px; left: 4px; border-width: 0 0 1px 1px; }
-.btn-jouer-corner.br { bottom: 4px; right: 4px; border-width: 0 1px 1px 0; }
-
-.btn-jouer-icon {
-  width: 28px;
-  height: 28px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-.btn-jouer-icon .material-symbols-outlined {
-  font-size: 22px;
-  color: var(--gold);
-  font-variation-settings: 'FILL' 1;
-}
-.btn-jouer-text {
-  font-family: 'Uncial Antiqua', cursive;
-  font-size: 20px;
-  color: #e8d5a0;
-  letter-spacing: .12em;
-  text-shadow: 0 0 20px rgba(200,150,10,.4);
-}
-.btn-jouer-sub {
+  border-radius: 14px;
   font-family: var(--manrope);
-  font-size: 9px;
-  font-weight: 600;
-  letter-spacing: .2em;
+  font-size: 18px;
+  font-weight: 800;
+  color: #fff;
+  letter-spacing: .04em;
   text-transform: uppercase;
-  color: rgba(200,150,10,.55);
-  display: block;
-  text-align: center;
-  margin-top: 4px;
+  cursor: pointer;
+  box-shadow: 0 8px 24px rgba(198,79,0,.5);
+  transition: transform .1s, box-shadow .1s;
 }
-.btn-jouer:active { transform: scale(.97); filter: brightness(.9); }
+.btn-jouer:active { transform: scale(.97); }
 
 /* ════════════════════════
    ÉCRAN 2 — MAP
@@ -603,17 +539,7 @@ html, body {
       <div style="font-family:'Manrope',sans-serif;font-size:10px;font-weight:500;color:rgba(255,255,255,.9);letter-spacing:.06em;margin-top:8px">par Alma Company</div>
     </div>
     <div class="accueil-bottom">
-      <button class="btn-jouer" onclick="goTo('s-map')">
-        <div class="btn-jouer-inner">
-          <div class="btn-jouer-corner tl"></div>
-          <div class="btn-jouer-corner tr"></div>
-          <div class="btn-jouer-corner bl"></div>
-          <div class="btn-jouer-corner br"></div>
-          <div class="btn-jouer-icon"><span class="material-symbols-outlined">swords</span></div>
-          <span class="btn-jouer-text">Jouer</span>
-        </div>
-        <span class="btn-jouer-sub">Commencer l'aventure</span>
-      </button>
+      <button class="btn-jouer" onclick="goTo('s-map')">JOUER</button>
     </div>
   </div>
   <!-- navbar accueil -->
