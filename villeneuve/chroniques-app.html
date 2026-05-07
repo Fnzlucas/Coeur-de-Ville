@@ -2,546 +2,1044 @@
 <html lang="fr">
 <head>
 <meta charset="utf-8"/>
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
-<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Noto+Serif:ital,wght@0,400;0,700;1,400&family=Uncial+Antiqua&display=swap" rel="stylesheet"/>
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover"/>
+<meta name="theme-color" content="#1a0f08"/>
+<meta name="apple-mobile-web-app-capable" content="yes"/>
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
 <title>Chroniques de Provence</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Uncial+Antiqua&family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,800;1,9..144,400&family=Manrope:wght@400;500;600;700;800;900&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"/>
+
 <style>
-* { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
-.material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+/* ═══════════════════════════════════════════════
+   RESET & TOKENS
+═══════════════════════════════════════════════ */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
+.material-symbols-outlined{font-variation-settings:'FILL' 0,'wght' 500,'GRAD' 0,'opsz' 24;}
 
-:root {
-  --primary: #9e3d00;
-  --primary-dark: #7a2e00;
-  --accent: #c64f00;
-  --gold: #c8960a;
-  --surface: #ffffff;
-  --surface-2: #f7f2ec;
-  --outline: #8c7166;
-  --outline-light: #e0c8b8;
-  --text: #1f1b10;
-  --text-2: #594238;
-  --manrope: 'Manrope', sans-serif;
-  --serif: 'Noto Serif', serif;
-}
+:root{
+  /* palette */
+  --ink:#1a0f08;
+  --ink-2:#2a1810;
+  --parchment:#f5ebd9;
+  --parchment-2:#ede0c8;
+  --rust:#c64f00;
+  --rust-deep:#9e3d00;
+  --rust-dark:#7a2e00;
+  --gold:#c8960a;
+  --gold-soft:#e0b94d;
+  --sage:#5d6e4f;
+  --line:rgba(122,46,0,.14);
+  --line-strong:rgba(122,46,0,.28);
 
-html, body {
-  height: 100dvh;
-  overflow: hidden;
-  background: #0d0a06;
-  font-family: var(--manrope);
-}
+  /* fonts */
+  --display:'Uncial Antiqua',serif;
+  --serif:'Fraunces','Times New Roman',serif;
+  --sans:'Manrope',-apple-system,sans-serif;
 
-/* ══ PHONE SHELL ══ */
-.phone {
-  width: 375px;
-  height: 812px;
-  max-height: 100dvh;
-  margin: 0 auto;
-  position: relative;
-  overflow: hidden;
-  background: var(--surface);
+  /* layout */
+  --safe-top:env(safe-area-inset-top,0px);
+  --safe-bot:env(safe-area-inset-bottom,0px);
+  --nav-h:64px;
 }
 
-/* ══ SCREENS ══ */
-.screen {
-  position: absolute;
-  inset: 0;
-  display: flex;
-  flex-direction: column;
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity .3s ease;
-}
-.screen.active {
-  opacity: 1;
-  pointer-events: all;
+html,body{
+  height:100dvh;
+  overflow:hidden;
+  background:var(--ink);
+  font-family:var(--sans);
+  color:var(--ink);
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
+  overscroll-behavior:none;
 }
 
-/* ══ SHARED NAVBAR ══ */
-.navbar {
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-  padding: 8px 8px 12px;
-  background: #ffffff;
-  border-top: 1.5px solid var(--outline-light);
-  flex-shrink: 0;
-  z-index: 50;
-}
-.nav-item {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 3px;
-  cursor: pointer;
-  padding: 4px 12px;
-  border-radius: 50px;
-  transition: all .15s;
-  font-family: var(--manrope);
-}
-.nav-item.active {
-  background: var(--accent);
-}
-.nav-item.active .material-symbols-outlined,
-.nav-item.active .nav-label { color: #fff; }
-.nav-item .material-symbols-outlined { font-size: 22px; color: #000; }
-.nav-label {
-  font-size: 9px;
-  font-weight: 700;
-  letter-spacing: .07em;
-  text-transform: uppercase;
-  color: #000;
+/* ═══════════════════════════════════════════════
+   APP SHELL — pleine largeur sur mobile
+═══════════════════════════════════════════════ */
+.app{
+  position:relative;
+  width:100%;
+  height:100dvh;
+  max-width:480px;
+  margin:0 auto;
+  background:var(--parchment);
+  overflow:hidden;
+  isolation:isolate;
 }
 
-/* ════════════════════════
+/* ═══════════════════════════════════════════════
+   SCREENS
+═══════════════════════════════════════════════ */
+.screen{
+  position:absolute;
+  inset:0;
+  display:flex;
+  flex-direction:column;
+  opacity:0;
+  pointer-events:none;
+  transition:opacity .35s ease;
+  background:var(--parchment);
+}
+.screen.active{opacity:1;pointer-events:all;}
+
+/* ═══════════════════════════════════════════════
+   BOTTOM NAV — partagée
+═══════════════════════════════════════════════ */
+.navbar{
+  flex-shrink:0;
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  background:#fffbf3;
+  border-top:1px solid var(--line);
+  padding:8px 4px calc(8px + var(--safe-bot));
+  z-index:50;
+  position:relative;
+}
+.navbar::before{
+  content:'';
+  position:absolute;
+  top:0;left:0;right:0;height:1px;
+  background:linear-gradient(90deg,transparent,var(--rust-deep),transparent);
+  opacity:.25;
+}
+.nav-item{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  gap:3px;
+  padding:6px 0;
+  border-radius:14px;
+  cursor:pointer;
+  transition:transform .15s ease;
+  position:relative;
+}
+.nav-item:active{transform:scale(.94);}
+.nav-item .material-symbols-outlined{
+  font-size:23px;
+  color:#7a6155;
+  transition:color .15s,font-variation-settings .15s;
+}
+.nav-label{
+  font-family:var(--sans);
+  font-size:9px;
+  font-weight:800;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+  color:#7a6155;
+}
+.nav-item.active .material-symbols-outlined{
+  color:var(--rust-deep);
+  font-variation-settings:'FILL' 1,'wght' 600;
+}
+.nav-item.active .nav-label{color:var(--rust-deep);}
+.nav-item.active::after{
+  content:'';
+  position:absolute;
+  bottom:2px;
+  width:18px;
+  height:2px;
+  background:var(--rust-deep);
+  border-radius:1px;
+}
+
+/* ═══════════════════════════════════════════════
    ÉCRAN 1 — ACCUEIL
-════════════════════════ */
-#s-accueil {
-  position: relative;
-  background: #0d0a06;
-  height: 100dvh;
+═══════════════════════════════════════════════ */
+#s-accueil{background:#0d0805;}
+.accueil-bg{
+  position:absolute;
+  inset:0;
+  z-index:0;
+  background:#1a0f08;
 }
-.accueil-bg {
-  position: absolute;
-  inset: 0;
-  z-index: 0;
+.accueil-bg img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  object-position:center 30%;
+  display:block;
 }
-.accueil-bg img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: center 30%;
+/* fallback art si l'image ne charge pas */
+.accueil-bg-fallback{
+  position:absolute;
+  inset:0;
+  background:
+    radial-gradient(ellipse at 30% 20%,rgba(198,79,0,.35),transparent 55%),
+    radial-gradient(ellipse at 70% 80%,rgba(122,46,0,.45),transparent 60%),
+    linear-gradient(180deg,#2a1810 0%,#0d0805 100%);
 }
-.accueil-bg::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(
-    to bottom,
-    rgba(13,10,6,.55) 0%,
-    rgba(13,10,6,.1) 35%,
-    rgba(13,10,6,.2) 60%,
-    rgba(13,10,6,.88) 100%
-  );
+.accueil-bg-fallback::before,
+.accueil-bg-fallback::after{
+  content:'';
+  position:absolute;
 }
-.accueil-content {
-  position: relative;
-  z-index: 2;
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: space-between;
-  padding: 60px 28px 36px;
-}
-.accueil-logo { display: flex; flex-direction: column; align-items: center; }
-.accueil-title {
-  font-family: 'Uncial Antiqua', cursive;
-  font-size: 34px;
-  font-weight: 400;
-  color: #fff;
-  text-align: center;
-  line-height: 1.2;
-  text-shadow: 0 2px 40px rgba(0,0,0,.7), 0 0 80px rgba(0,0,0,.4);
-}
-.accueil-bottom { width: 100%; }
-.btn-jouer {
-  width: 100%;
-  padding: 18px;
-  background: var(--accent);
-  border: none;
-  border-radius: 14px;
-  font-family: var(--manrope);
-  font-size: 18px;
-  font-weight: 800;
-  color: #fff;
-  letter-spacing: .04em;
-  text-transform: uppercase;
-  cursor: pointer;
-  box-shadow: 0 8px 24px rgba(198,79,0,.5);
-  transition: transform .1s, box-shadow .1s;
-}
-.btn-jouer:active { transform: scale(.97); }
-
-/* ════════════════════════
-   ÉCRAN 2 — MAP
-════════════════════════ */
-#s-map {
-  background: var(--surface);
-}
-.map-header {
-  background: #fff;
-  border-bottom: 1.5px solid var(--outline-light);
-  padding: 12px 16px 10px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  flex-shrink: 0;
-  z-index: 20;
-}
-.map-logo {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-.map-logo-icon {
-  width: 36px;
-  height: 36px;
-  background: var(--accent);
-  border-radius: 10px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-.map-logo-icon .material-symbols-outlined {
-  color: #fff;
-  font-size: 20px;
-  font-variation-settings: 'FILL' 1, 'wght' 400;
-}
-.map-logo-text {
-  display: flex;
-  flex-direction: column;
-}
-.map-logo-title {
-  font-size: 15px;
-  font-weight: 800;
-  color: var(--primary);
-  line-height: 1.1;
-  letter-spacing: -.01em;
-}
-.map-logo-sub {
-  font-size: 10px;
-  font-weight: 500;
-  color: var(--outline);
-  letter-spacing: .05em;
-  text-transform: uppercase;
-}
-.map-avatar {
-  width: 38px;
-  height: 38px;
-  border-radius: 50%;
-  border: 2px solid var(--primary);
-  overflow: hidden;
-  cursor: pointer;
-}
-.map-avatar img { width: 100%; height: 100%; object-fit: cover; }
-
-.map-wrap {
-  flex: 1;
-  position: relative;
-  overflow: hidden;
-  touch-action: none;
-  cursor: grab;
-}
-.map-wrap:active { cursor: grabbing; }
-
-#map-layer {
-  position: absolute;
-  top: -50%; left: -50%;
-  width: 200%; height: 200%;
-  will-change: transform;
-  transform-origin: center center;
-}
-.map-bg-img {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: center;
+.accueil-bg-fallback::before{
+  inset:0;
+  background-image:
+    repeating-linear-gradient(45deg,rgba(255,255,255,.015) 0 2px,transparent 2px 6px),
+    repeating-linear-gradient(-45deg,rgba(255,255,255,.012) 0 2px,transparent 2px 8px);
+  mix-blend-mode:overlay;
 }
 
-.region-card {
-  position: absolute;
-  top: 14px;
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: 10;
-  background: #fff;
-  border: 1.5px solid var(--outline-light);
-  border-radius: 14px;
-  padding: 8px 18px;
-  text-align: center;
-  box-shadow: 0 4px 16px rgba(0,0,0,.1);
-  pointer-events: none;
-  white-space: nowrap;
-}
-.region-label {
-  font-size: 9px;
-  font-weight: 700;
-  letter-spacing: .1em;
-  text-transform: uppercase;
-  color: var(--outline);
-  margin-bottom: 2px;
-}
-.region-name {
-  font-family: var(--manrope);
-  font-size: 15px;
-  font-weight: 800;
-  color: var(--primary);
+.accueil-vignette{
+  position:absolute;
+  inset:0;
+  z-index:1;
+  pointer-events:none;
+  background:
+    linear-gradient(180deg,
+      rgba(13,8,5,.55) 0%,
+      rgba(13,8,5,.05) 28%,
+      rgba(13,8,5,.05) 50%,
+      rgba(13,8,5,.85) 88%,
+      rgba(13,8,5,.95) 100%
+    );
 }
 
-/* Map markers */
-.mpin {
-  position: absolute;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  cursor: pointer;
-  z-index: 8;
+.accueil-content{
+  position:relative;
+  z-index:2;
+  flex:1;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:space-between;
+  padding:calc(32px + var(--safe-top)) 24px 28px;
+  min-height:0;
 }
-.mpin-icon {
-  width: 44px;
-  height: 44px;
-  border-radius: 12px;
-  border: 2px solid var(--outline);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow: 0 4px 12px rgba(0,0,0,.2);
-  transition: transform .15s;
-}
-.mpin:active .mpin-icon { transform: scale(.92); }
-.mpin-icon .material-symbols-outlined { font-size: 22px; }
-.mpin-label {
-  background: #fff;
-  border: 1px solid var(--outline-light);
-  border-radius: 8px;
-  padding: 3px 8px;
-  font-size: 11px;
-  font-weight: 700;
-  color: var(--text);
-  margin-top: 4px;
-  white-space: nowrap;
-  box-shadow: 0 2px 8px rgba(0,0,0,.1);
-  font-family: var(--manrope);
-}
-.mpin-quest {
-  position: absolute;
-  top: -6px;
-  right: -6px;
-  width: 18px;
-  height: 18px;
-  background: var(--accent);
-  border-radius: 50%;
-  border: 2px solid #fff;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 9px;
-  font-weight: 800;
-  color: #fff;
-  font-family: var(--manrope);
-  animation: questBounce 1.2s ease-in-out infinite alternate;
-}
-@keyframes questBounce { from { transform: translateY(0); } to { transform: translateY(-3px); } }
 
-/* ════════════════════════
+.accueil-version{
+  position:absolute;
+  top:calc(20px + var(--safe-top));
+  right:18px;
+  background:rgba(255,255,255,.08);
+  border:1px solid rgba(255,255,255,.18);
+  backdrop-filter:blur(8px);
+  -webkit-backdrop-filter:blur(8px);
+  border-radius:100px;
+  padding:4px 12px;
+  font-family:var(--sans);
+  font-size:10px;
+  font-weight:600;
+  letter-spacing:.06em;
+  color:rgba(255,255,255,.85);
+}
+
+.accueil-crest{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  margin-top:24px;
+  animation:fadeDown .9s cubic-bezier(.2,.8,.2,1) .15s both;
+}
+@keyframes fadeDown{
+  from{opacity:0;transform:translateY(-12px);}
+  to{opacity:1;transform:none;}
+}
+
+/* ornement supérieur */
+.crest-ornament{
+  width:54px;
+  height:auto;
+  margin-bottom:18px;
+  opacity:.85;
+}
+
+.accueil-title{
+  font-family:var(--display);
+  font-size:clamp(34px,9.5vw,42px);
+  font-weight:400;
+  color:#fff;
+  text-align:center;
+  line-height:1.08;
+  letter-spacing:.005em;
+  text-shadow:
+    0 2px 24px rgba(0,0,0,.65),
+    0 0 60px rgba(0,0,0,.45),
+    0 1px 2px rgba(0,0,0,.6);
+}
+.accueil-title .amp{
+  display:block;
+  font-size:.55em;
+  font-style:italic;
+  font-family:var(--serif);
+  font-weight:400;
+  margin:6px 0;
+  color:rgba(255,255,255,.85);
+  opacity:1;
+  letter-spacing:.18em;
+  text-transform:lowercase;
+}
+.accueil-author{
+  font-family:var(--serif);
+  font-style:italic;
+  font-size:13px;
+  font-weight:400;
+  color:rgba(255,255,255,.78);
+  letter-spacing:.04em;
+  margin-top:14px;
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+.accueil-author::before,
+.accueil-author::after{
+  content:'';
+  width:14px;
+  height:1px;
+  background:rgba(255,255,255,.3);
+}
+
+.accueil-tagline{
+  font-family:var(--serif);
+  font-style:italic;
+  font-size:15px;
+  line-height:1.5;
+  color:rgba(255,255,255,.78);
+  text-align:center;
+  max-width:280px;
+  animation:fadeUp 1s cubic-bezier(.2,.8,.2,1) .35s both;
+}
+
+.accueil-bottom{
+  width:100%;
+  display:flex;
+  flex-direction:column;
+  gap:14px;
+  animation:fadeUp 1s cubic-bezier(.2,.8,.2,1) .55s both;
+}
+@keyframes fadeUp{
+  from{opacity:0;transform:translateY(16px);}
+  to{opacity:1;transform:none;}
+}
+
+.btn-jouer{
+  width:100%;
+  padding:17px 20px;
+  background:var(--rust);
+  border:none;
+  border-radius:14px;
+  font-family:var(--sans);
+  font-size:15px;
+  font-weight:800;
+  color:#fff;
+  letter-spacing:.16em;
+  text-transform:uppercase;
+  cursor:pointer;
+  position:relative;
+  overflow:hidden;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:10px;
+  box-shadow:
+    0 1px 0 rgba(255,255,255,.18) inset,
+    0 -2px 0 rgba(0,0,0,.18) inset,
+    0 8px 24px rgba(198,79,0,.4),
+    0 2px 8px rgba(0,0,0,.3);
+  transition:transform .12s ease,box-shadow .2s ease;
+}
+.btn-jouer:active{
+  transform:translateY(1px) scale(.99);
+  box-shadow:
+    0 1px 0 rgba(255,255,255,.18) inset,
+    0 -2px 0 rgba(0,0,0,.18) inset,
+    0 4px 14px rgba(198,79,0,.35);
+}
+.btn-jouer .material-symbols-outlined{
+  font-size:18px;
+  font-variation-settings:'FILL' 1,'wght' 600;
+}
+
+.accueil-meta{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:16px;
+  font-family:var(--sans);
+  font-size:11px;
+  font-weight:600;
+  color:rgba(255,255,255,.55);
+  letter-spacing:.05em;
+}
+.accueil-meta-dot{
+  width:3px;height:3px;border-radius:50%;
+  background:rgba(255,255,255,.35);
+}
+
+/* navbar pour l'accueil — sombre */
+#s-accueil .navbar{
+  background:rgba(13,8,5,.92);
+  border-top:1px solid rgba(255,255,255,.08);
+  backdrop-filter:blur(20px);
+  -webkit-backdrop-filter:blur(20px);
+  z-index:5;
+}
+#s-accueil .navbar::before{
+  background:linear-gradient(90deg,transparent,rgba(200,150,10,.4),transparent);
+  opacity:.6;
+}
+#s-accueil .nav-item .material-symbols-outlined,
+#s-accueil .nav-label{color:rgba(255,255,255,.55);}
+#s-accueil .nav-item.active .material-symbols-outlined,
+#s-accueil .nav-item.active .nav-label{color:#fff;}
+#s-accueil .nav-item.active::after{background:#fff;}
+
+/* ═══════════════════════════════════════════════
+   ÉCRAN 2 — CARTE
+═══════════════════════════════════════════════ */
+#s-map{background:var(--parchment);}
+
+.map-header{
+  flex-shrink:0;
+  background:#fffbf3;
+  border-bottom:1px solid var(--line);
+  padding:calc(10px + var(--safe-top)) 16px 12px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  z-index:20;
+  position:relative;
+}
+.map-header::after{
+  content:'';
+  position:absolute;
+  bottom:0;left:0;right:0;height:1px;
+  background:linear-gradient(90deg,transparent,var(--rust-deep),transparent);
+  opacity:.18;
+}
+
+.map-logo{display:flex;align-items:center;gap:11px;}
+.map-logo-icon{
+  width:38px;height:38px;
+  background:linear-gradient(135deg,var(--rust) 0%,var(--rust-dark) 100%);
+  border-radius:11px;
+  display:flex;align-items:center;justify-content:center;
+  box-shadow:
+    0 1px 0 rgba(255,255,255,.2) inset,
+    0 -1px 0 rgba(0,0,0,.15) inset,
+    0 3px 10px rgba(122,46,0,.35);
+}
+.map-logo-icon .material-symbols-outlined{
+  color:#fff;font-size:21px;
+  font-variation-settings:'FILL' 1,'wght' 500;
+}
+.map-logo-title{
+  display:block;
+  font-family:var(--display);
+  font-size:14px;
+  color:var(--rust-deep);
+  line-height:1.05;
+  letter-spacing:.01em;
+}
+.map-logo-sub{
+  display:block;
+  font-family:var(--sans);
+  font-size:9px;
+  font-weight:700;
+  color:#7a6155;
+  letter-spacing:.13em;
+  text-transform:uppercase;
+  margin-top:3px;
+}
+.map-avatar{
+  width:38px;height:38px;
+  border-radius:50%;
+  border:2px solid var(--rust-deep);
+  padding:2px;
+  background:#fff;
+  cursor:pointer;
+  transition:transform .15s;
+}
+.map-avatar:active{transform:scale(.92);}
+.map-avatar-inner{
+  width:100%;height:100%;
+  border-radius:50%;
+  background:linear-gradient(135deg,var(--gold-soft),var(--rust));
+  display:flex;align-items:center;justify-content:center;
+}
+.map-avatar-inner .material-symbols-outlined{
+  font-size:18px;color:#fff;
+  font-variation-settings:'FILL' 1,'wght' 500;
+}
+
+/* zone carte */
+.map-wrap{
+  flex:1;
+  position:relative;
+  overflow:hidden;
+  touch-action:none;
+  cursor:grab;
+  background:#e8d9b8;
+  background-image:
+    radial-gradient(ellipse at 30% 20%,rgba(200,150,10,.08) 0%,transparent 60%),
+    radial-gradient(ellipse at 80% 75%,rgba(93,110,79,.1) 0%,transparent 55%);
+}
+.map-wrap:active{cursor:grabbing;}
+
+#map-layer{
+  position:absolute;
+  top:50%;left:50%;
+  transform-origin:center center;
+  width:600px;height:600px;
+  margin:-300px 0 0 -300px;
+  will-change:transform;
+}
+
+/* carte SVG vectorielle - rendu net à toutes les échelles */
+.map-svg{
+  width:100%;height:100%;
+  display:block;
+  filter:drop-shadow(0 4px 12px rgba(0,0,0,.08));
+}
+
+/* bandeau région */
+.region-card{
+  position:absolute;
+  top:14px;
+  left:50%;
+  transform:translateX(-50%);
+  z-index:10;
+  background:#fffbf3;
+  border:1px solid var(--line-strong);
+  border-radius:100px;
+  padding:8px 18px 9px;
+  text-align:center;
+  box-shadow:
+    0 1px 0 rgba(255,255,255,.6) inset,
+    0 4px 16px rgba(0,0,0,.1);
+  pointer-events:none;
+  white-space:nowrap;
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+.region-card::before{
+  content:'';
+  width:5px;height:5px;border-radius:50%;
+  background:var(--rust);
+  box-shadow:0 0 0 3px rgba(198,79,0,.18);
+  animation:pulse 1.8s ease-in-out infinite;
+}
+@keyframes pulse{
+  0%,100%{box-shadow:0 0 0 3px rgba(198,79,0,.18);}
+  50%{box-shadow:0 0 0 6px rgba(198,79,0,.05);}
+}
+.region-text{display:flex;flex-direction:column;align-items:flex-start;}
+.region-label{
+  font-family:var(--sans);
+  font-size:8px;
+  font-weight:800;
+  letter-spacing:.14em;
+  text-transform:uppercase;
+  color:#7a6155;
+  line-height:1;
+}
+.region-name{
+  font-family:var(--display);
+  font-size:13px;
+  color:var(--rust-deep);
+  line-height:1.1;
+  margin-top:2px;
+}
+
+/* pins */
+.mpin{
+  position:absolute;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  cursor:pointer;
+  z-index:8;
+  animation:pinDrop .5s cubic-bezier(.34,1.56,.64,1) both;
+}
+.mpin:nth-child(2){animation-delay:.05s;}
+.mpin:nth-child(3){animation-delay:.12s;}
+.mpin:nth-child(4){animation-delay:.18s;}
+.mpin:nth-child(5){animation-delay:.24s;}
+.mpin:nth-child(6){animation-delay:.30s;}
+@keyframes pinDrop{
+  from{opacity:0;transform:translateY(-12px) scale(.7);}
+  to{opacity:1;transform:none;}
+}
+
+.mpin-icon{
+  position:relative;
+  width:42px;height:42px;
+  border-radius:12px;
+  background:#fffbf3;
+  border:2px solid var(--line-strong);
+  display:flex;align-items:center;justify-content:center;
+  box-shadow:
+    0 1px 0 rgba(255,255,255,.8) inset,
+    0 4px 12px rgba(0,0,0,.18);
+  transition:transform .15s ease;
+}
+.mpin:active .mpin-icon{transform:scale(.9);}
+.mpin-icon .material-symbols-outlined{
+  font-size:21px;
+  font-variation-settings:'FILL' 1,'wght' 500;
+}
+.mpin-icon.q-active{border-color:var(--rust);background:#fff5eb;}
+.mpin-icon.q-done{border-color:var(--sage);background:#f1f5ec;}
+.mpin-icon.q-locked{border-color:#a89684;background:#f0e6d2;opacity:.85;}
+.mpin-icon.q-quest{border-color:#9b59b6;background:#f7f0fb;}
+
+.mpin-bang{
+  position:absolute;
+  top:-7px;right:-7px;
+  width:20px;height:20px;
+  background:var(--rust);
+  border-radius:50%;
+  border:2px solid #fffbf3;
+  display:flex;align-items:center;justify-content:center;
+  font-size:11px;font-weight:900;color:#fff;
+  font-family:var(--sans);
+  box-shadow:0 2px 8px rgba(198,79,0,.5);
+  animation:bang 1.4s ease-in-out infinite;
+}
+@keyframes bang{
+  0%,100%{transform:translateY(0) scale(1);}
+  50%{transform:translateY(-3px) scale(1.05);}
+}
+.mpin-check{
+  position:absolute;
+  top:-5px;right:-5px;
+  width:18px;height:18px;
+  background:var(--sage);
+  border-radius:50%;
+  border:2px solid #fffbf3;
+  display:flex;align-items:center;justify-content:center;
+  box-shadow:0 2px 6px rgba(0,0,0,.2);
+}
+.mpin-check .material-symbols-outlined{
+  font-size:11px;color:#fff;
+  font-variation-settings:'FILL' 1,'wght' 700;
+}
+.mpin-lock{
+  position:absolute;
+  top:-5px;right:-5px;
+  width:18px;height:18px;
+  background:#a89684;
+  border-radius:50%;
+  border:2px solid #fffbf3;
+  display:flex;align-items:center;justify-content:center;
+  box-shadow:0 2px 6px rgba(0,0,0,.2);
+}
+.mpin-lock .material-symbols-outlined{
+  font-size:11px;color:#fff;
+  font-variation-settings:'FILL' 1,'wght' 700;
+}
+
+.mpin-label{
+  background:#fffbf3;
+  border:1px solid var(--line);
+  border-radius:8px;
+  padding:3px 9px 4px;
+  font-family:var(--sans);
+  font-size:11px;
+  font-weight:700;
+  color:var(--ink);
+  margin-top:6px;
+  white-space:nowrap;
+  box-shadow:0 2px 6px rgba(0,0,0,.12);
+}
+
+/* zoom controls */
+.map-zoom{
+  position:absolute;
+  right:14px;
+  bottom:14px;
+  z-index:11;
+  display:flex;
+  flex-direction:column;
+  background:#fffbf3;
+  border:1px solid var(--line-strong);
+  border-radius:12px;
+  overflow:hidden;
+  box-shadow:0 4px 14px rgba(0,0,0,.12);
+}
+.map-zoom button{
+  width:38px;height:38px;
+  background:none;border:none;
+  cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+  color:var(--rust-deep);
+  transition:background .15s;
+}
+.map-zoom button:active{background:rgba(198,79,0,.1);}
+.map-zoom button:first-child{border-bottom:1px solid var(--line);}
+.map-zoom .material-symbols-outlined{font-size:18px;font-variation-settings:'wght' 600;}
+
+/* ═══════════════════════════════════════════════
    ÉCRAN 3 — JEU
-════════════════════════ */
-#s-jeu {
-  background: #0d0a06;
-}
-.jeu-scene {
-  flex: 1;
-  position: relative;
-  overflow: hidden;
-  min-height: 0;
-}
-.jeu-bg {
-  position: absolute;
-  inset: 0;
-}
-.jeu-bg img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: center 20%;
-}
-.jeu-topbar {
-  position: absolute;
-  top: 0; left: 0; right: 0;
-  z-index: 10;
-  padding: 14px 16px 0;
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-}
-.jeu-hp {
-  background: rgba(0,0,0,.55);
-  border: 1.5px solid rgba(255,255,255,.2);
-  border-radius: 20px;
-  padding: 6px 14px;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  backdrop-filter: blur(8px);
-}
-.hp-bar-wrap {
-  width: 80px;
-  height: 6px;
-  background: rgba(255,255,255,.2);
-  border-radius: 3px;
-  overflow: hidden;
-}
-.hp-bar { height: 100%; width: 75%; background: #4caf50; border-radius: 3px; }
-.hp-txt {
-  font-size: 11px;
-  font-weight: 700;
-  color: #fff;
-  font-family: var(--manrope);
-}
-.jeu-minimap {
-  width: 72px;
-  height: 72px;
-  border-radius: 50%;
-  border: 2.5px solid rgba(255,255,255,.5);
-  overflow: hidden;
-  box-shadow: 0 4px 16px rgba(0,0,0,.4);
-  cursor: pointer;
-}
-.jeu-minimap img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
+═══════════════════════════════════════════════ */
+#s-jeu{background:#0d0805;}
+
+.jeu-scene{
+  flex:1;
+  position:relative;
+  overflow:hidden;
+  min-height:0;
 }
 
-.jeu-character {
-  position: absolute;
-  bottom: 0;
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: 5;
-  height: 65%;
-  pointer-events: none;
+.jeu-bg{
+  position:absolute;
+  inset:0;
+  background:
+    radial-gradient(ellipse at 50% 30%,#3d2f1a 0%,#1a0f08 70%);
 }
-.jeu-character img {
-  height: 100%;
-  object-fit: contain;
-  object-position: bottom;
-  filter: drop-shadow(0 0 20px rgba(0,0,0,.6));
+.jeu-bg::before{
+  content:'';
+  position:absolute;inset:0;
+  background:
+    radial-gradient(ellipse at 50% 80%,rgba(198,79,0,.18),transparent 60%),
+    radial-gradient(ellipse at 20% 20%,rgba(200,150,10,.1),transparent 50%);
+}
+/* pluie subtile / atmosphère parchemin */
+.jeu-bg::after{
+  content:'';
+  position:absolute;inset:0;
+  background-image:
+    repeating-linear-gradient(45deg,rgba(255,255,255,.012) 0 1px,transparent 1px 5px);
+  mix-blend-mode:overlay;
 }
 
-.jeu-panel {
-  position: absolute;
-  bottom: 0; left: 0; right: 0;
-  z-index: 10;
-  background: #fff;
-  border-top: 2px solid var(--outline-light);
-  border-radius: 20px 20px 0 0;
-  padding: 14px 16px 16px;
-  box-shadow: 0 -8px 32px rgba(0,0,0,.15);
+.jeu-bg-img{
+  position:absolute;
+  inset:0;
+  width:100%;height:100%;
+  object-fit:cover;
+  object-position:center 30%;
+  display:block;
+  opacity:0;
+  transition:opacity .4s;
 }
-.jeu-quest-tag {
-  display: inline-flex;
-  align-items: center;
-  gap: 5px;
-  background: rgba(158,61,0,.1);
-  border: 1px solid rgba(158,61,0,.2);
-  border-radius: 20px;
-  padding: 4px 10px;
-  font-size: 10px;
-  font-weight: 700;
-  color: var(--primary);
-  text-transform: uppercase;
-  letter-spacing: .06em;
-  margin-bottom: 8px;
-}
-.jeu-quest-tag .material-symbols-outlined { font-size: 13px; font-variation-settings: 'FILL' 1; }
-.jeu-quest-text {
-  font-family: var(--serif);
-  font-size: 14px;
-  font-style: italic;
-  color: var(--text);
-  line-height: 1.55;
-  margin-bottom: 12px;
-}
-.jeu-progress-wrap {
-  margin-bottom: 12px;
-}
-.jeu-progress-bar {
-  height: 5px;
-  background: #eee;
-  border-radius: 3px;
-  overflow: hidden;
-  margin-bottom: 4px;
-}
-.jeu-progress-fill { height: 100%; width: 75%; background: var(--accent); border-radius: 3px; }
-.jeu-progress-txt {
-  font-size: 10px;
-  font-weight: 600;
-  color: var(--outline);
-  text-align: right;
-  font-family: var(--manrope);
-}
-.btn-interagir {
-  width: 100%;
-  padding: 14px;
-  background: var(--accent);
-  border: none;
-  border-radius: 12px;
-  font-family: var(--manrope);
-  font-size: 15px;
-  font-weight: 800;
-  color: #fff;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  letter-spacing: .03em;
-  box-shadow: 0 4px 16px rgba(198,79,0,.3);
-  transition: transform .1s;
-}
-.btn-interagir:active { transform: scale(.97); }
-.btn-interagir .material-symbols-outlined { font-size: 18px; font-variation-settings: 'FILL' 1; }
+.jeu-bg-img.loaded{opacity:.85;}
 
-/* hamburger jeu */
-.jeu-menu-btn {
-  position: absolute;
-  top: 14px;
-  left: 16px;
-  z-index: 15;
-  width: 36px;
-  height: 36px;
-  background: rgba(0,0,0,.5);
-  border: 1.5px solid rgba(255,255,255,.2);
-  border-radius: 10px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  backdrop-filter: blur(8px);
+.jeu-topbar{
+  position:absolute;
+  top:calc(12px + var(--safe-top));
+  left:0;right:0;
+  z-index:10;
+  padding:0 14px;
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-start;
+  gap:10px;
 }
-.jeu-menu-btn .material-symbols-outlined { color: #fff; font-size: 20px; }
 
-/* flash */
-.flash { position: fixed; inset: 0; z-index: 99; pointer-events: none; opacity: 0; transition: opacity .15s; }
+.jeu-menu-btn{
+  width:38px;height:38px;
+  background:rgba(20,12,8,.65);
+  border:1px solid rgba(255,255,255,.15);
+  border-radius:11px;
+  display:flex;align-items:center;justify-content:center;
+  cursor:pointer;
+  backdrop-filter:blur(12px);
+  -webkit-backdrop-filter:blur(12px);
+  box-shadow:0 4px 14px rgba(0,0,0,.4);
+  transition:transform .12s;
+  flex-shrink:0;
+}
+.jeu-menu-btn:active{transform:scale(.92);}
+.jeu-menu-btn .material-symbols-outlined{
+  color:#fff;font-size:20px;
+}
+
+.jeu-hp{
+  background:rgba(20,12,8,.65);
+  border:1px solid rgba(255,255,255,.15);
+  border-radius:100px;
+  padding:7px 14px 8px;
+  display:flex;align-items:center;gap:9px;
+  backdrop-filter:blur(12px);
+  -webkit-backdrop-filter:blur(12px);
+  box-shadow:0 4px 14px rgba(0,0,0,.4);
+}
+.jeu-hp .material-symbols-outlined{
+  color:#ff6b5e;font-size:15px;
+  font-variation-settings:'FILL' 1,'wght' 500;
+}
+.hp-bar-wrap{
+  width:78px;height:6px;
+  background:rgba(255,255,255,.18);
+  border-radius:3px;
+  overflow:hidden;
+  position:relative;
+}
+.hp-bar{
+  height:100%;width:75%;
+  background:linear-gradient(90deg,#5cbf6a,#7dd87a);
+  border-radius:3px;
+  box-shadow:0 0 8px rgba(125,216,122,.5);
+  position:relative;
+}
+.hp-bar::after{
+  content:'';
+  position:absolute;
+  top:0;left:0;right:0;height:50%;
+  background:linear-gradient(180deg,rgba(255,255,255,.3),transparent);
+  border-radius:3px 3px 0 0;
+}
+.hp-txt{
+  font-family:var(--sans);
+  font-size:11px;
+  font-weight:800;
+  color:#fff;
+  letter-spacing:.04em;
+}
+
+.jeu-minimap{
+  width:62px;height:62px;
+  border-radius:50%;
+  border:2.5px solid rgba(255,255,255,.4);
+  overflow:hidden;
+  cursor:pointer;
+  box-shadow:
+    0 4px 16px rgba(0,0,0,.5),
+    0 0 0 1px rgba(0,0,0,.3) inset;
+  background:#3d2f1a;
+  transition:transform .15s;
+  flex-shrink:0;
+  position:relative;
+}
+.jeu-minimap:active{transform:scale(.94);}
+.jeu-minimap-inner{
+  width:100%;height:100%;
+  display:flex;align-items:center;justify-content:center;
+  background:
+    radial-gradient(circle at 35% 35%,#5d6e4f,transparent 50%),
+    radial-gradient(circle at 70% 60%,#8b6f3e,transparent 50%),
+    #3d2f1a;
+}
+.jeu-minimap-inner .material-symbols-outlined{
+  color:rgba(255,255,255,.85);font-size:22px;
+  font-variation-settings:'FILL' 1,'wght' 500;
+}
+.jeu-minimap-pulse{
+  position:absolute;
+  top:50%;left:50%;
+  width:8px;height:8px;
+  background:var(--rust);
+  border-radius:50%;
+  transform:translate(-50%,-50%);
+  box-shadow:0 0 0 0 rgba(198,79,0,.6);
+  animation:miniPulse 1.5s ease-out infinite;
+}
+@keyframes miniPulse{
+  0%{box-shadow:0 0 0 0 rgba(198,79,0,.6);}
+  100%{box-shadow:0 0 0 14px rgba(198,79,0,0);}
+}
+
+/* personnage SVG */
+.jeu-character{
+  position:absolute;
+  bottom:0;
+  left:50%;
+  transform:translateX(-50%);
+  z-index:5;
+  width:240px;
+  max-width:60vw;
+  pointer-events:none;
+  filter:drop-shadow(0 8px 16px rgba(0,0,0,.6));
+  animation:heroFloat 4s ease-in-out infinite;
+}
+@keyframes heroFloat{
+  0%,100%{transform:translateX(-50%) translateY(0);}
+  50%{transform:translateX(-50%) translateY(-4px);}
+}
+
+.jeu-panel{
+  position:absolute;
+  bottom:0;left:0;right:0;
+  z-index:10;
+  background:#fffbf3;
+  border-top:1px solid var(--line);
+  border-radius:18px 18px 0 0;
+  padding:16px 18px 18px;
+  box-shadow:0 -10px 32px rgba(0,0,0,.25);
+}
+.jeu-panel::before{
+  content:'';
+  position:absolute;
+  top:0;left:0;right:0;height:1px;
+  background:linear-gradient(90deg,transparent,var(--gold),transparent);
+  opacity:.5;
+}
+
+.jeu-quest-tag{
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  background:linear-gradient(135deg,rgba(198,79,0,.08),rgba(200,150,10,.06));
+  border:1px solid rgba(198,79,0,.2);
+  border-radius:100px;
+  padding:5px 11px 5px 9px;
+  font-family:var(--sans);
+  font-size:9.5px;
+  font-weight:800;
+  color:var(--rust-deep);
+  text-transform:uppercase;
+  letter-spacing:.12em;
+  margin-bottom:10px;
+}
+.jeu-quest-tag .material-symbols-outlined{
+  font-size:13px;
+  font-variation-settings:'FILL' 1,'wght' 600;
+}
+.jeu-quest-text{
+  font-family:var(--serif);
+  font-size:15px;
+  font-style:italic;
+  font-weight:400;
+  color:var(--ink);
+  line-height:1.5;
+  margin-bottom:14px;
+  letter-spacing:.005em;
+}
+.jeu-quest-text::before{
+  content:'« ';
+  color:var(--rust);
+  font-weight:600;
+}
+.jeu-quest-text::after{
+  content:' »';
+  color:var(--rust);
+  font-weight:600;
+}
+
+.jeu-progress-wrap{margin-bottom:14px;}
+.jeu-progress-row{
+  display:flex;align-items:center;justify-content:space-between;
+  margin-bottom:5px;
+}
+.jeu-progress-label{
+  font-family:var(--sans);
+  font-size:9.5px;
+  font-weight:800;
+  color:#7a6155;
+  text-transform:uppercase;
+  letter-spacing:.1em;
+}
+.jeu-progress-txt{
+  font-family:var(--sans);
+  font-size:11px;
+  font-weight:800;
+  color:var(--rust-deep);
+}
+.jeu-progress-bar{
+  height:6px;
+  background:rgba(122,46,0,.12);
+  border-radius:3px;
+  overflow:hidden;
+}
+.jeu-progress-fill{
+  height:100%;
+  width:75%;
+  background:linear-gradient(90deg,var(--rust),var(--gold));
+  border-radius:3px;
+  box-shadow:0 0 8px rgba(198,79,0,.4);
+}
+
+.btn-interagir{
+  width:100%;
+  padding:14px;
+  background:var(--rust);
+  border:none;
+  border-radius:12px;
+  font-family:var(--sans);
+  font-size:14px;
+  font-weight:800;
+  color:#fff;
+  cursor:pointer;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:8px;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+  box-shadow:
+    0 1px 0 rgba(255,255,255,.18) inset,
+    0 -2px 0 rgba(0,0,0,.18) inset,
+    0 4px 14px rgba(198,79,0,.35);
+  transition:transform .12s;
+}
+.btn-interagir:active{transform:translateY(1px) scale(.99);}
+.btn-interagir .material-symbols-outlined{
+  font-size:17px;
+  font-variation-settings:'FILL' 1,'wght' 600;
+}
+
+/* navbar pour le jeu — sombre */
+#s-jeu .navbar{
+  background:rgba(13,8,5,.92);
+  border-top:1px solid rgba(255,255,255,.08);
+  backdrop-filter:blur(20px);
+  -webkit-backdrop-filter:blur(20px);
+}
+#s-jeu .navbar::before{
+  background:linear-gradient(90deg,transparent,rgba(200,150,10,.4),transparent);
+  opacity:.6;
+}
+#s-jeu .nav-item .material-symbols-outlined,
+#s-jeu .nav-label{color:rgba(255,255,255,.55);}
+#s-jeu .nav-item.active .material-symbols-outlined,
+#s-jeu .nav-item.active .nav-label{color:#fff;}
+#s-jeu .nav-item.active::after{background:#fff;}
 </style>
 </head>
 <body>
+<div class="app">
 
-<div class="flash" id="flash"></div>
-
-<div class="phone">
-
-<!-- ════ ÉCRAN ACCUEIL ════ -->
+<!-- ════════════════════════
+     ÉCRAN 1 — ACCUEIL
+════════════════════════ -->
 <div class="screen active" id="s-accueil">
   <div class="accueil-bg">
-    <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuDn-qhLG7CGMY1xQSHasZUMCQCI7bhjUdBIGZsFiS62RPTWwblJRQ--2LV8Ff5pkLcZ49RtDOKHSiiLI3ndSov5Yb8-HPXBHb0Xtv-T6PxVaJ_U6PHc2NS89rqoqYTRiobahQ5xkYRLep0lhiryehJHK-6pL6qvN61hkCebgdBBKuZHI9NA7CLAPRXqPKKtJb9lKggrUbJhYWvERsIoznGD7ViSMCOQ9MvXDFfS3mqdCRHMFonBCzZ5RoYwz6qOvuRbsA4U-8w4gchb" alt="bg"/>
+    <div class="accueil-bg-fallback"></div>
+    <img src="../assets/villeneuve/chroniques-hero.jpg" alt="" onload="this.parentElement.querySelector('.accueil-bg-fallback').style.display='none'" onerror="this.style.display='none'"/>
   </div>
+  <div class="accueil-vignette"></div>
+
   <div class="accueil-content">
-    <div style="position:absolute;top:16px;right:16px;z-index:5;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2);border-radius:20px;padding:3px 10px;font-family:'Manrope',sans-serif;font-size:10px;color:rgba(255,255,255,.8)">v1.0</div>
-    <div class="accueil-logo">
-      <div class="accueil-title">Chroniques<br>de Provence</div>
-      <div style="font-family:'Manrope',sans-serif;font-size:10px;font-weight:500;color:rgba(255,255,255,.9);letter-spacing:.06em;margin-top:8px">par Alma Company</div>
+    <div class="accueil-version">v1.0</div>
+
+    <div class="accueil-crest">
+      <!-- ornement décoratif SVG médiéval -->
+      <svg class="crest-ornament" viewBox="0 0 120 36" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <path d="M60 4 L66 18 L60 22 L54 18 Z" fill="#e0b94d" opacity=".95"/>
+        <circle cx="60" cy="14" r="2.5" fill="#1a0f08"/>
+        <path d="M2 18 L52 18" stroke="#e0b94d" stroke-width="1" stroke-linecap="round"/>
+        <path d="M68 18 L118 18" stroke="#e0b94d" stroke-width="1" stroke-linecap="round"/>
+        <circle cx="6" cy="18" r="2" fill="#e0b94d"/>
+        <circle cx="114" cy="18" r="2" fill="#e0b94d"/>
+        <path d="M30 14 L34 18 L30 22 L26 18 Z" fill="#e0b94d" opacity=".7"/>
+        <path d="M90 14 L94 18 L90 22 L86 18 Z" fill="#e0b94d" opacity=".7"/>
+        <path d="M55 28 Q60 32 65 28" stroke="#e0b94d" stroke-width="1" fill="none" opacity=".7"/>
+      </svg>
+
+      <h1 class="accueil-title">
+        Chroniques
+        <span class="amp">de</span>
+        Provence
+      </h1>
+      <div class="accueil-author">par Alma Company</div>
     </div>
+
     <div class="accueil-bottom">
-      <button class="btn-jouer" onclick="goTo('s-map')">JOUER</button>
+      <button class="btn-jouer" onclick="goTo('s-map')">
+        <span class="material-symbols-outlined">play_arrow</span>
+        Jouer
+      </button>
     </div>
   </div>
-  <!-- navbar accueil -->
+
   <nav class="navbar">
     <div class="nav-item" onclick="goTo('s-map')">
       <span class="material-symbols-outlined">map</span>
@@ -552,99 +1050,213 @@ html, body {
       <span class="nav-label">Besace</span>
     </div>
     <div class="nav-item active">
-      <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1">scrollable_header</span>
+      <span class="material-symbols-outlined">history_edu</span>
       <span class="nav-label">Quêtes</span>
     </div>
     <div class="nav-item">
-      <span class="material-symbols-outlined">person_apron</span>
+      <span class="material-symbols-outlined">person</span>
       <span class="nav-label">Héros</span>
     </div>
   </nav>
 </div>
 
-<!-- ════ ÉCRAN MAP ════ -->
+<!-- ════════════════════════
+     ÉCRAN 2 — CARTE
+════════════════════════ -->
 <div class="screen" id="s-map">
   <header class="map-header">
     <div class="map-logo">
       <div class="map-logo-icon">
-        <span class="material-symbols-outlined">location_city</span>
+        <span class="material-symbols-outlined">castle</span>
       </div>
-      <div class="map-logo-text">
+      <div>
         <span class="map-logo-title">Cœur de Ville</span>
-        <span class="map-logo-sub">Chroniques de Provence</span>
+        <span class="map-logo-sub">Chroniques · Provence</span>
       </div>
     </div>
     <div class="map-avatar">
-      <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuCqU-ZJxntbAdSmtAKxN1DJZZ647RV5Q6VvRUcwKxJBkJqNPjBHghlOvLgADHCWgb1Hp1KXmQJcJzxk2xitREHdDHdWEHIr-yzEvSikKfQimP1Yj8Hq7ogMhNg2ICQlrLeQr0fnfZoTwUgbGhHFVdu6qGKPSg-9ZuAddJ9cGFwsr2lHcJ_BM35SluT8epHUttuHkoaIG-Ap4xKVlCENun-WnbhdBRaUZidy9QnGX4rf4FJczeieP_-r9Uwjl6he1wtKcLhajEFmeCyqs-" alt="avatar"/>
+      <div class="map-avatar-inner">
+        <span class="material-symbols-outlined">person</span>
+      </div>
     </div>
   </header>
 
   <div class="map-wrap" id="map-wrap">
     <div id="map-layer">
-      <img class="map-bg-img" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCye-1LwTLeOPo-x0be8np6CtkQNq1OoSsnYOk0y5tSWYhbLJFxfx9gqcIfHUyt6OzKl56p5Vyrc_PQnzv3ECjy57aVnMM28Y-v4hMvPG4IwAg8pn-TxIqVD6OyYrPnVasfyfkJAhdYmOkB-wT-cMjIKNDHQptzAlND5fRaHJi6OioJZ5XbI9-TDpxPqxJJBRLEPnrWeMZCN25LW9mmrKAlMdchxhg8O1rWBRPp-2SZapiamaID39JaqxDXmr_9GmVKTNf5XLu0z2zp" alt="map"/>
+      <!-- carte SVG vectorielle de la Provence — toujours nette -->
+      <svg class="map-svg" viewBox="0 0 600 600" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <defs>
+          <pattern id="paper-grain" x="0" y="0" width="3" height="3" patternUnits="userSpaceOnUse">
+            <rect width="3" height="3" fill="#ede0c8"/>
+            <circle cx="1" cy="1" r=".3" fill="#c8b599" opacity=".4"/>
+          </pattern>
+          <radialGradient id="parchment-glow" cx="50%" cy="50%" r="60%">
+            <stop offset="0%" stop-color="#f5ebd9"/>
+            <stop offset="100%" stop-color="#d9c69e"/>
+          </radialGradient>
+          <pattern id="contours" x="0" y="0" width="40" height="40" patternUnits="userSpaceOnUse">
+            <path d="M 0 20 Q 10 15 20 20 T 40 20" stroke="#a89684" stroke-width=".4" fill="none" opacity=".25"/>
+            <path d="M 0 30 Q 10 25 20 30 T 40 30" stroke="#a89684" stroke-width=".4" fill="none" opacity=".18"/>
+          </pattern>
+        </defs>
 
+        <!-- fond parchemin -->
+        <rect width="600" height="600" fill="url(#parchment-glow)"/>
+        <rect width="600" height="600" fill="url(#paper-grain)" opacity=".5"/>
+        <rect width="600" height="600" fill="url(#contours)"/>
+
+        <!-- mer méditerranée (bas) -->
+        <path d="M 0 480 Q 100 470 180 478 T 340 472 Q 440 478 540 470 L 600 475 L 600 600 L 0 600 Z" fill="#a8c5d6" opacity=".55"/>
+        <path d="M 0 490 Q 100 482 180 488 T 340 484 Q 440 488 540 482 L 600 486 L 600 600 L 0 600 Z" fill="#7fa9c1" opacity=".45"/>
+        <!-- vagues -->
+        <path d="M 40 510 Q 60 506 80 510 T 120 510" stroke="#5d8aa8" stroke-width=".8" fill="none" opacity=".5"/>
+        <path d="M 200 525 Q 220 521 240 525 T 280 525" stroke="#5d8aa8" stroke-width=".8" fill="none" opacity=".5"/>
+        <path d="M 380 515 Q 400 511 420 515 T 460 515" stroke="#5d8aa8" stroke-width=".8" fill="none" opacity=".5"/>
+        <path d="M 480 540 Q 500 536 520 540 T 560 540" stroke="#5d8aa8" stroke-width=".8" fill="none" opacity=".5"/>
+
+        <!-- Rhône (rivière) -->
+        <path d="M 200 50 Q 195 120 188 180 T 178 280 Q 175 350 172 420 T 165 490" stroke="#7fa9c1" stroke-width="6" fill="none" stroke-linecap="round" opacity=".55"/>
+        <path d="M 200 50 Q 195 120 188 180 T 178 280 Q 175 350 172 420 T 165 490" stroke="#a8c5d6" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+
+        <!-- montagnes Alpilles -->
+        <g opacity=".7">
+          <path d="M 280 290 L 295 270 L 310 285 L 325 265 L 340 280 L 355 270 L 370 285 L 380 295 Z" fill="#8b7355" opacity=".8"/>
+          <path d="M 295 270 L 305 280 L 315 270" stroke="#6b5840" stroke-width=".8" fill="none"/>
+          <path d="M 325 265 L 335 275 L 345 268" stroke="#6b5840" stroke-width=".8" fill="none"/>
+        </g>
+
+        <!-- Mont Ventoux -->
+        <g opacity=".7">
+          <path d="M 360 150 L 380 110 L 400 150 Z" fill="#9e8b6a" opacity=".85"/>
+          <path d="M 378 110 L 380 130 L 382 110" stroke="#fff" stroke-width="1" opacity=".6"/>
+        </g>
+
+        <!-- forêts (bouquets d'arbres stylisés) -->
+        <g opacity=".55">
+          <circle cx="240" cy="220" r="4" fill="#5d6e4f"/>
+          <circle cx="248" cy="218" r="3.5" fill="#5d6e4f"/>
+          <circle cx="244" cy="226" r="3" fill="#5d6e4f"/>
+
+          <circle cx="430" cy="180" r="4" fill="#5d6e4f"/>
+          <circle cx="438" cy="178" r="3.5" fill="#5d6e4f"/>
+          <circle cx="434" cy="186" r="3" fill="#5d6e4f"/>
+
+          <circle cx="150" cy="380" r="4" fill="#5d6e4f"/>
+          <circle cx="158" cy="378" r="3.5" fill="#5d6e4f"/>
+
+          <circle cx="450" cy="380" r="4" fill="#5d6e4f"/>
+          <circle cx="458" cy="378" r="3.5" fill="#5d6e4f"/>
+          <circle cx="454" cy="386" r="3" fill="#5d6e4f"/>
+        </g>
+
+        <!-- routes anciennes (pointillés) -->
+        <path d="M 180 230 Q 240 240 300 235 T 420 220" stroke="#7a2e00" stroke-width="1.2" fill="none" stroke-dasharray="3 4" opacity=".4"/>
+        <path d="M 180 230 Q 200 290 230 340 T 280 420" stroke="#7a2e00" stroke-width="1.2" fill="none" stroke-dasharray="3 4" opacity=".4"/>
+        <path d="M 280 420 Q 350 425 420 420 T 480 410" stroke="#7a2e00" stroke-width="1.2" fill="none" stroke-dasharray="3 4" opacity=".4"/>
+
+        <!-- rose des vents -->
+        <g transform="translate(520,90)" opacity=".65">
+          <circle r="22" fill="none" stroke="#7a2e00" stroke-width=".6"/>
+          <circle r="16" fill="none" stroke="#7a2e00" stroke-width=".4"/>
+          <path d="M 0 -22 L 3 0 L 0 22 L -3 0 Z" fill="#7a2e00"/>
+          <path d="M -22 0 L 0 -3 L 22 0 L 0 3 Z" fill="#7a2e00" opacity=".55"/>
+          <text y="-26" text-anchor="middle" font-family="serif" font-size="9" fill="#7a2e00" font-weight="700">N</text>
+        </g>
+
+        <!-- légende textuelle stylisée -->
+        <text x="300" y="58" text-anchor="middle" font-family="Uncial Antiqua,serif" font-size="14" fill="#7a2e00" opacity=".5" letter-spacing="2">PROVENTIA</text>
+
+        <!-- mer label -->
+        <text x="300" y="555" text-anchor="middle" font-family="serif" font-style="italic" font-size="11" fill="#3d5a72" opacity=".7" letter-spacing="3">Mare Mediterraneum</text>
+
+        <!-- bordure ornementale du parchemin -->
+        <rect x="8" y="8" width="584" height="584" fill="none" stroke="#7a2e00" stroke-width=".6" opacity=".25"/>
+        <rect x="14" y="14" width="572" height="572" fill="none" stroke="#7a2e00" stroke-width=".4" opacity=".18" stroke-dasharray="2 3"/>
+      </svg>
+
+      <!-- bandeau région -->
       <div class="region-card">
-        <div class="region-label">Région actuelle</div>
-        <div class="region-name">Comté de Provence</div>
+        <div class="region-text">
+          <span class="region-label">Région actuelle</span>
+          <span class="region-name">Comté de Provence</span>
+        </div>
       </div>
 
-      <!-- Avignon -->
-      <div class="mpin" style="left:30%;top:38%" onclick="goTo('s-jeu')">
-        <div style="position:relative">
-          <div class="mpin-icon" style="background:#f0e8ff;border-color:#9b59b6">
-            <span class="material-symbols-outlined" style="color:#9b59b6">fort</span>
+      <!-- pins -->
+      <!-- Avignon (quête active) -->
+      <div class="mpin" style="left:30%;top:38%;" onclick="goTo('s-jeu')">
+        <div style="position:relative;">
+          <div class="mpin-icon q-quest">
+            <span class="material-symbols-outlined" style="color:#9b59b6;">fort</span>
           </div>
-          <div class="mpin-quest">!</div>
+          <div class="mpin-bang">!</div>
         </div>
         <div class="mpin-label">Avignon</div>
       </div>
 
-      <!-- Abbaye de Sénanque -->
-      <div class="mpin" style="left:60%;top:22%">
-        <div style="position:relative">
-          <div class="mpin-icon" style="background:#e8f4ff;border-color:#3498db">
-            <span class="material-symbols-outlined" style="color:#3498db">church</span>
+      <!-- Sénanque (terminé) -->
+      <div class="mpin" style="left:60%;top:25%;">
+        <div style="position:relative;">
+          <div class="mpin-icon q-done">
+            <span class="material-symbols-outlined" style="color:#5d6e4f;">church</span>
           </div>
-          <div style="position:absolute;top:-4px;right:-4px;width:16px;height:16px;background:#27ae60;border-radius:50%;border:2px solid #fff;display:flex;align-items:center;justify-content:center;font-size:9px;color:#fff">✓</div>
+          <div class="mpin-check">
+            <span class="material-symbols-outlined">check</span>
+          </div>
         </div>
         <div class="mpin-label">Abbaye de Sénanque</div>
       </div>
 
-      <!-- Alpilles -->
-      <div class="mpin" style="left:52%;top:55%">
-        <div class="mpin-icon" style="background:#e8ffe8;border-color:#27ae60">
-          <span class="material-symbols-outlined" style="color:#27ae60">landscape</span>
+      <!-- Alpilles (verrouillé) -->
+      <div class="mpin" style="left:52%;top:55%;">
+        <div style="position:relative;">
+          <div class="mpin-icon q-locked">
+            <span class="material-symbols-outlined" style="color:#a89684;">landscape</span>
+          </div>
+          <div class="mpin-lock">
+            <span class="material-symbols-outlined">lock</span>
+          </div>
         </div>
         <div class="mpin-label">Alpilles</div>
       </div>
 
-      <!-- Port de Marseille -->
-      <div class="mpin" style="left:42%;top:70%" onclick="goTo('s-jeu')">
-        <div style="position:relative">
-          <div class="mpin-icon" style="background:#fff0e8;border-color:var(--accent)">
-            <span class="material-symbols-outlined" style="color:var(--accent)">sailing</span>
+      <!-- Marseille (quête) -->
+      <div class="mpin" style="left:42%;top:72%;" onclick="goTo('s-jeu')">
+        <div style="position:relative;">
+          <div class="mpin-icon q-active">
+            <span class="material-symbols-outlined" style="color:#c64f00;">sailing</span>
           </div>
-          <div class="mpin-quest">!</div>
+          <div class="mpin-bang">!</div>
         </div>
         <div class="mpin-label">Port de Marseille</div>
       </div>
 
-      <!-- Nîmes -->
-      <div class="mpin" style="left:18%;top:55%">
-        <div style="position:relative">
-          <div class="mpin-icon" style="background:#fff0e8;border-color:var(--accent)">
-            <span class="material-symbols-outlined" style="color:var(--accent)">architecture</span>
+      <!-- Nîmes (quête) -->
+      <div class="mpin" style="left:18%;top:55%;" onclick="goTo('s-jeu')">
+        <div style="position:relative;">
+          <div class="mpin-icon q-active">
+            <span class="material-symbols-outlined" style="color:#c64f00;">account_balance</span>
           </div>
-          <div class="mpin-quest">!</div>
+          <div class="mpin-bang">!</div>
         </div>
         <div class="mpin-label">Nîmes</div>
       </div>
+    </div>
+
+    <!-- contrôles zoom -->
+    <div class="map-zoom">
+      <button onclick="zoomMap(1.25)" aria-label="Zoom avant">
+        <span class="material-symbols-outlined">add</span>
+      </button>
+      <button onclick="zoomMap(.8)" aria-label="Zoom arrière">
+        <span class="material-symbols-outlined">remove</span>
+      </button>
     </div>
   </div>
 
   <nav class="navbar">
     <div class="nav-item active">
-      <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1">map</span>
+      <span class="material-symbols-outlined">map</span>
       <span class="nav-label">Carte</span>
     </div>
     <div class="nav-item">
@@ -652,41 +1264,115 @@ html, body {
       <span class="nav-label">Besace</span>
     </div>
     <div class="nav-item">
-      <span class="material-symbols-outlined">scrollable_header</span>
+      <span class="material-symbols-outlined">history_edu</span>
       <span class="nav-label">Quêtes</span>
     </div>
     <div class="nav-item">
-      <span class="material-symbols-outlined">person_apron</span>
+      <span class="material-symbols-outlined">person</span>
       <span class="nav-label">Héros</span>
     </div>
   </nav>
 </div>
 
-<!-- ════ ÉCRAN JEU ════ -->
+<!-- ════════════════════════
+     ÉCRAN 3 — JEU
+════════════════════════ -->
 <div class="screen" id="s-jeu">
   <div class="jeu-scene">
-    <div class="jeu-bg">
-      <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuBdKpns726my8zAMrBm3H0iH44-ogQPQoH22eBvx0HrnuN8yM99JJVMi4abi6zsGG9Sxdd1FNWhXTQQIKCN6wW7oDDyjdjye32wDz-D49KVF5hpesqWLjvC6S5Ei6QQpMzhPiTR0Dy5ZWvMmKYVyQqlAWW_IMJTqSlSS7ti5MgaCs-Yl76iKgYkbgpBFw6XLB7L3C1rhm30HhJqGPDO-6r47DNERFV6SjpgBCbaLmOMHkVr1L-S3X12ByHCGfzDmp5jQ0igrgEj1QC5" alt="bg"/>
-    </div>
-
-    <div class="jeu-menu-btn" onclick="goTo('s-map')">
-      <span class="material-symbols-outlined">menu</span>
-    </div>
+    <div class="jeu-bg"></div>
+    <img class="jeu-bg-img" src="../assets/villeneuve/chroniques-hero.jpg" alt="" onload="this.classList.add('loaded')" onerror="this.style.display='none'"/>
 
     <div class="jeu-topbar">
-      <div style="width:36px"></div>
-      <div class="jeu-hp" style="margin:0 auto">
-        <span class="material-symbols-outlined" style="color:#e74c3c;font-size:16px;font-variation-settings:'FILL' 1">favorite</span>
-        <div class="hp-bar-wrap"><div class="hp-bar"></div></div>
-        <span class="hp-txt">75%</span>
+      <div class="jeu-menu-btn" onclick="goTo('s-map')">
+        <span class="material-symbols-outlined">arrow_back</span>
       </div>
+
+      <div class="jeu-hp">
+        <span class="material-symbols-outlined">favorite</span>
+        <div class="hp-bar-wrap"><div class="hp-bar"></div></div>
+        <span class="hp-txt">75</span>
+      </div>
+
       <div class="jeu-minimap" onclick="goTo('s-map')">
-        <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuCye-1LwTLeOPo-x0be8np6CtkQNq1OoSsnYOk0y5tSWYhbLJFxfx9gqcIfHUyt6OzKl56p5Vyrc_PQnzv3ECjy57aVnMM28Y-v4hMvPG4IwAg8pn-TxIqVD6OyYrPnVasfyfkJAhdYmOkB-wT-cMjIKNDHQptzAlND5fRaHJi6OioJZ5XbI9-TDpxPqxJJBRLEPnrWeMZCN25LW9mmrKAlMdchxhg8O1rWBRPp-2SZapiamaID39JaqxDXmr_9GmVKTNf5XLu0z2zp" alt="minimap"/>
+        <div class="jeu-minimap-inner">
+          <span class="material-symbols-outlined">explore</span>
+        </div>
+        <div class="jeu-minimap-pulse"></div>
       </div>
     </div>
 
+    <!-- personnage SVG vectoriel propre -->
     <div class="jeu-character">
-      <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuDSIV_Q2P42KQcW-VX04K-VUXtnmC-aq_Tyht2E-CNSBSKTyaxll_W3EZO-sc6OI5IrCigwr8mtnmnQPRlL-RYSBbBSkvroMgadNbayxLfWMeexzIiMW7rzZ9YaN0qwFhectpN08HtqE5r7_45uySQge2UdLRgB6zV87eEbLLjxfUPxzCzN6cu5LghXlXjJFEsENEWWgPfq_V4EyZaMFXKqCzIMOyKgJ_HLlomwZUZ7dcg_ImddtAF2GDrkLPSDdk--QzHNMZYU8sAw" alt="hero"/>
+      <svg viewBox="0 0 200 320" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <!-- ombre au sol -->
+        <ellipse cx="100" cy="312" rx="60" ry="6" fill="#000" opacity=".5"/>
+
+        <!-- cape arrière -->
+        <path d="M 60 130 Q 30 200 40 295 L 70 305 L 80 200 Z" fill="#4a2818"/>
+        <path d="M 140 130 Q 170 200 160 295 L 130 305 L 120 200 Z" fill="#4a2818"/>
+
+        <!-- jambes -->
+        <path d="M 85 240 L 80 305 L 95 305 L 98 245 Z" fill="#3d2817"/>
+        <path d="M 115 240 L 120 305 L 105 305 L 102 245 Z" fill="#3d2817"/>
+        <!-- bottes -->
+        <ellipse cx="87" cy="305" rx="12" ry="5" fill="#1f1208"/>
+        <ellipse cx="113" cy="305" rx="12" ry="5" fill="#1f1208"/>
+
+        <!-- torse / armure -->
+        <path d="M 70 130 Q 65 180 72 250 L 128 250 Q 135 180 130 130 Z" fill="#6b4226"/>
+        <!-- ceinture -->
+        <rect x="68" y="200" width="64" height="10" fill="#3a2010"/>
+        <circle cx="100" cy="205" r="3" fill="#c8960a"/>
+        <!-- détail armure -->
+        <path d="M 100 130 L 100 200" stroke="#3a2010" stroke-width="1.5"/>
+        <circle cx="100" cy="150" r="2" fill="#c8960a"/>
+        <circle cx="100" cy="170" r="2" fill="#c8960a"/>
+        <circle cx="100" cy="190" r="2" fill="#c8960a"/>
+
+        <!-- épaulettes -->
+        <ellipse cx="68" cy="135" rx="14" ry="10" fill="#8b5a30"/>
+        <ellipse cx="132" cy="135" rx="14" ry="10" fill="#8b5a30"/>
+
+        <!-- bras -->
+        <path d="M 60 140 Q 50 175 55 220 L 70 218 Q 72 175 75 140 Z" fill="#6b4226"/>
+        <path d="M 140 140 Q 150 175 145 220 L 130 218 Q 128 175 125 140 Z" fill="#6b4226"/>
+        <!-- mains / gants -->
+        <circle cx="62" cy="220" r="7" fill="#c8a07a"/>
+        <circle cx="138" cy="220" r="7" fill="#c8a07a"/>
+
+        <!-- épée à droite -->
+        <rect x="146" y="170" width="3" height="80" fill="#b8b0a0" rx="1"/>
+        <rect x="142" y="245" width="11" height="3" fill="#5a3a20"/>
+        <rect x="145" y="248" width="5" height="14" fill="#3a2010"/>
+        <circle cx="147.5" cy="263" r="3" fill="#c8960a"/>
+
+        <!-- cou -->
+        <rect x="92" y="115" width="16" height="20" fill="#c8a07a"/>
+
+        <!-- tête -->
+        <ellipse cx="100" cy="100" rx="22" ry="26" fill="#d4ad88"/>
+        <!-- cheveux / capuche -->
+        <path d="M 78 90 Q 72 65 100 60 Q 128 65 122 90 L 122 105 Q 110 95 100 95 Q 90 95 78 105 Z" fill="#4a2818"/>
+        <path d="M 75 95 Q 70 70 100 60 Q 130 70 125 95 L 125 110 Q 130 130 110 135 L 90 135 Q 70 130 75 110 Z" fill="#3a2010" opacity=".4"/>
+
+        <!-- visage : ombre menton -->
+        <path d="M 90 115 Q 100 122 110 115" stroke="#a07e5e" stroke-width="1" fill="none" opacity=".5"/>
+
+        <!-- yeux -->
+        <ellipse cx="92" cy="98" rx="2" ry="2.5" fill="#1a0f08"/>
+        <ellipse cx="108" cy="98" rx="2" ry="2.5" fill="#1a0f08"/>
+        <!-- sourcils -->
+        <path d="M 87 92 L 96 91" stroke="#3a2010" stroke-width="1.5" stroke-linecap="round"/>
+        <path d="M 104 91 L 113 92" stroke="#3a2010" stroke-width="1.5" stroke-linecap="round"/>
+        <!-- nez -->
+        <path d="M 100 100 L 99 108 L 102 108" stroke="#a07e5e" stroke-width="1" fill="none" stroke-linecap="round"/>
+        <!-- bouche -->
+        <path d="M 95 113 Q 100 116 105 113" stroke="#5a3a20" stroke-width="1.2" fill="none" stroke-linecap="round"/>
+
+        <!-- éclat or sur l'épaule -->
+        <circle cx="65" cy="132" r="1.5" fill="#e0b94d" opacity=".8"/>
+        <circle cx="135" cy="132" r="1.5" fill="#e0b94d" opacity=".8"/>
+      </svg>
     </div>
 
     <div class="jeu-panel">
@@ -694,12 +1380,17 @@ html, body {
         <span class="material-symbols-outlined">location_on</span>
         Quête Active
       </div>
-      <div class="jeu-quest-text">
-        "Sécuriser le sanctuaire de Notre-Dame de Grâce avant le crépuscule."
-      </div>
+      <p class="jeu-quest-text">
+        Sécuriser le sanctuaire de Notre-Dame de Grâce avant le crépuscule.
+      </p>
       <div class="jeu-progress-wrap">
-        <div class="jeu-progress-bar"><div class="jeu-progress-fill"></div></div>
-        <div class="jeu-progress-txt">75%</div>
+        <div class="jeu-progress-row">
+          <span class="jeu-progress-label">Progression</span>
+          <span class="jeu-progress-txt">75 %</span>
+        </div>
+        <div class="jeu-progress-bar">
+          <div class="jeu-progress-fill"></div>
+        </div>
       </div>
       <button class="btn-interagir" onclick="goTo('s-accueil')">
         <span class="material-symbols-outlined">bolt</span>
@@ -718,52 +1409,105 @@ html, body {
       <span class="nav-label">Besace</span>
     </div>
     <div class="nav-item active">
-      <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1">scrollable_header</span>
+      <span class="material-symbols-outlined">history_edu</span>
       <span class="nav-label">Quêtes</span>
     </div>
     <div class="nav-item">
-      <span class="material-symbols-outlined">person_apron</span>
+      <span class="material-symbols-outlined">person</span>
       <span class="nav-label">Héros</span>
     </div>
   </nav>
 </div>
 
-</div><!-- /phone -->
+</div><!-- /app -->
 
 <script>
-// Navigation
-function goTo(id) {
-  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
-  document.getElementById(id).classList.add('active');
+/* ═══════════════════════════════════════════════
+   NAVIGATION
+═══════════════════════════════════════════════ */
+function goTo(id){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  const target=document.getElementById(id);
+  if(target){
+    target.classList.add('active');
+    // remonte en haut sur changement
+    target.scrollTop=0;
+  }
 }
 
-// Map drag
-const mapWrap = document.getElementById('map-wrap');
-const mapLayer = document.getElementById('map-layer');
-let tx=0, ty=0, scale=0.55;
-let drag=false, lx=0, ly=0, pinch=null;
+/* ═══════════════════════════════════════════════
+   MAP — drag + pinch + zoom
+═══════════════════════════════════════════════ */
+const mapWrap=document.getElementById('map-wrap');
+const mapLayer=document.getElementById('map-layer');
+let tx=0,ty=0,scale=.7;
+let drag=false,lx=0,ly=0,pinch=null;
+const SCALE_MIN=.4,SCALE_MAX=2.5;
 
-function applyMap() {
-  mapLayer.style.transform = `translate(${tx}px,${ty}px) scale(${scale})`;
+function applyMap(){
+  mapLayer.style.transform=`translate(${tx}px,${ty}px) scale(${scale})`;
 }
 applyMap();
 
-function dist(t1,t2){ const dx=t1.clientX-t2.clientX,dy=t1.clientY-t2.clientY; return Math.sqrt(dx*dx+dy*dy); }
-function clamp(v,a,b){ return Math.max(a,Math.min(b,v)); }
+function clamp(v,a,b){return Math.max(a,Math.min(b,v));}
+function dist(t1,t2){const dx=t1.clientX-t2.clientX,dy=t1.clientY-t2.clientY;return Math.hypot(dx,dy);}
+
+function zoomMap(factor){
+  scale=clamp(scale*factor,SCALE_MIN,SCALE_MAX);
+  applyMap();
+}
 
 mapWrap.addEventListener('mousedown',e=>{drag=true;lx=e.clientX;ly=e.clientY;});
-window.addEventListener('mousemove',e=>{if(!drag)return;tx+=e.clientX-lx;ty+=e.clientY-ly;lx=e.clientX;ly=e.clientY;applyMap();});
+window.addEventListener('mousemove',e=>{
+  if(!drag)return;
+  tx+=e.clientX-lx;ty+=e.clientY-ly;
+  lx=e.clientX;ly=e.clientY;
+  applyMap();
+});
 window.addEventListener('mouseup',()=>drag=false);
+
 mapWrap.addEventListener('touchstart',e=>{
-  if(e.touches.length===1){drag=true;lx=e.touches[0].clientX;ly=e.touches[0].clientY;}
-  else if(e.touches.length===2){drag=false;pinch=dist(e.touches[0],e.touches[1]);}
+  if(e.touches.length===1){
+    drag=true;
+    lx=e.touches[0].clientX;
+    ly=e.touches[0].clientY;
+  } else if(e.touches.length===2){
+    drag=false;
+    pinch=dist(e.touches[0],e.touches[1]);
+  }
 },{passive:true});
+
 mapWrap.addEventListener('touchmove',e=>{
-  e.preventDefault();
-  if(e.touches.length===1&&drag){tx+=e.touches[0].clientX-lx;ty+=e.touches[0].clientY-ly;lx=e.touches[0].clientX;ly=e.touches[0].clientY;applyMap();}
-  else if(e.touches.length===2&&pinch){const nd=dist(e.touches[0],e.touches[1]);scale=clamp(scale*(nd/pinch),.25,2.5);pinch=nd;applyMap();}
+  if(e.touches.length===1&&drag){
+    e.preventDefault();
+    tx+=e.touches[0].clientX-lx;
+    ty+=e.touches[0].clientY-ly;
+    lx=e.touches[0].clientX;
+    ly=e.touches[0].clientY;
+    applyMap();
+  } else if(e.touches.length===2&&pinch){
+    e.preventDefault();
+    const nd=dist(e.touches[0],e.touches[1]);
+    scale=clamp(scale*(nd/pinch),SCALE_MIN,SCALE_MAX);
+    pinch=nd;
+    applyMap();
+  }
 },{passive:false});
-mapWrap.addEventListener('wheel',e=>{e.preventDefault();scale=clamp(scale*(e.deltaY>0?.9:1.1),.25,2.5);applyMap();},{passive:false});
+
+mapWrap.addEventListener('touchend',e=>{
+  if(e.touches.length<2)pinch=null;
+  if(e.touches.length===0)drag=false;
+});
+
+mapWrap.addEventListener('wheel',e=>{
+  e.preventDefault();
+  zoomMap(e.deltaY>0?.92:1.08);
+},{passive:false});
+
+/* empêche le scroll bounce iOS */
+document.addEventListener('touchmove',function(e){
+  if(e.target.closest('.map-wrap'))return;
+},{passive:false});
 </script>
 </body>
 </html>
