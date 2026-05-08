@@ -386,6 +386,190 @@ window.QUIZ_VILLENEUVE = {
   }
 };
 
+
+// ══════════════════════════════════════════════
+//   QUIZ PROVENCE — questions régionales
+// ══════════════════════════════════════════════
+window.QUIZ_PROVENCE = {
+  city: "Provence",
+  city_id: "provence",
+  description: "Testez vos connaissances sur la Provence",
+  badges: {
+    nature:      { name: "Nature",      icon: "forest",       color: "#1e9e6a" },
+    histoire:    { name: "Histoire",    icon: "fort",         color: "#9e3d00" },
+    gastronomie: { name: "Gastronomie", icon: "restaurant",   color: "#c85a00" },
+    culture:     { name: "Culture",     icon: "palette",      color: "#7c3aed" },
+    geographie:  { name: "Géographie",  icon: "map",          color: "#0055ee" }
+  },
+  levels: {
+    apprenti: {
+      name: "Apprenti", label: "Découverte", description: "Les bases de la Provence",
+      icon: "school", color: "#27ae60", reward_points: 5,
+      questions: [
+        { id:"p1_q1", type:"qcm", badge:"geographie",
+          question:"Quelle est la capitale de la région Provence-Alpes-Côte d'Azur ?",
+          options:["Nice","Toulon","Marseille","Aix-en-Provence"], answer:2,
+          explanation:"Marseille est la préfecture de la région PACA et la deuxième plus grande ville de France avec environ 870 000 habitants." },
+        { id:"p1_q2", type:"vrai_faux", badge:"nature",
+          question:"La Camargue est classée réserve de biosphère par l'UNESCO.",
+          answer:true,
+          explanation:"Vrai ! La Camargue, avec ses chevaux blancs, ses flamants roses et ses taureaux, est classée réserve de biosphère depuis 1977." },
+        { id:"p1_q3", type:"qcm", badge:"gastronomie",
+          question:"Quelle spécialité marseillaise est préparée avec du poisson, du safran et de la rouille ?",
+          options:["La daube","La bouillabaisse","L'aïoli","La tapenade"], answer:1,
+          explanation:"La bouillabaisse est la soupe emblématique de Marseille. Une charte de la bouillabaisse existe depuis 1980 pour protéger la recette authentique." },
+        { id:"p1_q4", type:"qcm", badge:"nature",
+          question:"Quel est le plus grand massif forestier de Provence, célèbre pour ses paysages de calcaire blanc ?",
+          options:["Le Luberon","Les Alpilles","La Sainte-Victoire","La Sainte-Baume"], answer:2,
+          explanation:"La montagne Sainte-Victoire, immortalisée par Cézanne dans plus de 80 tableaux, domine Aix-en-Provence avec ses falaises de calcaire blanc." },
+        { id:"p1_q5", type:"vrai_faux", badge:"histoire",
+          question:"La lavande cultivée en Provence est originaire de la région.",
+          answer:true,
+          explanation:"Vrai ! Le lavandin et la vraie lavande poussent naturellement sur les plateaux de Haute-Provence. La Provence produit 80 % de la lavande mondiale." },
+        { id:"p1_q6", type:"qcm", badge:"geographie",
+          question:"Quel fleuve traverse Avignon avant de se jeter dans la mer Méditerranée ?",
+          options:["La Durance","Le Gard","Le Rhône","L'Hérault"], answer:2,
+          explanation:"Le Rhône longe Avignon et son célèbre pont Saint-Bénézet avant de se diviser en deux bras dans le delta de Camargue." },
+        { id:"p1_q7", type:"qcm", badge:"culture",
+          question:"Quel grand festival international se tient chaque été à Avignon ?",
+          options:["Festival de Cannes","Festival d'Avignon","Chorégies d'Orange","Festival de Marseille"], answer:1,
+          explanation:"Le Festival d'Avignon, fondé en 1947 par Jean Vilar, est l'un des plus grands festivals de théâtre au monde. Il attire chaque juillet plus de 150 000 spectateurs." },
+        { id:"p1_q8", type:"vrai_faux", badge:"gastronomie",
+          question:"La tapenade tire son nom du mot provençal 'tapeno' qui signifie câpre.",
+          answer:true,
+          explanation:"Vrai ! 'Tapeno' désigne la câpre en provençal. La tapenade est à base d'olives noires, câpres et anchois pilés à l'huile d'olive." },
+        { id:"p1_q9", type:"qcm", badge:"histoire",
+          question:"Pendant combien d'années les papes ont-ils résidé à Avignon au XIVe siècle ?",
+          options:["30 ans","68 ans","100 ans","150 ans"], answer:1,
+          explanation:"De 1309 à 1377, sept papes successifs ont résidé à Avignon, soit 68 ans de papauté avignonnaise, période appelée la 'captivité babylonienne'." },
+        { id:"p1_q10", type:"qcm", badge:"nature",
+          question:"Quelle île provençale est surnommée l'île d'or pour ses rochers dorés ?",
+          options:["Île de Porquerolles","Île du Levant","Île de Port-Cros","Île de Sainte-Marguerite"], answer:0,
+          explanation:"Porquerolles est surnommée 'l'île d'or' pour ses rochers aux reflets dorés. Elle fait partie du Parc National de Port-Cros." }
+      ]
+    },
+    connaisseur: {
+      name: "Connaisseur", label: "Pour les passionnés", description: "Approfondissez votre connaissance de la Provence",
+      icon: "psychology", color: "#c64f00", reward_points: 10,
+      questions: [
+        { id:"p2_q1", type:"qcm", badge:"histoire",
+          question:"Quel roi de France a réuni la Provence au royaume en 1481 ?",
+          options:["Louis XI","Charles VIII","François Ier","Henri IV"], answer:0,
+          explanation:"Louis XI hérita de la Provence à la mort de Charles III d'Anjou en 1481, annexant définitivement ce comté au royaume de France." },
+        { id:"p2_q2", type:"qcm", badge:"culture",
+          question:"Quel écrivain provençal a fondé le mouvement littéraire du Félibrige en 1854 ?",
+          options:["Alphonse Daudet","Frédéric Mistral","Marcel Pagnol","Jean Giono"], answer:1,
+          explanation:"Frédéric Mistral a cofondé le Félibrige pour défendre et promouvoir la langue et la culture provençales. Il reçut le prix Nobel de littérature en 1904." },
+        { id:"p2_q3", type:"vrai_faux", badge:"gastronomie",
+          question:"L'AOC Banon désigne un fromage provençal enveloppé dans des feuilles de châtaignier.",
+          answer:true,
+          explanation:"Vrai ! Le Banon, fromage de chèvre des Alpes-de-Haute-Provence, est affiné enveloppé dans des feuilles de châtaignier ficelées avec du raphia." },
+        { id:"p2_q4", type:"qcm", badge:"geographie",
+          question:"Quelle ville abrite les célèbres Chorégies, plus ancien festival lyrique de France ?",
+          options:["Aix-en-Provence","Arles","Orange","Nîmes"], answer:2,
+          explanation:"Les Chorégies d'Orange ont lieu chaque été dans le théâtre antique d'Orange, construit au Ier siècle. Son mur de scène de 37m de haut est unique au monde." },
+        { id:"p2_q5", type:"qcm", badge:"nature",
+          question:"Quel oiseau emblématique de Camargue niche uniquement en France sur ce territoire ?",
+          options:["Héron cendré","Flamant rose","Cigogne blanche","Aigrette garzette"], answer:1,
+          explanation:"Le flamant rose (Phoenicopterus roseus) est la seule colonie nicheuse française en Camargue, sur l'étang de Fangassier. La colonie compte jusqu'à 15 000 couples." },
+        { id:"p2_q6", type:"qcm", badge:"histoire",
+          question:"Quelle ville provençale fut la première colonie grecque de Gaule, fondée vers 600 av. J.-C. ?",
+          options:["Arles","Fréjus","Marseille","Antibes"], answer:2,
+          explanation:"Massalia (Marseille) fut fondée vers 600 avant J.-C. par des colons grecs venus de Phocée. C'est la plus ancienne ville de France." },
+        { id:"p2_q7", type:"vrai_faux", badge:"culture",
+          question:"Marcel Pagnol est né à Aubagne et y a situé plusieurs de ses œuvres.",
+          answer:true,
+          explanation:"Vrai ! Né à Aubagne en 1895, Pagnol a immortalisé les paysages de la Treille et du Garlaban dans La Gloire de mon père et Le Château de ma mère." },
+        { id:"p2_q8", type:"qcm", badge:"gastronomie",
+          question:"Quel est le principal ingrédient de l'aïoli provençal ?",
+          options:["Fromage de chèvre","Anchois","Ail et huile d'olive","Tapenade"], answer:2,
+          explanation:"L'aïoli (ail + oli = ail + huile en provençal) est une émulsion d'ail pilé et d'huile d'olive. Il accompagne traditionnellement la morue et les légumes bouillis." },
+        { id:"p2_q9", type:"qcm", badge:"nature",
+          question:"Quelle montagne provençale culmine à 1 909 mètres et est surnommée le 'géant de Provence' ?",
+          options:["Le Mont Ventoux","La Sainte-Victoire","Le Pic des Mouches","Le Luberon"], answer:0,
+          explanation:"Le Mont Ventoux, surnommé le 'géant de Provence', culmine à 1 909 m. Son sommet dénudé et venteux en fait une étape mythique du Tour de France." },
+        { id:"p2_q10", type:"qcm", badge:"histoire",
+          question:"Quel célèbre peintre post-impressionniste est né à Aix-en-Provence en 1839 ?",
+          options:["Van Gogh","Matisse","Cézanne","Renoir"], answer:2,
+          explanation:"Paul Cézanne (1839-1906), né et mort à Aix, a passé l'essentiel de sa vie en Provence. Il a peint la Sainte-Victoire plus de 80 fois depuis son atelier du Jas de Bouffan." },
+        { id:"p2_q11", type:"vrai_faux", badge:"geographie",
+          question:"Le pont du Gard est un aqueduc romain inscrit au patrimoine mondial de l'UNESCO.",
+          answer:true,
+          explanation:"Vrai ! Construit au Ier siècle pour alimenter Nîmes en eau, le pont du Gard mesure 49m de haut et 275m de long. Il est inscrit à l'UNESCO depuis 1985." },
+        { id:"p2_q12", type:"qcm", badge:"culture",
+          question:"Quelle langue régionale est parlée traditionnellement en Provence ?",
+          options:["L'occitan provençal","Le catalan","Le corse","Le niçard"], answer:0,
+          explanation:"L'occitan provençal, défendu par Mistral et le Félibrige, est la langue historique de Provence. Le niçard en est un dialecte spécifique au comté de Nice." }
+      ]
+    },
+    maitre: {
+      name: "Maître", label: "Le défi ultime", description: "Pour les vrais experts de Provence",
+      icon: "workspace_premium", color: "#9e3d00", reward_points: 20,
+      questions: [
+        { id:"p3_q1", type:"qcm", badge:"histoire",
+          question:"En quelle année Marseille a-t-elle été désignée Capitale européenne de la Culture ?",
+          options:["2005","2010","2013","2018"], answer:2,
+          explanation:"Marseille-Provence 2013 a été Capitale européenne de la Culture. Cet événement a accéléré la transformation urbaine et culturelle de la ville, avec notamment l'ouverture du MuCEM." },
+        { id:"p3_q2", type:"qcm", badge:"culture",
+          question:"Quel est le nom provençal de la santons, ces figurines de crèche provençales ?",
+          options:["Pastourets","Santoun","Figurinos","Calenos"], answer:1,
+          explanation:"'Santoun' signifie 'petit saint' en provençal. La tradition des santons de Provence est née à Marseille en 1798, lors de la première foire aux santons." },
+        { id:"p3_q3", type:"vrai_faux", badge:"nature",
+          question:"Le massif des Calanques est le seul parc national français situé en milieu urbain.",
+          answer:true,
+          explanation:"Vrai ! Créé en 2012, le Parc national des Calanques est unique en Europe : il s'étend entre Marseille et Cassis, à quelques kilomètres du centre-ville d'une grande métropole." },
+        { id:"p3_q4", type:"qcm", badge:"histoire",
+          question:"Quel général romain a battu les Arvernes et les Allobroges en -121, ouvrant la voie à la conquête de la Gaule en Provence ?",
+          options:["Jules César","Gnaeus Domitius Ahenobarbus","Quintus Fabius Maximus","Marius"], answer:1,
+          explanation:"Gnaeus Domitius Ahenobarbus écrasa la coalition gauloise en -121 av. J.-C. sur les bords du Rhône. Cette victoire permit la création de la province Gallia Narbonensis." },
+        { id:"p3_q5", type:"qcm", badge:"gastronomie",
+          question:"Quelle herbe aromatique provençale est utilisée dans le fameux mélange 'herbes de Provence' et pousse sur les garrigues ?",
+          options:["La sarriette","Le serpolet","Le thym","La lavande"], answer:2,
+          explanation:"Le thym (Thymus vulgaris) est l'herbe reine des garrigues provençales. Il constitue avec le romarin, l'origan et la marjolaine la base des herbes de Provence." },
+        { id:"p3_q6", type:"qcm", badge:"culture",
+          question:"Quel poète latin est né à Vaison-la-Romaine et a chanté la Provence antique ?",
+          options:["Virgile","Ovide","Pline l'Ancien","Ausone"], answer:3,
+          explanation:"Decimius Magnus Ausonius (Ausone, v.310-395), natif de Bordeaux mais ayant enseigné à Bordeaux, a décrit la vie romaine en Provence dans ses poèmes géographiques." },
+        { id:"p3_q7", type:"vrai_faux", badge:"histoire",
+          question:"La fameuse Légion étrangère a été fondée à Aubagne, en Provence.",
+          answer:true,
+          explanation:"Vrai ! La Légion étrangère a été fondée en 1831 à Paris, mais son quartier général (COMLE) est installé à Aubagne depuis 1962, après le départ d'Algérie." },
+        { id:"p3_q8", type:"qcm", badge:"geographie",
+          question:"Combien d'îles constituent l'archipel des îles d'Hyères, au large du Var ?",
+          options:["2","3","5","7"], answer:1,
+          explanation:"L'archipel des îles d'Hyères comprend trois îles principales : Porquerolles, Port-Cros et l'île du Levant. Port-Cros abrite le seul parc national marin de France métropolitaine." },
+        { id:"p3_q9", type:"qcm", badge:"nature",
+          question:"Quel insecte emblématique de Provence stridule uniquement dans les pays chauds méditerranéens ?",
+          options:["Le criquet","La cigale","Le grillon","La sauterelle"], answer:1,
+          explanation:"La cigale (Cicada orni) est le symbole sonore de la Provence. Seul le mâle 'chante' en vibrant ses cymbales. Elle ne stridule qu'au-dessus de 22°C." },
+        { id:"p3_q10", type:"qcm", badge:"histoire",
+          question:"En quel an a été inauguré le MuCEM, musée des civilisations de l'Europe et de la Méditerranée à Marseille ?",
+          options:["2010","2012","2013","2015"], answer:2,
+          explanation:"Le MuCEM a ouvert ses portes le 7 juin 2013, pour l'année Capitale européenne de la Culture. Conçu par Rudy Ricciotti, il relie le fort Saint-Jean par une passerelle spectaculaire." },
+        { id:"p3_q11", type:"vrai_faux", badge:"culture",
+          question:"Jean Giono a passé presque toute sa vie à Manosque, en Haute-Provence.",
+          answer:true,
+          explanation:"Vrai ! Jean Giono (1895-1970) est né, a vécu et est mort à Manosque. Il a situé la plupart de ses romans dans les paysages de Haute-Provence qu'il connaissait intimement." },
+        { id:"p3_q12", type:"qcm", badge:"gastronomie",
+          question:"Quel vin provençal rosé est produit dans l'appellation la plus productive de rosé au monde ?",
+          options:["Côtes-du-Rhône","Bandol","Provence Rosé (Côtes de Provence)","Coteaux d'Aix"], answer:2,
+          explanation:"Les Côtes de Provence produisent environ 140 millions de bouteilles de rosé par an, soit plus de 40 % de la production française de rosé et 10 % de la production mondiale." },
+        { id:"p3_q13", type:"qcm", badge:"geographie",
+          question:"Quel défilé rocheux spectaculaire sépare Arles et Tarascon sur le Rhône ?",
+          options:["Les gorges du Verdon","Les gorges de la Nesque","La montagnette","Les Alpilles"], answer:3,
+          explanation:"Les Alpilles, massif calcaire blanc entre Arles et Tarascon, forment une barrière naturelle aux paysages lunaires. Van Gogh les a peintes depuis Saint-Rémy-de-Provence." },
+        { id:"p3_q14", type:"vrai_faux", badge:"histoire",
+          question:"La reine Jeanne de Provence a légué le comté de Provence au roi Louis Ier d'Anjou.",
+          answer:true,
+          explanation:"Vrai ! Jeanne Ire, reine de Naples et comtesse de Provence (1343-1382), sans héritier direct, adopta Louis Ier d'Anjou. C'est à cette occasion que Avignon fut vendue à la papauté." },
+        { id:"p3_q15", type:"qcm", badge:"nature",
+          question:"Quelle plante aromatique emblématique est cultivée sur le plateau de Valensole ?",
+          options:["Le romarin","La lavande","Le thym","La sauge"], answer:1,
+          explanation:"Le plateau de Valensole est le plus grand champ de lavande d'Europe. Chaque juillet, ses étendues violettes attirent des milliers de touristes et photographes du monde entier." }
+      ]
+    }
+  }
+};
 </script>
 <style>
 * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
@@ -1149,32 +1333,451 @@ html, body {
 .btn-primary .material-symbols-outlined,
 .btn-secondary .material-symbols-outlined { font-size: 20px; }
 
+
+/* ════ PORTAIL JEUX ════ */
+
+.portal-scroll {
+  flex: 1;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  background: var(--bg);
+  padding-bottom: 40px;
+}
+
+/* ── Hero ── */
+.ph {
+  position: relative;
+  padding: 32px 22px 28px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+.ph-bg {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(160deg, #c9d8ff 0%, #e8d5f5 50%, #ffd6e8 100%);
+  z-index: 0;
+}
+.ph-bg::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, transparent 60%, var(--bg) 100%);
+}
+.ph-icon-wrap {
+  position: relative;
+  z-index: 1;
+  width: 64px; height: 64px;
+  border-radius: 18px;
+  background: rgba(255,255,255,.55);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255,255,255,.7);
+  display: flex; align-items: center; justify-content: center;
+  margin-bottom: 14px;
+  box-shadow: 0 4px 16px rgba(100,120,200,.18);
+}
+.ph-icon {
+  font-size: 30px;
+  color: #0055ee;
+  font-variation-settings: 'FILL' 1;
+}
+.ph-title {
+  position: relative;
+  z-index: 1;
+  font-size: 30px;
+  font-weight: 900;
+  color: var(--text);
+  letter-spacing: -.03em;
+  margin-bottom: 6px;
+}
+.ph-sub {
+  position: relative;
+  z-index: 1;
+  font-size: 14px;
+  color: var(--text-2);
+  line-height: 1.4;
+  max-width: 280px;
+  margin-bottom: 18px;
+}
+.ph-pts-badge {
+  position: relative;
+  z-index: 1;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  background: rgba(255,184,0,.15);
+  border: 1px solid rgba(255,184,0,.4);
+  color: #a06800;
+  font-size: 13px;
+  font-weight: 800;
+  padding: 7px 14px;
+  border-radius: 100px;
+}
+.ph-pts-badge .material-symbols-outlined {
+  font-size: 15px;
+  color: #ffb800;
+  font-variation-settings: 'FILL' 1;
+}
+
+/* ── Section labels ── */
+.pg-section {
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: .1em;
+  color: var(--text-3);
+  padding: 20px 18px 8px;
+}
+
+/* ── Liste de jeux ── */
+.pg-list {
+  margin: 0 16px;
+  background: var(--surface);
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 2px 14px rgba(10,14,26,.06);
+  border: 1px solid var(--outline);
+}
+.pg-list--soon { opacity: .7; }
+
+.pg-row {
+  font-family: 'Manrope', system-ui, sans-serif;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 14px 16px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  text-align: left;
+  -webkit-tap-highlight-color: transparent;
+  transition: background .12s;
+}
+.pg-row:active { background: var(--bg); }
+.pg-row--soon { cursor: default; opacity: .85; }
+.pg-row--soon:active { background: none; }
+
+.pg-row-icon {
+  width: 52px; height: 52px;
+  border-radius: 14px;
+  flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+  box-shadow: 0 3px 10px rgba(0,0,0,.15);
+}
+.pg-row-icon .material-symbols-outlined {
+  font-size: 26px;
+  color: #fff;
+  font-variation-settings: 'FILL' 1;
+}
+
+.pg-row-body { flex: 1; min-width: 0; }
+.pg-row-title {
+  font-size: 15px;
+  font-weight: 800;
+  color: var(--text);
+  letter-spacing: -.01em;
+  margin-bottom: 2px;
+}
+.pg-row-sub {
+  font-size: 12px;
+  color: var(--text-2);
+  margin-bottom: 7px;
+}
+.pg-row-chips { display: flex; gap: 6px; }
+.pgc {
+  display: inline-flex; align-items: center; gap: 3px;
+  font-size: 10px; font-weight: 700;
+  padding: 4px 8px; border-radius: 100px;
+}
+.pgc .material-symbols-outlined { font-size: 11px; font-variation-settings: 'FILL' 1; }
+.pgc-blue   { background: rgba(0,85,238,.09);  color: #0055ee; }
+.pgc-orange { background: rgba(224,90,0,.09);  color: #c85a00; }
+
+.pg-row-chev {
+  font-size: 18px !important;
+  color: var(--text-3);
+  flex-shrink: 0;
+}
+
+.pg-soon-tag {
+  flex-shrink: 0;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: .05em;
+  color: var(--text-3);
+  background: var(--bg);
+  border: 1px solid var(--outline-2);
+  padding: 4px 9px;
+  border-radius: 100px;
+}
+
+.pg-divider {
+  height: 1px;
+  background: var(--outline);
+  margin-left: 82px;
+}
+
+#screen-marius {
+  flex: 1;
+  overflow: hidden;
+}
+#screen-marius iframe {
+  height: 100%;
+}
+
+
+/* ════ TERRITOIRE ════ */
+.territory-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 0 0 24px;
+}
+
+.territory-card {
+  font-family: 'Manrope', system-ui, sans-serif;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 14px 16px;
+  background: var(--surface);
+  border: none;
+  border-radius: 18px;
+  cursor: pointer;
+  text-align: left;
+  box-shadow: 0 2px 12px rgba(10,14,26,.08);
+  transition: transform .15s cubic-bezier(.34,1.56,.64,1), box-shadow .15s;
+  -webkit-tap-highlight-color: transparent;
+}
+.territory-card:active { transform: scale(.975); box-shadow: 0 1px 4px rgba(10,14,26,.05); }
+
+.territory-icon {
+  width: 56px; height: 56px;
+  border-radius: 16px;
+  flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+  box-shadow: 0 4px 12px rgba(0,0,0,.18);
+}
+.territory-icon .material-symbols-outlined {
+  font-size: 28px; color: #fff;
+  font-variation-settings: 'FILL' 1;
+}
+
+.territory-body { flex: 1; min-width: 0; }
+.territory-name {
+  font-family: 'Manrope', system-ui, sans-serif;
+  font-size: 16px; font-weight: 800;
+  color: var(--text); letter-spacing: -.02em;
+  margin-bottom: 3px;
+}
+.territory-desc {
+  font-family: 'Manrope', system-ui, sans-serif;
+  font-size: 12px; color: var(--text-2);
+  line-height: 1.4; margin-bottom: 8px;
+  font-weight: 500;
+}
+.territory-meta {
+  display: flex; gap: 14px;
+  font-family: 'Manrope', system-ui, sans-serif;
+  font-size: 11px; font-weight: 700; color: var(--text-3);
+}
+.territory-meta span {
+  display: inline-flex; align-items: center; gap: 4px;
+}
+.territory-meta .material-symbols-outlined { font-size: 13px; }
+.territory-chev {
+  font-size: 18px !important;
+  color: var(--text-3);
+  flex-shrink: 0;
+}
+
 </style>
 </head>
 <body>
 
 <div class="app">
-
   <header class="header">
     <button class="header-back" onclick="onBack()">
       <span class="material-symbols-outlined">arrow_back</span>
     </button>
     <div class="header-title">
-      <span class="header-eyebrow">QUIZ PATRIMOINE</span>
-      <span class="header-name">Villeneuve-lès-Avignon</span>
+      <span class="header-eyebrow" id="header-eyebrow">JEUX</span>
+      <span class="header-name" id="header-name">Villeneuve-lès-Avignon</span>
     </div>
     <div class="header-points" id="header-points" style="display:none">
       <span class="material-symbols-outlined">stars</span>
       <span id="points-value">0</span>
     </div>
   </header>
+  <!-- ════ PORTAIL JEUX ════ -->
+  <section class="screen active" id="screen-portal">
+    <div class="portal-scroll">
 
-  <section class="screen active" id="screen-levels">
+      <!-- HERO -->
+      <div class="ph">
+        <div class="ph-bg"></div>
+        <div class="ph-icon-wrap">
+          <span class="material-symbols-outlined ph-icon">videogame_asset</span>
+        </div>
+        <h1 class="ph-title">Mini-Jeux</h1>
+        <p class="ph-sub">Jouez et gagnez des points fidélité sur votre ville</p>
+        <div class="ph-pts-badge">
+          <span class="material-symbols-outlined">stars</span>
+          <span id="portal-points">0</span> pts
+        </div>
+      </div>
+
+      <!-- JEUX DISPO -->
+      <div class="pg-section">DISPONIBLES</div>
+
+      <div class="pg-list">
+
+        <button class="pg-row" onclick="goToQuiz()">
+          <div class="pg-row-icon" style="background:linear-gradient(145deg,#5e9fff,#0055ee)">
+            <span class="material-symbols-outlined">auto_stories</span>
+          </div>
+          <div class="pg-row-body">
+            <div class="pg-row-title">Quiz Patrimoine</div>
+            <div class="pg-row-sub">Culture &amp; Histoire · 3 niveaux</div>
+            <div class="pg-row-chips">
+              <span class="pgc pgc-blue"><span class="material-symbols-outlined">stars</span>Points fidélité</span>
+            </div>
+          </div>
+          <span class="material-symbols-outlined pg-row-chev">chevron_right</span>
+        </button>
+
+        <div class="pg-divider"></div>
+
+        <button class="pg-row" onclick="goToMarius()">
+          <div class="pg-row-icon" style="background:linear-gradient(145deg,#ff9a4f,#e05a00)">
+            <span class="material-symbols-outlined">sports_esports</span>
+          </div>
+          <div class="pg-row-body">
+            <div class="pg-row-title">Marius Bros</div>
+            <div class="pg-row-sub">Arcade · Platformer provençal</div>
+            <div class="pg-row-chips">
+              <span class="pgc pgc-orange"><span class="material-symbols-outlined">emoji_events</span>Highscore</span>
+            </div>
+          </div>
+          <span class="material-symbols-outlined pg-row-chev">chevron_right</span>
+        </button>
+
+      </div>
+
+      <!-- BIENTÔT -->
+      <div class="pg-section">BIENTÔT</div>
+
+      <div class="pg-list pg-list--soon">
+
+        <div class="pg-row pg-row--soon">
+          <div class="pg-row-icon" style="background:linear-gradient(145deg,#b0b8cc,#8892a8)">
+            <span class="material-symbols-outlined">grid_view</span>
+          </div>
+          <div class="pg-row-body">
+            <div class="pg-row-title">Memory Patrimoine</div>
+            <div class="pg-row-sub">Retrouvez les paires de monuments</div>
+          </div>
+          <span class="pg-soon-tag">Bientôt</span>
+        </div>
+
+        <div class="pg-divider"></div>
+
+        <div class="pg-row pg-row--soon">
+          <div class="pg-row-icon" style="background:linear-gradient(145deg,#7ecda8,#1e9e6a)">
+            <span class="material-symbols-outlined">location_searching</span>
+          </div>
+          <div class="pg-row-body">
+            <div class="pg-row-title">Chasse au trésor</div>
+            <div class="pg-row-sub">Explorez la ville et trouvez les indices</div>
+          </div>
+          <span class="pg-soon-tag">Bientôt</span>
+        </div>
+
+        <div class="pg-divider"></div>
+
+        <div class="pg-row pg-row--soon">
+          <div class="pg-row-icon" style="background:linear-gradient(145deg,#ffcc70,#e09500)">
+            <span class="material-symbols-outlined">casino</span>
+          </div>
+          <div class="pg-row-body">
+            <div class="pg-row-title">Roue des récompenses</div>
+            <div class="pg-row-sub">Tentez votre chance chaque jour</div>
+          </div>
+          <span class="pg-soon-tag">Bientôt</span>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ════ MARIUS BROS (iframe) ════ -->
+  <section class="screen" id="screen-marius">
+    <iframe id="marius-frame" src="marius-bros/index.html"
+      style="width:100%;flex:1;border:none;display:block;"
+      allow="accelerometer; autoplay"
+    ></iframe>
+  </section>
+
+
+
+
+
+  <!-- Choix territoire -->
+  <section class="screen" id="screen-territory">
     <div class="intro-hero">
       <div class="intro-hero-content">
-        <div class="intro-icon"><span class="material-symbols-outlined">menu_book</span></div>
+        <div class="intro-icon"><span class="material-symbols-outlined">map</span></div>
         <h1 class="intro-title">Quiz Patrimoine</h1>
-        <p class="intro-subtitle">Testez votre connaissance de Villeneuve-lès-Avignon et gagnez des points fidélité.</p>
+        <p class="intro-subtitle">Choisissez votre territoire de jeu</p>
+      </div>
+    </div>
+    <div class="levels-list">
+      <div class="section-label">Territoire</div>
+      <div class="territory-list">
+
+        <button class="territory-card" onclick="selectTerritory('villeneuve')">
+          <div class="territory-icon" style="background:linear-gradient(145deg,#4facfe,#0055ee)">
+            <span class="material-symbols-outlined">location_city</span>
+          </div>
+          <div class="territory-body">
+            <div class="territory-name">Villeneuve-lès-Avignon</div>
+            <div class="territory-desc">Patrimoine local · Chartreuse, Fort, Tour Philippe-le-Bel</div>
+            <div class="territory-meta">
+              <span><span class="material-symbols-outlined">help</span>37 questions</span>
+              <span><span class="material-symbols-outlined">workspace_premium</span>3 niveaux</span>
+            </div>
+          </div>
+          <span class="material-symbols-outlined territory-chev">chevron_right</span>
+        </button>
+
+        <button class="territory-card" onclick="selectTerritory('provence')">
+          <div class="territory-icon" style="background:linear-gradient(145deg,#a8e88a,#1e9e6a)">
+            <span class="material-symbols-outlined">landscape</span>
+          </div>
+          <div class="territory-body">
+            <div class="territory-name">La Provence</div>
+            <div class="territory-desc">Culture régionale · Gastronomie, Nature, Histoire, Art</div>
+            <div class="territory-meta">
+              <span><span class="material-symbols-outlined">help</span>37 questions</span>
+              <span><span class="material-symbols-outlined">workspace_premium</span>3 niveaux</span>
+            </div>
+          </div>
+          <span class="material-symbols-outlined territory-chev">chevron_right</span>
+        </button>
+
+      </div>
+    </div>
+  </section>
+
+  <section class="screen" id="screen-levels">
+    <div class="intro-hero">
+      <div class="intro-hero-content">
+        <div class="intro-icon"><span class="material-symbols-outlined" id="levels-hero-icon">menu_book</span></div>
+        <h1 class="intro-title" id="levels-hero-title">Quiz Patrimoine</h1>
+        <p class="intro-subtitle" id="levels-hero-sub">Testez votre connaissance et gagnez des points fidélité.</p>
       </div>
     </div>
     <div class="levels-list">
@@ -1255,7 +1858,8 @@ function hexToRgba(hex, alpha) {
 function renderLevels() {
   const container = document.getElementById('levels-container');
   container.innerHTML = '';
-  Object.entries(Q.levels).forEach(([key, level]) => {
+  const QQ = window._currentQ || Q;
+  Object.entries(QQ.levels).forEach(([key, level]) => {
     const style = LEVEL_STYLES[key];
     const card = document.createElement('div');
     card.className = 'level-card';
@@ -1275,14 +1879,15 @@ function renderLevels() {
       </div>
       <div class="level-arrow"><span class="material-symbols-outlined">chevron_right</span></div>
     `;
-    card.onclick = () => startLevel(key);
+    card.onclick = () => startLevel(key, window._currentQ || Q);
     container.appendChild(card);
   });
 }
 
-function startLevel(levelKey) {
-  const level = Q.levels[levelKey];
-  state = { levelKey, questions: [...level.questions], current: 0, correct: 0, earnedBadges: new Set(), startTime: Date.now() };
+function startLevel(levelKey, QQ) {
+  QQ = QQ || window._currentQ || Q;
+  const level = QQ.levels[levelKey];
+  state = { levelKey, questions: [...level.questions], current: 0, correct: 0, earnedBadges: new Set(), startTime: Date.now(), QQ };
   document.getElementById('game-level-label').textContent = level.name;
   document.getElementById('header-points').style.display = 'flex';
   document.getElementById('points-value').textContent = '0';
@@ -1296,7 +1901,7 @@ function renderQuestion() {
   document.getElementById('game-count').textContent = `${state.current + 1} / ${total}`;
   document.getElementById('progress-fill').style.width = `${(state.current / total) * 100}%`;
 
-  const badge = Q.badges[q.badge];
+  const badge = (state.QQ || Q).badges[q.badge] || Q.badges[q.badge] || { name: q.badge, icon: 'star', color: '#888' };
   const badgeColor = BADGE_COLORS[q.badge] || badge.color;
   const wrap = document.getElementById('question-wrap');
   wrap.innerHTML = `
@@ -1484,7 +2089,7 @@ function showResults() {
 }
 
 function renderBadgesEarned() {
-  const items = Object.entries(Q.badges).map(([key, b]) => {
+  const items = Object.entries((state.QQ || Q).badges).map(([key, b]) => {
     const earned = state.earnedBadges.has(key);
     const color = BADGE_COLORS[key] || b.color;
     return `
@@ -1500,16 +2105,60 @@ function restartSameLevel() { startLevel(state.levelKey); }
 function goToLevels() {
   document.getElementById('header-points').style.display = 'none';
   showScreen('screen-levels');
-}
-function onBack() {
-  const active = document.querySelector('.screen.active').id;
-  if (active === 'screen-levels') {
-    if (window.parent && window.parent !== window) window.parent.postMessage({ type: 'quiz-close' }, '*');
-    else window.history.back();
-  } else goToLevels();
+  renderLevels();
 }
 
-renderLevels();
+function goToQuiz() {
+  document.getElementById('header-eyebrow').textContent = 'QUIZ PATRIMOINE';
+  document.getElementById('header-name').textContent = 'Provence';
+  showScreen('screen-territory');
+}
+
+function selectTerritory(territory) {
+  const isProvence = territory === 'provence';
+  window._currentQ = isProvence ? window.QUIZ_PROVENCE : window.QUIZ_VILLENEUVE;
+  document.getElementById('header-name').textContent = isProvence ? 'La Provence' : 'Villeneuve-lès-Avignon';
+  document.getElementById('levels-hero-icon').textContent = isProvence ? 'landscape' : 'menu_book';
+  document.getElementById('levels-hero-title').textContent = isProvence ? 'Quiz Provence' : 'Quiz Patrimoine';
+  document.getElementById('levels-hero-sub').textContent = isProvence
+    ? 'Testez votre connaissance de la région Provence et gagnez des points fidélité.'
+    : 'Testez votre connaissance de Villeneuve-lès-Avignon et gagnez des points fidélité.';
+  showScreen('screen-levels');
+  renderLevels();
+}
+
+function goToMarius() {
+  document.getElementById('header-eyebrow').textContent = 'MARIUS BROS';
+  document.getElementById('header-name').textContent = 'Villeneuve-lès-Avignon';
+  showScreen('screen-marius');
+  // Recharge l'iframe si besoin
+  const fr = document.getElementById('marius-frame');
+  if (!fr.src || fr.src === 'about:blank') fr.src = 'marius-bros/index.html';
+}
+
+function goToPortal() {
+  document.getElementById('header-eyebrow').textContent = 'JEUX';
+  document.getElementById('header-name').textContent = 'Villeneuve-lès-Avignon';
+  document.getElementById('header-points').style.display = 'none';
+  document.getElementById('portal-points').textContent = getStoredPoints();
+  showScreen('screen-portal');
+}
+
+function onBack() {
+  const active = document.querySelector('.screen.active').id;
+  if (active === 'screen-portal') {
+    if (window.parent && window.parent !== window) window.parent.postMessage({ type: 'quiz-close' }, '*');
+    else window.history.back();
+  } else if (active === 'screen-territory' || active === 'screen-marius') {
+    goToPortal();
+  } else if (active === 'screen-levels') {
+    showScreen('screen-territory');
+  } else {
+    goToLevels();
+  }
+}
+
+goToPortal();
 </script>
 </body>
 </html>
