@@ -5,6 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
 <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Noto+Serif:ital,wght@0,400;0,700;1,400&family=Uncial+Antiqua&display=swap" rel="stylesheet"/>
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="https://unpkg.com/maplibre-gl@3.6.2/dist/maplibre-gl.css"/>
+<script src="https://unpkg.com/maplibre-gl@3.6.2/dist/maplibre-gl.js" crossorigin="anonymous"></script>
 <title>Chroniques de Provence</title>
 <style>
 * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
@@ -258,34 +260,180 @@ html, body {
 }
 .map-wrap:active { cursor: grabbing; }
 
-#map-layer {
-  position: absolute;
-  top: -50%; left: -50%;
-  width: 200%; height: 200%;
-  will-change: transform;
-  transform-origin: center center;
-}
-.map-bg-img {
+#leaflet-map {
   position: absolute;
   inset: 0;
   width: 100%;
   height: 100%;
-  object-fit: cover;
-  object-position: center;
+  background: #f4ead5;
 }
+/* ── EFFETS MAP 3D ── */
+/* Saturation/contraste boost pour rendu cinématique */
+.maplibregl-canvas {
+  filter: saturate(1.15) contrast(1.05);
+}
+
+/* ── VIGNETTAGE SOMBRE (sur les bords) ── */
+.map-wrap::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 460;
+  background:
+    radial-gradient(ellipse at center, transparent 50%, rgba(0,0,0,.4) 100%);
+  mix-blend-mode: multiply;
+}
+
+/* ── PINS GLOW DORÉ ── */
+.leaflet-pin-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  border: 2px solid;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow:
+    0 4px 16px rgba(0,0,0,.45),
+    0 0 12px rgba(200, 150, 10, .35),
+    inset 0 1px 0 rgba(255,255,255,.4);
+  transition: transform .2s ease, box-shadow .2s ease;
+  position: relative;
+}
+.leaflet-pin-icon::before {
+  content: '';
+  position: absolute;
+  inset: -4px;
+  border-radius: 14px;
+  background: radial-gradient(circle, rgba(200, 150, 10, .25) 0%, transparent 70%);
+  z-index: -1;
+  opacity: 0;
+  transition: opacity .3s ease;
+}
+.leaflet-pin:hover .leaflet-pin-icon {
+  transform: scale(1.12) translateY(-2px);
+  box-shadow:
+    0 8px 24px rgba(0,0,0,.5),
+    0 0 24px rgba(200, 150, 10, .7),
+    inset 0 1px 0 rgba(255,255,255,.5);
+}
+.leaflet-pin:hover .leaflet-pin-icon::before { opacity: 1; }
+.leaflet-pin-icon .material-symbols-outlined { font-size: 20px; font-variation-settings: 'FILL' 1; }
+
+/* Pulse doré sur les pins quête */
+.leaflet-pin-quest {
+  position: absolute;
+  top: -6px; right: -6px;
+  width: 18px; height: 18px;
+  background: var(--accent);
+  border-radius: 50%;
+  border: 2px solid #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 9px;
+  font-weight: 800;
+  color: #fff;
+  font-family: var(--manrope);
+  animation: questBounce 1.2s ease-in-out infinite alternate;
+  box-shadow: 0 0 12px rgba(255, 100, 0, .8), 0 0 24px rgba(255, 150, 0, .4);
+}
+.leaflet-pin-quest::after {
+  content: '';
+  position: absolute;
+  inset: -4px;
+  border-radius: 50%;
+  border: 2px solid var(--accent);
+  animation: questPulse 1.5s ease-out infinite;
+}
+@keyframes questPulse {
+  0% { transform: scale(.8); opacity: 1; }
+  100% { transform: scale(2.2); opacity: 0; }
+}
+
+/* Pins custom Leaflet */
+.leaflet-pin-container { background: transparent !important; border: none !important; cursor: pointer; }
+.leaflet-pin {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  cursor: pointer;
+  /* Animation flottement subtile pour effet vivant */
+  animation: pinFloat 3s ease-in-out infinite;
+}
+.leaflet-pin:nth-child(odd) { animation-delay: -1.5s; }
+@keyframes pinFloat {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-3px); }
+}
+
+/* Pins décoratifs (montagnes, forêts) — plus discrets, pas cliquables visuellement */
+.pin-deco {
+  opacity: .85;
+}
+.pin-deco .leaflet-pin-icon {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  box-shadow: 0 2px 8px rgba(0,0,0,.3);
+}
+.pin-deco .leaflet-pin-icon .material-symbols-outlined {
+  font-size: 16px;
+}
+.pin-deco .leaflet-pin-label {
+  font-size: 9px;
+  font-style: italic;
+  background: rgba(255,255,255,.7);
+  font-weight: 600;
+  color: var(--text-2);
+}
+.leaflet-pin-wrap { position: relative; }
+.leaflet-pin-label {
+  background: rgba(255,255,255,.95);
+  backdrop-filter: blur(4px);
+  border: 1px solid rgba(200, 150, 10, .4);
+  border-radius: 8px;
+  padding: 2px 7px;
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--text);
+  margin-top: 4px;
+  white-space: nowrap;
+  box-shadow: 0 2px 10px rgba(0,0,0,.3), 0 0 0 1px rgba(200, 150, 10, .15);
+  font-family: var(--manrope);
+}
+.leaflet-pin-done {
+  position: absolute;
+  top: -4px; right: -4px;
+  width: 16px; height: 16px;
+  background: #27ae60;
+  border-radius: 50%;
+  border: 2px solid #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 9px;
+  color: #fff;
+  font-family: var(--manrope);
+  box-shadow: 0 0 10px rgba(39, 174, 96, .7);
+}
+@keyframes questBounce { from { transform: translateY(0); } to { transform: translateY(-3px); } }
 
 .region-card {
   position: absolute;
   top: 14px;
   left: 50%;
   transform: translateX(-50%);
-  z-index: 10;
-  background: #fff;
-  border: 1.5px solid var(--outline-light);
+  z-index: 500;
+  background: rgba(255, 255, 255, .92);
+  backdrop-filter: blur(12px) saturate(1.4);
+  -webkit-backdrop-filter: blur(12px) saturate(1.4);
+  border: 1px solid var(--outline-light);
   border-radius: 14px;
   padding: 8px 18px;
   text-align: center;
-  box-shadow: 0 4px 16px rgba(0,0,0,.1);
+  box-shadow: 0 4px 16px rgba(0,0,0,.15);
   pointer-events: none;
   white-space: nowrap;
 }
@@ -303,61 +451,6 @@ html, body {
   font-weight: 800;
   color: var(--primary);
 }
-
-/* Map markers */
-.mpin {
-  position: absolute;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  cursor: pointer;
-  z-index: 8;
-}
-.mpin-icon {
-  width: 44px;
-  height: 44px;
-  border-radius: 12px;
-  border: 2px solid var(--outline);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow: 0 4px 12px rgba(0,0,0,.2);
-  transition: transform .15s;
-}
-.mpin:active .mpin-icon { transform: scale(.92); }
-.mpin-icon .material-symbols-outlined { font-size: 22px; }
-.mpin-label {
-  background: #fff;
-  border: 1px solid var(--outline-light);
-  border-radius: 8px;
-  padding: 3px 8px;
-  font-size: 11px;
-  font-weight: 700;
-  color: var(--text);
-  margin-top: 4px;
-  white-space: nowrap;
-  box-shadow: 0 2px 8px rgba(0,0,0,.1);
-  font-family: var(--manrope);
-}
-.mpin-quest {
-  position: absolute;
-  top: -6px;
-  right: -6px;
-  width: 18px;
-  height: 18px;
-  background: var(--accent);
-  border-radius: 50%;
-  border: 2px solid #fff;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 9px;
-  font-weight: 800;
-  color: #fff;
-  font-family: var(--manrope);
-  animation: questBounce 1.2s ease-in-out infinite alternate;
-}
-@keyframes questBounce { from { transform: translateY(0); } to { transform: translateY(-3px); } }
 
 /* ════════════════════════
    ÉCRAN 3 — JEU
@@ -603,65 +696,17 @@ html, body {
   </header>
 
   <div class="map-wrap" id="map-wrap">
-    <div id="map-layer">
-      <img class="map-bg-img" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCye-1LwTLeOPo-x0be8np6CtkQNq1OoSsnYOk0y5tSWYhbLJFxfx9gqcIfHUyt6OzKl56p5Vyrc_PQnzv3ECjy57aVnMM28Y-v4hMvPG4IwAg8pn-TxIqVD6OyYrPnVasfyfkJAhdYmOkB-wT-cMjIKNDHQptzAlND5fRaHJi6OioJZ5XbI9-TDpxPqxJJBRLEPnrWeMZCN25LW9mmrKAlMdchxhg8O1rWBRPp-2SZapiamaID39JaqxDXmr_9GmVKTNf5XLu0z2zp" alt="map"/>
-
-      <div class="region-card">
-        <div class="region-label">Région actuelle</div>
-        <div class="region-name">Comté de Provence</div>
-      </div>
-
-      <!-- Avignon -->
-      <div class="mpin" style="left:30%;top:38%" onclick="goTo('s-jeu')">
-        <div style="position:relative">
-          <div class="mpin-icon" style="background:#f0e8ff;border-color:#9b59b6">
-            <span class="material-symbols-outlined" style="color:#9b59b6">fort</span>
-          </div>
-          <div class="mpin-quest">!</div>
-        </div>
-        <div class="mpin-label">Avignon</div>
-      </div>
-
-      <!-- Abbaye de Sénanque -->
-      <div class="mpin" style="left:60%;top:22%">
-        <div style="position:relative">
-          <div class="mpin-icon" style="background:#e8f4ff;border-color:#3498db">
-            <span class="material-symbols-outlined" style="color:#3498db">church</span>
-          </div>
-          <div style="position:absolute;top:-4px;right:-4px;width:16px;height:16px;background:#27ae60;border-radius:50%;border:2px solid #fff;display:flex;align-items:center;justify-content:center;font-size:9px;color:#fff">✓</div>
-        </div>
-        <div class="mpin-label">Abbaye de Sénanque</div>
-      </div>
-
-      <!-- Alpilles -->
-      <div class="mpin" style="left:52%;top:55%">
-        <div class="mpin-icon" style="background:#e8ffe8;border-color:#27ae60">
-          <span class="material-symbols-outlined" style="color:#27ae60">landscape</span>
-        </div>
-        <div class="mpin-label">Alpilles</div>
-      </div>
-
-      <!-- Port de Marseille -->
-      <div class="mpin" style="left:42%;top:70%" onclick="goTo('s-jeu')">
-        <div style="position:relative">
-          <div class="mpin-icon" style="background:#fff0e8;border-color:var(--accent)">
-            <span class="material-symbols-outlined" style="color:var(--accent)">sailing</span>
-          </div>
-          <div class="mpin-quest">!</div>
-        </div>
-        <div class="mpin-label">Port de Marseille</div>
-      </div>
-
-      <!-- Nîmes -->
-      <div class="mpin" style="left:18%;top:55%">
-        <div style="position:relative">
-          <div class="mpin-icon" style="background:#fff0e8;border-color:var(--accent)">
-            <span class="material-symbols-outlined" style="color:var(--accent)">architecture</span>
-          </div>
-          <div class="mpin-quest">!</div>
-        </div>
-        <div class="mpin-label">Nîmes</div>
-      </div>
+    <div id="leaflet-map"></div>
+    <div class="region-card">
+      <div class="region-label">Région actuelle</div>
+      <div class="region-name">Comté de Provence</div>
+    </div>
+    <div id="debug-panel" style="display:none;position:absolute;top:60px;left:10px;right:10px;z-index:700;background:rgba(20,15,10,.95);color:#fff;padding:14px;border-radius:8px;font-family:monospace;font-size:12px;max-height:50%;overflow:auto;line-height:1.5"></div>
+    <div id="maptiler-warn" style="display:none;position:absolute;inset:0;z-index:600;background:rgba(20,15,10,.92);color:#fff;flex-direction:column;align-items:center;justify-content:center;padding:30px;text-align:center;font-family:'Manrope',sans-serif;">
+      <span class="material-symbols-outlined" style="font-size:48px;color:#c8960a;margin-bottom:16px">key</span>
+      <div style="font-size:18px;font-weight:800;margin-bottom:10px">Clé MapTiler requise</div>
+      <div style="font-size:13px;line-height:1.5;color:#ccc;margin-bottom:20px">Pour afficher le terrain 3D, créez un compte gratuit sur maptiler.com et remplacez <code style="background:rgba(255,255,255,.1);padding:2px 6px;border-radius:4px;font-size:11px">GET_YOUR_FREE_KEY_AT_maptiler.com</code> dans le code par votre clé.</div>
+      <a href="https://www.maptiler.com/cloud/" target="_blank" style="background:#c8960a;color:#000;padding:10px 20px;border-radius:8px;font-weight:700;text-decoration:none;font-size:13px">Obtenir une clé gratuite</a>
     </div>
   </div>
 
@@ -758,35 +803,165 @@ html, body {
 function goTo(id) {
   document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
   document.getElementById(id).classList.add('active');
+  if (id === 's-map') {
+    // Léger délai pour s'assurer que le DOM/MapLibre est prêt
+    setTimeout(initMapOnce, 50);
+  }
 }
 
-// Map drag
-const mapWrap = document.getElementById('map-wrap');
-const mapLayer = document.getElementById('map-layer');
-let tx=0, ty=0, scale=0.55;
-let drag=false, lx=0, ly=0, pinch=null;
+// ── MAPLIBRE 3D ──
+const MAPTILER_KEY = '1uHN6id93XDtu7GpPtSy';
 
-function applyMap() {
-  mapLayer.style.transform = `translate(${tx}px,${ty}px) scale(${scale})`;
+// Capture toutes les erreurs JS dans un panneau visible
+window.addEventListener('error', (e) => {
+  const dbg = document.getElementById('debug-panel');
+  if (dbg) {
+    dbg.style.display = 'block';
+    dbg.innerHTML += `<div style="color:#ff6b6b">⚠ ${e.message || 'Script error'}<br><span style="font-size:10px;color:#999">${e.filename || ''}:${e.lineno || '?'}</span></div>`;
+  }
+});
+
+let mapInstance = null;
+function initMapOnce() {
+  if (mapInstance) { mapInstance.resize(); return; }
+
+  // Vérifier que MapLibre est chargé
+  if (typeof maplibregl === 'undefined') {
+    const dbg = document.getElementById('debug-panel');
+    if (dbg) {
+      dbg.style.display = 'block';
+      dbg.innerHTML = '<div style="color:#ff6b6b">⚠ MapLibre GL n\'a pas pu se charger.<br>Vérifie ta connexion ou réessaie.</div>';
+    }
+    return;
+  }
+
+  mapInstance = new maplibregl.Map({
+    container: 'leaflet-map',
+    style: `https://api.maptiler.com/maps/landscape/style.json?key=${MAPTILER_KEY}`,
+    center: [4.85, 43.85],
+    zoom: 8.5,
+    pitch: 60,           // Inclinaison caméra (style Pokémon GO)
+    bearing: -15,        // Léger angle de rotation
+    minZoom: 7.5,
+    maxZoom: 18,
+    maxBounds: [[3.5, 42.9], [6.6, 44.7]],
+    attributionControl: false,
+    antialias: true
+  });
+
+  mapInstance.on('load', () => {
+    // ── TERRAIN 3D RÉEL (relief) ──
+    mapInstance.addSource('terrain-dem', {
+      type: 'raster-dem',
+      url: `https://api.maptiler.com/tiles/terrain-rgb-v2/tiles.json?key=${MAPTILER_KEY}`,
+      tileSize: 256
+    });
+    mapInstance.setTerrain({ source: 'terrain-dem', exaggeration: 1.8 });
+
+    // ── CIEL ATMOSPHÉRIQUE ──
+    mapInstance.setSky({
+      'sky-color': '#87ceeb',
+      'sky-horizon-blend': 0.5,
+      'horizon-color': '#f4ead5',
+      'horizon-fog-blend': 0.6,
+      'fog-color': '#d4b896',
+      'fog-ground-blend': 0.3
+    });
+
+    // ── BÂTIMENTS 3D EXTRUDÉS ──
+    const layers = mapInstance.getStyle().layers;
+    let labelLayerId;
+    for (const layer of layers) {
+      if (layer.type === 'symbol' && layer.layout?.['text-field']) {
+        labelLayerId = layer.id;
+        break;
+      }
+    }
+
+    mapInstance.addLayer({
+      id: '3d-buildings',
+      source: 'openmaptiles',
+      'source-layer': 'building',
+      type: 'fill-extrusion',
+      minzoom: 14,
+      paint: {
+        'fill-extrusion-color': [
+          'interpolate', ['linear'], ['get', 'render_height'],
+          0, '#d8c8a8',
+          50, '#b89878',
+          200, '#8a6a48'
+        ],
+        'fill-extrusion-height': [
+          'interpolate', ['linear'], ['zoom'],
+          14, 0,
+          14.5, ['get', 'render_height']
+        ],
+        'fill-extrusion-base': ['get', 'render_min_height'],
+        'fill-extrusion-opacity': 0.92,
+        'fill-extrusion-vertical-gradient': true
+      }
+    }, labelLayerId);
+
+    // ── POIs en marqueurs custom ──
+    addPoiMarkers();
+  });
+
+  mapInstance.on('error', (e) => {
+    if (e.error?.message?.includes('401') || e.error?.message?.includes('403')) {
+      console.warn('MapTiler key invalide ou manquante');
+      document.getElementById('maptiler-warn').style.display = 'flex';
+    }
+  });
 }
-applyMap();
 
-function dist(t1,t2){ const dx=t1.clientX-t2.clientX,dy=t1.clientY-t2.clientY; return Math.sqrt(dx*dx+dy*dy); }
-function clamp(v,a,b){ return Math.max(a,Math.min(b,v)); }
+function addPoiMarkers() {
+  const pois = [
+    { name: 'Avignon',                 lng: 4.8055, lat: 43.9493, icon: 'fort',         color: '#9b59b6', bg: '#f0e8ff', quest: true,  click: () => goTo('s-jeu') },
+    { name: 'Villeneuve-lès-Avignon',  lng: 4.7989, lat: 43.9667, icon: 'castle',       color: '#9e3d00', bg: '#fff0e8', quest: true,  click: () => goTo('s-jeu') },
+    { name: 'Nîmes',                   lng: 4.3601, lat: 43.8367, icon: 'architecture', color: '#c64f00', bg: '#fff0e8', quest: true,  click: () => goTo('s-jeu') },
+    { name: 'Pont du Gard',            lng: 4.5350, lat: 43.9472, icon: 'account_balance', color: '#c8960a', bg: '#fff8e0', quest: true, click: () => goTo('s-jeu') },
+    { name: 'Abbaye de Sénanque',      lng: 5.1186, lat: 43.9344, icon: 'church',       color: '#3498db', bg: '#e8f4ff', done: true },
+    { name: 'Les Baux',                lng: 4.7958, lat: 43.7444, icon: 'landscape',    color: '#27ae60', bg: '#e8ffe8' },
+    { name: 'Arles',                   lng: 4.6278, lat: 43.6766, icon: 'theater_comedy', color: '#c64f00', bg: '#fff0e8', quest: true, click: () => goTo('s-jeu') },
+    { name: 'Marseille',               lng: 5.3698, lat: 43.2965, icon: 'sailing',      color: '#c64f00', bg: '#fff0e8', quest: true, click: () => goTo('s-jeu') },
+    { name: 'Aix-en-Provence',         lng: 5.4474, lat: 43.5297, icon: 'park',         color: '#27ae60', bg: '#e8ffe8' },
+    { name: 'Uzès',                    lng: 4.4192, lat: 44.0124, icon: 'castle',       color: '#9b59b6', bg: '#f0e8ff' },
+    { name: 'Tarascon',                lng: 4.6603, lat: 43.8056, icon: 'fort',         color: '#9e3d00', bg: '#fff0e8' },
+    { name: 'Camargue',                lng: 4.4892, lat: 43.5375, icon: 'pets',         color: '#27ae60', bg: '#e8ffe8' },
+    // Décor naturel — montagnes & sites légendaires
+    { name: 'Mont Ventoux',            lng: 5.2783, lat: 44.1736, icon: 'terrain',      color: '#7a4a2a', bg: '#f0e0d0', deco: true },
+    { name: 'Lubéron',                 lng: 5.3500, lat: 43.8500, icon: 'forest',       color: '#27ae60', bg: '#e8ffe8', deco: true },
+    { name: 'Alpilles',                lng: 4.8000, lat: 43.7800, icon: 'landscape',    color: '#7a4a2a', bg: '#f0e0d0', deco: true }
+  ];
 
-mapWrap.addEventListener('mousedown',e=>{drag=true;lx=e.clientX;ly=e.clientY;});
-window.addEventListener('mousemove',e=>{if(!drag)return;tx+=e.clientX-lx;ty+=e.clientY-ly;lx=e.clientX;ly=e.clientY;applyMap();});
-window.addEventListener('mouseup',()=>drag=false);
-mapWrap.addEventListener('touchstart',e=>{
-  if(e.touches.length===1){drag=true;lx=e.touches[0].clientX;ly=e.touches[0].clientY;}
-  else if(e.touches.length===2){drag=false;pinch=dist(e.touches[0],e.touches[1]);}
-},{passive:true});
-mapWrap.addEventListener('touchmove',e=>{
-  e.preventDefault();
-  if(e.touches.length===1&&drag){tx+=e.touches[0].clientX-lx;ty+=e.touches[0].clientY-ly;lx=e.touches[0].clientX;ly=e.touches[0].clientY;applyMap();}
-  else if(e.touches.length===2&&pinch){const nd=dist(e.touches[0],e.touches[1]);scale=clamp(scale*(nd/pinch),.25,2.5);pinch=nd;applyMap();}
-},{passive:false});
-mapWrap.addEventListener('wheel',e=>{e.preventDefault();scale=clamp(scale*(e.deltaY>0?.9:1.1),.25,2.5);applyMap();},{passive:false});
+  pois.forEach(p => {
+    const el = document.createElement('div');
+    el.className = 'leaflet-pin-container';
+    const badge = p.quest
+      ? '<div class="leaflet-pin-quest">!</div>'
+      : (p.done ? '<div class="leaflet-pin-done">✓</div>' : '');
+    el.innerHTML = `
+      <div class="leaflet-pin ${p.deco ? 'pin-deco' : ''}">
+        <div class="leaflet-pin-wrap">
+          <div class="leaflet-pin-icon" style="background:${p.bg};border-color:${p.color}">
+            <span class="material-symbols-outlined" style="color:${p.color}">${p.icon}</span>
+          </div>
+          ${badge}
+        </div>
+        <div class="leaflet-pin-label">${p.name}</div>
+      </div>`;
+    if (p.click) el.addEventListener('click', p.click);
+
+    new maplibregl.Marker({ element: el, anchor: 'bottom' })
+      .setLngLat([p.lng, p.lat])
+      .addTo(mapInstance);
+  });
+}
+
+// Init si on démarre directement sur la map
+if (document.getElementById('s-map').classList.contains('active')) {
+  initMapOnce();
+}
 </script>
 </body>
 </html>
