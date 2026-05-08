@@ -5,8 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
 <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Noto+Serif:ital,wght@0,400;0,700;1,400&family=Uncial+Antiqua&display=swap" rel="stylesheet"/>
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
-<link rel="stylesheet" href="https://unpkg.com/maplibre-gl@3.6.2/dist/maplibre-gl.css"/>
-<script src="https://unpkg.com/maplibre-gl@3.6.2/dist/maplibre-gl.js" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <title>Chroniques de Provence</title>
 <style>
 * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
@@ -267,10 +267,14 @@ html, body {
   height: 100%;
   background: #f4ead5;
 }
-/* ── EFFETS MAP 3D ── */
-/* Saturation/contraste boost pour rendu cinématique */
-.maplibregl-canvas {
-  filter: saturate(1.15) contrast(1.05);
+/* ── EFFETS MAP 2D ── */
+/* MapTiler Landscape a déjà son propre rendu peint — léger boost seulement */
+.tile-sepia {
+  filter: saturate(1.1) contrast(1.03);
+}
+/* Mode satellite : boost contraste/saturation */
+.map-wrap.mode-sat .leaflet-tile-pane {
+  filter: saturate(1.3) contrast(1.08) brightness(.96);
 }
 
 /* ── VIGNETTAGE SOMBRE (sur les bords) ── */
@@ -281,9 +285,24 @@ html, body {
   pointer-events: none;
   z-index: 460;
   background:
-    radial-gradient(ellipse at center, transparent 50%, rgba(0,0,0,.4) 100%);
+    radial-gradient(ellipse at center, transparent 60%, rgba(0,0,0,.25) 100%);
   mix-blend-mode: multiply;
 }
+
+/* ── OVERLAY PARCHEMIN (mode sépia uniquement) ── */
+.map-wrap::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 450;
+  background:
+    radial-gradient(ellipse at center, transparent 65%, rgba(101, 67, 33, 0.18) 100%);
+  mix-blend-mode: multiply;
+  opacity: 1;
+  transition: opacity .4s ease;
+}
+.map-wrap.mode-sat::after { opacity: 0; }
 
 /* ── PINS GLOW DORÉ ── */
 .leaflet-pin-icon {
@@ -366,27 +385,6 @@ html, body {
 @keyframes pinFloat {
   0%, 100% { transform: translateY(0); }
   50% { transform: translateY(-3px); }
-}
-
-/* Pins décoratifs (montagnes, forêts) — plus discrets, pas cliquables visuellement */
-.pin-deco {
-  opacity: .85;
-}
-.pin-deco .leaflet-pin-icon {
-  width: 32px;
-  height: 32px;
-  border-radius: 50%;
-  box-shadow: 0 2px 8px rgba(0,0,0,.3);
-}
-.pin-deco .leaflet-pin-icon .material-symbols-outlined {
-  font-size: 16px;
-}
-.pin-deco .leaflet-pin-label {
-  font-size: 9px;
-  font-style: italic;
-  background: rgba(255,255,255,.7);
-  font-weight: 600;
-  color: var(--text-2);
 }
 .leaflet-pin-wrap { position: relative; }
 .leaflet-pin-label {
@@ -701,13 +699,6 @@ html, body {
       <div class="region-label">Région actuelle</div>
       <div class="region-name">Comté de Provence</div>
     </div>
-    <div id="debug-panel" style="display:none;position:absolute;top:60px;left:10px;right:10px;z-index:700;background:rgba(20,15,10,.95);color:#fff;padding:14px;border-radius:8px;font-family:monospace;font-size:12px;max-height:50%;overflow:auto;line-height:1.5"></div>
-    <div id="maptiler-warn" style="display:none;position:absolute;inset:0;z-index:600;background:rgba(20,15,10,.92);color:#fff;flex-direction:column;align-items:center;justify-content:center;padding:30px;text-align:center;font-family:'Manrope',sans-serif;">
-      <span class="material-symbols-outlined" style="font-size:48px;color:#c8960a;margin-bottom:16px">key</span>
-      <div style="font-size:18px;font-weight:800;margin-bottom:10px">Clé MapTiler requise</div>
-      <div style="font-size:13px;line-height:1.5;color:#ccc;margin-bottom:20px">Pour afficher le terrain 3D, créez un compte gratuit sur maptiler.com et remplacez <code style="background:rgba(255,255,255,.1);padding:2px 6px;border-radius:4px;font-size:11px">GET_YOUR_FREE_KEY_AT_maptiler.com</code> dans le code par votre clé.</div>
-      <a href="https://www.maptiler.com/cloud/" target="_blank" style="background:#c8960a;color:#000;padding:10px 20px;border-radius:8px;font-weight:700;text-decoration:none;font-size:13px">Obtenir une clé gratuite</a>
-    </div>
   </div>
 
   <nav class="navbar">
@@ -803,145 +794,93 @@ html, body {
 function goTo(id) {
   document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
   document.getElementById(id).classList.add('active');
-  if (id === 's-map') {
-    // Léger délai pour s'assurer que le DOM/MapLibre est prêt
-    setTimeout(initMapOnce, 50);
-  }
+  if (id === 's-map') initMapOnce();
 }
 
-// ── MAPLIBRE 3D ──
-const MAPTILER_KEY = '1uHN6id93XDtu7GpPtSy';
-
-// Capture toutes les erreurs JS dans un panneau visible
-window.addEventListener('error', (e) => {
-  const dbg = document.getElementById('debug-panel');
-  if (dbg) {
-    dbg.style.display = 'block';
-    dbg.innerHTML += `<div style="color:#ff6b6b">⚠ ${e.message || 'Script error'}<br><span style="font-size:10px;color:#999">${e.filename || ''}:${e.lineno || '?'}</span></div>`;
-  }
-});
-
+// ── LEAFLET 2D ──
 let mapInstance = null;
 function initMapOnce() {
-  if (mapInstance) { mapInstance.resize(); return; }
+  if (mapInstance) { mapInstance.invalidateSize(); return; }
 
-  // Vérifier que MapLibre est chargé
-  if (typeof maplibregl === 'undefined') {
-    const dbg = document.getElementById('debug-panel');
-    if (dbg) {
-      dbg.style.display = 'block';
-      dbg.innerHTML = '<div style="color:#ff6b6b">⚠ MapLibre GL n\'a pas pu se charger.<br>Vérifie ta connexion ou réessaie.</div>';
-    }
-    return;
-  }
-
-  mapInstance = new maplibregl.Map({
-    container: 'leaflet-map',
-    style: `https://api.maptiler.com/maps/landscape/style.json?key=${MAPTILER_KEY}`,
-    center: [4.85, 43.85],
-    zoom: 8.5,
-    pitch: 60,           // Inclinaison caméra (style Pokémon GO)
-    bearing: -15,        // Léger angle de rotation
-    minZoom: 7.5,
+  mapInstance = L.map('leaflet-map', {
+    center: [43.85, 4.85],
+    zoom: 9,
+    minZoom: 8,
     maxZoom: 18,
-    maxBounds: [[3.5, 42.9], [6.6, 44.7]],
+    zoomControl: false,
     attributionControl: false,
-    antialias: true
+    maxBounds: [[42.9, 3.5], [44.7, 6.6]],
+    maxBoundsViscosity: 1.0
   });
 
-  mapInstance.on('load', () => {
-    // ── TERRAIN 3D RÉEL (relief) ──
-    mapInstance.addSource('terrain-dem', {
-      type: 'raster-dem',
-      url: `https://api.maptiler.com/tiles/terrain-rgb-v2/tiles.json?key=${MAPTILER_KEY}`,
-      tileSize: 256
-    });
-    mapInstance.setTerrain({ source: 'terrain-dem', exaggeration: 1.8 });
-
-    // ── CIEL ATMOSPHÉRIQUE ──
-    mapInstance.setSky({
-      'sky-color': '#87ceeb',
-      'sky-horizon-blend': 0.5,
-      'horizon-color': '#f4ead5',
-      'horizon-fog-blend': 0.6,
-      'fog-color': '#d4b896',
-      'fog-ground-blend': 0.3
-    });
-
-    // ── BÂTIMENTS 3D EXTRUDÉS ──
-    const layers = mapInstance.getStyle().layers;
-    let labelLayerId;
-    for (const layer of layers) {
-      if (layer.type === 'symbol' && layer.layout?.['text-field']) {
-        labelLayerId = layer.id;
-        break;
-      }
-    }
-
-    mapInstance.addLayer({
-      id: '3d-buildings',
-      source: 'openmaptiles',
-      'source-layer': 'building',
-      type: 'fill-extrusion',
-      minzoom: 14,
-      paint: {
-        'fill-extrusion-color': [
-          'interpolate', ['linear'], ['get', 'render_height'],
-          0, '#d8c8a8',
-          50, '#b89878',
-          200, '#8a6a48'
-        ],
-        'fill-extrusion-height': [
-          'interpolate', ['linear'], ['zoom'],
-          14, 0,
-          14.5, ['get', 'render_height']
-        ],
-        'fill-extrusion-base': ['get', 'render_min_height'],
-        'fill-extrusion-opacity': 0.92,
-        'fill-extrusion-vertical-gradient': true
-      }
-    }, labelLayerId);
-
-    // ── POIs en marqueurs custom ──
-    addPoiMarkers();
+  // Tiles MapTiler Landscape — relief peint, parfait univers médiéval
+  const MAPTILER_KEY = '1uHN6id93XDtu7GpPtSy';
+  const layerSepia = L.tileLayer(`https://api.maptiler.com/maps/landscape/{z}/{x}/{y}.png?key=${MAPTILER_KEY}`, {
+    maxZoom: 19,
+    tileSize: 512,
+    zoomOffset: -1,
+    crossOrigin: true,
+    className: 'tile-sepia'
   });
 
-  mapInstance.on('error', (e) => {
-    if (e.error?.message?.includes('401') || e.error?.message?.includes('403')) {
-      console.warn('MapTiler key invalide ou manquante');
-      document.getElementById('maptiler-warn').style.display = 'flex';
+  // Satellite Esri (gratuit, sans clé)
+  const layerSat = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+    maxZoom: 19,
+    attribution: 'Esri'
+  });
+
+  // Labels par-dessus le satellite
+  const layerLabels = L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager_only_labels/{z}/{x}/{y}{r}.png', {
+    subdomains: 'abcd',
+    maxZoom: 19,
+    className: 'tile-labels'
+  });
+
+  // Démarrage en sépia
+  layerSepia.addTo(mapInstance);
+  let currentMode = 'sepia';
+
+  // Switch automatique au zoom
+  const ZOOM_THRESHOLD = 13;
+  mapInstance.on('zoomend', () => {
+    const z = mapInstance.getZoom();
+    if (z >= ZOOM_THRESHOLD && currentMode === 'sepia') {
+      mapInstance.removeLayer(layerSepia);
+      layerSat.addTo(mapInstance);
+      layerLabels.addTo(mapInstance);
+      currentMode = 'sat';
+      document.querySelector('.map-wrap').classList.add('mode-sat');
+    } else if (z < ZOOM_THRESHOLD && currentMode === 'sat') {
+      mapInstance.removeLayer(layerSat);
+      mapInstance.removeLayer(layerLabels);
+      layerSepia.addTo(mapInstance);
+      currentMode = 'sepia';
+      document.querySelector('.map-wrap').classList.remove('mode-sat');
     }
   });
-}
 
-function addPoiMarkers() {
+  // ── POIs Provence ──
   const pois = [
-    { name: 'Avignon',                 lng: 4.8055, lat: 43.9493, icon: 'fort',         color: '#9b59b6', bg: '#f0e8ff', quest: true,  click: () => goTo('s-jeu') },
-    { name: 'Villeneuve-lès-Avignon',  lng: 4.7989, lat: 43.9667, icon: 'castle',       color: '#9e3d00', bg: '#fff0e8', quest: true,  click: () => goTo('s-jeu') },
-    { name: 'Nîmes',                   lng: 4.3601, lat: 43.8367, icon: 'architecture', color: '#c64f00', bg: '#fff0e8', quest: true,  click: () => goTo('s-jeu') },
-    { name: 'Pont du Gard',            lng: 4.5350, lat: 43.9472, icon: 'account_balance', color: '#c8960a', bg: '#fff8e0', quest: true, click: () => goTo('s-jeu') },
-    { name: 'Abbaye de Sénanque',      lng: 5.1186, lat: 43.9344, icon: 'church',       color: '#3498db', bg: '#e8f4ff', done: true },
-    { name: 'Les Baux',                lng: 4.7958, lat: 43.7444, icon: 'landscape',    color: '#27ae60', bg: '#e8ffe8' },
-    { name: 'Arles',                   lng: 4.6278, lat: 43.6766, icon: 'theater_comedy', color: '#c64f00', bg: '#fff0e8', quest: true, click: () => goTo('s-jeu') },
-    { name: 'Marseille',               lng: 5.3698, lat: 43.2965, icon: 'sailing',      color: '#c64f00', bg: '#fff0e8', quest: true, click: () => goTo('s-jeu') },
-    { name: 'Aix-en-Provence',         lng: 5.4474, lat: 43.5297, icon: 'park',         color: '#27ae60', bg: '#e8ffe8' },
-    { name: 'Uzès',                    lng: 4.4192, lat: 44.0124, icon: 'castle',       color: '#9b59b6', bg: '#f0e8ff' },
-    { name: 'Tarascon',                lng: 4.6603, lat: 43.8056, icon: 'fort',         color: '#9e3d00', bg: '#fff0e8' },
-    { name: 'Camargue',                lng: 4.4892, lat: 43.5375, icon: 'pets',         color: '#27ae60', bg: '#e8ffe8' },
-    // Décor naturel — montagnes & sites légendaires
-    { name: 'Mont Ventoux',            lng: 5.2783, lat: 44.1736, icon: 'terrain',      color: '#7a4a2a', bg: '#f0e0d0', deco: true },
-    { name: 'Lubéron',                 lng: 5.3500, lat: 43.8500, icon: 'forest',       color: '#27ae60', bg: '#e8ffe8', deco: true },
-    { name: 'Alpilles',                lng: 4.8000, lat: 43.7800, icon: 'landscape',    color: '#7a4a2a', bg: '#f0e0d0', deco: true }
+    { name: 'Avignon',                 lat: 43.9493, lng: 4.8055, icon: 'fort',            color: '#9b59b6', bg: '#f0e8ff', quest: true,  click: () => goTo('s-jeu') },
+    { name: 'Villeneuve-lès-Avignon',  lat: 43.9667, lng: 4.7989, icon: 'castle',          color: '#9e3d00', bg: '#fff0e8', quest: true,  click: () => goTo('s-jeu') },
+    { name: 'Nîmes',                   lat: 43.8367, lng: 4.3601, icon: 'architecture',    color: '#c64f00', bg: '#fff0e8', quest: true,  click: () => goTo('s-jeu') },
+    { name: 'Pont du Gard',            lat: 43.9472, lng: 4.5350, icon: 'account_balance', color: '#c8960a', bg: '#fff8e0', quest: true,  click: () => goTo('s-jeu') },
+    { name: 'Abbaye de Sénanque',      lat: 43.9344, lng: 5.1186, icon: 'church',          color: '#3498db', bg: '#e8f4ff', done: true },
+    { name: 'Les Baux',                lat: 43.7444, lng: 4.7958, icon: 'landscape',       color: '#27ae60', bg: '#e8ffe8' },
+    { name: 'Arles',                   lat: 43.6766, lng: 4.6278, icon: 'theater_comedy',  color: '#c64f00', bg: '#fff0e8', quest: true,  click: () => goTo('s-jeu') },
+    { name: 'Marseille',               lat: 43.2965, lng: 5.3698, icon: 'sailing',         color: '#c64f00', bg: '#fff0e8', quest: true,  click: () => goTo('s-jeu') },
+    { name: 'Aix-en-Provence',         lat: 43.5297, lng: 5.4474, icon: 'park',            color: '#27ae60', bg: '#e8ffe8' },
+    { name: 'Uzès',                    lat: 44.0124, lng: 4.4192, icon: 'castle',          color: '#9b59b6', bg: '#f0e8ff' },
+    { name: 'Tarascon',                lat: 43.8056, lng: 4.6603, icon: 'fort',            color: '#9e3d00', bg: '#fff0e8' },
+    { name: 'Camargue',                lat: 43.5375, lng: 4.4892, icon: 'pets',            color: '#27ae60', bg: '#e8ffe8' }
   ];
 
   pois.forEach(p => {
-    const el = document.createElement('div');
-    el.className = 'leaflet-pin-container';
     const badge = p.quest
       ? '<div class="leaflet-pin-quest">!</div>'
       : (p.done ? '<div class="leaflet-pin-done">✓</div>' : '');
-    el.innerHTML = `
-      <div class="leaflet-pin ${p.deco ? 'pin-deco' : ''}">
+    const html = `
+      <div class="leaflet-pin">
         <div class="leaflet-pin-wrap">
           <div class="leaflet-pin-icon" style="background:${p.bg};border-color:${p.color}">
             <span class="material-symbols-outlined" style="color:${p.color}">${p.icon}</span>
@@ -950,11 +889,14 @@ function addPoiMarkers() {
         </div>
         <div class="leaflet-pin-label">${p.name}</div>
       </div>`;
-    if (p.click) el.addEventListener('click', p.click);
-
-    new maplibregl.Marker({ element: el, anchor: 'bottom' })
-      .setLngLat([p.lng, p.lat])
-      .addTo(mapInstance);
+    const icon = L.divIcon({
+      className: 'leaflet-pin-container',
+      html: html,
+      iconSize: [80, 70],
+      iconAnchor: [40, 60]
+    });
+    const marker = L.marker([p.lat, p.lng], { icon }).addTo(mapInstance);
+    if (p.click) marker.on('click', p.click);
   });
 }
 
