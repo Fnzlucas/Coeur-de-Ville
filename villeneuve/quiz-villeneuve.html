@@ -1,0 +1,1515 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<title>Quiz Villeneuve — Cœur de Ville</title>
+<script>
+// data/quiz-villeneuve.js
+// Quiz patrimoine Villeneuve-lès-Avignon
+// Toutes les infos sont vérifiées (sources : Mairie VLA, Wikipédia, monuments-nationaux.fr, Avignon Tourisme)
+
+window.QUIZ_VILLENEUVE = {
+  city: "Villeneuve-lès-Avignon",
+  city_id: "villeneuve",
+  description: "Testez vos connaissances sur le patrimoine de la ville",
+  badges: {
+    medieval: { name: "Médiéval", icon: "fort", color: "#9e3d00" },
+    religieux: { name: "Religieux", icon: "church", color: "#3498db" },
+    royal: { name: "Royal", icon: "crown", color: "#c8960a" },
+    artistique: { name: "Artistique", icon: "palette", color: "#9b59b6" },
+    architectural: { name: "Architectural", icon: "architecture", color: "#27ae60" }
+  },
+
+  levels: {
+    // ═══════════════════ NIVEAU 1 — APPRENTI ═══════════════════
+    apprenti: {
+      name: "Apprenti",
+      label: "Découverte",
+      description: "Les bases pour découvrir Villeneuve",
+      icon: "school",
+      color: "#27ae60",
+      reward_points: 5,
+      questions: [
+        {
+          id: "v1_q1",
+          type: "qcm",
+          badge: "medieval",
+          question: "Quel monument emblématique domine la colline du Mont Andaon à Villeneuve ?",
+          options: ["Le Fort Saint-André", "Le Palais des Papes", "Le Pont du Gard", "La Tour Eiffel"],
+          answer: 0,
+          explanation: "Le Fort Saint-André, construit au XIVe siècle, surplombe la ville depuis le Mont Andaon. Sa silhouette imposante est visible depuis Avignon."
+        },
+        {
+          id: "v1_q2",
+          type: "vrai_faux",
+          badge: "royal",
+          question: "La Tour Philippe-le-Bel a été construite pour contrôler l'accès au pont d'Avignon.",
+          answer: true,
+          explanation: "Vrai ! Édifiée au XIIIe siècle par le roi de France, la tour servait de poste de contrôle au débouché du célèbre pont Saint-Bénézet."
+        },
+        {
+          id: "v1_q3",
+          type: "qcm",
+          badge: "religieux",
+          question: "Quel pape a fondé la Chartreuse du Val-de-Bénédiction ?",
+          options: ["Clément VI", "Innocent VI", "Benoît XIII", "Urbain V"],
+          answer: 1,
+          explanation: "Innocent VI, pape d'Avignon de 1352 à 1362, a fondé la Chartreuse en 1356. Il y est inhumé dans un tombeau monumental."
+        },
+        {
+          id: "v1_q4",
+          type: "qcm",
+          badge: "architectural",
+          question: "Sur combien d'hectares s'étend la Chartreuse du Val-de-Bénédiction ?",
+          options: ["1 hectare", "2 hectares", "5 hectares", "10 hectares"],
+          answer: 1,
+          explanation: "La Chartreuse s'étend sur plus de 2 hectares avec ses cloîtres, jardins et cellules. C'est l'une des plus grandes chartreuses de France."
+        },
+        {
+          id: "v1_q5",
+          type: "vrai_faux",
+          badge: "medieval",
+          question: "Villeneuve-lès-Avignon est située dans le département du Vaucluse.",
+          answer: false,
+          explanation: "Faux ! Villeneuve est dans le département du Gard (région Occitanie), même si elle fait face à Avignon qui est dans le Vaucluse."
+        },
+        {
+          id: "v1_q6",
+          type: "qcm",
+          badge: "royal",
+          question: "Quel roi de France a accordé à Villeneuve sa charte des fortifications ?",
+          options: ["Louis IX", "Philippe IV le Bel", "Charles V", "François Ier"],
+          answer: 1,
+          explanation: "Philippe IV le Bel, roi de France de 1285 à 1314, a accordé la charte en raison du rôle stratégique de la ville à la frontière du royaume."
+        },
+        {
+          id: "v1_q7",
+          type: "qcm",
+          badge: "religieux",
+          question: "Combien de monuments majeurs peut-on visiter avec le billet unique de Villeneuve ?",
+          options: ["3", "5", "7", "10"],
+          answer: 1,
+          explanation: "Le billet unique à 20€ donne accès à 5 monuments : Tour Philippe-le-Bel, Fort Saint-André, Abbaye Saint-André, Chartreuse, et Musée Pierre-de-Luxembourg."
+        },
+        {
+          id: "v1_q8",
+          type: "vrai_faux",
+          badge: "artistique",
+          question: "Aujourd'hui, la Chartreuse abrite un centre culturel dédié aux écritures du spectacle.",
+          answer: true,
+          explanation: "Vrai ! Depuis 1973, la Chartreuse accueille le Centre national des écritures du spectacle, surnommé la « Villa Médicis à la française »."
+        },
+        {
+          id: "v1_q9",
+          type: "qcm",
+          badge: "medieval",
+          question: "Quel fleuve sépare Villeneuve d'Avignon ?",
+          options: ["La Durance", "Le Gardon", "Le Rhône", "La Sorgue"],
+          answer: 2,
+          explanation: "Le Rhône traverse l'espace entre les deux villes. C'est lui qui faisait de Villeneuve un poste-frontière stratégique entre royaume de France et États pontificaux."
+        },
+        {
+          id: "v1_q10",
+          type: "qcm",
+          badge: "architectural",
+          question: "À quel siècle a été construite l'essentiel des fortifications du Fort Saint-André ?",
+          options: ["XIIe siècle", "XIVe siècle", "XVIe siècle", "XVIIIe siècle"],
+          answer: 1,
+          explanation: "Le Fort Saint-André a été principalement édifié au XIVe siècle, à l'époque des Papes d'Avignon, pour défendre la frontière du royaume de France."
+        }
+      ]
+    },
+
+    // ═══════════════════ NIVEAU 2 — CONNAISSEUR ═══════════════════
+    connaisseur: {
+      name: "Connaisseur",
+      label: "Pour les passionnés",
+      description: "Approfondissez votre connaissance de la ville",
+      icon: "psychology",
+      color: "#c64f00",
+      reward_points: 10,
+      questions: [
+        {
+          id: "v2_q1",
+          type: "qcm",
+          badge: "artistique",
+          question: "Quel peintre italien a réalisé les fresques de la chapelle de la Chartreuse ?",
+          options: ["Giotto", "Matteo Giovannetti", "Simone Martini", "Fra Angelico"],
+          answer: 1,
+          explanation: "Matteo Giovannetti (vers 1322-1368), peintre attitré des papes d'Avignon, a peint les fresques en 1355. Il avait également décoré le Palais des Papes."
+        },
+        {
+          id: "v2_q2",
+          type: "qcm",
+          badge: "religieux",
+          question: "Quel ordre monastique occupait la Chartreuse ?",
+          options: ["Bénédictins", "Cisterciens", "Chartreux", "Franciscains"],
+          answer: 2,
+          explanation: "Les chartreux, ordre fondé par saint Bruno en 1084, prônaient une vie contemplative en cellules individuelles. La Chartreuse comptait 40 cellules organisées autour de cloîtres."
+        },
+        {
+          id: "v2_q3",
+          type: "vrai_faux",
+          badge: "religieux",
+          question: "Le tombeau d'Innocent VI a été retrouvé à la fin du XIXe siècle dans une masure de vigneron.",
+          answer: true,
+          explanation: "Vrai ! Prosper Mérimée a redécouvert le tombeau en 1834 dans une remise où s'entassaient tonneaux et troncs d'olivier. Le mausolée a depuis été restauré."
+        },
+        {
+          id: "v2_q4",
+          type: "qcm",
+          badge: "medieval",
+          question: "Quel nom portait l'ancien village habité jusqu'au début du XXe siècle sur le Mont Andaon ?",
+          options: ["Bourg Saint-Pierre", "Bourg Saint-André", "Bourg Notre-Dame", "Bourg Saint-Jean"],
+          answer: 1,
+          explanation: "Le Bourg Saint-André s'est développé sur les pentes du Mont Andaon, à côté de l'abbaye. Il en reste quelques pans de murs aujourd'hui."
+        },
+        {
+          id: "v2_q5",
+          type: "qcm",
+          badge: "royal",
+          question: "En quelle année Innocent VI est-il mort ?",
+          options: ["1352", "1358", "1362", "1378"],
+          answer: 2,
+          explanation: "Innocent VI est mort le 12 septembre 1362 à Avignon. Il a été inhumé à Villeneuve le 22 septembre selon ses dernières volontés."
+        },
+        {
+          id: "v2_q6",
+          type: "qcm",
+          badge: "architectural",
+          question: "Quelle église, érigée entre 1150 et 1175 sur le point culminant du Mont Andaon, servait au Bourg Saint-André ?",
+          options: ["Notre-Dame de Belvezet", "Saint-Pons", "Notre-Dame des Doms", "Saint-Pierre"],
+          answer: 0,
+          explanation: "Notre-Dame de Belvezet, dont le nom signifie « belle vue » en provençal, était l'église paroissiale de la communauté du Bourg Saint-André."
+        },
+        {
+          id: "v2_q7",
+          type: "vrai_faux",
+          badge: "artistique",
+          question: "Matteo Giovannetti était un ami du poète italien Pétrarque.",
+          answer: true,
+          explanation: "Vrai ! Les deux Italiens se sont rencontrés à la cour pontificale d'Avignon dans les années 1340 et sont devenus proches."
+        },
+        {
+          id: "v2_q8",
+          type: "qcm",
+          badge: "religieux",
+          question: "Combien de cellules de moines compte le grand cloître de la Chartreuse à son apogée ?",
+          options: ["12", "24", "40", "60"],
+          answer: 2,
+          explanation: "Les trois cloîtres entouraient au total 40 cellules de moines avec leurs jardins, en faisant la plus grande chartreuse de France."
+        },
+        {
+          id: "v2_q9",
+          type: "qcm",
+          badge: "medieval",
+          question: "Vers quelle année Philippe le Bel entreprend-il d'assurer la défense de Villeneuve face à Avignon ?",
+          options: ["1250", "1280", "1292", "1310"],
+          answer: 2,
+          explanation: "Vers 1292, Philippe le Bel lance la fortification de ce dernier bastion du royaume de France face aux États pontificaux d'Avignon."
+        },
+        {
+          id: "v2_q10",
+          type: "qcm",
+          badge: "religieux",
+          question: "À quelle compagnie de mercenaires Innocent VI a-t-il dû payer rançon en 1360 ?",
+          options: ["Les Routiers", "Les Tard-venus", "Les Grandes Compagnies", "Les Écorcheurs"],
+          answer: 1,
+          explanation: "La Compagnie des Tard-venus prit Pont-Saint-Esprit en décembre 1360. Le pape dut négocier leur départ à prix d'or, vendant même son argenterie personnelle."
+        },
+        {
+          id: "v2_q11",
+          type: "qcm",
+          badge: "architectural",
+          question: "Quel artiste a précédé Matteo Giovannetti à la cour pontificale d'Avignon ?",
+          options: ["Giotto", "Cimabue", "Simone Martini", "Duccio"],
+          answer: 2,
+          explanation: "Simone Martini, autre peintre siennois majeur, travaillait à Avignon avant la mort duquel Giovannetti reprit la décoration des chapelles."
+        },
+        {
+          id: "v2_q12",
+          type: "vrai_faux",
+          badge: "religieux",
+          question: "Innocent VI est le seul pape d'Avignon dont le tombeau soit parvenu intact jusqu'à nous.",
+          answer: true,
+          explanation: "Vrai ! Tous les autres tombeaux des papes d'Avignon ont été détruits ou perdus, faisant du gisant d'Innocent VI un témoignage unique."
+        }
+      ]
+    },
+
+    // ═══════════════════ NIVEAU 3 — MAÎTRE ═══════════════════
+    maitre: {
+      name: "Maître",
+      label: "Le défi ultime",
+      description: "Pour les vrais experts du patrimoine villeneuvois",
+      icon: "workspace_premium",
+      color: "#9e3d00",
+      reward_points: 20,
+      questions: [
+        {
+          id: "v3_q1",
+          type: "qcm",
+          badge: "religieux",
+          question: "Quel est le nom de naissance du pape Innocent VI ?",
+          options: ["Pierre Roger", "Étienne Aubert", "Guillaume Grimoard", "Bertrand de Got"],
+          answer: 1,
+          explanation: "Étienne Aubert, né en 1282 à Beyssac en Limousin (actuelle Corrèze). Sa famille était sans grande noblesse mais déjà bienfaitrice de la Chartreuse de Glandier."
+        },
+        {
+          id: "v3_q2",
+          type: "qcm",
+          badge: "artistique",
+          question: "À quel programme iconographique précis correspondent les fresques de la chapelle ?",
+          options: ["La vie de Saint Pierre", "La vie de Saint Jean-Baptiste", "L'Apocalypse", "Le Jugement dernier"],
+          answer: 1,
+          explanation: "La chapelle célèbre Saint Jean-Baptiste, le précurseur qui vécut au désert. On y voit la Visitation, la Décollation et le pape en prière devant la Vierge."
+        },
+        {
+          id: "v3_q3",
+          type: "vrai_faux",
+          badge: "artistique",
+          question: "Matteo Giovannetti a anticipé les expériences de peinture en perspective du XVe siècle.",
+          answer: true,
+          explanation: "Vrai ! Avant les théoriciens de la Renaissance, Giovannetti utilisait déjà des trompe-l'œil, des balcons en perspective, des ébrasements de fenêtres traités comme sols carrelés."
+        },
+        {
+          id: "v3_q4",
+          type: "qcm",
+          badge: "medieval",
+          question: "En quelle année une première tour fut-elle démolie par les Avignonnais lors du siège de leur ville ?",
+          options: ["1180", "1209", "1226", "1248"],
+          answer: 2,
+          explanation: "En 1226, lors du siège d'Avignon par Louis VIII, les Avignonnais détruisirent eux-mêmes la première tour. La Tour Philippe-le-Bel actuelle fut construite après."
+        },
+        {
+          id: "v3_q5",
+          type: "qcm",
+          badge: "architectural",
+          question: "Combien de membres comptait la Chartreuse à son apogée au XVIIe siècle ?",
+          options: ["50", "80", "100", "150"],
+          answer: 2,
+          explanation: "Au XVIIe siècle, la Chartreuse comptait environ 100 personnes : 40 pères chartreux, 30 frères convers et autant d'employés et domestiques."
+        },
+        {
+          id: "v3_q6",
+          type: "qcm",
+          badge: "religieux",
+          question: "Comment s'appelait la pièce où les moines chartreux faisaient leur lessive ?",
+          options: ["La rasure", "La bugade", "Le tinel", "La sacristie"],
+          answer: 1,
+          explanation: "La bugade. La rasure était le lieu où on leur faisait la tonsure ; le tinel était le réfectoire (la grande salle de réception) ; la sacristie servait au culte."
+        },
+        {
+          id: "v3_q7",
+          type: "qcm",
+          badge: "medieval",
+          question: "Quel architecte d'Innocent VI fut chargé d'édifier son mausolée à la Chartreuse ?",
+          options: ["Jean de Loubières", "Bertrand Nogayrol", "Pierre Peysson", "Hugues Pourrat"],
+          answer: 1,
+          explanation: "Bertrand Nogayrol fut chargé en décembre 1361 de construire le monument funéraire d'Innocent VI dans la chapelle de la Sainte-Trinité."
+        },
+        {
+          id: "v3_q8",
+          type: "vrai_faux",
+          badge: "architectural",
+          question: "L'église de la Chartreuse a perdu son abside au XIXe siècle après un effondrement.",
+          answer: true,
+          explanation: "Vrai ! L'abside qui abritait le tombeau d'Innocent VI s'est effondrée au XIXe siècle, ce qui explique l'état actuel du monument."
+        },
+        {
+          id: "v3_q9",
+          type: "qcm",
+          badge: "artistique",
+          question: "À quelle ville italienne est né Matteo Giovannetti ?",
+          options: ["Sienne", "Florence", "Viterbe", "Pérouse"],
+          answer: 2,
+          explanation: "Matteo da Viterbo (« de Viterbe ») est né dans cette ville du Latium. Il fut surnommé Giovannetti à la cour pontificale d'Avignon."
+        },
+        {
+          id: "v3_q10",
+          type: "qcm",
+          badge: "religieux",
+          question: "Combien de jours dura la cérémonie funéraire d'Innocent VI ?",
+          options: ["3 jours", "7 jours", "9 jours", "30 jours"],
+          answer: 2,
+          explanation: "Neuf jours, le temps d'une neuvaine. Le corps fut d'abord exposé deux jours au Palais des Papes, puis transporté à la cathédrale Notre-Dame des Doms, avant l'inhumation à Villeneuve le 22 septembre."
+        },
+        {
+          id: "v3_q11",
+          type: "qcm",
+          badge: "medieval",
+          question: "Que signifie le nom provençal « Belvezet » donné à l'église du Mont Andaon ?",
+          options: ["Belle pierre", "Belle vue", "Beau lieu", "Bel arbre"],
+          answer: 1,
+          explanation: "« Belvezet » signifie « belle vue » en provençal, en référence au panorama exceptionnel offert depuis le sommet du Mont Andaon."
+        },
+        {
+          id: "v3_q12",
+          type: "vrai_faux",
+          badge: "religieux",
+          question: "Pendant la Seconde Guerre mondiale, un aviateur américain a atterri sur la cheminée d'une cellule de la Chartreuse.",
+          answer: true,
+          explanation: "Vrai ! Une plaque commémorative dans la cellule du Sacristain raconte qu'un aviateur américain abattu y a atterri, son parachute s'étant accroché à la cheminée. Anecdote insolite qui mêle le médiéval à l'histoire contemporaine."
+        },
+        {
+          id: "v3_q13",
+          type: "qcm",
+          badge: "religieux",
+          question: "Quel pape était le prédécesseur immédiat d'Innocent VI à Avignon ?",
+          options: ["Benoît XII", "Clément VI", "Urbain V", "Grégoire XI"],
+          answer: 1,
+          explanation: "Clément VI (1342-1352). Innocent VI mena justement une politique d'économie après les fastes de son prédécesseur."
+        },
+        {
+          id: "v3_q14",
+          type: "qcm",
+          badge: "artistique",
+          question: "Quel personnage iconographique inhabituel apparaît dans l'embrasure d'une fenêtre de la chapelle ?",
+          options: ["Un démon", "Une femme en deuil", "Un soldat", "Un berger"],
+          answer: 1,
+          explanation: "Une femme en deuil entre en scène par une anfractuosité rocheuse qui donne accès au tombeau, détail narratif typique de la créativité de Giovannetti."
+        },
+        {
+          id: "v3_q15",
+          type: "qcm",
+          badge: "medieval",
+          question: "Quel titre Innocent VI conféra-t-il à la faculté de théologie de Toulouse ?",
+          options: ["Université libre", "Privilèges égaux à ceux de Paris", "Université pontificale", "Studium generale"],
+          answer: 1,
+          explanation: "Il accorda à Toulouse tous les privilèges dont jouissait l'Université de Paris, ce qui suscita la jalousie de cette dernière qui tenta de s'y opposer."
+        }
+      ]
+    }
+  }
+};
+
+</script>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+.material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+
+:root {
+  --primary: #0066ff;
+  --primary-2: #00a3ff;
+  --pink: #ff3b8a;
+  --orange: #ff7a00;
+  --gold: #ffb800;
+  --green: #00d68f;
+  --red: #ff4757;
+  --purple: #8b5cf6;
+  --bg: #f5f7fb;
+  --surface: #ffffff;
+  --text: #0a0e1a;
+  --text-2: #5a6478;
+  --text-3: #8a93a6;
+  --outline: rgba(10,14,26,.08);
+  --outline-2: rgba(10,14,26,.14);
+}
+
+html, body {
+  height: 100dvh;
+  overflow: hidden;
+  background: var(--bg);
+  font-family: 'Manrope', system-ui, sans-serif;
+  color: var(--text);
+  -webkit-font-smoothing: antialiased;
+}
+
+.app {
+  width: 100%;
+  height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  background: var(--bg);
+  overflow: hidden;
+}
+@media (min-width: 500px) {
+  .app {
+    width: 414px;
+    height: 100dvh;
+    margin: 0 auto;
+    box-shadow: 0 0 60px rgba(0,0,0,.12);
+  }
+}
+
+.app::before {
+  content: '';
+  position: absolute;
+  inset: -10%;
+  background:
+    radial-gradient(circle at 20% 10%, rgba(102,126,234,.18), transparent 40%),
+    radial-gradient(circle at 80% 30%, rgba(255,59,138,.15), transparent 45%),
+    radial-gradient(circle at 50% 90%, rgba(0,211,143,.12), transparent 40%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ════ HEADER ════ */
+.header {
+  background: rgba(255,255,255,.7);
+  backdrop-filter: blur(20px) saturate(1.4);
+  -webkit-backdrop-filter: blur(20px) saturate(1.4);
+  border-bottom: 1px solid var(--outline);
+  padding: max(14px, env(safe-area-inset-top, 0px) + 14px) 16px 14px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-shrink: 0;
+  position: relative;
+  z-index: 10;
+}
+.header-back {
+  width: 38px;
+  height: 38px;
+  border-radius: 12px;
+  background: rgba(10,14,26,.04);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  border: none;
+  transition: background .15s, transform .1s;
+}
+.header-back:hover { background: rgba(10,14,26,.08); }
+.header-back:active { transform: scale(.92); }
+.header-back .material-symbols-outlined { font-size: 20px; color: var(--text); }
+.header-title { flex: 1; display: flex; flex-direction: column; }
+.header-eyebrow {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--text-3);
+}
+.header-name {
+  font-size: 16px;
+  font-weight: 800;
+  color: var(--text);
+  margin-top: 1px;
+  letter-spacing: -.015em;
+}
+.header-points {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  background: linear-gradient(135deg, var(--gold), var(--orange));
+  color: #fff;
+  padding: 7px 12px;
+  border-radius: 100px;
+  font-size: 13px;
+  font-weight: 800;
+  box-shadow: 0 4px 14px rgba(255,184,0,.35);
+}
+.header-points .material-symbols-outlined { font-size: 15px; font-variation-settings: 'FILL' 1; }
+
+/* ════ SCREEN ════ */
+.screen {
+  display: none;
+  flex: 1;
+  flex-direction: column;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  position: relative;
+  z-index: 1;
+}
+.screen.active { display: flex; animation: screenIn .4s cubic-bezier(.34,1.56,.64,1) both; }
+@keyframes screenIn {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ════ ÉCRAN 1 — NIVEAUX ════ */
+.intro-hero {
+  position: relative;
+  margin: 16px 16px 22px;
+  padding: 28px 22px;
+  border-radius: 28px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+  color: #fff;
+  overflow: hidden;
+  box-shadow: 0 20px 50px rgba(118,75,162,.35);
+  flex-shrink: 0;
+}
+.intro-hero::before {
+  content: '';
+  position: absolute;
+  top: -40%; right: -20%;
+  width: 200px; height: 200px;
+  background: radial-gradient(circle, rgba(255,255,255,.4), transparent 70%);
+  pointer-events: none;
+}
+.intro-hero::after {
+  content: '';
+  position: absolute;
+  bottom: -30%; left: -10%;
+  width: 180px; height: 180px;
+  background: radial-gradient(circle, rgba(255,255,255,.25), transparent 70%);
+  pointer-events: none;
+}
+.intro-hero-content {
+  position: relative;
+  z-index: 1;
+}
+.intro-icon {
+  width: 56px;
+  height: 56px;
+  background: rgba(255,255,255,.22);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255,255,255,.3);
+  border-radius: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 16px;
+  flex-shrink: 0;
+}
+.intro-icon .material-symbols-outlined { font-size: 28px; color: #fff; font-variation-settings: 'FILL' 1; }
+.intro-title {
+  font-size: 28px;
+  font-weight: 800;
+  letter-spacing: -.02em;
+  line-height: 1.1;
+  margin: 0 0 6px 0;
+  color: #fff;
+}
+.intro-subtitle {
+  font-size: 14px;
+  line-height: 1.5;
+  color: rgba(255,255,255,.9);
+  font-weight: 500;
+  margin: 0;
+}
+
+.levels-list {
+  padding: 0 16px 30px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.section-label {
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--text-3);
+  margin-bottom: 4px;
+  padding-left: 4px;
+}
+
+.level-card {
+  background: rgba(255,255,255,.75);
+  backdrop-filter: blur(24px) saturate(1.4);
+  -webkit-backdrop-filter: blur(24px) saturate(1.4);
+  border: 1px solid rgba(255,255,255,.6);
+  border-radius: 22px;
+  padding: 18px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  cursor: pointer;
+  transition: transform .2s cubic-bezier(.34,1.56,.64,1), box-shadow .2s;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 6px 20px rgba(10,14,26,.05);
+}
+.level-card:hover { transform: translateY(-3px); box-shadow: 0 16px 40px rgba(10,14,26,.12); }
+.level-card:active { transform: scale(.98); }
+.level-icon-wrap {
+  width: 56px;
+  height: 56px;
+  border-radius: 18px;
+  background: var(--level-grad);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  box-shadow: 0 8px 20px var(--level-shadow);
+  position: relative;
+}
+.level-icon-wrap::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 18px;
+  background: linear-gradient(135deg, rgba(255,255,255,.4) 0%, transparent 60%);
+}
+.level-icon-wrap .material-symbols-outlined {
+  font-size: 28px;
+  color: #fff;
+  font-variation-settings: 'FILL' 1;
+  position: relative;
+  z-index: 1;
+}
+.level-content { flex: 1; min-width: 0; }
+.level-name {
+  font-size: 17px;
+  font-weight: 800;
+  color: var(--text);
+  letter-spacing: -.01em;
+  margin-bottom: 2px;
+}
+.level-label { font-size: 12px; color: var(--text-2); margin-bottom: 8px; font-weight: 500; }
+.level-meta { display: flex; align-items: center; gap: 8px; }
+.level-meta-item {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 11px;
+  color: var(--text-2);
+  font-weight: 600;
+  background: rgba(10,14,26,.05);
+  padding: 3px 8px;
+  border-radius: 100px;
+}
+.level-meta-item .material-symbols-outlined { font-size: 12px; }
+.level-arrow {
+  width: 32px;
+  height: 32px;
+  border-radius: 10px;
+  background: rgba(10,14,26,.05);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.level-arrow .material-symbols-outlined { font-size: 18px; color: var(--text-2); }
+
+/* ════ ÉCRAN 2 — JEU ════ */
+.game-progress {
+  background: rgba(255,255,255,.85);
+  backdrop-filter: blur(20px) saturate(1.4);
+  -webkit-backdrop-filter: blur(20px) saturate(1.4);
+  padding: 14px 16px 16px;
+  border-bottom: 1px solid var(--outline);
+  flex-shrink: 0;
+}
+.game-progress-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+.game-progress-label {
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--text-3);
+}
+.game-progress-count { font-size: 14px; font-weight: 800; color: var(--text); }
+.game-progress-bar {
+  height: 8px;
+  background: rgba(10,14,26,.06);
+  border-radius: 100px;
+  overflow: hidden;
+}
+.game-progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--primary), var(--primary-2));
+  border-radius: 100px;
+  transition: width .5s cubic-bezier(.65,0,.35,1);
+  box-shadow: 0 0 12px rgba(0,102,255,.5);
+}
+
+#screen-game { padding: 0; }
+#screen-game.active { overflow: hidden; }
+.question-scroll {
+  flex: 1;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
+.question-wrap { padding: 22px 16px 30px; }
+
+.question-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  border-radius: 100px;
+  background: var(--badge-bg);
+  color: var(--badge-color);
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  margin-bottom: 16px;
+  border: 1px solid var(--badge-border);
+}
+.question-badge .material-symbols-outlined { font-size: 14px; font-variation-settings: 'FILL' 1; }
+
+.question-text {
+  font-size: 22px;
+  font-weight: 700;
+  line-height: 1.35;
+  color: var(--text);
+  margin-bottom: 24px;
+  letter-spacing: -.015em;
+}
+
+.options-list { display: flex; flex-direction: column; gap: 10px; }
+.option {
+  background: rgba(255,255,255,.75);
+  backdrop-filter: blur(20px) saturate(1.4);
+  -webkit-backdrop-filter: blur(20px) saturate(1.4);
+  border: 1.5px solid rgba(255,255,255,.6);
+  border-radius: 16px;
+  padding: 14px 16px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  cursor: pointer;
+  transition: transform .15s, border-color .15s, background .2s, box-shadow .2s;
+  text-align: left;
+  font-family: 'Manrope', sans-serif;
+  width: 100%;
+  font-size: 15px;
+  color: var(--text);
+  font-weight: 600;
+  box-shadow: 0 4px 14px rgba(10,14,26,.04);
+}
+.option:hover:not(:disabled) {
+  transform: translateY(-2px);
+  border-color: var(--primary);
+  box-shadow: 0 8px 24px rgba(0,102,255,.15);
+}
+.option:active:not(:disabled) { transform: scale(.98); }
+.option:disabled { cursor: default; }
+.option-letter {
+  width: 30px;
+  height: 30px;
+  border-radius: 10px;
+  background: rgba(10,14,26,.06);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  font-weight: 800;
+  color: var(--text-2);
+  flex-shrink: 0;
+  transition: all .25s;
+}
+.option-text { flex: 1; line-height: 1.35; }
+.option-icon { width: 22px; height: 22px; flex-shrink: 0; display: none; }
+
+.option.correct {
+  border-color: var(--green);
+  background: rgba(0,214,143,.12);
+  color: #006e4a;
+  box-shadow: 0 8px 24px rgba(0,214,143,.2);
+}
+.option.correct .option-letter { background: var(--green); color: #fff; }
+.option.correct .option-icon { display: block; color: var(--green); }
+
+.option.wrong {
+  border-color: var(--red);
+  background: rgba(255,71,87,.1);
+  color: #b81e2c;
+  box-shadow: 0 8px 24px rgba(255,71,87,.18);
+}
+.option.wrong .option-letter { background: var(--red); color: #fff; }
+.option.wrong .option-icon { display: block; color: var(--red); }
+.option.dimmed { opacity: .45; }
+
+/* ─── VRAI / FAUX ─── */
+.tf-wrap { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.tf-btn {
+  background: rgba(255,255,255,.75);
+  backdrop-filter: blur(20px) saturate(1.4);
+  -webkit-backdrop-filter: blur(20px) saturate(1.4);
+  border: 1.5px solid rgba(255,255,255,.6);
+  border-radius: 22px;
+  padding: 28px 14px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  font-family: 'Manrope', sans-serif;
+  font-size: 17px;
+  font-weight: 800;
+  color: var(--text);
+  transition: transform .15s, border-color .15s, box-shadow .2s;
+  letter-spacing: -.01em;
+  box-shadow: 0 4px 14px rgba(10,14,26,.05);
+}
+.tf-btn .material-symbols-outlined { font-size: 40px; color: var(--text-3); transition: color .25s; }
+.tf-btn:hover:not(:disabled) {
+  transform: translateY(-3px);
+  border-color: var(--primary);
+  box-shadow: 0 12px 30px rgba(0,102,255,.18);
+}
+.tf-btn:hover:not(:disabled) .material-symbols-outlined { color: var(--primary); }
+.tf-btn:active:not(:disabled) { transform: scale(.96); }
+.tf-btn.correct { border-color: var(--green); background: rgba(0,214,143,.12); color: #006e4a; }
+.tf-btn.correct .material-symbols-outlined { color: var(--green); }
+.tf-btn.wrong { border-color: var(--red); background: rgba(255,71,87,.1); color: #b81e2c; }
+.tf-btn.wrong .material-symbols-outlined { color: var(--red); }
+.tf-btn.dimmed { opacity: .4; }
+
+/* ─── EXPLICATION (bottom sheet) ─── */
+.exp-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(10,14,26,.4);
+  backdrop-filter: blur(2px);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .3s ease;
+  z-index: 99;
+}
+.exp-backdrop.show { opacity: 1; }
+
+.explanation {
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  background: rgba(255,255,255,.96);
+  backdrop-filter: blur(40px) saturate(1.5);
+  -webkit-backdrop-filter: blur(40px) saturate(1.5);
+  padding: 8px 18px calc(20px + env(safe-area-inset-bottom, 0px));
+  box-shadow: 0 -16px 50px rgba(10,14,26,.18);
+  transform: translateY(100%);
+  transition: transform .4s cubic-bezier(.34,1.56,.64,1);
+  z-index: 100;
+  border-radius: 28px 28px 0 0;
+  max-height: 70%;
+  overflow-y: auto;
+}
+.explanation.show { transform: translateY(0); }
+.exp-handle {
+  width: 44px;
+  height: 4px;
+  background: rgba(10,14,26,.18);
+  border-radius: 100px;
+  margin: 0 auto 14px;
+}
+.exp-header { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; }
+.exp-icon {
+  width: 42px; height: 42px;
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.exp-icon.correct { background: var(--green); box-shadow: 0 6px 18px rgba(0,214,143,.4); }
+.exp-icon.wrong { background: var(--red); box-shadow: 0 6px 18px rgba(255,71,87,.4); }
+.exp-icon .material-symbols-outlined { font-size: 24px; color: #fff; font-variation-settings: 'FILL' 1; }
+.exp-title { font-size: 17px; font-weight: 800; color: var(--text); letter-spacing: -.015em; }
+.exp-text { font-size: 13.5px; line-height: 1.55; color: var(--text-2); margin-bottom: 16px; font-weight: 500; }
+.exp-next {
+  width: 100%;
+  padding: 16px;
+  background: linear-gradient(135deg, var(--primary), var(--primary-2));
+  border: none;
+  border-radius: 16px;
+  font-family: 'Manrope', sans-serif;
+  font-size: 15px;
+  font-weight: 800;
+  color: #fff;
+  letter-spacing: -.01em;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  box-shadow: 0 8px 24px rgba(0,102,255,.4);
+  transition: transform .1s, box-shadow .15s;
+}
+.exp-next:active { transform: scale(.97); box-shadow: 0 4px 14px rgba(0,102,255,.3); }
+.exp-next .material-symbols-outlined { font-size: 20px; }
+
+/* ════ ÉCRAN 3 — RÉSULTATS ════ */
+#screen-results { align-items: center; }
+.results-inner { padding: 24px 16px 30px; width: 100%; display: flex; flex-direction: column; align-items: center; }
+.result-medal {
+  width: 120px;
+  height: 120px;
+  margin: 8px auto 18px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--medal-grad);
+  box-shadow: 0 16px 40px var(--medal-shadow);
+  position: relative;
+  animation: medalIn .8s cubic-bezier(.34,1.56,.64,1) both;
+}
+.result-medal::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: linear-gradient(135deg, rgba(255,255,255,.5) 0%, transparent 50%);
+}
+@keyframes medalIn {
+  from { transform: scale(0) rotate(-90deg); opacity: 0; }
+  to   { transform: scale(1) rotate(0); opacity: 1; }
+}
+.result-medal::after {
+  content: '';
+  position: absolute;
+  inset: -10px;
+  border-radius: 50%;
+  border: 2px dashed rgba(255,255,255,.5);
+  opacity: .6;
+  animation: medalSpin 16s linear infinite;
+}
+@keyframes medalSpin { to { transform: rotate(360deg); } }
+.result-medal .material-symbols-outlined {
+  font-size: 60px;
+  color: #fff;
+  font-variation-settings: 'FILL' 1, 'wght' 500;
+  position: relative;
+  z-index: 1;
+}
+
+.result-rank {
+  font-size: 30px;
+  font-weight: 800;
+  color: var(--text);
+  margin-bottom: 6px;
+  text-align: center;
+  letter-spacing: -.025em;
+  animation: fadeUp .5s .3s both;
+}
+.result-message {
+  font-size: 14px;
+  color: var(--text-2);
+  text-align: center;
+  margin-bottom: 24px;
+  line-height: 1.5;
+  font-weight: 500;
+  max-width: 320px;
+  animation: fadeUp .5s .4s both;
+}
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.result-score-card {
+  width: 100%;
+  background: rgba(255,255,255,.85);
+  backdrop-filter: blur(24px) saturate(1.4);
+  -webkit-backdrop-filter: blur(24px) saturate(1.4);
+  border: 1px solid rgba(255,255,255,.6);
+  border-radius: 22px;
+  padding: 4px 22px;
+  margin-bottom: 14px;
+  box-shadow: 0 6px 20px rgba(10,14,26,.05);
+  animation: fadeUp .5s .5s both;
+}
+.result-score-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 14px 0;
+  border-bottom: 1px solid var(--outline);
+}
+.result-score-row:last-child { border-bottom: none; }
+.result-score-label {
+  font-size: 13px;
+  color: var(--text-2);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 600;
+}
+.result-score-label .material-symbols-outlined {
+  font-size: 18px;
+  color: var(--text-3);
+  background: rgba(10,14,26,.05);
+  padding: 5px;
+  border-radius: 8px;
+  width: 28px; height: 28px;
+}
+.result-score-value { font-size: 17px; font-weight: 800; color: var(--text); letter-spacing: -.015em; }
+.result-score-value.highlight {
+  background: linear-gradient(135deg, var(--primary), var(--primary-2));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.result-points {
+  width: 100%;
+  background: linear-gradient(135deg, var(--gold) 0%, var(--orange) 100%);
+  border-radius: 22px;
+  padding: 18px;
+  margin-bottom: 14px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  box-shadow: 0 12px 30px rgba(255,184,0,.35);
+  animation: fadeUp .5s .6s both;
+  position: relative;
+  overflow: hidden;
+}
+.result-points::after {
+  content: '';
+  position: absolute;
+  top: -40%;
+  right: -10%;
+  width: 140px;
+  height: 140px;
+  background: radial-gradient(circle, rgba(255,255,255,.4), transparent 70%);
+}
+.result-points-icon {
+  width: 50px;
+  height: 50px;
+  border-radius: 16px;
+  background: rgba(255,255,255,.25);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255,255,255,.35);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  position: relative;
+  z-index: 1;
+}
+.result-points-icon .material-symbols-outlined { font-size: 28px; color: #fff; font-variation-settings: 'FILL' 1; }
+.result-points-text { flex: 1; position: relative; z-index: 1; }
+.result-points-label {
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,.85);
+}
+.result-points-value { font-size: 22px; font-weight: 800; color: #fff; letter-spacing: -.02em; }
+
+.result-badges { width: 100%; margin-bottom: 18px; animation: fadeUp .5s .7s both; }
+.result-badges-title {
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--text-3);
+  margin-bottom: 12px;
+  text-align: center;
+}
+.result-badges-list { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; }
+.result-badge {
+  background: rgba(255,255,255,.7);
+  backdrop-filter: blur(20px);
+  border: 1px solid var(--outline);
+  padding: 7px 12px;
+  border-radius: 100px;
+  font-size: 12px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  color: var(--text-3);
+}
+.result-badge.earned {
+  background: var(--badge-bg);
+  border-color: var(--badge-color);
+  color: var(--badge-color);
+  box-shadow: 0 4px 12px var(--badge-shadow);
+}
+.result-badge.earned .material-symbols-outlined { font-variation-settings: 'FILL' 1; }
+.result-badge.locked { opacity: .4; }
+.result-badge .material-symbols-outlined { font-size: 14px; }
+
+.result-actions { width: 100%; display: flex; flex-direction: column; gap: 10px; animation: fadeUp .5s .8s both; }
+.btn-primary, .btn-secondary {
+  width: 100%;
+  padding: 16px;
+  border: none;
+  border-radius: 16px;
+  font-family: 'Manrope', sans-serif;
+  font-size: 15px;
+  font-weight: 800;
+  letter-spacing: -.01em;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: transform .1s, box-shadow .15s;
+}
+.btn-primary {
+  background: linear-gradient(135deg, var(--primary), var(--primary-2));
+  color: #fff;
+  box-shadow: 0 10px 28px rgba(0,102,255,.4);
+}
+.btn-secondary {
+  background: rgba(255,255,255,.85);
+  backdrop-filter: blur(20px);
+  color: var(--text);
+  border: 1px solid var(--outline-2);
+}
+.btn-primary:active, .btn-secondary:active { transform: scale(.97); }
+.btn-primary .material-symbols-outlined,
+.btn-secondary .material-symbols-outlined { font-size: 20px; }
+
+</style>
+</head>
+<body>
+
+<div class="app">
+
+  <header class="header">
+    <button class="header-back" onclick="onBack()">
+      <span class="material-symbols-outlined">arrow_back</span>
+    </button>
+    <div class="header-title">
+      <span class="header-eyebrow">QUIZ PATRIMOINE</span>
+      <span class="header-name">Villeneuve-lès-Avignon</span>
+    </div>
+    <div class="header-points" id="header-points" style="display:none">
+      <span class="material-symbols-outlined">stars</span>
+      <span id="points-value">0</span>
+    </div>
+  </header>
+
+  <section class="screen active" id="screen-levels">
+    <div class="intro-hero">
+      <div class="intro-hero-content">
+        <div class="intro-icon"><span class="material-symbols-outlined">menu_book</span></div>
+        <h1 class="intro-title">Quiz Patrimoine</h1>
+        <p class="intro-subtitle">Testez votre connaissance de Villeneuve-lès-Avignon et gagnez des points fidélité.</p>
+      </div>
+    </div>
+    <div class="levels-list">
+      <div class="section-label">Choisissez votre niveau</div>
+      <div id="levels-container"></div>
+    </div>
+  </section>
+
+  <section class="screen" id="screen-game">
+    <div class="game-progress">
+      <div class="game-progress-top">
+        <span class="game-progress-label" id="game-level-label">Apprenti</span>
+        <span class="game-progress-count" id="game-count">1 / 10</span>
+      </div>
+      <div class="game-progress-bar">
+        <div class="game-progress-fill" id="progress-fill" style="width:10%"></div>
+      </div>
+    </div>
+    <div class="question-scroll">
+      <div class="question-wrap" id="question-wrap"></div>
+    </div>
+
+    <div class="exp-backdrop" id="exp-backdrop"></div>
+    <div class="explanation" id="explanation">
+      <div class="exp-handle"></div>
+      <div class="exp-header">
+        <div class="exp-icon" id="exp-icon">
+          <span class="material-symbols-outlined" id="exp-icon-sym">check</span>
+        </div>
+        <div class="exp-title" id="exp-title">Bonne réponse !</div>
+      </div>
+      <div class="exp-text" id="exp-text"></div>
+      <button class="exp-next" onclick="nextQuestion()">
+        <span id="exp-next-label">Question suivante</span>
+        <span class="material-symbols-outlined">arrow_forward</span>
+      </button>
+    </div>
+  </section>
+
+  <section class="screen" id="screen-results"></section>
+
+</div>
+
+<script>
+const Q = window.QUIZ_VILLENEUVE;
+
+const LEVEL_STYLES = {
+  apprenti:    { grad: 'linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)', shadow: 'rgba(79,172,254,.45)' },
+  connaisseur: { grad: 'linear-gradient(135deg, #fa709a 0%, #fee140 100%)', shadow: 'rgba(250,112,154,.4)' },
+  maitre:      { grad: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)', shadow: 'rgba(118,75,162,.45)' }
+};
+
+const BADGE_COLORS = {
+  medieval: '#8b5cf6',
+  religieux: '#0066ff',
+  royal: '#ffb800',
+  artistique: '#ff3b8a',
+  architectural: '#00d68f'
+};
+
+function getStoredPoints() { try { return parseInt(localStorage.getItem('cdv_loyalty_points') || '0'); } catch { return 0; } }
+function addStoredPoints(n) { try { localStorage.setItem('cdv_loyalty_points', String(getStoredPoints() + n)); } catch {} }
+
+let state = { levelKey: null, questions: [], current: 0, correct: 0, earnedBadges: new Set(), startTime: 0 };
+
+function showScreen(id) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+}
+
+function hexToRgba(hex, alpha) {
+  const r = parseInt(hex.slice(1,3), 16);
+  const g = parseInt(hex.slice(3,5), 16);
+  const b = parseInt(hex.slice(5,7), 16);
+  return `rgba(${r},${g},${b},${alpha})`;
+}
+
+function renderLevels() {
+  const container = document.getElementById('levels-container');
+  container.innerHTML = '';
+  Object.entries(Q.levels).forEach(([key, level]) => {
+    const style = LEVEL_STYLES[key];
+    const card = document.createElement('div');
+    card.className = 'level-card';
+    card.style.setProperty('--level-grad', style.grad);
+    card.style.setProperty('--level-shadow', style.shadow);
+    card.innerHTML = `
+      <div class="level-icon-wrap">
+        <span class="material-symbols-outlined">${level.icon}</span>
+      </div>
+      <div class="level-content">
+        <div class="level-name">${level.name}</div>
+        <div class="level-label">${level.label}</div>
+        <div class="level-meta">
+          <div class="level-meta-item"><span class="material-symbols-outlined">help</span>${level.questions.length} questions</div>
+          <div class="level-meta-item"><span class="material-symbols-outlined">stars</span>+${level.reward_points} pts</div>
+        </div>
+      </div>
+      <div class="level-arrow"><span class="material-symbols-outlined">chevron_right</span></div>
+    `;
+    card.onclick = () => startLevel(key);
+    container.appendChild(card);
+  });
+}
+
+function startLevel(levelKey) {
+  const level = Q.levels[levelKey];
+  state = { levelKey, questions: [...level.questions], current: 0, correct: 0, earnedBadges: new Set(), startTime: Date.now() };
+  document.getElementById('game-level-label').textContent = level.name;
+  document.getElementById('header-points').style.display = 'flex';
+  document.getElementById('points-value').textContent = '0';
+  showScreen('screen-game');
+  renderQuestion();
+}
+
+function renderQuestion() {
+  const q = state.questions[state.current];
+  const total = state.questions.length;
+  document.getElementById('game-count').textContent = `${state.current + 1} / ${total}`;
+  document.getElementById('progress-fill').style.width = `${(state.current / total) * 100}%`;
+
+  const badge = Q.badges[q.badge];
+  const badgeColor = BADGE_COLORS[q.badge] || badge.color;
+  const wrap = document.getElementById('question-wrap');
+  wrap.innerHTML = `
+    <div class="question-badge" style="--badge-bg:${hexToRgba(badgeColor,.1)};--badge-color:${badgeColor};--badge-border:${hexToRgba(badgeColor,.25)}">
+      <span class="material-symbols-outlined">${badge.icon}</span>
+      ${badge.name}
+    </div>
+    <div class="question-text">${q.question}</div>
+    <div id="answers-zone"></div>
+  `;
+  const zone = document.getElementById('answers-zone');
+  if (q.type === 'qcm') renderQCM(zone, q);
+  else if (q.type === 'vrai_faux') renderVraiFaux(zone, q);
+  hideExplanation();
+}
+
+function renderQCM(zone, q) {
+  const list = document.createElement('div');
+  list.className = 'options-list';
+  const letters = ['A', 'B', 'C', 'D'];
+  q.options.forEach((opt, i) => {
+    const btn = document.createElement('button');
+    btn.className = 'option';
+    btn.innerHTML = `
+      <div class="option-letter">${letters[i]}</div>
+      <div class="option-text">${opt}</div>
+      <span class="material-symbols-outlined option-icon">check_circle</span>
+    `;
+    btn.onclick = () => answerQCM(i, q, list);
+    list.appendChild(btn);
+  });
+  zone.appendChild(list);
+}
+
+function answerQCM(choice, q, list) {
+  const buttons = list.querySelectorAll('.option');
+  const isCorrect = choice === q.answer;
+  buttons.forEach((b, i) => {
+    b.disabled = true;
+    if (i === q.answer) { b.classList.add('correct'); b.querySelector('.option-icon').textContent = 'check_circle'; }
+    else if (i === choice) { b.classList.add('wrong'); b.querySelector('.option-icon').textContent = 'cancel'; }
+    else b.classList.add('dimmed');
+  });
+  finalizeAnswer(q, isCorrect);
+}
+
+function renderVraiFaux(zone, q) {
+  const wrap = document.createElement('div');
+  wrap.className = 'tf-wrap';
+  ['true', 'false'].forEach((val) => {
+    const btn = document.createElement('button');
+    btn.className = 'tf-btn';
+    btn.innerHTML = `<span class="material-symbols-outlined">${val === 'true' ? 'check_circle' : 'cancel'}</span>${val === 'true' ? 'Vrai' : 'Faux'}`;
+    btn.onclick = () => answerTF(val === 'true', q, wrap);
+    wrap.appendChild(btn);
+  });
+  zone.appendChild(wrap);
+}
+
+function answerTF(choice, q, wrap) {
+  const buttons = wrap.querySelectorAll('.tf-btn');
+  const isCorrect = choice === q.answer;
+  buttons.forEach((b, i) => {
+    b.disabled = true;
+    const isThisTrue = i === 0;
+    if (isThisTrue === q.answer) b.classList.add('correct');
+    else if (isThisTrue === choice) b.classList.add('wrong');
+    else b.classList.add('dimmed');
+  });
+  finalizeAnswer(q, isCorrect);
+}
+
+function finalizeAnswer(q, isCorrect) {
+  if (isCorrect) {
+    state.correct++;
+    state.earnedBadges.add(q.badge);
+    document.getElementById('points-value').textContent = state.correct;
+  }
+  showExplanation(q, isCorrect);
+}
+
+function showExplanation(q, isCorrect) {
+  const exp = document.getElementById('explanation');
+  const backdrop = document.getElementById('exp-backdrop');
+  const icon = document.getElementById('exp-icon');
+  const sym = document.getElementById('exp-icon-sym');
+  const title = document.getElementById('exp-title');
+  const text = document.getElementById('exp-text');
+  const nextLabel = document.getElementById('exp-next-label');
+  icon.classList.remove('correct', 'wrong');
+  icon.classList.add(isCorrect ? 'correct' : 'wrong');
+  sym.textContent = isCorrect ? 'check' : 'close';
+  title.textContent = isCorrect ? 'Bonne réponse !' : 'Pas tout à fait...';
+  text.textContent = q.explanation;
+  nextLabel.textContent = state.current + 1 === state.questions.length ? 'Voir mon score' : 'Question suivante';
+  setTimeout(() => {
+    backdrop.classList.add('show');
+    exp.classList.add('show');
+  }, 200);
+}
+
+function hideExplanation() {
+  document.getElementById('explanation').classList.remove('show');
+  document.getElementById('exp-backdrop').classList.remove('show');
+}
+
+function nextQuestion() {
+  hideExplanation();
+  setTimeout(() => {
+    state.current++;
+    if (state.current >= state.questions.length) showResults();
+    else renderQuestion();
+  }, 350);
+}
+
+function showResults() {
+  document.getElementById('progress-fill').style.width = '100%';
+  const level = Q.levels[state.levelKey];
+  const total = state.questions.length;
+  const correct = state.correct;
+  const percent = Math.round((correct / total) * 100);
+  const elapsed = Math.round((Date.now() - state.startTime) / 1000);
+  const minutes = Math.floor(elapsed / 60);
+  const seconds = elapsed % 60;
+
+  let pointsGained = 0;
+  if (percent >= 80) pointsGained = level.reward_points;
+  else if (percent >= 50) pointsGained = Math.round(level.reward_points / 2);
+  else pointsGained = 1;
+  addStoredPoints(pointsGained);
+
+  let rank, message, medalIcon, medalGrad, medalShadow;
+  if (percent === 100) {
+    rank = "Score parfait !"; message = "Vous connaissez Villeneuve mieux que personne.";
+    medalIcon = "workspace_premium"; medalGrad = "linear-gradient(135deg, #ffb800, #ff7a00)"; medalShadow = "rgba(255,184,0,.5)";
+  } else if (percent >= 80) {
+    rank = "Excellent !"; message = "Votre culture du patrimoine villeneuvois est remarquable.";
+    medalIcon = "military_tech"; medalGrad = "linear-gradient(135deg, #fa709a, #fee140)"; medalShadow = "rgba(250,112,154,.4)";
+  } else if (percent >= 50) {
+    rank = "Bon niveau"; message = "Beau parcours ! Continuez à explorer.";
+    medalIcon = "emoji_events"; medalGrad = "linear-gradient(135deg, #4facfe, #00f2fe)"; medalShadow = "rgba(79,172,254,.4)";
+  } else {
+    rank = "À améliorer"; message = "C'est un début ! Visitez la ville et retentez votre chance.";
+    medalIcon = "school"; medalGrad = "linear-gradient(135deg, #a18cd1, #fbc2eb)"; medalShadow = "rgba(161,140,209,.4)";
+  }
+
+  document.getElementById('screen-results').innerHTML = `<div class="results-inner">
+    <div class="result-medal" style="--medal-grad:${medalGrad};--medal-shadow:${medalShadow}">
+      <span class="material-symbols-outlined">${medalIcon}</span>
+    </div>
+    <div class="result-rank">${rank}</div>
+    <div class="result-message">${message}</div>
+    <div class="result-score-card">
+      <div class="result-score-row">
+        <div class="result-score-label"><span class="material-symbols-outlined">check_circle</span>Bonnes réponses</div>
+        <div class="result-score-value highlight">${correct} / ${total}</div>
+      </div>
+      <div class="result-score-row">
+        <div class="result-score-label"><span class="material-symbols-outlined">percent</span>Score</div>
+        <div class="result-score-value">${percent}%</div>
+      </div>
+      <div class="result-score-row">
+        <div class="result-score-label"><span class="material-symbols-outlined">schedule</span>Temps</div>
+        <div class="result-score-value">${minutes}:${String(seconds).padStart(2,'0')}</div>
+      </div>
+    </div>
+    <div class="result-points">
+      <div class="result-points-icon"><span class="material-symbols-outlined">stars</span></div>
+      <div class="result-points-text">
+        <div class="result-points-label">Points fidélité gagnés</div>
+        <div class="result-points-value">+${pointsGained} points</div>
+      </div>
+    </div>
+    ${renderBadgesEarned()}
+    <div class="result-actions">
+      <button class="btn-primary" onclick="restartSameLevel()">
+        <span class="material-symbols-outlined">refresh</span>Rejouer
+      </button>
+      <button class="btn-secondary" onclick="goToLevels()">
+        <span class="material-symbols-outlined">grid_view</span>Choisir un autre niveau
+      </button>
+    </div>
+  </div>`;
+  showScreen('screen-results');
+}
+
+function renderBadgesEarned() {
+  const items = Object.entries(Q.badges).map(([key, b]) => {
+    const earned = state.earnedBadges.has(key);
+    const color = BADGE_COLORS[key] || b.color;
+    return `
+      <div class="result-badge ${earned ? 'earned' : 'locked'}"
+           style="--badge-color:${color};--badge-bg:${hexToRgba(color,.1)};--badge-shadow:${hexToRgba(color,.2)}">
+        <span class="material-symbols-outlined">${b.icon}</span>${b.name}
+      </div>`;
+  }).join('');
+  return `<div class="result-badges"><div class="result-badges-title">Thèmes maîtrisés</div><div class="result-badges-list">${items}</div></div>`;
+}
+
+function restartSameLevel() { startLevel(state.levelKey); }
+function goToLevels() {
+  document.getElementById('header-points').style.display = 'none';
+  showScreen('screen-levels');
+}
+function onBack() {
+  const active = document.querySelector('.screen.active').id;
+  if (active === 'screen-levels') {
+    if (window.parent && window.parent !== window) window.parent.postMessage({ type: 'quiz-close' }, '*');
+    else window.history.back();
+  } else goToLevels();
+}
+
+renderLevels();
+</script>
+</body>
+</html>
