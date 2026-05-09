@@ -1,0 +1,2946 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<title>Quiz Rochefort-du-Gard — Cœur de Ville</title>
+<script>
+// data/quiz-villeneuve.js
+// Quiz patrimoine Rochefort-du-Gard
+// Toutes les infos sont vérifiées (sources : Mairie VLA, Wikipédia, monuments-nationaux.fr, Avignon Tourisme)
+
+window.QUIZ_ROCHEFORT = {
+  city: "Rochefort-du-Gard",
+  city_id: "villeneuve",
+  description: "Testez vos connaissances sur le patrimoine de la ville",
+  badges: {
+    medieval: { name: "Médiéval", icon: "fort", color: "#9e3d00" },
+    religieux: { name: "Religieux", icon: "church", color: "#3498db" },
+    royal: { name: "Royal", icon: "crown", color: "#c8960a" },
+    artistique: { name: "Artistique", icon: "palette", color: "#9b59b6" },
+    architectural: { name: "Architectural", icon: "architecture", color: "#27ae60" }
+  },
+
+  levels: {
+    // ═══════════════════ NIVEAU 1 — APPRENTI ═══════════════════
+    apprenti: {
+      name: "Apprenti",
+      label: "Découverte",
+      description: "Les bases pour découvrir Villeneuve",
+      icon: "school",
+      color: "#27ae60",
+      reward_points: 5,
+      questions: [
+        {
+          id: "v1_q1",
+          type: "qcm",
+          badge: "medieval",
+          question: "Quel monument emblématique domine la colline du Mont Andaon à Villeneuve ?",
+          options: ["Le Fort Saint-André", "Le Palais des Papes", "Le Pont du Gard", "La Tour Eiffel"],
+          answer: 0,
+          explanation: "Le Fort Saint-André, construit au XIVe siècle, surplombe la ville depuis le Mont Andaon. Sa silhouette imposante est visible depuis Avignon."
+        },
+        {
+          id: "v1_q2",
+          type: "vrai_faux",
+          badge: "royal",
+          question: "La Tour Philippe-le-Bel a été construite pour contrôler l'accès au pont d'Avignon.",
+          answer: true,
+          explanation: "Vrai ! Édifiée au XIIIe siècle par le roi de France, la tour servait de poste de contrôle au débouché du célèbre pont Saint-Bénézet."
+        },
+        {
+          id: "v1_q3",
+          type: "qcm",
+          badge: "religieux",
+          question: "Quel pape a fondé la Chartreuse du Val-de-Bénédiction ?",
+          options: ["Clément VI", "Innocent VI", "Benoît XIII", "Urbain V"],
+          answer: 1,
+          explanation: "Innocent VI, pape d'Avignon de 1352 à 1362, a fondé la Chartreuse en 1356. Il y est inhumé dans un tombeau monumental."
+        },
+        {
+          id: "v1_q4",
+          type: "qcm",
+          badge: "architectural",
+          question: "Sur combien d'hectares s'étend la Chartreuse du Val-de-Bénédiction ?",
+          options: ["1 hectare", "2 hectares", "5 hectares", "10 hectares"],
+          answer: 1,
+          explanation: "La Chartreuse s'étend sur plus de 2 hectares avec ses cloîtres, jardins et cellules. C'est l'une des plus grandes chartreuses de France."
+        },
+        {
+          id: "v1_q5",
+          type: "vrai_faux",
+          badge: "medieval",
+          question: "Rochefort-du-Gard est située dans le département du Vaucluse.",
+          answer: false,
+          explanation: "Faux ! Villeneuve est dans le département du Gard (région Occitanie), même si elle fait face à Avignon qui est dans le Vaucluse."
+        },
+        {
+          id: "v1_q6",
+          type: "qcm",
+          badge: "royal",
+          question: "Quel roi de France a accordé à Villeneuve sa charte des fortifications ?",
+          options: ["Louis IX", "Philippe IV le Bel", "Charles V", "François Ier"],
+          answer: 1,
+          explanation: "Philippe IV le Bel, roi de France de 1285 à 1314, a accordé la charte en raison du rôle stratégique de la ville à la frontière du royaume."
+        },
+        {
+          id: "v1_q7",
+          type: "qcm",
+          badge: "religieux",
+          question: "Combien de monuments majeurs peut-on visiter avec le billet unique de Villeneuve ?",
+          options: ["3", "5", "7", "10"],
+          answer: 1,
+          explanation: "Le billet unique à 20€ donne accès à 5 monuments : Tour Philippe-le-Bel, Fort Saint-André, Abbaye Saint-André, Chartreuse, et Musée Pierre-de-Luxembourg."
+        },
+        {
+          id: "v1_q8",
+          type: "vrai_faux",
+          badge: "artistique",
+          question: "Aujourd'hui, la Chartreuse abrite un centre culturel dédié aux écritures du spectacle.",
+          answer: true,
+          explanation: "Vrai ! Depuis 1973, la Chartreuse accueille le Centre national des écritures du spectacle, surnommé la « Villa Médicis à la française »."
+        },
+        {
+          id: "v1_q9",
+          type: "qcm",
+          badge: "medieval",
+          question: "Quel fleuve sépare Villeneuve d'Avignon ?",
+          options: ["La Durance", "Le Gardon", "Le Rhône", "La Sorgue"],
+          answer: 2,
+          explanation: "Le Rhône traverse l'espace entre les deux villes. C'est lui qui faisait de Villeneuve un poste-frontière stratégique entre royaume de France et États pontificaux."
+        },
+        {
+          id: "v1_q10",
+          type: "qcm",
+          badge: "architectural",
+          question: "À quel siècle a été construite l'essentiel des fortifications du Fort Saint-André ?",
+          options: ["XIIe siècle", "XIVe siècle", "XVIe siècle", "XVIIIe siècle"],
+          answer: 1,
+          explanation: "Le Fort Saint-André a été principalement édifié au XIVe siècle, à l'époque des Papes d'Avignon, pour défendre la frontière du royaume de France."
+        }
+      ]
+    },
+
+    // ═══════════════════ NIVEAU 2 — CONNAISSEUR ═══════════════════
+    connaisseur: {
+      name: "Connaisseur",
+      label: "Pour les passionnés",
+      description: "Approfondissez votre connaissance de la ville",
+      icon: "psychology",
+      color: "#c64f00",
+      reward_points: 10,
+      questions: [
+        {
+          id: "v2_q1",
+          type: "qcm",
+          badge: "artistique",
+          question: "Quel peintre italien a réalisé les fresques de la chapelle de la Chartreuse ?",
+          options: ["Giotto", "Matteo Giovannetti", "Simone Martini", "Fra Angelico"],
+          answer: 1,
+          explanation: "Matteo Giovannetti (vers 1322-1368), peintre attitré des papes d'Avignon, a peint les fresques en 1355. Il avait également décoré le Palais des Papes."
+        },
+        {
+          id: "v2_q2",
+          type: "qcm",
+          badge: "religieux",
+          question: "Quel ordre monastique occupait la Chartreuse ?",
+          options: ["Bénédictins", "Cisterciens", "Chartreux", "Franciscains"],
+          answer: 2,
+          explanation: "Les chartreux, ordre fondé par saint Bruno en 1084, prônaient une vie contemplative en cellules individuelles. La Chartreuse comptait 40 cellules organisées autour de cloîtres."
+        },
+        {
+          id: "v2_q3",
+          type: "vrai_faux",
+          badge: "religieux",
+          question: "Le tombeau d'Innocent VI a été retrouvé à la fin du XIXe siècle dans une masure de vigneron.",
+          answer: true,
+          explanation: "Vrai ! Prosper Mérimée a redécouvert le tombeau en 1834 dans une remise où s'entassaient tonneaux et troncs d'olivier. Le mausolée a depuis été restauré."
+        },
+        {
+          id: "v2_q4",
+          type: "qcm",
+          badge: "medieval",
+          question: "Quel nom portait l'ancien village habité jusqu'au début du XXe siècle sur le Mont Andaon ?",
+          options: ["Bourg Saint-Pierre", "Bourg Saint-André", "Bourg Notre-Dame", "Bourg Saint-Jean"],
+          answer: 1,
+          explanation: "Le Bourg Saint-André s'est développé sur les pentes du Mont Andaon, à côté de l'abbaye. Il en reste quelques pans de murs aujourd'hui."
+        },
+        {
+          id: "v2_q5",
+          type: "qcm",
+          badge: "royal",
+          question: "En quelle année Innocent VI est-il mort ?",
+          options: ["1352", "1358", "1362", "1378"],
+          answer: 2,
+          explanation: "Innocent VI est mort le 12 septembre 1362 à Avignon. Il a été inhumé à Villeneuve le 22 septembre selon ses dernières volontés."
+        },
+        {
+          id: "v2_q6",
+          type: "qcm",
+          badge: "architectural",
+          question: "Quelle église, érigée entre 1150 et 1175 sur le point culminant du Mont Andaon, servait au Bourg Saint-André ?",
+          options: ["Notre-Dame de Belvezet", "Saint-Pons", "Notre-Dame des Doms", "Saint-Pierre"],
+          answer: 0,
+          explanation: "Notre-Dame de Belvezet, dont le nom signifie « belle vue » en provençal, était l'église paroissiale de la communauté du Bourg Saint-André."
+        },
+        {
+          id: "v2_q7",
+          type: "vrai_faux",
+          badge: "artistique",
+          question: "Matteo Giovannetti était un ami du poète italien Pétrarque.",
+          answer: true,
+          explanation: "Vrai ! Les deux Italiens se sont rencontrés à la cour pontificale d'Avignon dans les années 1340 et sont devenus proches."
+        },
+        {
+          id: "v2_q8",
+          type: "qcm",
+          badge: "religieux",
+          question: "Combien de cellules de moines compte le grand cloître de la Chartreuse à son apogée ?",
+          options: ["12", "24", "40", "60"],
+          answer: 2,
+          explanation: "Les trois cloîtres entouraient au total 40 cellules de moines avec leurs jardins, en faisant la plus grande chartreuse de France."
+        },
+        {
+          id: "v2_q9",
+          type: "qcm",
+          badge: "medieval",
+          question: "Vers quelle année Philippe le Bel entreprend-il d'assurer la défense de Villeneuve face à Avignon ?",
+          options: ["1250", "1280", "1292", "1310"],
+          answer: 2,
+          explanation: "Vers 1292, Philippe le Bel lance la fortification de ce dernier bastion du royaume de France face aux États pontificaux d'Avignon."
+        },
+        {
+          id: "v2_q10",
+          type: "qcm",
+          badge: "religieux",
+          question: "À quelle compagnie de mercenaires Innocent VI a-t-il dû payer rançon en 1360 ?",
+          options: ["Les Routiers", "Les Tard-venus", "Les Grandes Compagnies", "Les Écorcheurs"],
+          answer: 1,
+          explanation: "La Compagnie des Tard-venus prit Pont-Saint-Esprit en décembre 1360. Le pape dut négocier leur départ à prix d'or, vendant même son argenterie personnelle."
+        },
+        {
+          id: "v2_q11",
+          type: "qcm",
+          badge: "architectural",
+          question: "Quel artiste a précédé Matteo Giovannetti à la cour pontificale d'Avignon ?",
+          options: ["Giotto", "Cimabue", "Simone Martini", "Duccio"],
+          answer: 2,
+          explanation: "Simone Martini, autre peintre siennois majeur, travaillait à Avignon avant la mort duquel Giovannetti reprit la décoration des chapelles."
+        },
+        {
+          id: "v2_q12",
+          type: "vrai_faux",
+          badge: "religieux",
+          question: "Innocent VI est le seul pape d'Avignon dont le tombeau soit parvenu intact jusqu'à nous.",
+          answer: true,
+          explanation: "Vrai ! Tous les autres tombeaux des papes d'Avignon ont été détruits ou perdus, faisant du gisant d'Innocent VI un témoignage unique."
+        }
+      ]
+    },
+
+    // ═══════════════════ NIVEAU 3 — MAÎTRE ═══════════════════
+    maitre: {
+      name: "Maître",
+      label: "Le défi ultime",
+      description: "Pour les vrais experts du patrimoine villeneuvois",
+      icon: "workspace_premium",
+      color: "#9e3d00",
+      reward_points: 20,
+      questions: [
+        {
+          id: "v3_q1",
+          type: "qcm",
+          badge: "religieux",
+          question: "Quel est le nom de naissance du pape Innocent VI ?",
+          options: ["Pierre Roger", "Étienne Aubert", "Guillaume Grimoard", "Bertrand de Got"],
+          answer: 1,
+          explanation: "Étienne Aubert, né en 1282 à Beyssac en Limousin (actuelle Corrèze). Sa famille était sans grande noblesse mais déjà bienfaitrice de la Chartreuse de Glandier."
+        },
+        {
+          id: "v3_q2",
+          type: "qcm",
+          badge: "artistique",
+          question: "À quel programme iconographique précis correspondent les fresques de la chapelle ?",
+          options: ["La vie de Saint Pierre", "La vie de Saint Jean-Baptiste", "L'Apocalypse", "Le Jugement dernier"],
+          answer: 1,
+          explanation: "La chapelle célèbre Saint Jean-Baptiste, le précurseur qui vécut au désert. On y voit la Visitation, la Décollation et le pape en prière devant la Vierge."
+        },
+        {
+          id: "v3_q3",
+          type: "vrai_faux",
+          badge: "artistique",
+          question: "Matteo Giovannetti a anticipé les expériences de peinture en perspective du XVe siècle.",
+          answer: true,
+          explanation: "Vrai ! Avant les théoriciens de la Renaissance, Giovannetti utilisait déjà des trompe-l'œil, des balcons en perspective, des ébrasements de fenêtres traités comme sols carrelés."
+        },
+        {
+          id: "v3_q4",
+          type: "qcm",
+          badge: "medieval",
+          question: "En quelle année une première tour fut-elle démolie par les Avignonnais lors du siège de leur ville ?",
+          options: ["1180", "1209", "1226", "1248"],
+          answer: 2,
+          explanation: "En 1226, lors du siège d'Avignon par Louis VIII, les Avignonnais détruisirent eux-mêmes la première tour. La Tour Philippe-le-Bel actuelle fut construite après."
+        },
+        {
+          id: "v3_q5",
+          type: "qcm",
+          badge: "architectural",
+          question: "Combien de membres comptait la Chartreuse à son apogée au XVIIe siècle ?",
+          options: ["50", "80", "100", "150"],
+          answer: 2,
+          explanation: "Au XVIIe siècle, la Chartreuse comptait environ 100 personnes : 40 pères chartreux, 30 frères convers et autant d'employés et domestiques."
+        },
+        {
+          id: "v3_q6",
+          type: "qcm",
+          badge: "religieux",
+          question: "Comment s'appelait la pièce où les moines chartreux faisaient leur lessive ?",
+          options: ["La rasure", "La bugade", "Le tinel", "La sacristie"],
+          answer: 1,
+          explanation: "La bugade. La rasure était le lieu où on leur faisait la tonsure ; le tinel était le réfectoire (la grande salle de réception) ; la sacristie servait au culte."
+        },
+        {
+          id: "v3_q7",
+          type: "qcm",
+          badge: "medieval",
+          question: "Quel architecte d'Innocent VI fut chargé d'édifier son mausolée à la Chartreuse ?",
+          options: ["Jean de Loubières", "Bertrand Nogayrol", "Pierre Peysson", "Hugues Pourrat"],
+          answer: 1,
+          explanation: "Bertrand Nogayrol fut chargé en décembre 1361 de construire le monument funéraire d'Innocent VI dans la chapelle de la Sainte-Trinité."
+        },
+        {
+          id: "v3_q8",
+          type: "vrai_faux",
+          badge: "architectural",
+          question: "L'église de la Chartreuse a perdu son abside au XIXe siècle après un effondrement.",
+          answer: true,
+          explanation: "Vrai ! L'abside qui abritait le tombeau d'Innocent VI s'est effondrée au XIXe siècle, ce qui explique l'état actuel du monument."
+        },
+        {
+          id: "v3_q9",
+          type: "qcm",
+          badge: "artistique",
+          question: "À quelle ville italienne est né Matteo Giovannetti ?",
+          options: ["Sienne", "Florence", "Viterbe", "Pérouse"],
+          answer: 2,
+          explanation: "Matteo da Viterbo (« de Viterbe ») est né dans cette ville du Latium. Il fut surnommé Giovannetti à la cour pontificale d'Avignon."
+        },
+        {
+          id: "v3_q10",
+          type: "qcm",
+          badge: "religieux",
+          question: "Combien de jours dura la cérémonie funéraire d'Innocent VI ?",
+          options: ["3 jours", "7 jours", "9 jours", "30 jours"],
+          answer: 2,
+          explanation: "Neuf jours, le temps d'une neuvaine. Le corps fut d'abord exposé deux jours au Palais des Papes, puis transporté à la cathédrale Notre-Dame des Doms, avant l'inhumation à Villeneuve le 22 septembre."
+        },
+        {
+          id: "v3_q11",
+          type: "qcm",
+          badge: "medieval",
+          question: "Que signifie le nom provençal « Belvezet » donné à l'église du Mont Andaon ?",
+          options: ["Belle pierre", "Belle vue", "Beau lieu", "Bel arbre"],
+          answer: 1,
+          explanation: "« Belvezet » signifie « belle vue » en provençal, en référence au panorama exceptionnel offert depuis le sommet du Mont Andaon."
+        },
+        {
+          id: "v3_q12",
+          type: "vrai_faux",
+          badge: "religieux",
+          question: "Pendant la Seconde Guerre mondiale, un aviateur américain a atterri sur la cheminée d'une cellule de la Chartreuse.",
+          answer: true,
+          explanation: "Vrai ! Une plaque commémorative dans la cellule du Sacristain raconte qu'un aviateur américain abattu y a atterri, son parachute s'étant accroché à la cheminée. Anecdote insolite qui mêle le médiéval à l'histoire contemporaine."
+        },
+        {
+          id: "v3_q13",
+          type: "qcm",
+          badge: "religieux",
+          question: "Quel pape était le prédécesseur immédiat d'Innocent VI à Avignon ?",
+          options: ["Benoît XII", "Clément VI", "Urbain V", "Grégoire XI"],
+          answer: 1,
+          explanation: "Clément VI (1342-1352). Innocent VI mena justement une politique d'économie après les fastes de son prédécesseur."
+        },
+        {
+          id: "v3_q14",
+          type: "qcm",
+          badge: "artistique",
+          question: "Quel personnage iconographique inhabituel apparaît dans l'embrasure d'une fenêtre de la chapelle ?",
+          options: ["Un démon", "Une femme en deuil", "Un soldat", "Un berger"],
+          answer: 1,
+          explanation: "Une femme en deuil entre en scène par une anfractuosité rocheuse qui donne accès au tombeau, détail narratif typique de la créativité de Giovannetti."
+        },
+        {
+          id: "v3_q15",
+          type: "qcm",
+          badge: "medieval",
+          question: "Quel titre Innocent VI conféra-t-il à la faculté de théologie de Toulouse ?",
+          options: ["Université libre", "Privilèges égaux à ceux de Paris", "Université pontificale", "Studium generale"],
+          answer: 1,
+          explanation: "Il accorda à Toulouse tous les privilèges dont jouissait l'Université de Paris, ce qui suscita la jalousie de cette dernière qui tenta de s'y opposer."
+        }
+      ]
+    }
+  }
+};
+
+
+// ══════════════════════════════════════════════
+//   QUIZ PROVENCE — questions régionales
+// ══════════════════════════════════════════════
+window.QUIZ_PROVENCE = {
+  city: "Provence",
+  city_id: "provence",
+  description: "Testez vos connaissances sur la Provence",
+  badges: {
+    nature:      { name: "Nature",      icon: "forest",       color: "#1e9e6a" },
+    histoire:    { name: "Histoire",    icon: "fort",         color: "#9e3d00" },
+    gastronomie: { name: "Gastronomie", icon: "restaurant",   color: "#c85a00" },
+    culture:     { name: "Culture",     icon: "palette",      color: "#7c3aed" },
+    geographie:  { name: "Géographie",  icon: "map",          color: "#0055ee" }
+  },
+  levels: {
+    apprenti: {
+      name: "Apprenti", label: "Découverte", description: "Les bases de la Provence",
+      icon: "school", color: "#27ae60", reward_points: 5,
+      questions: [
+        { id:"p1_q1", type:"qcm", badge:"geographie",
+          question:"Quelle est la capitale de la région Provence-Alpes-Côte d'Azur ?",
+          options:["Nice","Toulon","Marseille","Aix-en-Provence"], answer:2,
+          explanation:"Marseille est la préfecture de la région PACA et la deuxième plus grande ville de France avec environ 870 000 habitants." },
+        { id:"p1_q2", type:"vrai_faux", badge:"nature",
+          question:"La Camargue est classée réserve de biosphère par l'UNESCO.",
+          answer:true,
+          explanation:"Vrai ! La Camargue, avec ses chevaux blancs, ses flamants roses et ses taureaux, est classée réserve de biosphère depuis 1977." },
+        { id:"p1_q3", type:"qcm", badge:"gastronomie",
+          question:"Quelle spécialité marseillaise est préparée avec du poisson, du safran et de la rouille ?",
+          options:["La daube","La bouillabaisse","L'aïoli","La tapenade"], answer:1,
+          explanation:"La bouillabaisse est la soupe emblématique de Marseille. Une charte de la bouillabaisse existe depuis 1980 pour protéger la recette authentique." },
+        { id:"p1_q4", type:"qcm", badge:"nature",
+          question:"Quel est le plus grand massif forestier de Provence, célèbre pour ses paysages de calcaire blanc ?",
+          options:["Le Luberon","Les Alpilles","La Sainte-Victoire","La Sainte-Baume"], answer:2,
+          explanation:"La montagne Sainte-Victoire, immortalisée par Cézanne dans plus de 80 tableaux, domine Aix-en-Provence avec ses falaises de calcaire blanc." },
+        { id:"p1_q5", type:"vrai_faux", badge:"histoire",
+          question:"La lavande cultivée en Provence est originaire de la région.",
+          answer:true,
+          explanation:"Vrai ! Le lavandin et la vraie lavande poussent naturellement sur les plateaux de Haute-Provence. La Provence produit 80 % de la lavande mondiale." },
+        { id:"p1_q6", type:"qcm", badge:"geographie",
+          question:"Quel fleuve traverse Avignon avant de se jeter dans la mer Méditerranée ?",
+          options:["La Durance","Le Gard","Le Rhône","L'Hérault"], answer:2,
+          explanation:"Le Rhône longe Avignon et son célèbre pont Saint-Bénézet avant de se diviser en deux bras dans le delta de Camargue." },
+        { id:"p1_q7", type:"qcm", badge:"culture",
+          question:"Quel grand festival international se tient chaque été à Avignon ?",
+          options:["Festival de Cannes","Festival d'Avignon","Chorégies d'Orange","Festival de Marseille"], answer:1,
+          explanation:"Le Festival d'Avignon, fondé en 1947 par Jean Vilar, est l'un des plus grands festivals de théâtre au monde. Il attire chaque juillet plus de 150 000 spectateurs." },
+        { id:"p1_q8", type:"vrai_faux", badge:"gastronomie",
+          question:"La tapenade tire son nom du mot provençal 'tapeno' qui signifie câpre.",
+          answer:true,
+          explanation:"Vrai ! 'Tapeno' désigne la câpre en provençal. La tapenade est à base d'olives noires, câpres et anchois pilés à l'huile d'olive." },
+        { id:"p1_q9", type:"qcm", badge:"histoire",
+          question:"Pendant combien d'années les papes ont-ils résidé à Avignon au XIVe siècle ?",
+          options:["30 ans","68 ans","100 ans","150 ans"], answer:1,
+          explanation:"De 1309 à 1377, sept papes successifs ont résidé à Avignon, soit 68 ans de papauté avignonnaise, période appelée la 'captivité babylonienne'." },
+        { id:"p1_q10", type:"qcm", badge:"nature",
+          question:"Quelle île provençale est surnommée l'île d'or pour ses rochers dorés ?",
+          options:["Île de Porquerolles","Île du Levant","Île de Port-Cros","Île de Sainte-Marguerite"], answer:0,
+          explanation:"Porquerolles est surnommée 'l'île d'or' pour ses rochers aux reflets dorés. Elle fait partie du Parc National de Port-Cros." }
+      ]
+    },
+    connaisseur: {
+      name: "Connaisseur", label: "Pour les passionnés", description: "Approfondissez votre connaissance de la Provence",
+      icon: "psychology", color: "#c64f00", reward_points: 10,
+      questions: [
+        { id:"p2_q1", type:"qcm", badge:"histoire",
+          question:"Quel roi de France a réuni la Provence au royaume en 1481 ?",
+          options:["Louis XI","Charles VIII","François Ier","Henri IV"], answer:0,
+          explanation:"Louis XI hérita de la Provence à la mort de Charles III d'Anjou en 1481, annexant définitivement ce comté au royaume de France." },
+        { id:"p2_q2", type:"qcm", badge:"culture",
+          question:"Quel écrivain provençal a fondé le mouvement littéraire du Félibrige en 1854 ?",
+          options:["Alphonse Daudet","Frédéric Mistral","Marcel Pagnol","Jean Giono"], answer:1,
+          explanation:"Frédéric Mistral a cofondé le Félibrige pour défendre et promouvoir la langue et la culture provençales. Il reçut le prix Nobel de littérature en 1904." },
+        { id:"p2_q3", type:"vrai_faux", badge:"gastronomie",
+          question:"L'AOC Banon désigne un fromage provençal enveloppé dans des feuilles de châtaignier.",
+          answer:true,
+          explanation:"Vrai ! Le Banon, fromage de chèvre des Alpes-de-Haute-Provence, est affiné enveloppé dans des feuilles de châtaignier ficelées avec du raphia." },
+        { id:"p2_q4", type:"qcm", badge:"geographie",
+          question:"Quelle ville abrite les célèbres Chorégies, plus ancien festival lyrique de France ?",
+          options:["Aix-en-Provence","Arles","Orange","Nîmes"], answer:2,
+          explanation:"Les Chorégies d'Orange ont lieu chaque été dans le théâtre antique d'Orange, construit au Ier siècle. Son mur de scène de 37m de haut est unique au monde." },
+        { id:"p2_q5", type:"qcm", badge:"nature",
+          question:"Quel oiseau emblématique de Camargue niche uniquement en France sur ce territoire ?",
+          options:["Héron cendré","Flamant rose","Cigogne blanche","Aigrette garzette"], answer:1,
+          explanation:"Le flamant rose (Phoenicopterus roseus) est la seule colonie nicheuse française en Camargue, sur l'étang de Fangassier. La colonie compte jusqu'à 15 000 couples." },
+        { id:"p2_q6", type:"qcm", badge:"histoire",
+          question:"Quelle ville provençale fut la première colonie grecque de Gaule, fondée vers 600 av. J.-C. ?",
+          options:["Arles","Fréjus","Marseille","Antibes"], answer:2,
+          explanation:"Massalia (Marseille) fut fondée vers 600 avant J.-C. par des colons grecs venus de Phocée. C'est la plus ancienne ville de France." },
+        { id:"p2_q7", type:"vrai_faux", badge:"culture",
+          question:"Marcel Pagnol est né à Aubagne et y a situé plusieurs de ses œuvres.",
+          answer:true,
+          explanation:"Vrai ! Né à Aubagne en 1895, Pagnol a immortalisé les paysages de la Treille et du Garlaban dans La Gloire de mon père et Le Château de ma mère." },
+        { id:"p2_q8", type:"qcm", badge:"gastronomie",
+          question:"Quel est le principal ingrédient de l'aïoli provençal ?",
+          options:["Fromage de chèvre","Anchois","Ail et huile d'olive","Tapenade"], answer:2,
+          explanation:"L'aïoli (ail + oli = ail + huile en provençal) est une émulsion d'ail pilé et d'huile d'olive. Il accompagne traditionnellement la morue et les légumes bouillis." },
+        { id:"p2_q9", type:"qcm", badge:"nature",
+          question:"Quelle montagne provençale culmine à 1 909 mètres et est surnommée le 'géant de Provence' ?",
+          options:["Le Mont Ventoux","La Sainte-Victoire","Le Pic des Mouches","Le Luberon"], answer:0,
+          explanation:"Le Mont Ventoux, surnommé le 'géant de Provence', culmine à 1 909 m. Son sommet dénudé et venteux en fait une étape mythique du Tour de France." },
+        { id:"p2_q10", type:"qcm", badge:"histoire",
+          question:"Quel célèbre peintre post-impressionniste est né à Aix-en-Provence en 1839 ?",
+          options:["Van Gogh","Matisse","Cézanne","Renoir"], answer:2,
+          explanation:"Paul Cézanne (1839-1906), né et mort à Aix, a passé l'essentiel de sa vie en Provence. Il a peint la Sainte-Victoire plus de 80 fois depuis son atelier du Jas de Bouffan." },
+        { id:"p2_q11", type:"vrai_faux", badge:"geographie",
+          question:"Le pont du Gard est un aqueduc romain inscrit au patrimoine mondial de l'UNESCO.",
+          answer:true,
+          explanation:"Vrai ! Construit au Ier siècle pour alimenter Nîmes en eau, le pont du Gard mesure 49m de haut et 275m de long. Il est inscrit à l'UNESCO depuis 1985." },
+        { id:"p2_q12", type:"qcm", badge:"culture",
+          question:"Quelle langue régionale est parlée traditionnellement en Provence ?",
+          options:["L'occitan provençal","Le catalan","Le corse","Le niçard"], answer:0,
+          explanation:"L'occitan provençal, défendu par Mistral et le Félibrige, est la langue historique de Provence. Le niçard en est un dialecte spécifique au comté de Nice." }
+      ]
+    },
+    maitre: {
+      name: "Maître", label: "Le défi ultime", description: "Pour les vrais experts de Provence",
+      icon: "workspace_premium", color: "#9e3d00", reward_points: 20,
+      questions: [
+        { id:"p3_q1", type:"qcm", badge:"histoire",
+          question:"En quelle année Marseille a-t-elle été désignée Capitale européenne de la Culture ?",
+          options:["2005","2010","2013","2018"], answer:2,
+          explanation:"Marseille-Provence 2013 a été Capitale européenne de la Culture. Cet événement a accéléré la transformation urbaine et culturelle de la ville, avec notamment l'ouverture du MuCEM." },
+        { id:"p3_q2", type:"qcm", badge:"culture",
+          question:"Quel est le nom provençal de la santons, ces figurines de crèche provençales ?",
+          options:["Pastourets","Santoun","Figurinos","Calenos"], answer:1,
+          explanation:"'Santoun' signifie 'petit saint' en provençal. La tradition des santons de Provence est née à Marseille en 1798, lors de la première foire aux santons." },
+        { id:"p3_q3", type:"vrai_faux", badge:"nature",
+          question:"Le massif des Calanques est le seul parc national français situé en milieu urbain.",
+          answer:true,
+          explanation:"Vrai ! Créé en 2012, le Parc national des Calanques est unique en Europe : il s'étend entre Marseille et Cassis, à quelques kilomètres du centre-ville d'une grande métropole." },
+        { id:"p3_q4", type:"qcm", badge:"histoire",
+          question:"Quel général romain a battu les Arvernes et les Allobroges en -121, ouvrant la voie à la conquête de la Gaule en Provence ?",
+          options:["Jules César","Gnaeus Domitius Ahenobarbus","Quintus Fabius Maximus","Marius"], answer:1,
+          explanation:"Gnaeus Domitius Ahenobarbus écrasa la coalition gauloise en -121 av. J.-C. sur les bords du Rhône. Cette victoire permit la création de la province Gallia Narbonensis." },
+        { id:"p3_q5", type:"qcm", badge:"gastronomie",
+          question:"Quelle herbe aromatique provençale est utilisée dans le fameux mélange 'herbes de Provence' et pousse sur les garrigues ?",
+          options:["La sarriette","Le serpolet","Le thym","La lavande"], answer:2,
+          explanation:"Le thym (Thymus vulgaris) est l'herbe reine des garrigues provençales. Il constitue avec le romarin, l'origan et la marjolaine la base des herbes de Provence." },
+        { id:"p3_q6", type:"qcm", badge:"culture",
+          question:"Quel poète latin est né à Vaison-la-Romaine et a chanté la Provence antique ?",
+          options:["Virgile","Ovide","Pline l'Ancien","Ausone"], answer:3,
+          explanation:"Decimius Magnus Ausonius (Ausone, v.310-395), natif de Bordeaux mais ayant enseigné à Bordeaux, a décrit la vie romaine en Provence dans ses poèmes géographiques." },
+        { id:"p3_q7", type:"vrai_faux", badge:"histoire",
+          question:"La fameuse Légion étrangère a été fondée à Aubagne, en Provence.",
+          answer:true,
+          explanation:"Vrai ! La Légion étrangère a été fondée en 1831 à Paris, mais son quartier général (COMLE) est installé à Aubagne depuis 1962, après le départ d'Algérie." },
+        { id:"p3_q8", type:"qcm", badge:"geographie",
+          question:"Combien d'îles constituent l'archipel des îles d'Hyères, au large du Var ?",
+          options:["2","3","5","7"], answer:1,
+          explanation:"L'archipel des îles d'Hyères comprend trois îles principales : Porquerolles, Port-Cros et l'île du Levant. Port-Cros abrite le seul parc national marin de France métropolitaine." },
+        { id:"p3_q9", type:"qcm", badge:"nature",
+          question:"Quel insecte emblématique de Provence stridule uniquement dans les pays chauds méditerranéens ?",
+          options:["Le criquet","La cigale","Le grillon","La sauterelle"], answer:1,
+          explanation:"La cigale (Cicada orni) est le symbole sonore de la Provence. Seul le mâle 'chante' en vibrant ses cymbales. Elle ne stridule qu'au-dessus de 22°C." },
+        { id:"p3_q10", type:"qcm", badge:"histoire",
+          question:"En quel an a été inauguré le MuCEM, musée des civilisations de l'Europe et de la Méditerranée à Marseille ?",
+          options:["2010","2012","2013","2015"], answer:2,
+          explanation:"Le MuCEM a ouvert ses portes le 7 juin 2013, pour l'année Capitale européenne de la Culture. Conçu par Rudy Ricciotti, il relie le fort Saint-Jean par une passerelle spectaculaire." },
+        { id:"p3_q11", type:"vrai_faux", badge:"culture",
+          question:"Jean Giono a passé presque toute sa vie à Manosque, en Haute-Provence.",
+          answer:true,
+          explanation:"Vrai ! Jean Giono (1895-1970) est né, a vécu et est mort à Manosque. Il a situé la plupart de ses romans dans les paysages de Haute-Provence qu'il connaissait intimement." },
+        { id:"p3_q12", type:"qcm", badge:"gastronomie",
+          question:"Quel vin provençal rosé est produit dans l'appellation la plus productive de rosé au monde ?",
+          options:["Côtes-du-Rhône","Bandol","Provence Rosé (Côtes de Provence)","Coteaux d'Aix"], answer:2,
+          explanation:"Les Côtes de Provence produisent environ 140 millions de bouteilles de rosé par an, soit plus de 40 % de la production française de rosé et 10 % de la production mondiale." },
+        { id:"p3_q13", type:"qcm", badge:"geographie",
+          question:"Quel défilé rocheux spectaculaire sépare Arles et Tarascon sur le Rhône ?",
+          options:["Les gorges du Verdon","Les gorges de la Nesque","La montagnette","Les Alpilles"], answer:3,
+          explanation:"Les Alpilles, massif calcaire blanc entre Arles et Tarascon, forment une barrière naturelle aux paysages lunaires. Van Gogh les a peintes depuis Saint-Rémy-de-Provence." },
+        { id:"p3_q14", type:"vrai_faux", badge:"histoire",
+          question:"La reine Jeanne de Provence a légué le comté de Provence au roi Louis Ier d'Anjou.",
+          answer:true,
+          explanation:"Vrai ! Jeanne Ire, reine de Naples et comtesse de Provence (1343-1382), sans héritier direct, adopta Louis Ier d'Anjou. C'est à cette occasion que Avignon fut vendue à la papauté." },
+        { id:"p3_q15", type:"qcm", badge:"nature",
+          question:"Quelle plante aromatique emblématique est cultivée sur le plateau de Valensole ?",
+          options:["Le romarin","La lavande","Le thym","La sauge"], answer:1,
+          explanation:"Le plateau de Valensole est le plus grand champ de lavande d'Europe. Chaque juillet, ses étendues violettes attirent des milliers de touristes et photographes du monde entier." }
+      ]
+    }
+  }
+};
+</script>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+.material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+
+:root {
+  --primary: #0066ff;
+  --primary-2: #00a3ff;
+  --pink: #ff3b8a;
+  --orange: #ff7a00;
+  --gold: #ffb800;
+  --green: #00d68f;
+  --red: #ff4757;
+  --purple: #8b5cf6;
+  --bg: #f5f7fb;
+  --surface: #ffffff;
+  --text: #0a0e1a;
+  --text-2: #5a6478;
+  --text-3: #8a93a6;
+  --outline: rgba(10,14,26,.08);
+  --outline-2: rgba(10,14,26,.14);
+}
+
+html, body {
+  height: 100dvh;
+  overflow: hidden;
+  background: var(--bg);
+  font-family: 'Manrope', system-ui, sans-serif;
+  color: var(--text);
+  -webkit-font-smoothing: antialiased;
+}
+
+.app {
+  width: 100%;
+  height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  background: var(--bg);
+  overflow: hidden;
+}
+@media (min-width: 500px) {
+  .app {
+    width: 414px;
+    height: 100dvh;
+    margin: 0 auto;
+    box-shadow: 0 0 60px rgba(0,0,0,.12);
+  }
+}
+
+.app::before {
+  content: '';
+  position: absolute;
+  inset: -10%;
+  background:
+    radial-gradient(circle at 20% 10%, rgba(102,126,234,.18), transparent 40%),
+    radial-gradient(circle at 80% 30%, rgba(255,59,138,.15), transparent 45%),
+    radial-gradient(circle at 50% 90%, rgba(0,211,143,.12), transparent 40%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ════ HEADER ════ */
+.header {
+  background: rgba(255,255,255,.7);
+  backdrop-filter: blur(20px) saturate(1.4);
+  -webkit-backdrop-filter: blur(20px) saturate(1.4);
+  border-bottom: 1px solid var(--outline);
+  padding: max(14px, env(safe-area-inset-top, 0px) + 14px) 16px 14px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-shrink: 0;
+  position: relative;
+  z-index: 10;
+}
+.header-back {
+  width: 38px;
+  height: 38px;
+  border-radius: 12px;
+  background: rgba(10,14,26,.04);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  border: none;
+  transition: background .15s, transform .1s;
+}
+.header-back:hover { background: rgba(10,14,26,.08); }
+.header-back:active { transform: scale(.92); }
+.header-back .material-symbols-outlined { font-size: 20px; color: var(--text); }
+.header-title { flex: 1; display: flex; flex-direction: column; }
+.header-eyebrow {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--text-3);
+}
+.header-name {
+  font-size: 16px;
+  font-weight: 800;
+  color: var(--text);
+  margin-top: 1px;
+  letter-spacing: -.015em;
+}
+.header-points {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  background: linear-gradient(135deg, var(--gold), var(--orange));
+  color: #fff;
+  padding: 7px 12px;
+  border-radius: 100px;
+  font-size: 13px;
+  font-weight: 800;
+  box-shadow: 0 4px 14px rgba(255,184,0,.35);
+}
+.header-points .material-symbols-outlined { font-size: 15px; font-variation-settings: 'FILL' 1; }
+
+/* ════ SCREEN ════ */
+.screen {
+  display: none;
+  flex: 1;
+  flex-direction: column;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  position: relative;
+  z-index: 1;
+}
+.screen.active { display: flex; animation: screenIn .4s cubic-bezier(.34,1.56,.64,1) both; }
+@keyframes screenIn {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ════ ÉCRAN 1 — NIVEAUX ════ */
+.intro-hero {
+  position: relative;
+  margin: 16px 16px 22px;
+  padding: 28px 22px;
+  border-radius: 28px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+  color: #fff;
+  overflow: hidden;
+  box-shadow: 0 20px 50px rgba(118,75,162,.35);
+  flex-shrink: 0;
+}
+.intro-hero::before {
+  content: '';
+  position: absolute;
+  top: -40%; right: -20%;
+  width: 200px; height: 200px;
+  background: radial-gradient(circle, rgba(255,255,255,.4), transparent 70%);
+  pointer-events: none;
+}
+.intro-hero::after {
+  content: '';
+  position: absolute;
+  bottom: -30%; left: -10%;
+  width: 180px; height: 180px;
+  background: radial-gradient(circle, rgba(255,255,255,.25), transparent 70%);
+  pointer-events: none;
+}
+.intro-hero-content {
+  position: relative;
+  z-index: 1;
+}
+.intro-icon {
+  width: 56px;
+  height: 56px;
+  background: rgba(255,255,255,.22);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255,255,255,.3);
+  border-radius: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 16px;
+  flex-shrink: 0;
+}
+.intro-icon .material-symbols-outlined { font-size: 28px; color: #fff; font-variation-settings: 'FILL' 1; }
+.intro-title {
+  font-size: 28px;
+  font-weight: 800;
+  letter-spacing: -.02em;
+  line-height: 1.1;
+  margin: 0 0 6px 0;
+  color: #fff;
+}
+.intro-subtitle {
+  font-size: 14px;
+  line-height: 1.5;
+  color: rgba(255,255,255,.9);
+  font-weight: 500;
+  margin: 0;
+}
+
+.levels-list {
+  padding: 0 16px 30px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.section-label {
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--text-3);
+  margin-bottom: 4px;
+  padding-left: 4px;
+}
+
+.level-card {
+  background: rgba(255,255,255,.75);
+  backdrop-filter: blur(24px) saturate(1.4);
+  -webkit-backdrop-filter: blur(24px) saturate(1.4);
+  border: 1px solid rgba(255,255,255,.6);
+  border-radius: 22px;
+  padding: 18px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  cursor: pointer;
+  transition: transform .2s cubic-bezier(.34,1.56,.64,1), box-shadow .2s;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 6px 20px rgba(10,14,26,.05);
+}
+.level-card:hover { transform: translateY(-3px); box-shadow: 0 16px 40px rgba(10,14,26,.12); }
+.level-card:active { transform: scale(.98); }
+.level-icon-wrap {
+  width: 56px;
+  height: 56px;
+  border-radius: 18px;
+  background: var(--level-grad);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  box-shadow: 0 8px 20px var(--level-shadow);
+  position: relative;
+}
+.level-icon-wrap::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 18px;
+  background: linear-gradient(135deg, rgba(255,255,255,.4) 0%, transparent 60%);
+}
+.level-icon-wrap .material-symbols-outlined {
+  font-size: 28px;
+  color: #fff;
+  font-variation-settings: 'FILL' 1;
+  position: relative;
+  z-index: 1;
+}
+.level-content { flex: 1; min-width: 0; }
+.level-name {
+  font-size: 17px;
+  font-weight: 800;
+  color: var(--text);
+  letter-spacing: -.01em;
+  margin-bottom: 2px;
+}
+.level-label { font-size: 12px; color: var(--text-2); margin-bottom: 8px; font-weight: 500; }
+.level-meta { display: flex; align-items: center; gap: 8px; }
+.level-meta-item {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 11px;
+  color: var(--text-2);
+  font-weight: 600;
+  background: rgba(10,14,26,.05);
+  padding: 3px 8px;
+  border-radius: 100px;
+}
+.level-meta-item .material-symbols-outlined { font-size: 12px; }
+.level-arrow {
+  width: 32px;
+  height: 32px;
+  border-radius: 10px;
+  background: rgba(10,14,26,.05);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.level-arrow .material-symbols-outlined { font-size: 18px; color: var(--text-2); }
+
+/* ════ ÉCRAN 2 — JEU ════ */
+.game-progress {
+  background: rgba(255,255,255,.85);
+  backdrop-filter: blur(20px) saturate(1.4);
+  -webkit-backdrop-filter: blur(20px) saturate(1.4);
+  padding: 14px 16px 16px;
+  border-bottom: 1px solid var(--outline);
+  flex-shrink: 0;
+}
+.game-progress-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+.game-progress-label {
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--text-3);
+}
+.game-progress-count { font-size: 14px; font-weight: 800; color: var(--text); }
+.game-progress-bar {
+  height: 8px;
+  background: rgba(10,14,26,.06);
+  border-radius: 100px;
+  overflow: hidden;
+}
+.game-progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--primary), var(--primary-2));
+  border-radius: 100px;
+  transition: width .5s cubic-bezier(.65,0,.35,1);
+  box-shadow: 0 0 12px rgba(0,102,255,.5);
+}
+
+#screen-game { padding: 0; }
+#screen-game.active { overflow: hidden; }
+.question-scroll {
+  flex: 1;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
+.question-wrap { padding: 22px 16px 30px; }
+
+.question-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  border-radius: 100px;
+  background: var(--badge-bg);
+  color: var(--badge-color);
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  margin-bottom: 16px;
+  border: 1px solid var(--badge-border);
+}
+.question-badge .material-symbols-outlined { font-size: 14px; font-variation-settings: 'FILL' 1; }
+
+.question-text {
+  font-size: 22px;
+  font-weight: 700;
+  line-height: 1.35;
+  color: var(--text);
+  margin-bottom: 24px;
+  letter-spacing: -.015em;
+}
+
+.options-list { display: flex; flex-direction: column; gap: 10px; }
+.option {
+  background: rgba(255,255,255,.75);
+  backdrop-filter: blur(20px) saturate(1.4);
+  -webkit-backdrop-filter: blur(20px) saturate(1.4);
+  border: 1.5px solid rgba(255,255,255,.6);
+  border-radius: 16px;
+  padding: 14px 16px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  cursor: pointer;
+  transition: transform .15s, border-color .15s, background .2s, box-shadow .2s;
+  text-align: left;
+  font-family: 'Manrope', sans-serif;
+  width: 100%;
+  font-size: 15px;
+  color: var(--text);
+  font-weight: 600;
+  box-shadow: 0 4px 14px rgba(10,14,26,.04);
+}
+.option:hover:not(:disabled) {
+  transform: translateY(-2px);
+  border-color: var(--primary);
+  box-shadow: 0 8px 24px rgba(0,102,255,.15);
+}
+.option:active:not(:disabled) { transform: scale(.98); }
+.option:disabled { cursor: default; }
+.option-letter {
+  width: 30px;
+  height: 30px;
+  border-radius: 10px;
+  background: rgba(10,14,26,.06);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  font-weight: 800;
+  color: var(--text-2);
+  flex-shrink: 0;
+  transition: all .25s;
+}
+.option-text { flex: 1; line-height: 1.35; }
+.option-icon { width: 22px; height: 22px; flex-shrink: 0; display: none; }
+
+.option.correct {
+  border-color: var(--green);
+  background: rgba(0,214,143,.12);
+  color: #006e4a;
+  box-shadow: 0 8px 24px rgba(0,214,143,.2);
+}
+.option.correct .option-letter { background: var(--green); color: #fff; }
+.option.correct .option-icon { display: block; color: var(--green); }
+
+.option.wrong {
+  border-color: var(--red);
+  background: rgba(255,71,87,.1);
+  color: #b81e2c;
+  box-shadow: 0 8px 24px rgba(255,71,87,.18);
+}
+.option.wrong .option-letter { background: var(--red); color: #fff; }
+.option.wrong .option-icon { display: block; color: var(--red); }
+.option.dimmed { opacity: .45; }
+
+/* ─── VRAI / FAUX ─── */
+.tf-wrap { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.tf-btn {
+  background: rgba(255,255,255,.75);
+  backdrop-filter: blur(20px) saturate(1.4);
+  -webkit-backdrop-filter: blur(20px) saturate(1.4);
+  border: 1.5px solid rgba(255,255,255,.6);
+  border-radius: 22px;
+  padding: 28px 14px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  font-family: 'Manrope', sans-serif;
+  font-size: 17px;
+  font-weight: 800;
+  color: var(--text);
+  transition: transform .15s, border-color .15s, box-shadow .2s;
+  letter-spacing: -.01em;
+  box-shadow: 0 4px 14px rgba(10,14,26,.05);
+}
+.tf-btn .material-symbols-outlined { font-size: 40px; color: var(--text-3); transition: color .25s; }
+.tf-btn:hover:not(:disabled) {
+  transform: translateY(-3px);
+  border-color: var(--primary);
+  box-shadow: 0 12px 30px rgba(0,102,255,.18);
+}
+.tf-btn:hover:not(:disabled) .material-symbols-outlined { color: var(--primary); }
+.tf-btn:active:not(:disabled) { transform: scale(.96); }
+.tf-btn.correct { border-color: var(--green); background: rgba(0,214,143,.12); color: #006e4a; }
+.tf-btn.correct .material-symbols-outlined { color: var(--green); }
+.tf-btn.wrong { border-color: var(--red); background: rgba(255,71,87,.1); color: #b81e2c; }
+.tf-btn.wrong .material-symbols-outlined { color: var(--red); }
+.tf-btn.dimmed { opacity: .4; }
+
+/* ─── EXPLICATION (bottom sheet) ─── */
+.exp-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(10,14,26,.4);
+  backdrop-filter: blur(2px);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .3s ease;
+  z-index: 99;
+}
+.exp-backdrop.show { opacity: 1; }
+
+.explanation {
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  background: rgba(255,255,255,.96);
+  backdrop-filter: blur(40px) saturate(1.5);
+  -webkit-backdrop-filter: blur(40px) saturate(1.5);
+  padding: 8px 18px calc(20px + env(safe-area-inset-bottom, 0px));
+  box-shadow: 0 -16px 50px rgba(10,14,26,.18);
+  transform: translateY(100%);
+  transition: transform .4s cubic-bezier(.34,1.56,.64,1);
+  z-index: 100;
+  border-radius: 28px 28px 0 0;
+  max-height: 70%;
+  overflow-y: auto;
+}
+.explanation.show { transform: translateY(0); }
+.exp-handle {
+  width: 44px;
+  height: 4px;
+  background: rgba(10,14,26,.18);
+  border-radius: 100px;
+  margin: 0 auto 14px;
+}
+.exp-header { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; }
+.exp-icon {
+  width: 42px; height: 42px;
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.exp-icon.correct { background: var(--green); box-shadow: 0 6px 18px rgba(0,214,143,.4); }
+.exp-icon.wrong { background: var(--red); box-shadow: 0 6px 18px rgba(255,71,87,.4); }
+.exp-icon .material-symbols-outlined { font-size: 24px; color: #fff; font-variation-settings: 'FILL' 1; }
+.exp-title { font-size: 17px; font-weight: 800; color: var(--text); letter-spacing: -.015em; }
+.exp-text { font-size: 13.5px; line-height: 1.55; color: var(--text-2); margin-bottom: 16px; font-weight: 500; }
+.exp-next {
+  width: 100%;
+  padding: 16px;
+  background: linear-gradient(135deg, var(--primary), var(--primary-2));
+  border: none;
+  border-radius: 16px;
+  font-family: 'Manrope', sans-serif;
+  font-size: 15px;
+  font-weight: 800;
+  color: #fff;
+  letter-spacing: -.01em;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  box-shadow: 0 8px 24px rgba(0,102,255,.4);
+  transition: transform .1s, box-shadow .15s;
+}
+.exp-next:active { transform: scale(.97); box-shadow: 0 4px 14px rgba(0,102,255,.3); }
+.exp-next .material-symbols-outlined { font-size: 20px; }
+
+/* ════ ÉCRAN 3 — RÉSULTATS ════ */
+#screen-results { align-items: center; }
+.results-inner { padding: 24px 16px 30px; width: 100%; display: flex; flex-direction: column; align-items: center; }
+.result-medal {
+  width: 120px;
+  height: 120px;
+  margin: 8px auto 18px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--medal-grad);
+  box-shadow: 0 16px 40px var(--medal-shadow);
+  position: relative;
+  animation: medalIn .8s cubic-bezier(.34,1.56,.64,1) both;
+}
+.result-medal::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: linear-gradient(135deg, rgba(255,255,255,.5) 0%, transparent 50%);
+}
+@keyframes medalIn {
+  from { transform: scale(0) rotate(-90deg); opacity: 0; }
+  to   { transform: scale(1) rotate(0); opacity: 1; }
+}
+.result-medal::after {
+  content: '';
+  position: absolute;
+  inset: -10px;
+  border-radius: 50%;
+  border: 2px dashed rgba(255,255,255,.5);
+  opacity: .6;
+  animation: medalSpin 16s linear infinite;
+}
+@keyframes medalSpin { to { transform: rotate(360deg); } }
+.result-medal .material-symbols-outlined {
+  font-size: 60px;
+  color: #fff;
+  font-variation-settings: 'FILL' 1, 'wght' 500;
+  position: relative;
+  z-index: 1;
+}
+
+.result-rank {
+  font-size: 30px;
+  font-weight: 800;
+  color: var(--text);
+  margin-bottom: 6px;
+  text-align: center;
+  letter-spacing: -.025em;
+  animation: fadeUp .5s .3s both;
+}
+.result-message {
+  font-size: 14px;
+  color: var(--text-2);
+  text-align: center;
+  margin-bottom: 24px;
+  line-height: 1.5;
+  font-weight: 500;
+  max-width: 320px;
+  animation: fadeUp .5s .4s both;
+}
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.result-score-card {
+  width: 100%;
+  background: rgba(255,255,255,.85);
+  backdrop-filter: blur(24px) saturate(1.4);
+  -webkit-backdrop-filter: blur(24px) saturate(1.4);
+  border: 1px solid rgba(255,255,255,.6);
+  border-radius: 22px;
+  padding: 4px 22px;
+  margin-bottom: 14px;
+  box-shadow: 0 6px 20px rgba(10,14,26,.05);
+  animation: fadeUp .5s .5s both;
+}
+.result-score-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 14px 0;
+  border-bottom: 1px solid var(--outline);
+}
+.result-score-row:last-child { border-bottom: none; }
+.result-score-label {
+  font-size: 13px;
+  color: var(--text-2);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 600;
+}
+.result-score-label .material-symbols-outlined {
+  font-size: 18px;
+  color: var(--text-3);
+  background: rgba(10,14,26,.05);
+  padding: 5px;
+  border-radius: 8px;
+  width: 28px; height: 28px;
+}
+.result-score-value { font-size: 17px; font-weight: 800; color: var(--text); letter-spacing: -.015em; }
+.result-score-value.highlight {
+  background: linear-gradient(135deg, var(--primary), var(--primary-2));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.result-points {
+  width: 100%;
+  background: linear-gradient(135deg, var(--gold) 0%, var(--orange) 100%);
+  border-radius: 22px;
+  padding: 18px;
+  margin-bottom: 14px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  box-shadow: 0 12px 30px rgba(255,184,0,.35);
+  animation: fadeUp .5s .6s both;
+  position: relative;
+  overflow: hidden;
+}
+.result-points::after {
+  content: '';
+  position: absolute;
+  top: -40%;
+  right: -10%;
+  width: 140px;
+  height: 140px;
+  background: radial-gradient(circle, rgba(255,255,255,.4), transparent 70%);
+}
+.result-points-icon {
+  width: 50px;
+  height: 50px;
+  border-radius: 16px;
+  background: rgba(255,255,255,.25);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255,255,255,.35);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  position: relative;
+  z-index: 1;
+}
+.result-points-icon .material-symbols-outlined { font-size: 28px; color: #fff; font-variation-settings: 'FILL' 1; }
+.result-points-text { flex: 1; position: relative; z-index: 1; }
+.result-points-label {
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,.85);
+}
+.result-points-value { font-size: 22px; font-weight: 800; color: #fff; letter-spacing: -.02em; }
+
+.result-badges { width: 100%; margin-bottom: 18px; animation: fadeUp .5s .7s both; }
+.result-badges-title {
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--text-3);
+  margin-bottom: 12px;
+  text-align: center;
+}
+.result-badges-list { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; }
+.result-badge {
+  background: rgba(255,255,255,.7);
+  backdrop-filter: blur(20px);
+  border: 1px solid var(--outline);
+  padding: 7px 12px;
+  border-radius: 100px;
+  font-size: 12px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  color: var(--text-3);
+}
+.result-badge.earned {
+  background: var(--badge-bg);
+  border-color: var(--badge-color);
+  color: var(--badge-color);
+  box-shadow: 0 4px 12px var(--badge-shadow);
+}
+.result-badge.earned .material-symbols-outlined { font-variation-settings: 'FILL' 1; }
+.result-badge.locked { opacity: .4; }
+.result-badge .material-symbols-outlined { font-size: 14px; }
+
+.result-actions { width: 100%; display: flex; flex-direction: column; gap: 10px; animation: fadeUp .5s .8s both; }
+.btn-primary, .btn-secondary {
+  width: 100%;
+  padding: 16px;
+  border: none;
+  border-radius: 16px;
+  font-family: 'Manrope', sans-serif;
+  font-size: 15px;
+  font-weight: 800;
+  letter-spacing: -.01em;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: transform .1s, box-shadow .15s;
+}
+.btn-primary {
+  background: linear-gradient(135deg, var(--primary), var(--primary-2));
+  color: #fff;
+  box-shadow: 0 10px 28px rgba(0,102,255,.4);
+}
+.btn-secondary {
+  background: rgba(255,255,255,.85);
+  backdrop-filter: blur(20px);
+  color: var(--text);
+  border: 1px solid var(--outline-2);
+}
+.btn-primary:active, .btn-secondary:active { transform: scale(.97); }
+.btn-primary .material-symbols-outlined,
+.btn-secondary .material-symbols-outlined { font-size: 20px; }
+
+
+/* ════ PORTAIL JEUX ════ */
+
+.portal-scroll {
+  flex: 1;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  background: var(--bg);
+  padding-bottom: 40px;
+}
+
+/* ── Hero ── */
+.ph {
+  position: relative;
+  padding: 32px 22px 28px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+.ph-bg {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(160deg, #c9d8ff 0%, #e8d5f5 50%, #ffd6e8 100%);
+  z-index: 0;
+}
+.ph-bg::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, transparent 60%, var(--bg) 100%);
+}
+.ph-icon-wrap {
+  position: relative;
+  z-index: 1;
+  width: 64px; height: 64px;
+  border-radius: 18px;
+  background: rgba(255,255,255,.55);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255,255,255,.7);
+  display: flex; align-items: center; justify-content: center;
+  margin-bottom: 14px;
+  box-shadow: 0 4px 16px rgba(100,120,200,.18);
+}
+.ph-icon {
+  font-size: 30px;
+  color: #0055ee;
+  font-variation-settings: 'FILL' 1;
+}
+.ph-title {
+  position: relative;
+  z-index: 1;
+  font-size: 30px;
+  font-weight: 900;
+  color: var(--text);
+  letter-spacing: -.03em;
+  margin-bottom: 6px;
+}
+.ph-sub {
+  position: relative;
+  z-index: 1;
+  font-size: 14px;
+  color: var(--text-2);
+  line-height: 1.4;
+  max-width: 280px;
+  margin-bottom: 18px;
+}
+.ph-pts-badge {
+  position: relative;
+  z-index: 1;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  background: rgba(255,184,0,.15);
+  border: 1px solid rgba(255,184,0,.4);
+  color: #a06800;
+  font-size: 13px;
+  font-weight: 800;
+  padding: 7px 14px;
+  border-radius: 100px;
+}
+.ph-pts-badge .material-symbols-outlined {
+  font-size: 15px;
+  color: #ffb800;
+  font-variation-settings: 'FILL' 1;
+}
+
+/* ── Section labels ── */
+.pg-section {
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: .1em;
+  color: var(--text-3);
+  padding: 20px 18px 8px;
+}
+
+/* ── Liste de jeux ── */
+.pg-list {
+  margin: 0 16px;
+  background: var(--surface);
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 2px 14px rgba(10,14,26,.06);
+  border: 1px solid var(--outline);
+}
+.pg-list--soon { opacity: .7; }
+
+.pg-row {
+  font-family: 'Manrope', system-ui, sans-serif;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 14px 16px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  text-align: left;
+  -webkit-tap-highlight-color: transparent;
+  transition: background .12s;
+}
+.pg-row:active { background: var(--bg); }
+.pg-row--soon { cursor: default; opacity: .85; }
+.pg-row--soon:active { background: none; }
+
+.pg-row-icon {
+  width: 52px; height: 52px;
+  border-radius: 14px;
+  flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+  box-shadow: 0 3px 10px rgba(0,0,0,.15);
+}
+.pg-row-icon .material-symbols-outlined {
+  font-size: 26px;
+  color: #fff;
+  font-variation-settings: 'FILL' 1;
+}
+
+.pg-row-body { flex: 1; min-width: 0; }
+.pg-row-title {
+  font-size: 15px;
+  font-weight: 800;
+  color: var(--text);
+  letter-spacing: -.01em;
+  margin-bottom: 2px;
+}
+.pg-row-sub {
+  font-size: 12px;
+  color: var(--text-2);
+  margin-bottom: 7px;
+}
+.pg-row-chips { display: flex; gap: 6px; }
+.pgc {
+  display: inline-flex; align-items: center; gap: 3px;
+  font-size: 10px; font-weight: 700;
+  padding: 4px 8px; border-radius: 100px;
+}
+.pgc .material-symbols-outlined { font-size: 11px; font-variation-settings: 'FILL' 1; }
+.pgc-blue   { background: rgba(0,85,238,.09);  color: #0055ee; }
+.pgc-orange { background: rgba(224,90,0,.09);  color: #c85a00; }
+
+.pg-row-chev {
+  font-size: 18px !important;
+  color: var(--text-3);
+  flex-shrink: 0;
+}
+
+.pg-soon-tag {
+  flex-shrink: 0;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: .05em;
+  color: var(--text-3);
+  background: var(--bg);
+  border: 1px solid var(--outline-2);
+  padding: 4px 9px;
+  border-radius: 100px;
+}
+
+.pg-divider {
+  height: 1px;
+  background: var(--outline);
+  margin-left: 82px;
+}
+
+#screen-marius {
+  flex: 1;
+  overflow: hidden;
+}
+#screen-marius iframe {
+  height: 100%;
+}
+
+
+/* ════ TERRITOIRE ════ */
+.territory-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 0 0 24px;
+}
+
+.territory-card {
+  font-family: 'Manrope', system-ui, sans-serif;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 14px 16px;
+  background: var(--surface);
+  border: none;
+  border-radius: 18px;
+  cursor: pointer;
+  text-align: left;
+  box-shadow: 0 2px 12px rgba(10,14,26,.08);
+  transition: transform .15s cubic-bezier(.34,1.56,.64,1), box-shadow .15s;
+  -webkit-tap-highlight-color: transparent;
+}
+.territory-card:active { transform: scale(.975); box-shadow: 0 1px 4px rgba(10,14,26,.05); }
+
+.territory-icon {
+  width: 56px; height: 56px;
+  border-radius: 16px;
+  flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+  box-shadow: 0 4px 12px rgba(0,0,0,.18);
+}
+.territory-icon .material-symbols-outlined {
+  font-size: 28px; color: #fff;
+  font-variation-settings: 'FILL' 1;
+}
+
+.territory-body { flex: 1; min-width: 0; }
+.territory-name {
+  font-family: 'Manrope', system-ui, sans-serif;
+  font-size: 16px; font-weight: 800;
+  color: var(--text); letter-spacing: -.02em;
+  margin-bottom: 3px;
+}
+.territory-desc {
+  font-family: 'Manrope', system-ui, sans-serif;
+  font-size: 12px; color: var(--text-2);
+  line-height: 1.4; margin-bottom: 8px;
+  font-weight: 500;
+}
+.territory-meta {
+  display: flex; gap: 14px;
+  font-family: 'Manrope', system-ui, sans-serif;
+  font-size: 11px; font-weight: 700; color: var(--text-3);
+}
+.territory-meta span {
+  display: inline-flex; align-items: center; gap: 4px;
+}
+.territory-meta .material-symbols-outlined { font-size: 13px; }
+.territory-chev {
+  font-size: 18px !important;
+  color: var(--text-3);
+  flex-shrink: 0;
+}
+
+
+/* ════ MINI JEUX ════ */
+.minigame-screen { flex:1; overflow-y:auto; padding:16px; display:flex; flex-direction:column; gap:14px; background:#f8f9fa; }
+.mg-card { background:#fff; border-radius:20px; padding:20px; border:1px solid #f0f0f0; box-shadow:0 2px 10px rgba(0,0,0,.05); }
+.mg-question { font-size:17px; font-weight:700; color:var(--text); line-height:1.4; margin-bottom:16px; text-align:center; }
+.mg-score-bar { display:flex; justify-content:space-between; align-items:center; margin-bottom:10px; }
+.mg-score { font-size:13px; font-weight:700; color:var(--accent); }
+.mg-progress { font-size:13px; color:var(--text-2); }
+.prog-bar-wrap { background:#f0f0f0; border-radius:20px; height:5px; margin-bottom:12px; overflow:hidden; }
+.prog-bar { height:100%; border-radius:20px; background:var(--accent); transition:width .4s; }
+.vf-result,.qs-result { margin-top:12px; padding:12px 14px; border-radius:12px; font-size:14px; font-weight:600; line-height:1.5; display:none; }
+.vf-result.show,.qs-result.show { display:block; }
+.vf-result.correct,.qs-result.correct { background:#d5f5e3; color:#1e8449; }
+.vf-result.wrong,.qs-result.wrong { background:#fadbd8; color:#c0392b; }
+.pm-img-wrap { border-radius:14px; overflow:hidden; margin-bottom:12px; }
+.pm-img { width:100%; height:200px; object-fit:cover; filter:blur(16px) brightness(.8); transition:filter .8s; }
+.pm-img.reveal { filter:none; }
+.pm-hint-btn { display:block; width:100%; padding:10px; background:var(--accent); color:#fff; border:none; border-radius:12px; font-size:14px; font-weight:700; cursor:pointer; margin-bottom:10px; }
+.pm-hint-btn:disabled { opacity:.4; }
+.pm-options { display:grid; grid-template-columns:1fr 1fr; gap:8px; }
+.pm-opt { padding:12px 8px; background:#f8f9fa; border:1.5px solid #eee; border-radius:14px; font-size:13px; font-weight:700; cursor:pointer; text-align:center; transition:all .15s; color:var(--text); }
+.pm-opt:hover { background:#f0f0f0; }
+.pm-opt.correct { border-color:#27ae60; background:#d5f5e3; color:#1e8449; }
+.pm-opt.wrong { border-color:#e74c3c; background:#fadbd8; color:#c0392b; }
+.pm-opt:disabled { cursor:default; }
+.qs-indices { display:flex; flex-direction:column; gap:8px; margin-bottom:14px; }
+.qs-indice { background:#f8f9fa; border-left:3px solid var(--accent); padding:10px 14px; border-radius:8px; font-size:14px; color:var(--text); display:none; }
+.qs-indice.show { display:block; }
+.qs-indice-num { font-weight:800; color:var(--accent); margin-right:6px; }
+.qs-input-row { display:flex; gap:8px; }
+.qs-input { flex:1; padding:12px 14px; border:2px solid #eee; border-radius:12px; font-size:15px; background:#fff; color:var(--text); font-family:inherit; }
+.qs-input:focus { outline:none; border-color:var(--accent); }
+.qs-submit { padding:12px 18px; background:var(--accent); color:#fff; border:none; border-radius:12px; font-size:14px; font-weight:700; cursor:pointer; }
+.qs-next-hint { display:block; width:100%; padding:10px; background:transparent; border:2px solid var(--accent); color:var(--accent); border-radius:10px; font-size:14px; font-weight:700; cursor:pointer; margin-top:10px; }
+.qs-next-hint:disabled { opacity:.4; cursor:default; }
+.mg-final { text-align:center; padding:20px 16px; }
+.mg-final-icon { width:64px; height:64px; background:var(--accent); border-radius:20px; display:flex; align-items:center; justify-content:center; margin:0 auto 12px; }
+.mg-final-icon .material-symbols-outlined { font-size:34px; color:#fff; }
+.mg-final-score { font-size:52px; font-weight:900; color:var(--accent); line-height:1; }
+.mg-final-label { font-size:16px; color:var(--text-2); margin-bottom:16px; }
+.mg-final-btn { padding:12px 32px; background:var(--accent); color:#fff; border:none; border-radius:20px; font-size:16px; font-weight:700; cursor:pointer; }
+/* MM */
+.mm-grid { display:inline-grid; gap:3px; }
+.mm-cell { width:30px; height:30px; display:flex; align-items:center; justify-content:center; font-size:14px; font-weight:700; border-radius:7px; cursor:pointer; background:#fff; border:1.5px solid #eee; color:var(--text); user-select:none; transition:all .1s; }
+.mm-cell.selected { background:var(--accent); color:#fff; border-color:var(--accent); transform:scale(1.1); }
+.mm-cell.found { background:#43e97b; color:#fff; border-color:#43e97b; }
+.mm-words { display:flex; flex-wrap:wrap; gap:6px; margin-top:12px; }
+.mm-word { padding:4px 10px; border-radius:16px; font-size:12px; font-weight:700; background:#f0f0f0; color:var(--text); }
+.mm-word.found { background:#43e97b; color:#fff; text-decoration:line-through; opacity:.7; }
+.mm-grid-wrap { text-align:center; overflow-x:auto; }
+/* MC */
+.mc-grid { display:inline-grid; gap:2px; }
+.mc-cell { width:32px; height:32px; display:flex; align-items:center; justify-content:center; font-size:13px; font-weight:800; border-radius:6px; position:relative; background:#fff; border:1.5px solid #eee; color:var(--text); cursor:pointer; }
+.mc-cell.black { background:#333; border-color:#333; cursor:default; }
+.mc-cell.active { background:rgba(var(--accent-rgb),.15); border-color:var(--accent); }
+.mc-cell.correct { background:rgba(67,233,123,.2); border-color:#43e97b; }
+.mc-num { position:absolute; top:1px; left:2px; font-size:7px; font-weight:700; color:#888; }
+.mc-clues { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:10px; }
+.mc-clue-group h4 { font-size:11px; font-weight:800; color:var(--accent); text-transform:uppercase; margin-bottom:5px; }
+.mc-clue { font-size:12px; color:var(--text); padding:3px 0; border-bottom:1px solid #f0f0f0; cursor:pointer; }
+.mc-clue span { font-weight:800; color:var(--accent); margin-right:3px; }
+.mc-keyboard { display:grid; grid-template-columns:repeat(10,1fr); gap:3px; margin-top:10px; }
+.mc-key { padding:8px 2px; background:#fff; border:1.5px solid #eee; border-radius:8px; font-size:12px; font-weight:700; cursor:pointer; text-align:center; transition:all .1s; font-family:inherit; }
+.mc-key:hover { background:#f0f0f0; }
+.mc-key.del { background:#fff0f0; color:#e74c3c; border-color:#fcc; }
+/* AG */
+.ag-letters { display:flex; flex-wrap:wrap; gap:8px; justify-content:center; margin:14px 0; }
+.ag-letter { width:40px; height:46px; display:flex; align-items:center; justify-content:center; font-size:19px; font-weight:800; border-radius:12px; cursor:pointer; background:#fff; border:1.5px solid #eee; color:var(--text); box-shadow:0 3px 8px rgba(0,0,0,.08); transition:all .15s; user-select:none; }
+.ag-letter:hover { transform:translateY(-2px); box-shadow:0 6px 14px rgba(0,0,0,.12); }
+.ag-letter.used { opacity:.2; cursor:default; transform:none; }
+.ag-answer { display:flex; flex-wrap:wrap; gap:8px; justify-content:center; min-height:52px; margin:8px 0; padding:10px; border-radius:14px; background:#f8f9fa; border:2px dashed #ddd; }
+.ag-answer-letter { width:40px; height:46px; display:flex; align-items:center; justify-content:center; font-size:19px; font-weight:800; border-radius:12px; cursor:pointer; background:var(--accent); color:#fff; box-shadow:0 3px 10px rgba(var(--accent-rgb),.3); transition:all .15s; }
+.ag-hint { font-size:13px; color:var(--text-2); text-align:center; font-style:italic; margin-top:4px; }
+.ag-validate { width:100%; padding:14px; border:none; border-radius:14px; margin-top:10px; background:var(--accent); color:#fff; font-size:15px; font-weight:800; cursor:pointer; transition:all .2s; font-family:inherit; }
+.ag-validate:disabled { opacity:.4; cursor:default; }
+/* BOUTIQUE */
+#screen-shop { background:#f8f9fa; font-family:'Manrope',system-ui,sans-serif; }
+.shop-wrap { flex:1; overflow-y:auto; padding:16px; display:flex; flex-direction:column; gap:14px; }
+.shop-header { background:#fff; border-radius:20px; padding:20px; display:flex; flex-direction:column; align-items:center; gap:6px; box-shadow:0 2px 10px rgba(0,0,0,.05); border:1px solid #f0f0f0; }
+.shop-points-label { font-size:11px; font-weight:700; color:#aaa; letter-spacing:.1em; text-transform:uppercase; }
+.shop-points-value { font-size:52px; font-weight:900; color:var(--accent); line-height:1; }
+.shop-points-sub { font-size:13px; color:#999; }
+.shop-tabs { display:flex; gap:10px; width:100%; }
+.shop-tab { flex:1; padding:13px 8px; border:none; border-radius:14px; font-size:14px; font-weight:800; cursor:pointer; transition:all .2s; background:#1a1a1a; color:#fff; font-family:'Manrope',system-ui,sans-serif; opacity:.3; }
+.shop-tab.active { opacity:1; box-shadow:0 4px 14px rgba(0,0,0,.2); }
+.shop-section-title { font-size:11px; font-weight:800; color:#bbb; text-transform:uppercase; letter-spacing:.1em; padding:0 4px; }
+.gift-grid { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+.gift-card { background:#fff; border:1.5px solid #f0f0f0; border-radius:18px; padding:16px 12px; display:flex; flex-direction:column; align-items:center; gap:7px; text-align:center; transition:all .2s; box-shadow:0 2px 8px rgba(0,0,0,.04); }
+.gift-card:hover { transform:translateY(-2px); box-shadow:0 6px 20px rgba(0,0,0,.08); }
+.gift-card.owned { border-color:#43e97b; background:#f0fdf4; }
+.gift-img-wrap { width:100%; aspect-ratio:1; border-radius:12px; overflow:hidden; background:#f5f5f5; display:flex; align-items:center; justify-content:center; }
+.gift-img { width:100%; height:100%; object-fit:cover; }
+.gift-icon-fallback { width:100%; height:100%; display:flex; align-items:center; justify-content:center; }
+.gift-icon-fallback .material-symbols-outlined { font-size:36px; color:var(--accent); }
+.gift-name { font-size:13px; font-weight:800; color:#1a1a1a; }
+.gift-desc { font-size:11px; color:#999; line-height:1.4; }
+.gift-price { display:flex; align-items:center; gap:4px; font-size:13px; font-weight:800; color:var(--accent); background:rgba(var(--accent-rgb),.08); padding:4px 12px; border-radius:16px; }
+.gift-btn { width:100%; padding:10px; border:none; border-radius:12px; font-size:13px; font-weight:800; cursor:pointer; transition:all .2s; background:var(--accent); color:#fff; font-family:'Manrope',system-ui,sans-serif; }
+.gift-btn:disabled { background:#eee; color:#bbb; cursor:default; }
+.gift-btn.owned-btn { background:#43e97b; }
+.fidelity-card { background:#fff; border:1.5px solid #f0f0f0; border-radius:18px; padding:16px; display:flex; align-items:center; gap:12px; box-shadow:0 2px 8px rgba(0,0,0,.04); transition:all .2s; }
+.fidelity-card:hover { transform:translateY(-1px); box-shadow:0 5px 16px rgba(0,0,0,.08); }
+.fidelity-img-wrap { width:56px; height:56px; flex-shrink:0; border-radius:12px; overflow:hidden; background:#f5f5f5; display:flex; align-items:center; justify-content:center; }
+.fidelity-img { width:100%; height:100%; object-fit:cover; }
+.fidelity-icon-fallback { width:100%; height:100%; display:flex; align-items:center; justify-content:center; }
+.fidelity-icon-fallback .material-symbols-outlined { font-size:24px; color:var(--accent); }
+.fidelity-body { flex:1; }
+.fidelity-title { font-size:14px; font-weight:800; color:#1a1a1a; }
+.fidelity-desc { font-size:12px; color:#999; margin-top:3px; line-height:1.4; }
+.fidelity-cost { font-size:13px; font-weight:800; color:var(--accent); margin-top:5px; display:flex; align-items:center; gap:3px; }
+.fidelity-convert-btn { padding:10px 14px; border:none; border-radius:12px; background:var(--accent); color:#fff; font-size:13px; font-weight:800; cursor:pointer; flex-shrink:0; white-space:nowrap; font-family:'Manrope',system-ui,sans-serif; }
+.fidelity-convert-btn:disabled { background:#eee; color:#bbb; cursor:default; }
+#shop-toast { position:fixed; bottom:80px; left:50%; transform:translateX(-50%) translateY(20px); background:#1a1a1a; border-radius:20px; padding:12px 24px; color:#fff; font-size:14px; font-weight:700; opacity:0; transition:all .3s; z-index:999; pointer-events:none; white-space:nowrap; box-shadow:0 8px 24px rgba(0,0,0,.2); }
+#shop-toast.show { opacity:1; transform:translateX(-50%) translateY(0); }
+.shop-nav-btn { display:flex; align-items:center; justify-content:space-between; background:#fff; border:1.5px solid #f0f0f0; border-radius:20px; padding:14px 16px; width:100%; cursor:pointer; transition:all .2s; gap:12px; box-shadow:0 2px 8px rgba(0,0,0,.04); font-family:'Manrope',system-ui,sans-serif; }
+.shop-nav-btn:hover { transform:translateY(-2px); box-shadow:0 8px 24px rgba(0,0,0,.08); }
+.shop-nav-left { display:flex; align-items:center; gap:12px; }
+.shop-nav-title { font-size:15px; font-weight:800; color:var(--text); font-family:'Manrope',system-ui,sans-serif; letter-spacing:-.02em; }
+.shop-nav-sub { font-size:12px; color:var(--text-2); font-family:'Manrope',system-ui,sans-serif; margin-top:2px; }
+.shop-nav-pts { font-size:24px; font-weight:900; color:var(--accent); font-family:'Manrope',system-ui,sans-serif; letter-spacing:-.03em; }
+.shop-info-note { background:#f8f9fa; border-radius:14px; padding:14px; font-size:12px; color:#aaa; text-align:center; line-height:1.6; border:1px solid #f0f0f0; }
+/* Portail grid */
+.portal-scroll { flex:1; overflow-y:auto; -webkit-overflow-scrolling:touch; background:var(--bg); padding-bottom:40px; padding-left:16px; padding-right:16px; }
+.portal-scroll .pg-list { display:grid; grid-template-columns:1fr 1fr; gap:12px; padding:0; }
+.portal-scroll .pg-divider { display:none; }
+.portal-scroll .pg-row { flex-direction:column; align-items:center; justify-content:flex-start; padding:18px 12px 16px; border-radius:22px; text-align:center; gap:10px; background:#fff; border:1.5px solid #f0f0f0; box-shadow:0 2px 10px rgba(0,0,0,.05); transition:all .2s; min-height:140px; }
+.portal-scroll .pg-row:hover { transform:translateY(-3px); box-shadow:0 8px 24px rgba(0,0,0,.1); }
+.portal-scroll .pg-row-icon { width:56px; height:56px; border-radius:16px; flex-shrink:0; display:flex; align-items:center; justify-content:center; box-shadow:0 4px 12px rgba(0,0,0,.15); }
+.portal-scroll .pg-row-icon .material-symbols-outlined { font-size:28px; }
+.portal-scroll .pg-row-body { width:100%; }
+.portal-scroll .pg-row-title { font-size:14px; font-weight:800; color:var(--text); }
+.portal-scroll .pg-row-sub { font-size:11px; color:var(--text-2); margin-top:2px; }
+.portal-scroll .pg-row-chips { justify-content:center; margin-top:6px; }
+.portal-scroll .pg-row-chev { display:none; }
+.portal-scroll .pg-section { grid-column:1/-1; }
+.ph { position:relative; padding:32px 22px 28px; overflow:hidden; display:flex; flex-direction:column; align-items:flex-start; margin:0 -16px; }
+/* Roue */
+#wheel-overlay { display:none; position:fixed; inset:0; z-index:9999; background:rgba(10,14,26,.6); backdrop-filter:blur(10px); -webkit-backdrop-filter:blur(10px); align-items:flex-end; justify-content:center; }
+#wheel-overlay.show { display:flex; }
+#wheel-modal { background:#fff; border-radius:32px 32px 0 0; box-shadow:0 -8px 40px rgba(0,0,0,.15); width:100%; max-width:480px; padding:12px 24px 36px; display:flex; flex-direction:column; align-items:center; gap:14px; position:relative; }
+#wheel-modal::before { content:''; width:40px; height:4px; background:#e0e0e0; border-radius:2px; margin-bottom:4px; }
+#wheel-close { position:absolute; top:16px; right:16px; background:#f0f0f0; border:none; border-radius:50%; width:34px; height:34px; display:flex; align-items:center; justify-content:center; cursor:pointer; color:#666; }
+#wheel-close:hover { background:#e0e0e0; }
+#wheel-title { font-size:20px; font-weight:800; color:#1a1a1a; text-align:center; }
+#wheel-subtitle { font-size:13px; color:#999; text-align:center; margin-top:-10px; }
+#wheel-wrap { position:relative; width:280px; height:280px; }
+#wheel-canvas { display:block; }
+#wheel-pointer { position:absolute; top:-10px; left:50%; transform:translateX(-50%); width:0; height:0; border-left:10px solid transparent; border-right:10px solid transparent; border-top:22px solid #ff3b30; filter:drop-shadow(0 2px 4px rgba(255,59,48,.5)); z-index:2; }
+#wheel-spin-btn { width:100%; padding:16px; border:none; border-radius:20px; background:linear-gradient(135deg,#ff6b35,#f7c948); color:#fff; font-size:17px; font-weight:800; cursor:pointer; font-family:'Manrope',system-ui,sans-serif; box-shadow:0 6px 20px rgba(255,107,53,.35); transition:all .2s; }
+#wheel-spin-btn:hover:not(:disabled) { transform:translateY(-2px); }
+#wheel-spin-btn:disabled { opacity:.5; cursor:default; transform:none; }
+#wheel-result { display:none; text-align:center; padding:16px; border-radius:18px; background:#f8f9fa; border:1.5px solid #eee; width:100%; }
+#wheel-result.show { display:block; }
+#wheel-result-icon .material-symbols-outlined { font-size:40px; color:var(--accent); }
+#wheel-result-title { font-size:17px; font-weight:800; color:#1a1a1a; margin-top:6px; }
+#wheel-result-sub { font-size:13px; color:#999; margin-top:4px; }
+#wheel-next-info { font-size:12px; color:#bbb; text-align:center; }
+
+</style>
+</head>
+<body>
+
+<div class="app">
+  <header class="header">
+    <button class="header-back" onclick="onBack()">
+      <span class="material-symbols-outlined">arrow_back</span>
+    </button>
+    <div class="header-title">
+      <span class="header-eyebrow" id="header-eyebrow">JEUX</span>
+      <span class="header-name" id="header-name">Rochefort-du-Gard</span>
+    </div>
+    <div class="header-points" id="header-points" style="display:none">
+      <span class="material-symbols-outlined">stars</span>
+      <span id="points-value">0</span>
+    </div>
+  </header>
+  <!-- ════ PORTAIL JEUX ════ -->
+  <section class="screen active" id="screen-portal">
+    <div class="portal-scroll">
+
+      <!-- HERO -->
+      <div class="ph">
+        <div class="ph-bg"></div>
+        <div class="ph-icon-wrap">
+          <span class="material-symbols-outlined ph-icon">videogame_asset</span>
+        </div>
+        <h1 class="ph-title">Mini-Jeux</h1>
+        <p class="ph-sub">Jouez et gagnez des points fidélité sur votre ville</p>
+        <div class="ph-pts-badge">
+          <span class="material-symbols-outlined">stars</span>
+          <span id="portal-points">0</span> pts
+        </div>
+      </div>
+
+      <!-- JEUX DISPO -->
+      <!-- BOUTIQUE -->
+      <button class="shop-nav-btn" onclick="goToShop()">
+        <div class="shop-nav-left">
+          <div class="pg-row-icon" style="background:linear-gradient(145deg,#f7c948,#ff6b35);width:52px;height:52px;border-radius:16px;flex-shrink:0">
+            <span class="material-symbols-outlined" style="font-size:26px;color:#fff">redeem</span>
+          </div>
+          <div>
+            <div class="shop-nav-title">Boutique Récompenses</div>
+            <div class="shop-nav-sub">Cadeaux & Fidélité</div>
+          </div>
+        </div>
+        <div style="display:flex;flex-direction:column;align-items:flex-end">
+          <div class="shop-nav-pts" id="portal-shop-pts">0</div>
+          <div style="font-size:10px;color:var(--text-2)">pts</div>
+        </div>
+      </button>
+      <div style="height:4px"></div>
+      <div class="pg-section">DISPONIBLES</div>
+
+      <div class="pg-list">
+
+        <button class="pg-row" onclick="goToQuiz()">
+          <div class="pg-row-icon" style="background:linear-gradient(145deg,#5e9fff,#0055ee)">
+            <span class="material-symbols-outlined">auto_stories</span>
+          </div>
+          <div class="pg-row-body">
+            <div class="pg-row-title">Quiz Patrimoine</div>
+            <div class="pg-row-sub">Culture &amp; Histoire · 3 niveaux</div>
+            <div class="pg-row-chips">
+              <span class="pgc pgc-blue"><span class="material-symbols-outlined">stars</span>Points fidélité</span>
+            </div>
+          </div>
+          <span class="material-symbols-outlined pg-row-chev">chevron_right</span>
+        </button>
+
+        <div class="pg-divider"></div>
+
+        <div class="pg-divider"></div>
+        <button class="pg-row" onclick="goToVF()">
+          <div class="pg-row-icon" style="background:linear-gradient(145deg,#43e97b,#1db954)"><span class="material-symbols-outlined">check_circle</span></div>
+          <div class="pg-row-body"><div class="pg-row-title">Vrai ou Faux</div><div class="pg-row-sub">Provençal · 20 questions</div><div class="pg-row-chips"><span class="pgc pgc-green"><span class="material-symbols-outlined">stars</span>Points fidélité</span></div></div>
+        </button>
+        <div class="pg-divider"></div>
+        <button class="pg-row" onclick="goToPM()">
+          <div class="pg-row-icon" style="background:linear-gradient(145deg,#f7971e,#ffd200)"><span class="material-symbols-outlined">photo_camera</span></div>
+          <div class="pg-row-body"><div class="pg-row-title">Photo Mystère</div><div class="pg-row-sub">Monuments de la région</div><div class="pg-row-chips"><span class="pgc pgc-orange"><span class="material-symbols-outlined">stars</span>Points fidélité</span></div></div>
+        </button>
+        <div class="pg-divider"></div>
+        <button class="pg-row" onclick="goToQS()">
+          <div class="pg-row-icon" style="background:linear-gradient(145deg,#a18cd1,#fbc2eb)"><span class="material-symbols-outlined">psychology</span></div>
+          <div class="pg-row-body"><div class="pg-row-title">Qui Suis-Je ?</div><div class="pg-row-sub">Personnages historiques</div><div class="pg-row-chips"><span class="pgc pgc-green"><span class="material-symbols-outlined">stars</span>Points fidélité</span></div></div>
+        </button>
+        <div class="pg-divider"></div>
+        <button class="pg-row" onclick="goToMM()">
+          <div class="pg-row-icon" style="background:linear-gradient(145deg,#56ccf2,#2f80ed)"><span class="material-symbols-outlined">grid_on</span></div>
+          <div class="pg-row-body"><div class="pg-row-title">Mots Mêlés</div><div class="pg-row-sub">Trouve les mots cachés</div><div class="pg-row-chips"><span class="pgc pgc-green"><span class="material-symbols-outlined">stars</span>Points fidélité</span></div></div>
+        </button>
+        <div class="pg-divider"></div>
+        <button class="pg-row" onclick="goToMC()">
+          <div class="pg-row-icon" style="background:linear-gradient(145deg,#f953c6,#b91d73)"><span class="material-symbols-outlined">border_all</span></div>
+          <div class="pg-row-body"><div class="pg-row-title">Mots Croisés</div><div class="pg-row-sub">Histoire & Patrimoine</div><div class="pg-row-chips"><span class="pgc pgc-orange"><span class="material-symbols-outlined">stars</span>Points fidélité</span></div></div>
+        </button>
+        <div class="pg-divider"></div>
+        <button class="pg-row" onclick="goToAG()">
+          <div class="pg-row-icon" style="background:linear-gradient(145deg,#f7971e,#ffd200)"><span class="material-symbols-outlined">sort_by_alpha</span></div>
+          <div class="pg-row-body"><div class="pg-row-title">Anagramme</div><div class="pg-row-sub">Reconstitue les mots</div><div class="pg-row-chips"><span class="pgc pgc-orange"><span class="material-symbols-outlined">stars</span>Points fidélité</span></div></div>
+        </button>
+        <div class="pg-divider"></div>
+        <button class="pg-row" onclick="openWheel()">
+          <div class="pg-row-icon" style="background:linear-gradient(145deg,#ffcc70,#e09500)"><span class="material-symbols-outlined">casino</span></div>
+          <div class="pg-row-body"><div class="pg-row-title">Roue des Récompenses</div><div class="pg-row-sub">Tentez votre chance</div><div class="pg-row-chips"><span class="pgc pgc-orange"><span class="material-symbols-outlined">stars</span>Points & Goodies</span></div></div>
+        </button>
+
+      </div>
+
+      <!-- BIENTÔT -->
+      <div class="pg-section">BIENTÔT</div>
+
+      <div class="pg-list pg-list--soon">
+
+        <div class="pg-row pg-row--soon">
+          <div class="pg-row-icon" style="background:linear-gradient(145deg,#b0b8cc,#8892a8)">
+            <span class="material-symbols-outlined">grid_view</span>
+          </div>
+          <div class="pg-row-body">
+            <div class="pg-row-title">Memory Patrimoine</div>
+            <div class="pg-row-sub">Retrouvez les paires de monuments</div>
+          </div>
+          <span class="pg-soon-tag">Bientôt</span>
+        </div>
+
+        <div class="pg-divider"></div>
+
+        <div class="pg-row pg-row--soon">
+          <div class="pg-row-icon" style="background:linear-gradient(145deg,#7ecda8,#1e9e6a)">
+            <span class="material-symbols-outlined">location_searching</span>
+          </div>
+          <div class="pg-row-body">
+            <div class="pg-row-title">Chasse au trésor</div>
+            <div class="pg-row-sub">Explorez la ville et trouvez les indices</div>
+          </div>
+          <span class="pg-soon-tag">Bientôt</span>
+        </div>
+
+        <div class="pg-divider"></div>
+
+
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ════ MARIUS BROS (iframe) ════ -->
+
+<!-- BOUTIQUE -->
+<section class="screen" id="screen-shop">
+  <div class="shop-wrap" id="shop-wrap"></div>
+  <div id="shop-toast"></div>
+</section>
+<!-- VRAI OU FAUX -->
+<section class="screen" id="screen-vf"><div class="minigame-screen" id="vf-container"></div></section>
+<!-- PHOTO MYSTERE -->
+<section class="screen" id="screen-pm"><div class="minigame-screen" id="pm-container"></div></section>
+<!-- QUI SUIS-JE -->
+<section class="screen" id="screen-qs"><div class="minigame-screen" id="qs-container"></div></section>
+<!-- MOTS MÊLÉS -->
+<section class="screen" id="screen-mm"><div class="minigame-screen" id="mm-container"></div></section>
+<!-- MOTS CROISÉS -->
+<section class="screen" id="screen-mc"><div class="minigame-screen" id="mc-container"></div></section>
+<!-- ANAGRAMME -->
+<section class="screen" id="screen-ag"><div class="minigame-screen" id="ag-container"></div></section>
+<!-- ROUE -->
+<div id="wheel-overlay">
+  <div id="wheel-modal">
+    <button id="wheel-close" onclick="closeWheel()"><span class="material-symbols-outlined" style="font-size:18px">close</span></button>
+    <div id="wheel-title">Roue des Récompenses</div>
+    <div id="wheel-subtitle">1 tour gratuit par jour</div>
+    <div id="wheel-wrap">
+      <canvas id="wheel-canvas" style="width:280px;height:280px"></canvas>
+      <div id="wheel-pointer"></div>
+    </div>
+    <div id="wheel-result">
+      <div id="wheel-result-icon"></div>
+      <div id="wheel-result-title"></div>
+      <div id="wheel-result-sub"></div>
+    </div>
+    <button id="wheel-spin-btn" onclick="spinWheel()">TOURNER LA ROUE</button>
+    <div id="wheel-next-info"></div>
+  </div>
+</div>
+
+
+
+
+
+
+  <!-- Choix territoire -->
+  <section class="screen" id="screen-territory">
+    <div class="intro-hero">
+      <div class="intro-hero-content">
+        <div class="intro-icon"><span class="material-symbols-outlined">map</span></div>
+        <h1 class="intro-title">Quiz Patrimoine</h1>
+        <p class="intro-subtitle">Choisissez votre territoire de jeu</p>
+      </div>
+    </div>
+    <div class="levels-list">
+      <div class="section-label">Territoire</div>
+      <div class="territory-list">
+
+        <button class="territory-card" onclick="selectTerritory('villeneuve')">
+          <div class="territory-icon" style="background:linear-gradient(145deg,#4facfe,#0055ee)">
+            <span class="material-symbols-outlined">location_city</span>
+          </div>
+          <div class="territory-body">
+            <div class="territory-name">Rochefort-du-Gard</div>
+            <div class="territory-desc">Patrimoine local · Chartreuse, Fort, Tour Philippe-le-Bel</div>
+            <div class="territory-meta">
+              <span><span class="material-symbols-outlined">help</span>37 questions</span>
+              <span><span class="material-symbols-outlined">workspace_premium</span>3 niveaux</span>
+            </div>
+          </div>
+          <span class="material-symbols-outlined territory-chev">chevron_right</span>
+        </button>
+
+        <button class="territory-card" onclick="selectTerritory('provence')">
+          <div class="territory-icon" style="background:linear-gradient(145deg,#a8e88a,#1e9e6a)">
+            <span class="material-symbols-outlined">landscape</span>
+          </div>
+          <div class="territory-body">
+            <div class="territory-name">La Provence</div>
+            <div class="territory-desc">Culture régionale · Gastronomie, Nature, Histoire, Art</div>
+            <div class="territory-meta">
+              <span><span class="material-symbols-outlined">help</span>37 questions</span>
+              <span><span class="material-symbols-outlined">workspace_premium</span>3 niveaux</span>
+            </div>
+          </div>
+          <span class="material-symbols-outlined territory-chev">chevron_right</span>
+        </button>
+
+      </div>
+    </div>
+  </section>
+
+  <section class="screen" id="screen-levels">
+    <div class="intro-hero">
+      <div class="intro-hero-content">
+        <div class="intro-icon"><span class="material-symbols-outlined" id="levels-hero-icon">menu_book</span></div>
+        <h1 class="intro-title" id="levels-hero-title">Quiz Patrimoine</h1>
+        <p class="intro-subtitle" id="levels-hero-sub">Testez votre connaissance et gagnez des points fidélité.</p>
+      </div>
+    </div>
+    <div class="levels-list">
+      <div class="section-label">Choisissez votre niveau</div>
+      <div id="levels-container"></div>
+    </div>
+  </section>
+
+  <section class="screen" id="screen-game">
+    <div class="game-progress">
+      <div class="game-progress-top">
+        <span class="game-progress-label" id="game-level-label">Apprenti</span>
+        <span class="game-progress-count" id="game-count">1 / 10</span>
+      </div>
+      <div class="game-progress-bar">
+        <div class="game-progress-fill" id="progress-fill" style="width:10%"></div>
+      </div>
+    </div>
+    <div class="question-scroll">
+      <div class="question-wrap" id="question-wrap"></div>
+    </div>
+
+    <div class="exp-backdrop" id="exp-backdrop"></div>
+    <div class="explanation" id="explanation">
+      <div class="exp-handle"></div>
+      <div class="exp-header">
+        <div class="exp-icon" id="exp-icon">
+          <span class="material-symbols-outlined" id="exp-icon-sym">check</span>
+        </div>
+        <div class="exp-title" id="exp-title">Bonne réponse !</div>
+      </div>
+      <div class="exp-text" id="exp-text"></div>
+      <button class="exp-next" onclick="nextQuestion()">
+        <span id="exp-next-label">Question suivante</span>
+        <span class="material-symbols-outlined">arrow_forward</span>
+      </button>
+    </div>
+  </section>
+
+  <section class="screen" id="screen-results"></section>
+
+</div>
+
+<script>
+const Q = window.QUIZ_ROCHEFORT;
+
+const LEVEL_STYLES = {
+  apprenti:    { grad: 'linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)', shadow: 'rgba(79,172,254,.45)' },
+  connaisseur: { grad: 'linear-gradient(135deg, #fa709a 0%, #fee140 100%)', shadow: 'rgba(250,112,154,.4)' },
+  maitre:      { grad: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)', shadow: 'rgba(118,75,162,.45)' }
+};
+
+const BADGE_COLORS = {
+  medieval: '#8b5cf6',
+  religieux: '#0066ff',
+  royal: '#ffb800',
+  artistique: '#ff3b8a',
+  architectural: '#00d68f'
+};
+
+function getStoredPoints() { try { return parseInt(localStorage.getItem('cdv_loyalty_points') || '0'); } catch { return 0; } }
+function addStoredPoints(n) { try { localStorage.setItem('cdv_loyalty_points', String(getStoredPoints() + n)); } catch {} }
+
+let state = { levelKey: null, questions: [], current: 0, correct: 0, earnedBadges: new Set(), startTime: 0 };
+
+function showScreen(id) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+}
+
+function hexToRgba(hex, alpha) {
+  const r = parseInt(hex.slice(1,3), 16);
+  const g = parseInt(hex.slice(3,5), 16);
+  const b = parseInt(hex.slice(5,7), 16);
+  return `rgba(${r},${g},${b},${alpha})`;
+}
+
+function renderLevels() {
+  const container = document.getElementById('levels-container');
+  container.innerHTML = '';
+  const QQ = window._currentQ || Q;
+  Object.entries(QQ.levels).forEach(([key, level]) => {
+    const style = LEVEL_STYLES[key];
+    const card = document.createElement('div');
+    card.className = 'level-card';
+    card.style.setProperty('--level-grad', style.grad);
+    card.style.setProperty('--level-shadow', style.shadow);
+    card.innerHTML = `
+      <div class="level-icon-wrap">
+        <span class="material-symbols-outlined">${level.icon}</span>
+      </div>
+      <div class="level-content">
+        <div class="level-name">${level.name}</div>
+        <div class="level-label">${level.label}</div>
+        <div class="level-meta">
+          <div class="level-meta-item"><span class="material-symbols-outlined">help</span>${level.questions.length} questions</div>
+          <div class="level-meta-item"><span class="material-symbols-outlined">stars</span>+${level.reward_points} pts</div>
+        </div>
+      </div>
+      <div class="level-arrow"><span class="material-symbols-outlined">chevron_right</span></div>
+    `;
+    card.onclick = () => startLevel(key, window._currentQ || Q);
+    container.appendChild(card);
+  });
+}
+
+function startLevel(levelKey, QQ) {
+  QQ = QQ || window._currentQ || Q;
+  const level = QQ.levels[levelKey];
+  state = { levelKey, questions: [...level.questions], current: 0, correct: 0, earnedBadges: new Set(), startTime: Date.now(), QQ };
+  document.getElementById('game-level-label').textContent = level.name;
+  document.getElementById('header-points').style.display = 'flex';
+  document.getElementById('points-value').textContent = '0';
+  showScreen('screen-game');
+  renderQuestion();
+}
+
+function renderQuestion() {
+  const q = state.questions[state.current];
+  const total = state.questions.length;
+  document.getElementById('game-count').textContent = `${state.current + 1} / ${total}`;
+  document.getElementById('progress-fill').style.width = `${(state.current / total) * 100}%`;
+
+  const badge = (state.QQ || Q).badges[q.badge] || Q.badges[q.badge] || { name: q.badge, icon: 'star', color: '#888' };
+  const badgeColor = BADGE_COLORS[q.badge] || badge.color;
+  const wrap = document.getElementById('question-wrap');
+  wrap.innerHTML = `
+    <div class="question-badge" style="--badge-bg:${hexToRgba(badgeColor,.1)};--badge-color:${badgeColor};--badge-border:${hexToRgba(badgeColor,.25)}">
+      <span class="material-symbols-outlined">${badge.icon}</span>
+      ${badge.name}
+    </div>
+    <div class="question-text">${q.question}</div>
+    <div id="answers-zone"></div>
+  `;
+  const zone = document.getElementById('answers-zone');
+  if (q.type === 'qcm') renderQCM(zone, q);
+  else if (q.type === 'vrai_faux') renderVraiFaux(zone, q);
+  hideExplanation();
+}
+
+function renderQCM(zone, q) {
+  const list = document.createElement('div');
+  list.className = 'options-list';
+  const letters = ['A', 'B', 'C', 'D'];
+  q.options.forEach((opt, i) => {
+    const btn = document.createElement('button');
+    btn.className = 'option';
+    btn.innerHTML = `
+      <div class="option-letter">${letters[i]}</div>
+      <div class="option-text">${opt}</div>
+      <span class="material-symbols-outlined option-icon">check_circle</span>
+    `;
+    btn.onclick = () => answerQCM(i, q, list);
+    list.appendChild(btn);
+  });
+  zone.appendChild(list);
+}
+
+function answerQCM(choice, q, list) {
+  const buttons = list.querySelectorAll('.option');
+  const isCorrect = choice === q.answer;
+  buttons.forEach((b, i) => {
+    b.disabled = true;
+    if (i === q.answer) { b.classList.add('correct'); b.querySelector('.option-icon').textContent = 'check_circle'; }
+    else if (i === choice) { b.classList.add('wrong'); b.querySelector('.option-icon').textContent = 'cancel'; }
+    else b.classList.add('dimmed');
+  });
+  finalizeAnswer(q, isCorrect);
+}
+
+function renderVraiFaux(zone, q) {
+  const wrap = document.createElement('div');
+  wrap.className = 'tf-wrap';
+  ['true', 'false'].forEach((val) => {
+    const btn = document.createElement('button');
+    btn.className = 'tf-btn';
+    btn.innerHTML = `<span class="material-symbols-outlined">${val === 'true' ? 'check_circle' : 'cancel'}</span>${val === 'true' ? 'Vrai' : 'Faux'}`;
+    btn.onclick = () => answerTF(val === 'true', q, wrap);
+    wrap.appendChild(btn);
+  });
+  zone.appendChild(wrap);
+}
+
+function answerTF(choice, q, wrap) {
+  const buttons = wrap.querySelectorAll('.tf-btn');
+  const isCorrect = choice === q.answer;
+  buttons.forEach((b, i) => {
+    b.disabled = true;
+    const isThisTrue = i === 0;
+    if (isThisTrue === q.answer) b.classList.add('correct');
+    else if (isThisTrue === choice) b.classList.add('wrong');
+    else b.classList.add('dimmed');
+  });
+  finalizeAnswer(q, isCorrect);
+}
+
+function finalizeAnswer(q, isCorrect) {
+  if (isCorrect) {
+    state.correct++;
+    state.earnedBadges.add(q.badge);
+    document.getElementById('points-value').textContent = state.correct;
+  }
+  showExplanation(q, isCorrect);
+}
+
+function showExplanation(q, isCorrect) {
+  const exp = document.getElementById('explanation');
+  const backdrop = document.getElementById('exp-backdrop');
+  const icon = document.getElementById('exp-icon');
+  const sym = document.getElementById('exp-icon-sym');
+  const title = document.getElementById('exp-title');
+  const text = document.getElementById('exp-text');
+  const nextLabel = document.getElementById('exp-next-label');
+  icon.classList.remove('correct', 'wrong');
+  icon.classList.add(isCorrect ? 'correct' : 'wrong');
+  sym.textContent = isCorrect ? 'check' : 'close';
+  title.textContent = isCorrect ? 'Bonne réponse !' : 'Pas tout à fait...';
+  text.textContent = q.explanation;
+  nextLabel.textContent = state.current + 1 === state.questions.length ? 'Voir mon score' : 'Question suivante';
+  setTimeout(() => {
+    backdrop.classList.add('show');
+    exp.classList.add('show');
+  }, 200);
+}
+
+function hideExplanation() {
+  document.getElementById('explanation').classList.remove('show');
+  document.getElementById('exp-backdrop').classList.remove('show');
+}
+
+function nextQuestion() {
+  hideExplanation();
+  setTimeout(() => {
+    state.current++;
+    if (state.current >= state.questions.length) showResults();
+    else renderQuestion();
+  }, 350);
+}
+
+function showResults() {
+  document.getElementById('progress-fill').style.width = '100%';
+  const level = Q.levels[state.levelKey];
+  const total = state.questions.length;
+  const correct = state.correct;
+  const percent = Math.round((correct / total) * 100);
+  const elapsed = Math.round((Date.now() - state.startTime) / 1000);
+  const minutes = Math.floor(elapsed / 60);
+  const seconds = elapsed % 60;
+
+  let pointsGained = 0;
+  if (percent >= 80) pointsGained = level.reward_points;
+  else if (percent >= 50) pointsGained = Math.round(level.reward_points / 2);
+  else pointsGained = 1;
+  addStoredPoints(pointsGained);
+
+  let rank, message, medalIcon, medalGrad, medalShadow;
+  if (percent === 100) {
+    rank = "Score parfait !"; message = "Vous connaissez Villeneuve mieux que personne.";
+    medalIcon = "workspace_premium"; medalGrad = "linear-gradient(135deg, #ffb800, #ff7a00)"; medalShadow = "rgba(255,184,0,.5)";
+  } else if (percent >= 80) {
+    rank = "Excellent !"; message = "Votre culture du patrimoine villeneuvois est remarquable.";
+    medalIcon = "military_tech"; medalGrad = "linear-gradient(135deg, #fa709a, #fee140)"; medalShadow = "rgba(250,112,154,.4)";
+  } else if (percent >= 50) {
+    rank = "Bon niveau"; message = "Beau parcours ! Continuez à explorer.";
+    medalIcon = "emoji_events"; medalGrad = "linear-gradient(135deg, #4facfe, #00f2fe)"; medalShadow = "rgba(79,172,254,.4)";
+  } else {
+    rank = "À améliorer"; message = "C'est un début ! Visitez la ville et retentez votre chance.";
+    medalIcon = "school"; medalGrad = "linear-gradient(135deg, #a18cd1, #fbc2eb)"; medalShadow = "rgba(161,140,209,.4)";
+  }
+
+  document.getElementById('screen-results').innerHTML = `<div class="results-inner">
+    <div class="result-medal" style="--medal-grad:${medalGrad};--medal-shadow:${medalShadow}">
+      <span class="material-symbols-outlined">${medalIcon}</span>
+    </div>
+    <div class="result-rank">${rank}</div>
+    <div class="result-message">${message}</div>
+    <div class="result-score-card">
+      <div class="result-score-row">
+        <div class="result-score-label"><span class="material-symbols-outlined">check_circle</span>Bonnes réponses</div>
+        <div class="result-score-value highlight">${correct} / ${total}</div>
+      </div>
+      <div class="result-score-row">
+        <div class="result-score-label"><span class="material-symbols-outlined">percent</span>Score</div>
+        <div class="result-score-value">${percent}%</div>
+      </div>
+      <div class="result-score-row">
+        <div class="result-score-label"><span class="material-symbols-outlined">schedule</span>Temps</div>
+        <div class="result-score-value">${minutes}:${String(seconds).padStart(2,'0')}</div>
+      </div>
+    </div>
+    <div class="result-points">
+      <div class="result-points-icon"><span class="material-symbols-outlined">stars</span></div>
+      <div class="result-points-text">
+        <div class="result-points-label">Points fidélité gagnés</div>
+        <div class="result-points-value">+${pointsGained} points</div>
+      </div>
+    </div>
+    ${renderBadgesEarned()}
+    <div class="result-actions">
+      <button class="btn-primary" onclick="restartSameLevel()">
+        <span class="material-symbols-outlined">refresh</span>Rejouer
+      </button>
+      <button class="btn-secondary" onclick="goToLevels()">
+        <span class="material-symbols-outlined">grid_view</span>Choisir un autre niveau
+      </button>
+    </div>
+  </div>`;
+  showScreen('screen-results');
+}
+
+function renderBadgesEarned() {
+  const items = Object.entries((state.QQ || Q).badges).map(([key, b]) => {
+    const earned = state.earnedBadges.has(key);
+    const color = BADGE_COLORS[key] || b.color;
+    return `
+      <div class="result-badge ${earned ? 'earned' : 'locked'}"
+           style="--badge-color:${color};--badge-bg:${hexToRgba(color,.1)};--badge-shadow:${hexToRgba(color,.2)}">
+        <span class="material-symbols-outlined">${b.icon}</span>${b.name}
+      </div>`;
+  }).join('');
+  return `<div class="result-badges"><div class="result-badges-title">Thèmes maîtrisés</div><div class="result-badges-list">${items}</div></div>`;
+}
+
+function restartSameLevel() { startLevel(state.levelKey); }
+function goToLevels() {
+  document.getElementById('header-points').style.display = 'none';
+  showScreen('screen-levels');
+  renderLevels();
+}
+
+function goToQuiz() {
+  document.getElementById('header-eyebrow').textContent = 'QUIZ PATRIMOINE';
+  document.getElementById('header-name').textContent = 'Provence';
+  showScreen('screen-territory');
+}
+
+function selectTerritory(territory) {
+  const isProvence = territory === 'provence';
+  window._currentQ = isProvence ? window.QUIZ_PROVENCE : window.QUIZ_ROCHEFORT;
+  document.getElementById('header-name').textContent = isProvence ? 'La Provence' : 'Rochefort-du-Gard';
+  document.getElementById('levels-hero-icon').textContent = isProvence ? 'landscape' : 'menu_book';
+  document.getElementById('levels-hero-title').textContent = isProvence ? 'Quiz Provence' : 'Quiz Patrimoine';
+  document.getElementById('levels-hero-sub').textContent = isProvence
+    ? 'Testez votre connaissance de la région Provence et gagnez des points fidélité.'
+    : 'Testez votre connaissance de Rochefort-du-Gard et gagnez des points fidélité.';
+  showScreen('screen-levels');
+  renderLevels();
+}
+
+function goToMarius() {
+  document.getElementById('header-eyebrow').textContent = 'MARIUS BROS';
+  document.getElementById('header-name').textContent = 'Rochefort-du-Gard';
+  showScreen('screen-marius');
+  // Recharge l'iframe si besoin
+  const fr = document.getElementById('marius-frame');
+  if (!fr.src || fr.src === 'about:blank') fr.src = 'marius-bros/index.html';
+}
+
+function goToPortal() {
+  document.getElementById('header-eyebrow').textContent = 'JEUX';
+  document.getElementById('header-name').textContent = 'Rochefort-du-Gard';
+  document.getElementById('header-points').style.display = 'none';
+  const pts = getPoints();
+  ['portal-points','portal-shop-pts'].forEach(id=>{const el=document.getElementById(id);if(el)el.textContent=pts;});
+  showScreen('screen-portal');
+  setTimeout(()=>{ const last=parseInt(localStorage.getItem(WHEEL_KEY)||'0'); if(!last||Date.now()-last>=24*60*60*1000) openWheel(); },600);
+}
+
+function onBack() {
+  const active = document.querySelector('.screen.active').id;
+  if (active === 'screen-portal') {
+    if (window.parent && window.parent !== window) window.parent.postMessage({ type: 'quiz-close' }, '*');
+    else window.history.back();
+  } else if (['screen-territory','screen-vf','screen-pm','screen-qs','screen-mm','screen-mc','screen-ag','screen-shop'].includes(active)) {
+    goToPortal();
+  } else if (active === 'screen-levels') {
+    showScreen('screen-territory');
+  } else {
+    goToLevels();
+  }
+}
+
+goToPortal();
+
+// ════ POINTS ════
+function getPoints(){
+  try{ const f=JSON.parse(localStorage.getItem('cdv_fidelite_rochefort')||'null'); return f?(f.points||0):0; }catch{return 0;}
+}
+function setPoints(n){
+  const pts=Math.max(0,n);
+  try{ const f=JSON.parse(localStorage.getItem('cdv_fidelite_rochefort')||'null')||{points:0}; f.points=pts; localStorage.setItem('cdv_fidelite_rochefort',JSON.stringify(f)); }catch{}
+  ['portal-points','portal-shop-pts','shop-points-display'].forEach(id=>{const el=document.getElementById(id);if(el)el.textContent=pts;});
+}
+function getStoredPoints(){return getPoints();}
+function addStoredPoints(n){if(n>0)setPoints(getPoints()+n);}
+
+// ════ VRAI OU FAUX ════
+const VF_DATA = [{"q": "Rochefort-du-Gard est un village du département du Gard.", "a": true, "exp": "Vrai ! Rochefort-du-Gard est situé dans le Gard (30), en région Occitanie."}, {"q": "Rochefort-du-Gard se trouve à moins de 10 km d'Avignon.", "a": true, "exp": "Vrai ! Le village est situé à environ 8 km au nord d'Avignon."}, {"q": "Le nom Rochefort vient d'un château fort bâti sur un rocher.", "a": true, "exp": "Vrai ! Le nom Rochefort signifie littéralement 'rocher fort', en référence au site fortifié médiéval."}, {"q": "Rochefort-du-Gard possède un prieuré médiéval.", "a": true, "exp": "Vrai ! Le prieuré Saint-Saturnin est un monument historique remarquable du village."}, {"q": "Rochefort-du-Gard est dans le Vaucluse.", "a": false, "exp": "Faux ! Rochefort-du-Gard est dans le Gard (30), même s'il est très proche du Vaucluse."}, {"q": "Le village de Rochefort-du-Gard dépasse 5 000 habitants.", "a": true, "exp": "Vrai ! Rochefort-du-Gard compte environ 5 500 habitants."}, {"q": "Rochefort-du-Gard est traversé par le Rhône.", "a": false, "exp": "Faux ! Le Rhône passe à proximité mais ne traverse pas le village. C'est la commune de Roquemaure qui est sur le Rhône."}, {"q": "Rochefort-du-Gard possède des vestiges romains.", "a": true, "exp": "Vrai ! La région était densément occupée à l'époque romaine, avec de nombreux vestiges découverts sur le territoire."}, {"q": "Rochefort-du-Gard est limitrophe d'Avignon.", "a": false, "exp": "Faux ! Rochefort-du-Gard est proche d'Avignon mais n'est pas directement limitrophe — d'autres communes les séparent."}, {"q": "Le prieuré de Rochefort-du-Gard date du Moyen-Âge.", "a": true, "exp": "Vrai ! Le prieuré Saint-Saturnin remonte au XIe siècle, période de grande activité monastique en Provence."}, {"q": "La garrigue est le paysage dominant autour de Rochefort-du-Gard.", "a": true, "exp": "Vrai ! Comme tout le Gard rhodanien, Rochefort est entouré de garrigues calcaires typiques du Midi."}, {"q": "La vigne est cultivée sur le territoire de Rochefort-du-Gard.", "a": true, "exp": "Vrai ! La viticulture est présente dans toute la zone des Côtes du Rhône Villages."}, {"q": "Rochefort-du-Gard fait partie de l'aire des Côtes du Rhône.", "a": true, "exp": "Vrai ! Les vins produits autour de Rochefort bénéficient de l'appellation Côtes du Rhône."}, {"q": "Le mistral souffle régulièrement à Rochefort-du-Gard.", "a": true, "exp": "Vrai ! Le mistral est un vent dominant de toute la vallée du Rhône, bien ressenti à Rochefort."}, {"q": "La lavande pousse naturellement dans les garrigues de Rochefort.", "a": false, "exp": "Faux ! La lavande se cultive surtout sur les hauts plateaux (Valensole, Luberon). La garrigue de Rochefort est dominée par le romarin et le chêne kermès."}, {"q": "Rochefort-du-Gard est proche du Pont du Gard.", "a": true, "exp": "Vrai ! Le Pont du Gard se trouve à une vingtaine de kilomètres de Rochefort-du-Gard."}, {"q": "Le village est perché sur une colline.", "a": true, "exp": "Vrai ! Comme beaucoup de villages du Gard, Rochefort occupe un site en hauteur pour des raisons défensives."}, {"q": "L'olivier est cultivé autour de Rochefort-du-Gard.", "a": true, "exp": "Vrai ! L'olivier est très présent dans tout le Gard rhodanien, où le climat méditerranéen lui convient parfaitement."}, {"q": "Rochefort-du-Gard est sur la route des vins du Rhône.", "a": true, "exp": "Vrai ! Le village fait partie du vignoble rhodanien et de sa route des vins."}, {"q": "La commune possède une église romane.", "a": true, "exp": "Vrai ! L'église paroissiale de Rochefort conserve des éléments d'architecture romane typiques de la région."}, {"q": "La tapenade est une spécialité consommée à Rochefort-du-Gard.", "a": true, "exp": "Vrai ! Comme dans toute la Provence gardoise, la tapenade d'olives noires est très appréciée."}, {"q": "Le vin de Roquemaure, voisin de Rochefort, est réputé.", "a": true, "exp": "Vrai ! Roquemaure, commune voisine, est célèbre pour ses vins et pour avoir reçu les reliques de Saint-Valentin."}, {"q": "La brandade de Nîmes est un plat typique de la région.", "a": true, "exp": "Vrai ! La brandade de morue à la nîmoise est une spécialité emblématique du Gard, très populaire dans toute la région."}, {"q": "Le fromage de chèvre Pélardon est produit près de Rochefort.", "a": true, "exp": "Vrai ! Le Pélardon AOP est produit dans les Cévennes et le Gard, relativement proche de Rochefort."}, {"q": "Le vin de Lirac, proche de Rochefort, a une AOC.", "a": true, "exp": "Vrai ! Lirac, situé à quelques kilomètres, possède sa propre appellation d'origine contrôlée."}, {"q": "La truffe est cultivée dans le Gard.", "a": true, "exp": "Vrai ! Le Gard est une zone de production truffière, notamment autour d'Uzès et dans les garrigues."}, {"q": "Le pastis est la boisson apéritive traditionnelle de la région.", "a": true, "exp": "Vrai ! Le pastis anisé est l'apéritif de toute la Provence et du Languedoc méditerranéen."}, {"q": "La clairette de Bellegarde est un vin blanc produit dans le Gard.", "a": true, "exp": "Vrai ! La Clairette de Bellegarde est une AOC de vin blanc produite dans le Gard, à une trentaine de km de Rochefort."}, {"q": "Les olives de la région de Rochefort sont utilisées pour l'huile.", "a": true, "exp": "Vrai ! La production d'huile d'olive est une tradition ancienne dans tout le Gard rhodanien."}, {"q": "Le riz de Camargue est produit à proximité de Rochefort-du-Gard.", "a": true, "exp": "Vrai ! La Camargue, grand producteur de riz IGP, est accessible en moins d'une heure depuis Rochefort."}, {"q": "Nîmes est la préfecture du département où se trouve Rochefort-du-Gard.", "a": true, "exp": "Vrai ! Nîmes est la préfecture du Gard (30), département de Rochefort-du-Gard."}, {"q": "Les Arènes de Nîmes sont plus grandes que celles d'Arles.", "a": true, "exp": "Vrai ! Les Arènes de Nîmes peuvent accueillir 24 000 spectateurs, contre 20 000 pour celles d'Arles."}, {"q": "La Maison Carrée de Nîmes est un temple romain.", "a": true, "exp": "Vrai ! La Maison Carrée est un temple romain du Ier siècle, l'un des mieux conservés au monde."}, {"q": "Le carnaval de Nîmes est célèbre pour ses ferias.", "a": false, "exp": "Faux ! Nîmes est surtout célèbre pour ses ferias taurines, notamment la Feria de Pentecôte et la Feria des Vendanges."}, {"q": "La Tour Magne est un monument romain visible depuis Rochefort.", "a": false, "exp": "Faux ! La Tour Magne est à Nîmes, trop loin pour être visible depuis Rochefort. Mais elle reste un monument important de la région."}, {"q": "Saint-Gilles-du-Gard possède une abbatiale classée UNESCO.", "a": true, "exp": "Vrai ! L'abbatiale de Saint-Gilles est inscrite sur la liste du Patrimoine Mondial de l'UNESCO comme étape sur le chemin de Saint-Jacques."}, {"q": "Uzès est la première ville ducale de France.", "a": true, "exp": "Vrai ! Uzès est la première duché de France, titre accordé en 1565. Son château, la Duché, est toujours habité par la famille de Crussol."}, {"q": "Le Gardon est un fleuve côtier du Gard.", "a": true, "exp": "Vrai ! Le Gardon (ou Gard) est le fleuve emblématique du département, connu pour ses crues spectaculaires et le site du Pont du Gard."}, {"q": "Roquemaure est la commune gardoise qui possède les reliques de Saint-Valentin.", "a": true, "exp": "Vrai ! Roquemaure, commune voisine de Rochefort, conserve des reliques de Saint-Valentin depuis 1868."}, {"q": "Le Gard possède plus de 2 000 km de sentiers de randonnée.", "a": true, "exp": "Vrai ! Le département du Gard offre un réseau dense de sentiers entre Cévennes, garrigues et Camargue."}, {"q": "Le Gard a été créé à la Révolution française.", "a": true, "exp": "Vrai ! Le département du Gard a été créé en 1790, lors de la réorganisation administrative de la France révolutionnaire."}, {"q": "La Guerre des Camisards s'est déroulée dans le Gard.", "a": true, "exp": "Vrai ! La Guerre des Camisards (1702-1710) opposa les protestants cévenols aux troupes royales dans les Cévennes gardoises."}, {"q": "Nîmes a été fondée par les Romains.", "a": false, "exp": "Faux ! Nîmes existait avant les Romains comme oppidum gaulois. C'est Auguste qui l'a élevée au rang de colonie romaine."}, {"q": "Le Languedoc tire son nom de la langue d'oc.", "a": true, "exp": "Vrai ! Le Languedoc doit son nom à la langue d'oc, parlée dans le sud de la France, par opposition à la langue d'oïl du nord."}, {"q": "La cathédrale de Nîmes est dédiée à Saint-Castor.", "a": true, "exp": "Vrai ! La cathédrale Notre-Dame-et-Saint-Castor de Nîmes, fondée en 1096, est dédiée à saint Castor, premier évêque de Nîmes."}, {"q": "Le Gard est frontalier avec l'Hérault.", "a": true, "exp": "Vrai ! Le Gard partage une frontière avec l'Hérault à l'ouest, mais aussi avec l'Ardèche, la Lozère, l'Aveyron, le Vaucluse et les Bouches-du-Rhône."}, {"q": "La Via Domitia passait par la région de Rochefort-du-Gard.", "a": true, "exp": "Vrai ! La Via Domitia, grande voie romaine reliant l'Italie à l'Espagne, traversait la région du Gard rhodanien."}, {"q": "Les Huguenots étaient très présents dans le Gard.", "a": true, "exp": "Vrai ! Le Gard est historiquement une terre de protestantisme fort, ce qui explique les conflits religieux du XVIe au XVIIIe siècle."}, {"q": "Aigues-Mortes est une cité médiévale fortifiée dans le Gard.", "a": true, "exp": "Vrai ! Aigues-Mortes, fondée par Saint-Louis au XIIIe siècle, est l'une des cités médiévales les mieux conservées de France."}, {"q": "Le Gard possède un littoral méditerranéen.", "a": true, "exp": "Vrai ! Le Gard a une façade maritime d'environ 30 km sur la Méditerranée, entre le Grau-du-Roi et la Grande-Motte (Hérault)."}, {"q": "La Camargue s'étend uniquement dans les Bouches-du-Rhône.", "a": false, "exp": "Faux ! La Camargue s'étend sur les Bouches-du-Rhône ET le Gard, le Petit Rhône étant la frontière entre les deux départements."}, {"q": "Rochefort-du-Gard est mentionné dans des textes du XIe siècle.", "a": true, "exp": "Vrai ! Rochefort-du-Gard apparaît dans des chartes médiévales du XIe siècle, attestant une occupation ancienne du site."}, {"q": "La région de Rochefort-du-Gard produit des truffes noires.", "a": false, "exp": "Faux ! La truffe noire du Périgord est plus présente vers Uzès et les Cévennes. Autour de Rochefort, la viticulture et l'oléiculture dominent."}, {"q": "Le Gard rhodanien désigne la partie du Gard proche du Rhône.", "a": true, "exp": "Vrai ! Le Gard rhodanien est le territoire gardois situé dans la vallée du Rhône, dont fait partie Rochefort-du-Gard."}];
+function shuffleArr(a){for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
+let VF_POOL=[],vfIndex=0,vfScore=0;
+function goToVF(){
+  document.getElementById('header-eyebrow').textContent='VRAI OU FAUX';
+  document.getElementById('header-name').textContent='Rochefort-du-Gard';
+  showScreen('screen-vf');
+  VF_POOL=shuffleArr([...VF_DATA]).slice(0,20);
+  vfIndex=0;vfScore=0;renderVF();
+}
+function renderVF(){
+  const c=document.getElementById('vf-container');
+  if(vfIndex>=VF_POOL.length){
+    c.innerHTML=`<div class="mg-card mg-final"><div class="mg-final-icon"><span class="material-symbols-outlined">emoji_events</span></div><div class="mg-final-score">${vfScore}/${VF_POOL.length}</div><div class="mg-final-label">Bonne${vfScore>1?'s':''} réponse${vfScore>1?'s':''} !</div><button class="mg-final-btn" onclick="goToVF()">Rejouer</button></div>`;
+    addStoredPoints(vfScore*10);return;
+  }
+  const d=VF_POOL[vfIndex];
+  const pct=Math.round(vfIndex/VF_POOL.length*100);
+  c.innerHTML=`<div class="mg-card">
+    <div class="prog-bar-wrap"><div class="prog-bar" style="width:${pct}%"></div></div>
+    <div class="mg-score-bar"><span class="mg-score">${vfScore} pt${vfScore>1?'s':''}</span><span class="mg-progress">Question ${vfIndex+1}/${VF_POOL.length}</span></div>
+    <div class="mg-question">${d.q}</div>
+    <div class="tf-wrap" style="margin-top:8px">
+      <button class="tf-btn" onclick="answerVF(true)"><span class="material-symbols-outlined">check_circle</span>VRAI</button>
+      <button class="tf-btn" onclick="answerVF(false)"><span class="material-symbols-outlined">cancel</span>FAUX</button>
+    </div>
+    <div class="vf-result" id="vf-res"></div>
+  </div>`;
+}
+function answerVF(ans){
+  const d=VF_POOL[vfIndex];const correct=ans===d.a;
+  if(correct)vfScore++;
+  document.querySelectorAll('.tf-wrap .tf-btn').forEach(b=>b.disabled=true);
+  const res=document.getElementById('vf-res');
+  res.className='vf-result show '+(correct?'correct':'wrong');
+  res.innerHTML=(correct?'Bravo ! ':'Raté ! ')+d.exp;
+  setTimeout(()=>{vfIndex++;renderVF();},2200);
+}
+
+// ════ PHOTO MYSTÈRE ════
+const PM_DATA = [{"img": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e9/Pont_du_Gard_Oct_2007.jpg/320px-Pont_du_Gard_Oct_2007.jpg", "opts": ["Pont du Gard", "Pont d'Avignon", "Pont de Roquemaure", "Pont de Lirac"], "ans": 0, "exp": "Le Pont du Gard, aqueduc romain du Ier siècle, est situé à une vingtaine de km de Rochefort-du-Gard."}, {"img": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/0a/Maison_carr%C3%A9e_de_N%C3%AEmes.jpg/320px-Maison_carr%C3%A9e_de_N%C3%AEmes.jpg", "opts": ["Temple de Rome", "Maison Carrée de Nîmes", "Panthéon de Paris", "Capitole de Toulouse"], "ans": 1, "exp": "La Maison Carrée de Nîmes, temple romain du Ier siècle, est l'un des plus beaux exemples d'architecture romaine conservés."}, {"img": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/57/Arles_Amphitheatre.jpg/320px-Arles_Amphitheatre.jpg", "opts": ["Arènes de Nîmes", "Colisée de Rome", "Arènes d'Arles", "Théâtre d'Orange"], "ans": 0, "exp": "Les Arènes de Nîmes, préfecture du Gard, sont parmi les amphithéâtres romains les mieux conservés au monde."}, {"img": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8f/Gorges_du_Verdon.jpg/320px-Gorges_du_Verdon.jpg", "opts": ["Gorges du Gardon", "Gorges du Verdon", "Gorges de l'Ardèche", "Canyon d'Anisclo"], "ans": 1, "exp": "Les Gorges du Verdon, plus grand canyon d'Europe, sont accessibles depuis la région de Rochefort."}, {"img": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/10/Camargue_guardians.jpg/320px-Camargue_guardians.jpg", "opts": ["Camargue", "Crau", "Petite Camargue", "Marais de la Souteyranne"], "ans": 0, "exp": "La Camargue, dont la Petite Camargue gardoise, est accessible rapidement depuis Rochefort-du-Gard."}, {"img": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/27/Gordes_1.jpg/320px-Gordes_1.jpg", "opts": ["Gordes", "Uzès", "Les Baux", "Rochefort-du-Gard"], "ans": 0, "exp": "Gordes, village perché du Luberon, est un exemple du patrimoine bâti de la région proche de Rochefort."}, {"img": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/96/Chartreuse_du_Val_de_Benediction_-_Villeneuve-les-Avignon_2.jpg/320px-Chartreuse_du_Val_de_Benediction_-_Villeneuve-les-Avignon_2.jpg", "opts": ["Chartreuse de Villeneuve", "Abbaye de Sénanque", "Abbaye de Saint-Gilles", "Prieuré de Rochefort"], "ans": 0, "exp": "La Chartreuse de Villeneuve-lès-Avignon, toute proche de Rochefort-du-Gard, est un haut lieu du patrimoine médiéval."}, {"img": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d2/Mont_Ventoux_from_the_south.jpg/320px-Mont_Ventoux_from_the_south.jpg", "opts": ["Mont Ventoux", "Mont Aigoual", "Mont Sainte-Victoire", "Mont Olympe"], "ans": 0, "exp": "Le Mont Ventoux, visible depuis les hauteurs de Rochefort-du-Gard par temps clair, culmine à 1909m."}, {"img": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b6/Palais_des_Papes_Avignon.jpg/320px-Palais_des_Papes_Avignon.jpg", "opts": ["Château de Tarascon", "Palais des Papes d'Avignon", "Palais Royal de Nîmes", "Forteresse de Carcassonne"], "ans": 1, "exp": "Le Palais des Papes d'Avignon, à 8km de Rochefort-du-Gard, est le plus grand palais gothique du monde."}, {"img": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6c/Villeneuve-l%C3%A8s-Avignon_-_Tour_Philippe_le_Bel_-_01.jpg/240px-Villeneuve-l%C3%A8s-Avignon_-_Tour_Philippe_le_Bel_-_01.jpg", "opts": ["Tour de Constance", "Tour Philippe-le-Bel", "Tour des Templiers", "Tour Magne"], "ans": 1, "exp": "La Tour Philippe-le-Bel à Villeneuve-lès-Avignon, commune voisine de Rochefort, garde l'entrée du pont d'Avignon."}, {"img": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/99/Les_Baux-de-Provence_Castle.jpg/320px-Les_Baux-de-Provence_Castle.jpg", "opts": ["Les Baux-de-Provence", "Château d'Uzès", "Forteresse de Rochefort", "Château de Beaucaire"], "ans": 0, "exp": "Les Baux-de-Provence, village perché des Alpilles, est l'un des plus visités de la région proche de Rochefort."}, {"img": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8e/Abbaye_de_Senanque-1.jpg/320px-Abbaye_de_Senanque-1.jpg", "opts": ["Abbaye de Sénanque", "Abbaye de Fontfroide", "Abbaye de Valmagne", "Prieuré de Rochefort"], "ans": 0, "exp": "L'Abbaye de Sénanque, entourée de lavande, est l'une des images emblématiques de la Provence proche du Gard."}, {"img": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5c/Orange_theatre_antique.jpg/320px-Orange_theatre_antique.jpg", "opts": ["Théâtre d'Orange", "Théâtre de Vaison", "Théâtre de Nîmes", "Odéon de Marseille"], "ans": 0, "exp": "Le Théâtre Antique d'Orange, à une trentaine de km de Rochefort, est l'un des mieux conservés du monde romain."}, {"img": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/39/Fort_Saint-Andr%C3%A9_Villeneuve-l%C3%A8s-Avignon.jpg/320px-Fort_Saint-Andr%C3%A9_Villeneuve-l%C3%A8s-Avignon.jpg", "opts": ["Fort Saint-André", "Château de Roquemaure", "Fort de Beaucaire", "Tour de Constance"], "ans": 0, "exp": "Le Fort Saint-André de Villeneuve-lès-Avignon, tout proche de Rochefort, domine le Rhône depuis le XIVe siècle."}, {"img": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c4/Roussillon_-_panoramio_%281%29.jpg/320px-Roussillon_-_panoramio_%281%29.jpg", "opts": ["Roussillon", "Gordes", "Rustrel", "Gargas"], "ans": 0, "exp": "Roussillon et ses ocres sont à moins d'une heure de Rochefort-du-Gard, dans le Luberon."}];
+let pmIndex=0,pmScore=0,pmHints=0;
+function goToPM(){
+  document.getElementById('header-eyebrow').textContent='PHOTO MYSTÈRE';
+  document.getElementById('header-name').textContent='Rochefort-du-Gard';
+  showScreen('screen-pm');pmIndex=0;pmScore=0;renderPM();
+}
+function renderPM(){
+  const c=document.getElementById('pm-container');
+  if(pmIndex>=PM_DATA.length){
+    c.innerHTML=`<div class="mg-card mg-final"><div class="mg-final-icon"><span class="material-symbols-outlined">photo_camera</span></div><div class="mg-final-score">${pmScore}/${PM_DATA.length}</div><div class="mg-final-label">Monument${pmScore>1?'s':''} reconnu${pmScore>1?'s':''} !</div><button class="mg-final-btn" onclick="goToPM()">Rejouer</button></div>`;
+    addStoredPoints(pmScore*20);return;
+  }
+  pmHints=0;const d=PM_DATA[pmIndex];
+  const optsHTML=d.opts.map((o,i)=>`<button class="pm-opt" onclick="answerPM(${i})">${o}</button>`).join('');
+  c.innerHTML=`<div class="mg-card">
+    <div class="mg-score-bar"><span class="mg-score">${pmScore} pt${pmScore>1?'s':''}</span><span class="mg-progress">Photo ${pmIndex+1}/${PM_DATA.length}</span></div>
+    <div class="pm-img-wrap"><img id="pm-img" class="pm-img" src="${d.img}" referrerpolicy="no-referrer"/></div>
+    <button class="pm-hint-btn" id="pm-hint-btn" onclick="revealPM()">Révéler un indice</button>
+    <div class="pm-options" id="pm-opts">${optsHTML}</div>
+    <div class="vf-result" id="pm-res"></div>
+  </div>`;
+}
+function revealPM(){
+  document.getElementById('pm-img').style.filter='blur(4px)';
+  document.getElementById('pm-hint-btn').disabled=true;pmHints++;
+}
+function answerPM(idx){
+  const d=PM_DATA[pmIndex];const correct=idx===d.ans;
+  if(correct)pmScore++;
+  document.querySelectorAll('.pm-opt').forEach((b,i)=>{b.disabled=true;if(i===d.ans)b.classList.add('correct');else if(i===idx&&!correct)b.classList.add('wrong');});
+  document.getElementById('pm-img').classList.add('reveal');
+  const res=document.getElementById('pm-res');
+  res.className='vf-result show '+(correct?'correct':'wrong');
+  res.innerHTML=(correct?'Exact ! ':'Raté ! ')+d.exp;
+  setTimeout(()=>{pmIndex++;renderPM();},2500);
+}
+
+// ════ QUI SUIS-JE ════
+const QS_DATA = [{"name": "Saint-Saturnin", "indices": ["Je suis un saint chrétien du IIIe siècle.", "Je suis le premier évêque de Toulouse.", "Un prieuré de Rochefort-du-Gard porte mon nom.", "Je suis mort martyr, traîné par un taureau selon la légende."], "aliases": ["saint saturnin", "saturnin", "sernin"], "exp": "Saint Saturnin, premier évêque de Toulouse au IIIe siècle, est le saint patron du prieuré de Rochefort-du-Gard."}, {"name": "Saint-Valentin", "indices": ["Je suis un saint dont la fête est célébrée le 14 février.", "Mes reliques sont conservées dans une commune voisine de Rochefort.", "Cette commune s'appelle Roquemaure.", "Je suis le saint patron des amoureux."], "aliases": ["saint valentin", "valentin", "valentine"], "exp": "Les reliques de Saint-Valentin, saint patron des amoureux, sont conservées à Roquemaure, commune voisine de Rochefort-du-Gard."}, {"name": "Uzès", "indices": ["Je suis la première ville ducale de France.", "Mon château s'appelle la Duché.", "Je suis dans le Gard, à une quarantaine de km de Rochefort.", "Jean Racine a séjourné chez son oncle dans ma ville."], "aliases": ["uzes", "uzès"], "exp": "Uzès, première duché de France depuis 1565, est une ville du Gard où séjourna Jean Racine et dont la Duché est encore habitée par les descendants."}, {"name": "Pont du Gard", "indices": ["Je suis un ouvrage romain construit au Ier siècle.", "Je suis classé au Patrimoine Mondial de l'UNESCO.", "Je suis un aqueduc sur trois niveaux d'arcades.", "Je me situe à une vingtaine de km de Rochefort-du-Gard."], "aliases": ["pont du gard", "pont-du-gard", "le pont du gard"], "exp": "Le Pont du Gard, aqueduc romain du Ier siècle classé UNESCO, est situé à une vingtaine de kilomètres de Rochefort-du-Gard."}, {"name": "Jean Racine", "indices": ["Je suis un dramaturge français du XVIIe siècle.", "J'ai écrit Phèdre, Andromaque et Athalie.", "J'ai séjourné à Uzès dans le Gard, chez mon oncle.", "Je suis l'un des plus grands auteurs de la tragédie classique française."], "aliases": ["racine", "jean racine"], "exp": "Jean Racine (1639-1699) a séjourné à Uzès dans le Gard, non loin de Rochefort, avant de devenir le grand dramaturge classique français."}, {"name": "Alphonse Daudet", "indices": ["Je suis écrivain et je suis né à Nîmes en 1840.", "J'ai écrit les Lettres de mon moulin.", "Tartarin de Tarascon est mon personnage le plus célèbre.", "Mon moulin se trouve à Fontvieille, près d'Arles."], "aliases": ["daudet", "alphonse daudet"], "exp": "Alphonse Daudet (1840-1897) est né à Nîmes, préfecture du Gard. Auteur des Lettres de mon moulin et de Tartarin de Tarascon."}, {"name": "Auguste", "indices": ["Je suis le premier empereur romain.", "J'ai fondé la colonie romaine de Nîmes.", "Le Pont du Gard a été construit sous mon règne ou celui de mes successeurs.", "Mon règne est une période de grande paix : la Pax Romana."], "aliases": ["auguste", "augustus", "octave", "octavien"], "exp": "Auguste, premier empereur romain, a élevé Nîmes au rang de colonie romaine et lancé les grands travaux qui donnèrent naissance au Pont du Gard."}, {"name": "Aigues-Mortes", "indices": ["Je suis une cité fortifiée du XIIIe siècle dans le Gard.", "J'ai été fondée par Saint-Louis pour avoir un port sur la Méditerranée.", "Mes remparts sont parmi les mieux conservés de France.", "Mon nom signifie 'eaux mortes' en occitan."], "aliases": ["aigues mortes", "aigues-mortes"], "exp": "Aigues-Mortes, fondée par Saint-Louis en 1240, est une cité médiévale fortifiée du Gard dont les remparts sont exceptionnellement bien conservés."}, {"name": "Camisards", "indices": ["Je suis un groupe de combattants protestants du Gard.", "J'ai mené une guerre contre les troupes royales de Louis XIV.", "Ma révolte a eu lieu dans les Cévennes entre 1702 et 1710.", "Mon surnom vient du mot 'camiso', chemise en occitan."], "aliases": ["camisards", "camisard", "les camisards"], "exp": "Les Camisards étaient des protestants cévenols qui se révoltèrent contre Louis XIV dans le Gard entre 1702 et 1710, après la révocation de l'Édit de Nantes."}, {"name": "La Maison Carrée", "indices": ["Je suis un temple romain situé à Nîmes.", "Je suis l'un des temples romains les mieux conservés au monde.", "Thomas Jefferson s'est inspiré de moi pour l'architecture américaine.", "Je date du Ier siècle avant J-C."], "aliases": ["maison carree", "maison carrée", "la maison carrée"], "exp": "La Maison Carrée de Nîmes est un temple romain du Ier siècle av. J.-C., l'un des mieux conservés au monde, qui a inspiré Thomas Jefferson pour son architecture."}];
+let qsIndex=0,qsScore=0,qsHint=0;
+function goToQS(){
+  document.getElementById('header-eyebrow').textContent='QUI SUIS-JE ?';
+  document.getElementById('header-name').textContent='Rochefort-du-Gard';
+  showScreen('screen-qs');qsIndex=0;qsScore=0;renderQS();
+}
+function renderQS(){
+  const c=document.getElementById('qs-container');
+  if(qsIndex>=QS_DATA.length){
+    c.innerHTML=`<div class="mg-card mg-final"><div class="mg-final-icon"><span class="material-symbols-outlined">psychology</span></div><div class="mg-final-score">${qsScore}/${QS_DATA.length}</div><div class="mg-final-label">Personnage${qsScore>1?'s':''} trouvé${qsScore>1?'s':''} !</div><button class="mg-final-btn" onclick="goToQS()">Rejouer</button></div>`;
+    addStoredPoints(qsScore*30);return;
+  }
+  qsHint=0;const d=QS_DATA[qsIndex];
+  const pct=Math.round(qsIndex/QS_DATA.length*100);
+  const indicesHTML=d.indices.map((ind,i)=>`<div class="qs-indice ${i===0?'show':''}" id="qs-ind-${i}"><span class="qs-indice-num">${i+1}.</span>${ind}</div>`).join('');
+  c.innerHTML=`<div class="mg-card">
+    <div class="prog-bar-wrap"><div class="prog-bar" style="width:${pct}%"></div></div>
+    <div class="mg-score-bar"><span class="mg-score">${qsScore} pt${qsScore>1?'s':''}</span><span class="mg-progress">Personnage ${qsIndex+1}/${QS_DATA.length}</span></div>
+    <div class="mg-question">Qui suis-je ?</div>
+    <div class="qs-indices">${indicesHTML}</div>
+    <input id="qs-answer" placeholder="Votre réponse..." onkeydown="if(event.key==='Enter')checkQS()" style="display:block!important;width:100%!important;padding:14px!important;border:2px solid #eee!important;border-radius:14px!important;font-size:15px!important;font-family:inherit!important;margin-bottom:12px!important;box-sizing:border-box!important;background:#fff!important;color:#333!important"/>
+    <button onclick="checkQS()" style="display:block!important;width:100%!important;padding:16px!important;border:none!important;border-radius:14px!important;background:#5b5ea6!important;color:#fff!important;font-size:16px!important;font-weight:800!important;cursor:pointer!important;font-family:inherit!important;margin-bottom:10px!important">Valider ma réponse</button>
+    <button id="qs-hint-btn" onclick="nextHintQS()" style="display:block!important;width:100%!important;padding:12px!important;border:2px solid #5b5ea6!important;border-radius:14px!important;background:transparent!important;color:#5b5ea6!important;font-size:14px!important;font-weight:700!important;cursor:pointer!important;font-family:inherit!important">${d.indices.length-1} indice${d.indices.length-1>1?'s':''} disponible${d.indices.length-1>1?'s':''}</button>
+    <div class="qs-result" id="qs-res"></div>
+  </div>`;
+  setTimeout(()=>{const inp=document.getElementById('qs-answer');if(inp)inp.focus();},100);
+}
+function nextHintQS(){
+  const d=QS_DATA[qsIndex];qsHint++;
+  if(qsHint<d.indices.length){
+    const el=document.getElementById('qs-ind-'+qsHint);if(el)el.classList.add('show');
+    const rem=d.indices.length-1-qsHint;
+    const btn=document.getElementById('qs-hint-btn');
+    if(btn){btn.disabled=rem<=0;btn.textContent=rem+' indice'+(rem>1?'s':'')+' disponible'+(rem>1?'s':'');}
+  }
+}
+function checkQS(){
+  const input=document.getElementById('qs-answer');
+  if(!input)return;
+  const val=input.value.trim().toLowerCase();
+  if(!val)return;
+  const d=QS_DATA[qsIndex];
+  const correct=d.aliases.some(a=>val.includes(a)||a.includes(val));
+  if(correct)qsScore++;
+  input.disabled=true;
+  document.querySelectorAll('.qs-submit,.qs-next-hint').forEach(b=>b.disabled=true);
+  const res=document.getElementById('qs-res');
+  res.className='qs-result show '+(correct?'correct':'wrong');
+  res.innerHTML=correct?`Bravo ! ${d.exp}`:`C'était : <strong>${d.name}</strong>. ${d.exp}`;
+  setTimeout(()=>{qsIndex++;renderQS();},2800);
+}
+
+// ════ MOTS MÊLÉS ════
+const MM_GRILLES = [{"titre": "Grille 1 - Patrimoine du Gard", "mots": ["ROCHEFORT", "NIMES", "GARDON", "RHONE", "MISTRAL", "GARRIGUE", "PRIEURE", "LIRAC", "UZÈS", "CAMARGUE", "CAMISARDS", "DOMITIA", "SATURNIN", "VIGNE", "OLIVIER"]}, {"titre": "Grille 2 - Villes et Sites", "mots": ["ROQUEMAURE", "AIGUES", "BEAUCAIRE", "TARASCON", "AVIGNON", "VILLENEUVE", "ORANGE", "ARLES", "LUNEL", "SOMMIERES", "VALENCE", "BAGNOLS", "ALÈS", "PONT", "GARD"]}, {"titre": "Grille 3 - Culture et Nature", "mots": ["BRANDADE", "TAPENADE", "PASTIS", "PELARDON", "CLAIRETTE", "TRUFFE", "ROMARIN", "CALCAIRE", "FLAMANT", "GARDIAN", "PROTESTANT", "MEDIEVAL", "LANGUEDOC", "RHODANIEN", "CEVENOL"]}];
+const MM_SIZE=12;
+let mmGrid=[],mmSelected=[],mmFound=[],mmSelecting=false,mmWordsActive=[],mmGrilleIndex=0;
+function goToMM(){
+  document.getElementById('header-eyebrow').textContent='MOTS MÊLÉS';
+  document.getElementById('header-name').textContent='Rochefort-du-Gard';
+  showScreen('screen-mm');mmGrilleIndex=0;showMMPicker();
+}
+function showMMPicker(){
+  const c=document.getElementById('mm-container');
+  const cards=MM_GRILLES.map((g,i)=>`<div class="mg-card" style="cursor:pointer" onclick="startMM(${i})">
+    <div class="mg-final-icon" style="margin:0 auto 8px"><span class="material-symbols-outlined">grid_on</span></div>
+    <div style="font-weight:800;font-size:15px;color:var(--text);text-align:center">${g.titre}</div>
+    <div style="font-size:12px;color:var(--text-2);text-align:center;margin-top:4px">${g.mots.length} mots à trouver</div>
+  </div>`).join('');
+  c.innerHTML=`<div class="mg-card"><div class="mg-question">Choisis une grille</div></div>${cards}`;
+}
+function startMM(idx){
+  mmWordsActive=MM_GRILLES[idx].mots;
+  mmGrid=[];mmSelected=[];mmFound=[];
+  for(let r=0;r<MM_SIZE;r++){mmGrid[r]=[];for(let c=0;c<MM_SIZE;c++)mmGrid[r][c]='';}
+  const placed=[],dirs=[[0,1],[1,0],[1,1],[0,-1],[-1,0],[-1,-1],[1,-1],[-1,1]];
+  for(const word of mmWordsActive){
+    let ok=false,tries=0;
+    while(!ok&&tries<200){
+      tries++;
+      const dir=dirs[Math.floor(Math.random()*dirs.length)];
+      const maxR=MM_SIZE-(dir[0]<0?0:dir[0]*(word.length-1));
+      const minR=dir[0]<0?Math.abs(dir[0])*(word.length-1):0;
+      const maxC=MM_SIZE-(dir[1]<0?0:dir[1]*(word.length-1));
+      const minC=dir[1]<0?Math.abs(dir[1])*(word.length-1):0;
+      const r=minR+Math.floor(Math.random()*(maxR-minR||1));
+      const c=minC+Math.floor(Math.random()*(maxC-minC||1));
+      let canPlace=true;
+      for(let i=0;i<word.length;i++){
+        const nr=r+dir[0]*i,nc=c+dir[1]*i;
+        if(nr<0||nr>=MM_SIZE||nc<0||nc>=MM_SIZE){canPlace=false;break;}
+        if(mmGrid[nr][nc]!==''&&mmGrid[nr][nc]!==word[i]){canPlace=false;break;}
+      }
+      if(canPlace){
+        const cells=[];
+        for(let i=0;i<word.length;i++){const nr=r+dir[0]*i,nc=c+dir[1]*i;mmGrid[nr][nc]=word[i];cells.push([nr,nc]);}
+        placed.push({word,cells});ok=true;
+      }
+    }
+  }
+  const alpha='ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+  for(let r=0;r<MM_SIZE;r++)for(let c=0;c<MM_SIZE;c++)if(mmGrid[r][c]==='')mmGrid[r][c]=alpha[Math.floor(Math.random()*alpha.length)];
+  renderMM(placed);
+}
+function renderMM(placed){
+  const container=document.getElementById('mm-container');
+  const wordsHTML=mmWordsActive.map(w=>`<span class="mm-word" id="mmw-${w}">${w}</span>`).join('');
+  container.innerHTML=`<div class="mg-card">
+    <div class="mg-score-bar"><span class="mg-score" id="mm-score">0/${mmWordsActive.length} trouvés</span></div>
+    <div class="mg-question" style="font-size:14px">Glisse pour sélectionner les mots</div>
+    <div class="mm-grid-wrap"><div class="mm-grid" id="mm-grid" style="grid-template-columns:repeat(${MM_SIZE},30px)"></div></div>
+    <div class="mm-words">${wordsHTML}</div>
+  </div>`;
+  const grid=document.getElementById('mm-grid');
+  for(let r=0;r<MM_SIZE;r++)for(let c=0;c<MM_SIZE;c++){
+    const cell=document.createElement('div');
+    cell.className='mm-cell';cell.textContent=mmGrid[r][c];
+    cell.dataset.r=r;cell.dataset.c=c;
+    cell.addEventListener('pointerdown',e=>{e.preventDefault();mmSelecting=true;mmSelected=[[r,c]];updateMMHighlight();});
+    cell.addEventListener('pointerenter',()=>{if(mmSelecting){mmSelected.push([r,c]);updateMMHighlight();}});
+    cell.addEventListener('pointerup',()=>{mmSelecting=false;checkMMWord(placed);});
+    grid.appendChild(cell);
+  }
+}
+function updateMMHighlight(){
+  document.querySelectorAll('.mm-cell:not(.found)').forEach(c=>c.classList.remove('selected'));
+  for(const [r,c] of mmSelected){
+    const cell=document.querySelector(`.mm-cell[data-r="${r}"][data-c="${c}"]`);
+    if(cell&&!cell.classList.contains('found'))cell.classList.add('selected');
+  }
+}
+function checkMMWord(placed){
+  document.querySelectorAll('.mm-cell.selected').forEach(c=>c.classList.remove('selected'));
+  const selStr=JSON.stringify(mmSelected);
+  const selRevStr=JSON.stringify([...mmSelected].reverse());
+  for(const {word,cells} of placed){
+    if(mmFound.includes(word))continue;
+    if(JSON.stringify(cells)===selStr||JSON.stringify(cells)===selRevStr){
+      mmFound.push(word);
+      for(const [r,c] of cells){
+        const cell=document.querySelector(`.mm-cell[data-r="${r}"][data-c="${c}"]`);
+        if(cell){cell.classList.remove('selected');cell.classList.add('found');}
+      }
+      const wEl=document.getElementById('mmw-'+word);if(wEl)wEl.classList.add('found');
+      const sc=document.getElementById('mm-score');if(sc)sc.textContent=`${mmFound.length}/${mmWordsActive.length} trouvés`;
+      if(mmFound.length===mmWordsActive.length){
+        addStoredPoints(150);
+        setTimeout(()=>{document.getElementById('mm-container').innerHTML='<div class="mg-card mg-final"><div class="mg-final-icon"><span class="material-symbols-outlined">search</span></div><div class="mg-final-score">150</div><div class="mg-final-label">Points gagnés !</div><button class="mg-final-btn" onclick="goToMM()">Rejouer</button></div>';},800);
+      }
+      break;
+    }
+  }
+  mmSelected=[];
+}
+
+// ════ MOTS CROISÉS ════
+const MC_ANSWERS=[
+  {r:0,c:0,dir:'across',word:'RHONE',   clue:'Fleuve entre Avignon et Villeneuve',num:1},
+  {r:0,c:0,dir:'down',  word:'RAISIN',  clue:'Fruit de la vigne provençale',num:2},
+  {r:2,c:0,dir:'across',word:'AVIGNON', clue:'Cité des Papes du Vaucluse',num:3},
+  {r:4,c:0,dir:'across',word:'NIMES',   clue:'Préfecture du Gard aux arènes',num:4},
+  {r:6,c:0,dir:'across',word:'MISTRAL', clue:'Vent froid du nord provençal',num:5},
+  {r:0,c:2,dir:'down',  word:'OISEAU',  clue:'Animal du ciel provençal',num:6},
+  {r:2,c:3,dir:'down',  word:'GARRIGUE',clue:'Végétation odorante du Midi',num:7},
+  {r:0,c:4,dir:'down',  word:'NIMES',   clue:'Préfecture du Gard',num:8},
+];
+let mcState={};
+function goToMC(){
+  document.getElementById('header-eyebrow').textContent='MOTS CROISÉS';
+  document.getElementById('header-name').textContent='Rochefort-du-Gard';
+  showScreen('screen-mc');initMC();
+}
+function initMC(){
+  mcState={cells:{},activeCell:null,activeDir:'across'};
+  MC_ANSWERS.forEach(ans=>{
+    for(let i=0;i<ans.word.length;i++){
+      const r=ans.dir==='across'?ans.r:ans.r+i;
+      const c=ans.dir==='across'?ans.c+i:ans.c;
+      const k=r+','+c;
+      if(!mcState.cells[k])mcState.cells[k]={answer:ans.word[i],typed:'',num:null};
+    }
+    const sk=ans.r+','+ans.c;
+    if(mcState.cells[sk])mcState.cells[sk].num=ans.num;
+  });
+  renderMC();
+}
+function renderMC(){
+  const cont=document.getElementById('mc-container');
+  const SIZE=10;let gHTML='';
+  for(let r=0;r<SIZE;r++){
+    for(let c=0;c<SIZE;c++){
+      const k=r+','+c,cell=mcState.cells[k];
+      if(!cell){gHTML+='<div class="mc-cell black"></div>';continue;}
+      const isAct=mcState.activeCell&&mcState.activeCell[0]===r&&mcState.activeCell[1]===c;
+      const isOk=cell.typed===cell.answer;
+      gHTML+=`<div class="mc-cell${isAct?' active':''}${isOk?' correct':''}" onclick="selectMCCell(${r},${c})">${cell.num?`<span class="mc-num">${cell.num}</span>`:''}<span id="mct-${r}-${c}">${cell.typed}</span></div>`;
+    }
+  }
+  const across=MC_ANSWERS.filter(a=>a.dir==='across').map(a=>`<div class="mc-clue" onclick="focusMCWord(${a.num},'across')"><span>${a.num}.</span> ${a.clue}</div>`).join('');
+  const down=MC_ANSWERS.filter(a=>a.dir==='down').map(a=>`<div class="mc-clue" onclick="focusMCWord(${a.num},'down')"><span>${a.num}.</span> ${a.clue}</div>`).join('');
+  const keys=['AZERTYUIOP','QSDFGHJKLM','WXCVBN'].map(row=>row.split('').map(l=>`<button class="mc-key" onclick="typeMC('${l}')">${l}</button>`).join('')+(row==='WXCVBN'?`<button class="mc-key del" onclick="typeMC('DEL')">&#9003;</button>`:'')).join('');
+  const found=countMCFound();
+  cont.innerHTML=`<div class="mg-card">
+    <div class="mg-score-bar"><span class="mg-score">${found}/${MC_ANSWERS.length} mots</span></div>
+    <div class="mm-grid-wrap"><div class="mc-grid" style="grid-template-columns:repeat(${SIZE},32px)">${gHTML}</div></div>
+    <div class="mc-clues"><div class="mc-clue-group"><h4>Horizontal</h4>${across}</div><div class="mc-clue-group"><h4>Vertical</h4>${down}</div></div>
+    <div class="mc-keyboard">${keys}</div>
+  </div>`;
+}
+function selectMCCell(r,c){
+  if(mcState.activeCell&&mcState.activeCell[0]===r&&mcState.activeCell[1]===c)mcState.activeDir=mcState.activeDir==='across'?'down':'across';
+  mcState.activeCell=[r,c];renderMC();
+}
+function focusMCWord(num,dir){
+  const ans=MC_ANSWERS.find(a=>a.num===num&&a.dir===dir);
+  if(ans){mcState.activeCell=[ans.r,ans.c];mcState.activeDir=dir;renderMC();}
+}
+function typeMC(letter){
+  if(!mcState.activeCell)return;
+  const[r,c]=mcState.activeCell,k=r+','+c;
+  if(!mcState.cells[k])return;
+  if(letter==='DEL')mcState.cells[k].typed='';
+  else mcState.cells[k].typed=letter;
+  if(letter!=='DEL'){
+    const nr=mcState.activeDir==='down'?r+1:r,nc=mcState.activeDir==='across'?c+1:c;
+    if(mcState.cells[nr+','+nc])mcState.activeCell=[nr,nc];
+  }
+  renderMC();
+  if(countMCFound()===MC_ANSWERS.length){
+    addStoredPoints(200);
+    setTimeout(()=>{document.getElementById('mc-container').innerHTML='<div class="mg-card mg-final"><div class="mg-final-icon"><span class="material-symbols-outlined">border_all</span></div><div class="mg-final-score">200</div><div class="mg-final-label">Points gagnés !</div><button class="mg-final-btn" onclick="goToMC()">Rejouer</button></div>';},600);
+  }
+}
+function countMCFound(){
+  let f=0;
+  MC_ANSWERS.forEach(ans=>{
+    let ok=true;
+    for(let i=0;i<ans.word.length;i++){
+      const r=ans.dir==='across'?ans.r:ans.r+i,c=ans.dir==='across'?ans.c+i:ans.c;
+      if(mcState.cells[r+','+c]?.typed!==ans.word[i]){ok=false;break;}
+    }
+    if(ok)f++;
+  });
+  return f;
+}
+
+// ════ ANAGRAMME ════
+const AG_DATA = [{"word": "ROCHEFORT", "hint": "Commune du Gard à 8km d'Avignon"}, {"word": "GARRIGUE", "hint": "Végétation odorante du Midi calcaire"}, {"word": "PRIEURE", "hint": "Monastère dirigé par un prieur"}, {"word": "NIMES", "hint": "Préfecture du Gard aux arènes romaines"}, {"word": "RHONE", "hint": "Fleuve qui sépare le Gard du Vaucluse"}, {"word": "MISTRAL", "hint": "Vent froid dominant de la vallée du Rhône"}, {"word": "LIRAC", "hint": "AOC viticole voisine de Rochefort"}, {"word": "TAPENADE", "hint": "Pâte d'olives noires provençale"}, {"word": "CAMISARDS", "hint": "Protestants cévenols du XVIIIe siècle"}, {"word": "UZÈS", "hint": "Première duché de France dans le Gard"}, {"word": "CAMARGUE", "hint": "Delta du Rhône aux flamants roses"}, {"word": "ROQUEMAURE", "hint": "Commune voisine aux reliques de Saint-Valentin"}, {"word": "GARDON", "hint": "Fleuve du Gard qui passe sous le Pont du Gard"}, {"word": "BRANDADE", "hint": "Spécialité nîmoise à base de morue"}, {"word": "PASTIS", "hint": "Apéritif anisé du Midi"}, {"word": "OLIVIER", "hint": "Arbre emblème du pourtour méditerranéen"}, {"word": "VIGNE", "hint": "Plante qui donne le raisin et le vin"}, {"word": "CLAIRETTE", "hint": "Vin blanc AOC du Gard à Bellegarde"}, {"word": "PELARDON", "hint": "Fromage de chèvre AOP des Cévennes"}, {"word": "TRUFFE", "hint": "Champignon noir très précieux du Gard"}, {"word": "DOMITIA", "hint": "Grande voie romaine traversant le Gard"}, {"word": "LANGUEDOC", "hint": "Région historique de la langue d'oc"}, {"word": "PROTESTANT", "hint": "Confession religieuse dominante dans le Gard historique"}, {"word": "MEDIEVAL", "hint": "Relatif au Moyen-Âge"}, {"word": "SATURNIN", "hint": "Saint patron du prieuré de Rochefort"}, {"word": "AIGUES", "hint": "Cité fortifiée de Saint-Louis dans le Gard"}, {"word": "CEVENNES", "hint": "Massif montagneux gardois classé UNESCO"}, {"word": "ROMARIN", "hint": "Plante aromatique de la garrigue gardoise"}, {"word": "CALCAIRE", "hint": "Roche blanche dominante dans les garrigues du Gard"}, {"word": "RHODANIEN", "hint": "Relatif à la vallée du Rhône"}];
+let AG_POOL=[],agIndex=0,agScore=0,agAnswer=[],agLetters=[];
+function goToAG(){
+  document.getElementById('header-eyebrow').textContent='ANAGRAMME';
+  document.getElementById('header-name').textContent='Rochefort-du-Gard';
+  showScreen('screen-ag');
+  AG_POOL=shuffleArr([...AG_DATA]).slice(0,15);
+  agIndex=0;agScore=0;renderAG();
+}
+function renderAG(){
+  const c=document.getElementById('ag-container');
+  if(agIndex>=AG_POOL.length){
+    c.innerHTML=`<div class="mg-card mg-final"><div class="mg-final-icon"><span class="material-symbols-outlined">sort_by_alpha</span></div><div class="mg-final-score">${agScore}/${AG_POOL.length}</div><div class="mg-final-label">Anagrammes résolus !</div><button class="mg-final-btn" onclick="goToAG()">Rejouer</button></div>`;
+    addStoredPoints(agScore*15);return;
+  }
+  const d=AG_POOL[agIndex];
+  agAnswer=[];
+  agLetters=shuffleArr(d.word.split('').map((l,i)=>{return{l,i,used:false};}));
+  const pct=Math.round(agIndex/AG_POOL.length*100);
+  c.innerHTML=`<div class="mg-card">
+    <div class="prog-bar-wrap"><div class="prog-bar" style="width:${pct}%"></div></div>
+    <div class="mg-score-bar"><span class="mg-score">${agScore} pt${agScore>1?'s':''}</span><span class="mg-progress">${agIndex+1}/${AG_POOL.length}</span></div>
+    <div class="mg-question">Reconstitue le mot !</div>
+    <div class="ag-hint" id="ag-hint">${d.hint}</div>
+    <div class="ag-answer" id="ag-answer"></div>
+    <div class="ag-letters" id="ag-letters"></div>
+    <button class="ag-validate" id="ag-validate" onclick="checkAG()" disabled>Valider</button>
+    <div class="vf-result" id="ag-res"></div>
+  </div>`;
+  renderAGLetters();
+}
+function renderAGLetters(){
+  document.getElementById('ag-letters').innerHTML=agLetters.map((obj,i)=>`<div class="ag-letter ${obj.used?'used':''}" onclick="addAGLetter(${i})">${obj.l}</div>`).join('');
+  document.getElementById('ag-answer').innerHTML=agAnswer.map((obj,i)=>`<div class="ag-answer-letter" onclick="removeAGLetter(${i})">${obj.l}</div>`).join('');
+  const btn=document.getElementById('ag-validate');
+  if(btn)btn.disabled=agAnswer.length!==AG_POOL[agIndex].word.length;
+}
+function addAGLetter(i){if(agLetters[i].used)return;agLetters[i].used=true;agAnswer.push({...agLetters[i],srcIdx:i});renderAGLetters();}
+function removeAGLetter(i){const obj=agAnswer[i];agLetters[obj.srcIdx].used=false;agAnswer.splice(i,1);renderAGLetters();}
+function checkAG(){
+  const d=AG_POOL[agIndex];const attempt=agAnswer.map(o=>o.l).join('');const correct=attempt===d.word;
+  if(correct)agScore++;
+  const res=document.getElementById('ag-res');
+  res.className='vf-result show '+(correct?'correct':'wrong');
+  res.innerHTML=correct?`Bravo ! C'est bien <strong>${d.word}</strong> !`:`C'était <strong>${d.word}</strong>`;
+  const btn=document.getElementById('ag-validate');if(btn)btn.disabled=true;
+  document.querySelectorAll('.ag-letter,.ag-answer-letter').forEach(el=>el.style.pointerEvents='none');
+  setTimeout(()=>{agIndex++;renderAG();},2000);
+}
+
+// ════ ROUE ════
+const WHEEL_SEGMENTS=[
+  {label:'5 pts',    icon:'stars',          color:'#4facfe',type:'points',value:5,  detail:'+5 points fidélité'},
+  {label:'Porte-clé',icon:'key',            color:'#f7971e',type:'goodie',value:0,  detail:'Retire ton porte-clé en mairie'},
+  {label:'10 pts',   icon:'stars',          color:'#43e97b',type:'points',value:10, detail:'+10 points fidélité'},
+  {label:'Perdu',    icon:'sentiment_dissatisfied',color:'#ccc',type:'none',value:0,detail:'Retente demain !'},
+  {label:'20 pts',   icon:'stars',          color:'#a18cd1',type:'points',value:20, detail:'+20 points fidélité'},
+  {label:'Sticker',  icon:'label',          color:'#fd7043',type:'goodie',value:0,  detail:'Retire ton sticker en mairie'},
+  {label:'10 pts',   icon:'stars',          color:'#4facfe',type:'points',value:10, detail:'+10 points fidélité'},
+  {label:'-10%',     icon:'sell',           color:'#f7c948',type:'promo', value:0,  detail:'Montre cet écran chez un partenaire'},
+  {label:'5 pts',    icon:'stars',          color:'#43e97b',type:'points',value:5,  detail:'+5 points fidélité'},
+  {label:'Perdu',    icon:'sentiment_dissatisfied',color:'#ccc',type:'none',value:0,detail:'Retente demain !'},
+  {label:'Casquette',icon:'sports_baseball',color:'#ff6b9d',type:'goodie',value:0,  detail:'Retire ta casquette en mairie'},
+  {label:'20 pts',   icon:'stars',          color:'#a18cd1',type:'points',value:20, detail:'+20 points fidélité'},
+];
+const WHEEL_KEY='cdv_wheel_last_spin_rochefort';
+let wheelSpinning=false,wheelAngle=0;
+function getHoursUntilNextSpin(){
+  const last=parseInt(localStorage.getItem(WHEEL_KEY)||'0');
+  if(!last)return 0;
+  const rem=24*60*60*1000-(Date.now()-last);
+  return rem>0?Math.ceil(rem/(60*60*1000)):0;
+}
+function drawWheel(angle){
+  const canvas=document.getElementById('wheel-canvas');if(!canvas)return;
+  const dpr=Math.min(window.devicePixelRatio||1,2);
+  const sz=280;canvas.width=sz*dpr;canvas.height=sz*dpr;
+  canvas.style.width=sz+'px';canvas.style.height=sz+'px';
+  const ctx=canvas.getContext('2d');ctx.scale(dpr,dpr);
+  const cx=140,cy=140,r=126,seg=WHEEL_SEGMENTS.length,arc=(2*Math.PI)/seg;
+  ctx.clearRect(0,0,sz,sz);
+  for(let i=0;i<seg;i++){
+    const start=angle+i*arc,end=start+arc,s=WHEEL_SEGMENTS[i];
+    ctx.beginPath();ctx.moveTo(cx,cy);ctx.arc(cx,cy,r,start,end);ctx.closePath();
+    ctx.fillStyle=s.color;ctx.fill();
+    ctx.strokeStyle='#fff';ctx.lineWidth=2;ctx.stroke();
+    ctx.save();ctx.translate(cx,cy);ctx.rotate(start+arc/2);
+    ctx.fillStyle=s.type==='none'?'#666':'#fff';
+    ctx.font='bold 11px Manrope,Arial';ctx.textAlign='right';ctx.textBaseline='middle';
+    ctx.fillText(s.label,r-10,0);ctx.restore();
+  }
+  ctx.beginPath();ctx.arc(cx,cy,r,0,2*Math.PI);
+  ctx.strokeStyle='rgba(255,255,255,.4)';ctx.lineWidth=4;ctx.stroke();
+  ctx.beginPath();ctx.arc(cx,cy,20,0,2*Math.PI);
+  ctx.fillStyle='#fff';ctx.fill();ctx.strokeStyle='#eee';ctx.lineWidth=2;ctx.stroke();
+  ctx.font='bold 9px Manrope,Arial';ctx.fillStyle='#444';ctx.textAlign='center';ctx.textBaseline='middle';
+  ctx.fillText('CDV',cx,cy);
+}
+function spinWheel(){
+  if(wheelSpinning||getHoursUntilNextSpin()>0)return;
+  wheelSpinning=true;document.getElementById('wheel-spin-btn').disabled=true;
+  document.getElementById('wheel-result').classList.remove('show');
+  const seg=WHEEL_SEGMENTS.length,arc=(2*Math.PI)/seg;
+  const winIndex=Math.floor(Math.random()*seg);
+  const spins=5+Math.random()*4;
+  const finalAngle=-Math.PI/2-winIndex*arc-arc/2-spins*2*Math.PI;
+  const duration=5000,start=performance.now(),startAngle=wheelAngle;
+  const ease=t=>1-Math.pow(1-t,4);
+  function animate(now){
+    const t=Math.min((now-start)/duration,1);
+    wheelAngle=startAngle+(finalAngle-startAngle)*ease(t);
+    drawWheel(wheelAngle);
+    if(t<1)requestAnimationFrame(animate);
+    else{
+      wheelAngle=finalAngle; wheelSpinning=false;
+      localStorage.setItem(WHEEL_KEY,Date.now().toString());
+      const norm=(((-Math.PI/2-wheelAngle)%(2*Math.PI))+2*Math.PI)%(2*Math.PI);
+      const actual=Math.floor(norm/arc)%seg;
+      showWheelResult(WHEEL_SEGMENTS[actual]);
+    }
+  }
+  requestAnimationFrame(animate);
+}
+function showWheelResult(seg){
+  if(seg.type==='points')addStoredPoints(seg.value);
+  document.getElementById('wheel-result-icon').innerHTML=`<span class="material-symbols-outlined" style="font-size:40px;color:var(--accent)">${seg.icon}</span>`;
+  document.getElementById('wheel-result-title').textContent=seg.type==='none'?'Pas de chance !':seg.type==='goodie'?seg.label+' gagné !':seg.type==='promo'?'Réduction gagnée !':seg.value+' points gagnés !';
+  document.getElementById('wheel-result-sub').textContent=seg.detail;
+  document.getElementById('wheel-result').classList.add('show');
+  const btn=document.getElementById('wheel-spin-btn');
+  btn.disabled=true;btn.textContent='Reviens dans '+getHoursUntilNextSpin()+'h';
+  document.getElementById('wheel-next-info').textContent='Prochain tour dans 24h';
+}
+function openWheel(){
+  wheelAngle=0;drawWheel(wheelAngle);
+  const h=getHoursUntilNextSpin(),btn=document.getElementById('wheel-spin-btn');
+  document.getElementById('wheel-result').classList.remove('show');
+  if(h>0){btn.disabled=true;btn.textContent='Reviens dans '+h+'h';document.getElementById('wheel-next-info').textContent='Prochain tour dans '+h+'h';}
+  else{btn.disabled=false;btn.textContent='TOURNER LA ROUE';document.getElementById('wheel-next-info').textContent='1 tour gratuit disponible';}
+  document.getElementById('wheel-overlay').classList.add('show');
+}
+function closeWheel(){document.getElementById('wheel-overlay').classList.remove('show');}
+
+// ════ BOUTIQUE ════
+const GIFTS=[
+  {id:'sticker',   icon:'label',          img:'assets/gifts/sticker.jpg',   name:'Sticker CDV',       desc:'Sticker Coeur de Ville',                 price:30},
+  {id:'portecle',  icon:'key',            img:'assets/gifts/portecle.jpg',  name:'Porte-clé CDV',     desc:'Porte-clé métal Coeur de Ville',         price:50},
+  {id:'casquette', icon:'sports_baseball',img:'assets/gifts/casquette.jpg', name:'Casquette CDV',     desc:'Casquette brodée édition limitée',       price:120},
+  {id:'totebag',   icon:'shopping_bag',   img:'assets/gifts/totebag.jpg',   name:'Tote Bag CDV',      desc:'Tote bag coton bio',                     price:80},
+  {id:'pin',       icon:'push_pin',       img:'assets/gifts/pin.jpg',       name:'Pin CDV',           desc:'Pin émaillé collector',                  price:40},
+  {id:'poster',    icon:'image',          img:'assets/gifts/poster.jpg',    name:'Poster Villeneuve', desc:'Poster illustré du patrimoine',          price:60},
+];
+const FIDELITY_REWARDS=[
+  {id:'reduc5',  icon:'credit_card',  img:'assets/fidelite/reduc5.jpg',  name:'-5% partenaires',     desc:'Valable 30j chez les commerçants partenaires', cost:40},
+  {id:'reduc10', icon:'diamond',      img:'assets/fidelite/reduc10.jpg', name:'-10% partenaires',    desc:'Valable 30j chez les commerçants partenaires', cost:80},
+  {id:'cafe',    icon:'coffee',       img:'assets/fidelite/cafe.jpg',    name:'Café offert',          desc:'Un café offert chez un partenaire',            cost:25},
+  {id:'visite',  icon:'museum',       img:'assets/fidelite/visite.jpg',  name:'Visite guidée',        desc:'Visite gratuite à la Chartreuse',              cost:200},
+  {id:'reduc20', icon:'stars',        img:'assets/fidelite/reduc20.jpg', name:'-20% entrée',          desc:'20% de réduction sur une entrée monument',    cost:150},
+  {id:'picnic',  icon:'lunch_dining', img:'assets/fidelite/picnic.jpg',  name:'Panier pique-nique',   desc:'Panier offert pour 2 personnes',               cost:180},
+];
+function getOwned(){try{return JSON.parse(localStorage.getItem('cdv_owned_rochefort')||'[]');}catch{return[];}}
+function addOwned(id){const o=getOwned();if(!o.includes(id))o.push(id);localStorage.setItem('cdv_owned_rochefort',JSON.stringify(o));}
+function showToast(msg){const t=document.getElementById('shop-toast');if(!t)return;t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2500);}
+let shopTab='cadeaux';
+function goToShop(){
+  document.getElementById('header-eyebrow').textContent='BOUTIQUE';
+  document.getElementById('header-name').textContent='Récompenses';
+  showScreen('screen-shop');shopTab='cadeaux';renderShop();
+}
+function renderShop(){
+  const pts=getPoints();const owned=getOwned();const wrap=document.getElementById('shop-wrap');
+  const giftsHTML=GIFTS.map(g=>{
+    const isOwned=owned.includes(g.id);const canBuy=pts>=g.price&&!isOwned;
+    return `<div class="gift-card ${isOwned?'owned':''}">
+      <div class="gift-img-wrap"><img class="gift-img" src="${g.img}" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'" alt="${g.name}"/><div class="gift-icon-fallback" style="display:none"><span class="material-symbols-outlined">${g.icon}</span></div></div>
+      <div class="gift-name">${g.name}</div><div class="gift-desc">${g.desc}</div>
+      <div class="gift-price"><span class="material-symbols-outlined" style="font-size:14px">stars</span>${g.price} pts</div>
+      ${isOwned?'<button class="gift-btn owned-btn" disabled>Obtenu</button>':`<button class="gift-btn" onclick="buyGift('${g.id}')" ${canBuy?'':'disabled'}>${canBuy?'Obtenir':pts+'/'+g.price+' pts'}</button>`}
+    </div>`;
+  }).join('');
+  const fidelityHTML=FIDELITY_REWARDS.map(r=>{
+    const canUse=pts>=r.cost;
+    return `<div class="fidelity-card">
+      <div class="fidelity-img-wrap"><img class="fidelity-img" src="${r.img}" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'" alt="${r.name}"/><div class="fidelity-icon-fallback" style="display:none"><span class="material-symbols-outlined">${r.icon}</span></div></div>
+      <div class="fidelity-body"><div class="fidelity-title">${r.name}</div><div class="fidelity-desc">${r.desc}</div><div class="fidelity-cost"><span class="material-symbols-outlined" style="font-size:13px">stars</span>${r.cost} pts</div></div>
+      <button class="fidelity-convert-btn" onclick="useFidelity('${r.id}')" ${canUse?'':'disabled'}>${canUse?'Utiliser':pts+'/'+r.cost}</button>
+    </div>`;
+  }).join('');
+  wrap.innerHTML=`
+    <div class="shop-header">
+      <div class="shop-points-label">Tes points</div>
+      <div class="shop-points-value" id="shop-points-display">${pts}</div>
+      <div class="shop-points-sub">Gagnés en jouant aux mini-jeux</div>
+    </div>
+    <div class="shop-tabs">
+      <button class="shop-tab ${shopTab==='cadeaux'?'active':''}" onclick="switchShopTab('cadeaux')">Cadeaux</button>
+      <button class="shop-tab ${shopTab==='fidelite'?'active':''}" onclick="switchShopTab('fidelite')">Fidélité</button>
+    </div>
+    ${shopTab==='cadeaux'?`
+      <div class="shop-section-title">Cadeaux Coeur de Ville</div>
+      <div class="gift-grid">${giftsHTML}</div>
+      <div class="shop-info-note">Les cadeaux sont à retirer à la Mairie de Rochefort-du-Gard</div>
+    `:`
+      <div class="shop-section-title">Avantages Fidélité</div>
+      ${fidelityHTML}
+      <div class="shop-info-note">Montre cet écran chez un commerçant partenaire</div>
+    `}`;
+}
+function switchShopTab(tab){shopTab=tab;renderShop();}
+function buyGift(id){
+  const gift=GIFTS.find(g=>g.id===id);if(!gift)return;
+  const pts=getPoints();if(pts<gift.price){showToast('Pas assez de points !');return;}
+  setPoints(pts-gift.price);addOwned(id);showToast(gift.name+' obtenu ! Récupère-le en mairie.');renderShop();
+}
+function useFidelity(id){
+  const reward=FIDELITY_REWARDS.find(r=>r.id===id);if(!reward)return;
+  const pts=getPoints();if(pts<reward.cost){showToast('Pas assez de points !');return;}
+  setPoints(pts-reward.cost);showToast(reward.name+' activé !');renderShop();
+}
+
+</script>
+</body>
+</html>
