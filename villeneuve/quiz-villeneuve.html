@@ -1342,6 +1342,8 @@ html, body {
   -webkit-overflow-scrolling: touch;
   background: var(--bg);
   padding-bottom: 40px;
+  padding-left: 16px;
+  padding-right: 16px;
 }
 
 /* ── Hero ── */
@@ -1352,6 +1354,7 @@ html, body {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
+  margin: 0 -16px;
 }
 .ph-bg {
   position: absolute;
@@ -1603,11 +1606,10 @@ html, body {
 }
 #wheel-overlay.show { display: flex; }
 #wheel-modal {
-  background: rgba(255,255,255,.12);
-  backdrop-filter: blur(36px) saturate(1.8); -webkit-backdrop-filter: blur(36px) saturate(1.8);
-  border: 1.5px solid rgba(255,255,255,.3); border-bottom: none;
+  background: #fff;
+  border: none; border-bottom: none;
   border-radius: 32px 32px 0 0;
-  box-shadow: 0 -20px 60px rgba(0,0,0,.3), inset 0 1px 0 rgba(255,255,255,.5);
+  box-shadow: 0 -8px 40px rgba(0,0,0,.15);
   width: 100%; max-width: 480px;
   padding: 12px 24px 36px;
   display: flex; flex-direction: column; align-items: center; gap: 14px;
@@ -1615,7 +1617,7 @@ html, body {
 }
 #wheel-modal::before {
   content: ''; width: 40px; height: 4px;
-  background: rgba(255,255,255,.3); border-radius: 2px; margin-bottom: 4px;
+  background: #e0e0e0; border-radius: 2px; margin-bottom: 4px;
 }
 #wheel-close {
   position: absolute; top: 16px; right: 16px;
@@ -1625,8 +1627,8 @@ html, body {
   cursor: pointer; color: rgba(255,255,255,.8); transition: all .2s;
 }
 #wheel-close:hover { background: rgba(255,255,255,.25); }
-#wheel-title { font-size: 20px; font-weight: 800; color: #fff; text-align: center; text-shadow: 0 2px 8px rgba(0,0,0,.3); }
-#wheel-subtitle { font-size: 13px; color: rgba(255,255,255,.6); text-align: center; margin-top: -10px; }
+#wheel-title { font-size: 20px; font-weight: 800; color: #1a1a1a; text-align: center; }
+#wheel-subtitle { font-size: 13px; color: #999; text-align: center; margin-top: -10px; }
 #wheel-wrap { position: relative; width: 280px; height: 280px; filter: drop-shadow(0 12px 32px rgba(0,0,0,.35)); }
 #wheel-canvas { border-radius: 50%; display: block; }
 #wheel-pointer {
@@ -1647,18 +1649,18 @@ html, body {
 #wheel-spin-btn:disabled { opacity: .5; cursor: default; transform: none; }
 #wheel-result {
   display: none; text-align: center; padding: 16px 20px; border-radius: 20px;
-  background: rgba(255,255,255,.12); backdrop-filter: blur(12px);
-  border: 1.5px solid rgba(255,255,255,.25); width: 100%;
+  background: #f8f9fa;
+  border: 1.5px solid #eee; width: 100%;
 }
 #wheel-result.show { display: block; }
 #wheel-result-icon { font-size: 38px; margin-bottom: 6px; }
-#wheel-result-title { font-size: 18px; font-weight: 800; color: #fff; text-shadow: 0 1px 4px rgba(0,0,0,.3); }
-#wheel-result-sub { font-size: 13px; color: rgba(255,255,255,.7); margin-top: 4px; }
-#wheel-next-info { font-size: 12px; color: rgba(255,255,255,.45); text-align: center; }
+#wheel-result-title { font-size: 18px; font-weight: 800; color: #1a1a1a; }
+#wheel-result-sub { font-size: 13px; color: #999; margin-top: 4px; }
+#wheel-next-info { font-size: 12px; color: #bbb; text-align: center; }
 
 /* ════ MINI JEUX ════ */
 .minigame-screen { flex:1; overflow-y:auto; padding:16px; display:flex; flex-direction:column; gap:16px; background: linear-gradient(145deg,#e8eaf6,#fce4ec 50%,#e0f7fa); }
-.mg-card { background:rgba(255,255,255,.6); backdrop-filter:blur(20px); -webkit-backdrop-filter:blur(20px); border-radius:24px; padding:22px; border:1.5px solid rgba(255,255,255,.7); box-shadow:0 8px 32px rgba(0,0,0,.10),inset 0 1px 0 rgba(255,255,255,.8); }
+.mg-card { background:#fff; border-radius:24px; padding:22px; border:1.5px solid #f0f0f0; box-shadow:0 2px 12px rgba(0,0,0,.05); }
 .mg-question { font-size:18px; font-weight:700; color:var(--text); line-height:1.4; margin-bottom:18px; text-align:center; }
 .mg-score-bar { display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; }
 .mg-score { font-size:13px; font-weight:700; color:var(--accent); }
@@ -1673,8 +1675,8 @@ html, body {
 .pm-hint-btn { display:block; width:100%; padding:11px; background:var(--accent); color:#fff; border:none; border-radius:14px; font-size:14px; font-weight:700; cursor:pointer; margin-bottom:12px; transition:all .2s; }
 .pm-hint-btn:disabled { opacity:.4; cursor:default; }
 .pm-options { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
-.pm-opt { padding:13px 10px; background:rgba(255,255,255,.55); backdrop-filter:blur(10px); border:1.5px solid rgba(255,255,255,.7); border-radius:16px; font-size:14px; font-weight:700; cursor:pointer; text-align:center; transition:all .18s; box-shadow:0 2px 8px rgba(0,0,0,.07); color:var(--text); }
-.pm-opt:hover { background:rgba(255,255,255,.8); transform:translateY(-1px); }
+.pm-opt { padding:13px 10px; background:#fff; border:1.5px solid #eee; border-radius:16px; font-size:14px; font-weight:700; cursor:pointer; text-align:center; transition:all .18s; box-shadow:0 2px 6px rgba(0,0,0,.04); color:var(--text); }
+.pm-opt:hover { background:#f8f8f8; transform:translateY(-1px); border-color:#ddd; }
 .pm-opt.correct { border-color:#27ae60; background:#d5f5e3; color:#1e8449; }
 .pm-opt.wrong { border-color:#e74c3c; background:#fadbd8; color:#c0392b; }
 .pm-opt:disabled { cursor:default; }
@@ -1703,8 +1705,8 @@ html, body {
 .mm-cell {
   width:32px; height:32px; display:flex; align-items:center; justify-content:center;
   font-size:15px; font-weight:700; border-radius:8px; cursor:pointer;
-  background:rgba(255,255,255,.6); backdrop-filter:blur(8px);
-  border:1.5px solid rgba(255,255,255,.7); color:var(--text);
+  background:#fff;
+  border:1.5px solid #eee; color:var(--text);
   user-select:none; transition:all .15s;
   box-shadow:0 2px 6px rgba(0,0,0,.06);
 }
@@ -1721,7 +1723,7 @@ html, body {
 .mc-cell {
   width:34px; height:34px; display:flex; align-items:center; justify-content:center;
   font-size:14px; font-weight:800; border-radius:6px; position:relative;
-  background:rgba(255,255,255,.75); border:1.5px solid rgba(255,255,255,.8);
+  background:#fff; border:1.5px solid #eee;
   color:var(--text); box-shadow:0 1px 4px rgba(0,0,0,.08);
 }
 .mc-cell.black { background:rgba(30,30,60,.8); border-color:rgba(30,30,60,.5); }
@@ -1738,7 +1740,7 @@ html, body {
 .mc-key { padding:8px 4px; background:rgba(255,255,255,.6); border:1.5px solid rgba(255,255,255,.7);
   border-radius:8px; font-size:13px; font-weight:700; cursor:pointer; text-align:center;
   backdrop-filter:blur(8px); transition:all .15s; }
-.mc-key:hover { background:rgba(255,255,255,.9); transform:translateY(-1px); }
+.mc-key:hover { background:#f5f5f5; transform:translateY(-1px); }
 .mc-key.del { background:rgba(255,59,48,.15); color:#ff3b30; }
 
 /* ════ ANAGRAMME ════ */
@@ -1746,8 +1748,8 @@ html, body {
 .ag-letter {
   width:42px; height:48px; display:flex; align-items:center; justify-content:center;
   font-size:20px; font-weight:800; border-radius:12px; cursor:pointer;
-  background:linear-gradient(145deg,rgba(255,255,255,.8),rgba(255,255,255,.5));
-  backdrop-filter:blur(10px); border:1.5px solid rgba(255,255,255,.8);
+  background:#fff;
+  border:1.5px solid #eee;
   color:var(--text); box-shadow:0 4px 12px rgba(0,0,0,.1);
   transition:all .2s; user-select:none;
 }
@@ -1796,6 +1798,88 @@ html, body {
 .portal-scroll .pg-row-chev { display:none; }
 .portal-scroll .pg-section { grid-column:1/-1; }
 
+
+/* ════ PROGRESSION ════ */
+.prog-bar-wrap { background:rgba(0,0,0,.08); border-radius:20px; height:6px; margin-bottom:16px; overflow:hidden; }
+.prog-bar { height:100%; border-radius:20px; background:linear-gradient(90deg,var(--accent),#a18cd1); transition:width .4s; }
+.level-badge { display:inline-flex; align-items:center; gap:6px; padding:4px 12px; border-radius:20px; font-size:12px; font-weight:800; margin-bottom:8px; }
+.level-apprenti { background:rgba(79,172,254,.15); color:#2f80ed; }
+.level-initie { background:rgba(67,233,123,.15); color:#1db954; }
+.level-expert { background:rgba(161,140,209,.15); color:#8e44ad; }
+.level-maitre { background:rgba(255,107,53,.15); color:#e55812; }
+
+
+
+/* ════ BOUTIQUE RÉCOMPENSES ════ */
+#screen-shop { background:#f8f9fa; font-family:'Manrope', system-ui, sans-serif; }
+.shop-wrap { flex:1; overflow-y:auto; padding:16px; display:flex; flex-direction:column; gap:14px; }
+.shop-header { background:#fff; border-radius:24px; padding:22px 20px 20px; display:flex; flex-direction:column; align-items:center; gap:6px; box-shadow:0 2px 16px rgba(0,0,0,.06); border:1px solid #f0f0f0; overflow:visible; }
+.shop-points-label { font-size:11px; font-weight:700; color:#aaa; letter-spacing:.1em; text-transform:uppercase; }
+.shop-points-value { font-size:56px; font-weight:900; color:var(--accent); line-height:1; }
+.shop-points-sub { font-size:13px; color:#999; }
+.shop-tabs { display:flex; gap:10px; width:100%; padding:0; }
+.shop-tab { flex:1; padding:14px 8px; border:none; border-radius:16px; font-size:15px; font-weight:800; cursor:pointer; transition:all .2s; background:#1a1a1a; color:#fff; font-family:'Manrope',system-ui,sans-serif; letter-spacing:-.01em; min-width:0; opacity:.35; }
+.shop-tab.active { background:#1a1a1a; color:#fff; opacity:1; box-shadow:0 4px 16px rgba(0,0,0,.2); }
+.shop-section-title { font-size:11px; font-weight:800; color:#bbb; text-transform:uppercase; letter-spacing:.1em; padding:0 4px; }
+.gift-grid { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+.gift-card { background:#fff; border:1.5px solid #f0f0f0; border-radius:20px; padding:16px 12px; display:flex; flex-direction:column; align-items:center; gap:8px; text-align:center; transition:all .2s; box-shadow:0 2px 8px rgba(0,0,0,.04); }
+.gift-card:hover { transform:translateY(-2px); box-shadow:0 8px 24px rgba(0,0,0,.08); border-color:#e0e0e0; }
+.gift-card.owned { border-color:#43e97b; background:#f0fdf4; }
+.gift-name { font-size:13px; font-weight:800; color:#1a1a1a; }
+.gift-desc { font-size:11px; color:#999; line-height:1.4; }
+.gift-price { display:flex; align-items:center; gap:4px; font-size:13px; font-weight:800; color:var(--accent); background:rgba(var(--accent-rgb),.08); padding:4px 12px; border-radius:20px; margin-top:2px; }
+.gift-btn { width:100%; padding:10px; border:none; border-radius:12px; font-size:13px; font-weight:800; cursor:pointer; transition:all .2s; background:var(--accent); color:#fff; box-shadow:0 4px 12px rgba(var(--accent-rgb),.25); }
+.gift-btn:hover:not(:disabled) { opacity:.9; transform:translateY(-1px); }
+.gift-btn:disabled { background:#e8e8e8; color:#888; box-shadow:none; cursor:default; transform:none; }
+.gift-btn.owned-btn { background:#43e97b; box-shadow:0 4px 12px rgba(67,233,123,.25); }
+.fidelity-card { background:#fff; border:1.5px solid #f0f0f0; border-radius:20px; padding:16px; display:flex; align-items:center; gap:14px; box-shadow:0 2px 8px rgba(0,0,0,.04); transition:all .2s; }
+.fidelity-card:hover { box-shadow:0 6px 20px rgba(0,0,0,.08); transform:translateY(-1px); }
+.fidelity-body { flex:1; }
+.fidelity-title { font-size:14px; font-weight:800; color:#1a1a1a; }
+.fidelity-desc { font-size:12px; color:#999; margin-top:3px; line-height:1.4; }
+.fidelity-cost { font-size:13px; font-weight:800; color:var(--accent); margin-top:6px; display:flex; align-items:center; gap:3px; }
+.fidelity-convert-btn { padding:10px 16px; border:none; border-radius:12px; background:var(--accent); color:#fff; font-size:13px; font-weight:800; cursor:pointer; box-shadow:0 4px 12px rgba(var(--accent-rgb),.25); transition:all .2s; flex-shrink:0; white-space:nowrap; }
+.fidelity-convert-btn:hover:not(:disabled) { opacity:.9; }
+.fidelity-convert-btn:disabled { background:#e8e8e8; color:#888; box-shadow:none; cursor:default; }
+#shop-toast { position:fixed; bottom:80px; left:50%; transform:translateX(-50%) translateY(20px); background:#1a1a1a; border-radius:20px; padding:12px 24px; color:#fff; font-size:14px; font-weight:700; opacity:0; transition:all .3s; z-index:999; pointer-events:none; white-space:nowrap; box-shadow:0 8px 24px rgba(0,0,0,.2); }
+#shop-toast.show { opacity:1; transform:translateX(-50%) translateY(0); }
+.shop-nav-btn { display:flex; align-items:center; justify-content:space-between; background:#fff; border:1.5px solid #f0f0f0; border-radius:20px; padding:16px; margin:0 0 4px 0; width:100%; cursor:pointer; transition:all .2s; gap:14px; box-shadow:0 2px 12px rgba(0,0,0,.06); font-family:'Manrope',system-ui,sans-serif; }
+.shop-nav-btn:hover { transform:translateY(-2px); box-shadow:0 8px 24px rgba(0,0,0,.08); }
+.shop-nav-left { display:flex; align-items:center; gap:12px; }
+.shop-nav-title { font-size:15px; font-weight:800; color:var(--text); font-family:'Manrope',system-ui,sans-serif; letter-spacing:-.02em; }
+.shop-nav-sub { font-size:12px; color:var(--text-2); font-family:'Manrope',system-ui,sans-serif; margin-top:2px; }
+.shop-nav-pts { font-size:24px; font-weight:900; color:var(--accent); font-family:'Manrope',system-ui,sans-serif; letter-spacing:-.03em; line-height:1; }
+.gift-img-wrap { width:100%; aspect-ratio:1; border-radius:14px; overflow:hidden; background:#f5f5f5; display:flex; align-items:center; justify-content:center; margin-bottom:4px; }
+.fidelity-img-wrap { width:56px; height:56px; flex-shrink:0; border-radius:12px; overflow:hidden; background:#f5f5f5; display:flex; align-items:center; justify-content:center; }
+.gift-img, .fidelity-img { width:100%; height:100%; object-fit:cover; }
+.gift-icon-fallback, .fidelity-icon-fallback { width:100%; height:100%; display:flex; align-items:center; justify-content:center; }
+.gift-icon-fallback .material-symbols-outlined { font-size:32px; color:var(--accent); }
+.fidelity-icon-fallback .material-symbols-outlined { font-size:24px; color:var(--accent); }
+.shop-info-note { background:#f8f9fa; border-radius:14px; padding:14px; font-size:12px; color:#aaa; text-align:center; line-height:1.6; border:1px solid #f0f0f0; }
+
+
+
+/* Gift & Fidelity images */
+.gift-img-wrap, .fidelity-img-wrap {
+  width:100%; aspect-ratio:1; border-radius:14px; overflow:hidden;
+  background:rgba(0,0,0,.06); display:flex; align-items:center; justify-content:center;
+  margin-bottom:4px;
+}
+.fidelity-img-wrap { width:64px; height:64px; flex-shrink:0; aspect-ratio:unset; border-radius:12px; }
+.gift-img { width:100%; height:100%; object-fit:cover; }
+.fidelity-img { width:100%; height:100%; object-fit:cover; }
+.gift-icon-fallback, .fidelity-icon-fallback {
+  width:100%; height:100%; align-items:center; justify-content:center;
+  background:rgba(var(--accent-rgb),.08);
+}
+.gift-icon-fallback .material-symbols-outlined { font-size:40px; color:var(--accent); }
+.fidelity-icon-fallback .material-symbols-outlined { font-size:28px; color:#f7c948; }
+.gift-icon { display:none; }
+
+
+.mg-final-icon { width:64px; height:64px; background:linear-gradient(135deg,var(--accent),#a18cd1); border-radius:20px; display:flex; align-items:center; justify-content:center; margin:0 auto 12px; }
+.mg-final-icon .material-symbols-outlined { font-size:34px; color:#fff; }
+
 </style>
 </head>
 <body>
@@ -1833,6 +1917,25 @@ html, body {
       </div>
 
       <!-- JEUX DISPO -->
+
+      <!-- BOUTIQUE BUTTON -->
+      <button class="shop-nav-btn" onclick="goToShop()">
+        <div class="shop-nav-left">
+          <div class="pg-row-icon" style="background:linear-gradient(145deg,#f7c948,#ff6b35);width:52px;height:52px;border-radius:16px;flex-shrink:0">
+            <span class="material-symbols-outlined" style="font-size:26px;color:#fff">redeem</span>
+          </div>
+          <div>
+            <div class="shop-nav-title">Boutique Récompenses</div>
+            <div class="shop-nav-sub">Dépense tes points · Cadeaux & Fidélité</div>
+          </div>
+        </div>
+        <div style="display:flex;flex-direction:column;align-items:flex-end">
+          <div class="shop-nav-pts" id="portal-shop-pts">0</div>
+          <div style="font-size:10px;color:var(--text-2)">pts</div>
+        </div>
+      </button>
+
+      <div style="height:4px"></div>
       <div class="pg-section">DISPONIBLES</div>
 
       <div class="pg-list">
@@ -2016,6 +2119,13 @@ html, body {
 </div>
 
 
+
+<!-- BOUTIQUE -->
+<section class="screen" id="screen-shop">
+  <div class="shop-wrap" id="shop-wrap"></div>
+  <div id="shop-toast"></div>
+</section>
+
 <!-- MOTS MÊLÉS -->
 <section class="screen" id="screen-mm">
   <div class="minigame-screen" id="mm-container"></div>
@@ -2162,8 +2272,12 @@ const BADGE_COLORS = {
   architectural: '#00d68f'
 };
 
-function getStoredPoints() { try { return parseInt(localStorage.getItem('cdv_loyalty_points') || '0'); } catch { return 0; } }
-function addStoredPoints(n) { try { localStorage.setItem('cdv_loyalty_points', String(getStoredPoints() + n)); } catch {} }
+function getStoredPoints() { return getPoints(); }
+function addStoredPoints(n) {
+  if(n <= 0) return;
+  const current = getPoints();
+  setPoints(current + n);
+}
 
 let state = { levelKey: null, questions: [], current: 0, correct: 0, earnedBadges: new Set(), startTime: 0 };
 
@@ -2464,7 +2578,11 @@ function goToPortal() {
   document.getElementById('header-eyebrow').textContent = 'JEUX';
   document.getElementById('header-name').textContent = 'Villeneuve-lès-Avignon';
   document.getElementById('header-points').style.display = 'none';
-  document.getElementById('portal-points').textContent = getStoredPoints();
+  const pts = getPoints();
+  ['portal-points','portal-shop-pts'].forEach(id => {
+    const el = document.getElementById(id);
+    if(el) el.textContent = pts;
+  });
   showScreen('screen-portal');
 }
 
@@ -2473,7 +2591,7 @@ function onBack() {
   if (active === 'screen-portal') {
     if (window.parent && window.parent !== window) window.parent.postMessage({ type: 'quiz-close' }, '*');
     else window.history.back();
-  } else if (active === 'screen-territory' || active === 'screen-vf' || active === 'screen-pm' || active === 'screen-qs' || active === 'screen-mm' || active === 'screen-mc' || active === 'screen-ag') {
+  } else if (active === 'screen-territory' || active === 'screen-vf' || active === 'screen-pm' || active === 'screen-qs' || active === 'screen-mm' || active === 'screen-mc' || active === 'screen-ag' || active === 'screen-shop') {
     goToPortal();
   } else if (active === 'screen-levels') {
     showScreen('screen-territory');
@@ -2485,33 +2603,27 @@ function onBack() {
 goToPortal();
 
 // ════ VRAI OU FAUX ════
-const VF_DATA = [
-  { q:"La Tour Philippe-le-Bel a été construite au XIIIe siècle.", a:true, exp:"Vrai ! Construite vers 1293-1307 par Philippe IV le Bel pour surveiller l'accès au pont d'Avignon." },
-  { q:"Villeneuve-lès-Avignon est dans le département du Vaucluse.", a:false, exp:"Faux ! Elle est dans le Gard (30), face à Avignon qui est dans le Vaucluse (84)." },
-  { q:"La Chartreuse du Val-de-Bénédiction a été fondée par le pape Innocent VI.", a:true, exp:"Vrai ! Innocent VI l'a fondée en 1356. Il y repose dans un tombeau monumental." },
-  { q:"Le Fort Saint-André date du XVIe siècle.", a:false, exp:"Faux ! Le Fort Saint-André a été construit au XIVe siècle sous les rois de France Jean II et Charles V." },
-  { q:"Villeneuve-lès-Avignon est jumelée avec une ville italienne.", a:true, exp:"Vrai ! Elle est jumelée avec Monterotondo, commune du Latium en Italie." },
-  { q:"La Chartreuse de Villeneuve est la plus grande de France.", a:true, exp:"Vrai ! Avec ses 2 hectares, c'est l'une des plus vastes chartreuses françaises." },
-  { q:"Le pont Saint-Bénézet reliait Avignon à Villeneuve.", a:true, exp:"Vrai ! Le célèbre pont traversait le Rhône et aboutissait à Villeneuve, en territoire français." },
-  { q:"Villeneuve-lès-Avignon a moins de 10 000 habitants.", a:false, exp:"Faux ! La ville compte environ 13 000 habitants." },
-  { q:"Le Musée Pierre-de-Luxembourg conserve le Couronnement de la Vierge d'Enguerrand Quarton.", a:true, exp:"Vrai ! Ce chef-d'oeuvre de 1453 est considéré comme l'une des plus belles peintures gothiques françaises." },
-  { q:"La Tour Philippe-le-Bel est visible depuis Avignon.", a:true, exp:"Vrai ! Elle domine le Rhône et sa silhouette est clairement visible depuis les remparts d'Avignon." },
-];
+const VF_DATA = [{"q": "La Tour Philippe-le-Bel a été construite au XIIIe siècle.", "a": true, "exp": "Vrai ! Construite vers 1293-1307 par Philippe IV le Bel pour surveiller le pont d'Avignon."}, {"q": "Villeneuve-lès-Avignon est dans le département du Vaucluse.", "a": false, "exp": "Faux ! Elle est dans le Gard (30), face à Avignon qui est dans le Vaucluse (84)."}, {"q": "La Chartreuse du Val-de-Bénédiction a été fondée par le pape Innocent VI.", "a": true, "exp": "Vrai ! Innocent VI l'a fondée en 1356. Il y repose dans un tombeau monumental."}, {"q": "Le Fort Saint-André date du XVIe siècle.", "a": false, "exp": "Faux ! Il a été construit au XIVe siècle sous Jean II et Charles V."}, {"q": "Villeneuve-lès-Avignon est jumelée avec une ville italienne.", "a": true, "exp": "Vrai ! Elle est jumelée avec Monterotondo, commune du Latium."}, {"q": "La Chartreuse de Villeneuve est la plus grande de France.", "a": true, "exp": "Vrai ! Avec ses 2 hectares, c'est l'une des plus vastes chartreuses françaises."}, {"q": "Le pont Saint-Bénézet reliait Avignon à Villeneuve.", "a": true, "exp": "Vrai ! Ce pont traversait le Rhône et aboutissait à Villeneuve, territoire français."}, {"q": "Le Musée Pierre-de-Luxembourg conserve le Couronnement de la Vierge d'Enguerrand Quarton.", "a": true, "exp": "Vrai ! Ce chef-d'oeuvre de 1453 est l'une des plus belles peintures gothiques françaises."}, {"q": "La Tour Philippe-le-Bel est visible depuis Avignon.", "a": true, "exp": "Vrai ! Elle domine le Rhône et sa silhouette est visible depuis les remparts d'Avignon."}, {"q": "Villeneuve-lès-Avignon a moins de 10 000 habitants.", "a": false, "exp": "Faux ! La ville compte environ 13 000 habitants."}, {"q": "La lavande pousse naturellement en Provence.", "a": true, "exp": "Vrai ! La lavande est emblématique de la Provence, notamment sur le plateau de Valensole."}, {"q": "Le mistral souffle du sud vers le nord.", "a": false, "exp": "Faux ! Le mistral est un vent froid qui souffle du nord vers le sud, descendant la vallée du Rhône."}, {"q": "La Camargue est un delta du Rhône.", "a": true, "exp": "Vrai ! La Camargue est formée par le delta du Rhône avant qu'il se jette dans la Méditerranée."}, {"q": "Les santons sont des figurines de crèche provençales.", "a": true, "exp": "Vrai ! Les santons sont une tradition artisanale provençale, notamment à Marseille."}, {"q": "Le pastis est une liqueur à base d'anis.", "a": true, "exp": "Vrai ! Le pastis est un apéritif anisé très populaire en Provence."}, {"q": "Le Pont du Gard est un aqueduc romain.", "a": true, "exp": "Vrai ! Construit au Ier siècle, il alimentait Nîmes en eau sur 50 km."}, {"q": "La garrigue est une végétation des zones humides.", "a": false, "exp": "Faux ! La garrigue est une végétation typique des zones sèches et rocailleuses du Midi."}, {"q": "Frédéric Mistral a reçu le Prix Nobel de Littérature.", "a": true, "exp": "Vrai ! Il l'a reçu en 1904 pour son oeuvre en langue d'oc, notamment Mirèio."}, {"q": "Aix-en-Provence est la capitale de la Provence-Alpes-Côte d'Azur.", "a": false, "exp": "Faux ! Marseille est le chef-lieu de la région PACA. Aix-en-Provence est une ville importante mais pas capitale régionale."}, {"q": "Les Alpilles sont une chaîne de montagnes.", "a": true, "exp": "Vrai ! Les Alpilles sont un petit massif calcaire entre Arles et Avignon."}, {"q": "La tapenade est une spécialité provençale à base d'olives.", "a": true, "exp": "Vrai ! La tapenade est une pâte d'olives noires, câpres et anchois typique de Provence."}, {"q": "La ratatouille vient d'origine de Nice.", "a": true, "exp": "Vrai ! La ratatouille est un plat traditionnel niçois à base de légumes mijotés."}, {"q": "La bouillabaisse est un plat de viande provençal.", "a": false, "exp": "Faux ! La bouillabaisse est une soupe de poissons, spécialité de Marseille."}, {"q": "Le calisson est une spécialité sucrée d'Aix-en-Provence.", "a": true, "exp": "Vrai ! Le calisson est un bonbon traditionnel d'Aix, à base de melon confit et amandes."}, {"q": "L'huile d'olive AOC des Baux-de-Provence est reconnue.", "a": true, "exp": "Vrai ! La vallée des Baux produit une huile d'olive réputée avec une appellation protégée."}, {"q": "Le fromage de chèvre Pélardon vient du Gard.", "a": true, "exp": "Vrai ! Le Pélardon AOP est un fromage de chèvre produit dans les Cévennes et le Gard."}, {"q": "Le miel de lavande de Provence est un produit IGP.", "a": true, "exp": "Vrai ! Le miel de Provence bénéficie d'une Indication Géographique Protégée."}, {"q": "La socca est une galette de farine de pois chiches.", "a": true, "exp": "Vrai ! La socca est une spécialité niçoise, galette cuite au four à bois."}, {"q": "L'Absinthe est originaire de Provence.", "a": false, "exp": "Faux ! L'absinthe est originaire de Suisse et du Jura français, pas de Provence."}, {"q": "Le vin rosé de Provence représente plus de 40% de la production mondiale de rosé.", "a": true, "exp": "Vrai ! La Provence est la première région productrice de rosé au monde."}, {"q": "La pétanque a été inventée à La Ciotat.", "a": true, "exp": "Vrai ! La pétanque moderne est née à La Ciotat en 1907."}, {"q": "Le festival d'Avignon est dédié au cinéma.", "a": false, "exp": "Faux ! Le Festival d'Avignon est un festival de théâtre, créé par Jean Vilar en 1947."}, {"q": "La corrida est autorisée dans certaines villes de Provence.", "a": true, "exp": "Vrai ! Arles et Nîmes maintiennent une tradition tauromachique inscrite au patrimoine culturel."}, {"q": "La Tarasque est un animal légendaire d'Arles.", "a": false, "exp": "Faux ! La Tarasque est la créature légendaire de Tarascon, domptée par Sainte Marthe."}, {"q": "Le mas est un type de ferme traditionnel provençal.", "a": true, "exp": "Vrai ! Le mas est la ferme traditionnelle de Provence, souvent en pierre avec volets bleus."}, {"q": "La cigale est le symbole de la Provence.", "a": true, "exp": "Vrai ! La cigale est l'emblème de la Provence, symbole de l'été et de la chaleur méditerranéenne."}, {"q": "Les Saintes-Maries-de-la-Mer est un lieu de pèlerinage gitan.", "a": true, "exp": "Vrai ! Chaque mai, des milliers de Gitans s'y réunissent pour la fête de Sainte Sara."}, {"q": "Le félibrige est un mouvement de défense de la langue française.", "a": false, "exp": "Faux ! Le félibrige est un mouvement culturel fondé par Mistral pour promouvoir la langue occitane."}, {"q": "Marcel Pagnol est né à Aubagne.", "a": true, "exp": "Vrai ! Marcel Pagnol est né à Aubagne en 1895. La ville lui rend hommage avec un musée."}, {"q": "Cézanne a surtout peint la montagne Sainte-Victoire.", "a": true, "exp": "Vrai ! Cézanne a peint la Sainte-Victoire plus de 80 fois depuis Aix-en-Provence."}, {"q": "La Durance est un affluent du Rhône.", "a": true, "exp": "Vrai ! La Durance prend sa source dans les Alpes et rejoint le Rhône près d'Avignon."}, {"q": "Le Luberon est classé Parc Naturel Régional.", "a": true, "exp": "Vrai ! Le Parc Naturel Régional du Luberon a été créé en 1977."}, {"q": "Marseille est la deuxième ville de France.", "a": true, "exp": "Vrai ! Marseille est la deuxième ville de France par la population après Paris."}, {"q": "Les Calanques sont situées entre Marseille et Cassis.", "a": true, "exp": "Vrai ! Le Parc National des Calanques s'étend sur 20 km entre Marseille et Cassis."}, {"q": "Le Mont Ventoux culmine à plus de 2000 mètres.", "a": true, "exp": "Vrai ! Le Mont Ventoux culmine à 1909 mètres, surnommé le Géant de Provence."}, {"q": "La Crau est une plaine marécageuse.", "a": false, "exp": "Faux ! La Crau est une plaine de cailloux roulés (coussouls), unique en Europe."}, {"q": "La Camargue abrite des flamants roses.", "a": true, "exp": "Vrai ! La Camargue est le principal site de nidification des flamants roses en France."}, {"q": "Nîmes appartient à la région Provence-Alpes-Côte d'Azur.", "a": false, "exp": "Faux ! Nîmes est dans le Gard, en région Occitanie."}, {"q": "Le Verdon est le plus grand canyon d'Europe.", "a": true, "exp": "Vrai ! Les Gorges du Verdon sont considérées comme le plus grand canyon d'Europe avec 700m de profondeur."}, {"q": "L'étang de Berre est un lac d'eau douce.", "a": false, "exp": "Faux ! L'étang de Berre est une lagune d'eau salée, la plus grande d'Europe occidentale."}, {"q": "La Provence a été rattachée à la France en 1481.", "a": true, "exp": "Vrai ! Le comte René d'Anjou légua la Provence à Louis XI. Elle fut rattachée au royaume en 1481."}, {"q": "Les papes ont résidé à Avignon pendant plus de 70 ans.", "a": true, "exp": "Vrai ! Les papes ont résidé à Avignon de 1309 à 1377, soit 68 ans."}, {"q": "Jules César a conquis la Provence.", "a": false, "exp": "Faux ! C'est Rome qui a conquis la Province Romaine (Provincia) en 121 av. J.-C., avant Jules César."}, {"q": "Les Phocéens ont fondé Marseille.", "a": true, "exp": "Vrai ! Des Grecs de Phocée ont fondé Massalia (Marseille) vers 600 av. J.-C."}, {"q": "La Via Domitia est une voie romaine qui traverse la Provence.", "a": true, "exp": "Vrai ! La Via Domitia, construite en 118 av. J.-C., reliait l'Italie à l'Espagne via la Provence."}, {"q": "Les Baux-de-Provence doivent leur nom à la bauxite.", "a": true, "exp": "Vrai ! La bauxite, minerai d'aluminium, a été découverte aux Baux-de-Provence en 1821 et porte leur nom."}, {"q": "Le château d'If est une forteresse du Moyen-Age.", "a": false, "exp": "Faux ! Le château d'If a été construit au XVIe siècle (1524-1531) sur ordre de François Ier."}, {"q": "Nostradamus est né en Provence.", "a": true, "exp": "Vrai ! Michel de Nostredame (Nostradamus) est né à Saint-Rémy-de-Provence en 1503."}, {"q": "La Légion Étrangère a son musée à Aubagne.", "a": true, "exp": "Vrai ! Le Musée de la Légion Étrangère est installé à Aubagne depuis 1962."}, {"q": "Petrarca a vécu à Fontaine-de-Vaucluse.", "a": true, "exp": "Vrai ! Pétrarque a séjourné à Fontaine-de-Vaucluse de 1337 à 1353, inspiré par la source de la Sorgue."}];
 let vfIndex=0, vfScore=0;
+function shuffleArr(a){for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
+let VF_POOL=[];
 function goToVF() {
   document.getElementById('header-eyebrow').textContent='VRAI OU FAUX';
   document.getElementById('header-name').textContent='Villeneuve-lès-Avignon';
-  showScreen('screen-vf'); vfIndex=0; vfScore=0; renderVF();
+  showScreen('screen-vf');
+  VF_POOL=shuffleArr([...VF_DATA]).slice(0,20);
+  vfIndex=0; vfScore=0; renderVF();
 }
 function renderVF() {
   const c=document.getElementById('vf-container');
-  if(vfIndex>=VF_DATA.length){
-    c.innerHTML=`<div class="mg-card mg-final"><div style="font-size:40px;margin-bottom:8px">🏆</div><div class="mg-final-score">${vfScore}/${VF_DATA.length}</div><div class="mg-final-label">Bonne${vfScore>1?'s':''} réponse${vfScore>1?'s':''} !</div><button class="mg-final-btn" onclick="goToVF()">Rejouer</button></div>`;
+  if(vfIndex>=VF_POOL.length){
+    c.innerHTML=`<div class="mg-card mg-final"><div class="mg-final-icon"><span class="material-symbols-outlined">emoji_events</span></div><div class="mg-final-score">${vfScore}/${VF_POOL.length}</div><div class="mg-final-label">Bonne${vfScore>1?'s':''} réponse${vfScore>1?'s':''} !</div><button class="mg-final-btn" onclick="goToVF()">Rejouer</button></div>`;
     addStoredPoints(vfScore*10); return;
   }
-  const d=VF_DATA[vfIndex];
+  const d=VF_POOL[vfIndex];
   c.innerHTML=`<div class="mg-card">
-    <div class="mg-score-bar"><span class="mg-score">⭐ ${vfScore} pt${vfScore>1?'s':''}</span><span class="mg-progress">Question ${vfIndex+1}/${VF_DATA.length}</span></div>
+    <div class="prog-bar-wrap"><div class="prog-bar" style="width:${Math.round(vfIndex/VF_DATA.length*100)}%"></div></div>
+    <div class="mg-score-bar"><span class="mg-score">⭐ ${vfScore} pt${vfScore>1?'s':''}</span><span class="mg-progress">Question ${vfIndex+1}/${VF_POOL.length}</span></div>
     <div class="mg-question">${d.q}</div>
     <div class="tf-wrap" style="margin-top:8px">
       <button class="tf-btn" onclick="answerVF(true)"><span class="material-symbols-outlined">check_circle</span>VRAI</button>
@@ -2521,21 +2633,17 @@ function renderVF() {
   </div>`;
 }
 function answerVF(ans) {
-  const d=VF_DATA[vfIndex]; const correct=ans===d.a;
+  const d=VF_POOL[vfIndex]; const correct=ans===d.a;
   if(correct) vfScore++;
   document.querySelectorAll('.tf-wrap .tf-btn').forEach(b=>b.disabled=true);
   const res=document.getElementById('vf-res');
   res.className='vf-result show '+(correct?'correct':'wrong');
-  res.innerHTML=(correct?'✅ Bravo ! ':'❌ Raté ! ')+d.exp;
+  res.innerHTML=(correct?'Bravo ! ':'Raté ! ')+d.exp;
   setTimeout(()=>{vfIndex++;renderVF();},2200);
 }
 
 // ════ PHOTO MYSTÈRE ════
-const PM_DATA = [
-  { img:'https://upload.wikimedia.org/wikipedia/commons/thumb/3/39/Fort_Saint-Andr%C3%A9_Villeneuve-l%C3%A8s-Avignon.jpg/320px-Fort_Saint-Andr%C3%A9_Villeneuve-l%C3%A8s-Avignon.jpg', opts:['Fort Saint-André','Palais des Papes','Château des Baux','Tour Magne'], ans:0, exp:"Le Fort Saint-André domine la colline du Mont Andaon depuis le XIVe siècle." },
-  { img:'https://upload.wikimedia.org/wikipedia/commons/thumb/6/6c/Villeneuve-l%C3%A8s-Avignon_-_Tour_Philippe_le_Bel_-_01.jpg/240px-Villeneuve-l%C3%A8s-Avignon_-_Tour_Philippe_le_Bel_-_01.jpg', opts:['Tour de Constance','Tour Philippe-le-Bel','Tour des Templiers','Tour Magne'], ans:1, exp:"La Tour Philippe-le-Bel, construite au XIIIe siècle, surveillait l'entrée du pont d'Avignon." },
-  { img:'https://upload.wikimedia.org/wikipedia/commons/thumb/9/96/Chartreuse_du_Val_de_Benediction_-_Villeneuve-les-Avignon_2.jpg/320px-Chartreuse_du_Val_de_Benediction_-_Villeneuve-les-Avignon_2.jpg', opts:['Abbaye de Sénanque','Chartreuse du Val-de-Bénédiction','Abbaye Saint-Gilles','Prieuré de Salagon'], ans:1, exp:"La Chartreuse du Val-de-Bénédiction, fondée en 1356, est l'une des plus grandes chartreuses de France." },
-];
+const PM_DATA = [{"img": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/39/Fort_Saint-Andr%C3%A9_Villeneuve-l%C3%A8s-Avignon.jpg/320px-Fort_Saint-Andr%C3%A9_Villeneuve-l%C3%A8s-Avignon.jpg", "opts": ["Fort Saint-André", "Palais des Papes", "Château des Baux", "Tour Magne"], "ans": 0, "exp": "Le Fort Saint-André domine la colline du Mont Andaon depuis le XIVe siècle."}, {"img": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6c/Villeneuve-l%C3%A8s-Avignon_-_Tour_Philippe_le_Bel_-_01.jpg/240px-Villeneuve-l%C3%A8s-Avignon_-_Tour_Philippe_le_Bel_-_01.jpg", "opts": ["Tour de Constance", "Tour Philippe-le-Bel", "Tour des Templiers", "Tour Magne"], "ans": 1, "exp": "La Tour Philippe-le-Bel, construite au XIIIe siècle, surveillait l'entrée du pont d'Avignon."}, {"img": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/96/Chartreuse_du_Val_de_Benediction_-_Villeneuve-les-Avignon_2.jpg/320px-Chartreuse_du_Val_de_Benediction_-_Villeneuve-les-Avignon_2.jpg", "opts": ["Abbaye de Sénanque", "Chartreuse du Val-de-Bénédiction", "Abbaye Saint-Gilles", "Prieuré de Salagon"], "ans": 1, "exp": "La Chartreuse du Val-de-Bénédiction, fondée en 1356, est l'une des plus grandes chartreuses de France."}, {"img": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e9/Pont_du_Gard_Oct_2007.jpg/320px-Pont_du_Gard_Oct_2007.jpg", "opts": ["Pont d'Avignon", "Pont du Gard", "Pont de Valentré", "Pont Saint-Bénézet"], "ans": 1, "exp": "Le Pont du Gard est un aqueduc romain du Ier siècle, classé au Patrimoine Mondial de l'UNESCO."}, {"img": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b6/Palais_des_Papes_Avignon.jpg/320px-Palais_des_Papes_Avignon.jpg", "opts": ["Château de Tarascon", "Palais des Papes", "Palais Royal de Nîmes", "Forteresse de Carcassonne"], "ans": 1, "exp": "Le Palais des Papes d'Avignon est le plus grand palais gothique du monde, construit au XIVe siècle."}, {"img": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/27/Gordes_1.jpg/320px-Gordes_1.jpg", "opts": ["Les Baux-de-Provence", "Gordes", "Roussillon", "Bonnieux"], "ans": 1, "exp": "Gordes, village perché du Luberon, est classé parmi les Plus Beaux Villages de France."}, {"img": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c4/Roussillon_-_panoramio_%281%29.jpg/320px-Roussillon_-_panoramio_%281%29.jpg", "opts": ["Roussillon", "Gordes", "Rustrel", "Gargas"], "ans": 0, "exp": "Roussillon est célèbre pour ses ocres, ses falaises de pigments rouges et orangés uniques."}, {"img": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/ae/Les_Calanques_Marseille.jpg/320px-Les_Calanques_Marseille.jpg", "opts": ["Calanques de Marseille", "Côte d'Azur", "Île de Porquerolles", "Cap Camarat"], "ans": 0, "exp": "Les Calanques, entre Marseille et Cassis, sont un Parc National unique entre mer et montagne."}, {"img": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/10/Camargue_guardians.jpg/320px-Camargue_guardians.jpg", "opts": ["Camargue", "Crau", "Plaine de la Beauce", "Marais Poitevin"], "ans": 0, "exp": "La Camargue, delta du Rhône, est célèbre pour ses gardians, ses chevaux blancs et ses flamants roses."}, {"img": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d2/Mont_Ventoux_from_the_south.jpg/320px-Mont_Ventoux_from_the_south.jpg", "opts": ["Mont Ventoux", "Mont Sainte-Victoire", "Montagne de Lure", "Mont Olympe"], "ans": 0, "exp": "Le Mont Ventoux, Géant de Provence, culmine à 1909m et accueille chaque année le Tour de France."}, {"img": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/57/Arles_Amphitheatre.jpg/320px-Arles_Amphitheatre.jpg", "opts": ["Arènes de Nîmes", "Colisée de Rome", "Arènes d'Arles", "Théâtre d'Orange"], "ans": 2, "exp": "Les Arènes d'Arles, amphithéâtre romain du Ier siècle, accueillent encore des spectacles et corridas."}, {"img": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8e/Abbaye_de_Senanque-1.jpg/320px-Abbaye_de_Senanque-1.jpg", "opts": ["Abbaye de Sénanque", "Chartreuse de Villeneuve", "Abbaye de Montmajour", "Abbaye de Saint-Gilles"], "ans": 0, "exp": "L'Abbaye de Sénanque, entourée de lavande, est l'une des images les plus emblématiques de Provence."}, {"img": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/99/Les_Baux-de-Provence_Castle.jpg/320px-Les_Baux-de-Provence_Castle.jpg", "opts": ["Les Baux-de-Provence", "Château des Alpilles", "Forteresse de Tarascon", "Château de Beaucaire"], "ans": 0, "exp": "Les Baux-de-Provence, village perché des Alpilles, est l'un des plus visités de France."}, {"img": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8f/Gorges_du_Verdon.jpg/320px-Gorges_du_Verdon.jpg", "opts": ["Grand Canyon du Colorado", "Gorges du Verdon", "Gorges de l'Ardèche", "Canyon d'Anisclo"], "ans": 1, "exp": "Les Gorges du Verdon, plus grand canyon d'Europe avec 700m de profondeur, sont un site naturel exceptionnel."}, {"img": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5c/Orange_theatre_antique.jpg/320px-Orange_theatre_antique.jpg", "opts": ["Théâtre de Vaison", "Théâtre d'Orange", "Théâtre de Nîmes", "Odéon de Marseille"], "ans": 1, "exp": "Le Théâtre Antique d'Orange est l'un des mieux conservés du monde romain, classé UNESCO."}];
 let pmIndex=0,pmScore=0,pmHints=0;
 function goToPM(){
   document.getElementById('header-eyebrow').textContent='PHOTO MYSTÈRE';
@@ -2545,7 +2653,7 @@ function goToPM(){
 function renderPM(){
   const c=document.getElementById('pm-container');
   if(pmIndex>=PM_DATA.length){
-    c.innerHTML=`<div class="mg-card mg-final"><div style="font-size:40px;margin-bottom:8px">📸</div><div class="mg-final-score">${pmScore}/${PM_DATA.length}</div><div class="mg-final-label">Monument${pmScore>1?'s':''} reconnu${pmScore>1?'s':''} !</div><button class="mg-final-btn" onclick="goToPM()">Rejouer</button></div>`;
+    c.innerHTML=`<div class="mg-card mg-final"><div class="mg-final-icon"><span class="material-symbols-outlined">photo_camera</span></div><div class="mg-final-score">${pmScore}/${PM_DATA.length}</div><div class="mg-final-label">Monument${pmScore>1?'s':''} reconnu${pmScore>1?'s':''} !</div><button class="mg-final-btn" onclick="goToPM()">Rejouer</button></div>`;
     addStoredPoints(pmScore*20); return;
   }
   pmHints=0; const d=PM_DATA[pmIndex];
@@ -2553,7 +2661,7 @@ function renderPM(){
   c.innerHTML=`<div class="mg-card">
     <div class="mg-score-bar"><span class="mg-score">⭐ ${pmScore} pt${pmScore>1?'s':''}</span><span class="mg-progress">Photo ${pmIndex+1}/${PM_DATA.length}</span></div>
     <div class="pm-img-wrap"><img id="pm-img" class="pm-img" src="${d.img}" crossorigin="anonymous"/></div>
-    <button class="pm-hint-btn" id="pm-hint-btn" onclick="revealPM()">🔍 Révéler (−5 pts)</button>
+    <button class="pm-hint-btn" id="pm-hint-btn" onclick="revealPM()">Révéler un indice</button>
     <div class="pm-options" id="pm-opts">${optsHTML}</div>
     <div class="vf-result" id="pm-res"></div>
   </div>`;
@@ -2569,16 +2677,12 @@ function answerPM(idx){
   document.getElementById('pm-img').classList.add('reveal');
   const res=document.getElementById('pm-res');
   res.className='vf-result show '+(correct?'correct':'wrong');
-  res.innerHTML=(correct?'✅ Exact ! ':'❌ Raté ! ')+d.exp;
+  res.innerHTML=(correct?'Exact ! ':'Raté ! ')+d.exp;
   setTimeout(()=>{pmIndex++;renderPM();},2500);
 }
 
 // ════ QUI SUIS-JE ════
-const QS_DATA = [
-  { name:"Innocent VI", indices:["Je suis né en Corrèze vers 1282.","J'ai été pape d'Avignon de 1352 à 1362.","J'ai fondé un grand monastère à Villeneuve-lès-Avignon.","Je repose dans un tombeau monumental dans ce même lieu."], aliases:["innocent vi","innocent 6","innocent"], exp:"Innocent VI (1352-1362) a fondé la Chartreuse du Val-de-Bénédiction où il est inhumé." },
-  { name:"Philippe IV le Bel", indices:["Je suis roi de France à la fin du XIIIe siècle.","J'ai donné mon nom à une tour qui surveille le Rhône à Villeneuve.","On m'appelle le Bel pour ma beauté légendaire.","J'ai dissous l'ordre des Templiers en 1312."], aliases:["philippe le bel","philippe iv","philippe 4","le bel"], exp:"Philippe IV le Bel (1268-1314) a fait construire la tour qui porte son nom." },
-  { name:"Enguerrand Quarton", indices:["Je suis peintre du XVe siècle.","Je suis originaire du nord de la France mais j'ai travaillé en Provence.","Mon oeuvre majeure représente le Couronnement de la Vierge.","Mon tableau est conservé au Musée Pierre-de-Luxembourg à Villeneuve."], aliases:["quarton","enguerrand","charonton"], exp:"Enguerrand Quarton a réalisé le Couronnement de la Vierge en 1453, chef-d'oeuvre du gothique provençal." },
-];
+const QS_DATA = [{"name": "Innocent VI", "indices": ["Je suis né en Corrèze vers 1282.", "J'ai été pape d'Avignon de 1352 à 1362.", "J'ai fondé un grand monastère à Villeneuve-lès-Avignon.", "Je repose dans un tombeau monumental dans ce même lieu."], "aliases": ["innocent vi", "innocent 6", "innocent"], "exp": "Innocent VI (1352-1362) a fondé la Chartreuse du Val-de-Bénédiction où il est inhumé."}, {"name": "Philippe IV le Bel", "indices": ["Je suis roi de France à la fin du XIIIe siècle.", "J'ai donné mon nom à une tour qui surveille le Rhône à Villeneuve.", "On m'appelle le Bel pour ma beauté légendaire.", "J'ai dissous l'ordre des Templiers en 1312."], "aliases": ["philippe le bel", "philippe iv", "philippe 4", "le bel"], "exp": "Philippe IV le Bel (1268-1314) a fait construire la tour qui porte son nom."}, {"name": "Enguerrand Quarton", "indices": ["Je suis peintre du XVe siècle.", "Je suis originaire du nord de la France mais j'ai travaillé en Provence.", "Mon oeuvre majeure représente le Couronnement de la Vierge.", "Mon tableau est conservé au Musée Pierre-de-Luxembourg à Villeneuve."], "aliases": ["quarton", "enguerrand", "charonton"], "exp": "Enguerrand Quarton a réalisé le Couronnement de la Vierge en 1453, chef-d'oeuvre du gothique provençal."}, {"name": "Frédéric Mistral", "indices": ["Je suis né à Maillane en 1830.", "J'ai reçu le Prix Nobel de Littérature en 1904.", "J'ai écrit Mirèio, long poème en langue d'oc.", "J'ai fondé le Félibrige pour défendre la langue provençale."], "aliases": ["mistral", "frederic mistral", "frédéric mistral"], "exp": "Frédéric Mistral (1830-1914), poète provençal et prix Nobel, défenseur de la langue d'oc."}, {"name": "Marcel Pagnol", "indices": ["Je suis né à Aubagne en 1895.", "J'ai écrit la trilogie Marius, Fanny, César.", "J'ai réalisé des films sur la Provence de mon enfance.", "La Gloire de mon père et Le Château de ma mère sont mes mémoires."], "aliases": ["pagnol", "marcel pagnol"], "exp": "Marcel Pagnol (1895-1974), écrivain et cinéaste, chantre de la Provence marseillaise."}, {"name": "Paul Cézanne", "indices": ["Je suis né à Aix-en-Provence en 1839.", "J'ai peint la montagne Sainte-Victoire plus de 80 fois.", "On me considère comme le père du cubisme.", "Je suis le plus célèbre peintre provençal."], "aliases": ["cezanne", "cézanne", "paul cezanne"], "exp": "Paul Cézanne (1839-1906), peintre post-impressionniste d'Aix, père de la peinture moderne."}, {"name": "Nostradamus", "indices": ["Je suis né à Saint-Rémy-de-Provence en 1503.", "Je suis célèbre pour mes prophéties mystérieuses.", "Mon vrai nom est Michel de Nostredame.", "Mes Centuries sont encore étudiées aujourd'hui."], "aliases": ["nostradamus", "michel de nostredame", "nostredame"], "exp": "Nostradamus (1503-1566), médecin et astrologue provençal, auteur des Centuries."}, {"name": "Pétrarque", "indices": ["Je suis un poète italien du XIVe siècle.", "J'ai longtemps séjourné à Fontaine-de-Vaucluse.", "J'ai chanté mon amour pour Laure dans le Canzoniere.", "On me considère comme le premier humaniste."], "aliases": ["petrarque", "pétrarque", "petrarca", "petrarque"], "exp": "Pétrarque (1304-1374), poète humaniste qui vécut à Fontaine-de-Vaucluse, amoureux de Laure."}, {"name": "René d'Anjou", "indices": ["Je suis surnommé le Bon Roi René.", "J'ai été comte de Provence au XVe siècle.", "J'ai légué la Provence à Louis XI à ma mort.", "Je résidais souvent à Aix-en-Provence et Tarascon."], "aliases": ["rene d anjou", "bon roi rene", "rene", "le bon roi rené"], "exp": "René d'Anjou (1409-1480), dit le Bon Roi René, légua la Provence à la France en 1481."}, {"name": "Jean Vilar", "indices": ["Je suis né à Sète en 1912.", "J'ai fondé un grand festival de théâtre en 1947.", "Mon festival se tient chaque été dans le Vaucluse.", "La Cour d'honneur du Palais des Papes est ma scène."], "aliases": ["jean vilar", "vilar"], "exp": "Jean Vilar (1912-1971) a fondé le Festival d'Avignon en 1947, temple mondial du théâtre."}, {"name": "Van Gogh", "indices": ["Je suis né aux Pays-Bas en 1853.", "J'ai peint des tournesols et des nuits étoilées.", "J'ai séjourné à Arles puis à Saint-Rémy-de-Provence.", "Je me suis coupé l'oreille lors d'une crise."], "aliases": ["van gogh", "vincent van gogh", "gogh"], "exp": "Vincent Van Gogh (1853-1890) a peint certaines de ses oeuvres les plus célèbres à Arles et Saint-Rémy."}, {"name": "Sainte Marthe", "indices": ["Je suis une sainte biblique.", "On dit que j'ai dompté un monstre en Provence.", "Ce monstre s'appelait la Tarasque.", "La ville de Tarascon me rend hommage."], "aliases": ["sainte marthe", "marthe", "saint marthe"], "exp": "Sainte Marthe aurait dompté la Tarasque à Tarascon selon la légende provençale."}, {"name": "Louis XIV", "indices": ["Je suis le Roi Soleil.", "J'ai régné de 1643 à 1715.", "J'ai fait construire Versailles.", "La Provence a été définitivement intégrée sous mon règne."], "aliases": ["louis xiv", "louis 14", "roi soleil", "louis quatorze"], "exp": "Louis XIV (1638-1715), le Roi Soleil, dont le règne consolida l'intégration de la Provence à la France."}, {"name": "Giono", "indices": ["Je suis écrivain et je suis né à Manosque.", "Mes romans célèbrent la Haute-Provence et ses paysans.", "J'ai écrit Colline, Regain et Un roi sans divertissement.", "La nature provençale est le coeur de mon oeuvre."], "aliases": ["giono", "jean giono"], "exp": "Jean Giono (1895-1970), romancier de Manosque, chantre de la Haute-Provence et de la nature."}, {"name": "Alphonse Daudet", "indices": ["Je suis né à Nîmes en 1840.", "J'ai écrit les Lettres de mon moulin.", "Tartarin de Tarascon est mon personnage le plus célèbre.", "Mon moulin se trouve à Fontvieille, près d'Arles."], "aliases": ["daudet", "alphonse daudet", "tartarin"], "exp": "Alphonse Daudet (1840-1897), auteur des Lettres de mon moulin et de Tartarin de Tarascon."}, {"name": "César", "indices": ["Je suis sculpteur français né à Marseille en 1921.", "Mon oeuvre la plus célèbre est une voiture compressée.", "Mon prénom est aussi un trophée du cinéma français.", "Je suis né César Baldaccini."], "aliases": ["cesar", "césar", "cesar baldaccini"], "exp": "César Baldaccini (1921-1998), sculpteur marseillais connu pour ses compressions, parrain des Césars du cinéma."}, {"name": "Fernandel", "indices": ["Je suis acteur comique né à Marseille en 1903.", "Mon vrai nom est Fernand Contandin.", "J'ai joué Don Camillo dans une série de films.", "Mon sourire et mes dents sont légendaires."], "aliases": ["fernandel", "fernand contandin"], "exp": "Fernandel (1903-1971), acteur comique marseillais, inoubliable Don Camillo."}, {"name": "Edmond Rostand", "indices": ["Je suis dramaturge né à Marseille en 1868.", "J'ai écrit une pièce sur un homme au grand nez.", "Mon oeuvre la plus célèbre est Cyrano de Bergerac.", "Je suis entré à l'Académie Française à 33 ans."], "aliases": ["rostand", "edmond rostand", "cyrano"], "exp": "Edmond Rostand (1868-1918), auteur de Cyrano de Bergerac, l'une des pièces françaises les plus jouées."}, {"name": "Nicolas Poussin", "indices": ["Je suis peintre du XVIIe siècle.", "Je suis né en Normandie mais j'ai beaucoup peint la Provence.", "Mon style classique a influencé Cézanne.", "Je suis considéré comme le fondateur de la peinture classique française."], "aliases": ["poussin", "nicolas poussin"], "exp": "Nicolas Poussin (1594-1665), peintre classique dont les paysages idéaux inspirés de la Provence ont influencé Cézanne."}, {"name": "Benoit XII", "indices": ["Je suis le troisième pape à résider en Avignon.", "J'ai commencé la construction du Palais des Papes.", "J'ai régné de 1334 à 1342.", "Mon palais est l'un des plus grands monuments gothiques du monde."], "aliases": ["benoit xii", "benoît xii", "benoit 12", "benoît 12"], "exp": "Benoît XII (1334-1342) a entrepris la construction du Palais des Papes, monument majeur d'Avignon."}];
 let qsIndex=0,qsScore=0,qsHint=0;
 function goToQS(){
   document.getElementById('header-eyebrow').textContent='QUI SUIS-JE ?';
@@ -2588,12 +2692,13 @@ function goToQS(){
 function renderQS(){
   const c=document.getElementById('qs-container');
   if(qsIndex>=QS_DATA.length){
-    c.innerHTML=`<div class="mg-card mg-final"><div style="font-size:40px;margin-bottom:8px">🎭</div><div class="mg-final-score">${qsScore}/${QS_DATA.length}</div><div class="mg-final-label">Personnage${qsScore>1?'s':''} trouvé${qsScore>1?'s':''} !</div><button class="mg-final-btn" onclick="goToQS()">Rejouer</button></div>`;
+    c.innerHTML=`<div class="mg-card mg-final"><div class="mg-final-icon"><span class="material-symbols-outlined">psychology</span></div><div class="mg-final-score">${qsScore}/${QS_DATA.length}</div><div class="mg-final-label">Personnage${qsScore>1?'s':''} trouvé${qsScore>1?'s':''} !</div><button class="mg-final-btn" onclick="goToQS()">Rejouer</button></div>`;
     addStoredPoints(qsScore*30); return;
   }
   qsHint=0; const d=QS_DATA[qsIndex];
   const indicesHTML=d.indices.map((ind,i)=>`<div class="qs-indice ${i===0?'show':''}" id="qs-ind-${i}"><span class="qs-indice-num">${i+1}.</span>${ind}</div>`).join('');
   c.innerHTML=`<div class="mg-card">
+    <div class="prog-bar-wrap"><div class="prog-bar" style="width:${Math.round(qsIndex/QS_DATA.length*100)}%"></div></div>
     <div class="mg-score-bar"><span class="mg-score">⭐ ${qsScore} pt${qsScore>1?'s':''}</span><span class="mg-progress">Personnage ${qsIndex+1}/${QS_DATA.length}</span></div>
     <div class="mg-question">🎭 Qui suis-je ?</div>
     <div class="qs-indices">${indicesHTML}</div>
@@ -2601,7 +2706,7 @@ function renderQS(){
       <input class="qs-input" id="qs-answer" placeholder="Votre réponse…" onkeydown="if(event.key==='Enter')checkQS()"/>
       <button class="qs-submit" onclick="checkQS()">→</button>
     </div>
-    <button class="qs-next-hint" id="qs-hint-btn" onclick="nextHintQS()">💡 Indice suivant (${d.indices.length-1} disponibles)</button>
+    <button class="qs-next-hint" id="qs-hint-btn" onclick="nextHintQS()">Indice suivant (${d.indices.length-1} disponibles)</button>
     <div class="qs-result" id="qs-res"></div>
   </div>`;
   document.getElementById('qs-answer').focus();
@@ -2613,7 +2718,7 @@ function nextHintQS(){
     const rem=d.indices.length-1-qsHint;
     const btn=document.getElementById('qs-hint-btn');
     btn.disabled=rem<=0;
-    if(rem>0) btn.textContent='💡 Indice suivant ('+rem+' disponible'+(rem>1?'s':'')+')';
+    if(rem>0) btn.textContent='Indice suivant ('+rem+' disponible'+(rem>1?'s':'')+')';
   }
 }
 function checkQS(){
@@ -2627,24 +2732,24 @@ function checkQS(){
   document.getElementById('qs-hint-btn').disabled=true;
   const res=document.getElementById('qs-res');
   res.className='qs-result show '+(correct?'correct':'wrong');
-  res.innerHTML=correct ? `✅ Bravo ! ${d.exp}` : `❌ C'était : <strong>${d.name}</strong>. ${d.exp}`;
+  res.innerHTML=correct ? `✅ Bravo ! ${d.exp}` : `C'était : <strong>${d.name}</strong>. ${d.exp}`;
   setTimeout(()=>{qsIndex++;renderQS();},2800);
 }
 
 // ════ ROUE DES RÉCOMPENSES ════
 const WHEEL_SEGMENTS = [
   {label:'5 pts',      icon:'⭐', color:'#4facfe', type:'points', value:5,  detail:'+5 points fidélité crédités !'},
-  {label:'Porte-clé',  icon:'🗝️',  color:'#f7971e', type:'goodie', value:0,  detail:'Retire ton porte-clé Cœur de Ville en mairie 🎁'},
-  {label:'10 pts',     icon:'⭐', color:'#43e97b', type:'points', value:10, detail:'+10 points fidélité crédités !'},
-  {label:'Perdu',      icon:'😅', color:'#b2bec3', type:'none',   value:0,  detail:'Pas de chance… Retente demain !'},
-  {label:'20 pts',     icon:'⭐', color:'#a18cd1', type:'points', value:20, detail:'+20 points fidélité crédités !'},
-  {label:'Sticker',    icon:'🏷️',  color:'#fd7043', type:'goodie', value:0,  detail:'Retire ton sticker Cœur de Ville en mairie 🎁'},
+  {label:'Porte-clé',  icon:'key',  color:'#f7971e', type:'goodie', value:0,  detail:'Retire ton porte-clé Coeur de Ville en mairie'},
+  {label:'10 pts',     icon:'stars', color:'#43e97b', type:'points', value:10, detail:'+10 points fidélité crédités !'},
+  {label:'Perdu',      icon:'sentiment_dissatisfied', color:'#b2bec3', type:'none', value:0, detail:'Pas de chance. Retente demain !'},
+  {label:'20 pts',     icon:'stars', color:'#a18cd1', type:'points', value:20, detail:'+20 points fidélité crédités !'},
+  {label:'Sticker',    icon:'label', color:'#fd7043', type:'goodie', value:0,  detail:'Retire ton sticker Coeur de Ville en mairie'},
   {label:'10 pts',     icon:'⭐', color:'#4facfe', type:'points', value:10, detail:'+10 points fidélité crédités !'},
-  {label:'-10% partenaire', icon:'🛍️', color:'#f7c948', type:'promo', value:0, detail:'Montre cet écran chez un commerçant partenaire 🤝'},
+  {label:'-10% partenaire', icon:'sell', color:'#f7c948', type:'promo', value:0, detail:'Montre cet écran chez un commerçant partenaire'},
   {label:'5 pts',      icon:'⭐', color:'#43e97b', type:'points', value:5,  detail:'+5 points fidélité crédités !'},
-  {label:'Perdu',      icon:'😅', color:'#b2bec3', type:'none',   value:0,  detail:'Pas de chance… Retente demain !'},
-  {label:'Casquette',  icon:'🧢', color:'#ff6b9d', type:'goodie', value:0,  detail:'Retire ta casquette Cœur de Ville en mairie 🎁'},
-  {label:'20 pts',     icon:'⭐', color:'#a18cd1', type:'points', value:20, detail:'+20 points fidélité crédités !'},
+  {label:'Perdu',      icon:'sentiment_dissatisfied', color:'#b2bec3', type:'none', value:0, detail:'Pas de chance. Retente demain !'},
+  {label:'Casquette',  icon:'sports_baseball', color:'#ff6b9d', type:'goodie', value:0, detail:'Retire ta casquette Coeur de Ville en mairie'},
+  {label:'20 pts',     icon:'stars', color:'#a18cd1', type:'points', value:20, detail:'+20 points fidélité crédités !'},
 ];
 const WHEEL_KEY='cdv_wheel_last_spin';
 let wheelSpinning=false, wheelAngle=0;
@@ -2714,8 +2819,8 @@ function spinWheel(){
 }
 
 function showWheelResult(seg){
-  if(seg.type==='points'){ addStoredPoints(seg.value); document.getElementById('portal-points').textContent=getStoredPoints(); }
-  document.getElementById('wheel-result-icon').textContent=seg.icon;
+  if(seg.type==='points'){ addStoredPoints(seg.value); }
+  document.getElementById('wheel-result-icon').innerHTML='<span class="material-symbols-outlined" style="font-size:40px;color:#f7c948">'+seg.icon+'</span>';
   document.getElementById('wheel-result-title').textContent=
     seg.type==='none'?'Pas de chance !':
     seg.type==='goodie'?seg.label+' gagné !':
@@ -2735,8 +2840,8 @@ function openWheel(){
   wheelAngle=0; drawWheel(wheelAngle);
   const h=getHoursUntilNextSpin(), btn=document.getElementById('wheel-spin-btn');
   document.getElementById('wheel-result').classList.remove('show');
-  if(h>0){ btn.disabled=true; btn.textContent='⏳ Reviens dans '+h+'h'; document.getElementById('wheel-next-info').textContent='Prochain tour dans '+h+' heure'+(h>1?'s':''); }
-  else { btn.disabled=false; btn.textContent='🎰 TOURNER LA ROUE'; document.getElementById('wheel-next-info').textContent='✨ 1 tour gratuit disponible !'; }
+  if(h>0){ btn.disabled=true; btn.textContent='Reviens dans '+h+'h'; document.getElementById('wheel-next-info').textContent='Prochain tour dans '+h+' heure'+(h>1?'s':''); }
+  else { btn.disabled=false; btn.textContent='TOURNER LA ROUE'; document.getElementById('wheel-next-info').textContent='1 tour gratuit disponible'; }
   document.getElementById('wheel-overlay').classList.add('show');
 }
 function closeWheel(){ document.getElementById('wheel-overlay').classList.remove('show'); }
@@ -2752,14 +2857,30 @@ goToPortal=function(){
 
 
 // ════ MOTS MÊLÉS ════
-const MM_WORDS = ['AVIGNON','CHARTREUSE','LAVANDE','RHONE','MISTRAL','PROVENCE','GARRIGUE','PASTIS','CAMARGUE','TARASCON'];
+const MM_GRILLES = [{"titre": "Grille 1 - Monuments", "mots": ["AVIGNON", "CHARTREUSE", "RHONE", "MISTRAL", "LAVANDE", "PROVENCE", "GARRIGUE", "PASTIS", "CAMARGUE", "TARASCON", "ALPILLES", "LUBERON", "VENTOUX", "ARLES", "NIMES"]}, {"titre": "Grille 2 - Villes et Villages", "mots": ["GORDES", "CASSIS", "SORGUE", "DURANCE", "VERDON", "MIREILLE", "TAPENADE", "BOUILLABAISSE", "PETANQUE", "SANTON", "CIGALE", "CALISSON", "FELIBRIGE", "MANOSQUE", "AUBAGNE"]}, {"titre": "Grille 3 - Personnages et Culture", "mots": ["PAGNOL", "CEZANNE", "PETRAQUE", "NOSTRADAMUS", "CESAR", "MASSALIA", "PHOCEE", "INNOCENT", "PHILIPPE", "QUARTON", "BENEDICTION", "TEMPLIER", "PAPES", "MISTRAL", "SAINTES"]}];
+const MM_WORDS = MM_GRILLES[0].mots;
 const MM_SIZE = 12;
 let mmGrid=[], mmSelected=[], mmFound=[], mmSelecting=false;
 
+let mmGrilleIndex=0;
 function goToMM(){
   document.getElementById('header-eyebrow').textContent='MOTS MÊLÉS';
   document.getElementById('header-name').textContent='Villeneuve-lès-Avignon';
-  showScreen('screen-mm'); initMM();
+  showScreen('screen-mm'); mmGrilleIndex=0; showMMPicker();
+}
+function showMMPicker(){
+  const c=document.getElementById('mm-container');
+  const cards=MM_GRILLES.map((g,i)=>`<button class="mg-card" style="cursor:pointer;text-align:left" onclick="startMM(${i})">
+    <div style="font-size:28px;margin-bottom:8px">🔍</div>
+    <div style="font-weight:800;font-size:16px;color:var(--text)">${g.titre}</div>
+    <div style="font-size:13px;color:var(--text-2);margin-top:4px">${g.mots.length} mots à trouver</div>
+  </button>`).join('');
+  c.innerHTML=`<div class="mg-card"><div class="mg-question">Choisis une grille !</div></div>${cards}`;
+}
+function startMM(idx){
+  mmGrilleIndex=idx;
+  window.MM_WORDS_CURRENT=MM_GRILLES[idx].mots;
+  initMM();
 }
 
 function initMM(){
@@ -2768,7 +2889,8 @@ function initMM(){
   for(let r=0;r<MM_SIZE;r++){ mmGrid[r]=[]; for(let c=0;c<MM_SIZE;c++) mmGrid[r][c]=''; }
   const placed=[];
   const dirs=[[0,1],[1,0],[1,1],[0,-1],[-1,0],[-1,-1],[1,-1],[-1,1]];
-  for(const word of MM_WORDS){
+  const wordsToUse=window.MM_WORDS_CURRENT||MM_GRILLES[0].mots;
+  for(const word of wordsToUse){
     let ok=false, tries=0;
     while(!ok && tries<200){
       tries++;
@@ -2804,9 +2926,9 @@ function initMM(){
 
 function renderMM(placed){
   const container=document.getElementById('mm-container');
-  const wordsHTML=MM_WORDS.map(w=>`<span class="mm-word" id="mmw-${w}">${w}</span>`).join('');
+  const wordsHTML=wordsToUse.map(w=>`<span class="mm-word" id="mmw-${w}">${w}</span>`).join('');
   container.innerHTML=`<div class="mg-card">
-    <div class="mg-score-bar"><span class="mg-score" id="mm-score">0/${MM_WORDS.length} trouvés</span></div>
+    <div class="mg-score-bar"><span class="mg-score" id="mm-score">0/${wordsToUse.length} trouvés</span></div>
     <div class="mg-question" style="font-size:15px">Trouve tous les mots provençaux !</div>
     <div class="mm-grid-wrap"><div class="mm-grid" id="mm-grid" style="grid-template-columns:repeat(${MM_SIZE},32px)"></div></div>
     <div class="mm-words">${wordsHTML}</div>
@@ -2846,11 +2968,11 @@ function checkMMWord(placed){
         if(cell){cell.classList.remove('selected');cell.classList.add('found');}
       }
       document.getElementById('mmw-'+word).classList.add('found');
-      document.getElementById('mm-score').textContent=`${mmFound.length}/${MM_WORDS.length} trouvés`;
+      document.getElementById('mm-score').textContent=`${mmFound.length}/${wordsToUse.length} trouvés`;
       if(mmFound.length===MM_WORDS.length){
         addStoredPoints(150);
         setTimeout(()=>{
-          document.getElementById('mm-container').innerHTML=`<div class="mg-card mg-final"><div style="font-size:40px">🔍</div><div class="mg-final-score">150</div><div class="mg-final-label">Points gagnés !</div><button class="mg-final-btn" onclick="goToMM()">Rejouer</button></div>`;
+          document.getElementById('mm-container').innerHTML=`<div class="mg-card mg-final"><div class="mg-final-icon"><span class="material-symbols-outlined">search</span></div><div class="mg-final-score">150</div><div class="mg-final-label">Points gagnés !</div><button class="mg-final-btn" onclick="goToMM()">Rejouer</button></div>`;
         },800);
       }
       break;
@@ -3007,41 +3129,33 @@ function typeMC(letter){
 }
 
 // ════ ANAGRAMME ════
-const AG_DATA = [
-  {word:'AVIGNON',   hint:'Cité des Papes'},
-  {word:'LAVANDE',   hint:'Fleur violette emblème de Provence'},
-  {word:'MISTRAL',   hint:'Vent du nord provençal'},
-  {word:'CAMARGUE',  hint:'Delta du Rhône aux chevaux blancs'},
-  {word:'PASTIS',    hint:'Apéritif anisé provençal'},
-  {word:'GARRIGUE',  hint:'Végétation odorante du Midi'},
-  {word:'TARASCON',  hint:'Ville de la Tarasque'},
-  {word:'CHARTREUSE',hint:'Grand monastère de Villeneuve'},
-  {word:'PROVENCE',  hint:'Région du Midi'},
-  {word:'LUBERON',   hint:'Massif montagneux du Vaucluse'},
-];
-
+const AG_DATA = [{"word": "AVIGNON", "hint": "Cité des Papes, capitale du comtat"}, {"word": "LAVANDE", "hint": "Fleur violette emblème de Provence"}, {"word": "MISTRAL", "hint": "Vent violent du nord provençal"}, {"word": "CAMARGUE", "hint": "Delta du Rhône aux chevaux blancs"}, {"word": "PASTIS", "hint": "Apéritif anisé provençal"}, {"word": "GARRIGUE", "hint": "Végétation odorante du Midi sec"}, {"word": "TARASCON", "hint": "Ville de la Tarasque sur le Rhône"}, {"word": "CHARTREUSE", "hint": "Grand monastère de Villeneuve-lès-Avignon"}, {"word": "PROVENCE", "hint": "Région du soleil et de la lavande"}, {"word": "LUBERON", "hint": "Massif montagneux du Vaucluse"}, {"word": "MISTRALE", "hint": "Vent froid du Rhône (féminin)"}, {"word": "CALISSON", "hint": "Friandise sucrée d'Aix-en-Provence"}, {"word": "PAGNOL", "hint": "Auteur marseillais de la Gloire de mon père"}, {"word": "SANTON", "hint": "Figurine de crèche provençale"}, {"word": "CIGALE", "hint": "Insecte symbole de la Provence"}, {"word": "VENTOUX", "hint": "Géant de Provence, montagne du vélo"}, {"word": "ARLES", "hint": "Ville des arènes et de Van Gogh"}, {"word": "NIMES", "hint": "Ville des arènes romaines du Gard"}, {"word": "GORDES", "hint": "Village perché du Luberon"}, {"word": "CASSIS", "hint": "Village viticole aux calanques"}, {"word": "CAMARGUE", "hint": "Terre des gardians et des flamants"}, {"word": "ALPILLES", "hint": "Chaîne de collines entre Arles et Avignon"}, {"word": "VALENSOLE", "hint": "Plateau de la lavande en Alpes-de-Haute-Provence"}, {"word": "PEYRESQ", "hint": "Village médiéval restauré des Alpes"}, {"word": "SORGUE", "hint": "Rivière de Fontaine-de-Vaucluse"}, {"word": "DURANCE", "hint": "Affluent du Rhône, rivière alpine"}, {"word": "VERDON", "hint": "Gorges spectaculaires de 700m"}, {"word": "SAINTES", "hint": "Les ... Maries de la Mer, pèlerinage gitan"}, {"word": "FELIBRIGE", "hint": "Mouvement de Mistral pour la langue d'oc"}, {"word": "MIREILLE", "hint": "Héroïne du poème provençal de Mistral"}, {"word": "TAPENADE", "hint": "Pâte d'olives noires provençale"}, {"word": "RATATOUILLE", "hint": "Plat de légumes mijotés niçois"}, {"word": "BOUILLABAISSE", "hint": "Soupe de poissons marseillaise"}, {"word": "PETANQUE", "hint": "Jeu de boules né à La Ciotat"}, {"word": "NOSTRADAMUS", "hint": "Prophète né à Saint-Rémy-de-Provence"}, {"word": "CEZANNE", "hint": "Peintre d'Aix-en-Provence, père du cubisme"}, {"word": "PETRAQUE", "hint": "Poète italien de Fontaine-de-Vaucluse"}, {"word": "MANOSQUE", "hint": "Ville de Giono en Haute-Provence"}, {"word": "AUBAGNE", "hint": "Ville natale de Marcel Pagnol"}, {"word": "MARSEILLE", "hint": "Première ville de Provence, vieux port"}];
 let agIndex=0, agScore=0, agAnswer=[], agLetters=[];
 
+let AG_POOL=[];
 function goToAG(){
   document.getElementById('header-eyebrow').textContent='ANAGRAMME';
   document.getElementById('header-name').textContent='Villeneuve-lès-Avignon';
-  showScreen('screen-ag'); agIndex=0; agScore=0; renderAG();
+  showScreen('screen-ag');
+  AG_POOL=shuffleArr([...AG_DATA]).slice(0,15);
+  agIndex=0; agScore=0; renderAG();
 }
 
 function renderAG(){
   const c=document.getElementById('ag-container');
-  if(agIndex>=AG_DATA.length){
+  if(agIndex>=AG_POOL.length){
     c.innerHTML=`<div class="mg-card mg-final"><div style="font-size:40px">🔤</div><div class="mg-final-score">${agScore}/${AG_DATA.length}</div><div class="mg-final-label">Anagrammes résolus !</div><button class="mg-final-btn" onclick="goToAG()">Rejouer</button></div>`;
     addStoredPoints(agScore*15); return;
   }
-  const d=AG_DATA[agIndex];
+  const d=AG_POOL[agIndex];
   agAnswer=[]; 
   // Shuffle letters
   agLetters=d.word.split('').map((l,i)=>({l,i,used:false}));
   for(let i=agLetters.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[agLetters[i],agLetters[j]]=[agLetters[j],agLetters[i]];}
   
   c.innerHTML=`<div class="mg-card">
-    <div class="mg-score-bar"><span class="mg-score">⭐ ${agScore} pt${agScore>1?'s':''}</span><span class="mg-progress">${agIndex+1}/${AG_DATA.length}</span></div>
+    <div class="prog-bar-wrap"><div class="prog-bar" style="width:${Math.round(agIndex/AG_DATA.length*100)}%"></div></div>
+    <div class="mg-score-bar"><span class="mg-score">⭐ ${agScore} pt${agScore>1?'s':''}</span><span class="mg-progress">${agIndex+1}/${AG_POOL.length}</span></div>
     <div class="mg-question">Reconstitue le mot !</div>
     <div class="ag-hint" id="ag-hint">💡 ${d.hint}</div>
     <div class="ag-answer" id="ag-answer"></div>
@@ -3059,7 +3173,7 @@ function renderAGLetters(){
   const answerDiv=document.getElementById('ag-answer');
   answerDiv.innerHTML=agAnswer.map((obj,i)=>
     `<div class="ag-answer-letter" onclick="removeAGLetter(${i})">${obj.l}</div>`).join('');
-  const d=AG_DATA[agIndex];
+  const d=AG_POOL[agIndex];
   document.getElementById('ag-validate').disabled=agAnswer.length!==d.word.length;
 }
 
@@ -3078,7 +3192,7 @@ function removeAGLetter(i){
 }
 
 function checkAG(){
-  const d=AG_DATA[agIndex];
+  const d=AG_POOL[agIndex];
   const attempt=agAnswer.map(o=>o.l).join('');
   const correct=attempt===d.word;
   if(correct) agScore++;
@@ -3089,6 +3203,172 @@ function checkAG(){
   document.querySelectorAll('.ag-letter,.ag-answer-letter').forEach(el=>el.style.pointerEvents='none');
   setTimeout(()=>{agIndex++;renderAG();},2000);
 }
+
+
+// ════ BOUTIQUE RÉCOMPENSES ════
+const GIFTS = [
+  { id:'sticker',    icon:'label',  name:'Sticker CDV',      desc:'Sticker Coeur de Ville à coller partout',          price:30,  type:'gift',     stock:true },
+  { id:'portecle',  icon:'key',  name:'Porte-clé CDV',    desc:'Porte-clé métal Coeur de Ville',                   price:50,  type:'gift',     stock:true },
+  { id:'casquette', icon:'sports_baseball', name:'Casquette CDV',     desc:'Casquette brodée Coeur de Ville édition limitée',  price:120, type:'gift',     stock:true },
+  { id:'totebag',   icon:'shopping_bag', name:'Tote Bag CDV',      desc:'Tote bag coton bio Coeur de Ville',                price:80,  type:'gift',     stock:true },
+  { id:'pin',       icon:'push_pin', name:'Pin CDV',           desc:'Pin émaillé collector Coeur de Ville',             price:40,  type:'gift',     stock:true },
+  { id:'poster',    icon:'image',  name:'Poster Villeneuve', desc:'Poster illustré du patrimoine de Villeneuve',     price:60,  type:'gift',     stock:true },
+];
+
+const FIDELITY_REWARDS = [
+  { id:'reduc5',   icon:'credit_card', name:'-5% chez les partenaires',    desc:'Valable 30 jours chez tous les commerçants partenaires', cost:40,  val:5 },
+  { id:'reduc10',  icon:'diamond', name:'-10% chez les partenaires',   desc:'Valable 30 jours chez tous les commerçants partenaires', cost:80,  val:10 },
+  { id:'cafe',     icon:'coffee', name:'Café offert',                  desc:'Un café offert dans un établissement partenaire',        cost:25,  val:0 },
+  { id:'visite',   icon:'museum',  name:'Visite guidée offerte',       desc:'Une visite guidée gratuite à la Chartreuse',             cost:200, val:0 },
+  { id:'reduc20',  icon:'emoji_events', name:'-20% sur une entrée',         desc:'20% de réduction sur une entrée monument partenaire',    cost:150, val:20 },
+  { id:'picnic',   icon:'lunch_dining', name:'Panier pique-nique',          desc:'Panier pique-nique offert pour 2 personnes',             cost:180, val:0 },
+];
+
+let shopTab = 'cadeaux';
+
+function getPoints() {
+  try {
+    const fid = JSON.parse(localStorage.getItem('cdv_fidelite') || 'null');
+    return fid ? (fid.points || 0) : 0;
+  } catch { return 0; }
+}
+function setPoints(n) {
+  const pts = Math.max(0, n);
+  try {
+    const fid = JSON.parse(localStorage.getItem('cdv_fidelite') || 'null') || { points:0, niveau:0, passages:[], user:'Mon compte' };
+    fid.points = pts;
+    localStorage.setItem('cdv_fidelite', JSON.stringify(fid));
+  } catch {}
+  // Update all displays
+  ['portal-points','portal-shop-pts','shop-points-display'].forEach(id => {
+    const el = document.getElementById(id);
+    if(el) el.textContent = pts;
+  });
+}
+function getOwned() {
+  try { return JSON.parse(localStorage.getItem('cdv_owned') || '[]'); } catch { return []; }
+}
+function addOwned(id) {
+  const owned = getOwned();
+  if(!owned.includes(id)) owned.push(id);
+  localStorage.setItem('cdv_owned', JSON.stringify(owned));
+}
+
+function showToast(msg, success=true) {
+  const t = document.getElementById('shop-toast');
+  if(!t) return;
+  t.textContent = msg;
+  t.style.background = success ? 'rgba(67,233,123,.95)' : 'rgba(255,59,48,.95)';
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2500);
+}
+
+function goToShop() {
+  document.getElementById('header-eyebrow').textContent = 'BOUTIQUE';
+  document.getElementById('header-name').textContent = 'Récompenses';
+  showScreen('screen-shop');
+  shopTab = 'cadeaux';
+  renderShop();
+}
+
+function renderShop() {
+  const pts = getPoints();
+  const owned = getOwned();
+  const wrap = document.getElementById('shop-wrap');
+
+  const giftsHTML = GIFTS.map(g => {
+    const isOwned = owned.includes(g.id);
+    const canBuy = pts >= g.price && !isOwned;
+    return `<div class="gift-card ${isOwned?'owned':''}">
+      <div class="gift-img-wrap">
+        <img class="gift-img" src="${g.img}" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'" alt="${g.name}"/>
+        <div class="gift-icon-fallback" style="display:none"><span class="material-symbols-outlined">${g.icon}</span></div>
+      </div>
+      <div class="gift-name">${g.name}</div>
+      <div class="gift-desc">${g.desc}</div>
+      <div class="gift-price"><span class="material-symbols-outlined" style="font-size:14px">stars</span> ${g.price} pts</div>
+      ${isOwned
+        ? `<button class="gift-btn owned-btn" disabled><span class="material-symbols-outlined" style="font-size:16px;vertical-align:middle">check_circle</span> Obtenu</button>`
+        : `<button class="gift-btn" onclick="buyGift('${g.id}')" ${canBuy?'':'disabled'}>${canBuy?'Obtenir':pts+'/'+g.price+' pts'}</button>`
+      }
+    </div>`;
+  }).join('');
+
+  const fidelityHTML = FIDELITY_REWARDS.map(r => {
+    const canUse = pts >= r.cost;
+    return `<div class="fidelity-card">
+      <div class="fidelity-img-wrap">
+        <img class="fidelity-img" src="${r.img}" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'" alt="${r.name}"/>
+        <div class="fidelity-icon-fallback" style="display:none"><span class="material-symbols-outlined">${r.icon}</span></div>
+      </div>
+      <div class="fidelity-body">
+        <div class="fidelity-title">${r.name}</div>
+        <div class="fidelity-desc">${r.desc}</div>
+        <div class="fidelity-cost"><span class="material-symbols-outlined" style="font-size:13px;vertical-align:middle">stars</span> ${r.cost} pts</div>
+      </div>
+      <button class="fidelity-convert-btn" onclick="useFidelity('${r.id}')" ${canUse?'':'disabled'}>
+        ${canUse?'Utiliser':pts+'/'+r.cost}
+      </button>
+    </div>`;
+  }).join('');
+
+  wrap.innerHTML = `
+    <div class="shop-header">
+      <div class="shop-points-label">Tes points</div>
+      <div class="shop-points-value" id="shop-points-display">${pts}</div>
+      <div class="shop-points-sub">Gagnés en jouant aux mini-jeux</div>
+    </div>
+    <div class="shop-tabs">
+      <button class="shop-tab ${shopTab==='cadeaux'?'active':''}" onclick="switchShopTab('cadeaux')">Cadeaux</button>
+      <button class="shop-tab ${shopTab==='fidelite'?'active':''}" onclick="switchShopTab('fidelite')">Fidélité</button>
+    </div>
+
+    ${shopTab === 'cadeaux' ? `
+      <div class="shop-section-title">Cadeaux Coeur de Ville</div>
+      <div class="gift-grid">${giftsHTML}</div>
+      <div style="background:rgba(255,255,255,.06);border-radius:16px;padding:14px;font-size:12px;color:rgba(255,255,255,.4);text-align:center;line-height:1.6">
+        Les cadeaux sont à retirer à la Mairie de Villeneuve-lès-Avignon sur présentation de cet écran
+      </div>
+    ` : `
+      <div class="shop-section-title">Avantages Fidelite</div>
+      ${fidelityHTML}
+      <div style="background:rgba(255,255,255,.06);border-radius:16px;padding:14px;font-size:12px;color:rgba(255,255,255,.4);text-align:center;line-height:1.6">
+        Montre cet écran chez un commerçant partenaire — Les points sont synchronisés avec ta carte de fidélité
+      </div>
+    `}
+  `;
+}
+
+function switchShopTab(tab) {
+  shopTab = tab;
+  renderShop();
+}
+
+function buyGift(id) {
+  const gift = GIFTS.find(g => g.id === id);
+  if(!gift) return;
+  const pts = getPoints();
+  if(pts < gift.price) { showToast('Pas assez de points !', false); return; }
+  setPoints(pts - gift.price);
+  addOwned(id);
+  showToast(gift.name + ' obtenu ! Récupère-le en mairie.', true);
+  renderShop();
+}
+
+function useFidelity(id) {
+  const reward = FIDELITY_REWARDS.find(r => r.id === id);
+  if(!reward) return;
+  const pts = getPoints();
+  if(pts < reward.cost) { showToast('Pas assez de points !', false); return; }
+  setPoints(pts - reward.cost);
+  showToast(reward.name + ' activé !', true);
+  renderShop();
+}
+
+// addStoredPoints already updates displays via setPoints
+
+// Update portal-shop-pts on portal load
+// portal points updated in goToPortal directly
 
 </script>
 </body>
