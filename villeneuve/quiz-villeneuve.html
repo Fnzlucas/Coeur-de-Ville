@@ -2826,7 +2826,7 @@ function spinWheel(){
   const seg=WHEEL_SEGMENTS.length,arc=(2*Math.PI)/seg;
   const winIndex=Math.floor(Math.random()*seg);
   const spins=5+Math.random()*4;
-  const finalAngle=-Math.PI/2-(winIndex+0.5)*arc-spins*2*Math.PI;
+  const finalAngle=-Math.PI/2-winIndex*arc-arc/2-spins*2*Math.PI;
   const duration=5000,start=performance.now(),startAngle=wheelAngle;
   const ease=t=>1-Math.pow(1-t,4);
   function animate(now){
@@ -2834,7 +2834,13 @@ function spinWheel(){
     wheelAngle=startAngle+(finalAngle-startAngle)*ease(t);
     drawWheel(wheelAngle);
     if(t<1)requestAnimationFrame(animate);
-    else{wheelAngle=finalAngle;wheelSpinning=false;localStorage.setItem(WHEEL_KEY,Date.now().toString());showWheelResult(WHEEL_SEGMENTS[winIndex]);}
+    else{
+      wheelAngle=finalAngle; wheelSpinning=false;
+      localStorage.setItem(WHEEL_KEY,Date.now().toString());
+      const norm=(((-Math.PI/2-wheelAngle)%(2*Math.PI))+2*Math.PI)%(2*Math.PI);
+      const actual=Math.floor(norm/arc)%seg;
+      showWheelResult(WHEEL_SEGMENTS[actual]);
+    }
   }
   requestAnimationFrame(animate);
 }
