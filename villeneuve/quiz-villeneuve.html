@@ -1697,6 +1697,105 @@ html, body {
 .mg-final-label { font-size:16px; color:var(--text-2); margin-bottom:20px; }
 .mg-final-btn { padding:12px 32px; background:var(--accent); color:#fff; border:none; border-radius:20px; font-size:16px; font-weight:700; cursor:pointer; }
 
+
+/* ════ MOTS MÊLÉS ════ */
+.mm-grid { display:inline-grid; gap:3px; margin:12px auto; }
+.mm-cell {
+  width:32px; height:32px; display:flex; align-items:center; justify-content:center;
+  font-size:15px; font-weight:700; border-radius:8px; cursor:pointer;
+  background:rgba(255,255,255,.6); backdrop-filter:blur(8px);
+  border:1.5px solid rgba(255,255,255,.7); color:var(--text);
+  user-select:none; transition:all .15s;
+  box-shadow:0 2px 6px rgba(0,0,0,.06);
+}
+.mm-cell.selected { background:linear-gradient(135deg,#4facfe,#00f2fe); color:#fff; border-color:#4facfe; transform:scale(1.08); }
+.mm-cell.found { background:linear-gradient(135deg,#43e97b,#1db954); color:#fff; border-color:#43e97b; }
+.mm-words { display:flex; flex-wrap:wrap; gap:8px; margin-top:12px; }
+.mm-word { padding:5px 12px; border-radius:20px; font-size:13px; font-weight:700;
+  background:rgba(255,255,255,.5); border:1.5px solid rgba(255,255,255,.6); color:var(--text); }
+.mm-word.found { background:linear-gradient(135deg,#43e97b,#1db954); color:#fff; border-color:#43e97b; text-decoration:line-through; opacity:.7; }
+.mm-grid-wrap { text-align:center; overflow-x:auto; }
+
+/* ════ MOTS CROISÉS ════ */
+.mc-grid { display:inline-grid; gap:2px; margin:10px auto; }
+.mc-cell {
+  width:34px; height:34px; display:flex; align-items:center; justify-content:center;
+  font-size:14px; font-weight:800; border-radius:6px; position:relative;
+  background:rgba(255,255,255,.75); border:1.5px solid rgba(255,255,255,.8);
+  color:var(--text); box-shadow:0 1px 4px rgba(0,0,0,.08);
+}
+.mc-cell.black { background:rgba(30,30,60,.8); border-color:rgba(30,30,60,.5); }
+.mc-cell.active { background:linear-gradient(135deg,rgba(79,172,254,.3),rgba(0,242,254,.2)); border-color:#4facfe; }
+.mc-cell.correct { background:linear-gradient(135deg,rgba(67,233,123,.3),rgba(29,185,84,.2)); border-color:#43e97b; }
+.mc-num { position:absolute; top:1px; left:2px; font-size:8px; font-weight:700; color:#888; line-height:1; }
+.mc-input { position:absolute; inset:0; opacity:0; cursor:pointer; }
+.mc-clues { display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-top:12px; }
+.mc-clue-group h4 { font-size:12px; font-weight:800; color:var(--accent); text-transform:uppercase; margin-bottom:6px; letter-spacing:.05em; }
+.mc-clue { font-size:12px; color:var(--text); padding:4px 0; border-bottom:1px solid rgba(0,0,0,.05); cursor:pointer; }
+.mc-clue span { font-weight:800; color:var(--accent); margin-right:4px; }
+.mc-clue.done { color:#aaa; text-decoration:line-through; }
+.mc-keyboard { display:grid; grid-template-columns:repeat(10,1fr); gap:3px; margin-top:10px; }
+.mc-key { padding:8px 4px; background:rgba(255,255,255,.6); border:1.5px solid rgba(255,255,255,.7);
+  border-radius:8px; font-size:13px; font-weight:700; cursor:pointer; text-align:center;
+  backdrop-filter:blur(8px); transition:all .15s; }
+.mc-key:hover { background:rgba(255,255,255,.9); transform:translateY(-1px); }
+.mc-key.del { background:rgba(255,59,48,.15); color:#ff3b30; }
+
+/* ════ ANAGRAMME ════ */
+.ag-letters { display:flex; flex-wrap:wrap; gap:8px; justify-content:center; margin:16px 0; }
+.ag-letter {
+  width:42px; height:48px; display:flex; align-items:center; justify-content:center;
+  font-size:20px; font-weight:800; border-radius:12px; cursor:pointer;
+  background:linear-gradient(145deg,rgba(255,255,255,.8),rgba(255,255,255,.5));
+  backdrop-filter:blur(10px); border:1.5px solid rgba(255,255,255,.8);
+  color:var(--text); box-shadow:0 4px 12px rgba(0,0,0,.1);
+  transition:all .2s; user-select:none;
+}
+.ag-letter:hover { transform:translateY(-3px); box-shadow:0 8px 20px rgba(0,0,0,.15); }
+.ag-letter.used { opacity:.25; cursor:default; transform:none; }
+.ag-answer { display:flex; flex-wrap:wrap; gap:8px; justify-content:center; min-height:56px; margin:8px 0; padding:10px; border-radius:16px; background:rgba(255,255,255,.3); border:2px dashed rgba(255,255,255,.5); }
+.ag-answer-letter {
+  width:42px; height:48px; display:flex; align-items:center; justify-content:center;
+  font-size:20px; font-weight:800; border-radius:12px; cursor:pointer;
+  background:linear-gradient(145deg,#4facfe,#00f2fe); color:#fff;
+  box-shadow:0 4px 12px rgba(79,172,254,.4); transition:all .2s;
+}
+.ag-answer-letter:hover { transform:translateY(-2px); }
+.ag-hint { font-size:13px; color:var(--text-2); text-align:center; font-style:italic; margin-top:4px; }
+.ag-validate { width:100%; padding:14px; border:none; border-radius:16px; margin-top:8px;
+  background:linear-gradient(135deg,#43e97b,#1db954); color:#fff; font-size:16px; font-weight:800;
+  cursor:pointer; box-shadow:0 6px 20px rgba(67,233,123,.4); transition:all .2s; }
+.ag-validate:hover { transform:translateY(-2px); }
+.ag-validate:disabled { opacity:.4; cursor:default; transform:none; }
+
+
+/* ════ PORTAL GRID CARDS ════ */
+.portal-scroll .pg-list { display:grid; grid-template-columns:1fr 1fr; gap:12px; padding:0; }
+.portal-scroll .pg-divider { display:none; }
+.portal-scroll .pg-row {
+  flex-direction:column; align-items:center; justify-content:flex-start;
+  padding:18px 12px 16px; border-radius:22px; text-align:center; gap:10px;
+  background:rgba(255,255,255,.72);
+  backdrop-filter:blur(16px); -webkit-backdrop-filter:blur(16px);
+  border:1.5px solid rgba(255,255,255,.8);
+  box-shadow:0 4px 16px rgba(0,0,0,.07), inset 0 1px 0 rgba(255,255,255,.9);
+  transition:all .2s; min-height:140px;
+}
+.portal-scroll .pg-row:hover { transform:translateY(-3px); box-shadow:0 10px 28px rgba(0,0,0,.12); }
+.portal-scroll .pg-row:active { transform:scale(.96); }
+.portal-scroll .pg-row-icon {
+  width:56px; height:56px; border-radius:16px; flex-shrink:0;
+  display:flex; align-items:center; justify-content:center;
+  box-shadow:0 4px 14px rgba(0,0,0,.18);
+}
+.portal-scroll .pg-row-icon .material-symbols-outlined { font-size:28px; }
+.portal-scroll .pg-row-body { width:100%; }
+.portal-scroll .pg-row-title { font-size:14px; font-weight:800; color:var(--text); letter-spacing:-.01em; }
+.portal-scroll .pg-row-sub { font-size:11px; color:var(--text-2); margin-top:2px; }
+.portal-scroll .pg-row-chips { justify-content:center; margin-top:6px; }
+.portal-scroll .pg-row-chev { display:none; }
+.portal-scroll .pg-section { grid-column:1/-1; }
+
 </style>
 </head>
 <body>
@@ -1753,6 +1852,48 @@ html, body {
         </button>
 
         <div class="pg-divider"></div>
+
+        <div class="pg-divider"></div>
+
+        <button class="pg-row" onclick="goToMM()">
+          <div class="pg-row-icon" style="background:linear-gradient(145deg,#56ccf2,#2f80ed)">
+            <span class="material-symbols-outlined">grid_on</span>
+          </div>
+          <div class="pg-row-body">
+            <div class="pg-row-title">Mots Mêlés</div>
+            <div class="pg-row-sub">Trouve les mots cachés · Provence</div>
+            <div class="pg-row-chips"><span class="pgc pgc-green"><span class="material-symbols-outlined">stars</span>Points fidélité</span></div>
+          </div>
+          <span class="material-symbols-outlined pg-row-chev">chevron_right</span>
+        </button>
+
+        <div class="pg-divider"></div>
+
+        <button class="pg-row" onclick="goToMC()">
+          <div class="pg-row-icon" style="background:linear-gradient(145deg,#f953c6,#b91d73)">
+            <span class="material-symbols-outlined">border_all</span>
+          </div>
+          <div class="pg-row-body">
+            <div class="pg-row-title">Mots Croisés</div>
+            <div class="pg-row-sub">Histoire & Patrimoine provençal</div>
+            <div class="pg-row-chips"><span class="pgc pgc-orange"><span class="material-symbols-outlined">stars</span>Points fidélité</span></div>
+          </div>
+          <span class="material-symbols-outlined pg-row-chev">chevron_right</span>
+        </button>
+
+        <div class="pg-divider"></div>
+
+        <button class="pg-row" onclick="goToAG()">
+          <div class="pg-row-icon" style="background:linear-gradient(145deg,#f7971e,#ffd200)">
+            <span class="material-symbols-outlined">sort_by_alpha</span>
+          </div>
+          <div class="pg-row-body">
+            <div class="pg-row-title">Anagramme</div>
+            <div class="pg-row-sub">Reconstitue les mots provençaux</div>
+            <div class="pg-row-chips"><span class="pgc pgc-orange"><span class="material-symbols-outlined">stars</span>Points fidélité</span></div>
+          </div>
+          <span class="material-symbols-outlined pg-row-chev">chevron_right</span>
+        </button>
 
         <div class="pg-divider"></div>
 
@@ -1873,6 +2014,20 @@ html, body {
     <div id="wheel-next-info"></div>
   </div>
 </div>
+
+
+<!-- MOTS MÊLÉS -->
+<section class="screen" id="screen-mm">
+  <div class="minigame-screen" id="mm-container"></div>
+</section>
+<!-- MOTS CROISÉS -->
+<section class="screen" id="screen-mc">
+  <div class="minigame-screen" id="mc-container"></div>
+</section>
+<!-- ANAGRAMME -->
+<section class="screen" id="screen-ag">
+  <div class="minigame-screen" id="ag-container"></div>
+</section>
 
 <!-- VRAI OU FAUX -->
 <section class="screen" id="screen-vf">
@@ -2318,7 +2473,7 @@ function onBack() {
   if (active === 'screen-portal') {
     if (window.parent && window.parent !== window) window.parent.postMessage({ type: 'quiz-close' }, '*');
     else window.history.back();
-  } else if (active === 'screen-territory' || active === 'screen-vf' || active === 'screen-pm' || active === 'screen-qs') {
+  } else if (active === 'screen-territory' || active === 'screen-vf' || active === 'screen-pm' || active === 'screen-qs' || active === 'screen-mm' || active === 'screen-mc' || active === 'screen-ag') {
     goToPortal();
   } else if (active === 'screen-levels') {
     showScreen('screen-territory');
@@ -2594,6 +2749,346 @@ goToPortal=function(){
     if(!last||Date.now()-last>=24*60*60*1000) openWheel();
   },600);
 };
+
+
+// ════ MOTS MÊLÉS ════
+const MM_WORDS = ['AVIGNON','CHARTREUSE','LAVANDE','RHONE','MISTRAL','PROVENCE','GARRIGUE','PASTIS','CAMARGUE','TARASCON'];
+const MM_SIZE = 12;
+let mmGrid=[], mmSelected=[], mmFound=[], mmSelecting=false;
+
+function goToMM(){
+  document.getElementById('header-eyebrow').textContent='MOTS MÊLÉS';
+  document.getElementById('header-name').textContent='Villeneuve-lès-Avignon';
+  showScreen('screen-mm'); initMM();
+}
+
+function initMM(){
+  mmGrid=[]; mmSelected=[]; mmFound=[];
+  // Init empty grid
+  for(let r=0;r<MM_SIZE;r++){ mmGrid[r]=[]; for(let c=0;c<MM_SIZE;c++) mmGrid[r][c]=''; }
+  const placed=[];
+  const dirs=[[0,1],[1,0],[1,1],[0,-1],[-1,0],[-1,-1],[1,-1],[-1,1]];
+  for(const word of MM_WORDS){
+    let ok=false, tries=0;
+    while(!ok && tries<200){
+      tries++;
+      const dir=dirs[Math.floor(Math.random()*dirs.length)];
+      const maxR=MM_SIZE-(dir[0]<0?0:dir[0]*(word.length-1));
+      const minR=dir[0]<0?Math.abs(dir[0])*(word.length-1):0;
+      const maxC=MM_SIZE-(dir[1]<0?0:dir[1]*(word.length-1));
+      const minC=dir[1]<0?Math.abs(dir[1])*(word.length-1):0;
+      const r=minR+Math.floor(Math.random()*(maxR-minR));
+      const c=minC+Math.floor(Math.random()*(maxC-minC));
+      let canPlace=true;
+      for(let i=0;i<word.length;i++){
+        const nr=r+dir[0]*i, nc=c+dir[1]*i;
+        if(nr<0||nr>=MM_SIZE||nc<0||nc>=MM_SIZE){ canPlace=false; break; }
+        if(mmGrid[nr][nc]!=='' && mmGrid[nr][nc]!==word[i]){ canPlace=false; break; }
+      }
+      if(canPlace){
+        const cells=[];
+        for(let i=0;i<word.length;i++){
+          const nr=r+dir[0]*i, nc=c+dir[1]*i;
+          mmGrid[nr][nc]=word[i]; cells.push([nr,nc]);
+        }
+        placed.push({word,cells}); ok=true;
+      }
+    }
+  }
+  // Fill blanks
+  const alpha='ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+  for(let r=0;r<MM_SIZE;r++) for(let c=0;c<MM_SIZE;c++)
+    if(mmGrid[r][c]==='') mmGrid[r][c]=alpha[Math.floor(Math.random()*alpha.length)];
+  renderMM(placed);
+}
+
+function renderMM(placed){
+  const container=document.getElementById('mm-container');
+  const wordsHTML=MM_WORDS.map(w=>`<span class="mm-word" id="mmw-${w}">${w}</span>`).join('');
+  container.innerHTML=`<div class="mg-card">
+    <div class="mg-score-bar"><span class="mg-score" id="mm-score">0/${MM_WORDS.length} trouvés</span></div>
+    <div class="mg-question" style="font-size:15px">Trouve tous les mots provençaux !</div>
+    <div class="mm-grid-wrap"><div class="mm-grid" id="mm-grid" style="grid-template-columns:repeat(${MM_SIZE},32px)"></div></div>
+    <div class="mm-words">${wordsHTML}</div>
+  </div>`;
+
+  const grid=document.getElementById('mm-grid');
+  for(let r=0;r<MM_SIZE;r++) for(let c=0;c<MM_SIZE;c++){
+    const cell=document.createElement('div');
+    cell.className='mm-cell'; cell.textContent=mmGrid[r][c];
+    cell.dataset.r=r; cell.dataset.c=c;
+    cell.addEventListener('pointerdown',e=>{e.preventDefault();mmSelecting=true;mmSelected=[[r,c]];updateMMHighlight();});
+    cell.addEventListener('pointerenter',()=>{ if(mmSelecting){mmSelected.push([r,c]);updateMMHighlight();}});
+    cell.addEventListener('pointerup',()=>{ mmSelecting=false; checkMMWord(placed); });
+    grid.appendChild(cell);
+  }
+}
+
+function updateMMHighlight(){
+  document.querySelectorAll('.mm-cell:not(.found)').forEach(c=>c.classList.remove('selected'));
+  for(const [r,c] of mmSelected){
+    const cell=document.querySelector(`.mm-cell[data-r="${r}"][data-c="${c}"]`);
+    if(cell&&!cell.classList.contains('found')) cell.classList.add('selected');
+  }
+}
+
+function checkMMWord(placed){
+  document.querySelectorAll('.mm-cell.selected').forEach(c=>c.classList.remove('selected'));
+  const selStr=JSON.stringify(mmSelected);
+  const selRevStr=JSON.stringify([...mmSelected].reverse());
+  for(const {word,cells} of placed){
+    if(mmFound.includes(word)) continue;
+    const cellStr=JSON.stringify(cells);
+    if(cellStr===selStr||cellStr===selRevStr){
+      mmFound.push(word);
+      for(const [r,c] of cells){
+        const cell=document.querySelector(`.mm-cell[data-r="${r}"][data-c="${c}"]`);
+        if(cell){cell.classList.remove('selected');cell.classList.add('found');}
+      }
+      document.getElementById('mmw-'+word).classList.add('found');
+      document.getElementById('mm-score').textContent=`${mmFound.length}/${MM_WORDS.length} trouvés`;
+      if(mmFound.length===MM_WORDS.length){
+        addStoredPoints(150);
+        setTimeout(()=>{
+          document.getElementById('mm-container').innerHTML=`<div class="mg-card mg-final"><div style="font-size:40px">🔍</div><div class="mg-final-score">150</div><div class="mg-final-label">Points gagnés !</div><button class="mg-final-btn" onclick="goToMM()">Rejouer</button></div>`;
+        },800);
+      }
+      break;
+    }
+  }
+  mmSelected=[];
+}
+
+// ════ MOTS CROISÉS ════
+// Grille 9x9 autour de mots provençaux
+const MC_LAYOUT = {
+  grid: [
+    [0,0,0,1,0,0,0,0,0],
+    [1,1,1,1,1,1,1,0,0],
+    [0,0,0,1,0,0,1,0,0],
+    [0,1,1,1,1,1,1,1,0],
+    [0,0,0,1,0,0,1,0,0],
+    [0,0,1,1,0,0,1,1,1],
+    [0,0,1,0,0,0,1,0,0],
+    [0,0,1,0,0,0,0,0,0],
+    [0,0,1,0,0,0,0,0,0],
+  ],
+  answers: [
+    // [row, col, direction, word, clue, number]
+    [0,3,'down','RHONE','Fleuve qui sépare Avignon de Villeneuve',1],
+    [1,0,'across','LACOSTE','Village perché du Luberon',2],
+    [3,1,'across','MIREILLE','Héroïne du poème de Mistral',3],
+    [5,2,'down','LAVANDE','Fleur emblème de Provence',4],
+    [5,5,'down','MISTRAL','Vent violent du nord',5],
+    [5,7,'across','LES','Article... ou la mer ?',6],
+  ],
+};
+
+let mcState={};
+function goToMC(){
+  document.getElementById('header-eyebrow').textContent='MOTS CROISÉS';
+  document.getElementById('header-name').textContent='Villeneuve-lès-Avignon';
+  showScreen('screen-mc'); initMC();
+}
+
+function initMC(){
+  mcState={answers:{},active:null,found:0};
+  MC_LAYOUT.answers.forEach(([r,c,dir,word])=>{
+    for(let i=0;i<word.length;i++){
+      const key=dir==='across'?`${r},${c+i}`:`${r+i},${c}`;
+      mcState.answers[key]=word[i];
+    }
+  });
+  renderMC();
+}
+
+function renderMC(){
+  const container=document.getElementById('mc-container');
+  const SIZE=9;
+  let gridHTML='';
+  // Build number map
+  const numMap={};
+  MC_LAYOUT.answers.forEach(([r,c,,,,num])=>{ numMap[`${r},${c}`]=num; });
+
+  for(let r=0;r<SIZE;r++) for(let c=0;c<SIZE;c++){
+    const key=`${r},${c}`;
+    const isBlack=MC_LAYOUT.grid[r][c]===0;
+    const num=numMap[key]||'';
+    if(isBlack){
+      gridHTML+=`<div class="mc-cell black"></div>`;
+    } else {
+      const filled=mcState[key]||'';
+      const correct=mcState.answers[key]&&filled===mcState.answers[key]?'correct':'';
+      gridHTML+=`<div class="mc-cell ${correct}" id="mcc-${r}-${c}" onclick="selectMCCell(${r},${c})">
+        ${num?`<span class="mc-num">${num}</span>`:''}
+        <span id="mct-${r}-${c}">${filled}</span>
+      </div>`;
+    }
+  }
+
+  const acrossClues=MC_LAYOUT.answers.filter(a=>a[2]==='across').map(([,,,word,clue,num])=>
+    `<div class="mc-clue ${mcState['found_'+num]?'done':''}" onclick="focusMCWord(${num})"><span>${num}.</span>${clue}</div>`).join('');
+  const downClues=MC_LAYOUT.answers.filter(a=>a[2]==='down').map(([,,,word,clue,num])=>
+    `<div class="mc-clue ${mcState['found_'+num]?'done':''}" onclick="focusMCWord(${num})"><span>${num}.</span>${clue}</div>`).join('');
+
+  const keyRows=['AZERTYUIOP','QSDFGHJKLM','WXCVBN'].map(row=>
+    row.split('').map(l=>`<button class="mc-key" onclick="typeMC('${l}')">${l}</button>`).join('')+
+    (row==='WXCVBN'?`<button class="mc-key del" onclick="typeMC('DEL')">⌫</button>`:'')).join('');
+
+  container.innerHTML=`<div class="mg-card">
+    <div class="mg-score-bar"><span class="mg-score" id="mc-score">0/${MC_LAYOUT.answers.length} mots</span></div>
+    <div class="mm-grid-wrap"><div class="mc-grid" style="grid-template-columns:repeat(9,34px)">${gridHTML}</div></div>
+    <div class="mc-clues"><div class="mc-clue-group"><h4>→ Horizontal</h4>${acrossClues}</div><div class="mc-clue-group"><h4>↓ Vertical</h4>${downClues}</div></div>
+    <div class="mc-keyboard">${keyRows}</div>
+  </div>`;
+}
+
+function selectMCCell(r,c){
+  mcState.activeCell=[r,c];
+  document.querySelectorAll('.mc-cell.active').forEach(el=>el.classList.remove('active'));
+  document.getElementById(`mcc-${r}-${c}`).classList.add('active');
+}
+
+function focusMCWord(num){
+  const ans=MC_LAYOUT.answers.find(a=>a[5]===num);
+  if(ans) selectMCCell(ans[0],ans[1]);
+}
+
+function typeMC(letter){
+  if(!mcState.activeCell) return;
+  let [r,c]=mcState.activeCell;
+  const key=`${r},${c}`;
+  if(!mcState.answers[key]) return;
+
+  if(letter==='DEL'){ mcState[key]=''; }
+  else { mcState[key]=letter; }
+
+  document.getElementById(`mct-${r}-${c}`).textContent=mcState[key]||'';
+  const cell=document.getElementById(`mcc-${r}-${c}`);
+  if(mcState[key]===mcState.answers[key]){ cell.classList.add('correct'); }
+  else { cell.classList.remove('correct'); }
+
+  // Advance cursor
+  if(letter!=='DEL'){
+    // Find active word direction
+    const activeWord=MC_LAYOUT.answers.find(([wr,wc,dir,word])=>{
+      for(let i=0;i<word.length;i++){
+        const kr=dir==='across'?wr:wr+i;
+        const kc=dir==='across'?wc+i:wc;
+        if(kr===r&&kc===c) return true;
+      }
+      return false;
+    });
+    if(activeWord){
+      const [,,,word,,,] = activeWord;
+      const nr=activeWord[2]==='across'?r:r+1;
+      const nc=activeWord[2]==='across'?c+1:c;
+      if(nr<9&&nc<9&&mcState.answers[`${nr},${nc}`]) selectMCCell(nr,nc);
+    }
+  }
+
+  // Check word completion
+  let found=0;
+  MC_LAYOUT.answers.forEach(([wr,wc,dir,word,,num])=>{
+    let wordDone=true;
+    for(let i=0;i<word.length;i++){
+      const kr=dir==='across'?wr:wr+i, kc=dir==='across'?wc+i:wc;
+      if(mcState[`${kr},${kc}`]!==word[i]){wordDone=false;break;}
+    }
+    if(wordDone){mcState['found_'+num]=true;found++;}
+  });
+  document.getElementById('mc-score').textContent=`${found}/${MC_LAYOUT.answers.length} mots`;
+  if(found===MC_LAYOUT.answers.length){
+    addStoredPoints(200);
+    setTimeout(()=>{
+      document.getElementById('mc-container').innerHTML=`<div class="mg-card mg-final"><div style="font-size:40px">📝</div><div class="mg-final-score">200</div><div class="mg-final-label">Points gagnés !</div><button class="mg-final-btn" onclick="goToMC()">Rejouer</button></div>`;
+    },600);
+  }
+}
+
+// ════ ANAGRAMME ════
+const AG_DATA = [
+  {word:'AVIGNON',   hint:'Cité des Papes'},
+  {word:'LAVANDE',   hint:'Fleur violette emblème de Provence'},
+  {word:'MISTRAL',   hint:'Vent du nord provençal'},
+  {word:'CAMARGUE',  hint:'Delta du Rhône aux chevaux blancs'},
+  {word:'PASTIS',    hint:'Apéritif anisé provençal'},
+  {word:'GARRIGUE',  hint:'Végétation odorante du Midi'},
+  {word:'TARASCON',  hint:'Ville de la Tarasque'},
+  {word:'CHARTREUSE',hint:'Grand monastère de Villeneuve'},
+  {word:'PROVENCE',  hint:'Région du Midi'},
+  {word:'LUBERON',   hint:'Massif montagneux du Vaucluse'},
+];
+
+let agIndex=0, agScore=0, agAnswer=[], agLetters=[];
+
+function goToAG(){
+  document.getElementById('header-eyebrow').textContent='ANAGRAMME';
+  document.getElementById('header-name').textContent='Villeneuve-lès-Avignon';
+  showScreen('screen-ag'); agIndex=0; agScore=0; renderAG();
+}
+
+function renderAG(){
+  const c=document.getElementById('ag-container');
+  if(agIndex>=AG_DATA.length){
+    c.innerHTML=`<div class="mg-card mg-final"><div style="font-size:40px">🔤</div><div class="mg-final-score">${agScore}/${AG_DATA.length}</div><div class="mg-final-label">Anagrammes résolus !</div><button class="mg-final-btn" onclick="goToAG()">Rejouer</button></div>`;
+    addStoredPoints(agScore*15); return;
+  }
+  const d=AG_DATA[agIndex];
+  agAnswer=[]; 
+  // Shuffle letters
+  agLetters=d.word.split('').map((l,i)=>({l,i,used:false}));
+  for(let i=agLetters.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[agLetters[i],agLetters[j]]=[agLetters[j],agLetters[i]];}
+  
+  c.innerHTML=`<div class="mg-card">
+    <div class="mg-score-bar"><span class="mg-score">⭐ ${agScore} pt${agScore>1?'s':''}</span><span class="mg-progress">${agIndex+1}/${AG_DATA.length}</span></div>
+    <div class="mg-question">Reconstitue le mot !</div>
+    <div class="ag-hint" id="ag-hint">💡 ${d.hint}</div>
+    <div class="ag-answer" id="ag-answer"></div>
+    <div class="ag-letters" id="ag-letters"></div>
+    <button class="ag-validate" id="ag-validate" onclick="checkAG()" disabled>Valider ✓</button>
+    <div class="vf-result" id="ag-res"></div>
+  </div>`;
+  renderAGLetters();
+}
+
+function renderAGLetters(){
+  const lettersDiv=document.getElementById('ag-letters');
+  lettersDiv.innerHTML=agLetters.map((obj,i)=>
+    `<div class="ag-letter ${obj.used?'used':''}" onclick="addAGLetter(${i})">${obj.l}</div>`).join('');
+  const answerDiv=document.getElementById('ag-answer');
+  answerDiv.innerHTML=agAnswer.map((obj,i)=>
+    `<div class="ag-answer-letter" onclick="removeAGLetter(${i})">${obj.l}</div>`).join('');
+  const d=AG_DATA[agIndex];
+  document.getElementById('ag-validate').disabled=agAnswer.length!==d.word.length;
+}
+
+function addAGLetter(i){
+  if(agLetters[i].used) return;
+  agLetters[i].used=true;
+  agAnswer.push({...agLetters[i],srcIdx:i});
+  renderAGLetters();
+}
+
+function removeAGLetter(i){
+  const obj=agAnswer[i];
+  agLetters[obj.srcIdx].used=false;
+  agAnswer.splice(i,1);
+  renderAGLetters();
+}
+
+function checkAG(){
+  const d=AG_DATA[agIndex];
+  const attempt=agAnswer.map(o=>o.l).join('');
+  const correct=attempt===d.word;
+  if(correct) agScore++;
+  const res=document.getElementById('ag-res');
+  res.className='vf-result show '+(correct?'correct':'wrong');
+  res.innerHTML=correct?`✅ Bravo ! C'est bien <strong>${d.word}</strong> !`:`❌ C'était <strong>${d.word}</strong>`;
+  document.getElementById('ag-validate').disabled=true;
+  document.querySelectorAll('.ag-letter,.ag-answer-letter').forEach(el=>el.style.pointerEvents='none');
+  setTimeout(()=>{agIndex++;renderAG();},2000);
+}
 
 </script>
 </body>
