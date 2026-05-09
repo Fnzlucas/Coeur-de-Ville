@@ -1608,7 +1608,7 @@ html, body {
 .vf-result.correct,.qs-result.correct { background:#d5f5e3; color:#1e8449; }
 .vf-result.wrong,.qs-result.wrong { background:#fadbd8; color:#c0392b; }
 .pm-img-wrap { border-radius:14px; overflow:hidden; margin-bottom:12px; }
-.pm-img { width:100%; height:200px; object-fit:cover; filter:blur(16px) brightness(.8); transition:filter .8s; }
+.pm-img { width:100%; height:200px; object-fit:cover; filter:blur(var(--pm-blur,16px)) brightness(.8); transition:filter .8s; }
 .pm-img.reveal { filter:none; }
 .pm-hint-btn { display:block; width:100%; padding:10px; background:var(--accent); color:#fff; border:none; border-radius:12px; font-size:14px; font-weight:700; cursor:pointer; margin-bottom:10px; }
 .pm-hint-btn:disabled { opacity:.4; }
@@ -1635,14 +1635,14 @@ html, body {
 .mg-final-label { font-size:16px; color:var(--text-2); margin-bottom:16px; }
 .mg-final-btn { padding:12px 32px; background:var(--accent); color:#fff; border:none; border-radius:20px; font-size:16px; font-weight:700; cursor:pointer; }
 /* MM */
-.mm-grid { display:inline-grid; gap:3px; }
-.mm-cell { width:30px; height:30px; display:flex; align-items:center; justify-content:center; font-size:14px; font-weight:700; border-radius:7px; cursor:pointer; background:#fff; border:1.5px solid #eee; color:var(--text); user-select:none; transition:all .1s; }
+.mm-grid { display:inline-grid; gap:2px; }
+.mm-cell { width:var(--mm-cell-size,28px); height:var(--mm-cell-size,28px); display:flex; align-items:center; justify-content:center; font-size:13px; font-weight:700; border-radius:6px; cursor:pointer; background:#fff; border:1.5px solid #eee; color:var(--text); user-select:none; transition:all .1s; }
 .mm-cell.selected { background:var(--accent); color:#fff; border-color:var(--accent); transform:scale(1.1); }
 .mm-cell.found { background:#43e97b; color:#fff; border-color:#43e97b; }
 .mm-words { display:flex; flex-wrap:wrap; gap:6px; margin-top:12px; }
 .mm-word { padding:4px 10px; border-radius:16px; font-size:12px; font-weight:700; background:#f0f0f0; color:var(--text); }
 .mm-word.found { background:#43e97b; color:#fff; text-decoration:line-through; opacity:.7; }
-.mm-grid-wrap { text-align:center; overflow-x:auto; }
+.mm-grid-wrap { text-align:center; overflow:hidden; width:100%; }
 /* MC */
 .mc-grid { display:inline-grid; gap:2px; }
 .mc-cell { width:32px; height:32px; display:flex; align-items:center; justify-content:center; font-size:13px; font-weight:800; border-radius:6px; position:relative; background:#fff; border:1.5px solid #eee; color:var(--text); cursor:pointer; }
@@ -1663,11 +1663,14 @@ html, body {
 .ag-letter { width:40px; height:46px; display:flex; align-items:center; justify-content:center; font-size:19px; font-weight:800; border-radius:12px; cursor:pointer; background:#fff; border:1.5px solid #eee; color:var(--text); box-shadow:0 3px 8px rgba(0,0,0,.08); transition:all .15s; user-select:none; }
 .ag-letter:hover { transform:translateY(-2px); box-shadow:0 6px 14px rgba(0,0,0,.12); }
 .ag-letter.used { opacity:.2; cursor:default; transform:none; }
-.ag-answer { display:flex; flex-wrap:wrap; gap:8px; justify-content:center; min-height:52px; margin:8px 0; padding:10px; border-radius:14px; background:#f8f9fa; border:2px dashed #ddd; }
-.ag-answer-letter { width:40px; height:46px; display:flex; align-items:center; justify-content:center; font-size:19px; font-weight:800; border-radius:12px; cursor:pointer; background:var(--accent); color:#fff; box-shadow:0 3px 10px rgba(var(--accent-rgb),.3); transition:all .15s; }
+.ag-answer { display:flex; flex-wrap:wrap; gap:8px; justify-content:center; min-height:60px; margin:8px 0; padding:12px; border-radius:14px; background:#f0f4ff; border:2px dashed #c0c8ff; }
+.ag-answer-empty { font-size:13px; color:#aaa; align-self:center; }
+.ag-answer-letter { width:44px; height:50px; display:flex; align-items:center; justify-content:center; font-size:20px; font-weight:900; border-radius:12px; cursor:pointer; background:#4f46e5; color:#fff; box-shadow:0 4px 12px rgba(79,70,229,.35); transition:all .15s; border:2px solid rgba(255,255,255,.3); }
+.ag-answer-letter:hover { transform:translateY(-2px); box-shadow:0 6px 16px rgba(79,70,229,.45); }
 .ag-hint { font-size:13px; color:var(--text-2); text-align:center; font-style:italic; margin-top:4px; }
-.ag-validate { width:100%; padding:14px; border:none; border-radius:14px; margin-top:10px; background:var(--accent); color:#fff; font-size:15px; font-weight:800; cursor:pointer; transition:all .2s; font-family:inherit; }
-.ag-validate:disabled { opacity:.4; cursor:default; }
+.ag-validate { width:100%; padding:16px; border:none; border-radius:14px; margin-top:12px; background:#4f46e5; color:#fff; font-size:16px; font-weight:800; cursor:pointer; transition:all .2s; font-family:inherit; box-shadow:0 4px 14px rgba(79,70,229,.3); }
+.ag-validate:hover:not(:disabled) { transform:translateY(-1px); box-shadow:0 6px 20px rgba(79,70,229,.4); }
+.ag-validate:disabled { background:#ccc; color:#999; box-shadow:none; cursor:default; }
 /* BOUTIQUE */
 #screen-shop { background:#f8f9fa; font-family:'Manrope',system-ui,sans-serif; }
 .shop-wrap { flex:1; overflow-y:auto; padding:16px; display:flex; flex-direction:column; gap:14px; }
@@ -1750,6 +1753,12 @@ html, body {
 #wheel-result-title { font-size:17px; font-weight:800; color:#1a1a1a; margin-top:6px; }
 #wheel-result-sub { font-size:13px; color:#999; margin-top:4px; }
 #wheel-next-info { font-size:12px; color:#bbb; text-align:center; }
+
+
+.mc-cell.in-word { background:rgba(var(--accent-rgb),.08); border-color:rgba(var(--accent-rgb),.3); }
+.mc-cell.wrong-cell { background:rgba(231,76,60,.12); border-color:rgba(231,76,60,.4); }
+.mc-letter { font-size:14px; font-weight:800; }
+.mc-clue.done { color:#aaa; text-decoration:line-through; }
 
 </style>
 </head>
@@ -2394,6 +2403,45 @@ function setPoints(n){
 function getStoredPoints(){return getPoints();}
 function addStoredPoints(n){if(n>0)setPoints(getPoints()+n);}
 
+
+// ════ NIVEAUX DE DIFFICULTÉ ════
+let currentDifficulty = 'normal';
+const DIFF_CONFIG = {
+  facile:  { label:'Facile',  color:'#43e97b', vf:10, ag:8,  timer:0,   mmSize:10, blurPM:8,  qsHints:2 },
+  normal:  { label:'Normal',  color:'#4facfe', vf:20, ag:15, timer:0,   mmSize:12, blurPM:16, qsHints:1 },
+  expert:  { label:'Expert',  color:'#f7971e', vf:30, ag:20, timer:30,  mmSize:12, blurPM:24, qsHints:0 },
+};
+
+function showDifficultyPicker(title, icon, onSelect) {
+  const c = document.getElementById(
+    title==='VRAI OU FAUX'?'vf-container':
+    title==='PHOTO MYSTÈRE'?'pm-container':
+    title==='QUI SUIS-JE ?'?'qs-container':
+    title==='ANAGRAMME'?'ag-container':
+    title==='MOTS MÊLÉS'?'mm-container':'mc-container'
+  );
+  c.innerHTML = `<div class="mg-card">
+    <div class="mg-final-icon" style="margin:0 auto 12px"><span class="material-symbols-outlined">${icon}</span></div>
+    <div class="mg-question">${title}</div>
+    <div style="display:flex;flex-direction:column;gap:10px;margin-top:4px">
+      ${Object.entries(DIFF_CONFIG).map(([key,d])=>`
+        <button onclick="(${onSelect.toString()})('${key}')" style="
+          padding:16px; border:none; border-radius:16px; cursor:pointer;
+          background:${d.color}18; border:2px solid ${d.color}44;
+          font-family:inherit; text-align:left; transition:all .2s;
+        " onmouseover="this.style.background='${d.color}28'" onmouseout="this.style.background='${d.color}18'">
+          <div style="font-size:16px;font-weight:800;color:#1a1a1a">${d.label}</div>
+          <div style="font-size:12px;color:#888;margin-top:3px">${
+            key==='facile'?'Moins de questions - Indices disponibles - Pas de chrono':
+            key==='normal'?'Difficulte standard - Mode classique':
+            'Plus de questions - Aucun indice - Chrono 30s par question'
+          }</div>
+        </button>
+      `).join('')}
+    </div>
+  </div>`;
+}
+
 // ════ VRAI OU FAUX ════
 const VF_DATA = [{"q": "La Tour Philippe-le-Bel a été construite au XIIIe siècle.", "a": true, "exp": "Vrai ! Construite vers 1293-1307 par Philippe IV le Bel pour surveiller le pont d'Avignon."}, {"q": "Villeneuve-lès-Avignon est dans le département du Vaucluse.", "a": false, "exp": "Faux ! Elle est dans le Gard (30), face à Avignon qui est dans le Vaucluse (84)."}, {"q": "La Chartreuse du Val-de-Bénédiction a été fondée par le pape Innocent VI.", "a": true, "exp": "Vrai ! Innocent VI l'a fondée en 1356. Il y repose dans un tombeau monumental."}, {"q": "Le Fort Saint-André date du XVIe siècle.", "a": false, "exp": "Faux ! Il a été construit au XIVe siècle sous Jean II et Charles V."}, {"q": "Villeneuve-lès-Avignon est jumelée avec une ville italienne.", "a": true, "exp": "Vrai ! Elle est jumelée avec Monterotondo, commune du Latium."}, {"q": "La Chartreuse de Villeneuve est la plus grande de France.", "a": true, "exp": "Vrai ! Avec ses 2 hectares, c'est l'une des plus vastes chartreuses françaises."}, {"q": "Le pont Saint-Bénézet reliait Avignon à Villeneuve.", "a": true, "exp": "Vrai ! Ce pont traversait le Rhône et aboutissait à Villeneuve, territoire français."}, {"q": "Le Musée Pierre-de-Luxembourg conserve le Couronnement de la Vierge d'Enguerrand Quarton.", "a": true, "exp": "Vrai ! Ce chef-d'oeuvre de 1453 est l'une des plus belles peintures gothiques françaises."}, {"q": "La Tour Philippe-le-Bel est visible depuis Avignon.", "a": true, "exp": "Vrai ! Elle domine le Rhône et sa silhouette est visible depuis les remparts d'Avignon."}, {"q": "Villeneuve-lès-Avignon a moins de 10 000 habitants.", "a": false, "exp": "Faux ! La ville compte environ 13 000 habitants."}, {"q": "La lavande pousse naturellement en Provence.", "a": true, "exp": "Vrai ! La lavande est emblématique de la Provence, notamment sur le plateau de Valensole."}, {"q": "Le mistral souffle du sud vers le nord.", "a": false, "exp": "Faux ! Le mistral est un vent froid qui souffle du nord vers le sud, descendant la vallée du Rhône."}, {"q": "La Camargue est un delta du Rhône.", "a": true, "exp": "Vrai ! La Camargue est formée par le delta du Rhône avant qu'il se jette dans la Méditerranée."}, {"q": "Les santons sont des figurines de crèche provençales.", "a": true, "exp": "Vrai ! Les santons sont une tradition artisanale provençale, notamment à Marseille."}, {"q": "Le pastis est une liqueur à base d'anis.", "a": true, "exp": "Vrai ! Le pastis est un apéritif anisé très populaire en Provence."}, {"q": "Le Pont du Gard est un aqueduc romain.", "a": true, "exp": "Vrai ! Construit au Ier siècle, il alimentait Nîmes en eau sur 50 km."}, {"q": "La garrigue est une végétation des zones humides.", "a": false, "exp": "Faux ! La garrigue est une végétation typique des zones sèches et rocailleuses du Midi."}, {"q": "Frédéric Mistral a reçu le Prix Nobel de Littérature.", "a": true, "exp": "Vrai ! Il l'a reçu en 1904 pour son oeuvre en langue d'oc, notamment Mirèio."}, {"q": "Aix-en-Provence est la capitale de la Provence-Alpes-Côte d'Azur.", "a": false, "exp": "Faux ! Marseille est le chef-lieu de la région PACA. Aix-en-Provence est une ville importante mais pas capitale régionale."}, {"q": "Les Alpilles sont une chaîne de montagnes.", "a": true, "exp": "Vrai ! Les Alpilles sont un petit massif calcaire entre Arles et Avignon."}, {"q": "La tapenade est une spécialité provençale à base d'olives.", "a": true, "exp": "Vrai ! La tapenade est une pâte d'olives noires, câpres et anchois typique de Provence."}, {"q": "La ratatouille vient d'origine de Nice.", "a": true, "exp": "Vrai ! La ratatouille est un plat traditionnel niçois à base de légumes mijotés."}, {"q": "La bouillabaisse est un plat de viande provençal.", "a": false, "exp": "Faux ! La bouillabaisse est une soupe de poissons, spécialité de Marseille."}, {"q": "Le calisson est une spécialité sucrée d'Aix-en-Provence.", "a": true, "exp": "Vrai ! Le calisson est un bonbon traditionnel d'Aix, à base de melon confit et amandes."}, {"q": "L'huile d'olive AOC des Baux-de-Provence est reconnue.", "a": true, "exp": "Vrai ! La vallée des Baux produit une huile d'olive réputée avec une appellation protégée."}, {"q": "Le fromage de chèvre Pélardon vient du Gard.", "a": true, "exp": "Vrai ! Le Pélardon AOP est un fromage de chèvre produit dans les Cévennes et le Gard."}, {"q": "Le miel de lavande de Provence est un produit IGP.", "a": true, "exp": "Vrai ! Le miel de Provence bénéficie d'une Indication Géographique Protégée."}, {"q": "La socca est une galette de farine de pois chiches.", "a": true, "exp": "Vrai ! La socca est une spécialité niçoise, galette cuite au four à bois."}, {"q": "L'Absinthe est originaire de Provence.", "a": false, "exp": "Faux ! L'absinthe est originaire de Suisse et du Jura français, pas de Provence."}, {"q": "Le vin rosé de Provence représente plus de 40% de la production mondiale de rosé.", "a": true, "exp": "Vrai ! La Provence est la première région productrice de rosé au monde."}, {"q": "La pétanque a été inventée à La Ciotat.", "a": true, "exp": "Vrai ! La pétanque moderne est née à La Ciotat en 1907."}, {"q": "Le festival d'Avignon est dédié au cinéma.", "a": false, "exp": "Faux ! Le Festival d'Avignon est un festival de théâtre, créé par Jean Vilar en 1947."}, {"q": "La corrida est autorisée dans certaines villes de Provence.", "a": true, "exp": "Vrai ! Arles et Nîmes maintiennent une tradition tauromachique inscrite au patrimoine culturel."}, {"q": "La Tarasque est un animal légendaire d'Arles.", "a": false, "exp": "Faux ! La Tarasque est la créature légendaire de Tarascon, domptée par Sainte Marthe."}, {"q": "Le mas est un type de ferme traditionnel provençal.", "a": true, "exp": "Vrai ! Le mas est la ferme traditionnelle de Provence, souvent en pierre avec volets bleus."}, {"q": "La cigale est le symbole de la Provence.", "a": true, "exp": "Vrai ! La cigale est l'emblème de la Provence, symbole de l'été et de la chaleur méditerranéenne."}, {"q": "Les Saintes-Maries-de-la-Mer est un lieu de pèlerinage gitan.", "a": true, "exp": "Vrai ! Chaque mai, des milliers de Gitans s'y réunissent pour la fête de Sainte Sara."}, {"q": "Le félibrige est un mouvement de défense de la langue française.", "a": false, "exp": "Faux ! Le félibrige est un mouvement culturel fondé par Mistral pour promouvoir la langue occitane."}, {"q": "Marcel Pagnol est né à Aubagne.", "a": true, "exp": "Vrai ! Marcel Pagnol est né à Aubagne en 1895. La ville lui rend hommage avec un musée."}, {"q": "Cézanne a surtout peint la montagne Sainte-Victoire.", "a": true, "exp": "Vrai ! Cézanne a peint la Sainte-Victoire plus de 80 fois depuis Aix-en-Provence."}, {"q": "La Durance est un affluent du Rhône.", "a": true, "exp": "Vrai ! La Durance prend sa source dans les Alpes et rejoint le Rhône près d'Avignon."}, {"q": "Le Luberon est classé Parc Naturel Régional.", "a": true, "exp": "Vrai ! Le Parc Naturel Régional du Luberon a été créé en 1977."}, {"q": "Marseille est la deuxième ville de France.", "a": true, "exp": "Vrai ! Marseille est la deuxième ville de France par la population après Paris."}, {"q": "Les Calanques sont situées entre Marseille et Cassis.", "a": true, "exp": "Vrai ! Le Parc National des Calanques s'étend sur 20 km entre Marseille et Cassis."}, {"q": "Le Mont Ventoux culmine à plus de 2000 mètres.", "a": true, "exp": "Vrai ! Le Mont Ventoux culmine à 1909 mètres, surnommé le Géant de Provence."}, {"q": "La Crau est une plaine marécageuse.", "a": false, "exp": "Faux ! La Crau est une plaine de cailloux roulés (coussouls), unique en Europe."}, {"q": "La Camargue abrite des flamants roses.", "a": true, "exp": "Vrai ! La Camargue est le principal site de nidification des flamants roses en France."}, {"q": "Nîmes appartient à la région Provence-Alpes-Côte d'Azur.", "a": false, "exp": "Faux ! Nîmes est dans le Gard, en région Occitanie."}, {"q": "Le Verdon est le plus grand canyon d'Europe.", "a": true, "exp": "Vrai ! Les Gorges du Verdon sont considérées comme le plus grand canyon d'Europe avec 700m de profondeur."}, {"q": "L'étang de Berre est un lac d'eau douce.", "a": false, "exp": "Faux ! L'étang de Berre est une lagune d'eau salée, la plus grande d'Europe occidentale."}, {"q": "La Provence a été rattachée à la France en 1481.", "a": true, "exp": "Vrai ! Le comte René d'Anjou légua la Provence à Louis XI. Elle fut rattachée au royaume en 1481."}, {"q": "Les papes ont résidé à Avignon pendant plus de 70 ans.", "a": true, "exp": "Vrai ! Les papes ont résidé à Avignon de 1309 à 1377, soit 68 ans."}, {"q": "Jules César a conquis la Provence.", "a": false, "exp": "Faux ! C'est Rome qui a conquis la Province Romaine (Provincia) en 121 av. J.-C., avant Jules César."}, {"q": "Les Phocéens ont fondé Marseille.", "a": true, "exp": "Vrai ! Des Grecs de Phocée ont fondé Massalia (Marseille) vers 600 av. J.-C."}, {"q": "La Via Domitia est une voie romaine qui traverse la Provence.", "a": true, "exp": "Vrai ! La Via Domitia, construite en 118 av. J.-C., reliait l'Italie à l'Espagne via la Provence."}, {"q": "Les Baux-de-Provence doivent leur nom à la bauxite.", "a": true, "exp": "Vrai ! La bauxite, minerai d'aluminium, a été découverte aux Baux-de-Provence en 1821 et porte leur nom."}, {"q": "Le château d'If est une forteresse du Moyen-Age.", "a": false, "exp": "Faux ! Le château d'If a été construit au XVIe siècle (1524-1531) sur ordre de François Ier."}, {"q": "Nostradamus est né en Provence.", "a": true, "exp": "Vrai ! Michel de Nostredame (Nostradamus) est né à Saint-Rémy-de-Provence en 1503."}, {"q": "La Légion Étrangère a son musée à Aubagne.", "a": true, "exp": "Vrai ! Le Musée de la Légion Étrangère est installé à Aubagne depuis 1962."}, {"q": "Petrarca a vécu à Fontaine-de-Vaucluse.", "a": true, "exp": "Vrai ! Pétrarque a séjourné à Fontaine-de-Vaucluse de 1337 à 1353, inspiré par la source de la Sorgue."}];
 function shuffleArr(a){for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
@@ -2402,9 +2450,14 @@ function goToVF(){
   document.getElementById('header-eyebrow').textContent='VRAI OU FAUX';
   document.getElementById('header-name').textContent='Villeneuve-lès-Avignon';
   showScreen('screen-vf');
-  VF_POOL=shuffleArr([...VF_DATA]).slice(0,20);
-  vfIndex=0;vfScore=0;renderVF();
+  showDifficultyPicker('VRAI OU FAUX','check_circle', function(diff){
+    currentDifficulty=diff;
+    const cfg=DIFF_CONFIG[diff];
+    VF_POOL=shuffleArr([...VF_DATA]).slice(0,cfg.vf);
+    vfIndex=0;vfScore=0;vfTimer=cfg.timer;renderVF();
+  });
 }
+let vfTimer=0,vfTimerInterval=null;
 function renderVF(){
   const c=document.getElementById('vf-container');
   if(vfIndex>=VF_POOL.length){
@@ -2413,9 +2466,16 @@ function renderVF(){
   }
   const d=VF_POOL[vfIndex];
   const pct=Math.round(vfIndex/VF_POOL.length*100);
+  const cfg=DIFF_CONFIG[currentDifficulty];
+  if(vfTimerInterval){clearInterval(vfTimerInterval);vfTimerInterval=null;}
+  let timeLeft=cfg.timer;
   c.innerHTML=`<div class="mg-card">
     <div class="prog-bar-wrap"><div class="prog-bar" style="width:${pct}%"></div></div>
-    <div class="mg-score-bar"><span class="mg-score">${vfScore} pt${vfScore>1?'s':''}</span><span class="mg-progress">Question ${vfIndex+1}/${VF_POOL.length}</span></div>
+    <div class="mg-score-bar">
+      <span class="mg-score">${vfScore} pt${vfScore>1?'s':''}</span>
+      ${cfg.timer>0?`<span id="vf-timer" style="font-weight:800;color:#f7971e;font-size:15px">⏱ ${timeLeft}s</span>`:''}
+      <span class="mg-progress">Question ${vfIndex+1}/${VF_POOL.length}</span>
+    </div>
     <div class="mg-question">${d.q}</div>
     <div class="tf-wrap" style="margin-top:8px">
       <button class="tf-btn" onclick="answerVF(true)"><span class="material-symbols-outlined">check_circle</span>VRAI</button>
@@ -2423,9 +2483,18 @@ function renderVF(){
     </div>
     <div class="vf-result" id="vf-res"></div>
   </div>`;
+  if(cfg.timer>0){
+    vfTimerInterval=setInterval(()=>{
+      timeLeft--;
+      const tel=document.getElementById('vf-timer');
+      if(tel) tel.textContent='⏱ '+timeLeft+'s';
+      if(timeLeft<=0){clearInterval(vfTimerInterval);vfTimerInterval=null;answerVF(null);}
+    },1000);
+  }
 }
 function answerVF(ans){
-  const d=VF_POOL[vfIndex];const correct=ans===d.a;
+  if(vfTimerInterval){clearInterval(vfTimerInterval);vfTimerInterval=null;}
+  const d=VF_POOL[vfIndex];const correct=ans!==null&&ans===d.a;
   if(correct)vfScore++;
   document.querySelectorAll('.tf-wrap .tf-btn').forEach(b=>b.disabled=true);
   const res=document.getElementById('vf-res');
@@ -2440,7 +2509,10 @@ let pmIndex=0,pmScore=0,pmHints=0;
 function goToPM(){
   document.getElementById('header-eyebrow').textContent='PHOTO MYSTÈRE';
   document.getElementById('header-name').textContent='Villeneuve-lès-Avignon';
-  showScreen('screen-pm');pmIndex=0;pmScore=0;renderPM();
+  showScreen('screen-pm');
+  showDifficultyPicker('PHOTO MYSTÈRE','photo_camera', function(diff){
+    currentDifficulty=diff;pmIndex=0;pmScore=0;renderPM();
+  });
 }
 function renderPM(){
   const c=document.getElementById('pm-container');
@@ -2452,7 +2524,7 @@ function renderPM(){
   const optsHTML=d.opts.map((o,i)=>`<button class="pm-opt" onclick="answerPM(${i})">${o}</button>`).join('');
   c.innerHTML=`<div class="mg-card">
     <div class="mg-score-bar"><span class="mg-score">${pmScore} pt${pmScore>1?'s':''}</span><span class="mg-progress">Photo ${pmIndex+1}/${PM_DATA.length}</span></div>
-    <div class="pm-img-wrap"><img id="pm-img" class="pm-img" src="${d.img}" referrerpolicy="no-referrer"/></div>
+    <div class="pm-img-wrap"><img id="pm-img" class="pm-img" src="${d.img}" referrerpolicy="no-referrer" style="filter:blur(${DIFF_CONFIG[currentDifficulty].blurPM}px) brightness(.8);transition:filter .8s"/></div>
     <button class="pm-hint-btn" id="pm-hint-btn" onclick="revealPM()">Révéler un indice</button>
     <div class="pm-options" id="pm-opts">${optsHTML}</div>
     <div class="vf-result" id="pm-res"></div>
@@ -2479,7 +2551,10 @@ let qsIndex=0,qsScore=0,qsHint=0;
 function goToQS(){
   document.getElementById('header-eyebrow').textContent='QUI SUIS-JE ?';
   document.getElementById('header-name').textContent='Villeneuve-lès-Avignon';
-  showScreen('screen-qs');qsIndex=0;qsScore=0;renderQS();
+  showScreen('screen-qs');
+  showDifficultyPicker('QUI SUIS-JE ?','psychology', function(diff){
+    currentDifficulty=diff;qsIndex=0;qsScore=0;renderQS();
+  });
 }
 function renderQS(){
   const c=document.getElementById('qs-container');
@@ -2489,7 +2564,9 @@ function renderQS(){
   }
   qsHint=0;const d=QS_DATA[qsIndex];
   const pct=Math.round(qsIndex/QS_DATA.length*100);
-  const indicesHTML=d.indices.map((ind,i)=>`<div class="qs-indice ${i===0?'show':''}" id="qs-ind-${i}"><span class="qs-indice-num">${i+1}.</span>${ind}</div>`).join('');
+  const maxVisible=currentDifficulty==='expert'?1:currentDifficulty==='facile'?2:1;
+  const indicesHTML=d.indices.map((ind,i)=>`<div class="qs-indice ${i<maxVisible?'show':''}" id="qs-ind-${i}"><span class="qs-indice-num">${i+1}.</span>${ind}</div>`).join('');
+  const hintCount=currentDifficulty==='expert'?0:d.indices.length-maxVisible;
   c.innerHTML=`<div class="mg-card">
     <div class="prog-bar-wrap"><div class="prog-bar" style="width:${pct}%"></div></div>
     <div class="mg-score-bar"><span class="mg-score">${qsScore} pt${qsScore>1?'s':''}</span><span class="mg-progress">Personnage ${qsIndex+1}/${QS_DATA.length}</span></div>
@@ -2497,7 +2574,7 @@ function renderQS(){
     <div class="qs-indices">${indicesHTML}</div>
     <input id="qs-answer" placeholder="Votre réponse..." onkeydown="if(event.key==='Enter')checkQS()" style="display:block!important;width:100%!important;padding:14px!important;border:2px solid #eee!important;border-radius:14px!important;font-size:15px!important;font-family:inherit!important;margin-bottom:12px!important;box-sizing:border-box!important;background:#fff!important;color:#333!important"/>
     <button onclick="checkQS()" style="display:block!important;width:100%!important;padding:16px!important;border:none!important;border-radius:14px!important;background:#5b5ea6!important;color:#fff!important;font-size:16px!important;font-weight:800!important;cursor:pointer!important;font-family:inherit!important;margin-bottom:10px!important">Valider ma réponse</button>
-    <button id="qs-hint-btn" onclick="nextHintQS()" style="display:block!important;width:100%!important;padding:12px!important;border:2px solid #5b5ea6!important;border-radius:14px!important;background:transparent!important;color:#5b5ea6!important;font-size:14px!important;font-weight:700!important;cursor:pointer!important;font-family:inherit!important">${d.indices.length-1} indice${d.indices.length-1>1?'s':''} disponible${d.indices.length-1>1?'s':''}</button>
+    <button id="qs-hint-btn" onclick="nextHintQS()" ${currentDifficulty==='expert'?'disabled':''} style="display:block!important;width:100%!important;padding:12px!important;border:2px solid #5b5ea6!important;border-radius:14px!important;background:transparent!important;color:#5b5ea6!important;font-size:14px!important;font-weight:700!important;cursor:pointer!important;font-family:inherit!important">${hintCount>0?hintCount+' indice'+(hintCount>1?'s':'')+' disponible'+(hintCount>1?'s':''):'Aucun indice (Expert)'}</button>
     <div class="qs-result" id="qs-res"></div>
   </div>`;
   setTimeout(()=>{const inp=document.getElementById('qs-answer');if(inp)inp.focus();},100);
@@ -2529,7 +2606,7 @@ function checkQS(){
 
 // ════ MOTS MÊLÉS ════
 const MM_GRILLES = [{"titre": "Grille 1 - Monuments", "mots": ["AVIGNON", "CHARTREUSE", "RHONE", "MISTRAL", "LAVANDE", "PROVENCE", "GARRIGUE", "PASTIS", "CAMARGUE", "TARASCON", "ALPILLES", "LUBERON", "VENTOUX", "ARLES", "NIMES"]}, {"titre": "Grille 2 - Villes et Villages", "mots": ["GORDES", "CASSIS", "SORGUE", "DURANCE", "VERDON", "MIREILLE", "TAPENADE", "BOUILLABAISSE", "PETANQUE", "SANTON", "CIGALE", "CALISSON", "FELIBRIGE", "MANOSQUE", "AUBAGNE"]}, {"titre": "Grille 3 - Personnages et Culture", "mots": ["PAGNOL", "CEZANNE", "PETRAQUE", "NOSTRADAMUS", "CESAR", "MASSALIA", "PHOCEE", "INNOCENT", "PHILIPPE", "QUARTON", "BENEDICTION", "TEMPLIER", "PAPES", "MISTRAL", "SAINTES"]}];
-const MM_SIZE=12;
+const MM_SIZE=10;
 let mmGrid=[],mmSelected=[],mmFound=[],mmSelecting=false,mmWordsActive=[],mmGrilleIndex=0;
 function goToMM(){
   document.getElementById('header-eyebrow').textContent='MOTS MÊLÉS';
@@ -2583,142 +2660,309 @@ function renderMM(placed){
   const wordsHTML=mmWordsActive.map(w=>`<span class="mm-word" id="mmw-${w}">${w}</span>`).join('');
   container.innerHTML=`<div class="mg-card">
     <div class="mg-score-bar"><span class="mg-score" id="mm-score">0/${mmWordsActive.length} trouvés</span></div>
-    <div class="mg-question" style="font-size:14px">Glisse pour sélectionner les mots</div>
-    <div class="mm-grid-wrap"><div class="mm-grid" id="mm-grid" style="grid-template-columns:repeat(${MM_SIZE},30px)"></div></div>
+    <div class="mg-question" style="font-size:14px">Clique sur les cases pour former les mots</div>
+    <div class="mm-grid-wrap"><div class="mm-grid" id="mm-grid"></div></div>
     <div class="mm-words">${wordsHTML}</div>
   </div>`;
+  // Calculer la taille des cellules pour tenir dans l'écran
+  requestAnimationFrame(()=>{
+    const wrap=document.querySelector('.mm-grid-wrap');
+    const grid=document.getElementById('mm-grid');
+    if(!wrap||!grid) return;
+    const available=wrap.clientWidth-8;
+    const cellSize=Math.floor(available/MM_SIZE);
+    const finalSize=Math.max(22,Math.min(cellSize,34));
+    grid.style.gridTemplateColumns=`repeat(${MM_SIZE},${finalSize}px)`;
+    grid.style.gap='2px';
+    document.querySelectorAll('.mm-cell').forEach(c=>{
+      c.style.width=finalSize+'px';
+      c.style.height=finalSize+'px';
+      c.style.fontSize=Math.max(10,finalSize-14)+'px';
+    });
+  });
   const grid=document.getElementById('mm-grid');
   for(let r=0;r<MM_SIZE;r++)for(let c=0;c<MM_SIZE;c++){
     const cell=document.createElement('div');
     cell.className='mm-cell';cell.textContent=mmGrid[r][c];
     cell.dataset.r=r;cell.dataset.c=c;
-    cell.addEventListener('pointerdown',e=>{e.preventDefault();mmSelecting=true;mmSelected=[[r,c]];updateMMHighlight();});
-    cell.addEventListener('pointerenter',()=>{if(mmSelecting){mmSelected.push([r,c]);updateMMHighlight();}});
-    cell.addEventListener('pointerup',()=>{mmSelecting=false;checkMMWord(placed);});
+    cell.addEventListener('click',()=>{ toggleMMCell(r,c,placed); });
     grid.appendChild(cell);
   }
 }
-function updateMMHighlight(){
-  document.querySelectorAll('.mm-cell:not(.found)').forEach(c=>c.classList.remove('selected'));
-  for(const [r,c] of mmSelected){
-    const cell=document.querySelector(`.mm-cell[data-r="${r}"][data-c="${c}"]`);
-    if(cell&&!cell.classList.contains('found'))cell.classList.add('selected');
+function toggleMMCell(r,c,placed){
+  const cell=document.querySelector(`.mm-cell[data-r="${r}"][data-c="${c}"]`);
+  if(!cell||cell.classList.contains('found')) return;
+  const idx=mmSelected.findIndex(([sr,sc])=>sr===r&&sc===c);
+  if(idx>-1){
+    mmSelected.splice(idx,1);
+    cell.classList.remove('selected');
+  } else {
+    mmSelected.push([r,c]);
+    cell.classList.add('selected');
   }
+  // Vérifier si un mot est formé
+  checkMMWord(placed);
 }
 function checkMMWord(placed){
-  document.querySelectorAll('.mm-cell.selected').forEach(c=>c.classList.remove('selected'));
   const selStr=JSON.stringify(mmSelected);
   const selRevStr=JSON.stringify([...mmSelected].reverse());
   for(const {word,cells} of placed){
-    if(mmFound.includes(word))continue;
+    if(mmFound.includes(word)) continue;
     if(JSON.stringify(cells)===selStr||JSON.stringify(cells)===selRevStr){
       mmFound.push(word);
       for(const [r,c] of cells){
         const cell=document.querySelector(`.mm-cell[data-r="${r}"][data-c="${c}"]`);
         if(cell){cell.classList.remove('selected');cell.classList.add('found');}
       }
+      mmSelected=[];
       const wEl=document.getElementById('mmw-'+word);if(wEl)wEl.classList.add('found');
       const sc=document.getElementById('mm-score');if(sc)sc.textContent=`${mmFound.length}/${mmWordsActive.length} trouvés`;
       if(mmFound.length===mmWordsActive.length){
         addStoredPoints(150);
         setTimeout(()=>{document.getElementById('mm-container').innerHTML='<div class="mg-card mg-final"><div class="mg-final-icon"><span class="material-symbols-outlined">search</span></div><div class="mg-final-score">150</div><div class="mg-final-label">Points gagnés !</div><button class="mg-final-btn" onclick="goToMM()">Rejouer</button></div>';},800);
       }
-      break;
+      return;
     }
   }
-  mmSelected=[];
+  // Si plus de 15 cases sélectionnées sans mot trouvé, vider
+  if(mmSelected.length>15){
+    mmSelected=[];
+    document.querySelectorAll('.mm-cell.selected').forEach(c=>c.classList.remove('selected'));
+  }
 }
+function updateMMHighlight(){}
 
 // ════ MOTS CROISÉS ════
-const MC_ANSWERS=[
-  {r:0,c:0,dir:'across',word:'RHONE',   clue:'Fleuve entre Avignon et Villeneuve',num:1},
-  {r:0,c:0,dir:'down',  word:'RAISIN',  clue:'Fruit de la vigne provençale',num:2},
-  {r:2,c:0,dir:'across',word:'AVIGNON', clue:'Cité des Papes du Vaucluse',num:3},
-  {r:4,c:0,dir:'across',word:'NIMES',   clue:'Préfecture du Gard aux arènes',num:4},
-  {r:6,c:0,dir:'across',word:'MISTRAL', clue:'Vent froid du nord provençal',num:5},
-  {r:0,c:2,dir:'down',  word:'OISEAU',  clue:'Animal du ciel provençal',num:6},
-  {r:2,c:3,dir:'down',  word:'GARRIGUE',clue:'Végétation odorante du Midi',num:7},
-  {r:0,c:4,dir:'down',  word:'NIMES',   clue:'Préfecture du Gard',num:8},
+// 5 grilles différentes, tirée aléatoirement
+const MC_GRILLES = [
+  {
+    titre: 'Grille 1 - Provence',
+    answers: [
+      {r:0,c:0,dir:'across',word:'RHONE',   clue:'Fleuve du Vaucluse',num:1},
+      {r:0,c:0,dir:'down',  word:'RAISIN',  clue:'Fruit de la vigne',num:2},
+      {r:2,c:0,dir:'across',word:'AVIGNON', clue:'Cité des Papes',num:3},
+      {r:4,c:0,dir:'across',word:'NIMES',   clue:'Préfecture du Gard',num:4},
+      {r:6,c:0,dir:'across',word:'MISTRAL', clue:'Vent du nord provençal',num:5},
+      {r:0,c:3,dir:'down',  word:'GARRIGUE',clue:'Végétation du Midi',num:6},
+    ]
+  },
+  {
+    titre: 'Grille 2 - Patrimoine',
+    answers: [
+      {r:0,c:0,dir:'across',word:'PAPES',   clue:'Ils ont résidé à Avignon',num:1},
+      {r:0,c:0,dir:'down',  word:'PONT',    clue:'Célèbre ouvrage sur le Rhône',num:2},
+      {r:2,c:0,dir:'across',word:'PRIEURE', clue:'Monastère dirigé par un prieur',num:3},
+      {r:4,c:0,dir:'across',word:'RHONE',   clue:'Grand fleuve du Midi',num:4},
+      {r:6,c:0,dir:'across',word:'LAVANDE', clue:'Fleur de Provence',num:5},
+      {r:0,c:4,dir:'down',  word:'SANTON',  clue:'Figurine de crèche provençale',num:6},
+    ]
+  },
+  {
+    titre: 'Grille 3 - Géographie',
+    answers: [
+      {r:0,c:0,dir:'across',word:'GARD',    clue:'Département de Rochefort',num:1},
+      {r:0,c:0,dir:'down',  word:'GORDES',  clue:'Village perché du Luberon',num:2},
+      {r:2,c:0,dir:'across',word:'ARLES',   clue:'Ville des arènes romaines',num:3},
+      {r:4,c:0,dir:'across',word:'LUBERON', clue:'Massif montagneux du Vaucluse',num:4},
+      {r:6,c:0,dir:'across',word:'CAMARGUE',clue:'Delta du Rhône',num:5},
+      {r:0,c:3,dir:'down',  word:'DURANCE', clue:'Affluent du Rhône',num:6},
+    ]
+  },
+  {
+    titre: 'Grille 4 - Histoire',
+    answers: [
+      {r:0,c:0,dir:'across',word:'CESAR',   clue:'Sculpteur marseillais',num:1},
+      {r:0,c:0,dir:'down',  word:'CEZANNE', clue:'Peintre Aix-en-Provence',num:2},
+      {r:2,c:0,dir:'across',word:'MISTRAL', clue:'Poète prix Nobel provençal',num:3},
+      {r:4,c:0,dir:'across',word:'ARENES',  clue:'Monument romain de Nîmes',num:4},
+      {r:6,c:0,dir:'across',word:'PASTIS',  clue:'Apéritif anisé',num:5},
+      {r:0,c:4,dir:'down',  word:'SORGUE',  clue:'Rivière de Fontaine-de-Vaucluse',num:6},
+    ]
+  },
+  {
+    titre: 'Grille 5 - Culture',
+    answers: [
+      {r:0,c:0,dir:'across',word:'CIGALE',  clue:'Symbole de la Provence',num:1},
+      {r:0,c:0,dir:'down',  word:'CALISSON',clue:'Friandise dAix',num:2},
+      {r:2,c:0,dir:'across',word:'LUBERON', clue:'Parc naturel régional',num:3},
+      {r:4,c:0,dir:'across',word:'ORANGE',  clue:'Ville au théâtre antique',num:4},
+      {r:6,c:0,dir:'across',word:'PAGNOL',  clue:'Auteur marseillais',num:5},
+      {r:0,c:5,dir:'down',  word:'NIMES',   clue:'Ville de la Maison Carrée',num:6},
+    ]
+  },
 ];
-let mcState={};
+
+let mcState={}, mcCurrentGrille=null;
+
 function goToMC(){
   document.getElementById('header-eyebrow').textContent='MOTS CROISÉS';
   document.getElementById('header-name').textContent='Villeneuve-lès-Avignon';
-  showScreen('screen-mc');initMC();
+  showScreen('screen-mc');
+  showDifficultyPicker('MOTS CROISÉS','border_all', function(diff){
+    currentDifficulty=diff;
+    // Choisir une grille aléatoire
+    mcCurrentGrille=MC_GRILLES[Math.floor(Math.random()*MC_GRILLES.length)];
+    initMC();
+  });
 }
+
 function initMC(){
   mcState={cells:{},activeCell:null,activeDir:'across'};
-  MC_ANSWERS.forEach(ans=>{
+  mcCurrentGrille.answers.forEach(ans=>{
     for(let i=0;i<ans.word.length;i++){
       const r=ans.dir==='across'?ans.r:ans.r+i;
       const c=ans.dir==='across'?ans.c+i:ans.c;
       const k=r+','+c;
-      if(!mcState.cells[k])mcState.cells[k]={answer:ans.word[i],typed:'',num:null};
+      if(!mcState.cells[k]) mcState.cells[k]={answer:ans.word[i],typed:'',num:null};
     }
     const sk=ans.r+','+ans.c;
-    if(mcState.cells[sk])mcState.cells[sk].num=ans.num;
+    if(mcState.cells[sk]) mcState.cells[sk].num=ans.num;
   });
   renderMC();
 }
+
 function renderMC(){
   const cont=document.getElementById('mc-container');
-  const SIZE=10;let gHTML='';
-  for(let r=0;r<SIZE;r++){
-    for(let c=0;c<SIZE;c++){
-      const k=r+','+c,cell=mcState.cells[k];
+  // Calculer la taille de la grille dynamiquement
+  let maxR=0,maxC=0;
+  Object.keys(mcState.cells).forEach(k=>{
+    const[r,c]=k.split(',').map(Number);
+    if(r>maxR)maxR=r; if(c>maxC)maxC=c;
+  });
+  const ROWS=maxR+1, COLS=maxC+1;
+
+  let gHTML='';
+  for(let r=0;r<ROWS;r++){
+    for(let c=0;c<COLS;c++){
+      const k=r+','+c, cell=mcState.cells[k];
       if(!cell){gHTML+='<div class="mc-cell black"></div>';continue;}
       const isAct=mcState.activeCell&&mcState.activeCell[0]===r&&mcState.activeCell[1]===c;
-      const isOk=cell.typed===cell.answer;
-      gHTML+=`<div class="mc-cell${isAct?' active':''}${isOk?' correct':''}" onclick="selectMCCell(${r},${c})">${cell.num?`<span class="mc-num">${cell.num}</span>`:''}<span id="mct-${r}-${c}">${cell.typed}</span></div>`;
+      // Surligner toute la direction active
+      const isInWord=mcState.activeCell&&isInActiveWord(r,c);
+      const isOk=cell.typed!==''&&cell.typed===cell.answer;
+      const isWrong=cell.typed!==''&&cell.typed!==cell.answer;
+      gHTML+=`<div class="mc-cell${isAct?' active':isInWord?' in-word':''}${isOk?' correct':''}${isWrong?' wrong-cell':''}" onclick="selectMCCell(${r},${c})">${cell.num?`<span class="mc-num">${cell.num}</span>`:''}<span class="mc-letter">${cell.typed}</span></div>`;
     }
   }
-  const across=MC_ANSWERS.filter(a=>a.dir==='across').map(a=>`<div class="mc-clue" onclick="focusMCWord(${a.num},'across')"><span>${a.num}.</span> ${a.clue}</div>`).join('');
-  const down=MC_ANSWERS.filter(a=>a.dir==='down').map(a=>`<div class="mc-clue" onclick="focusMCWord(${a.num},'down')"><span>${a.num}.</span> ${a.clue}</div>`).join('');
-  const keys=['AZERTYUIOP','QSDFGHJKLM','WXCVBN'].map(row=>row.split('').map(l=>`<button class="mc-key" onclick="typeMC('${l}')">${l}</button>`).join('')+(row==='WXCVBN'?`<button class="mc-key del" onclick="typeMC('DEL')">&#9003;</button>`:'')).join('');
+
+  const across=mcCurrentGrille.answers.filter(a=>a.dir==='across').map(a=>`<div class="mc-clue${isWordDone(a)?' done':''}" onclick="focusMCWord(${a.num},'across')"><span>${a.num}.</span> ${a.clue}</div>`).join('');
+  const down=mcCurrentGrille.answers.filter(a=>a.dir==='down').map(a=>`<div class="mc-clue${isWordDone(a)?' done':''}" onclick="focusMCWord(${a.num},'down')"><span>${a.num}.</span> ${a.clue}</div>`).join('');
+
+  const cellSize=Math.min(36, Math.floor((document.getElementById('mc-container').clientWidth-48)/COLS));
+  const keys=['AZERTYUIOP','QSDFGHJKLM','WXCVBN'].map(row=>
+    row.split('').map(l=>`<button class="mc-key" onclick="typeMC('${l}')">${l}</button>`).join('')+
+    (row==='WXCVBN'?'<button class="mc-key del" onclick="typeMC(&quot;DEL&quot;)">&#9003;</button>':'')).join('');
+
   const found=countMCFound();
+  const total=mcCurrentGrille.answers.length;
+
   cont.innerHTML=`<div class="mg-card">
-    <div class="mg-score-bar"><span class="mg-score">${found}/${MC_ANSWERS.length} mots</span></div>
-    <div class="mm-grid-wrap"><div class="mc-grid" style="grid-template-columns:repeat(${SIZE},32px)">${gHTML}</div></div>
+    <div class="mg-score-bar">
+      <span class="mg-score" style="font-size:12px">${mcCurrentGrille.titre}</span>
+      <span class="mg-progress">${found}/${total} mots</span>
+    </div>
+    <div class="mm-grid-wrap" style="overflow-x:auto">
+      <div class="mc-grid" style="grid-template-columns:repeat(${COLS},${cellSize}px);gap:2px">${gHTML}</div>
+    </div>
     <div class="mc-clues"><div class="mc-clue-group"><h4>Horizontal</h4>${across}</div><div class="mc-clue-group"><h4>Vertical</h4>${down}</div></div>
     <div class="mc-keyboard">${keys}</div>
+    <button onclick="mcNewGrille()" style="width:100%;margin-top:10px;padding:10px;border:2px solid var(--accent);border-radius:12px;background:transparent;color:var(--accent);font-weight:700;cursor:pointer;font-family:inherit">Nouvelle grille</button>
   </div>`;
 }
+
+function isInActiveWord(r,c){
+  if(!mcState.activeCell) return false;
+  const[ar,ac]=mcState.activeCell;
+  return mcCurrentGrille.answers.some(ans=>{
+    if(ans.dir!==mcState.activeDir) return false;
+    if(ans.dir==='across'&&ans.r===ar){
+      return r===ar && c>=ans.c && c<ans.c+ans.word.length && ar>=ans.r && ar<=ans.r;
+    }
+    if(ans.dir==='down'&&ans.c===ac){
+      return c===ac && r>=ans.r && r<ans.r+ans.word.length;
+    }
+    return false;
+  });
+}
+
+function isWordDone(ans){
+  for(let i=0;i<ans.word.length;i++){
+    const r=ans.dir==='across'?ans.r:ans.r+i;
+    const c=ans.dir==='across'?ans.c+i:ans.c;
+    if(mcState.cells[r+','+c]?.typed!==ans.word[i]) return false;
+  }
+  return true;
+}
+
 function selectMCCell(r,c){
-  if(mcState.activeCell&&mcState.activeCell[0]===r&&mcState.activeCell[1]===c)mcState.activeDir=mcState.activeDir==='across'?'down':'across';
-  mcState.activeCell=[r,c];renderMC();
-}
-function focusMCWord(num,dir){
-  const ans=MC_ANSWERS.find(a=>a.num===num&&a.dir===dir);
-  if(ans){mcState.activeCell=[ans.r,ans.c];mcState.activeDir=dir;renderMC();}
-}
-function typeMC(letter){
-  if(!mcState.activeCell)return;
-  const[r,c]=mcState.activeCell,k=r+','+c;
-  if(!mcState.cells[k])return;
-  if(letter==='DEL')mcState.cells[k].typed='';
-  else mcState.cells[k].typed=letter;
-  if(letter!=='DEL'){
-    const nr=mcState.activeDir==='down'?r+1:r,nc=mcState.activeDir==='across'?c+1:c;
-    if(mcState.cells[nr+','+nc])mcState.activeCell=[nr,nc];
+  if(mcState.activeCell&&mcState.activeCell[0]===r&&mcState.activeCell[1]===c){
+    // Toggle direction si on reclique la même case
+    const hasBoth=mcCurrentGrille.answers.some(a=>a.dir==='across'&&cellInWord(r,c,a))&&
+                  mcCurrentGrille.answers.some(a=>a.dir==='down'&&cellInWord(r,c,a));
+    if(hasBoth) mcState.activeDir=mcState.activeDir==='across'?'down':'across';
+  } else {
+    mcState.activeCell=[r,c];
+    // Auto-détecter la direction disponible
+    const hasAcross=mcCurrentGrille.answers.some(a=>a.dir==='across'&&cellInWord(r,c,a));
+    const hasDown=mcCurrentGrille.answers.some(a=>a.dir==='down'&&cellInWord(r,c,a));
+    if(hasAcross&&!hasDown) mcState.activeDir='across';
+    else if(hasDown&&!hasAcross) mcState.activeDir='down';
   }
   renderMC();
-  if(countMCFound()===MC_ANSWERS.length){
+}
+
+function cellInWord(r,c,ans){
+  if(ans.dir==='across') return r===ans.r && c>=ans.c && c<ans.c+ans.word.length;
+  return c===ans.c && r>=ans.r && r<ans.r+ans.word.length;
+}
+
+function focusMCWord(num,dir){
+  const ans=mcCurrentGrille.answers.find(a=>a.num===num&&a.dir===dir);
+  if(ans){mcState.activeCell=[ans.r,ans.c];mcState.activeDir=dir;renderMC();}
+}
+
+function typeMC(letter){
+  if(!mcState.activeCell) return;
+  const[r,c]=mcState.activeCell, k=r+','+c;
+  if(!mcState.cells[k]) return;
+
+  if(letter==='DEL'){
+    if(mcState.cells[k].typed!==''){
+      mcState.cells[k].typed='';
+    } else {
+      // Reculer d'une case
+      const pr=mcState.activeDir==='down'?r-1:r;
+      const pc=mcState.activeDir==='across'?c-1:c;
+      if(mcState.cells[pr+','+pc]){ mcState.activeCell=[pr,pc]; mcState.cells[pr+','+pc].typed=''; }
+    }
+  } else {
+    mcState.cells[k].typed=letter;
+    // Avancer automatiquement à la case suivante
+    const nr=mcState.activeDir==='down'?r+1:r;
+    const nc=mcState.activeDir==='across'?c+1:c;
+    if(mcState.cells[nr+','+nc]) mcState.activeCell=[nr,nc];
+  }
+
+  renderMC();
+
+  if(countMCFound()===mcCurrentGrille.answers.length){
     addStoredPoints(200);
-    setTimeout(()=>{document.getElementById('mc-container').innerHTML='<div class="mg-card mg-final"><div class="mg-final-icon"><span class="material-symbols-outlined">border_all</span></div><div class="mg-final-score">200</div><div class="mg-final-label">Points gagnés !</div><button class="mg-final-btn" onclick="goToMC()">Rejouer</button></div>';},600);
+    setTimeout(()=>{
+      document.getElementById('mc-container').innerHTML='<div class="mg-card mg-final"><div class="mg-final-icon"><span class="material-symbols-outlined">border_all</span></div><div class="mg-final-score">200</div><div class="mg-final-label">Points gagnés !</div><button class="mg-final-btn" onclick="goToMC()">Rejouer</button></div>';
+    },600);
   }
 }
+
 function countMCFound(){
-  let f=0;
-  MC_ANSWERS.forEach(ans=>{
-    let ok=true;
-    for(let i=0;i<ans.word.length;i++){
-      const r=ans.dir==='across'?ans.r:ans.r+i,c=ans.dir==='across'?ans.c+i:ans.c;
-      if(mcState.cells[r+','+c]?.typed!==ans.word[i]){ok=false;break;}
-    }
-    if(ok)f++;
-  });
-  return f;
+  return mcCurrentGrille.answers.filter(ans=>isWordDone(ans)).length;
 }
+
+function mcNewGrille(){
+  const current=MC_GRILLES.indexOf(mcCurrentGrille);
+  mcCurrentGrille=MC_GRILLES[(current+1)%MC_GRILLES.length];
+  initMC();
+}
+
 
 // ════ ANAGRAMME ════
 const AG_DATA = [{"word": "AVIGNON", "hint": "Cité des Papes, capitale du comtat"}, {"word": "LAVANDE", "hint": "Fleur violette emblème de Provence"}, {"word": "MISTRAL", "hint": "Vent violent du nord provençal"}, {"word": "CAMARGUE", "hint": "Delta du Rhône aux chevaux blancs"}, {"word": "PASTIS", "hint": "Apéritif anisé provençal"}, {"word": "GARRIGUE", "hint": "Végétation odorante du Midi sec"}, {"word": "TARASCON", "hint": "Ville de la Tarasque sur le Rhône"}, {"word": "CHARTREUSE", "hint": "Grand monastère de Villeneuve-lès-Avignon"}, {"word": "PROVENCE", "hint": "Région du soleil et de la lavande"}, {"word": "LUBERON", "hint": "Massif montagneux du Vaucluse"}, {"word": "MISTRALE", "hint": "Vent froid du Rhône (féminin)"}, {"word": "CALISSON", "hint": "Friandise sucrée d'Aix-en-Provence"}, {"word": "PAGNOL", "hint": "Auteur marseillais de la Gloire de mon père"}, {"word": "SANTON", "hint": "Figurine de crèche provençale"}, {"word": "CIGALE", "hint": "Insecte symbole de la Provence"}, {"word": "VENTOUX", "hint": "Géant de Provence, montagne du vélo"}, {"word": "ARLES", "hint": "Ville des arènes et de Van Gogh"}, {"word": "NIMES", "hint": "Ville des arènes romaines du Gard"}, {"word": "GORDES", "hint": "Village perché du Luberon"}, {"word": "CASSIS", "hint": "Village viticole aux calanques"}, {"word": "CAMARGUE", "hint": "Terre des gardians et des flamants"}, {"word": "ALPILLES", "hint": "Chaîne de collines entre Arles et Avignon"}, {"word": "VALENSOLE", "hint": "Plateau de la lavande en Alpes-de-Haute-Provence"}, {"word": "PEYRESQ", "hint": "Village médiéval restauré des Alpes"}, {"word": "SORGUE", "hint": "Rivière de Fontaine-de-Vaucluse"}, {"word": "DURANCE", "hint": "Affluent du Rhône, rivière alpine"}, {"word": "VERDON", "hint": "Gorges spectaculaires de 700m"}, {"word": "SAINTES", "hint": "Les ... Maries de la Mer, pèlerinage gitan"}, {"word": "FELIBRIGE", "hint": "Mouvement de Mistral pour la langue d'oc"}, {"word": "MIREILLE", "hint": "Héroïne du poème provençal de Mistral"}, {"word": "TAPENADE", "hint": "Pâte d'olives noires provençale"}, {"word": "RATATOUILLE", "hint": "Plat de légumes mijotés niçois"}, {"word": "BOUILLABAISSE", "hint": "Soupe de poissons marseillaise"}, {"word": "PETANQUE", "hint": "Jeu de boules né à La Ciotat"}, {"word": "NOSTRADAMUS", "hint": "Prophète né à Saint-Rémy-de-Provence"}, {"word": "CEZANNE", "hint": "Peintre d'Aix-en-Provence, père du cubisme"}, {"word": "PETRAQUE", "hint": "Poète italien de Fontaine-de-Vaucluse"}, {"word": "MANOSQUE", "hint": "Ville de Giono en Haute-Provence"}, {"word": "AUBAGNE", "hint": "Ville natale de Marcel Pagnol"}, {"word": "MARSEILLE", "hint": "Première ville de Provence, vieux port"}];
@@ -2727,8 +2971,16 @@ function goToAG(){
   document.getElementById('header-eyebrow').textContent='ANAGRAMME';
   document.getElementById('header-name').textContent='Villeneuve-lès-Avignon';
   showScreen('screen-ag');
-  AG_POOL=shuffleArr([...AG_DATA]).slice(0,15);
-  agIndex=0;agScore=0;renderAG();
+  showDifficultyPicker('ANAGRAMME','sort_by_alpha', function(diff){
+    currentDifficulty=diff;
+    const cfg=DIFF_CONFIG[diff];
+    // Facile: mots courts (<=6 lettres), Expert: mots longs (>=7 lettres)
+    let pool=[...AG_DATA];
+    if(diff==='facile') pool=pool.filter(w=>w.word.length<=6);
+    if(diff==='expert') pool=pool.filter(w=>w.word.length>=7);
+    AG_POOL=shuffleArr(pool).slice(0,cfg.ag);
+    agIndex=0;agScore=0;renderAG();
+  });
 }
 function renderAG(){
   const c=document.getElementById('ag-container');
@@ -2753,10 +3005,21 @@ function renderAG(){
   renderAGLetters();
 }
 function renderAGLetters(){
-  document.getElementById('ag-letters').innerHTML=agLetters.map((obj,i)=>`<div class="ag-letter ${obj.used?'used':''}" onclick="addAGLetter(${i})">${obj.l}</div>`).join('');
-  document.getElementById('ag-answer').innerHTML=agAnswer.map((obj,i)=>`<div class="ag-answer-letter" onclick="removeAGLetter(${i})">${obj.l}</div>`).join('');
+  document.getElementById('ag-letters').innerHTML=agLetters.map((obj,i)=>
+    `<div class="ag-letter ${obj.used?'used':''}" onclick="addAGLetter(${i})">${obj.l}</div>`).join('');
+  const answerDiv=document.getElementById('ag-answer');
+  if(agAnswer.length===0){
+    answerDiv.innerHTML='<span class="ag-answer-empty">Clique sur les lettres</span>';
+  } else {
+    answerDiv.innerHTML=agAnswer.map((obj,i)=>
+      `<div class="ag-answer-letter" onclick="removeAGLetter(${i})" title="Retirer">${obj.l}</div>`).join('');
+  }
   const btn=document.getElementById('ag-validate');
-  if(btn)btn.disabled=agAnswer.length!==AG_POOL[agIndex].word.length;
+  if(btn){
+    const done=agAnswer.length===AG_POOL[agIndex].word.length;
+    btn.disabled=!done;
+    btn.textContent=done?'Valider ma réponse ✓':'Valider ('+agAnswer.length+'/'+AG_POOL[agIndex].word.length+')';
+  }
 }
 function addAGLetter(i){if(agLetters[i].used)return;agLetters[i].used=true;agAnswer.push({...agLetters[i],srcIdx:i});renderAGLetters();}
 function removeAGLetter(i){const obj=agAnswer[i];agLetters[obj.srcIdx].used=false;agAnswer.splice(i,1);renderAGLetters();}
