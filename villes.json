@@ -86,5 +86,13 @@
     "couleur": "#1e3a2f",
     "photo": "assets/baux-de-provence/hero.jpg",
     "expire": "2027-01-01"
+  },
+  "Tarascon": {
+    "actif": true,
+    "nom": "Tarascon",
+    "departement": "Bouches-du-Rhône (13)",
+    "couleur": "#1e3a2f",
+    "photo": "assets/tarascon/hero.jpg",
+    "expire": "2027-01-01" 
   }
 }
