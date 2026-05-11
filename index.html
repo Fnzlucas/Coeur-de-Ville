@@ -274,52 +274,102 @@ function showSelector() {
   loadVilles();
 }
 
+function makeDeptHeader(deptName, isActive) {
+  var hdr = document.createElement('div');
+  hdr.className = 'sec-label';
+  hdr.style.marginTop = '8px';
+  hdr.innerHTML = '<div class="sec-dot' + (isActive ? '' : ' grey') + '"></div>' +
+    '<div class="sec-txt">' + deptName + '</div>' +
+    '<div class="sec-line"></div>';
+  return hdr;
+}
+
 function loadVilles() {
+  var selector = document.getElementById('selector');
+  // Retire hero existant
+  var existingHero = document.querySelector('.hero-ville');
+  if (existingHero) existingHero.parentNode.removeChild(existingHero);
+  // Vide les conteneurs dynamiques (grilles + bientôt + en-têtes de dept)
   var ga = document.getElementById('villes-actives');
   var gb = document.getElementById('villes-bientot');
   ga.innerHTML = ''; gb.innerHTML = '';
-  // Retire un hero existant pour éviter les doublons
-  var existingHero = document.querySelector('.hero-ville');
-  if (existingHero) existingHero.parentNode.removeChild(existingHero);
-  // Réaffiche l'en-tête de section "Villes disponibles" si masqué
-  var hdr = document.querySelector('#selector .sec-label:not(#bientot-hdr)');
-  if (hdr) hdr.style.display = '';
-  // Récupère la ville principale
+  // Retire les en-têtes de département injectés précédemment
+  selector.querySelectorAll('.dept-hdr').forEach(function(el){ el.parentNode.removeChild(el); });
+  // Masque bientôt par défaut
+  document.getElementById('bientot-hdr').style.display = 'none';
+  // Réaffiche l'en-tête "Villes disponibles"
+  var mainHdr = document.querySelector('#selector .sec-label:not(#bientot-hdr):not(.dept-hdr)');
+  if (mainHdr) mainHdr.style.display = '';
+  // Ville principale
   var villePrincipale = null;
   try { villePrincipale = localStorage.getItem('cdv_ville_principale'); } catch(e) {}
+
   fetch('villes.json')
     .then(function(r){ return r.json(); })
     .then(function(villes) {
-      var hasBientot = false;
-      // Si ville principale définie ET active, afficher en hero
+
+      // --- Hero ville principale ---
       if (villePrincipale && villes[villePrincipale] && villes[villePrincipale].actif) {
         var hero = makeHero(villePrincipale, villes[villePrincipale]);
-        ga.parentNode.insertBefore(hero, ga.parentNode.querySelector('.sec-label'));
-        // Mettre à jour le label de la section "Villes disponibles" en "Autres villes"
+        var firstSec = selector.querySelector('.sec-label:not(#bientot-hdr)');
+        selector.insertBefore(hero, firstSec);
         var lblTxt = document.getElementById('txt-available');
         if (lblTxt) lblTxt.textContent = T[lang].autres;
       } else {
-        // Reset label si pas de ville principale
         var lblTxt = document.getElementById('txt-available');
         if (lblTxt) lblTxt.textContent = T[lang].available;
       }
+
+      // --- Groupe par département ---
+      // Actives
+      var deptActives = {}; // { deptName: [cards] }
+      var deptActivesOrder = [];
+      // Bientôt
+      var deptBientot = {};
+      var deptBientotOrder = [];
+
       Object.keys(villes).forEach(function(id) {
-        // Skip la ville principale dans la grille (elle est en hero)
-        if (id === villePrincipale && villes[id].actif) return;
+        if (id === villePrincipale && villes[id].actif) return; // déjà en hero
         var v = villes[id];
+        var dept = v.departement || 'Autres';
         var card = makeCard(id, v);
-        if (v.actif) ga.appendChild(card);
-        else { gb.appendChild(card); hasBientot = true; }
+        if (v.actif) {
+          if (!deptActives[dept]) { deptActives[dept] = []; deptActivesOrder.push(dept); }
+          deptActives[dept].push(card);
+        } else {
+          if (!deptBientot[dept]) { deptBientot[dept] = []; deptBientotOrder.push(dept); }
+          deptBientot[dept].push(card);
+        }
       });
-      if (hasBientot) document.getElementById('bientot-hdr').style.display = 'flex';
-      // Si toutes les villes actives ont été placées en hero, masquer la section
+
+      // Injecte les actives groupées par département
+      deptActivesOrder.forEach(function(dept) {
+        var hdr = makeDeptHeader(dept, true);
+        hdr.classList.add('dept-hdr');
+        ga.parentNode.insertBefore(hdr, ga);
+        deptActives[dept].forEach(function(card) { ga.appendChild(card); });
+      });
+
+      // Injecte les bientôt groupées par département
+      var hasBientot = deptBientotOrder.length > 0;
+      if (hasBientot) {
+        document.getElementById('bientot-hdr').style.display = 'flex';
+        deptBientotOrder.forEach(function(dept) {
+          var hdr = makeDeptHeader(dept, false);
+          hdr.classList.add('dept-hdr');
+          gb.parentNode.insertBefore(hdr, gb);
+          deptBientot[dept].forEach(function(card) { gb.appendChild(card); });
+        });
+      }
+
+      // Si aucune ville active restante (tout en hero), masque l'en-tête principal
       if (villePrincipale && villes[villePrincipale] && villes[villePrincipale].actif) {
-        var nbActivesRestantes = Object.keys(villes).filter(function(id){
+        var nbActives = Object.keys(villes).filter(function(id){
           return villes[id].actif && id !== villePrincipale;
         }).length;
-        if (nbActivesRestantes === 0) {
-          var hdr = document.querySelector('#selector .sec-label:not(#bientot-hdr)');
-          if (hdr) hdr.style.display = 'none';
+        if (nbActives === 0) {
+          var mainH = document.querySelector('#selector .sec-label:not(#bientot-hdr):not(.dept-hdr)');
+          if (mainH) mainH.style.display = 'none';
         }
       }
     })
