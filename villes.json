@@ -117,6 +117,14 @@
     "departement": "Bouches-du-Rhône (13)",
     "couleur": "#1a3a5c",
     "photo": "assets/arles/hero.jpg",
-    "expire": "2027-01-01"      
+    "expire": "2027-01-01" 
+  },
+  "Nîmes": {
+    "actif": true,
+    "nom": "Nîmes",
+    "departement": "Gard (30)",
+    "couleur": "#1a3a5c",
+    "photo": "assets/nimes/hero.jpg",
+    "expire": "2027-01-01"    
   }
 }
