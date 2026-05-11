@@ -110,5 +110,13 @@
     "couleur": "#1a3a5c",
     "photo": "assets/pujaut/hero.jpg",
     "expire": "2027-01-01"    
+  },
+  "Arles": {
+    "actif": true,
+    "nom": "Arles",
+    "departement": "Bouches-du-Rhône (13)",
+    "couleur": "#1a3a5c",
+    "photo": "assets/arles/hero.jpg",
+    "expire": "2027-01-01"      
   }
 }
