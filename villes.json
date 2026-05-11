@@ -102,5 +102,13 @@
     "couleur": "#1a3a5c",
     "photo": "assets/lisle/hero.jpg",
     "expire": "2027-01-01"  
+  },
+  "Pujaut": {
+    "actif": true,
+    "nom": "Pujaut",
+    "departement": "Gard (30)",
+    "couleur": "#1a3a5c",
+    "photo": "assets/pujaut/hero.jpg",
+    "expire": "2027-01-01"    
   }
 }
