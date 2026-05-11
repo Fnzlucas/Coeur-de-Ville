@@ -125,6 +125,14 @@
     "departement": "Gard (30)",
     "couleur": "#1a3a5c",
     "photo": "assets/nimes/hero.jpg",
+    "expire": "2027-01-01" 
+  },
+  "Orange": {
+    "actif": true,
+    "nom": "Orange",
+    "departement": "Vaucluse (84)",
+    "couleur": "#1a3a5c",
+    "photo": "assets/orange/hero.jpg",
     "expire": "2027-01-01"    
   }
 }
