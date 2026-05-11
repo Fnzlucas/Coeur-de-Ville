@@ -94,5 +94,13 @@
     "couleur": "#1e3a2f",
     "photo": "assets/tarascon/hero.jpg",
     "expire": "2027-01-01" 
+  },
+  "L'isle-sur-la-Sorgue": {
+    "actif": true,
+    "nom": "L'isle-sur-la-Sorgue",
+    "departement": "Vaucluse (84)",
+    "couleur": "#1a3a5c",
+    "photo": "assets/lisle/hero.jpg",
+    "expire": "2027-01-01"  
   }
 }
