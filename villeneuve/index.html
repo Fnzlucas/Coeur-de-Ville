@@ -2650,7 +2650,7 @@ setTimeout(function(){
       <div class="home-section-title" id="t-sec-cdc">Coup de cœur</div>
     </div>
   </div>
-  <div class="home-coupdecoeur event-cdc-col" id="cdc-col-inner">
+  <div class="home-coupdecoeur event-cdc-col" id="cdc-col-inner" style="padding:0;">
     <div class="cdc-card" onclick="window.location.href='chartreuse.html'">
       <img class="cdc-bg" src="../assets/villeneuve/poi_002.jpg" alt="Chartreuse"/>
       <div class="cdc-overlay"></div>
@@ -2663,6 +2663,41 @@ setTimeout(function(){
       <div class="cdc-arrow"><span class="material-symbols-outlined" style="font-size:22px;color:#fff;">chevron_right</span></div>
     </div>
   </div>
+</div>
+
+<!-- BANNIÈRE SENTIERS DE RANDONNÉE -->
+<div style="padding:24px 20px 0;">
+  <a href="randonnees.html" style="
+    display:flex;align-items:center;gap:0;
+    border-radius:22px;overflow:hidden;
+    background:linear-gradient(135deg,#134e1b 0%,#1e7a2f 50%,#2d9e45 100%);
+    box-shadow:0 8px 32px rgba(19,78,27,0.28);
+    text-decoration:none;position:relative;
+    min-height:96px;cursor:pointer;
+    transition:transform 0.18s,box-shadow 0.18s;
+  " onclick="this.style.transform='scale(0.98)'">
+    <!-- Glow déco -->
+    <div style="position:absolute;top:-30px;right:60px;width:140px;height:140px;background:rgba(74,222,128,0.18);border-radius:50%;filter:blur(40px);pointer-events:none;"></div>
+    <div style="position:absolute;bottom:-20px;left:20px;width:80px;height:80px;background:rgba(255,255,255,0.07);border-radius:50%;filter:blur(20px);pointer-events:none;"></div>
+    <!-- Icône gauche -->
+    <div style="flex-shrink:0;width:80px;height:96px;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,0.12);border-right:1px solid rgba(255,255,255,0.08);">
+      <span class="material-symbols-outlined" style="font-size:36px;color:#fff;font-variation-settings:'FILL' 1;">hiking</span>
+    </div>
+    <!-- Texte -->
+    <div style="flex:1;padding:16px 14px;">
+      <div style="font-size:9px;font-weight:800;letter-spacing:0.18em;text-transform:uppercase;color:rgba(255,255,255,0.55);margin-bottom:5px;">Nature &amp; plein air</div>
+      <div style="font-size:17px;font-weight:900;color:#fff;font-family:Manrope;letter-spacing:-0.02em;line-height:1.15;margin-bottom:6px;">Sentiers de randonnée</div>
+      <div style="display:flex;gap:6px;flex-wrap:wrap;">
+        <span style="background:rgba(255,255,255,0.14);border:1px solid rgba(255,255,255,0.2);color:#fff;font-size:9px;font-weight:700;padding:3px 9px;border-radius:20px;">4 sentiers</span>
+        <span style="background:rgba(255,255,255,0.14);border:1px solid rgba(255,255,255,0.2);color:#fff;font-size:9px;font-weight:700;padding:3px 9px;border-radius:20px;">2 à 12 km</span>
+        <span style="background:rgba(74,222,128,0.25);border:1px solid rgba(74,222,128,0.4);color:#4ade80;font-size:9px;font-weight:700;padding:3px 9px;border-radius:20px;">Tous niveaux</span>
+      </div>
+    </div>
+    <!-- Flèche -->
+    <div style="flex-shrink:0;padding:0 16px 0 8px;">
+      <span class="material-symbols-outlined" style="font-size:22px;color:rgba(255,255,255,0.6);">arrow_forward</span>
+    </div>
+  </a>
 </div>
 
 <!-- IDÉES DE VISITES -->
@@ -4072,6 +4107,11 @@ document.addEventListener('DOMContentLoaded', function() {
     <a class="cdv-mitem" href="parcours.html" style="text-decoration:none;color:inherit;" onclick="closeMenu()">
       <div class="cdv-micon" style="background:#f0f4ff"><span class="material-symbols-outlined" style="font-size:19px;color:#3B5BDB;">route</span></div>
       <div><div class="cdv-mitem-name">Parcours signature</div><div class="cdv-mitem-desc">Tour gourmand, romantique, historique...</div></div>
+      <span class="material-symbols-outlined cdv-marrow" style="font-size:18px;">chevron_right</span>
+    </a>
+    <a class="cdv-mitem" href="randonnees.html" style="text-decoration:none;color:inherit;" onclick="closeMenu()">
+      <div class="cdv-micon" style="background:#f0fdf4"><span class="material-symbols-outlined" style="font-size:19px;color:#16a34a;">hiking</span></div>
+      <div><div class="cdv-mitem-name">Sentiers de randonnée</div><div class="cdv-mitem-desc">Balades nature autour de Villeneuve</div></div>
       <span class="material-symbols-outlined cdv-marrow" style="font-size:18px;">chevron_right</span>
     </a>
     <a class="cdv-mitem" href="quiz-villeneuve.html" style="text-decoration:none;color:inherit;" onclick="closeMenu()">
