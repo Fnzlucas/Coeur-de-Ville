@@ -16,12 +16,12 @@
     "expire": null
   },
   "beaucaire": {
-    "actif": false,
+    "actif": true,
     "nom": "Beaucaire",
     "departement": "Gard (30)",
     "couleur": "#5c3a1a",
     "photo": "assets/beaucaire/hero.jpg",
-    "expire": null
+    "expire": "2027-01-01"
   },
   "avignon": {
     "actif": true,
